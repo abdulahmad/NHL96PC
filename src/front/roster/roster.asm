@@ -35,7 +35,7 @@ global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScree
 global DrawRosterPlayerInfo, RosterSlotStatus, CountRosterSlots, FindRosterSlot, ListRosterPlayers, ValidateRoster, EditPlayerName, EditPlayerName_131
 global ConfirmTrade, ResetTeamLines, CycleLoadingArt, CreatePlayerChoiceJumpTable, CreatePlayerFieldJumpTable, CreatePlayerScreen, CreatePlayerScreen_6BE, CreatePlayerScreen_71A
 global CreatePlayerScreen_8D1, CreatePlayerScreen_8DA, CreatePlayerScreen_8E3, CreatePlayerScreen_8EC, CreatePlayerScreen_8F5, CreatePlayerScreen_BD2, CreatePlayerScreen_CF7, CreatePlayerScreen_DBB
-global DrawCreatePlayerRow, RatingBar, CreatePlayerLimits, CreatePlayerRatings, CompareRankA, CompareRankB, SortTeamRatings, TeamRankScoring
+global DrawCreatePlayerRow, RatingBar, CreatePlayerLimits, CreatePlayerRatings, CompareTeamRating, CompareTeamScoring, SortTeamRatings, TeamRankScoring
 global TeamRankScoring_48, TeamRankScoring_4A, TeamRankSkating, TeamRankOffence, TeamRankDefence, TeamRankGoalie, ComputeTeamRanks
 ;-----------------------------------------------------------------------------
 ; RunRosterScreens                             971E9  96 PC, medium confidence
@@ -6124,10 +6124,10 @@ CreatePlayerRatings:
         lea eax, [eax+eax*4]
         ret
 ;-----------------------------------------------------------------------------
-; CompareRankA                                    9C5AF  96 PC, low confidence
+; CompareTeamRating                                    9C5AF  96 PC, low confidence
 ; Qsort compare by TeamRatingScore
 ;-----------------------------------------------------------------------------
-CompareRankA:
+CompareTeamRating:
         push ebx
         mov edx, dword [edx]
         mov ebx, dword [eax]
@@ -6136,10 +6136,10 @@ CompareRankA:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CompareRankB                                    9C5C4  96 PC, low confidence
+; CompareTeamScoring                                    9C5C4  96 PC, low confidence
 ; Qsort compare by TeamScoringScore
 ;-----------------------------------------------------------------------------
-CompareRankB:
+CompareTeamScoring:
         push ebx
         mov edx, dword [edx]
         mov ebx, dword [eax]
@@ -6170,7 +6170,7 @@ SortTeamRatings:
 .2:
         cmp edx, edi
         jl short .1
-        mov ecx, CompareRankA
+        mov ecx, CompareTeamRating
         mov ebx, 4
         lea eax, [byte ebp-064h]
         mov edx, edi
@@ -6452,7 +6452,7 @@ ComputeTeamRanks:
 .5:
         cmp esi, dword [byte ebp-04h]
         jg short .4
-        mov ecx, CompareRankB
+        mov ecx, CompareTeamScoring
         mov ebx, 4
         lea eax, [byte ebp-074h]
         mov edx, esi
@@ -6484,7 +6484,7 @@ ComputeTeamRanks:
 .9:
         cmp esi, dword [byte ebp-04h]
         jg short .8
-        mov ecx, CompareRankB
+        mov ecx, CompareTeamScoring
         mov ebx, 4
         lea eax, [byte ebp-074h]
         mov edx, esi
@@ -6516,7 +6516,7 @@ ComputeTeamRanks:
 .13:
         cmp esi, dword [byte ebp-04h]
         jg short .12
-        mov ecx, CompareRankB
+        mov ecx, CompareTeamScoring
         mov ebx, 4
         lea eax, [byte ebp-074h]
         mov edx, esi
@@ -6548,7 +6548,7 @@ ComputeTeamRanks:
 .17:
         cmp esi, dword [byte ebp-04h]
         jg short .16
-        mov ecx, CompareRankB
+        mov ecx, CompareTeamScoring
         mov ebx, 4
         lea eax, [byte ebp-074h]
         mov edx, esi
@@ -6580,7 +6580,7 @@ ComputeTeamRanks:
 .21:
         cmp esi, dword [byte ebp-04h]
         jg short .20
-        mov ecx, CompareRankB
+        mov ecx, CompareTeamScoring
         mov ebx, 4
         lea eax, [byte ebp-074h]
         mov edx, esi
@@ -6624,7 +6624,7 @@ ComputeTeamRanks:
 .26:
         cmp esi, dword [byte ebp-04h]
         jg short .24
-        mov ecx, CompareRankB
+        mov ecx, CompareTeamScoring
         mov ebx, 4
         lea eax, [byte ebp-074h]
         mov edx, esi

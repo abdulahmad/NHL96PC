@@ -39,8 +39,8 @@ extern str_D02d, str_D10, str_D9, str_DBPTRs, str_DD3, str_DD4, str_DD5, str_Don
 extern str_FName, str_GlobalSort, str_HBAL2, str_HD01, str_HD02, str_HD03, str_HeightNWeight, str_LName
 extern str_LocalSort, str_Pal21, str_Player, str_PLR0, str_PlusMinus, str_Profiles, str_S3, str_SD3
 extern str_SEA02, str_Shot, str_SLDH, str_SLDV, str_Space, str_StatDBPTRs, str_Stats, str_VBAL2
-extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRecord, StatsDb5Record
-extern StatsDb1Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
+extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRecord, SeasonDbRecord
+extern CareerDbRecord, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, DrawArtKeyed, SetScreenTarget, FindShape, TextSetFont, TickDeadlinePassed
 extern str_Punct_ExportPlayerStats, CompareButtonDef, PlayerStatsItems, PlayerStatsHScroll
 extern PlayerStatsVScroll, PlayerStatsNavLinks, PlayerStatsHotspots, PlayerStatsColumnLabels, UpdateProgressBox, SlotsTwoPlayer, hmscore, PlayerStatColFlags
@@ -2818,14 +2818,14 @@ FillSkaterStatRows:
         mov edx, dword [RosterDbPtrs]
         mov eax, edi
         mov dword [edx+ebx], edi
-        call StatsDb1Record
+        call CareerDbRecord
         jmp short .4
 .3:
         mov edi, dword [byte eax+02Ch]
         mov edx, dword [RosterDbPtrs]
         mov eax, edi
         mov dword [edx+ebx], edi
-        call StatsDb5Record
+        call SeasonDbRecord
 .4:
         mov edx, dword [StatColumnPtrs]
         lea edi, [byte eax+010h]
@@ -2942,14 +2942,14 @@ FillSkaterStatRows:
         cmp dword [byte ebp-02Ch], 3E8h
         jge short .10
         mov eax, dword [byte edx+028h]
-        call StatsDb1Record
+        call CareerDbRecord
         mov edi, dword [RosterDbPtrs]
         add edi, ebx
         mov edx, dword [byte edx+028h]
         jmp short .11
 .10:
         mov eax, dword [byte edx+02Ch]
-        call StatsDb5Record
+        call SeasonDbRecord
         mov edi, dword [RosterDbPtrs]
         add edi, ebx
         mov edx, dword [byte edx+02Ch]
@@ -3093,14 +3093,14 @@ FillGoalieStatRows:
         mov edx, dword [RosterDbPtrs]
         mov eax, edi
         mov dword [edx+ebx], edi
-        call StatsDb1Record
+        call CareerDbRecord
         jmp short .4
 .3:
         mov edi, dword [byte eax+02Ch]
         mov edx, dword [RosterDbPtrs]
         mov eax, edi
         mov dword [edx+ebx], edi
-        call StatsDb5Record
+        call SeasonDbRecord
 .4:
         mov edx, dword [StatColumnPtrs]
         lea edi, [byte eax+022h]
@@ -3208,14 +3208,14 @@ FillGoalieStatRows:
         mov ecx, dword [RosterDbPtrs]
         mov eax, edi
         mov dword [ecx+edx], edi
-        call StatsDb1Record
+        call CareerDbRecord
         jmp short .10
 .9:
         mov edi, dword [byte eax+02Ch]
         mov ecx, dword [RosterDbPtrs]
         mov eax, edi
         mov dword [ecx+edx], edi
-        call StatsDb5Record
+        call SeasonDbRecord
 .10:
         mov ecx, dword [StatColumnPtrs]
         mov dword [ecx+edx], 0

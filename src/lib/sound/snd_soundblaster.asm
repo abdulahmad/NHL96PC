@@ -8,7 +8,7 @@ extern Sb16DspModeByte, Sb16MixFormat, Sb16FrameBytes, SndTickBusy, GusConfigGf1
 extern DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawRowBytes, KeyedDraw, DrawDestBuffer, DrawVideoBase
 extern StreamState, StreamChannel, SndTickHold, WssDmaAlloc, WssRunning, GusDriverIsOpen, GusDmaAlloc, GusEnvRead
 extern GusCardFound, SbRunning, SbDmaAlloc, SbProRunning, SbProDmaAlloc, SbProChannels, Sb16Running, Sb16DmaAlloc
-extern Sb16Mode, GusStreamRefillB, WssBlockSamples, WssHalfBuffer, WssFormat, WssDmaChannel, WssDmaSize, WssDmaBuffer
+extern Sb16Mode, GusStreamRefillRight, WssBlockSamples, WssHalfBuffer, WssFormat, WssDmaChannel, WssDmaSize, WssDmaBuffer
 extern WssRate, WssDmaPos, GusStreamMem, GusDriverDmaBuf, SbHalfBuffer, SbDmaSize, SbRate, SbDma
 extern SbIrq, SbDmaBuffer, SbVersion, SbOldIrqOffset, SbDmaPos, SbProRealOldOffset, SbProRealOldSegment, SbProRealHandler
 extern SbProBlockSamples, SbProHalfBuffer, SbProDmaSize, SbProRate, SbProDma, SbProOldFilter, SbProIrq, SbProDmaBuffer
@@ -1027,7 +1027,7 @@ GusDriverUpdate:
         call GusStreamBusy
         test eax, eax
         je short .1
-        mov edx, dword [GusStreamRefillB]
+        mov edx, dword [GusStreamRefillRight]
         mov eax, dword [GusDriverDmaBuf]
         shl edx, 0Bh
         add eax, edx

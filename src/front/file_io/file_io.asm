@@ -7,7 +7,7 @@ extern rmdir_, str_backslash4, str_COPYBUFFER, str_dot2, str_ErrDiskFree2, strca
 extern SoundSecondsToBytes, AllocMemBlock, FreeMemBlock, DosFindFirst, DosFindNext, UnlinkJump, str_Punct_DeleteFiles
 global FileMissing, DeleteFiles, FileOpenRead, FileOpenRead_1A, FileOpenWrite, FileOpenReadWrite, FileCreate, FileClose
 global FileReadAt, FileReadAt_5B, FileReadAt_5D, FileWriteAt, FileWriteAt_6B, FileWriteAt_77, FileCopy, FileCopy_ret
-global WriteDbRecord6, ReadSeasonHeader
+global WriteSeasonDbEntry, ReadSeasonHeader
 ;-----------------------------------------------------------------------------
 ; FileMissing                                                     1DC65  96 PC
 ; (path): 1 when the file cannot be opened
@@ -536,10 +536,10 @@ FileCopy_ret:
         mov ecx, 2Fh
         jmp near FileWriteAt_6B
 ;-----------------------------------------------------------------------------
-; WriteDbRecord6                                  1E222  96 PC, low confidence
+; WriteSeasonDbEntry                                  1E222  96 PC, low confidence
 ; (handle, data, index): writes a 6-byte season db record through FileWriteAt
 ;-----------------------------------------------------------------------------
-WriteDbRecord6:
+WriteSeasonDbEntry:
         push ecx
         push esi
         mov esi, eax

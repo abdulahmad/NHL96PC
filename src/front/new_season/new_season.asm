@@ -16,7 +16,7 @@ extern SetTickDeadline, ShowProgressBox, SlideInSideBar, SlideInTitleBar, SoundS
 extern str_Bkgd9, str_Bt014, str_Bt024, str_Bt02d2, str_Bt103, str_Bt113, str_Bt192, str_Bt202
 extern str_Bt282, str_Bt292, str_Nothing, str_Pal14, str_Rul12, str_Rul22, str_Rul32, str_S05dCNZDB2
 extern str_S05dCnzDb3, str_S05dCsgDb, str_Sched, str_SDB, str_SEASONNDX, str_Set12, str_Set22, str_Set3
-extern str_Teams, strcat_, strcpy_, strlen_, WriteDbRecord6, ReadSeasonHeader, GameOptionsScreen, SeasonMenuScreen_794
+extern str_Teams, strcat_, strcpy_, strlen_, WriteSeasonDbEntry, ReadSeasonHeader, GameOptionsScreen, SeasonMenuScreen_794
 extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
 extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern TintRect, FreeBitmap, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, DrawArtKeyedAtOrigin
@@ -1566,7 +1566,7 @@ CreateSeason:
         mov edx, dword [byte ebp+066h]
         mov eax, dword [byte ebp+05Ah]
         mov ebx, esi
-        call WriteDbRecord6
+        call WriteSeasonDbEntry
         mov dword [byte ebp+07Eh], eax
 .17:
         mov eax, dword [byte ebp+066h]
@@ -1615,7 +1615,7 @@ CreateSeason:
         mov ebx, esi
         mov edx, dword [byte ebp+066h]
         mov eax, dword [byte ebp+05Ah]
-        call WriteDbRecord6
+        call WriteSeasonDbEntry
         mov ebx, 4
         mov edx, dword [byte ebp+06Eh]
         lea eax, [byte ebp-07Eh]

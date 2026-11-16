@@ -9,7 +9,7 @@ extern OpenResourceArchive, GetResourceArchiveName, LoadFileInto, LoadFileToBloc
 extern LoadPackedHandleQuiet, DataDirPath, ArtArchivePaths, ArtSetTable, DataFilePath, unpack, DataLibIds
 global MakeDataPathArtJumpTable, MakeDataPathCopyJumpTable, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, MakeDataPathArchiveJumpTable, MakeDirPath, SelectDataLibraryJumpTable, SelectDataLibrary, SelectDataLibrary_32
-global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadDataFileFlag0, LoadDataFileHandle, LoadPackedFile
+global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadArtArchiveFile, LoadDataFileHandle, LoadPackedFile
 global LoadDataFileLib, MakeDatabasePath
 MakeDataPathArtJumpTable:
         dd MakeDataPath_63
@@ -362,10 +362,10 @@ LoadDataFile_1B:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; LoadDataFileFlag0                               1E73F  96 PC, low confidence
+; LoadArtArchiveFile                               1E73F  96 PC, low confidence
 ; LoadDataFile through the same loader with flag 0 (OpenArtArchive)
 ;-----------------------------------------------------------------------------
-LoadDataFileFlag0:
+LoadArtArchiveFile:
         push ebx
         push ecx
         mov ebx, edx

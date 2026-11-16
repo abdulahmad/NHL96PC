@@ -6,7 +6,7 @@ extern hmroster
 extern BottomBarArt
 section s_1456D progbits alloc exec nowrite align=1
 extern awtmstruct, TextCharH, TitleTextStyle, StatsFromGame, StarsSlideFrom, StarsSlideTo, StarsSlideTarget, StarsSpritePath
-extern StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsTimerA, StarsTimerFace, StarsTimerName, StarsTimerCard
+extern StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsRandomTimer, StarsTimerFace, StarsTimerName, StarsTimerCard
 extern seasondb, ViewScreenWidth, StarsBgBmp, StarsSaveBmp, StarsFaceBmps, StarsCardBmps, StarsPanelBmp, StarsNameBmps
 extern StarsTitleBmp, StarsAnimStep, StarsCardBmp, StarsShapeFile, StarsSlideX, StarsSlideY, StarsSlideStep, pointerspr
 extern FrontEndScreenBmp, MatchupLayer, MenuBoxStyle, gameopts, GetTicks, hmtmstruct
@@ -1507,7 +1507,7 @@ AnimateStarsScreen_121:
         jmp short AnimateStarsScreen_D3.3
 .4:
         call GetTicks
-        cmp eax, dword [StarsTimerA]
+        cmp eax, dword [StarsRandomTimer]
         jle near .5
         cmp word [StarsShowCards], byte 0
         jne near .5
@@ -1566,7 +1566,7 @@ AnimateStarsScreen_121:
         idiv ecx
         add ebx, byte 1Eh
         add ebx, edx
-        mov dword [StarsTimerA], ebx
+        mov dword [StarsRandomTimer], ebx
         jmp near .13
 .5:
         cmp word [StarsShowNames], byte 0
@@ -2130,7 +2130,7 @@ ThreeStarsScreen:
         call GetTicks
         mov dword [StarsTimerCard], eax
         mov dword [StarsTimerFace], eax
-        mov dword [StarsTimerA], eax
+        mov dword [StarsRandomTimer], eax
         call GetTicks
         mov ebx, 190h
         mov esi, eax

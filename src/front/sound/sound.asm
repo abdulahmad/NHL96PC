@@ -9,7 +9,7 @@ extern ArenaClipStream, SpeechStreamFile, SpeechStreamTimer, CrowdSfxHandle, Amb
 extern CrowdLevel, CrowdTarget, GameSoundOn, SoundCardOn, SpeechBankHandle, SfxMask, ArenaClipState, ArenaClipTime
 extern ArenaClipId, MusicVolume, ArenaClipHandle, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
 extern globalset, InitSpeech, MakeDataPath, OpenSpeechBanks, optblock, setstreamspeed, SetTickDeadline, ShutdownSpeech
-extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadDataFileFlag0, LoadDataFileHandle, FreeMemBlock
+extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadArtArchiveFile, LoadDataFileHandle, FreeMemBlock
 extern MemLargestFreeLocked, MemLargestFreeOfList, DriveLetterIndex, IsCdDrive, AllocCdBuffer, SpeechQueueBusy, FadeChannelVolume, SetChannelVolume
 extern StopSoundChannel, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamPosition, RegisterSfxBank, UnregisterSfxBank, PlaySfxVolume
 extern PauseCrowdChannels, ResumeCrowdChannels, TriggerCrowdEvent, SetCrowdIntensity, CloseCrowdSound, LoadCrowdBank, SetCrowdVolume, StartCrowdSound
@@ -902,7 +902,7 @@ StartGameSound:
         mov eax, 3Ah
 .8:
         xor edx, edx
-        call LoadDataFileFlag0
+        call LoadArtArchiveFile
         mov dword [GameSoundOn], eax
         call MemLargestFreeLocked
         cmp eax, 500000h

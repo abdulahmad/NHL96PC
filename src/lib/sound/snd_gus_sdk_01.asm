@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_D6120 progbits alloc exec nowrite align=1
-extern GusIrqLatchBits, GusStreamVoiceA, GusStreamVoiceStereo, GusStreamVoiceB, GusDmaLatchBits, GusDramSized, GusPlayDmaChannel, GusIrqLatch
-extern GusRecordDmaChannel, GusMidiIrq, GusWaveIrq, GusEnvVarName, GusOpenCount, GusStreamRefillA, GusStreamRefillB, GusStreamSrcA
-extern GusStreamHalfA, GusStreamBusyA, GusStreamSrcB, GusStreamHalfB, GusStreamBusyB, GusStreamActive, GusStreamBufSize, GusStreamHalfSize
-extern GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusStreamCardA, GusStreamCardB, GusStreamCardEnd, GusStreamStartLo
+extern GusIrqLatchBits, GusStreamVoiceLeft, GusStreamVoiceStereo, GusStreamVoiceRight, GusDmaLatchBits, GusDramSized, GusPlayDmaChannel, GusIrqLatch
+extern GusRecordDmaChannel, GusMidiIrq, GusWaveIrq, GusEnvVarName, GusOpenCount, GusStreamRefillLeft, GusStreamRefillRight, GusStreamSrcLeft
+extern GusStreamHalfLeft, GusStreamBusyLeft, GusStreamSrcRight, GusStreamHalfRight, GusStreamBusyRight, GusStreamActive, GusStreamBufSize, GusStreamHalfSize
+extern GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusStreamCardLeft, GusStreamCardRight, GusStreamCardEnd, GusStreamStartLo
 extern GusEnvConfig, getenv_, inp_, inpw_, outp_, outpw_, strtoul_, GusHookIrq
 extern GusUnhookIrq, GusWaveIrqHandler, GusMidiIrqHandler, GusDelay, GusSetBasePort, GusClearIrqState, GusEnterCritical, GusLeaveCritical
 extern GusClearCallbacks, GusSetVoiceCallbacks, GusRunInitTable, GusPeek, GusPoke, GusTestDramBank, GusDownload, GusStreamLoopLo
@@ -1392,8 +1392,8 @@ GusStopStream:
 ; Returns non-zero while either streaming channel is still playing
 ;-----------------------------------------------------------------------------
 GusStreamBusy:
-        mov eax, dword [GusStreamBusyA]
-        or eax, dword [GusStreamBusyB]
+        mov eax, dword [GusStreamBusyLeft]
+        or eax, dword [GusStreamBusyRight]
         ret
 ;-----------------------------------------------------------------------------
 ; GusRefillStreamChannel                          D704E  96 PC, low confidence
@@ -1405,20 +1405,20 @@ GusRefillStreamChannel:
         push ebx
         LD or, eax, eax
         jne short .1
-        mov eax, dword [GusStreamSrcA]
+        mov eax, dword [GusStreamSrcLeft]
         mov dword [GusRefillSrc], eax
-        mov dword [GusStreamHalfA], 2
+        mov dword [GusStreamHalfLeft], 2
         jmp short .2
 .1:
-        mov eax, dword [GusStreamSrcB]
+        mov eax, dword [GusStreamSrcRight]
         mov dword [GusRefillSrc], eax
-        mov dword [GusStreamHalfB], 2
+        mov dword [GusStreamHalfRight], 2
         jmp short .2
 .2:
         mov eax, dword [GusRefillSrc]
         mov dword [GusRefillDest], eax
         mov dword [GusRefillLength], eax
-        cmp eax, dword [GusStreamSrcA]
+        cmp eax, dword [GusStreamSrcLeft]
         jne short .3
         LD mov, esi, eax
         movzx edx, byte [esi]
@@ -1439,10 +1439,10 @@ GusRefillStreamChannel:
         inc eax
         inc eax
         call GusPoke
-        mov ebx, dword [GusStreamCardA]
+        mov ebx, dword [GusStreamCardLeft]
         jmp short .4
 .3:
-        mov ebx, dword [GusStreamCardB]
+        mov ebx, dword [GusStreamCardRight]
 .4:
         mov eax, 1
         push eax
@@ -1462,14 +1462,14 @@ GusRefillStreamChannel:
 GusStreamVoiceIrq:
         cmp dword [GusStreamActive], byte 0
         je near .5
-        cmp eax, dword [GusStreamVoiceA]
+        cmp eax, dword [GusStreamVoiceLeft]
         je short .2
-        cmp eax, dword [GusStreamVoiceB]
+        cmp eax, dword [GusStreamVoiceRight]
         jne near .5
         pushf
         cli
         mov dx, word [GusVoiceSelectPort]
-        mov al, byte [GusStreamVoiceB]
+        mov al, byte [GusStreamVoiceRight]
         out dx, al
         mov al, 0
         mov dx, word [GusRegSelectPort]
@@ -1499,14 +1499,14 @@ GusStreamVoiceIrq:
 .1:
         pop ebp
         popf
-        mov dword [GusStreamBusyA], 1
-        mov dword [GusStreamRefillA], 1
+        mov dword [GusStreamBusyLeft], 1
+        mov dword [GusStreamRefillLeft], 1
         jmp near .4
 .2:
         pushf
         cli
         mov dx, word [GusVoiceSelectPort]
-        mov al, byte [GusStreamVoiceB]
+        mov al, byte [GusStreamVoiceRight]
         out dx, al
         mov al, 0Bh
         mov dx, word [GusRegSelectPort]
@@ -1548,8 +1548,8 @@ GusStreamVoiceIrq:
 .3:
         pop ebp
         popf
-        mov dword [GusStreamBusyB], 1
-        mov dword [GusStreamRefillB], 1
+        mov dword [GusStreamBusyRight], 1
+        mov dword [GusStreamRefillRight], 1
 .4:
         mov eax, 1
         ret
@@ -1561,19 +1561,19 @@ GusStreamVoiceIrq:
 ; Refills every streaming channel that its voice interrupt flagged
 ;-----------------------------------------------------------------------------
 GusServiceStream:
-        cmp dword [GusStreamBusyA], byte 0
+        cmp dword [GusStreamBusyLeft], byte 0
         je short .1
         LD xor, eax, eax
         call GusRefillStreamChannel
-        mov dword [GusStreamBusyA], 0
-        mov dword [GusStreamRefillA], 0
+        mov dword [GusStreamBusyLeft], 0
+        mov dword [GusStreamRefillLeft], 0
 .1:
-        cmp dword [GusStreamBusyB], byte 0
+        cmp dword [GusStreamBusyRight], byte 0
         je short .2
         mov eax, 1
         call GusRefillStreamChannel
-        mov dword [GusStreamBusyB], 0
-        mov dword [GusStreamRefillB], 0
+        mov dword [GusStreamBusyRight], 0
+        mov dword [GusStreamRefillRight], 0
 .2:
         ret
 ;-----------------------------------------------------------------------------
@@ -1596,9 +1596,9 @@ GusStartStream:
         shr eax, 1
         mov dword [GusStreamQuarterSize], eax
         mov eax, dword [byte ebp+08h]
-        mov dword [GusStreamSrcA], eax
+        mov dword [GusStreamSrcLeft], eax
         add eax, dword [GusStreamHalfSize]
-        mov dword [GusStreamSrcB], eax
+        mov dword [GusStreamSrcRight], eax
         push es
         push ds
         pop es
@@ -1608,7 +1608,7 @@ GusStartStream:
         rep stosd
         pop es
         mov eax, dword [byte ebp+0Ch]
-        mov dword [GusStreamCardA], eax
+        mov dword [GusStreamCardLeft], eax
         push ebx
         LD mov, ebx, eax
         and ebx, 0FFFC000h
@@ -1620,7 +1620,7 @@ GusStartStream:
         mov dword [GusStreamLoopLo], eax
         mov eax, dword [byte ebp+0Ch]
         add eax, dword [GusStreamHalfSize]
-        mov dword [GusStreamCardB], eax
+        mov dword [GusStreamCardRight], eax
         push ebx
         LD mov, ebx, eax
         and ebx, 0FFFC000h
@@ -1642,9 +1642,9 @@ GusStartStream:
         shl eax, 9
         pop ebx
         mov dword [GusStreamEndLo], eax
-        mov dword [GusStreamHalfA], 1
-        mov dword [GusStreamHalfB], 1
-        mov esi, dword [GusStreamCardA]
+        mov dword [GusStreamHalfLeft], 1
+        mov dword [GusStreamHalfRight], 1
+        mov esi, dword [GusStreamCardLeft]
 .1:
         LD xor, edx, edx
         LD mov, eax, esi
@@ -1657,11 +1657,11 @@ GusStartStream:
         call GusPoke
         mov eax, GusStreamVoiceIrq
         call GusSetVoiceCallbacks
-        mov dword [GusStreamVoiceA], 0
+        mov dword [GusStreamVoiceLeft], 0
         mov dword [GusStreamVoiceStereo], 1
-        mov dword [GusStreamVoiceB], 2
+        mov dword [GusStreamVoiceRight], 2
         mov dx, word [GusVoiceSelectPort]
-        mov al, byte [GusStreamVoiceA]
+        mov al, byte [GusStreamVoiceLeft]
         out dx, al
         mov al, 1
         mov dx, word [GusRegSelectPort]
@@ -1726,7 +1726,7 @@ GusStartStream:
         mov ax, 800h
         mov dx, word [GusDataLowPort]
         out dx, ax
-        mov eax, dword [GusStreamCardA]
+        mov eax, dword [GusStreamCardLeft]
         add eax, byte 2
         push ebx
         LD mov, ebx, eax
@@ -1796,7 +1796,7 @@ GusStartStream:
         mov dx, word [GusDataHighPort]
         mov al, 0Fh
         out dx, al
-        mov eax, dword [GusStreamCardA]
+        mov eax, dword [GusStreamCardLeft]
         push ebx
         LD mov, ebx, eax
         and ebx, 0FFFC000h
@@ -1807,7 +1807,7 @@ GusStartStream:
         pop ebx
         mov dword [GusStreamLoopLo], eax
         mov dx, word [GusVoiceSelectPort]
-        mov al, byte [GusStreamVoiceA]
+        mov al, byte [GusStreamVoiceLeft]
         out dx, al
         mov al, 0
         mov dx, word [GusRegSelectPort]
@@ -1851,7 +1851,7 @@ GusStartStream:
         pop ax
         out dx, al
         mov dx, word [GusVoiceSelectPort]
-        mov al, byte [GusStreamVoiceB]
+        mov al, byte [GusStreamVoiceRight]
         out dx, al
         mov al, 1
         mov dx, word [GusRegSelectPort]
@@ -1892,7 +1892,7 @@ GusStartStream:
         pushf
         cli
         mov dx, word [GusVoiceSelectPort]
-        mov al, byte [GusStreamVoiceB]
+        mov al, byte [GusStreamVoiceRight]
         out dx, al
         mov al, 0Bh
         mov dx, word [GusRegSelectPort]
@@ -1935,7 +1935,7 @@ GusStartStream:
         pop ebp
         popf
         mov dx, word [GusVoiceSelectPort]
-        mov al, byte [GusStreamVoiceA]
+        mov al, byte [GusStreamVoiceLeft]
         out dx, al
         mov al, 0Dh
         mov dx, word [GusRegSelectPort]
@@ -2079,7 +2079,7 @@ GusStopStreamVoices:
         pushf
         cli
         mov dx, word [GusVoiceSelectPort]
-        mov al, byte [GusStreamVoiceB]
+        mov al, byte [GusStreamVoiceRight]
         out dx, al
         mov al, 0
         mov dx, word [GusRegSelectPort]
@@ -2110,7 +2110,7 @@ GusStopStreamVoices:
         pop ebp
         popf
         mov dx, word [GusVoiceSelectPort]
-        mov al, byte [GusStreamVoiceA]
+        mov al, byte [GusStreamVoiceLeft]
         out dx, al
         mov al, 0
         mov dx, word [GusRegSelectPort]

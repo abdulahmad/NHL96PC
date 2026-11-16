@@ -28,7 +28,7 @@ extern str_Bt018, str_Bt02d4, str_Bt092, str_Bt17, str_CD2, str_CS4, str_DBPTRs3
 extern str_Drs1, str_Drs2, str_Drs3, str_FName3, str_HeightNWeight3, str_Jers, str_Jrhl, str_LinesSort
 extern str_LName3, str_Nhl1, str_Nhl2, str_Nhl3, str_Pal28, str_Player3, str_Profiles3, str_Scr12
 extern str_Scr22, str_Scr3, str_Sld12, str_Sldw, str_Slid2, str_Slu12, str_Slup, str_Sta13
-extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, StatsDb2Record
+extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, AttributeDbRecord
 extern DrawArt, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DrawArtOpaqueAtOwnPos, SetScreenTarget
 extern FindShape, ClearClipRect, TickDeadlinePassed, hmglattr, hmplattr, hmteamrec, EditLinesRecords, MenuViewStored
 extern hmscore, awscore
@@ -4421,7 +4421,7 @@ AutoSetLines:
         jmp short .3
 .2:
         mov eax, dword [byte eax+024h]
-        call StatsDb2Record
+        call AttributeDbRecord
         mov dword [byte ebp+052h], eax
 .3:
         mov edi, edx
@@ -4446,7 +4446,7 @@ AutoSetLines:
         jmp short .7
 .6:
         mov eax, dword [byte eax+024h]
-        call StatsDb2Record
+        call AttributeDbRecord
         mov dword [byte ebp+03Eh], eax
 .7:
         mov edi, edx

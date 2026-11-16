@@ -13,7 +13,7 @@ extern AwayShotTotals, SimAwayStatsBufs, SimAwaySetBufs
 
 extern gameopts, hmtmgoalie, optflags, F64_0p333333, F64_0p75, F64_0p0119048, F64_0p0166667, F64_0p8
 extern F64_10, F64_1000, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
-extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, StatsDb5Record, StatsDb1Record
+extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, SeasonDbRecord, CareerDbRecord
 extern AllocMemBlock, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, str_Gk
 extern str_Gs, SimGameZero, UpdateTeamDbs, hmtmPwrPlays, hmtmPenalties, hmscore, awtmPwrPlays, awscore
 
@@ -320,7 +320,7 @@ SimulateGame:
         mov eax, dword [dword ebx+SimWork+168h]
         mov eax, dword [ecx+eax]
         mov eax, dword [byte eax+028h]
-        call StatsDb1Record
+        call CareerDbRecord
         mov edx, eax
         mov eax, dword [dword ebx+SimWork+100h]
         mov dword [ecx+eax], edx
@@ -532,7 +532,7 @@ SimulateGame:
         mov dword [ecx+edx], eax
         jmp short .24
 .23:
-        call StatsDb5Record
+        call SeasonDbRecord
         mov edx, eax
         mov eax, dword [dword ebx+SimWork+8]
         mov dword [ecx+eax], edx
@@ -580,7 +580,7 @@ SimulateGame:
         mov eax, dword [dword ebx+SimWork+160h]
         mov eax, dword [esi+eax]
         mov eax, dword [byte eax+028h]
-        call StatsDb1Record
+        call CareerDbRecord
         mov edx, eax
         mov eax, dword [dword ebx+SimWork+150h]
         mov dword [esi+eax], edx
@@ -600,7 +600,7 @@ SimulateGame:
         mov edx, dword [dword ecx+esi+SimGoalieBufs]
         jmp short .33
 .32:
-        call StatsDb5Record
+        call SeasonDbRecord
         mov edx, eax
         mov eax, dword [dword ebx+SimWork+0F8h]
 .33:

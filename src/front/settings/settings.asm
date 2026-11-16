@@ -7,7 +7,7 @@ extern GlobalSetName
 extern GsPlayerPads, DetectCPU, SaveFileHandle, DirPathTable, CpuHasCpuid, GlobalSetData, GsModemDial, GsOptions
 extern GsTeamSelect, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadExhibitionStats, MakeDataPath
 extern MakeDirPath, NameIndexFree, NameIndexLoad, optblock, optblock_end, optflags, str_5552362337, str_ATD2
-extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, LoadDataFileFlag0, RunControllerScreen
+extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, LoadArtArchiveFile, RunControllerScreen
 extern TeamSelectScreen, PickIndexEntryScreen, RunRosterScreens, ComputeTeamRanks, FreeMemBlock, CreateHandle, DosCloseFile, DosWriteFile
 extern GsPhoneNumber, GsModemInit, SavedGameOpts, GsComPort, GsBaudIndex, GsDirectLink, GsWaitForCall, GsLinkOption
 extern GsDialMode, GsPlayerFlags
@@ -44,7 +44,7 @@ ReadGlobalSet:
         mov edx, 20h
         call _dos_close_
         mov eax, 1
-        call LoadDataFileFlag0
+        call LoadArtArchiveFile
         mov dword [byte ebp-04h], eax
 .2:
         cmp dword [byte ebp-04h], byte 0

@@ -9,7 +9,7 @@ extern str_NoFreeChannelToPlayOn, str_TGV, str_TgvdecodeInvalidChunkTyp, str_Rat
 extern SpeechQueueOpen, CrowdPlaying, SndMasterVolume, CrowdLayerPriority, CrowdLayerVolume, SndChannelType, SndChannelBendRange, SndChannelActive
 extern SndChannelSfx, SndChannelVolume, SndChannelGain, SndChannelPan, ScreenPitch, ScreenBuffer, DebugMode, RowCopyFunc
 extern DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, SpeechQueue, SpeechQueueLead, SpeechQueueWrite
-extern SpeechQueueRead, SpeechQueueVolume, SpeechChannelA, SpeechChannelB, SpeechChannelCur, StreamState, StreamChannel, StreamFrameBytes
+extern SpeechQueueRead, SpeechQueueVolume, SpeechVoicePing, SpeechVoicePong, SpeechChannelCur, StreamState, StreamChannel, StreamFrameBytes
 extern StreamSampleRate, StreamVolume, StreamOwner, StreamHeader, StreamPacketsPlayed, StreamSampleScale, SfxBanks, CrowdVolume
 extern CrowdIntensityGoal, CrowdRampMode, CrowdEvent, CrowdFadeStep, CrowdFadeGoal, CrowdFadeLevel, CrowdLastBendStore, CrowdLastBend
 extern CrowdLastVolumeStore, CrowdLastVolume, CrowdTicks, SndMixMode, StereoPanCurve, NextSndChannel, SndTimerAdded, SndExitHandlerAdded
@@ -75,12 +75,12 @@ SpeechQueueService:
         mov dword [SpeechQueueRead], 0
 .1:
         mov eax, dword [SpeechChannelCur]
-        cmp eax, dword [SpeechChannelA]
+        cmp eax, dword [SpeechVoicePing]
         jne short .2
-        mov eax, dword [SpeechChannelB]
+        mov eax, dword [SpeechVoicePong]
         jmp short .3
 .2:
-        mov eax, dword [SpeechChannelA]
+        mov eax, dword [SpeechVoicePing]
 .3:
         mov dword [SpeechChannelCur], eax
         mov ebx, 40h
@@ -129,7 +129,7 @@ ResetSpeechQueue:
         cmp eax, edx
         jne short .1
         mov dword [SpeechQueueWrite], 0
-        mov eax, dword [SpeechChannelA]
+        mov eax, dword [SpeechVoicePing]
         mov dword [SpeechQueueRead], 0
         mov dword [SpeechChannelCur], eax
         pop edx
@@ -176,8 +176,8 @@ OpenSpeechQueue:
         mov dword [SpeechQueueRead], 0
         mov byte [SpeechQueueOpen], 1
         and ebx, byte 7Fh
-        mov dword [SpeechChannelA], ecx
-        mov dword [SpeechChannelB], esi
+        mov dword [SpeechVoicePing], ecx
+        mov dword [SpeechVoicePong], esi
         mov dword [SpeechChannelCur], ecx
         xor eax, eax
         mov dword [SpeechQueueVolume], ebx
@@ -273,10 +273,10 @@ FlushSpeechQueue:
         push edx
         cmp byte [SpeechQueueOpen], 0
         je short .2
-        mov eax, dword [SpeechChannelA]
+        mov eax, dword [SpeechVoicePing]
         mov byte [SpeechQueuePlaying], 0
         call StopSoundChannel
-        mov eax, dword [SpeechChannelB]
+        mov eax, dword [SpeechVoicePong]
         mov edx, SpeechQueue
         call StopSoundChannel
         lea ebx, [dword edx+0A0h]
@@ -288,7 +288,7 @@ FlushSpeechQueue:
         cmp edx, ebx
         jne short .1
         mov dword [SpeechQueueWrite], 0
-        mov eax, dword [SpeechChannelA]
+        mov eax, dword [SpeechVoicePing]
         mov dword [SpeechQueueRead], 0
         mov dword [SpeechChannelCur], eax
 .2:
@@ -303,10 +303,10 @@ CloseSpeechQueue:
         cmp byte [SpeechQueueOpen], 0
         je short .2
         je short .1
-        mov eax, dword [SpeechChannelA]
+        mov eax, dword [SpeechVoicePing]
         mov byte [SpeechQueuePlaying], 0
         call StopSoundChannel
-        mov eax, dword [SpeechChannelB]
+        mov eax, dword [SpeechVoicePong]
         call StopSoundChannel
         call ResetSpeechQueue
 .1:

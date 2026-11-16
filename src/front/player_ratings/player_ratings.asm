@@ -17,8 +17,8 @@ extern str_Bkgd18, str_Card3, str_D11, str_DD10, str_DD9, str_DSS4, str_FSH5, st
 extern str_HD023, str_NAV, str_Pal24, str_Plyr3, str_PROFILEFSH3, str_RAT02, str_S1, str_S1dg
 extern str_S1dw, str_S1ug, str_S1up, str_S22, str_S2dg, str_S2dw, str_S2ug, str_S2up
 extern str_S32, str_S3dg, str_S3dw, str_S3ug, str_S3up, str_SD5, str_TR00, str_TR01
-extern str_TR02, str_TR0D, str_XTbl2, SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record
-extern StatsDb2Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
+extern str_TR02, str_TR0D, str_XTbl2, SelectDataLibrary, SeasonDbRecord, CareerDbRecord, LeagueRecordsRecord, PlayerAttrRecord
+extern AttributeDbRecord, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
 extern DrawArtOpaqueAtOwnPos, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed, PlayerRatingsHotspots, PlayerRatingsTabHotspots
 extern PlayerRatingsNavLinks
 global PlayerRatingsScreen, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B, PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68
@@ -1614,12 +1614,12 @@ DrawRatingBars:
         je short .5
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb2Record
+        call AttributeDbRecord
         jmp short .6
 .5:
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb2Record
+        call AttributeDbRecord
 .6:
         mov edi, eax
         mov esi, dword [byte ebp-010h]
@@ -1768,22 +1768,22 @@ DrawRatingBars:
 .26:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDataBBRecord
+        call LeagueRecordsRecord
         jmp short .30
 .27:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb1Record
+        call CareerDbRecord
         jmp short .30
 .28:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsData4Record
+        call PlayerAttrRecord
         jmp short .30
 .29:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb5Record
+        call SeasonDbRecord
 .30:
         mov dword [byte ebp-08h], eax
 .31:
@@ -2077,22 +2077,22 @@ DrawRatingBars_4C1:
 .66:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDataBBRecord
+        call LeagueRecordsRecord
         jmp short .70
 .67:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb1Record
+        call CareerDbRecord
         jmp short .70
 .68:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsData4Record
+        call PlayerAttrRecord
         jmp short .70
 .69:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb5Record
+        call SeasonDbRecord
 .70:
         mov edi, eax
 .71:
@@ -3128,7 +3128,7 @@ DrawRatingsName:
         jne short .12
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb2Record
+        call AttributeDbRecord
         movzx eax, byte [eax]
         test eax, eax
         jne short .11
@@ -3140,7 +3140,7 @@ DrawRatingsName:
 .12:
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb2Record
+        call AttributeDbRecord
         movzx eax, byte [eax]
         test eax, eax
         je short .13

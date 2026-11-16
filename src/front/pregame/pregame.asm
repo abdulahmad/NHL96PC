@@ -17,11 +17,11 @@ extern SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_
 extern str_Ard, str_Bkgd13, str_BKGD14, str_Card, str_CS3, str_D2, str_dbgSpace, str_Down
 extern str_DSS, str_FSH, str_FSH3, str_H07d, str_Home, str_LG02d, str_MightyDucksOfAnaheim, str_Pal3
 extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, str_Xlate, strcat_
-extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
+extern WriteSeasonDbEntry, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
 extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, SetColourRemap, GetColourRemap, FindShape, ClearClipRect, TextSetFont
 extern str_PreGameBlank, str_WesternConference2, ThreeCardColumnsX, ThreeCardRowsY, TwoCardColumnsX, TwoCardRowsY, SlotsTwoPlayer
-global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, PreGameScreensJumpTable
+global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameScoutingCards, PreGameForwardCards, PreGameDefenceCards, PreGameScreensJumpTable
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
 ;-----------------------------------------------------------------------------
 ; PreGameMatchupScreen                            849D5  96 PC, low confidence
@@ -885,7 +885,7 @@ PreGameTeamsScreen:
         mov edi, eax
         mov edx, eax
         mov eax, dword [byte ebp+042h]
-        call WriteDbRecord6
+        call WriteSeasonDbEntry
         test eax, eax
         jne near .27
         mov esi, dword [SeasonGamePending]
@@ -1202,10 +1202,10 @@ PreGameTeamsScreen:
         mov eax, dword [byte ebp+03Eh]
         jmp near PreGameMatchupScreen_4E6
 ;-----------------------------------------------------------------------------
-; PreGameCardsA                                   85911  96 PC, low confidence
+; PreGameScoutingCards                                   85911  96 PC, low confidence
 ; Pre-game screen 3: player cards (profile.fsh, card, plyr, Xlate)
 ;-----------------------------------------------------------------------------
-PreGameCardsA:
+PreGameScoutingCards:
         push ebx
         push ecx
         push edx
@@ -2089,10 +2089,10 @@ PreGameCardsA:
         mov eax, dword [byte ebp+05Ah]
         jmp near PreGameMatchupScreen_4E6
 ;-----------------------------------------------------------------------------
-; PreGameCardsB                                   86428  96 PC, low confidence
+; PreGameForwardCards                                   86428  96 PC, low confidence
 ; Pre-game screen 4: player cards (PALS, profile.fsh, card)
 ;-----------------------------------------------------------------------------
-PreGameCardsB:
+PreGameForwardCards:
         push ebx
         push ecx
         push edx
@@ -2640,10 +2640,10 @@ PreGameCardsB:
         mov eax, dword [byte ebp+076h]
         jmp near PreGameMatchupScreen_4E6
 ;-----------------------------------------------------------------------------
-; PreGameCardsC                                   86BE4  96 PC, low confidence
+; PreGameDefenceCards                                   86BE4  96 PC, low confidence
 ; Pre-game screen 5: player cards (PALS, profile.fsh, card)
 ;-----------------------------------------------------------------------------
-PreGameCardsC:
+PreGameDefenceCards:
         push ebx
         push ecx
         push edx
@@ -3203,13 +3203,13 @@ PreGameScreens_44:
         call PreGameTeamsScreen
         jmp short PreGameScreens_24.1
 PreGameScreens_4B:
-        call PreGameCardsA
+        call PreGameScoutingCards
         jmp short PreGameScreens_24.1
 PreGameScreens_52:
-        call PreGameCardsB
+        call PreGameForwardCards
         jmp short PreGameScreens_24.1
 PreGameScreens_59:
-        call PreGameCardsC
+        call PreGameDefenceCards
         jmp short PreGameScreens_24.1
 .3:
         test edx, edx

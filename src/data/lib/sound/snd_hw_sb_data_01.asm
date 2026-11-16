@@ -4,10 +4,10 @@ bits 32
 section s_1512F0 progbits alloc noexec write align=1
 extern str_ULTRASND, str_StarRule, str_Fs, str_Jan2, str_Feb3, str_Mar2, str_Apr2, str_May2
 extern str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2, str_Nov2, str_Dec2
-global DmaPagePorts, DmaMaskPorts, DmaModePorts, DmaClearPorts, DmaAddressPorts, DmaCountPorts, GusIrqLatchBits, GusStreamVoiceA
-global GusStreamVoiceStereo, GusStreamVoiceB, DmaLastHalf, GusEnvVarName, GusOpenCount, GusStreamRefillA, GusStreamRefillB, GusStreamSrcA
-global GusStreamHalfA, GusStreamBusyA, GusStreamSrcB, GusStreamHalfB, GusStreamBusyB, GusStreamActive, GusStreamBufSize, GusStreamHalfSize
-global GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusStreamCardA, GusStreamCardB, GusStreamCardEnd, GusStreamStartLo
+global DmaPagePorts, DmaMaskPorts, DmaModePorts, DmaClearPorts, DmaAddressPorts, DmaCountPorts, GusIrqLatchBits, GusStreamVoiceLeft
+global GusStreamVoiceStereo, GusStreamVoiceRight, DmaLastHalf, GusEnvVarName, GusOpenCount, GusStreamRefillLeft, GusStreamRefillRight, GusStreamSrcLeft
+global GusStreamHalfLeft, GusStreamBusyLeft, GusStreamSrcRight, GusStreamHalfRight, GusStreamBusyRight, GusStreamActive, GusStreamBufSize, GusStreamHalfSize
+global GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusStreamCardLeft, GusStreamCardRight, GusStreamCardEnd, GusStreamStartLo
 global MemViewBlack, MemViewWhite, MemViewYellow, MemViewGreen, MemViewRed, MemViewShowDetail, MemViewLastMode, MemViewCursor
 global MemViewSavedTop, MemViewSavedRow, PaletteCursorColours, MonthNameTable, MemMapRulePtr, GusStreamLoopLo, GusStreamLoopHi, GusStreamStartHi
 global GusStreamEndLo, GusStreamEndHi, GusBasePort, GusIrqStatusPort, GusIrqLatchPort, GusDmaLatchPort
@@ -31,29 +31,29 @@ GusOpenCount:
         db 00h,00h,00h,00h
 GusIrqLatchBits:
         db 00h,00h,01h,03h,00h,02h,00h,04h,00h,00h,00h,05h,06h,00h,00h,07h
-GusStreamRefillA:
+GusStreamRefillLeft:
         db 00h,00h,00h,00h
-GusStreamRefillB:
+GusStreamRefillRight:
         db 00h,00h,00h,00h
-GusStreamSrcA:
+GusStreamSrcLeft:
         db 00h,00h,00h,00h
-GusStreamHalfA:
+GusStreamHalfLeft:
         db 00h,00h,00h,00h
-GusStreamBusyA:
+GusStreamBusyLeft:
         db 00h,00h,00h,00h
-GusStreamSrcB:
+GusStreamSrcRight:
         db 00h,00h,00h,00h
-GusStreamHalfB:
+GusStreamHalfRight:
         db 00h,00h,00h,00h
-GusStreamBusyB:
+GusStreamBusyRight:
         db 00h,00h,00h,00h
 GusStreamActive:
         db 00h,00h,00h,00h
-GusStreamVoiceA:
+GusStreamVoiceLeft:
         db 00h,00h,00h,00h
 GusStreamVoiceStereo:
         db 00h,00h,00h,00h
-GusStreamVoiceB:
+GusStreamVoiceRight:
         db 00h,00h,00h,00h
 GusStreamBufSize:
         db 00h,00h,00h,00h
@@ -67,9 +67,9 @@ GusRefillDest:
         db 00h,00h,00h,00h
 GusRefillLength:
         db 00h,00h,00h,00h
-GusStreamCardA:
+GusStreamCardLeft:
         db 00h,00h,00h,00h
-GusStreamCardB:
+GusStreamCardRight:
         db 00h,00h,00h,00h
 GusStreamCardEnd:
         db 00h,00h,00h,00h

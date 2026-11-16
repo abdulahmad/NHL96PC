@@ -10,7 +10,7 @@ extern str_13, str_132, str_CONNECT9600ARQ, str_17, str_172, str_CONNECT9600HST,
 extern str_CONNECT9600ARQHST, str_27, str_272, str_CONNECT14400, str_25, str_252, str_CONNECT14400ARQ, str_26
 extern str_262, str_CONNECT14400HST, str_35, str_352, str_CONNECT14400ARQHST, str_36, str_362
 global GameLoopActive, InputRecordBusy, InputRecordPhase, InputRecordTicks, PauseReplayPending, LinkChannelTimers, StarsSlideFrom, StarsSlideTo
-global StarsSlideTarget, StarsSpritePath, StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsTimerA, StarsTimerFace
+global StarsSlideTarget, StarsSpritePath, StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsRandomTimer, StarsTimerFace
 global StarsTimerName, StarsTimerCard, GameLoopFrames, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, LinkBaudSetting
 global LinkOpenFlags, LinkRetryOn, LinkCarrierCheck, LinkPollOn, LinkIsOpen, LinkWindowSize, LinkAckOn, LinkResendOn
 global LinkOpenMode, LinkErrorCount, LinkSpareHook, LinkMessageHandler, LinkTickHandler, LinkResendHandler, LinkTxSeq, LinkRxDeliverSeq
@@ -64,7 +64,7 @@ StarsTextX:
 StarsTextXs:
         db 05h,01h,00h,00h,06Ah,01h,00h,00h,0D8h,00h,00h,00h,019h,02h,00h,00h
         db 03Fh,01h,00h,00h
-StarsTimerA:
+StarsRandomTimer:
         db 00h,00h,00h,00h
 StarsTimerFace:
         db 00h,00h,00h,00h

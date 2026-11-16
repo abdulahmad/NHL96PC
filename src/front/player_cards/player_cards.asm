@@ -20,7 +20,7 @@ extern str_DD7, str_DD8, str_DNRS, str_DSS2, str_DSS3, str_fmtpd, str_FSH4, str_
 extern str_HD00, str_HD022, str_LG02d2, str_Pal23, str_PHT0, str_PHT1, str_PHT2, str_PLY0
 extern str_PLY4, str_Plyr2, str_PRN02, str_PRN12, str_PRN22, str_PROFILEFSH2, str_RAT, str_RAT0
 extern str_S5, str_SD4, str_SEA4, str_SLDH2, str_Wt4, str_XTbl, strcat_, strlen_
-extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
+extern SelectDataLibrary, SeasonDbRecord, CareerDbRecord, LeagueRecordsRecord, PlayerAttrRecord, AttributeDbRecord, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, DrawArt
 extern PutBlockAtOwnPos, BlitShapeAt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
 extern DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, PutBlockKeyed, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed
@@ -1900,13 +1900,13 @@ DrawPlayerCardStats:
         jne short .1
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb1Record
+        call CareerDbRecord
         mov esi, eax
         jmp short .2
 .1:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb1Record
+        call CareerDbRecord
         mov edi, eax
 .2:
         push dword [byte ebp-0Eh]
@@ -1975,19 +1975,19 @@ DrawPlayerCardStats:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
-        call StatsDb1Record
+        call CareerDbRecord
         jmp short .11
 .9:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
-        call StatsDataBBRecord
+        call LeagueRecordsRecord
         jmp short .11
 .10:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
-        call StatsData4Record
+        call PlayerAttrRecord
 .11:
         mov esi, eax
 .12:
@@ -1996,7 +1996,7 @@ DrawPlayerCardStats:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
-        call StatsDb5Record
+        call SeasonDbRecord
         mov esi, eax
 .13:
         mov dword [byte ebp+06Ah], 0
@@ -2154,19 +2154,19 @@ DrawPlayerCardStats_241:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
-        call StatsDb1Record
+        call CareerDbRecord
         jmp short .30
 .28:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
-        call StatsDataBBRecord
+        call LeagueRecordsRecord
         jmp short .30
 .29:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
-        call StatsData4Record
+        call PlayerAttrRecord
 .30:
         mov edi, eax
 .31:
@@ -2175,7 +2175,7 @@ DrawPlayerCardStats_241:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
-        call StatsDb5Record
+        call SeasonDbRecord
         mov edi, eax
 .32:
         mov dword [byte ebp+06Eh], 0
@@ -2325,19 +2325,19 @@ DrawPlayerCardStats_423:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
-        call StatsDb1Record
+        call CareerDbRecord
         jmp short .48
 .46:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
-        call StatsDataBBRecord
+        call LeagueRecordsRecord
         jmp short .48
 .47:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
-        call StatsData4Record
+        call PlayerAttrRecord
 .48:
         mov esi, eax
 .49:
@@ -2346,7 +2346,7 @@ DrawPlayerCardStats_423:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
-        call StatsDb5Record
+        call SeasonDbRecord
         mov esi, eax
 .50:
         mov dword [byte ebp+072h], 0
@@ -2504,19 +2504,19 @@ DrawPlayerCardStats_664:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
-        call StatsDb1Record
+        call CareerDbRecord
         jmp short .67
 .65:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
-        call StatsDataBBRecord
+        call LeagueRecordsRecord
         jmp short .67
 .66:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
-        call StatsData4Record
+        call PlayerAttrRecord
 .67:
         mov edi, eax
 .68:
@@ -2525,7 +2525,7 @@ DrawPlayerCardStats_664:
         mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
-        call StatsDb5Record
+        call SeasonDbRecord
         mov edi, eax
 .69:
         mov dword [byte ebp+076h], 0
@@ -2642,13 +2642,13 @@ DrawPlayerCardStats_847:
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         mov dword [byte ebp+012h], 9
-        call StatsDb2Record
+        call AttributeDbRecord
         jmp short .80
 .79:
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         mov dword [byte ebp+012h], 0Eh
-        call StatsDb2Record
+        call AttributeDbRecord
 .80:
         mov dword [byte ebp+0Eh], eax
         mov edi, dword [byte ebp+056h]
@@ -3098,7 +3098,7 @@ DrawPlayerCardName:
         jne short .10
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb2Record
+        call AttributeDbRecord
         movzx eax, byte [eax]
         test eax, eax
         jne short .9
@@ -3110,7 +3110,7 @@ DrawPlayerCardName:
 .10:
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb2Record
+        call AttributeDbRecord
         movzx eax, byte [eax]
         test eax, eax
         je short .11
@@ -3456,18 +3456,18 @@ ExportPlayerCard:
         jle short .12
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb5Record
+        call SeasonDbRecord
         jmp short .13
 .12:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb1Record
+        call CareerDbRecord
 .13:
         mov ebx, eax
         mov eax, dword [byte ebp-048h]
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax*4]
-        call StatsDb2Record
+        call AttributeDbRecord
         push str_CardExportIndent
         push esi
         mov dword [byte ebp-010h], eax
@@ -3850,18 +3850,18 @@ ExportPlayerCard_4B6:
         jle short .47
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb5Record
+        call SeasonDbRecord
         jmp short .48
 .47:
         mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
-        call StatsDb1Record
+        call CareerDbRecord
 .48:
         mov ebx, eax
         mov eax, dword [byte ebp-048h]
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax*4]
-        call StatsDb2Record
+        call AttributeDbRecord
         push str_CardExportIndent
         push esi
         mov dword [byte ebp-01Ch], eax

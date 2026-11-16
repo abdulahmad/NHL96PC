@@ -7,7 +7,7 @@ extern SeasonDbSize, CareerDbSize, LeagueStatsSize, TeamDbSize, PlayoffStatsSize
 extern LoadDataFile, MakeDataPath, strcat_, strcpy_, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, OpenArtArchiveErr
 extern FileSizeByName, str_Punct_PlayerDbRecord
 global LoadSeasonStats, LoadSeasonStats_11A, LoadPlayoffStats, LoadExhibitionStats, LoadExhibitionStats_17E, LoadModemStats, FreeStatsTables, PlayerDbRecord
-global StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record
+global SeasonDbRecord, CareerDbRecord, LeagueRecordsRecord, PlayerAttrRecord, AttributeDbRecord
 ;-----------------------------------------------------------------------------
 ; LoadSeasonStats                              1EA14  96 PC, medium confidence
 ; (season): frees the stats tables and loads the season's stats files (team,
@@ -657,50 +657,50 @@ PlayerDbRecord:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; StatsDb5Record                                  1F2C9  96 PC, low confidence
+; SeasonDbRecord                                  1F2C9  96 PC, low confidence
 ; (offset): pointer into stats db file 5 (seasondb)
 ;-----------------------------------------------------------------------------
-StatsDb5Record:
+SeasonDbRecord:
         push edx
         mov edx, dword [seasondb]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; StatsDb1Record                                  1F2D4  96 PC, low confidence
+; CareerDbRecord                                  1F2D4  96 PC, low confidence
 ; (offset): pointer into stats db file 1 (CareerDb)
 ;-----------------------------------------------------------------------------
-StatsDb1Record:
+CareerDbRecord:
         push edx
         mov edx, dword [CareerDb]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; StatsDataBBRecord                               1F2DF  96 PC, low confidence
+; LeagueRecordsRecord                               1F2DF  96 PC, low confidence
 ; (offset): pointer into data file 0BBh (LeagueRecordsFile)
 ;-----------------------------------------------------------------------------
-StatsDataBBRecord:
+LeagueRecordsRecord:
         push edx
         mov edx, dword [LeagueRecordsFile]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; StatsData4Record                                1F2EA  96 PC, low confidence
+; PlayerAttrRecord                                1F2EA  96 PC, low confidence
 ; (offset): pointer into data file 4 (PlayerAttrFile)
 ;-----------------------------------------------------------------------------
-StatsData4Record:
+PlayerAttrRecord:
         push edx
         mov edx, dword [PlayerAttrFile]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; StatsDb2Record                                  1F2F5  96 PC, low confidence
+; AttributeDbRecord                                  1F2F5  96 PC, low confidence
 ; (offset): pointer into stats db file 2 (AttributeDb)
 ;-----------------------------------------------------------------------------
-StatsDb2Record:
+AttributeDbRecord:
         push edx
         mov edx, dword [AttributeDb]
         add eax, edx

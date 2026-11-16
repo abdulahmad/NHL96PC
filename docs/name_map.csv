@@ -170,7 +170,7 @@ address,name,auto_name,source,confidence,evidence,file
 1DF7D,FileReadAt,,95PC,medium,NHL95PC 145A2 (sem): C:1414; C:1334; R:201; R:199,
 1DFEA,FileWriteAt,sub_1DFEA,new,high,"(handle, data, size, offset): seeks (offset >= 0) and writes; 0 ok, -1 seek error, 1 short write (the write side of FileReadAt)",src/front/file_io/file_io.asm
 1E08B,FileCopy,sub_1E08B,new,high,"(from, to): copies a file through a 200 KB COPYBUFFER",src/front/file_io/file_io.asm
-1E222,WriteDbRecord6,sub_1E222,new,low,"(handle, data, index): writes a 6-byte season db record through FileWriteAt",src/front/file_io/file_io.asm
+1E222,WriteSeasonDbEntry,sub_1E222,new,low,"(handle, data, index): writes a 6-byte season db entry",src/front/file_io/file_io.asm
 1E268,ReadSeasonHeader,sub_1E268,new,medium,"(handle, buf): reads the 50BEh-byte header at the start of a season file",src/front/file_io/file_io.asm
 1E33C,IsCupClinched,sub_1E33C,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PickThreeStars,src/front/series/series.asm
 1E383,HomeClinchesSeries,sub_1E383,new,medium,1 when the home team is ahead and one win from taking the series (dword_17D263 bit 2),src/front/series/series.asm
@@ -179,7 +179,7 @@ address,name,auto_name,source,confidence,evidence,file
 1E5FC,MakeDirPath,sub_1E5FC,new,high,"(out, dir, language): a game directory path (language prefix, directory from unk_115120, backslash)",src/front/data_files/data_files.asm
 1E643,SelectDataLibrary,sub_1E643,new,low,"(index): builds the library path of a 16h-byte entry at unk_1151A7 (subdir by the optflags bits, then its name) and opens it (sub_B7310) unless it is the current one",src/front/data_files/data_files.asm
 1E715,LoadDataFile,sub_1E715,new,medium,"(file id, flags): loads a game data file by id (MakeDataPath, then the loader)",src/front/data_files/data_files.asm
-1E73F,LoadDataFileFlag0,sub_1E73F,new,low,LoadDataFile through the same loader with flag 0 (sub_B20EC),src/front/data_files/data_files.asm
+1E73F,LoadArtArchiveFile,sub_1E73F,new,low,loads a data file through the art archive opener,src/front/data_files/data_files.asm
 1E779,LoadDataFileHandle,sub_1E779,new,low,"LoadDataFile returning the loader's handle (sub_B2140), for the sound banks (sub_C04C3)",src/front/data_files/data_files.asm
 1E7F6,LoadPackedFile,sub_1E7F6,new,medium,"(file id, flags): loads a game data file and unpacks it when packed",src/front/data_files/data_files.asm
 1E8E9,LoadDataFileLib,sub_1E8E9,new,low,"LoadDataFile through the other library loader (sub_B0494 -> sub_C4DE0, flag 1)",src/front/data_files/data_files.asm
@@ -190,11 +190,11 @@ address,name,auto_name,source,confidence,evidence,file
 1EE7C,LoadModemStats,sub_1EE7C,new,medium,frees the stats tables and loads the modem game stats files,src/front/stats_tables/stats_tables.asm
 1EFFF,FreeStatsTables,sub_1EFFF,new,high,frees the loaded stats tables (dword_1174E0-1174FC) and clears their sizes,src/front/stats_tables/stats_tables.asm
 1F15E,PlayerDbRecord,sub_1F15E,new,medium,"(offset): pointer into the player table (stats db file 0, dword_1174EC): +1, +2 number and position, +3 first name, +13h last name",src/front/stats_tables/stats_tables.asm
-1F2C9,StatsDb5Record,sub_1F2C9,new,low,(offset): pointer into stats db file 5 (dword_1174E0),src/front/stats_tables/stats_tables.asm
-1F2D4,StatsDb1Record,sub_1F2D4,new,low,(offset): pointer into stats db file 1 (dword_1174E4),src/front/stats_tables/stats_tables.asm
-1F2DF,StatsDataBBRecord,sub_1F2DF,new,low,(offset): pointer into data file 0BBh (dword_1174FC),src/front/stats_tables/stats_tables.asm
-1F2EA,StatsData4Record,sub_1F2EA,new,low,(offset): pointer into data file 4 (dword_1174F8),src/front/stats_tables/stats_tables.asm
-1F2F5,StatsDb2Record,sub_1F2F5,new,low,(offset): pointer into stats db file 2 (dword_1174F4),src/front/stats_tables/stats_tables.asm
+1F2C9,SeasonDbRecord,sub_1F2C9,new,low,(offset): pointer into the season db,src/front/stats_tables/stats_tables.asm
+1F2D4,CareerDbRecord,sub_1F2D4,new,low,(offset): pointer into the career db,src/front/stats_tables/stats_tables.asm
+1F2DF,LeagueRecordsRecord,sub_1F2DF,new,low,(offset): pointer into the league records file,src/front/stats_tables/stats_tables.asm
+1F2EA,PlayerAttrRecord,sub_1F2EA,new,low,(offset): pointer into the player attribute file,src/front/stats_tables/stats_tables.asm
+1F2F5,AttributeDbRecord,sub_1F2F5,new,low,(offset): pointer into the attribute db,src/front/stats_tables/stats_tables.asm
 1F300,EndGameCleanup,sub_1F300,new,medium,"after a game: sound off, GameOver, clears the game mode flag and the player slots, frees the game's buffers; the game loop is no longer running",src/front/game_teams/game_teams.asm
 1F362,LoadGameRosters,sub_1F362,new,medium,"loads both teams' rosters and lines for the game from the files of the game mode (exhibition, season, playoff, modem)",src/front/game_teams/game_teams.asm
 1F771,InitGameTeams,sub_1F771,new,medium,"(home, away): sets the teams and options of the game to play (period -1, game summary fields) and LoadGameRosters",src/front/game_teams/game_teams.asm
@@ -1038,9 +1038,9 @@ address,name,auto_name,source,confidence,evidence,file
 849D5,PreGameMatchupScreen,sub_849D5,new,low,"pre-game screen 1: the matchup with the home and away pictures (H%07d / A%07d .FSH, pal.fsh); the announcer's team pair call (PaEvent 8)",src/front/pregame/pregame.asm
 84EC8,CycleScreenPalettes,sub_84EC8,new,low,"every 8 ticks steps through 12h palettes (dword_17DBC4, dword_17DB7C)",src/front/pregame/pregame.asm
 84F20,PreGameTeamsScreen,sub_84F20,new,low,"pre-game screen 2: both teams' logos and name art (SCHEDULE, %04d)",src/front/pregame/pregame.asm
-85911,PreGameCardsA,sub_85911,new,low,"pre-game screen 3: player cards (profile.fsh, card, plyr, Xlate)",src/front/pregame/pregame.asm
-86428,PreGameCardsB,sub_86428,new,low,"pre-game screen 4: player cards (PALS, profile.fsh, card)",src/front/pregame/pregame.asm
-86BE4,PreGameCardsC,sub_86BE4,new,low,"pre-game screen 5: player cards (PALS, profile.fsh, card)",src/front/pregame/pregame.asm
+85911,PreGameScoutingCards,sub_85911,new,low,pre-game screen 3: scouting report player cards,src/front/pregame/pregame.asm
+86428,PreGameForwardCards,sub_86428,new,low,pre-game screen 4: starting forwards cards (three cards),src/front/pregame/pregame.asm
+86BE4,PreGameDefenceCards,sub_86BE4,new,low,pre-game screen 5: starting defence cards (two cards),src/front/pregame/pregame.asm
 8733C,PreGameScreens,sub_8733C,new,medium,"after the controller screen: the 5 pre-game screens in turn (each returns -1 back / +1 on); 15h to play, 3 back",src/front/pregame/pregame.asm
 873AE,BuildAntiAliasTable,sub_873AE,new,medium,the AALIAS table (1004h bytes) of blended colours for the 3D view's lines,src/front/line_draw/line_draw.asm
 874AE,ClipLineY,sub_874AE,new,low,clips the current line to the view's top and bottom (dword_17DC1C / 17DC24),src/front/line_draw/line_draw.asm
@@ -1118,8 +1118,8 @@ address,name,auto_name,source,confidence,evidence,file
 9C060,RatingBar,sub_9C060,new,medium,"(value, x, y, w, h): draws a rating bar (FillRect)",src/front/roster/roster.asm
 9C127,CreatePlayerLimits,sub_9C127,new,low,applies the rating limits when creating a player,src/front/roster/roster.asm
 9C238,CreatePlayerRatings,sub_9C238,new,low,random ratings for a created player around the picked levels,src/front/roster/roster.asm
-9C5AF,CompareRankA,sub_9C5AF,new,low,qsort compare by dword_182FB8,src/front/roster/roster.asm
-9C5C4,CompareRankB,sub_9C5C4,new,low,qsort compare by dword_182144,src/front/roster/roster.asm
+9C5AF,CompareTeamRating,sub_9C5AF,new,low,qsort compare by team rating score,src/front/roster/roster.asm
+9C5C4,CompareTeamScoring,sub_9C5C4,new,low,qsort compare by team scoring score,src/front/roster/roster.asm
 9C5D9,SortTeamRatings,sub_9C5D9,new,medium,sorts the player ratings of a team and totals the best ones,src/front/roster/roster.asm
 9C65A,TeamRankScoring,sub_9C65A,new,low,"team rating from one player rating, for the team ranks",src/front/roster/roster.asm
 9C6AE,TeamRankSkating,sub_9C6AE,new,low,"team rating from another player rating, for the team ranks",src/front/roster/roster.asm
@@ -4573,7 +4573,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 114EB4,StarsNameXs,dword_114EB4,new,low,Three stars screen: name x per star,src/data/front/front_1456D_data_02.asm
 114ED0,StarsTextX,dword_114ED0,new,low,Three stars screen: text x,src/data/front/front_1456D_data_02.asm
 114ED4,StarsTextXs,dword_114ED4,new,low,Three stars screen: text x per star,src/data/front/front_1456D_data_02.asm
-114EE8,StarsTimerA,dword_114EE8,new,low,Three stars screen: slide timer,src/data/front/front_1456D_data_02.asm
+114EE8,StarsRandomTimer,dword_114EE8,new,low,tick count for the next random three stars animation,src/data/front/front_1456D_data_02.asm
 114EEC,StarsTimerFace,dword_114EEC,new,low,Three stars screen: face timer,src/data/front/front_1456D_data_02.asm
 114EF0,StarsTimerName,dword_114EF0,new,low,Three stars screen: name timer,src/data/front/front_1456D_data_02.asm
 114EF4,StarsTimerCard,dword_114EF4,new,low,Three stars screen: card timer,src/data/front/front_1456D_data_02.asm
@@ -5527,8 +5527,8 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 123BB4,SpeechQueueRead,dword_123BB4,new,medium,speech queue read index,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BB8,SpeechQueuePlaying,byte_123BB8,new,medium,set while the speech queue plays,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BB9,SpeechQueueVolume,dword_123BB9,new,medium,speech queue volume,src/data/lib/watcom/watcom_clib_08_data_02.asm
-123BBD,SpeechChannelA,dword_123BBD,new,medium,first speech channel,src/data/lib/watcom/watcom_clib_08_data_02.asm
-123BC1,SpeechChannelB,dword_123BC1,new,medium,second speech channel,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BBD,SpeechVoicePing,dword_123BBD,new,low,one of the two speech voices used in turn,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BC1,SpeechVoicePong,dword_123BC1,new,low,the other speech voice used in turn,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BC5,SpeechChannelCur,dword_123BC5,new,medium,speech channel now playing,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BCC,StreamState,dword_123BCC,new,medium,"audio stream state: 0 closed, 2 playing, 3 waiting for its header",src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BD0,StreamChannel,dword_123BD0,new,medium,audio stream sound channel,src/data/lib/watcom/watcom_clib_08_data_02.asm
@@ -5765,26 +5765,26 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 151324,GusEnvVarName,dword_151324,new,low,points to the name of the environment variable that holds the card settings,src/data/lib/sound/snd_hw_sb_data_01.asm
 151328,GusOpenCount,dword_151328,new,low,number of times the card has been opened without a matching close,src/data/lib/sound/snd_hw_sb_data_01.asm
 15132C,GusIrqLatchBits,byte_15132C,new,low,latch register bits for each IRQ line the card can use,src/data/lib/sound/snd_hw_sb_data_01.asm
-15133C,GusStreamRefillA,dword_15133C,new,low,set when the first streaming channel needs its next half buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
-151340,GusStreamRefillB,dword_151340,new,low,set when the second streaming channel needs its next half buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
-151344,GusStreamSrcA,dword_151344,new,low,source pointer of the first streaming channel,src/data/lib/sound/snd_hw_sb_data_01.asm
-151348,GusStreamHalfA,dword_151348,new,low,which half buffer of the first streaming channel is being filled,src/data/lib/sound/snd_hw_sb_data_01.asm
-15134C,GusStreamBusyA,dword_15134C,new,low,set while the first streaming channel is playing,src/data/lib/sound/snd_hw_sb_data_01.asm
-151350,GusStreamSrcB,dword_151350,new,low,source pointer of the second streaming channel,src/data/lib/sound/snd_hw_sb_data_01.asm
-151354,GusStreamHalfB,dword_151354,new,low,which half buffer of the second streaming channel is being filled,src/data/lib/sound/snd_hw_sb_data_01.asm
-151358,GusStreamBusyB,dword_151358,new,low,set while the second streaming channel is playing,src/data/lib/sound/snd_hw_sb_data_01.asm
+15133C,GusStreamRefillLeft,dword_15133C,new,low,left stream voice needs a refill,src/data/lib/sound/snd_hw_sb_data_01.asm
+151340,GusStreamRefillRight,dword_151340,new,low,right stream voice needs a refill,src/data/lib/sound/snd_hw_sb_data_01.asm
+151344,GusStreamSrcLeft,dword_151344,new,low,source buffer of the left stream voice,src/data/lib/sound/snd_hw_sb_data_01.asm
+151348,GusStreamHalfLeft,dword_151348,new,low,half of the left stream buffer to refill,src/data/lib/sound/snd_hw_sb_data_01.asm
+15134C,GusStreamBusyLeft,dword_15134C,new,low,left stream voice still playing,src/data/lib/sound/snd_hw_sb_data_01.asm
+151350,GusStreamSrcRight,dword_151350,new,low,source buffer of the right stream voice,src/data/lib/sound/snd_hw_sb_data_01.asm
+151354,GusStreamHalfRight,dword_151354,new,low,half of the right stream buffer to refill,src/data/lib/sound/snd_hw_sb_data_01.asm
+151358,GusStreamBusyRight,dword_151358,new,low,right stream voice still playing,src/data/lib/sound/snd_hw_sb_data_01.asm
 15135C,GusStreamActive,dword_15135C,new,low,set while the stream voices are running,src/data/lib/sound/snd_hw_sb_data_01.asm
-151360,GusStreamVoiceA,byte_151360,new,low,voice number of the first streaming channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151360,GusStreamVoiceLeft,byte_151360,new,low,left stream voice number,src/data/lib/sound/snd_hw_sb_data_01.asm
 151364,GusStreamVoiceStereo,byte_151364,new,low,set when the stream uses a second (stereo) voice,src/data/lib/sound/snd_hw_sb_data_01.asm
-151368,GusStreamVoiceB,byte_151368,new,low,voice number of the second streaming channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151368,GusStreamVoiceRight,byte_151368,new,low,right stream voice number,src/data/lib/sound/snd_hw_sb_data_01.asm
 15136C,GusStreamBufSize,dword_15136C,new,low,size of the stream buffer in card memory,src/data/lib/sound/snd_hw_sb_data_01.asm
 151370,GusStreamHalfSize,dword_151370,new,low,size of one half of the stream buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
 151374,GusStreamQuarterSize,dword_151374,new,low,quarter of the stream buffer size,src/data/lib/sound/snd_hw_sb_data_01.asm
 151378,GusRefillSrc,dword_151378,new,low,source pointer of the half buffer being copied,src/data/lib/sound/snd_hw_sb_data_01.asm
 15137C,GusRefillDest,dword_15137C,new,low,card address the half buffer is copied to,src/data/lib/sound/snd_hw_sb_data_01.asm
 151380,GusRefillLength,dword_151380,new,low,length of the half buffer being copied,src/data/lib/sound/snd_hw_sb_data_01.asm
-151384,GusStreamCardA,dword_151384,new,low,card memory address of the first streaming channel's buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
-151388,GusStreamCardB,dword_151388,new,low,card memory address of the second streaming channel's buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
+151384,GusStreamCardLeft,dword_151384,new,low,card memory of the left stream voice,src/data/lib/sound/snd_hw_sb_data_01.asm
+151388,GusStreamCardRight,dword_151388,new,low,card memory of the right stream voice,src/data/lib/sound/snd_hw_sb_data_01.asm
 15138C,GusStreamCardEnd,dword_15138C,new,low,end of the stream buffers in card memory,src/data/lib/sound/snd_hw_sb_data_01.asm
 151390,GusStreamLoopLo,word_151390,new,low,low word of the stream voices' loop point,src/data/lib/sound/snd_hw_sb_data_01.asm
 151392,GusStreamLoopHi,word_151392,new,low,high word of the stream voices' loop point,src/data/lib/sound/snd_hw_sb_data_01.asm

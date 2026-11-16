@@ -53,10 +53,10 @@ extern MessageBox, BlankForFadeIn, FileCreate, FileClose, FileWriteAt, MakeDirPa
 extern EndGameCleanup, sub_23476, sub_2363D, sub_23820, sub_23AE5, sub_23C91, sub_2500F, sub_25502
 extern sub_25820, sub_2767F, sub_27BF1, sub_28327, sub_283C1, sub_28A87, sub_28C50, sub_2976B
 extern sub_297C9, sub_4B38C, sub_5358E, sub_535F2, InitGameView, FreeGameView, DrawRosterName, DrawRosterNumber
-extern DrawRinkSprite, DrawPlayerSprite, DrawSpriteShadow, DrawControlMarker, DrawPuckSprite, sub_5DBC0, sub_5DCDD, sub_5DCF8
-extern sub_5FB02, sub_60823, sub_612BC, sub_621D9, sub_62201, sub_622CD, sub_62311, sub_625AA
-extern sub_625F7, sub_62ED9, sub_63998, sub_63A5B, sub_63B0C, sub_63DC4, sub_63E7C, sub_63E8A
-extern sub_64721, sub_64E74, sub_64F47, sub_64F59, sub_66373, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
+extern DrawRinkSprite, DrawPlayerSprite, DrawSpriteShadow, DrawControlMarker, DrawPuckSprite, SetCameraShot, AngleXZ, AnglePitch
+extern CamShot23E, SetGameViewSize, UpdateCamera, FreeFightSprites, LoadFightSprites, LoadCupSprites, FreeSpriteCache, SpriteScale
+extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetScreenMode, DrawText, DrawTextRight
+extern InitMenuItems, sub_64E74, sub_64F47, sub_64F59, sub_66373, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
 extern sub_77355, sub_7BFAF, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
@@ -101,7 +101,7 @@ sub_54519:
         mov dword [dword_1778F8], eax
         call sub_2363D
         call sub_23AE5
-        call sub_621D9
+        call FreeFightSprites
         test byte [byte_17CA5D], 20h
         je short .1
         mov edx, 20h
@@ -212,16 +212,16 @@ sub_54769:
         mov dword [dword_11A3F8], 0
         call sub_ABF4C
         add esp, byte 4
-        call sub_62311
+        call FreeSpriteCache
         mov al, byte [gmode]
         and al, 80h
         movsx eax, al
         test eax, eax
         je short .1
-        call sub_622CD
+        call LoadCupSprites
         jmp short .2
 .1:
-        call sub_62201
+        call LoadFightSprites
 .2:
         call sub_2363D
         mov eax, dword [dword_1778EC]
@@ -293,9 +293,9 @@ sub_54769:
         mov eax, dword [dword_177904]
         add esp, byte 8
         mov dword [dword_11B330], eax
-        call sub_60823
+        call SetGameViewSize
         mov eax, unk_1781FE
-        call sub_5DBC0
+        call SetCameraShot
         push unk_1774C4
         call sub_B026C
         mov al, byte [byte_178288]
@@ -790,7 +790,7 @@ sub_54936:
         mov esi, dword [dword eax+dword_11B9F4]
         mov eax, dword_178243
         rep movsb
-        call sub_5DBC0
+        call SetCameraShot
 .31:
         mov eax, ebx
         leave
@@ -875,7 +875,7 @@ sub_5504C:
         cmp byte [dword esi+byte_176FA7], 0
         je near .5
         push dword [dword eax+dword_179AC8]
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         mov edx, 33333h
         imul edx
@@ -1069,7 +1069,7 @@ sub_5504C:
         mov dword [byte ebp+072h], eax
         imul eax, esi, byte 0Ch
         push dword [dword eax+dword_179AC8]
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         mov ecx, eax
         cmp edi, 0B0Dh
@@ -1147,7 +1147,7 @@ sub_553E9:
         mov eax, dword [nosplit eax*4+dword_152FEC]
         push dword [dword edx+dword_179AC8]
         mov dword [byte ebp+07Ah], eax
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         mov ecx, eax
         cmp dword [byte ebp+07Eh], 0B0Dh
@@ -1219,7 +1219,7 @@ sub_554F4:
         mov eax, dword [nosplit eax*4+dword_152FEC]
         push dword [dword edx+dword_179AC8]
         mov dword [byte ebp+07Ah], eax
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         mov ecx, eax
         cmp dword [byte ebp+07Eh], 0B0Dh
@@ -1323,7 +1323,7 @@ sub_55600:
         add esp, byte 0Ch
         mov edx, 9Ch
         lea eax, [byte ebp-010h]
-        call sub_63E8A
+        call DrawTextRight
         mov ebx, 6
         mov edx, 0A0h
         jmp short .6
@@ -1336,12 +1336,12 @@ sub_55600:
         add esp, byte 0Ch
         mov edx, 139h
         lea eax, [byte ebp-010h]
-        call sub_63E8A
+        call DrawTextRight
         mov ebx, 10h
         mov edx, 13Dh
 .6:
         lea eax, [byte ebp-018h]
-        call sub_63E7C
+        call DrawText
         push byte 0
         test byte [byte_17CA5D], 20h
         je short .7
@@ -1524,7 +1524,7 @@ sub_55838:
         lea eax, [byte ebp-028h]
         add ebx, dword [byte ebp-010h]
         add edx, dword [byte ebp-0Ch]
-        call sub_63E7C
+        call DrawText
         push dword [dword_1778FC]
         call TextSetFont
         add esp, byte 4
@@ -1719,7 +1719,7 @@ sub_55B9D:
         jne short .1
         mov dword [dword_178243], 22Fh
         mov byte [byte_178247], 0Ah
-        mov dword [dword_178248], sub_5FB02
+        mov dword [dword_178248], CamShot23E
         jmp short .4
 .1:
         cmp eax, byte 9
@@ -1873,11 +1873,11 @@ sub_55C75:
         lea ebx, [byte esi+011h]
         mov eax, dword [byte ebp-07Ch]
         mov edx, ebx
-        call sub_5DCDD
+        call AngleXZ
         mov dword [dword_17824C], eax
         mov edx, ebx
         mov eax, dword [byte ebp-07Ch]
-        call sub_5DCF8
+        call AnglePitch
         mov dword [dword_178250], eax
         mov eax, dword [dword_17824C]
         neg eax
@@ -1942,11 +1942,11 @@ sub_55C75:
         lea ebx, [byte esi+011h]
         mov eax, dword [byte ebp-07Ch]
         mov edx, ebx
-        call sub_5DCDD
+        call AngleXZ
         mov edx, ebx
         mov dword [byte esi+09h], eax
         mov eax, dword [byte ebp-07Ch]
-        call sub_5DCF8
+        call AnglePitch
         mov dword [byte esi+0Dh], eax
         mov eax, 1
         jmp near sub_55600_231
@@ -2220,12 +2220,12 @@ sub_55EBA_17B:
         add ebx, byte 11h
         lea eax, [byte ebp+072h]
         mov edx, ebx
-        call sub_5DCDD
+        call AngleXZ
         mov edx, dword [byte ebp+07Eh]
         mov dword [byte edx+09h], eax
         lea eax, [byte ebp+072h]
         mov edx, ebx
-        call sub_5DCF8
+        call AnglePitch
         mov edx, dword [byte ebp+07Eh]
         mov dword [byte edx+0Dh], eax
         mov dword [byte ebp+06Eh], 140h
@@ -2326,12 +2326,12 @@ sub_55EBA_17B:
         add ebx, byte 11h
         lea eax, [byte ebp+072h]
         mov edx, ebx
-        call sub_5DCDD
+        call AngleXZ
         mov edx, dword [byte ebp+07Eh]
         mov dword [byte edx+09h], eax
         lea eax, [byte ebp+072h]
         mov edx, ebx
-        call sub_5DCF8
+        call AnglePitch
         mov edx, dword [byte ebp+07Eh]
         mov dword [byte edx+0Dh], eax
         mov eax, 1
@@ -2399,19 +2399,19 @@ sub_562BA:
         cmp edx, byte 8
         jl short .8
         mov eax, 8
-        call sub_612BC
+        call UpdateCamera
         sub edx, byte 8
         jmp short .7
 .8:
         test edx, edx
         jle short .9
         mov eax, edx
-        call sub_612BC
+        call UpdateCamera
 .9:
         cmp dword [dword_1781F8], byte 0
         je short .10
         mov eax, dword_178243
-        call sub_5DBC0
+        call SetCameraShot
 .10:
         call sub_DFEC6
         mov dword [dword_1781F8], 0
@@ -2494,7 +2494,7 @@ sub_564A4:
         push esi
         push edi
         enter 38h, 0
-        call sub_62311
+        call FreeSpriteCache
         mov ax, word [word_114CE0]
         xor ah, ah
         and al, 1
@@ -2561,7 +2561,7 @@ sub_564A4:
 .8:
         mov edx, unk_177908
         mov eax, 16h
-        call sub_64721
+        call InitMenuItems
         push str_Puk1
         push dword [dword_1781D0]
         call sub_E04E0
@@ -3102,7 +3102,7 @@ sub_564A4:
         mov dword [dword_177A58], 0
         call sub_54936
         mov eax, dword_178243
-        call sub_5DBC0
+        call SetCameraShot
         push dword [dword_11B234]
         call SetDrawBitmap
         mov eax, dword [dword_11B31C]
@@ -3163,7 +3163,7 @@ sub_564A4:
         add esp, byte 0Ch
         mov edx, unk_16443C
         xor eax, eax
-        call sub_63998
+        call FadePalette
 .18:
         mov eax, 1
         call LinkSync
@@ -3228,7 +3228,7 @@ sub_564A4:
         test eax, eax
         je near sub_564A4_E86
         mov eax, dword_178243
-        call sub_5DBC0
+        call SetCameraShot
         mov eax, dword [dword_165974]
         mov dl, byte [byte_178247]
         mov byte [eax], dl
@@ -3514,7 +3514,7 @@ sub_564A4_1255:
         test eax, eax
         je short .42
         mov eax, dword_178243
-        call sub_5DBC0
+        call SetCameraShot
 .42:
         push str_Sid13
         push dword [dword_1781D0]
@@ -3624,7 +3624,7 @@ sub_564A4_1255:
         test eax, eax
         je short .49
         mov eax, dword_178243
-        call sub_5DBC0
+        call SetCameraShot
 .49:
         push str_Sid23
         push dword [dword_1781D0]
@@ -3774,7 +3774,7 @@ sub_57B11:
         push ecx
         push edx
         push esi
-        call sub_62311
+        call FreeSpriteCache
         cmp dword [dword_11B330], byte 8
         jge short .1
         call sub_DD6C4
@@ -4087,7 +4087,7 @@ sub_57F0A:
         mov dword [dword_11A3FC], 1
         call FadeOutMusic
         call StopMusic
-        call sub_62ED9
+        call FreeFrontEndArt
         call FreeStatsTables
         call sub_B0CA8
         test byte [byte_17CA5D], 20h
@@ -4175,11 +4175,11 @@ sub_57F0A:
         add esp, byte 8
         mov dword [dword_152F50], eax
         mov eax, dword [dword_152F58]
-        call sub_63B0C
+        call CopyBitmap
         mov edx, 20h
         mov dword [dword_152F54], eax
         mov eax, dword [dword_152F50]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_152F5C], eax
         jmp short .5
 .4:
@@ -4200,7 +4200,7 @@ sub_57F0A:
         test byte [byte_17CA5D], 20h
         setne al
         movzx eax, al
-        call sub_63DC4
+        call SetScreenMode
         call InitGameView
         mov eax, dword [optblock]
         and eax, byte 7Fh
@@ -4212,11 +4212,11 @@ sub_57F0A:
         add esp, byte 4
         call FreeSpeechBuffer
         call sub_564A4
-        call sub_62311
+        call FreeSpriteCache
         call RestoreSpeechBuffer
         call FreeGameView
         mov eax, 2
-        call sub_63A5B
+        call FadeOut
         call EndGameCleanup
         push str_FhiL6
         push dword [dword_1150D4]
@@ -4249,18 +4249,18 @@ sub_57F0A:
         jne short .7
         mov edx, 20h
         mov eax, dword [dword_152F58]
-        call sub_63B0C
+        call CopyBitmap
         mov edx, 20h
         mov dword [dword_152F54], eax
         mov eax, dword [dword_152F50]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_152F5C], eax
 .7:
         mov dword [dword_11D194], 0
         mov eax, 1
         mov ebx, 32h
-        call sub_63DC4
-        call sub_625F7
+        call SetScreenMode
+        call LoadFrontEndArt
         call rand_
         cdq
         idiv ebx
@@ -4485,7 +4485,7 @@ sub_583B8:
         cmp ebx, byte 16h
         jne short .8
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
 .8:
         mov eax, ebx
         leave

@@ -7,7 +7,7 @@ extern byte_117575, byte_157191, byte_157640, byte_157FD2, byte_158646, byte_158
 extern dword_1150D8, dword_1571B3, dword_15803D, dword_1580A1, dword_158654, dword_16411C, dword_164120, dword_164124
 extern dword_164128, dword_164798, dword_17CBE7, dword_17D162, dword_17D267, FatalError, FileClose, FileOpenRead
 extern FileReadAt, GameLoopActive, gameopts, GameOver, gmode, hmroster, hmrosterpos, lseek_
-extern MakeDataPath, optflags, strcpy_, sub_6215A, SetCrowdTarget, sub_77355, sub_78E9E, sub_78EFA
+extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, sub_77355, sub_78E9E, sub_78EFA
 extern sub_ABF4C, sub_B71D4, unk_156E6C, unk_157AF8, unk_157B1C, unk_157B82, unk_157F9C, unk_157FDA
 extern unk_1580AD, unk_1582F5, unk_1583C8, unk_158610, word_11510D, word_156E6E, word_156E70, word_156E72
 extern word_156E74, word_156E76, word_156E78, word_156E7A, word_157AFA, word_157AFC, word_165758, word_16578A
@@ -31,7 +31,7 @@ EndGameCleanup:
         mov dword [dword eax+dword_164798], 0
         cmp eax, 0AA0h
         jne short .1
-        call sub_6215A
+        call FreeGameSprites
         cmp dword [dword_158654], byte 0
         je short .2
         push dword [dword_158654]

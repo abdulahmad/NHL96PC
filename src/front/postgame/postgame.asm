@@ -12,9 +12,9 @@ extern str_004, str_04d, str_AR005, str_AR015, str_AR105, str_AR115, str_Ard5, s
 extern str_BANNER, str_BKGD28, str_BT006, str_BT0110, str_BT028, str_BT108, str_BT118, str_BT124
 extern str_Card5, str_D02d2, str_D20, str_DD, str_DD11, str_DDD, str_fmtSS, str_FSH7
 extern str_METD, str_Pal25, str_PALS2, str_Plyr5, str_ProfileFsh5, str_SBACK, str_ST10, str_STDD
-extern str_STRD, str_STRK, MessageBox, sub_1E643, LoadPackedFile, sub_1F15E, sub_62AF7, sub_62D9B
-extern sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_64054
-extern sub_640D3, sub_6423E, sub_64296, sub_6448D, sub_64721, sub_64F59, sub_66373, PaEvent
+extern str_STRD, str_STRK, MessageBox, sub_1E643, LoadPackedFile, sub_1F15E, OpenScreen, SlideInTitleBar
+extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap, SetTextColors, DrawColorTextRight
+extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, sub_64F59, sub_66373, PaEvent
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
 extern sub_77355, sub_8C51B, sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_AFCD0, sub_B0430, sub_B0494, sub_DD6C4, sub_E04E0, sub_E0520
@@ -61,14 +61,14 @@ DrawGameStats:
         add esp, byte 0Ch
         mov edx, 0FEh
         mov eax, 0FCh
-        call sub_63F79
+        call SetTextColors
         cmp word [word_114DE6], byte 0
         jne short .1
         mov eax, 20Ch
         mov ebx, 1
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656E8]
         push eax
         push str_D20
@@ -79,7 +79,7 @@ DrawGameStats:
         lea eax, [byte ebp-020h]
         add esp, byte 0Ch
         movsx edx, word [word_114DD4]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_16581E]
         push eax
         push str_D20
@@ -90,7 +90,7 @@ DrawGameStats:
         lea eax, [byte ebp-020h]
         add esp, byte 0Ch
         movsx edx, word [word_114DD6]
-        call sub_640D3
+        call DrawColorTextCentred
 .1:
         movsx eax, word [word_114DE6]
         cmp eax, byte 2
@@ -104,7 +104,7 @@ DrawGameStats:
         mov eax, 20Dh
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [hmtmstruct]
         push eax
         push str_D20
@@ -121,7 +121,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [awtmstruct]
         push eax
         push str_D20
@@ -138,7 +138,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD6]
-        call sub_640D3
+        call DrawColorTextCentred
 .2:
         movsx eax, word [word_114DE6]
         cmp eax, byte 3
@@ -152,7 +152,7 @@ DrawGameStats:
         mov eax, 20Eh
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx esi, word [hmtmstruct]
         movsx ebx, word [word_1656E8]
         test esi, esi
@@ -187,7 +187,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx esi, word [awtmstruct]
         movsx ebx, word [word_16581E]
         test esi, esi
@@ -222,7 +222,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD6]
-        call sub_640D3
+        call DrawColorTextCentred
 .7:
         movsx eax, word [word_114DE6]
         cmp eax, byte 4
@@ -236,7 +236,7 @@ DrawGameStats:
         mov eax, 20Fh
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656F2]
         push eax
         movsx eax, word [word_1656F4]
@@ -255,7 +255,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_165828]
         push eax
         movsx eax, word [word_16582A]
@@ -274,7 +274,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD6]
         lea eax, [byte ebp-020h]
-        call sub_640D3
+        call DrawColorTextCentred
 .8:
         movsx eax, word [word_114DE6]
         cmp eax, byte 5
@@ -288,7 +288,7 @@ DrawGameStats:
         mov eax, 210h
         inc ebx
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656F6]
         push eax
         movsx eax, word [word_1656F8]
@@ -307,7 +307,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_16582C]
         push eax
         movsx eax, word [word_16582E]
@@ -326,7 +326,7 @@ DrawGameStats:
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
-        call sub_640D3
+        call DrawColorTextCentred
 .9:
         cmp word [word_114DE6], byte 0
         jle near .10
@@ -342,7 +342,7 @@ DrawGameStats:
         mov eax, 211h
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656DC]
         push eax
         movsx eax, word [word_1656DA]
@@ -361,7 +361,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_165812]
         push eax
         movsx eax, word [word_165810]
@@ -380,7 +380,7 @@ DrawGameStats:
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
-        call sub_640D3
+        call DrawColorTextCentred
 .10:
         movsx eax, word [word_114DE6]
         cmp eax, byte 1
@@ -396,7 +396,7 @@ DrawGameStats:
         mov eax, 212h
         inc ebx
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx esi, word [word_1656E0]
         mov eax, esi
         mov ebx, 3Ch
@@ -421,7 +421,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx esi, word [word_165816]
         mov eax, esi
         mov ebx, 3Ch
@@ -446,7 +446,7 @@ DrawGameStats:
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
-        call sub_640D3
+        call DrawColorTextCentred
 .11:
         movsx eax, word [word_114DE6]
         cmp eax, byte 2
@@ -462,7 +462,7 @@ DrawGameStats:
         mov eax, 213h
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656DE]
         push eax
         push str_D20
@@ -479,7 +479,7 @@ DrawGameStats:
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_165814]
         push eax
         push str_D20
@@ -496,7 +496,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD6]
-        call sub_640D3
+        call DrawColorTextCentred
 .12:
         movsx eax, word [word_114DE6]
         cmp eax, byte 3
@@ -512,7 +512,7 @@ DrawGameStats:
         mov eax, 214h
         inc ebx
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656E4]
         push eax
         movsx eax, word [word_1656E2]
@@ -531,7 +531,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_16581A]
         push eax
         movsx eax, word [word_165818]
@@ -550,7 +550,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD6]
         lea eax, [byte ebp-020h]
-        call sub_640D3
+        call DrawColorTextCentred
 .13:
         movsx eax, word [word_114DE6]
         cmp eax, byte 4
@@ -566,7 +566,7 @@ DrawGameStats:
         mov eax, 215h
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656EA]
         push eax
         push str_D20
@@ -583,7 +583,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_165820]
         push eax
         push str_D20
@@ -600,7 +600,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD6]
-        call sub_640D3
+        call DrawColorTextCentred
 .14:
         movsx eax, word [word_114DE6]
         cmp eax, byte 5
@@ -614,7 +614,7 @@ DrawGameStats:
         mov eax, 216h
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656FA]
         push eax
         movsx eax, word [word_1656FC]
@@ -633,7 +633,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_165830]
         push eax
         movsx eax, word [word_165832]
@@ -652,7 +652,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD6]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_114DE6]
         cmp eax, byte 6
         jle near .19
@@ -665,7 +665,7 @@ DrawGameStats:
         mov eax, 217h
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656EC]
         movsx esi, word [word_165822]
         add esi, eax
@@ -685,7 +685,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
-        call sub_640D3
+        call DrawColorTextCentred
         push esi
         movsx eax, word [word_165822]
         push eax
@@ -703,7 +703,7 @@ DrawGameStats:
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_114DE6]
         cmp eax, byte 7
         jle near .19
@@ -716,7 +716,7 @@ DrawGameStats:
         mov eax, 218h
         inc ebx
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_1656FE]
         push eax
         push str_D20
@@ -733,7 +733,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_165834]
         push eax
         push str_D20
@@ -750,7 +750,7 @@ DrawGameStats:
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_114DE6]
         cmp eax, byte 8
         jle near .19
@@ -763,7 +763,7 @@ DrawGameStats:
         mov eax, 219h
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx esi, word [word_1656E6]
         mov eax, esi
         mov ebx, 3Ch
@@ -788,7 +788,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx esi, word [word_16581C]
         mov eax, esi
         mov ebx, 3Ch
@@ -813,7 +813,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD6]
         lea eax, [byte ebp-020h]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_114DE6]
         cmp eax, byte 0Ah
         jne near .19
@@ -826,7 +826,7 @@ DrawGameStats:
         mov eax, 21Ah
         movsx edx, word [word_114DD2]
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx esi, word [word_165700]
         movsx ebx, word [word_165702]
         test esi, esi
@@ -855,7 +855,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx esi, word [word_165836]
         movsx ebx, word [word_165838]
         test esi, esi
@@ -884,7 +884,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD6]
         lea eax, [byte ebp-020h]
-        call sub_640D3
+        call DrawColorTextCentred
 .19:
         call sub_DD6C4
         movsx eax, word [word_114DDC]
@@ -1057,7 +1057,7 @@ GameStatsScreen:
         push dword [byte ebp+07Eh]
         call sub_ABF4C
         add esp, byte 4
-        call sub_63968
+        call BlackPalette
         mov eax, 2
         mov edx, 20h
         call SoundSecondsToBytes
@@ -1070,7 +1070,7 @@ GameStatsScreen:
         add esp, byte 4
         mov edx, 0FEh
         mov eax, 0FCh
-        call sub_63F79
+        call SetTextColors
         mov eax, 0FFh
         xor edx, edx
         call LoadPackedFile
@@ -1082,7 +1082,7 @@ GameStatsScreen:
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+062h], eax
-        call sub_62F90
+        call SetScreenColors
         movsx eax, word [word_114DE4]
         movzx edx, byte [byte_11FA2F]
         add eax, edx
@@ -1132,7 +1132,7 @@ GameStatsScreen:
         lea edx, [dword ebp-01C2h]
         call DrawGameStats
         mov eax, 3
-        call sub_64721
+        call InitMenuItems
         push str_AR005
         push dword [byte ebp+066h]
         call sub_E04E0
@@ -1271,7 +1271,7 @@ GameStatsScreen:
         and al, 1
         or al, 2
         cwde
-        call sub_62AF7
+        call OpenScreen
         mov edx, dword [dword ebp-0B8h]
         mov eax, dword [dword ebp-0BCh]
         call sub_66373
@@ -1284,7 +1284,7 @@ GameStatsScreen:
         mov ebx, 3
         mov edx, dword [byte ebp+062h]
         xor eax, eax
-        call sub_63998
+        call FadePalette
         mov eax, 1
         call LinkSync
         push dword 0A0h
@@ -1370,11 +1370,11 @@ GameStatsScreen:
         add esp, byte 0Ch
         jmp short .11
 .9:
-        call sub_62D9B
+        call SlideInTitleBar
         mov dword [byte ebp+06Eh], 1
         jmp short .11
 .10:
-        call sub_62E72
+        call SlideInBottomBar
         push dword [dword_17BC78]
         call TextSetFont
         add esp, byte 4
@@ -1400,7 +1400,7 @@ GameStatsScreen:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
 GameStatsScreen_722:
         lea esp, [dword ebp+082h]
         pop ebp
@@ -1483,7 +1483,7 @@ AnimateStarsScreen_D3:
 .3:
         xor ecx, ecx
         xor ebx, ebx
-        call sub_64296
+        call DrawFrameAt
 AnimateStarsScreen_E7:
         call sub_DD6C4
         push dword [dword_151AE8]
@@ -1552,7 +1552,7 @@ AnimateStarsScreen_121:
         add esp, byte 4
         mov edx, 20h
         mov eax, dword [byte eax+02Ch]
-        call sub_63B0C
+        call CopyBitmap
         mov word [word_114EF8], 6
         mov dword [dword_151B64], eax
         call GetTicks
@@ -1586,7 +1586,7 @@ AnimateStarsScreen_121:
         je short .7
         mov edx, 20h
         mov eax, dword [nosplit esi*4+dword_151B50]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_151B68], eax
         call sub_DD6C4
         push dword [dword_151B68]
@@ -1816,7 +1816,7 @@ ThreeStarsScreen:
         call sub_E04E0
         add esp, byte 8
         xor edx, edx
-        call sub_63B0C
+        call CopyBitmap
         mov edx, dword [byte ebp+07Ah]
         mov dword [byte edx+ebp-022h], eax
         push dword [byte ebp+052h]
@@ -1840,14 +1840,14 @@ ThreeStarsScreen:
         mov dword [byte ebp+07Eh], eax
         call sub_ADA50
         add esp, byte 4
-        call sub_63968
+        call BlackPalette
         push str_Pal25
         push esi
         call sub_E04E0
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+062h], eax
-        call sub_62F90
+        call SetScreenColors
         mov eax, 4
         call SoundSecondsToBytes
         call FillMusicStream
@@ -1862,13 +1862,13 @@ ThreeStarsScreen:
         push dword 0E5h
         push byte 7Eh
         push dword [byte ebp+062h]
-        call sub_6448D
+        call RemapScreenColors
         add esp, byte 2Ch
         push dword [byte ebp-01Eh]
         call sub_ABF4C
         add esp, byte 4
         mov eax, dword [byte ebp+062h]
-        call sub_6423E
+        call SetScreenPalette
         call sub_DD6C4
         push str_BKGD28
         push esi
@@ -1881,7 +1881,7 @@ ThreeStarsScreen:
         add esp, byte 4
         mov eax, 0FCh
         xor edi, edi
-        call sub_63F79
+        call SetTextColors
         push dword [dword_17BC74]
         xor esi, esi
         call TextSetFont
@@ -1906,7 +1906,7 @@ ThreeStarsScreen:
         xor ecx, ecx
         xor ebx, ebx
         mov eax, dword [byte eax+ebp+01Ah]
-        call sub_64296
+        call DrawFrameAt
         push dword [byte esi+ebp-022h]
         call sub_ABF4C
         add esp, byte 4
@@ -1938,7 +1938,7 @@ ThreeStarsScreen:
         mov ebx, dword [dword esi+dword_114EB4]
         mov edx, dword [dword esi+dword_114EB0]
         add dword [byte ebp+066h], byte 4
-        call sub_64054
+        call DrawColorTextRight
         cmp edi, byte 6
         jne near .5
         push str_ST10
@@ -1990,7 +1990,7 @@ ThreeStarsScreen:
         add esp, byte 4
         mov edx, 20h
         mov eax, dword [byte eax+02Ch]
-        call sub_63B0C
+        call CopyBitmap
         push dword [byte ebp+042h]
         mov dword [byte ebp+072h], eax
         call SetDrawBitmap
@@ -2033,7 +2033,7 @@ ThreeStarsScreen:
         xor ebx, ebx
         mov edx, dword [dword edx+dword_151AEC]
         mov esi, dword [byte ebp+042h]
-        call sub_64296
+        call DrawFrameAt
         mov esi, dword [byte esi+02Ch]
         movsx edx, word [byte esi+04h]
         movsx eax, word [byte esi+06h]
@@ -2096,7 +2096,7 @@ ThreeStarsScreen:
         add esp, byte 0Ch
         mov eax, dword [byte eax+02Ch]
         xor esi, esi
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_151B64], eax
 .9:
         push edi
@@ -2122,7 +2122,7 @@ ThreeStarsScreen:
         add esp, byte 8
         mov edx, 20h
         mov dword [dword_151B6C], eax
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_151B70], eax
         call GetTicks
         mov dword [dword_114EF4], eax
@@ -2142,7 +2142,7 @@ ThreeStarsScreen:
         add esi, edx
         lea edx, [dword ebp-0262h]
         mov dword [dword_114EF0], esi
-        call sub_64721
+        call InitMenuItems
         push str_BT006
         push dword [byte ebp+07Eh]
         call sub_E04E0
@@ -2207,7 +2207,7 @@ ThreeStarsScreen:
         mov byte [dword ebp-01BAh], 0
         cwde
         mov byte [dword ebp-01B7h], 2
-        call sub_62AF7
+        call OpenScreen
         rep movsb
         mov ax, word [word_114CE0]
         mov byte [dword ebp-0154h], 2
@@ -2236,7 +2236,7 @@ ThreeStarsScreen:
         mov edx, dword [byte ebp+062h]
         xor eax, eax
         mov dword [byte ebp+046h], 2
-        call sub_63998
+        call FadePalette
         mov eax, 1
         call LinkSync
         cmp dword [dword ebp-0266h], byte 0
@@ -2314,11 +2314,11 @@ ThreeStarsScreen_91F:
         mov dword [byte ebp+076h], 1
         jmp short ThreeStarsScreen_936.15
 ThreeStarsScreen_928:
-        call sub_62D9B
+        call SlideInTitleBar
         mov dword [byte ebp+076h], 0
         jmp short ThreeStarsScreen_936.15
 ThreeStarsScreen_936:
-        call sub_62E72
+        call SlideInBottomBar
         push dword [dword_17BC78]
         call TextSetFont
         add esp, byte 4
@@ -2350,7 +2350,7 @@ ThreeStarsScreen_936:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         call StopSpeech
         push dword [dword_17BC78]
         call TextSetFont

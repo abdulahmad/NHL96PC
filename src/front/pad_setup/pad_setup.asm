@@ -9,8 +9,8 @@ extern dword_158D64, dword_158D68, dword_158D6C, dword_158D70, dword_17BC78, dwo
 extern fputchar, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
 extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_BKGD, str_BT00
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
-extern strcpy_, strlen_, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968, sub_63998
-extern sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_64721, sub_64F59
+extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette
+extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, sub_64F59
 extern sub_66373, FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_77355, sub_AA988, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_ADA50, sub_ADA80, sub_DD6C4, sub_DD724, sub_DFF28, sub_E04E0, TextSetFont
 extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
@@ -405,7 +405,7 @@ DrawGripPads:
         add eax, edx
         lea edx, [byte eax+01h]
         mov eax, str_A
-        call sub_640D3
+        call DrawColorTextCentred
         test byte [byte ebp-04h], 10h
         setne al
         mov byte [dword esi+byte_158D2C], al
@@ -514,7 +514,7 @@ DrawGripPads:
         add edx, eax
         mov eax, str_feB
         inc edx
-        call sub_640D3
+        call DrawColorTextCentred
         test byte [byte ebp-04h], 20h
         setne al
         mov byte [dword esi+byte_158D2D], al
@@ -726,8 +726,8 @@ GripSetupScreen:
         mov dword [dword_158D6C], eax
         rep movsb
         lea eax, [dword ebp-0360h]
-        call sub_62F90
-        call sub_63968
+        call SetScreenColors
+        call BlackPalette
         push byte 1
         call sub_ADA50
         add esp, byte 4
@@ -747,17 +747,17 @@ GripSetupScreen:
         mov ebx, 1
         mov edx, 4
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         mov eax, 1B1h
         mov ebx, 1
         mov edx, 27Dh
         call sub_77355
-        call sub_64054
+        call DrawColorTextRight
         mov eax, 2
-        call sub_62AF7
+        call OpenScreen
         mov eax, 29h
         mov edx, dword [dword_158D70]
-        call sub_64721
+        call InitMenuItems
         call sub_DD6C4
         movzx ax, byte [byte_11FA2F]
         mov word [word_158D74], ax
@@ -806,7 +806,7 @@ GripSetupScreen:
         xor edx, edx
         add esi, eax
         mov eax, 0Fh
-        call sub_63F79
+        call SetTextColors
         mov eax, dword [byte ebp-014h]
         inc eax
         push eax
@@ -821,10 +821,10 @@ GripSetupScreen:
         add esp, byte 0Ch
         lea eax, [byte ebp-060h]
         add edx, edx
-        call sub_63FEF
+        call DrawColorText
         mov eax, 0Eh
         xor edx, edx
-        call sub_63F79
+        call SetTextColors
         imul eax, dword [byte ebp-014h], byte 0Ah
         mov dword [byte ebp-038h], eax
         mov eax, dword [byte ebp-014h]
@@ -838,11 +838,11 @@ GripSetupScreen:
         imul edx, byte 6
         mov eax, dword [byte ebp-01Ch]
         mov ebx, esi
-        call sub_63FEF
+        call DrawColorText
 .4:
         mov eax, 0Fh
         xor edx, edx
-        call sub_63F79
+        call SetTextColors
         mov eax, dword [byte ebp-020h]
         call strlen_
         test eax, eax
@@ -886,7 +886,7 @@ GripSetupScreen:
         mov ebx, dword [byte ebp-02Ch]
         add edx, eax
         lea eax, [byte ebp-060h]
-        call sub_63FEF
+        call DrawColorText
         movzx eax, byte [byte_11FA2F]
         add eax, byte 5
         mov edx, dword [byte ebp-010h]
@@ -1010,7 +1010,7 @@ GripSetupScreen:
         add edx, eax
         mov eax, str_A
         inc edx
-        call sub_640D3
+        call DrawColorTextCentred
         movzx edx, byte [byte_11FA2F]
         movsx eax, word [word_158D76]
         sar edx, 1
@@ -1020,7 +1020,7 @@ GripSetupScreen:
         mov eax, 1B5h
         sub ebx, byte 3
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         movsx eax, word [word_158D76]
         lea edx, [byte eax+09h]
         imul ebx, eax, byte 6
@@ -1108,7 +1108,7 @@ GripSetupScreen:
         add edx, eax
         mov eax, str_feB
         inc edx
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [word_158D76]
         imul eax, byte 0Ah
         mov dword [byte ebp-0Ch], eax
@@ -1255,7 +1255,7 @@ GripSetupScreen:
         sub ebx, byte 3
         lea eax, [byte ebp-060h]
         add dword [byte ebp-08h], byte 40h
-        call sub_640D3
+        call DrawColorTextCentred
         mov eax, dword [byte ebp-038h]
         inc dword [byte ebp-038h]
         mov dword [byte ebp-024h], eax
@@ -1279,11 +1279,11 @@ GripSetupScreen:
         mov eax, 1B6h
         mov ebx, esi
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         mov eax, 0Fh
         xor edx, edx
         mov dword [byte ebp-04h], 0
-        call sub_63F79
+        call SetTextColors
         imul eax, dword [byte ebp-038h], byte 66h
 .18:
         inc dword [byte ebp-038h]
@@ -1358,7 +1358,7 @@ GripSetupScreen:
         lea edx, [dword ebp-0360h]
         xor eax, eax
         mov dword [byte ebp-040h], 28h
-        call sub_63998
+        call FadePalette
 .22:
         cmp dword [byte ebp-040h], byte 0
         jl short .24
@@ -1420,12 +1420,12 @@ GripSetupScreen:
         mov dword [dword esi+dword_151698], edx
         jmp short .28
 .27:
-        call sub_62D9B
+        call SlideInTitleBar
 .28:
         cmp dword [byte ebp-040h], byte 28h
         jne near .22
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         push dword [dword_158D70]
         call sub_ABF4C
         add esp, byte 4
@@ -1459,16 +1459,16 @@ GripSetupScreen:
         mov eax, 0Fh
         xor edx, edx
         mov ebx, 0DCh
-        call sub_63F79
+        call SetTextColors
         mov eax, 1B7h
         mov edx, 140h
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         mov eax, 1B8h
         mov ebx, 0F2h
         mov edx, 140h
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
 .32:
         call sub_DFF28
         cmp eax, byte 1Bh
@@ -1611,14 +1611,14 @@ JoystickTestScreen:
         mov dword [byte ebp+06Ah], eax
         call sub_ADA50
         add esp, byte 4
-        call sub_63968
+        call BlackPalette
         push str_Pal4
         push esi
         call sub_E04E0
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+06Eh], eax
-        call sub_62F90
+        call SetScreenColors
         call sub_DD6C4
         push str_BKGD
         push esi
@@ -1656,7 +1656,7 @@ JoystickTestScreen:
         xor edx, edx
         mov eax, dword [dword esi+dword_158CD0]
         add esi, byte 0Ch
-        call sub_63B0C
+        call CopyBitmap
         push eax
         inc dword [byte ebp+066h]
         mov dword [dword esi+dword_158CC0], eax
@@ -1670,7 +1670,7 @@ JoystickTestScreen:
         mov dword [dword_158D68], eax
         mov eax, 3
         mov dword [dword_158D64], 0
-        call sub_64721
+        call InitMenuItems
         push str_BT00
         push dword [byte ebp+06Ah]
         call sub_E04E0
@@ -1703,7 +1703,7 @@ JoystickTestScreen:
         mov dword [dword ebp-0120h], eax
         mov eax, 6
         mov byte [dword ebp-0105h], 2
-        call sub_62AF7
+        call OpenScreen
         rep movsb
         mov byte [dword ebp-0A2h], 1
         mov byte [dword ebp-0A0h], 1
@@ -1726,7 +1726,7 @@ JoystickTestScreen:
         add esp, byte 8
         xor eax, eax
         mov dword [byte ebp+062h], 2
-        call sub_63998
+        call FadePalette
         mov eax, dword [dword ebp-014Eh]
         shl eax, 2
         mov dword [byte ebp+072h], eax
@@ -1805,11 +1805,11 @@ JoystickTestScreen:
         call ReadJoystickBits
         jmp short .12
 .8:
-        call sub_62E0E
+        call SlideInSideBar
         mov dword [byte ebp+07Ah], 1
         jmp short .12
 .9:
-        call sub_62D9B
+        call SlideInTitleBar
         cmp dword [dword ebp-014Eh], byte 0
         je short .10
         mov edi, byte_17CA3C
@@ -1838,7 +1838,7 @@ JoystickTestScreen:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 2
-        call sub_63A5B
+        call FadeOut
         lea esp, [dword ebp+082h]
         pop ebp
         jmp near DrawGripPads_73C

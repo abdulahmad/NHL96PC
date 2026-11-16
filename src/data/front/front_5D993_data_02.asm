@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_11B338 progbits alloc noexec write align=1
-extern sub_5E23E_AB, sub_5E23E_229, sub_5EFC8_20D, sub_5FC3D_56, sub_5FD46_126, sub_5E78F, sub_5E8D2, sub_5EA75
-extern sub_5ED4B, sub_5EFC8, sub_5F40A, sub_5F5D3, sub_5F7AB, sub_5FB02, sub_5FB98, sub_5FC3D
-extern sub_5FD46, sub_5FFC5, sub_60096, sub_60159, sub_602B9, sub_603FF, sub_6042C, sub_60543
+extern CameraAim_AB, CameraAim_229, CamView236_20D, CamShot240_56, CamShot242_126, CamView232, CamView233, CamView234
+extern CamView235, CamView236, CamView238, CamView239, CamView23A, CamShot23E, CamShot23F, CamShot240
+extern CamShot242, CamShot245, CamShot246, CamShot247, CamShot244, CamShot23D, CamShot23B, CamShot23C
 extern sub_AAA40, sub_AAA8C, str_Anh, str_Ana, str_Bsh, str_Bsa, str_Bfh, str_Bfa
 extern str_Cgh, str_Cga, str_Chh, str_Cha, str_Dlh, str_Dla, str_Dth, str_Dta
 extern str_Edh, str_Eda, str_Flh, str_Fla, str_Hrh, str_Hra, str_Lah, str_Laa
@@ -63,7 +63,7 @@ dword_11B37C:
 byte_11B380:
         db 01h
 dword_11B381:
-        dd sub_5E23E_AB
+        dd CameraAim_AB
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -73,7 +73,7 @@ dword_11B3C1:
 byte_11B3C5:
         db 01h
 dword_11B3C6:
-        dd sub_5E23E_229
+        dd CameraAim_229
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -83,7 +83,7 @@ dword_11B406:
 byte_11B40A:
         db 02h
 dword_11B40B:
-        dd sub_5E78F
+        dd CamView232
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0D0h,02h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -93,7 +93,7 @@ dword_11B44B:
 byte_11B44F:
         db 02h
 dword_11B450:
-        dd sub_5E8D2
+        dd CamView233
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0D0h,02h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -103,7 +103,7 @@ dword_11B490:
 byte_11B494:
         db 03h
 dword_11B495:
-        dd sub_5EA75
+        dd CamView234
         db 00h,00h,00h,00h,0C8h,0F1h,0FFh,0FFh,00h,00h,00h,00h,0CCh,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -113,7 +113,7 @@ dword_11B4D5:
 byte_11B4D9:
         db 04h
 dword_11B4DA:
-        dd sub_5ED4B
+        dd CamView235
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,08Ch,00h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -123,7 +123,7 @@ dword_11B51A:
 byte_11B51E:
         db 05h
 dword_11B51F:
-        dd sub_5EFC8
+        dd CamView236
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -133,7 +133,7 @@ dword_11B55F:
 byte_11B563:
         db 05h
 dword_11B564:
-        dd sub_5EFC8_20D
+        dd CamView236_20D
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -143,7 +143,7 @@ dword_11B5A4:
 byte_11B5A8:
         db 05h
 dword_11B5A9:
-        dd sub_5F40A
+        dd CamView238
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -153,7 +153,7 @@ dword_11B5E9:
 byte_11B5ED:
         db 05h
 dword_11B5EE:
-        dd sub_5F5D3
+        dd CamView239
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -163,7 +163,7 @@ dword_11B62E:
 byte_11B632:
         db 06h
 dword_11B633:
-        dd sub_5F7AB
+        dd CamView23A
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -171,7 +171,7 @@ dword_11B633:
 unk_11B673:
         db 03Bh,02h,00h,00h,0Bh
 dword_11B678:
-        dd sub_6042C
+        dd CamShot23B
         db 00h,0C0h,0FFh,0FFh,08Fh,0E3h,0FFh,0FFh,0C0h,0F9h,0FFh,0FFh,028h,0Ah,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -179,7 +179,7 @@ dword_11B678:
 unk_11B6B8:
         db 03Ch,02h,00h,00h,013h
 dword_11B6BD:
-        dd sub_60543
+        dd CamShot23C
         db 00h,0C0h,0FFh,0FFh,08Fh,0E3h,0FFh,0FFh,0A8h,02h,00h,00h,0DCh,00h,00h,00h
         db 0F8h,0F8h,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -187,7 +187,7 @@ dword_11B6BD:
 unk_11B6FD:
         db 03Dh,02h,00h,00h,09h
 dword_11B702:
-        dd sub_603FF
+        dd CamShot23D
         db 00h,0C0h,0FFh,0FFh,0C8h,0F1h,0FFh,0FFh,0C0h,0FEh,0FFh,0FFh,090h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -195,21 +195,21 @@ dword_11B702:
 unk_11B742:
         db 03Eh,02h,00h,00h,0Ah
 dword_11B747:
-        dd sub_5FB02
+        dd CamShot23E
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 unk_11B787:
         db 03Fh,02h,00h,00h,07h
-        dd sub_5FB98
+        dd CamShot23F
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,08Ch,00h,00h,00h
         db 0F8h,0F8h,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 unk_11B7CC:
         db 040h,02h,00h,00h,08h
-        dd sub_5FC3D
+        dd CamShot240
         db 00h,00h,00h,00h,00h,00h,00h,00h,01Ch,00h,00h,00h,050h,00h,00h,00h
         db 070h,0FAh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -217,7 +217,7 @@ unk_11B7CC:
 unk_11B811:
         db 041h,02h,00h,00h,0Ch
 dword_11B816:
-        dd sub_5FC3D_56
+        dd CamShot240_56
         db 00h,00h,00h,00h,0C8h,00h,00h,00h,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0FCh,0FEh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -225,7 +225,7 @@ dword_11B816:
 unk_11B856:
         db 042h,02h,00h,00h,0Dh
 dword_11B85B:
-        dd sub_5FD46
+        dd CamShot242
         db 00h,00h,00h,00h,00h,00h,00h,00h,0C0h,0FDh,0FFh,0FFh,0D8h,02h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -233,7 +233,7 @@ dword_11B85B:
 unk_11B89B:
         db 043h,02h,00h,00h,0Eh
 dword_11B8A0:
-        dd sub_5FD46_126
+        dd CamShot242_126
         db 00h,0C0h,0FFh,0FFh,0EFh,0EEh,0FFh,0FFh,0C0h,0FDh,0FFh,0FFh,0D8h,02h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -241,7 +241,7 @@ dword_11B8A0:
 unk_11B8E0:
         db 044h,02h,00h,00h,0Fh
 dword_11B8E5:
-        dd sub_602B9
+        dd CamShot244
 dword_11B8E9:
         db 00h,00h,00h,00h
 dword_11B8ED:
@@ -257,7 +257,7 @@ dword_11B8F9:
 unk_11B925:
         db 045h,02h,00h,00h,010h
 dword_11B92A:
-        dd sub_5FFC5
+        dd CamShot245
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -265,7 +265,7 @@ dword_11B92A:
 unk_11B96A:
         db 046h,02h,00h,00h,011h
 dword_11B96F:
-        dd sub_60096
+        dd CamShot246
         db 00h,00h,00h,00h,00h,00h,00h,00h,0C0h,0FDh,0FFh,0FFh,0D8h,02h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -273,7 +273,7 @@ dword_11B96F:
 unk_11B9AF:
         db 047h,02h,00h,00h,012h
 dword_11B9B4:
-        dd sub_60159
+        dd CamShot247
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,090h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

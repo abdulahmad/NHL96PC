@@ -14,8 +14,8 @@ extern off_11788C, off_117894, off_11D44C, off_11D4BC, off_11D52C, optblock, puc
 extern randomd0, reenergizeteam, regd0, regd1, regd2, resetplstuff, RunSimFrames, SetClipWindow
 extern setpersonel, SetSPA, sflags, sfx, skateto, SkateToSpot, SlotButtons, SortCords
 extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncInput, LoadTeamLogo, EndGameCleanup
-extern sub_493D4, sub_4B59F, sub_5439F, DrawGameFrame, GetPeriodText, sub_5DBC0, sub_60777, sub_612BC
-extern sub_62311, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_641D4
+extern sub_493D4, sub_4B59F, sub_5439F, DrawGameFrame, GetPeriodText, SetCameraShot, EndCameraShot, UpdateCamera
+extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern sub_77355, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, sub_DD724, sub_DD7B8, sub_DD8B0
 extern sub_DFEC6, sub_E0520, sub_E0992, sub_E15AC, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
@@ -408,7 +408,7 @@ sub_2DE30_69:
         jge short .6
 .5:
         mov eax, ebx
-        call sub_612BC
+        call UpdateCamera
 .6:
         mov eax, ebx
         call DrawGameFrame
@@ -419,7 +419,7 @@ sub_2DE30_69:
         mov ecx, dword [GameLoopActive]
         xor eax, eax
         mov dword [GameLoopActive], 0
-        call sub_63998
+        call FadePalette
         call LinkResyncInput
         mov dword [fadeinpending], 0
         mov dword [GameLoopActive], ecx
@@ -432,12 +432,12 @@ sub_2DE30_69:
         mov dword [GameLoopActive], 0
         cmp dword [InGameMenuRequest], byte 0
         je short .11
-        call sub_62311
+        call FreeSpriteCache
         mov eax, 50h
         mov dword [GameLoopActive], 0
         call StopArenaClip
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         mov eax, 50h
         mov dword [InGameMenuRequest], 0
         call CrowdFadeOut
@@ -782,7 +782,7 @@ sub_2E1BE:
         push eax
         movsx edx, word [byte esi+0Ah]
         mov eax, unk_17D3E8
-        call sub_641D4
+        call DrawBox
         push byte 5
         movsx eax, word [byte ebp-06h]
         push eax
@@ -841,7 +841,7 @@ sub_2E1BE:
         call sub_B58D8
         xor edx, edx
         mov eax, 30h
-        call sub_63F79
+        call SetTextColors
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
@@ -927,7 +927,7 @@ sub_2E1BE:
         movsx edx, word [byte ebp-01Ch]
         mov eax, dword [nosplit eax*4+off_11D44C]
 .29:
-        call sub_63FEF
+        call DrawColorText
         cmp dword [byte ebp-05Ch], byte 0
         je near .40
         mov eax, dword [gameopts]
@@ -962,7 +962,7 @@ sub_2E1BE:
         movsx edx, word [byte ebp-01Ch]
         mov eax, dword [nosplit eax*4+off_11D44C]
 .35:
-        call sub_63FEF
+        call DrawColorText
         movsx eax, word [word_1656E8]
         push eax
         push str_fmt2d
@@ -981,7 +981,7 @@ sub_2E1BE:
         movsx edx, word [byte ebp-02Ch]
         add ebx, eax
         lea eax, [byte ebp-058h]
-        call sub_64054
+        call DrawColorTextRight
         movsx eax, word [word_16581E]
         push eax
         push str_fmt2d
@@ -1034,7 +1034,7 @@ sub_2E1BE:
         movsx edx, word [byte ebp-01Ah]
         mov eax, dword [nosplit eax*4+off_11D44C]
 .46:
-        call sub_64054
+        call DrawColorTextRight
         push dword [dword_179920]
         call TextSetFont
         mov eax, dword [gameopts]
@@ -1070,7 +1070,7 @@ sub_2E1BE:
         movsx edx, word [byte ebp-01Ch]
         mov eax, dword [nosplit eax*4+off_11D52C]
 .52:
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [gameopts]
         test dword [byte eax+01h], 1F000h
         jne short .59
@@ -1088,7 +1088,7 @@ sub_2E1BE:
         add ebx, eax
         mov eax, str_OfAnaheim
 .55:
-        call sub_63FEF
+        call DrawColorText
         jmp near .66
 .56:
         test byte [byte_17CA5D], 20h
@@ -1139,7 +1139,7 @@ sub_2E1BE:
         movsx edx, word [byte ebp-01Ah]
         mov eax, dword [nosplit eax*4+off_11D52C]
 .65:
-        call sub_64054
+        call DrawColorTextRight
 .66:
         push dword [dword_179918]
         call TextSetFont
@@ -1177,7 +1177,7 @@ sub_2E1BE:
         add edx, eax
         lea eax, [byte ebp-058h]
         sar edx, 1
-        call sub_640D3
+        call DrawColorTextCentred
         jmp near sub_2D9D9_450
 .71:
         cmp dword [dword_119D04], byte 0
@@ -1208,7 +1208,7 @@ StartPreGame:
         call sub_DD7B8
         add esp, byte 0Ch
         mov eax, dword_179DBD
-        call sub_5DBC0
+        call SetCameraShot
         xor eax, eax
         pop ecx
         pop ebx
@@ -1224,11 +1224,11 @@ StartPreGame:
         mov word [word_119D08], 0
         call CloseTextOverlay
         mov eax, 4
-        call sub_612BC
+        call UpdateCamera
         call sub_2DE30
         mov edx, eax
         mov eax, 8
-        call sub_60777
+        call EndCameraShot
         cmp dword [hmslotcount], byte 0
         je short .3
         mov eax, dword [hmfirstslot]

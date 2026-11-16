@@ -19,8 +19,8 @@ extern dword_17D6C4, fclose_, fopen_, fputchar, fread_, fseek_, gameopts, sub_77
 extern sub_77642_768, sub_77642_798, sub_77642_7C5, sub_77642_7F2, sub_77642_8AF, sub_77642_8BB, sub_77642_8CB, sub_77642_8E0
 extern qsort_, sprintf_, strcpy_, strlen_, ModemGameOpen, ModemGameConnect, ModemGameClose, ModemGameQuit
 extern ModemChat, EditText, MessageBox, LoadTeamLogo, MakeDataPath, LoadDataFile, LoadPackedFile, sub_29B9F
-extern sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998
-extern sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64296, sub_64721, sub_64F59, sub_66373
+extern GetTeamNameArt, OpenScreen, SlideInTitleBar, SlideInSideBar, SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette
+extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawFrameAt, InitMenuItems, sub_64F59, sub_66373
 extern FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont, sub_DD6C4, MouseRead
 extern sub_DFE9C, sub_DFF28, sub_E04E0, str_Rb, unk_152C44, unk_17C9B8, unk_17C9CC, optblock_end
@@ -69,14 +69,14 @@ sub_741BD:
         mov dword [byte ebp+05Ah], eax
         call sub_ADA50
         add esp, byte 4
-        call sub_63968
+        call BlackPalette
         push str_bangpal
         push edi
         call sub_E04E0
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+052h], eax
-        call sub_62F90
+        call SetScreenColors
         call sub_DD6C4
         push str_BKGD22
         push edi
@@ -87,7 +87,7 @@ sub_741BD:
         add esp, byte 4
         mov eax, 0Dh
         mov edx, esi
-        call sub_64721
+        call InitMenuItems
         movsx eax, word [word_17C9AC]
         mov dword [byte ebp+046h], eax
         movsx eax, word [word_17C9AE]
@@ -379,7 +379,7 @@ sub_741BD:
         add esp, byte 4
         mov edx, 0FEh
         mov eax, 0FCh
-        call sub_63F79
+        call SetTextColors
         movzx eax, byte [byte_11FA2F]
         push byte 20h
         inc eax
@@ -407,7 +407,7 @@ sub_741BD:
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
-        call sub_63B0C
+        call CopyBitmap
         push esi
         mov dword [byte ebp+022h], eax
         call SetDrawBitmap
@@ -417,7 +417,7 @@ sub_741BD:
         xor ebx, ebx
         xor edx, edx
         add eax, asc_11DFC8
-        call sub_63FEF
+        call DrawColorText
         call sub_DD6C4
         push dword [byte esi+02Ch]
         call sub_AADA4
@@ -449,7 +449,7 @@ sub_741BD:
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
-        call sub_63B0C
+        call CopyBitmap
         push esi
         mov dword [byte ebp+026h], eax
         call SetDrawBitmap
@@ -457,7 +457,7 @@ sub_741BD:
         add esp, byte 4
         xor ebx, ebx
         xor edx, edx
-        call sub_63FEF
+        call DrawColorText
         call sub_DD6C4
         push dword [byte esi+02Ch]
         call sub_AADA4
@@ -489,7 +489,7 @@ sub_741BD:
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
-        call sub_63B0C
+        call CopyBitmap
         push esi
         mov dword [byte ebp+02Ah], eax
         call SetDrawBitmap
@@ -497,7 +497,7 @@ sub_741BD:
         add esp, byte 4
         xor ebx, ebx
         xor edx, edx
-        call sub_63FEF
+        call DrawColorText
         call sub_DD6C4
         push dword [byte esi+02Ch]
         call sub_AADA4
@@ -522,7 +522,7 @@ sub_741BD:
         mov ecx, 66h
         mov edi, dword [byte ebp+062h]
         mov esi, dword_17BD48
-        call sub_62AF7
+        call OpenScreen
         lea edi, [dword edi+04C8h]
         mov eax, dword [byte ebp+062h]
         rep movsb
@@ -538,7 +538,7 @@ sub_741BD:
         add esp, byte 8
         xor eax, eax
         mov dword [byte ebp+03Ah], 0Ch
-        call sub_63998
+        call FadePalette
 .23:
         call SoundIdle
         cmp dword [byte ebp+03Ah], byte 0
@@ -794,7 +794,7 @@ sub_741BD:
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
-        call sub_63B0C
+        call CopyBitmap
         push esi
         mov dword [byte ebp+022h], eax
         call SetDrawBitmap
@@ -804,7 +804,7 @@ sub_741BD:
         xor ebx, ebx
         xor edx, edx
         add eax, asc_11DFC8
-        call sub_63FEF
+        call DrawColorText
         call sub_DD6C4
         push dword [byte esi+02Ch]
         call sub_AADA4
@@ -850,7 +850,7 @@ sub_741BD:
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
-        call sub_63B0C
+        call CopyBitmap
         push esi
         mov dword [byte ebp+02Ah], eax
         call SetDrawBitmap
@@ -859,7 +859,7 @@ sub_741BD:
         add esp, byte 4
         xor ebx, ebx
         xor edx, edx
-        call sub_63FEF
+        call DrawColorText
         call sub_DD6C4
         push dword [byte esi+02Ch]
         call sub_AADA4
@@ -921,7 +921,7 @@ sub_741BD:
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
-        call sub_63B0C
+        call CopyBitmap
         push esi
         mov dword [byte ebp+026h], eax
         call SetDrawBitmap
@@ -1006,7 +1006,7 @@ sub_741BD:
         push str_PULS
         jmp short .40
 .43:
-        call sub_62D9B
+        call SlideInTitleBar
         mov dword [byte ebp+04Eh], 1
 .44:
         cmp dword [byte ebp+04Eh], byte 0
@@ -1026,7 +1026,7 @@ sub_741BD:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
 sub_741BD_D42:
         lea esp, [dword ebp+082h]
         pop ebp
@@ -1142,7 +1142,7 @@ sub_74F22:
         mov ebx, dword [byte ebp-08h]
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
 .4:
         mov eax, dword [byte ebp-0Ch]
         movsx eax, word [byte eax+04h]
@@ -1153,7 +1153,7 @@ sub_74F22:
         mov eax, dword [byte ebp-04h]
         xor edx, edx
         mov eax, dword [byte eax+02Ch]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword esi+dword_17D678], eax
         cmp dword [dword esi+dword_17D680], byte 0
         je short .6
@@ -1193,7 +1193,7 @@ sub_74F22:
         mov ebx, dword [byte ebp-018h]
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
 .8:
         mov eax, dword [byte ebp-010h]
         movsx eax, word [byte eax+04h]
@@ -1206,7 +1206,7 @@ sub_74F22:
         xor edx, edx
         mov eax, dword [byte eax+02Ch]
         add esi, byte 4
-        call sub_63B0C
+        call CopyBitmap
         push dword [byte ebp-04h]
         mov dword [dword esi+dword_17D67C], eax
         call sub_ADBEC
@@ -1267,14 +1267,14 @@ sub_7513A:
         mov dword [byte ebp+072h], eax
         call sub_ADA50
         add esp, byte 4
-        call sub_63968
+        call BlackPalette
         push str_bangpal
         push esi
         call sub_E04E0
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+076h], eax
-        call sub_62F90
+        call SetScreenColors
         call sub_DD6C4
         push str_BKGD22
         push esi
@@ -1285,7 +1285,7 @@ sub_7513A:
         add esp, byte 4
         lea edx, [dword ebp-06B6h]
         mov eax, 0Bh
-        call sub_64721
+        call InitMenuItems
         cmp word [word_17C9B2], byte 0
         jne short .2
         push str_MAK2
@@ -1598,7 +1598,7 @@ sub_7513A:
         add esp, byte 0Ch
         mov eax, 6
         mov ecx, 66h
-        call sub_62AF7
+        call OpenScreen
         rep movsb
         mov byte [dword ebp-02DEh], 4
         mov byte [dword ebp-02DDh], 9
@@ -1620,7 +1620,7 @@ sub_7513A:
         add esp, byte 8
         xor eax, eax
         mov dword [byte ebp+066h], 0Ah
-        call sub_63998
+        call FadePalette
 .17:
         call SoundIdle
         cmp dword [byte ebp+066h], byte 0
@@ -1924,11 +1924,11 @@ sub_7513A_BB5:
         mov dword [byte ebp+06Ah], 3E9h
         jmp near sub_7513A_BD2.36
 sub_7513A_BC1:
-        call sub_62E0E
+        call SlideInSideBar
         mov dword [byte ebp+06Ah], 0
         jmp near sub_7513A_BD2.36
 sub_7513A_BD2:
-        call sub_62D9B
+        call SlideInTitleBar
         cmp word [word_17C9B2], byte 0
         setne al
         mov edx, sub_74F0C
@@ -1995,7 +1995,7 @@ sub_7513A_BD2:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         mov eax, dword [byte ebp+06Ah]
         jmp near sub_741BD_D42
 ;-----------------------------------------------------------------------------
@@ -2044,14 +2044,14 @@ sub_75E2C:
         mov dword [byte ebp+072h], eax
         call sub_ADA50
         add esp, byte 4
-        call sub_63968
+        call BlackPalette
         push str_bangpal
         push esi
         call sub_E04E0
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+07Ah], eax
-        call sub_62F90
+        call SetScreenColors
         call sub_DD6C4
         push str_Bkgd23
         push esi
@@ -2064,10 +2064,10 @@ sub_75E2C:
         add esp, byte 4
         mov eax, 3
         mov esi, dword_17BC7C
-        call sub_64721
+        call InitMenuItems
         mov eax, 7
         mov ecx, 66h
-        call sub_62AF7
+        call OpenScreen
         rep movsb
         mov byte [byte ebp-080h], 2
         mov byte [byte ebp-07Fh], 0
@@ -2097,7 +2097,7 @@ sub_75E2C:
         add esp, byte 8
         xor eax, eax
         mov dword [byte ebp+07Eh], 2
-        call sub_63998
+        call FadePalette
 .1:
         call SoundIdle
         cmp dword [byte ebp+07Eh], byte 0
@@ -2132,11 +2132,11 @@ sub_75E2C:
 .4:
         cmp dword [byte ebp+07Eh], byte 0
         jne near .8
-        call sub_62E0E
+        call SlideInSideBar
         mov dword [byte ebp+076h], 12h
         jmp short .8
 .5:
-        call sub_62D9B
+        call SlideInTitleBar
         call ModemGameQuit
         cmp dword [dword_11E278], byte 0
         je short .6
@@ -2150,7 +2150,7 @@ sub_75E2C:
         mov dword [byte ebp+076h], 0
         jmp short .8
 .7:
-        call sub_62E72
+        call SlideInBottomBar
         push dword [dword_17BC78]
         call TextSetFont
         add esp, byte 4
@@ -2167,7 +2167,7 @@ sub_75E2C:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         mov eax, dword [byte ebp+076h]
         jmp near sub_741BD_D42
 unk_76071:
@@ -2226,7 +2226,7 @@ sub_76231:
         call LoadTeamLogo
         mov edx, eax
         mov eax, 0E3D7h
-        call sub_64296
+        call DrawFrameAt
         mov edx, 780000h
         mov eax, 0E3D7h
         imul edx
@@ -2239,10 +2239,10 @@ sub_76231:
         shl eax, 0Fh
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_62A0F
+        call GetTeamNameArt
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         push dword [dword_11E2B0]
         call SetDrawBitmap
         add esp, byte 4
@@ -2278,7 +2278,7 @@ sub_76231:
         xor ebx, ebx
         mov eax, 0FAE1h
         add edi, byte 1Ch
-        call sub_64296
+        call DrawFrameAt
         cmp esi, byte 18h
         jne short .1
         call sub_DD6C4
@@ -2341,7 +2341,7 @@ sub_76394:
         call LoadTeamLogo
         mov edx, eax
         mov eax, 0E3D7h
-        call sub_64296
+        call DrawFrameAt
         mov edx, 780000h
         mov eax, 0E3D7h
         imul edx
@@ -2354,10 +2354,10 @@ sub_76394:
         shl eax, 0Ah
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_62A0F
+        call GetTeamNameArt
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         push dword [dword_11E2B4]
         call SetDrawBitmap
         add esp, byte 4
@@ -2395,7 +2395,7 @@ sub_76394:
         mov edx, eax
         mov eax, 0FAE1h
         add edi, byte 1Ch
-        call sub_64296
+        call DrawFrameAt
         cmp esi, byte 18h
         jne short .1
         call sub_DD6C4
@@ -2457,9 +2457,9 @@ sub_76518:
         mov dword [byte ebp+07Eh], eax
         call sub_ADA50
         add esp, byte 4
-        call sub_63968
+        call BlackPalette
         xor eax, eax
-        call sub_62A0F
+        call GetTeamNameArt
         movsx eax, word [byte eax+04h]
         mov edx, 780000h
         mov dword [dword_17D690], eax
@@ -2486,7 +2486,7 @@ sub_76518:
         rep movsb
         mov eax, edx
         mov dword [byte ebp+072h], edx
-        call sub_62F90
+        call SetScreenColors
         call sub_DD6C4
         push str_Bkgd24
         push dword [byte ebp+076h]
@@ -2497,7 +2497,7 @@ sub_76518:
         add esp, byte 4
         lea edx, [dword ebp-04F2h]
         mov eax, 9
-        call sub_64721
+        call InitMenuItems
         push str_Ahl02
         push dword [byte ebp+076h]
         mov dword [byte ebp+07Ah], 0FFFFFFFFh
@@ -2703,7 +2703,7 @@ sub_76518:
         mov dword [dword ebp-0264h], eax
         mov eax, 6
         mov byte [dword ebp-0249h], 2
-        call sub_62AF7
+        call OpenScreen
         rep movsb
         mov byte [dword ebp-01E6h], 0
         mov byte [dword ebp-01E4h], 7
@@ -2807,7 +2807,7 @@ sub_76518:
         mov dword [dword_11E2B0], eax
         xor edx, edx
         mov eax, dword [byte eax+02Ch]
-        call sub_63B0C
+        call CopyBitmap
         mov dx, word [word_11E280]
         mov dword [dword_11E2B8], eax
         mov word [byte eax+0Ch], dx
@@ -2832,7 +2832,7 @@ sub_76518:
         mov dword [dword_11E2B4], eax
         xor edx, edx
         mov eax, dword [byte eax+02Ch]
-        call sub_63B0C
+        call CopyBitmap
         mov edx, dword [dword_11E2B4]
         mov dword [dword_11E2BC], eax
         mov edx, dword [byte edx+02Ch]
@@ -2856,7 +2856,7 @@ sub_76518:
         mov edx, dword [byte ebp+072h]
         xor eax, eax
         mov dword [byte ebp+06Eh], 8
-        call sub_63998
+        call FadePalette
 .1:
         call SoundIdle
         cmp dword [byte ebp+06Eh], byte 0
@@ -3118,11 +3118,11 @@ sub_76518_BB3:
         mov dword [byte ebp+06Eh], 6
         jmp short sub_76518_BE5.14
 sub_76518_BD7:
-        call sub_62E0E
+        call SlideInSideBar
         mov dword [byte ebp+07Ah], 1
         jmp short sub_76518_BE5.14
 sub_76518_BE5:
-        call sub_62D9B
+        call SlideInTitleBar
         mov dword [byte ebp+07Ah], 3
 .14:
         cmp dword [byte ebp+07Ah], byte 0
@@ -3164,7 +3164,7 @@ sub_76518_BE5:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 2
-        call sub_63A5B
+        call FadeOut
         mov eax, dword [byte ebp+07Ah]
         lea esp, [dword ebp+082h]
         pop ebp

@@ -1,0 +1,155 @@
+# NHL 96 PC camera shots, player sprite art, front-end art, the intro, the drawing helpers and the menu input.
+# PC-only (96's 3D view and front end), source new. Camera shots are records of 45h bytes (text id, view kind, handler,
+# set-up); the handlers are named by their record's text id (the camera's name in the language file, not decoded here).
+sub_5D993 CameraPathDerivs {confidence=low} the camera path speeds and accelerations (CameraPathSlope / CameraPathCurve) at the path position, or 0 without a path
+sub_5DBC0 SetCameraShot {confidence=high} (shot record): copies the 45h-byte camera shot record to the current shot (dword_179DBD), runs its handler once and starts its path
+sub_5DCDD AngleXZ {confidence=medium} (a, b): the heading from point b to point a on the ice plane (x, z)
+sub_5DCF8 AnglePitch {confidence=medium} (a, b): the pitch from b to a (height over ice distance)
+sub_5DD85 CameraTrackPuck {confidence=medium} the camera target: the puck carrier (dword_1781F0) or the puck, replay positions in a replay
+sub_5DF3E CameraLeadOffset {confidence=low} how far the camera leads the play (dword_11B370) by the carrier's direction near the ends
+sub_5E0CC CameraNearNet {confidence=low} 1 when the tracked player (dword_11BAD4) is near a net, for the close camera shots
+sub_5E21C ResetCameraShake {confidence=low} in a game, clears byte_1175AC / 1175AA and dword_179D74
+sub_5E23E CameraAim {confidence=low} turns and moves the camera toward its target (shared by the camera shots)
+sub_5E78F CamView232 {confidence=medium} camera shot handler, record text 232h (view kind 2)
+sub_5E8D2 CamView233 {confidence=medium} camera shot handler, record text 233h (view kind 2)
+sub_5EA75 CamView234 {confidence=medium} camera shot handler, record text 234h (view kind 3)
+sub_5ED4B CamView235 {confidence=medium} camera shot handler, record text 235h (view kind 4)
+sub_5EFC8 CamView236 {confidence=medium} camera shot handler, record text 236h (view kind 5); its tail CamView236_20D is text 237h's
+sub_5F40A CamView238 {confidence=medium} camera shot handler, record text 238h (view kind 5)
+sub_5F5D3 CamView239 {confidence=medium} camera shot handler, record text 239h (view kind 5)
+sub_5F7AB CamView23A {confidence=medium} camera shot handler, record text 23Ah (view kind 6)
+sub_5FB02 CamShot23E {confidence=medium} cut-scene shot handler, record text 23Eh (view kind 0Ah)
+sub_5FB98 CamShot23F {confidence=low} cut-scene shot handler of record unk_11B787
+sub_5FC3D CamShot240 {confidence=low} cut-scene shot handler of record unk_11B7CC; its tail CamShot240_56 is text 241h's (view kind 0Ch)
+sub_5FD46 CamShot242 {confidence=medium} cut-scene shot handler, record text 242h (view kind 0Dh); its tail CamShot242_126 is text 243h's
+sub_5FFC5 CamShot245 {confidence=medium} cut-scene shot handler, record text 245h (view kind 10h)
+sub_60096 CamShot246 {confidence=medium} cut-scene shot handler, record text 246h (view kind 11h)
+sub_60159 CamShot247 {confidence=medium} cut-scene shot handler, record text 247h (view kind 12h)
+sub_602B9 CamShot244 {confidence=medium} cut-scene shot handler, record text 244h (view kind 0Fh)
+sub_603FF CamShot23D {confidence=medium} cut-scene shot handler, record text 23Dh (view kind 9): queues an overlay panel
+sub_6042C CamShot23B {confidence=medium} cut-scene shot handler, record text 23Bh (view kind 0Bh)
+sub_60543 CamShot23C {confidence=medium} cut-scene shot handler, record text 23Ch (view kind 13h): dims the view (BuildShadeLut)
+sub_60777 EndCameraShot {confidence=medium} (shot): takes a cut-scene shot off the shot list (dword_11B364) and returns to the saved camera
+sub_60823 SetGameViewSize {confidence=medium} sets the game view rectangle (dword_11B314-11B31C) for the view size option (dword_11B330) and resolution, clears the screen
+sub_612BC UpdateCamera {confidence=high} (ticks): per frame: in demo mode changes camera every while, runs the current shot handler and the camera path
+sub_619E2 CameraFacing {confidence=medium} the camera heading as one of 8 directions, so the pads steer relative to the view
+sub_61AD1 PutJerseyDigit {confidence=medium} (dest, digit): copies a 3x5 digit (byte_11BC28) into a jersey number image
+sub_61B03 MakeJerseyNumber {confidence=medium} (dest, number 0-63h): builds the jersey number image (one or two digits)
+sub_61B6F SetTeamJerseyColors {confidence=low} (palette, team): the team's jersey colour ranges (unk_17B248, 120h per team)
+sub_61C18 SaveTeamPalette {confidence=low} (palette, team): copies the team's sprite colours from the palette
+sub_61C88 SetPlayerSpriteColors {confidence=medium} (palette, player): team colours and the jersey number for one player sprite
+sub_61D2E SetRinkSpriteColors {confidence=low} the sprite colours for DrawRinkSprite
+sub_61DDF IndexSpriteFrames {confidence=low} (bank): reads the frame table of a sprite bank (dword_11BB3C) into dword_152FEC and the largest frame
+sub_61E53 LoadTeamPalette {confidence=medium} (team, ...): reads the team's colours from teampal.qda
+sub_61F2E LoadPlayerSprites {confidence=medium} loads the player sprite banks fight.ref, total.ref and oldshp.qfs once
+sub_62065 LoadGameSprites {confidence=medium} for InitGameView: the player sprites, newpal.qfs and both teams' palettes and jersey colours
+sub_6215A FreeGameSprites {confidence=medium} from EndGameCleanup: frees the sprite banks
+sub_621D9 FreeFightSprites {confidence=medium} frees the fight sprite bank (dword_11BB40)
+sub_62201 LoadFightSprites {confidence=medium} loads fight.ref into dword_11BB40
+sub_6225D FreeTotalSprites {confidence=medium} frees total.ref (dword_11BB3C)
+sub_62285 LoadTotalSprites {confidence=medium} loads total.ref into dword_11BB3C
+sub_622CD LoadCupSprites {confidence=medium} loads cup.ref (the cup presentation) into the dword_11BB40 slot
+sub_62311 FreeSpriteCache {confidence=medium} frees the UNPACK sprite cache
+sub_62343 GetSpriteFrame {confidence=medium} (bank, frame): a sprite frame from the UNPACK cache (sized by free memory, 2010h a frame), unpacking it on a miss
+sub_625AA SpriteScale {confidence=low} (distance): the sprite scale shift for a distance (0 past dword_11F5F0)
+sub_625F7 LoadFrontEndArt {confidence=medium} at start-up and after a game: the front-end art files (0Ah, 0Bh, 0B0h, 0Ch), !pal, CHECK, XBUT, MODEM, the fonts
+sub_62A0F GetTeamNameArt {confidence=medium} (team): the team name image TN%02d from the art file
+sub_62A4F CopyArtRows {confidence=low} copies an art block's rows (for OpenScreen)
+sub_62AF7 OpenScreen {confidence=low} draws the screen frame art (title bar, side bars) for the front-end screens
+sub_62D9B SlideInTitleBar {confidence=low} animates the title bar in (PutBlock 971h steps, 2 ticks each)
+sub_62E0E SlideInSideBar {confidence=low} the same for the second bar (dword_17BC64)
+sub_62E72 SlideInBottomBar {confidence=low} the same for the third bar (dword_17BC68)
+sub_62ED9 FreeFrontEndArt {confidence=medium} frees what LoadFrontEndArt loaded
+sub_62F90 SetScreenColors {confidence=low} (palette): copies the front-end text colours into the palette and sets it
+sub_62FD8 PlayIntroMovies {confidence=medium} the intro movies (data 0BEh + CD speed) with music stopped; a pressed device skips
+sub_63076 RunIntro {confidence=medium} from StartUp: the intro screens (scr1, scr2, !pl0, !pl1, backgrounds) with music, then the movies
+sub_63418 WaitOrSkip {confidence=medium} (ticks): waits, running the slide events, until the time is up or a device is pressed; returns the device
+sub_63452 LoadSlideImage {confidence=low} (file id): loads a slide show image unless it is the current one (fills the music stream first)
+sub_634A4 RunSlideEvents {confidence=low} runs the slide show's timed events (handler table off_11BDA8)
+sub_63541 RunSlideShow {confidence=medium} (script): runs a slide show script (13h ends)
+sub_63955 RunCredits {confidence=low} from ShutDown: waits for no device pressed, then the slide show unk_11BFA4
+sub_63968 BlackPalette {confidence=high} sets all 256 colours to black
+sub_63998 FadePalette {confidence=high} (out, palette, steps): fades the screen palette from or to black
+sub_63A5B FadeOut {confidence=high} (steps): fades the current palette to black
+sub_63A90 CopyBitmapRows {confidence=low} copies a bitmap's rows for CopyBitmap
+sub_63B0C CopyBitmap {confidence=medium} (bitmap): a copy of a bitmap in a new COPY block
+sub_63B6A InitGraphicsFix {confidence=medium} allocates the LIB BUG FIX block once (fatal error if out of memory)
+sub_63BBA SetGraphicsMode {confidence=medium} (mode): switches the graphics mode (needs InitGraphicsFix: "NHLinitgraphicsfix not called.")
+sub_63DC4 SetScreenMode {confidence=medium} (mode): black palette, clear, then SetGraphicsMode when the mode changes
+sub_63E7C DrawText {confidence=medium} draws a string at x, y in the current font
+sub_63E8A DrawTextRight {confidence=medium} draws a string ending at x
+sub_63EB5 DrawTextCentred {confidence=medium} draws a string centred on x
+sub_63ED0 FindTextColors {confidence=low} finds the palette colours nearest a colour triple, for the text colours
+sub_63F79 SetTextColors {confidence=high} (fg, bg): the text colours (dword_11D18C, dword_11D190)
+sub_63FC8 SetTextColorsRgb {confidence=low} the text colours nearest a colour triple
+sub_63FEF DrawColorText {confidence=medium} draws a string in the text colours
+sub_64054 DrawColorTextRight {confidence=medium} draws a string ending at x in the text colours
+sub_640D3 DrawColorTextCentred {confidence=medium} draws a string centred on x in the text colours
+sub_64103 FillBox {confidence=medium} fills a rectangle clipped to the draw bitmap (dword_1228FC)
+sub_641D4 DrawBox {confidence=medium} a box with a frame style (0, 1, 2) over FillBox
+sub_6423E SetScreenPalette {confidence=medium} (palette): sets the palette and its colour table
+sub_64296 DrawFrameAt {confidence=low} draws frame 0 of an animation
+sub_642CD FindNearest {confidence=low} the index of the largest value under a limit in a table
+sub_6430E NearestColor {confidence=low} the palette colour nearest a colour triple
+sub_643C9 BuildColorRemap {confidence=low} maps each colour of one palette to the nearest in another
+sub_6448D RemapScreenColors {confidence=low} (USETABLE): remaps a screen's colours to a shared palette (three stars, trophy screens)
+sub_64721 InitMenuItems {confidence=low} (count, items): clears the menu item records (66h bytes) and sets their defaults
+sub_64776 PollMenuInput {confidence=medium} reads the mouse, GrIP pads, joysticks and keys for the menus
+sub_64E54 SetMenuMoveSfx {confidence=medium} (id below 49h): the menu cursor sound
+sub_64E64 SetMenuSelectSfx {confidence=medium} (id below 49h): the menu select sound
+sub_5E0CC_12E CameraNearNet_12E {no_record}
+sub_5E23E_229 CameraAim_229 {no_record}
+sub_5E23E_AB CameraAim_AB {no_record}
+sub_5EA75_2D0 CamView234_2D0 {no_record}
+sub_5EFC8_1E7 CamView236_1E7 {no_record}
+sub_5EFC8_20D CamView236_20D {no_record}
+sub_5EFC8_403 CamView236_403 {no_record}
+sub_5FB98_44 CamShot23F_44 {no_record}
+sub_5FC3D_56 CamShot240_56 {no_record}
+sub_5FD46_126 CamShot242_126 {no_record}
+sub_5FD46_209 CamShot242_209 {no_record}
+sub_5FD46_269 CamShot242_269 {no_record}
+sub_5FD46_278 CamShot242_278 {no_record}
+sub_5FD46_279 CamShot242_279 {no_record}
+sub_6042C_B3 CamShot23B_B3 {no_record}
+sub_612BC_174 UpdateCamera_174 {no_record}
+sub_612BC_2CE UpdateCamera_2CE {no_record}
+sub_612BC_35B UpdateCamera_35B {no_record}
+sub_612BC_3BE UpdateCamera_3BE {no_record}
+sub_612BC_41F UpdateCamera_41F {no_record}
+sub_612BC_480 UpdateCamera_480 {no_record}
+sub_612BC_4E1 UpdateCamera_4E1 {no_record}
+sub_612BC_544 UpdateCamera_544 {no_record}
+sub_612BC_5A7 UpdateCamera_5A7 {no_record}
+sub_612BC_604 UpdateCamera_604 {no_record}
+sub_612BC_667 UpdateCamera_667 {no_record}
+sub_61B6F_A3 SetTeamJerseyColors_A3 {no_record}
+sub_61F2E_131 LoadPlayerSprites_131 {no_record}
+sub_62201_3F LoadFightSprites_3F {no_record}
+sub_62201_4C LoadFightSprites_4C {no_record}
+sub_625F7_412 LoadFrontEndArt_412 {no_record}
+sub_62D9B_62 SlideInTitleBar_62 {no_record}
+sub_62D9B_6A SlideInTitleBar_6A {no_record}
+sub_62D9B_6D SlideInTitleBar_6D {no_record}
+sub_63541_118 RunSlideShow_118 {no_record}
+sub_63541_127 RunSlideShow_127 {no_record}
+sub_63541_145 RunSlideShow_145 {no_record}
+sub_63541_180 RunSlideShow_180 {no_record}
+sub_63541_1A1 RunSlideShow_1A1 {no_record}
+sub_63541_1B2 RunSlideShow_1B2 {no_record}
+sub_63541_1D3 RunSlideShow_1D3 {no_record}
+sub_63541_206 RunSlideShow_206 {no_record}
+sub_63541_215 RunSlideShow_215 {no_record}
+sub_63541_248 RunSlideShow_248 {no_record}
+sub_63541_27C RunSlideShow_27C {no_record}
+sub_63541_2C3 RunSlideShow_2C3 {no_record}
+sub_63541_2E0 RunSlideShow_2E0 {no_record}
+sub_63541_78 RunSlideShow_78 {no_record}
+sub_63541_A3 RunSlideShow_A3 {no_record}
+sub_63541_C7 RunSlideShow_C7 {no_record}
+sub_63541_E2 RunSlideShow_E2 {no_record}
+sub_63A90_76 CopyBitmapRows_76 {no_record}
+sub_63BBA_204 SetGraphicsMode_204 {no_record}
+sub_63E8A_17 DrawTextRight_17 {no_record}
+sub_64054_29 DrawColorTextRight_29 {no_record}
+sub_64054_72 DrawColorTextRight_72 {no_record}

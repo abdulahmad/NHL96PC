@@ -16,7 +16,7 @@ extern RunInGameMenu, seed, SetupDemoGame, SetupGame, SetupTeamLines, SetViewRec
 extern str_FhiR2, str_GhiL, str_GhiR, str_GloL5, str_GloR5, str_PAL, strcpy_, MessageBox
 extern BlankForFadeIn, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, FreeStatsTables, EndGameCleanup, InitGameTeams
 extern UpdateUserRecords, sub_3A6F3, sub_4B59F, sub_5358E, InitGameView, FreeGameView, DrawGameFrame, ResetGameOverlays
-extern sub_612BC, sub_62311, sub_625F7, sub_62ED9, sub_62F90, sub_63A5B, sub_63B0C, sub_63DC4
+extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScreenColors, FadeOut, CopyBitmap, SetScreenMode
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, sub_77355, sub_AA664
 extern sub_AB758, sub_ABF4C, sub_ADA50, sub_B0CA8, sub_DD6C4, sub_DD6E0, sub_DD7B8, sub_DFEC6
@@ -60,12 +60,12 @@ PlayMenuGame:
         lea eax, [byte ebp-018h]
         call strcpy_
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         xor edx, edx
         mov eax, 8Ch
         call FadeOutMusic
         call StopMusic
-        call sub_62ED9
+        call FreeFrontEndArt
         call FreeStatsTables
         call sub_B0CA8
         mov eax, dword [optflags]
@@ -122,11 +122,11 @@ PlayMenuGame_AF:
         add esp, byte 8
         mov dword [dword_152F50], eax
         mov eax, dword [dword_152F58]
-        call sub_63B0C
+        call CopyBitmap
         mov edx, 20h
         mov dword [dword_152F54], eax
         mov eax, dword [dword_152F50]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_152F5C], eax
         jmp short .5
 .4:
@@ -174,14 +174,14 @@ PlayMenuGame_AF:
         jne short .8
         mov edx, 20h
         mov eax, dword [dword_152F58]
-        call sub_63B0C
+        call CopyBitmap
         mov edx, 20h
         mov dword [dword_152F54], eax
         mov eax, dword [dword_152F50]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_152F5C], eax
 .8:
-        call sub_625F7
+        call LoadFrontEndArt
         mov eax, dword [optflags]
         shl eax, 19h
         shr eax, 1Dh
@@ -226,7 +226,7 @@ PlayMenuGame_280:
         call sub_DD6E0
         add esp, byte 0Ch
         mov eax, esi
-        call sub_62F90
+        call SetScreenColors
         push byte 0
         call sub_ADA50
         add esp, byte 4
@@ -569,7 +569,7 @@ RunSimFrames:
         ret
         push edx
         mov edx, eax
-        call sub_612BC
+        call UpdateCamera
         mov eax, edx
         call DrawGameFrame
         call ReadHotKeys
@@ -675,13 +675,13 @@ GameLoop_inputcheck:
         mov eax, 3
         mov ecx, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
-        call sub_63A5B
+        call FadeOut
         mov dword [GameLoopActive], ecx
 .3:
         cmp dword [InGameMenuRequest], byte 0
         jne short GameLoop_hotkeyscall_5
         mov eax, ebx
-        call sub_612BC
+        call UpdateCamera
         mov eax, ebx
         call DrawGameFrame
 GameLoop_hotkeyscall:
@@ -744,7 +744,7 @@ GameLoop_nextperiodcall_6C:
         mov dword [dword_1150FC], 1
         jmp near GameLoop_18
 GameLoop_gameovercall:
-        call sub_62311
+        call FreeSpriteCache
         mov eax, 50h
         mov dword [GameLoopActive], 0
         call StopArenaClip
@@ -758,7 +758,7 @@ GameLoop_gameovercall:
         call UpdateUserRecords
 .1:
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         mov eax, 50h
         call CrowdFadeOut
         call GetTicks
@@ -799,7 +799,7 @@ RunDemoGame:
         mov eax, unk_16443C
         call sub_5358E
         xor eax, eax
-        call sub_63DC4
+        call SetScreenMode
         call sub_DD6C4
         call InitGameView
         push InputRecordTimer
@@ -824,7 +824,7 @@ RunDemoGame:
         call FreeGameView
         call ResetInputSlots
         mov eax, 1
-        call sub_63DC4
+        call SetScreenMode
         push dword 1E0h
         push dword 280h
         push byte 0
@@ -897,7 +897,7 @@ PlayGame_initslotscall:
         test byte [byte_17CA5D], 20h
         setne al
         movzx eax, al
-        call sub_63DC4
+        call SetScreenMode
         call InitGameView
         push InputRecordTimer
         mov dword [GameLoopActive], 0
@@ -944,7 +944,7 @@ PlayGame_menucall:
         call GameLoop
         jmp short PlayGame_menucall_42.4
 .2:
-        call sub_62311
+        call FreeSpriteCache
         mov eax, 50h
         call CrowdFadeOut
         call EndGameCleanup
@@ -966,7 +966,7 @@ PlayGame_menucall_42:
         call LinkResyncInput
         call ResetInputSlots
         mov eax, 1
-        call sub_63DC4
+        call SetScreenMode
         push dword 1E0h
         push dword 280h
         push byte 0

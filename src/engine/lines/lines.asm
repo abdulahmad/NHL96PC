@@ -14,8 +14,8 @@ extern dword_176ED5, dword_176F90, dword_1770D8, dword_1770DC, dword_1770E0, dwo
 extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108, dword_1798BC
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
 extern puckc, off_11788C, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
-extern LoadPackedFile, InitGameTeams, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, sub_625F7, sub_62ED9
-extern sub_63B0C, StartGameSound, EndGameSound, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
+extern LoadPackedFile, InitGameTeams, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, LoadFrontEndArt, FreeFrontEndArt
+extern CopyBitmap, StartGameSound, EndGameSound, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
 extern word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
@@ -1899,7 +1899,7 @@ sub_53260:
 .3:
         mov dword [dword_176ED5], eax
 .4:
-        call sub_62ED9
+        call FreeFrontEndArt
         test byte [byte_17CA5D], 20h
         jne short .5
         push dword [dword_152F54]
@@ -1956,12 +1956,12 @@ sub_53260:
         mov dword [dword_152F50], eax
         mov eax, dword [dword_152F58]
         and edi, byte 3
-        call sub_63B0C
+        call CopyBitmap
         mov edx, 20h
         mov dword [dword_152F54], eax
         mov eax, dword [dword_152F50]
         shl edi, 7
-        call sub_63B0C
+        call CopyBitmap
         mov dword [DemoMode], 1
         mov dword [dword_152F5C], eax
         call RunDemoGame
@@ -2004,13 +2004,13 @@ sub_53260:
         mov edx, 20h
         call EndGameSound
         mov eax, dword [dword_152F58]
-        call sub_63B0C
+        call CopyBitmap
         mov edx, 20h
         mov dword [dword_152F54], eax
         mov eax, dword [dword_152F50]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_152F5C], eax
-        call sub_625F7
+        call LoadFrontEndArt
         mov dword [gameopts], optblock_end
         mov eax, esi
         leave

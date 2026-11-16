@@ -8,7 +8,7 @@ extern dword_117500, dword_117510, dword_11E4B8, dword_1657EA, dword_1657F6, dwo
 extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CEC3, dword_17CED1, dword_17CED6, dword_17D162, dword_17D1E2
 extern dword_17D202, dword_17D267, dword_17D26B, gameopts, qsort_, sprintf_, srand_, strcat_
 extern strlen_, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox, MakeDirPath, LoadSeasonStats
-extern sub_63968, FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_77355, sub_78E9E, sub_78EFA, sub_7A787
+extern BlackPalette, FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_77355, sub_78E9E, sub_78EFA, sub_7A787
 extern sub_81EEA, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_ABF4C, sub_B20D0
 extern sub_B22B0, sub_B7810, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, word_1656DC
 extern word_1656E8, word_16581E
@@ -2003,7 +2003,7 @@ sub_80E4D:
         call HideMessage
         cmp dword [byte ebp+026h], byte 0
         jne short .52
-        call sub_63968
+        call BlackPalette
 .52:
         mov eax, dword [dword_17CBE7]
         call LoadSeasonStats

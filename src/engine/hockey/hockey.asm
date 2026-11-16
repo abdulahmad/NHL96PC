@@ -23,7 +23,7 @@ extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
 extern shotontarget, IsCupClinched, sub_23F05, SwapPosition, assextra6, doinput, sub_39847, CountTeamSlots
 extern sub_3A7A4, asspsclear, sub_3E6D4, ChkShotStat, checkcoll, SetSPA, sub_4F452, AddPenalty2
-extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, sub_622CD, PaEvent, StopAllSfx
+extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, LoadCupSprites, PaEvent, StopAllSfx
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_117A9C
 extern unk_118FA5, unk_156E6C, unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82
 extern unk_157D8F, unk_157F9C, unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_165258, unk_165354
@@ -5776,7 +5776,7 @@ clockcont_0:
 .17:
         mov ecx, unk_164B5C
 .18:
-        call sub_622CD
+        call LoadCupSprites
         mov edx, 21h
         mov eax, dword [off_117894]
         mov dword [byte ebp-04h], 0

@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_197ED progbits alloc exec nowrite align=1
 extern byte_11FA2F, byte_152C3B, dword_11F5C0, FillRect, fputchar, PutBlock, SetDrawBitmap, str_Disp
-extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, sub_63B0C
-extern sub_63F79, sub_640D3, sub_641D4, SoundIdle, sub_AA7E0, sub_AB798, sub_ABF4C, sub_AD35C
+extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, CopyBitmap
+extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, sub_AA7E0, sub_AB798, sub_ABF4C, sub_AD35C
 extern sub_AD620, sub_ADA80, sub_ADBEC, sub_AFFD0, sub_B2B0C, sub_DD6C4, sub_DD6E0, sub_DFE9C
 extern sub_DFF28, unk_152B3C, unk_19382
 global EditText
@@ -215,7 +215,7 @@ EditText:
         add esp, byte 0Ch
         xor edx, edx
         mov eax, dword [byte eax+02Ch]
-        call sub_63B0C
+        call CopyBitmap
         push dword [byte ebp+02h]
         mov dword [byte ebp+02Eh], eax
         call SetDrawBitmap
@@ -240,10 +240,10 @@ EditText:
         push eax
         dec ecx
         mov eax, unk_152B3C
-        call sub_641D4
+        call DrawBox
         movzx edx, byte [byte esi+01h]
         movzx eax, byte [esi]
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword ebp-0326h], byte 0
         je near .23
         mov eax, dword [dword ebp-0326h]
@@ -302,7 +302,7 @@ EditText:
         mov edx, dword [byte ebp+036h]
         mov byte [eax], 0
         mov eax, dword [dword ebp-0326h]
-        call sub_640D3
+        call DrawColorTextCentred
         movzx eax, byte [byte_11FA2F]
         add dword [byte ebp-0Eh], eax
         mov eax, dword [byte ebp+062h]
@@ -322,7 +322,7 @@ EditText:
         mov ebx, dword [byte ebp-0Eh]
         mov edx, dword [byte ebp+036h]
         mov eax, dword [dword ebp-0326h]
-        call sub_640D3
+        call DrawColorTextCentred
         mov eax, dword [byte ebp+062h]
         mov dword [dword ebp-0326h], eax
         jmp near .15

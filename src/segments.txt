@@ -37,9 +37,12 @@
 1 51F18 54519 9729 lines engine/lines/lines.asm
 1 54519 584A0 16263 replay_controls front/replay_controls/replay_controls.asm
 1 584A0 5D707 21095 front_584A0 front/game_view/game_view.asm
-1 5D707 5D993 652 front_camera front/camera/camera.asm
-1 5D993 64F59 30150 front_5D993 front/front_5D993.asm
-1 64F59 67000 8359 front_64F59 front/front_64F59.asm
+1 5D707 61AD1 17354 front_camera front/camera/camera.asm
+1 61AD1 625F7 2854 front_player_art front/player_art/player_art.asm
+1 625F7 62FD8 2529 front_screen_art front/screen_art/screen_art.asm
+1 62FD8 63968 2448 front_intro front/intro/intro.asm
+1 63968 64721 3513 front_draw front/draw/draw.asm
+1 64721 67000 10463 front_menu front/menu/menu.asm
 1 67000 689D1 6609 front_67000 front/speech/speech.asm
 1 689D1 68D25 852 front_music front/music/music.asm
 1 68D25 69B1E 3577 front_sound front/sound/sound.asm

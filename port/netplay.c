@@ -54,7 +54,7 @@
 #define C_INTER        SYM_GameLoop_nextperiodcall
 #define O_HOTKEYS      SYM_ReadHotKeys    /* ReadHotKeys: keys read straight from the keyboard */
 #define C_HOTKEYS      SYM_GameLoop_hotkeyscall
-#define O_OVER         SYM_sub_62311    /* sub_62311 */
+#define O_OVER         SYM_FreeSpriteCache    /* FreeSpriteCache: frees the sprite cache when the game is over */
 #define C_OVER         SYM_GameLoop_gameovercall    /*   the game is over */
 #define O_TICK_ISR     SYM_TimerISR_tick    /* TimerISR: mov edx, tickcount / inc edx / mov ebx, 5 / mov tickcount, edx (18 bytes) */
 #define O_CSEED_FN     SYM_sub_B03F2    /* mov eax, <the C library's rand state> / ret */

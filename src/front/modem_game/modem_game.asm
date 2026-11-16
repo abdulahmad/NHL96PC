@@ -12,8 +12,8 @@ extern dword_151AD0, dword_151AD5, dword_151ADE, dword_15291C, dword_17C9AA, dwo
 extern GameLoopActive, GetTicks, InputRecordCount, InputRecordHead, InputRecordRing, LinkClose, LinkConnect, LinkCopyBytes
 extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClipWindow, SetDrawBitmap, SetLinkAbortCheck
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
-extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, sub_63B0C, sub_63F79
-extern sub_63FEF, sub_640D3, sub_641D4, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
+extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitmap, SetTextColors
+extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
 extern SoundSecondsToBytes, SoundIdle, sub_77355, sub_AA664, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_AD35C, sub_AD620, sub_ADA80, sub_ADBEC, sub_DD6C4, sub_DD6E0, sub_DD724
 extern sub_DFE9C, sub_DFF28, sub_E04E0, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
@@ -959,7 +959,7 @@ ShowLinkWaitBox:
         mov word [byte eax+0Eh], dx
         xor edx, edx
         mov eax, dword [byte ebp-04h]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_151AD0], eax
         push dword [dword_151AD0]
         call sub_AA988
@@ -1802,7 +1802,7 @@ ModemChat:
         mov dword [byte ebp-070h], eax
         movsx edx, word [byte ebp+010h]
         movsx eax, word [byte ebp-0Ch]
-        call sub_63F79
+        call SetTextColors
         cmp word [byte ebp-024h], byte 0
         je near .1
         push byte 0
@@ -1829,7 +1829,7 @@ ModemChat:
         xor edx, edx
         mov eax, dword [byte ebp-02Ch]
         mov eax, dword [byte eax+02Ch]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [byte ebp-030h], eax
         push byte 20h
         push dword 100h
@@ -1875,7 +1875,7 @@ ModemChat:
         xor ebx, ebx
         xor edx, edx
         mov eax, dword [byte ebp-038h]
-        call sub_641D4
+        call DrawBox
         mov eax, dword [byte ebp-028h]
         push eax
         call sub_ABF4C
@@ -1889,7 +1889,7 @@ ModemChat:
         sar edx, 1
         mov eax, 20Bh
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [byte ebp-0Ch]
         push eax
         xor eax, eax
@@ -1947,7 +1947,7 @@ ModemChat:
         add edx, dword [byte ebp-044h]
         mov eax, 20Bh
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, word [byte ebp-0Ch]
         push eax
         mov eax, dword [byte ebp-040h]
@@ -2233,7 +2233,7 @@ ModemChat:
         add eax, byte 3
         add edx, eax
         lea eax, [byte ebp-04h]
-        call sub_63FEF
+        call DrawColorText
         lea eax, [byte ebp-04h]
         push eax
         call fputchar
@@ -2638,7 +2638,7 @@ ModemChat:
         add eax, byte 3
         add edx, eax
         lea eax, [byte ebp-04h]
-        call sub_63FEF
+        call DrawColorText
         lea eax, [byte ebp-04h]
         push eax
         call fputchar

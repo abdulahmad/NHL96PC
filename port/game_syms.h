@@ -18,8 +18,8 @@
 #define SYM_EditText                0x197EDu   /* front/edit_text/edit_text.asm */
 #define SYM_sub_2DE30_69            0x2DE99u   /* engine/threestars/threestars.asm */
 #define SYM_PeriodOver              0x4B05Eu   /* engine/hockey/hockey.asm */
-#define SYM_ReadHotKeys             0x609C6u   /* front/front_5D993.asm */
-#define SYM_sub_62311               0x62311u   /* front/front_5D993.asm */
+#define SYM_ReadHotKeys             0x609C6u   /* front/camera/camera.asm */
+#define SYM_FreeSpriteCache         0x62311u   /* front/player_art/player_art.asm */
 #define SYM_StartSoundCard          0x694B9u   /* front/sound/sound.asm */
 #define SYM_RunInGameMenu           0x6A7D3u   /* front/pause_menu/pause_menu.asm */
 #define SYM_TimerISR_tick           0xAA5D5u   /* lib/ea/ea_timer.asm */

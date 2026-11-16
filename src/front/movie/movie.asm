@@ -8,7 +8,7 @@ extern dword_17C94C, dword_17C950, dword_17C954, dword_17C958, dword_17C960, dwo
 extern dword_17C974, dword_17C978, dword_17C97C, dword_17C980, dword_17C984, dword_17C988, dword_17C98C, dword_17C990
 extern dword_17C994, dword_17C998, dword_17C99C, FadeOutMusic, FillMusicStream, GetPressedDevice, GetSoundCard, GetTicks
 extern globalset, MakeDataPath, OpenMusicStream, PlayMusic, QueueCurrentMusic, SetClipWindow, SetCrtcStart, setstreamspeed
-extern SoundSecondsToBytes, StopMusic, str_TEMP, sub_63A5B, sub_63BBA, sub_63DC4, sub_AB758, sub_ABF4C
+extern SoundSecondsToBytes, StopMusic, str_TEMP, FadeOut, SetGraphicsMode, SetScreenMode, sub_AB758, sub_ABF4C
 extern sub_BFE4C, sub_C0252, sub_C02D6, sub_C032E, sub_C03EA, sub_C0423, sub_C04AE, sub_C1FC0
 extern sub_C1FEC, sub_C204C, sub_C2268, sub_C2290, sub_C2440, sub_C2442, sub_DD830, sub_E0520
 extern tgvpalpending, unk_17C644, WaitRetrace, WaitTicks
@@ -554,7 +554,7 @@ TgvPlayFrames:
         jg near .1
         call PlayTGV
         mov eax, 2
-        call sub_63A5B
+        call FadeOut
         mov eax, edi
         leave
         jmp near TgvOpen_F9
@@ -576,7 +576,7 @@ PlayMovie:
         movzx eax, al
         mov dword [dword_17C94C], eax
         mov eax, 2
-        call sub_63BBA
+        call SetGraphicsMode
         mov dword [dword_17C948], ecx
         test ecx, ecx
         je short .2
@@ -593,7 +593,7 @@ PlayMovie:
         movzx esi, al
         mov eax, 1
         mov dword [dword_17C948], 0
-        call sub_63BBA
+        call SetGraphicsMode
         push dword [dword_17C994]
         call sub_C204C
         add esp, byte 4
@@ -612,7 +612,7 @@ PlayMovieFile:
         enter 34h, 0
         mov ebx, eax
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         test byte [globalset], 10h
         je short .1
         mov eax, 50h
@@ -639,7 +639,7 @@ PlayMovieFile:
 .2:
         call OpenMusicStream
         mov eax, 1
-        call sub_63DC4
+        call SetScreenMode
         test byte [globalset], 10h
         je short .3
         call QueueCurrentMusic

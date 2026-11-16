@@ -12,9 +12,9 @@ extern dword_17BC7C, dword_17BD48, optflags, dword_17CBE7, dword_17CC13, dword_1
 extern dword_17CEC7, dword_17D7D4, dword_17D804, dword_17D830, dword_17D834, dword_17D860, dword_17D864, dword_17D894
 extern dword_17D8C0, dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dword_17D900, dword_17D904, dword_17D908
 extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924, gameopts
-extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, sub_1E8E9, LoadSeasonStats, sub_62AF7
-extern sub_62D9B, sub_62E0E, sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_64103, sub_64296
-extern sub_64721, sub_64F59, sub_77355, sub_78E9E, sub_80E4D, sub_81EEA, sub_AAA40, sub_AAA8C
+extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, sub_1E8E9, LoadSeasonStats, OpenScreen
+extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
+extern InitMenuItems, sub_64F59, sub_77355, sub_78E9E, sub_80E4D, sub_81EEA, sub_AAA40, sub_AAA8C
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
 extern sub_B20D0, sub_B2C54, sub_BF120, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
@@ -110,7 +110,7 @@ sub_7D580:
         lea esi, [dword eax+01D2h]
         rep movsb
         mov eax, dword [byte ebp+016h]
-        call sub_62F90
+        call SetScreenColors
         push byte 0
         push byte 44h
         push byte 44h
@@ -125,7 +125,7 @@ sub_7D580:
         mov dword [dword_17D8FC], eax
         mov eax, 6
         mov dword [byte ebp-01Ah], 3
-        call sub_62AF7
+        call OpenScreen
         cmp dword [dword_1174E8], byte 0
         jne short .3
         mov eax, dword [dword_17CBE7]
@@ -317,11 +317,11 @@ sub_7D580:
         mov edx, dword [byte ebp-0Eh]
         mov eax, 29h
         mov dword [byte ebp+02Ah], 0
-        call sub_64721
+        call InitMenuItems
         mov edx, dword [byte ebp-02h]
         mov eax, 0Ch
         xor esi, esi
-        call sub_64721
+        call InitMenuItems
 .14:
         mov eax, dword [byte ebp+0Ah]
         movsx eax, word [byte eax+06h]
@@ -1434,7 +1434,7 @@ sub_7D580:
         mov edx, dword [byte ebp+016h]
         xor eax, eax
         mov dword [byte ebp-01Eh], 0FFFFFFFFh
-        call sub_63998
+        call FadePalette
         cmp dword [byte ebp-06h], 3E7h
         jne short .21
         mov edx, dword [byte ebp+076h]
@@ -1472,13 +1472,13 @@ sub_7D580:
         mov eax, dword [byte ebp-016h]
         jmp dword [nosplit cs:eax*4+jpt_7D568]
 sub_7D580_13D3:
-        call sub_62E0E
+        call SlideInSideBar
         mov dword [byte ebp-01Eh], 2712h
         jmp near sub_7D580_1B6C.47
 sub_7D580_13E4:
         cmp dword [dword_17D90C], byte 0FFFFFFFFh
         je near .25
-        call sub_62D9B
+        call SlideInTitleBar
         mov eax, dword [dword_17D90C]
         shl eax, 2
         add eax, dword [byte ebp+012h]
@@ -2398,7 +2398,7 @@ sub_7D580_1B6C:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         push dword [byte ebp+01Eh]
         call sub_ABF4C
         add esp, byte 4
@@ -2517,7 +2517,7 @@ sub_7F6FA:
         add esp, byte 0Ch
         xor edx, edx
         mov byte [dword ebp-0237h], 0FFh
-        call sub_63F79
+        call SetTextColors
         push dword [dword ebp-033Ah]
         call SetDrawBitmap
         add esp, byte 4
@@ -2588,7 +2588,7 @@ sub_7F6FA:
         add esp, byte 8
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
 .4:
         mov eax, dword [byte ebp+072h]
         mov ebx, 0Ah
@@ -2610,7 +2610,7 @@ sub_7F6FA:
         add esp, byte 8
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         push dword [dword ebp-033Ah]
         call SetDrawBitmap
         imul eax, dword [byte ebp+056h], byte 44h
@@ -2794,13 +2794,13 @@ sub_7F6FA:
         push byte 44h
         xor ebx, ebx
         xor edx, edx
-        call sub_64103
+        call FillBox
         mov edx, dword [byte ebp+05Ah]
         mov ecx, 0Fh
         mov ebx, 0FFFFFFF6h
         mov eax, dword [byte ebp+052h]
         mov edx, dword [byte edx+02Ch]
-        call sub_64296
+        call DrawFrameAt
         movzx eax, byte [byte esi+03h]
         imul eax, byte 1Ah
         movsx edx, byte [dword eax+byte_17CC37]
@@ -2857,7 +2857,7 @@ sub_7F6FA:
         add esp, byte 8
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
 .23:
         movzx eax, byte [byte esi+01h]
         mov ebx, 0Ah
@@ -2880,7 +2880,7 @@ sub_7F6FA:
         add esp, byte 8
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         movzx eax, byte [esi]
         cmp eax, dword [dword ebp+086h]
         je short .29
@@ -2910,7 +2910,7 @@ sub_7F6FA:
         add esp, byte 8
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
 .29:
         movzx eax, byte [byte esi+04h]
         cmp eax, 0FFh
@@ -2923,7 +2923,7 @@ sub_7F6FA:
         mov edx, eax
         xor ebx, ebx
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         mov al, byte [byte esi+05h]
         cmp al, byte [byte esi+04h]
         jne short .30
@@ -2954,7 +2954,7 @@ sub_7F6FA:
         add esp, byte 8
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         push asc_1123BB
         push dword [dword ebp-0342h]
         call sub_E04E0
@@ -2963,7 +2963,7 @@ sub_7F6FA:
         add esp, byte 8
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         movzx eax, byte [byte esi+05h]
         mov ebx, 0Ah
         cdq
@@ -2988,7 +2988,7 @@ sub_7F6FA:
         mov edx, eax
         mov eax, 0FAE1h
         mov edi, 1Eh
-        call sub_64296
+        call DrawFrameAt
 .35:
         movzx eax, byte [byte esi+05h]
         mov ebx, 0Ah
@@ -3009,7 +3009,7 @@ sub_7F6FA:
         mov ebx, edi
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         push asc_1123C6
         push dword [dword ebp-0342h]
         add edi, byte 0Ah
@@ -3019,7 +3019,7 @@ sub_7F6FA:
         mov ebx, edi
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         movzx eax, byte [byte esi+04h]
         mov ebx, 0Ah
         cdq
@@ -3044,7 +3044,7 @@ sub_7F6FA:
         mov ebx, edi
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         add edi, byte 8
 .36:
         movzx eax, byte [byte esi+04h]
@@ -3066,7 +3066,7 @@ sub_7F6FA:
         mov ebx, edi
         mov edx, eax
         mov eax, 0FAE1h
-        call sub_64296
+        call DrawFrameAt
         imul eax, dword [byte ebp+06Eh], byte 7
         add eax, dword [byte ebp+06Ah]
         add eax, dword [dword ebp+08Eh]

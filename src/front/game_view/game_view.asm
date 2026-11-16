@@ -36,9 +36,9 @@ extern str_Logo, str_Priority, str_SS2, strcmp_, strcpy_, sub_23812, sub_23B16, 
 extern sub_24F36, sub_24F75, sub_2500F, sub_2503F, sub_25226, sub_25502, sub_25820, sub_25E4D
 extern sub_25E7B, sub_25EB3, sub_261A6, sub_2751C, sub_2767F, sub_27BF1, sub_28A87, sub_28C50
 extern sub_28D97, sub_297C9, sub_299CF, sub_2E1BE, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F
-extern sub_54237, sub_54391, sub_5439F, sub_54427, sub_5DBC0, sub_5E21C, sub_60823, sub_61C18
-extern sub_61C88, sub_61D2E, sub_62065, sub_62343, sub_625AA, sub_63E7C, sub_63EB5, sub_63F79
-extern sub_63FEF, sub_64054, sub_640D3, sub_64103, sub_6AA3B, sub_77355, sub_873AE, sub_AAA40
+extern sub_54237, sub_54391, sub_5439F, sub_54427, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
+extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
+extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, sub_6AA3B, sub_77355, sub_873AE, sub_AAA40
 extern sub_AAADC, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
 extern sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924, sub_BBA41
 extern sub_BBC04, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760, sub_BD86C
@@ -614,7 +614,7 @@ InitGameView:
         push esi
         push edi
         enter 100h, 0
-        call sub_62065
+        call LoadGameSprites
         call sub_B0CA8
         push unk_16443C
         call sub_B0F7C
@@ -707,10 +707,10 @@ InitGameView:
         jne short .4
         mov eax, unk_178AAC
         xor edx, edx
-        call sub_61C18
+        call SaveTeamPalette
         mov edx, 1
         mov eax, unk_1782AC
-        call sub_61C18
+        call SaveTeamPalette
         test byte [byte_17CA5D], 20h
         je short .5
         push byte 20h
@@ -746,7 +746,7 @@ InitGameView:
         shr eax, 1Ch
         mov dword [dword_11B374], 0
         mov dword [dword_11B330], eax
-        call sub_60823
+        call SetGameViewSize
         mov eax, dword [dword_17CA5C]
         shl eax, 13h
         shr eax, 1Ch
@@ -754,7 +754,7 @@ InitGameView:
         mov edi, dword_179DCE
         mov eax, dword [dword eax+dword_11B9F4]
         mov esi, dword_179E13
-        call sub_5DBC0
+        call SetCameraShot
         mov dword [dword_179E13], 0
         mov dword [dword_179E17], 0BB8h
         mov dword [dword_179E1B], 0FFFFF060h
@@ -852,7 +852,7 @@ InitGameView:
         mov word [word_11B276], 0FFFFh
         mov word [word_11B274], 0FFFFh
 .7:
-        call sub_5E21C
+        call ResetCameraShake
         push dword [dword_11F5C4]
         mov dword [dword_11B310], 0FFFFFFFFh
         push dword [dword_11F5C0]
@@ -1107,7 +1107,7 @@ DrawRosterName:
         add eax, esi
         mov edx, ecx
         add eax, byte 17h
-        call sub_63EB5
+        call DrawTextCentred
         leave
         pop edi
         pop esi
@@ -1159,7 +1159,7 @@ DrawRosterNumber:
         add esp, byte 10h
         movsx edx, word [byte ebp-014h]
         lea eax, [byte ebp-010h]
-        call sub_63EB5
+        call DrawTextCentred
         leave
         pop edi
         pop esi
@@ -1228,7 +1228,7 @@ DrawRinkSprite:
 .7:
         mov edx, dword [byte ebp+010h]
         mov eax, dword [byte ebp-0Ch]
-        call sub_62343
+        call GetSpriteFrame
         mov dword [byte ebp-04h], eax
         cmp dword [dword_11B248], byte 0
         jne near .14
@@ -1253,7 +1253,7 @@ DrawRinkSprite:
 .9:
         mov eax, dword [dword_17BA50]
 .10:
-        call sub_61C88
+        call SetPlayerSpriteColors
         test edi, edi
         je short .11
         mov eax, dword [dword_17BA4C]
@@ -1301,7 +1301,7 @@ DrawRinkSprite:
 .17:
         mov eax, unk_17B830
 .18:
-        call sub_61D2E
+        call SetRinkSpriteColors
         test edi, edi
         je short .19
         mov eax, unk_17B930
@@ -1380,7 +1380,7 @@ DrawPlayerSprite:
         mov ecx, dword [byte ebp+010h]
         add edx, dword [byte ebp-0Ch]
         mov dword [byte ebp-04h], eax
-        call sub_61C88
+        call SetPlayerSpriteColors
 .7:
         test byte [byte_17CA5D], 20h
         je short .8
@@ -1397,7 +1397,7 @@ DrawPlayerSprite:
         mov edx, dword [byte ebp+010h]
         mov eax, dword [byte ebp-010h]
         sar dword [byte ebp-08h], 10h
-        call sub_62343
+        call GetSpriteFrame
         push dword [byte ebp+018h]
         mov ebx, edi
         push esi
@@ -1424,7 +1424,7 @@ DrawSpriteShadow:
 .1:
         mov edx, dword [byte ebp+010h]
         lea esi, [ecx+ecx]
-        call sub_62343
+        call GetSpriteFrame
         mov ecx, ebx
         mov edx, eax
         sar ecx, 10h
@@ -1614,7 +1614,7 @@ DrawControlMarker_41:
 .19:
         imul esi, byte 0Ch
         push dword [dword esi+dword_179AC8]
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         mov edx, 33333h
         imul edx
@@ -1940,7 +1940,7 @@ PlaceGoalNets_20B:
         mov edx, dword [nosplit edx*4+dword_152FEC]
         push dword [dword eax+dword_179AC8]
         mov dword [byte ebp-024h], edx
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         push byte 1
         mov ecx, eax
@@ -2026,7 +2026,7 @@ PlaceGoalNets_20B:
 .19:
         imul eax, dword [byte ebp-01Ch], byte 0Ch
         push dword [dword eax+dword_179AC8]
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         mov edi, eax
         cmp dword [byte ebp-020h], 0B0Dh
@@ -2204,7 +2204,7 @@ DrawPlayerShadows:
 .4:
         imul eax, dword [byte ebp-08h], byte 0Ch
         push dword [dword eax+dword_179AC8]
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         mov edi, eax
         cmp dword [byte ebp-014h], 0B0Dh
@@ -2373,7 +2373,7 @@ DrawPlayers:
 .4:
         imul eax, dword [byte ebp-018h], byte 0Ch
         push dword [dword eax+dword_179AC8]
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         mov edi, eax
         cmp dword [byte ebp-010h], 0B0Dh
@@ -2546,7 +2546,7 @@ DrawPlayerMarkers:
         cmp dword [dword edx+dword_164816], byte 0FFFFFFFFh
         jne near PlaceGoalNets_E0
         push dword [dword eax+dword_179AC8]
-        call sub_625AA
+        call SpriteScale
         add esp, byte 4
         mov edx, 33333h
         imul edx
@@ -3177,7 +3177,7 @@ OpenOverlayPanel:
         lea ecx, [byte eax-01h]
         mov edx, edi
         mov eax, unk_17D3E8
-        call sub_64103
+        call FillBox
         mov eax, 2
         mov cl, byte [dword_1798A8]
         mov edx, dword [byte ebp-08h]
@@ -3304,7 +3304,7 @@ DrawOverlayCaption:
         add esp, byte 4
         mov eax, 0ADh
         mov edi, dword [byte ebp-034h]
-        call sub_63F79
+        call SetTextColors
         mov eax, dword [byte ebp-030h]
         mov esi, 14h
         and edi, 0FFFFh
@@ -3333,7 +3333,7 @@ DrawOverlayCaption:
         push eax
         mov edx, esi
         mov eax, unk_17D3E8
-        call sub_64103
+        call FillBox
         cmp dword [dword_1798A8], byte 0
         je short .1
         mov ebx, 5
@@ -3347,7 +3347,7 @@ DrawOverlayCaption:
         mov eax, dword [byte ebp+eax*4-02Ch]
         add ebx, edi
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [byte ebp-08h]
         mov ebx, dword [byte ebp-04h]
         inc dword [dword_177108]
@@ -3442,7 +3442,7 @@ DrawTimedPanel:
         add esp, byte 4
         mov eax, 0ADh
         mov esi, 14h
-        call sub_63F79
+        call SetTextColors
         mov cl, byte [byte_1798A4]
         push dword [byte ebp-010h]
         sar edi, cl
@@ -3475,7 +3475,7 @@ DrawTimedPanel:
         push eax
         mov edx, edi
         mov eax, unk_17D3E8
-        call sub_64103
+        call FillBox
         cmp dword [dword_1798A8], byte 0
         je short .3
         mov ebx, 5
@@ -3486,7 +3486,7 @@ DrawTimedPanel:
         mov eax, dword [byte ebp-0Ch]
         lea edx, [byte edi+03h]
         add ebx, esi
-        call sub_63FEF
+        call DrawColorText
         mov ecx, esi
         mov eax, dword [byte ebp-04h]
         mov ebx, dword [byte ebp-08h]
@@ -3544,7 +3544,7 @@ DrawGameClock:
         add edx, edi
         lea ebx, [esi+eax]
         lea eax, [byte ebp-014h]
-        call sub_63E7C
+        call DrawText
         mov eax, dword [dword_179908]
         mov ecx, esi
         movsx edx, word [byte eax+06h]
@@ -3605,7 +3605,7 @@ DrawPenaltyClock:
         push eax
         mov eax, unk_17D3E8
         mov dword [byte ebp-04h], ebx
-        call sub_64103
+        call FillBox
         cmp dword [dword_1798A8], byte 0
         je short .5
         mov dword [byte ebp-08h], 1Bh
@@ -3718,7 +3718,7 @@ DrawPenaltyClock:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_1798A8], byte 0
         je short .9
         mov eax, 4
@@ -3734,7 +3734,7 @@ DrawPenaltyClock:
         mov eax, 7Dh
         add edx, dword [edi]
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         push dword [dword_179914]
         call TextSetFont
         add esp, byte 4
@@ -3776,7 +3776,7 @@ DrawPenaltyClock:
         add edx, esi
         lea ebx, [edi+eax]
         lea eax, [byte ebp-028h]
-        call sub_63E7C
+        call DrawText
         jmp near DrawOverlayCaption_E1
 ;-----------------------------------------------------------------------------
 ; DrawPowerPlayPanel                           5B456  96 PC, medium confidence
@@ -3882,7 +3882,7 @@ DrawPlayerPctPanel:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_1798A8], byte 0
         je short .8
         mov ebx, 5
@@ -3901,13 +3901,13 @@ DrawPlayerPctPanel:
         mov edx, eax
         mov eax, 7Eh
         call sub_77355
-        call sub_64054
+        call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
         add esp, byte 4
         mov edx, 6
         mov eax, 0ADh
-        call sub_63F79
+        call SetTextColors
         push dword [byte esi+08h]
         movsx eax, word [dword edi+word_1656DA]
         push eax
@@ -3946,7 +3946,7 @@ DrawPlayerPctPanel:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_11B2F4], 1F4h
         jg short .12
         mov eax, edi
@@ -3983,13 +3983,13 @@ DrawPlayerPctPanel:
         mov eax, 80h
         add ebx, dword [byte esi+08h]
         call sub_77355
-        call sub_64054
+        call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
         add esp, byte 4
         mov edx, 6
         mov eax, 0ADh
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_11B2F4], 1F4h
         jge short .16
         mov eax, edi
@@ -4024,7 +4024,7 @@ DrawPlayerPctPanel:
         mov edx, dword [dword_11B320]
         sub ebx, eax
         lea eax, [byte ebp-054h]
-        call sub_640D3
+        call DrawColorTextCentred
         cmp dword [dword_11B2F4], 1F4h
         jge short .18
         xor di, byte 1
@@ -4069,7 +4069,7 @@ DrawPlayerPctPanel:
 .20:
         mov ebx, eax
         lea eax, [byte ebp-054h]
-        call sub_640D3
+        call DrawColorTextCentred
         jmp near DrawOverlayCaption_E1
 ;-----------------------------------------------------------------------------
 ; DrawClockPanel                               5B838  96 PC, medium confidence
@@ -4240,7 +4240,7 @@ DrawTimeLeftPanel:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         mov eax, 83h
         mov esi, 10h
         call sub_77355
@@ -4293,7 +4293,7 @@ DrawTimeLeftPanel:
         lea ecx, [byte eax-01h]
         mov edx, edi
         mov eax, unk_17D3E8
-        call sub_64103
+        call FillBox
         mov eax, 24h
         mov cl, byte [byte_1798A4]
         sar eax, cl
@@ -4369,13 +4369,13 @@ DrawTimeLeftPanel:
         sar edx, cl
         lea eax, [byte ebp-060h]
         add edx, dword [esi]
-        call sub_63FEF
+        call DrawColorText
         push dword [dword_179918]
         call TextSetFont
         add esp, byte 4
         mov edx, 6
         mov eax, 0ADh
-        call sub_63F79
+        call SetTextColors
         push unk_1582F5
         push str_3s
         lea eax, [byte ebp-060h]
@@ -4401,7 +4401,7 @@ DrawTimeLeftPanel:
         add edx, dword [esi]
         sub ebx, eax
         lea eax, [byte ebp-060h]
-        call sub_63FEF
+        call DrawColorText
         mov ebx, 7
         mov edx, 6
         mov eax, dword [byte esi+0Ch]
@@ -4413,7 +4413,7 @@ DrawTimeLeftPanel:
         add edx, dword [esi]
         mov ebx, eax
         lea eax, [byte ebp-038h]
-        call sub_63FEF
+        call DrawColorText
         movsx eax, word [awtmstruct]
         push eax
         push str_2d
@@ -4444,7 +4444,7 @@ DrawTimeLeftPanel:
         add esp, byte 0Ch
         mov edx, eax
         lea eax, [byte ebp-060h]
-        call sub_64054
+        call DrawColorTextRight
         mov ebx, 7
         mov eax, dword [byte esi+0Ch]
         mov cl, byte [byte_1798A4]
@@ -4458,7 +4458,7 @@ DrawTimeLeftPanel:
         sub eax, edx
         mov edx, eax
         lea eax, [byte ebp-038h]
-        call sub_64054
+        call DrawColorTextRight
         mov eax, 1
         jmp near InitGameView_709
 jpt_5BD6D:
@@ -4614,7 +4614,7 @@ DrawScorePanel:
         add esp, byte 4
         mov edx, 6
         mov eax, 0ADh
-        call sub_63F79
+        call SetTextColors
         push unk_158313
         push str_12s
         lea eax, [byte ebp-060h]
@@ -4641,7 +4641,7 @@ DrawScorePanel:
         sar edx, cl
         lea eax, [byte ebp-060h]
         add edx, dword [esi]
-        call sub_63FEF
+        call DrawColorText
         mov ebx, 8
         mov edx, 72h
         mov eax, dword [byte esi+0Ch]
@@ -4653,7 +4653,7 @@ DrawScorePanel:
         add edx, dword [esi]
         mov ebx, eax
         lea eax, [byte ebp-038h]
-        call sub_63FEF
+        call DrawColorText
         movsx eax, word [word_16581E]
         push eax
         push str_2d
@@ -4681,7 +4681,7 @@ DrawScorePanel:
         add edx, dword [esi]
         sub ebx, eax
         lea eax, [byte ebp-060h]
-        call sub_64054
+        call DrawColorTextRight
         mov ebx, 8
         mov edx, 13Ch
         mov eax, dword [byte esi+0Ch]
@@ -4693,7 +4693,7 @@ DrawScorePanel:
         add edx, dword [esi]
         mov ebx, eax
         lea eax, [byte ebp-038h]
-        call sub_64054
+        call DrawColorTextRight
         lea eax, [byte ebp-060h]
         call GetPeriodText
         push dword [dword_179920]
@@ -4701,7 +4701,7 @@ DrawScorePanel:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_1798A8], byte 0
         je short .9
         mov ebx, 5
@@ -4717,7 +4717,7 @@ DrawScorePanel:
         add ebx, dword [byte edi+08h]
         mov edx, eax
         lea eax, [byte ebp-060h]
-        call sub_64054
+        call DrawColorTextRight
         movsx eax, word [gsp]
         cmp eax, byte 4
         je near InitGameView_709
@@ -4823,7 +4823,7 @@ DrawScorePanel:
         lea ecx, [byte eax-01h]
         mov edx, edi
         mov eax, unk_17D3E8
-        call sub_64103
+        call FillBox
         mov eax, 24h
         mov cl, byte [byte_1798A4]
         sar eax, cl
@@ -4902,7 +4902,7 @@ DrawScorePanel:
         add esp, byte 4
         mov edx, 6
         mov eax, 0ADh
-        call sub_63F79
+        call SetTextColors
         push unk_1582F5
         push str_3s
         lea eax, [byte ebp-060h]
@@ -4927,7 +4927,7 @@ DrawScorePanel:
         add esp, byte 0Ch
         add edx, eax
         lea eax, [byte ebp-060h]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword_179908]
         mov ebx, dword [byte esi+0Ch]
         movsx edx, word [byte eax+06h]
@@ -4945,7 +4945,7 @@ DrawScorePanel:
         dec ebx
         add edx, eax
         lea eax, [byte ebp-038h]
-        call sub_63FEF
+        call DrawColorText
         movsx eax, word [word_16581E]
         push eax
         push str_2d
@@ -4972,7 +4972,7 @@ DrawScorePanel:
         dec ebx
         add edx, eax
         lea eax, [byte ebp-060h]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword_179908]
         mov ebx, dword [byte esi+0Ch]
         movsx edx, word [byte eax+06h]
@@ -4990,7 +4990,7 @@ DrawScorePanel:
         sar edx, cl
         add edx, eax
         lea eax, [byte ebp-038h]
-        call sub_63FEF
+        call DrawColorText
         mov ax, word [gsp]
         cmp ax, 3
         ja short DrawScorePanel_69E.23
@@ -5018,7 +5018,7 @@ DrawScorePanel_69E:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_1798A8], byte 0
         je short .24
         mov ebx, 5
@@ -5032,7 +5032,7 @@ DrawScorePanel_69E:
         sar edx, cl
         add ebx, dword [byte edi+08h]
         add edx, dword [edi]
-        call sub_63FEF
+        call DrawColorText
         mov dword [dword_11B2E8], 1
         jmp near InitGameView_709
 ;-----------------------------------------------------------------------------
@@ -5059,7 +5059,7 @@ sub_5C55F:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_1798A8], byte 0
         je short .1
         mov ebx, 5
@@ -5070,7 +5070,7 @@ sub_5C55F:
         mov eax, byte_16561C
         mov edx, dword [dword_11B320]
         add ebx, dword [byte esi+08h]
-        call sub_640D3
+        call DrawColorTextCentred
         cmp dword [dword_1798A8], byte 0
         je short .3
         mov ebx, 5
@@ -5086,14 +5086,14 @@ sub_5C55F:
         add ebx, dword [byte esi+08h]
         mov edx, eax
         mov eax, byte_1655E0
-        call sub_64054
+        call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
         mov edx, 6
         add esp, byte 4
         mov eax, 0ADh
         mov ebx, 8
-        call sub_63F79
+        call SetTextColors
         mov esi, dword [byte esi+0Ch]
         mov cl, byte [byte_1798A4]
         sub esi, dword [dword_1798FC]
@@ -5102,7 +5102,7 @@ sub_5C55F:
         sub esi, ebx
         mov edx, dword [dword_11B320]
         mov ebx, esi
-        call sub_640D3
+        call DrawColorTextCentred
         mov dword [dword_11B238], 1770h
         mov dword [dword_11B2E8], 0
         mov dword [dword_11B23C], 1F40h
@@ -5163,7 +5163,7 @@ DrawPlayerNamePanel:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_1798A8], byte 0
         je short .3
         mov ebx, 5
@@ -5179,7 +5179,7 @@ DrawPlayerNamePanel:
         add ebx, dword [byte edi+08h]
         mov edx, eax
         lea eax, [byte ebp-028h]
-        call sub_64054
+        call DrawColorTextRight
         cmp dword [byte esi+010h], byte 0
         jle short .5
         mov eax, 90h
@@ -5197,7 +5197,7 @@ DrawPlayerNamePanel:
         add esp, byte 4
         mov eax, 0ADh
         mov ebx, 8
-        call sub_63F79
+        call SetTextColors
         mov edx, 0A4h
         lea eax, [byte ebp-028h]
         mov esi, dword [byte edi+0Ch]
@@ -5208,7 +5208,7 @@ DrawPlayerNamePanel:
         sub esi, ebx
         add edx, dword [edi]
         mov ebx, esi
-        call sub_63FEF
+        call DrawColorText
         mov dword [dword_11B23C], 1F40h
         jmp near DrawOverlayCaption_E1
 ;-----------------------------------------------------------------------------
@@ -5242,7 +5242,7 @@ sub_5C7E2:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_1798A8], byte 0
         je short .1
         mov eax, 5
@@ -5254,7 +5254,7 @@ sub_5C7E2:
         mov edx, dword [dword_11B320]
         add ebx, eax
         mov eax, byte_1655E0
-        call sub_640D3
+        call DrawColorTextCentred
         cmp dword [dword_1798A8], byte 0
         je short .3
         mov ebx, 5
@@ -5270,14 +5270,14 @@ sub_5C7E2:
         add ebx, dword [byte esi+08h]
         mov edx, eax
         mov eax, byte_165694
-        call sub_64054
+        call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
         mov edx, 6
         add esp, byte 4
         mov eax, 0ADh
         mov ebx, 8
-        call sub_63F79
+        call SetTextColors
         mov edx, 72h
         mov eax, dword [byte esi+0Ch]
         mov cl, byte [byte_1798A4]
@@ -5288,7 +5288,7 @@ sub_5C7E2:
         add edx, dword [esi]
         mov ebx, eax
         mov eax, byte_1655A4
-        call sub_63FEF
+        call DrawColorText
         jmp near .8
 .5:
         cmp dword [dword_11B310], byte 0FFFFFFFFh
@@ -5308,7 +5308,7 @@ sub_5C7E2:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         cmp dword [dword_1798A8], byte 0
         je short .6
         mov eax, 5
@@ -5325,14 +5325,14 @@ sub_5C7E2:
         sub eax, edx
         mov edx, eax
         mov eax, byte_1655A4
-        call sub_64054
+        call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
         mov edx, 6
         add esp, byte 4
         mov eax, 0ADh
         mov ebx, 0Ch
-        call sub_63F79
+        call SetTextColors
         mov eax, dword [dword_1798FC]
         mov edx, dword [byte esi+0Ch]
         add eax, eax
@@ -5346,7 +5346,7 @@ sub_5C7E2:
         sar edx, cl
         mov eax, byte_1655E0
         add edx, dword [esi]
-        call sub_63FEF
+        call DrawColorText
         mov ebx, 8
         mov edx, 72h
         mov eax, dword [byte esi+0Ch]
@@ -5358,7 +5358,7 @@ sub_5C7E2:
         add edx, dword [esi]
         mov ebx, eax
         mov eax, byte_165658
-        call sub_63FEF
+        call DrawColorText
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
         mov cl, byte [byte_1798A4]
@@ -5372,7 +5372,7 @@ sub_5C7E2:
         sub eax, edx
         mov edx, eax
         mov eax, byte_165694
-        call sub_64054
+        call DrawColorTextRight
 .8:
         mov dword [dword_11B238], 1770h
         mov dword [dword_11B2E8], 0
@@ -5415,7 +5415,7 @@ sub_5CA5B:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         push byte_1655A4
         push byte_16561C
         push str_SS2
@@ -5438,13 +5438,13 @@ sub_5CA5B:
         add ebx, dword [byte esi+08h]
         mov edx, eax
         lea eax, [byte ebp-050h]
-        call sub_64054
+        call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
         add esp, byte 4
         mov edx, 6
         mov eax, 0ADh
-        call sub_63F79
+        call SetTextColors
         cmp byte [byte_165694], 0
         jne short .5
         mov ebx, 8
@@ -5470,7 +5470,7 @@ sub_5CA5B:
         mov edx, dword [dword_11B320]
         mov ebx, eax
         mov eax, byte_1655E0
-        call sub_640D3
+        call DrawColorTextCentred
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
         mov cl, byte [byte_1798A4]
@@ -5481,7 +5481,7 @@ sub_5CA5B:
         mov ebx, eax
         mov eax, byte_165694
 .6:
-        call sub_640D3
+        call DrawColorTextCentred
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
         mov cl, byte [byte_1798A4]
@@ -5495,7 +5495,7 @@ sub_5CA5B:
         sub eax, edx
         mov edx, eax
         mov eax, byte_165658
-        call sub_64054
+        call DrawColorTextRight
         mov dword [dword_11B238], 1770h
         mov dword [dword_11B2E8], 0
         mov dword [dword_11B23C], 0FFFFFFFFh
@@ -5713,7 +5713,7 @@ DrawLineEnergyBar:
 .3:
         mov eax, 3
 .4:
-        call sub_63F79
+        call SetTextColors
         cmp dword [byte ebp-01Ch], byte 0
         je short .5
         mov eax, 8
@@ -5727,7 +5727,7 @@ DrawLineEnergyBar:
         mov ebx, dword [byte ebp+014h]
         mov edx, dword [byte ebp+010h]
         mov eax, dword [byte ebp-018h]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [byte ebp+014h]
         mov edx, 1Ah
         mov cl, byte [byte_1798A4]
@@ -5740,7 +5740,7 @@ DrawLineEnergyBar:
         lea ecx, [eax+edx]
         mov ebx, dword [byte ebp+014h]
         mov eax, unk_17D3E8
-        call sub_64103
+        call FillBox
         push edi
         mov cl, byte [byte_1798A4]
         push dword [dword_1798FC]
@@ -5972,7 +5972,7 @@ DrawLineChangeBox:
         lea ecx, [byte eax-01h]
         mov edx, dword [byte ebp-08h]
         mov eax, unk_17D3E8
-        call sub_64103
+        call FillBox
         push dword [byte ebp-024h]
         mov eax, 2
         mov cl, byte [byte_1798A4]
@@ -6100,7 +6100,7 @@ DrawLineChangeBox:
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
-        call sub_63F79
+        call SetTextColors
         mov edx, 6
         mov cl, byte [byte_1798A4]
         mov eax, 4
@@ -6112,7 +6112,7 @@ DrawLineChangeBox:
         add edx, dword [esi]
         add ebx, eax
         lea eax, [byte ebp-050h]
-        call sub_63FEF
+        call DrawColorText
         jmp short .33
 .32:
         mov ebx, dword [byte esi+08h]
@@ -6121,7 +6121,7 @@ DrawLineChangeBox:
         sub eax, edx
         mov edx, eax
         lea eax, [byte ebp-050h]
-        call sub_64054
+        call DrawColorTextRight
 .33:
         cmp dword [nosplit edi*4+dword_1797B4], byte 0
         jne near .39

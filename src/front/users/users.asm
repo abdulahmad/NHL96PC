@@ -27,9 +27,9 @@ extern str_sp00, str_sp002, str_sp1000, str_sp10002, str_sp3d1d, str_sp3d1d2, st
 extern str_sp3s, str_sp3s2, str_spD, str_TB00, str_TB01, str_TB10, str_TB11, str_TXTD
 extern str_Uga, str_Ugf, str_Ulstreak, str_Ulxh, str_Ulxn, str_Ulyh, str_Ulyn, str_Uname
 extern str_Uopp, str_Upk, str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_Ustreak
-extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, sub_62AF7, sub_62E0E
-extern sub_62F90, sub_63998, sub_63A5B, sub_63E7C, sub_63EB5, sub_63F79, sub_63FEF, sub_64103
-extern sub_64721, sub_64F59, PlaySfx, SoundIdle, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC
+extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, OpenScreen, SlideInSideBar
+extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetTextColors, DrawColorText, FillBox
+extern InitMenuItems, sub_64F59, PlaySfx, SoundIdle, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC
 extern sub_7D325, sub_7D346, sub_7D349, sub_8B7BB, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, sub_DD6C4, sub_DD8B0
 extern sub_E04E0, sub_E15AC, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
@@ -540,7 +540,7 @@ DrawUserList:
         mov edx, 0FCh
         xor eax, eax
 .5:
-        call sub_63F79
+        call SetTextColors
         lea eax, [byte ebp-038h]
         mov edx, esi
         call strcpy_
@@ -573,7 +573,7 @@ DrawUserList:
         inc dword [byte ebp-018h]
         xor edx, edx
         inc dword [byte ebp-04h]
-        call sub_63FEF
+        call DrawColorText
         add esi, byte 36h
         add dword [byte ebp-0Ch], byte 0Dh
 .8:
@@ -754,7 +754,7 @@ PickUsersScreen:
         add esp, byte 4
         lea edx, [dword ebp-0CB8h]
         mov eax, 11h
-        call sub_64721
+        call InitMenuItems
         push str_Ulxn
         push esi
         call sub_E04E0
@@ -1295,7 +1295,7 @@ PickUsersScreen:
         mov edx, 0FEh
         call sub_7D325
         mov eax, 0FDh
-        call sub_63F79
+        call SetTextColors
         jmp near CompareUsersByRecord_ret
 ;-----------------------------------------------------------------------------
 ; UpdateUserRecords                            2B4B9  96 PC, medium confidence
@@ -2243,7 +2243,7 @@ DrawUserRecords:
         mov ebx, dword [dword_117800]
         push dword [nosplit eax*4+dword_1177F8]
         mov eax, dword [byte ebp-074h]
-        call sub_64103
+        call FillBox
 .5:
         add dword [byte ebp-028h], byte 51h
         inc esi
@@ -2296,7 +2296,7 @@ DrawUserRecords:
         push eax
         mov ebx, esi
         mov eax, dword [byte ebp-074h]
-        call sub_64103
+        call FillBox
 .7:
         mov eax, dword [byte ebp-02Ch]
         inc eax
@@ -2310,7 +2310,7 @@ DrawUserRecords:
         add esp, byte 0Ch
         mov ebx, esi
         lea eax, [byte ebp-064h]
-        call sub_63E7C
+        call DrawText
         mov eax, dword [byte ebp-08h]
         mov edx, dword [dword_160AAC]
         push dword [edx+eax*4]
@@ -2322,7 +2322,7 @@ DrawUserRecords:
         add esp, byte 0Ch
         mov edx, 50h
         lea eax, [byte ebp-064h]
-        call sub_63E7C
+        call DrawText
         mov eax, dword [byte ebp-08h]
         mov edx, dword [dword_160AC8]
         add eax, eax
@@ -2339,7 +2339,7 @@ DrawUserRecords:
         add esp, byte 0Ch
         mov ebx, esi
         lea eax, [byte ebp-064h]
-        call sub_63EB5
+        call DrawTextCentred
 .8:
         mov eax, dword [byte ebp-08h]
         shl eax, 4
@@ -2532,7 +2532,7 @@ DrawUserRecords_3F0:
         lea eax, [byte ebp-064h]
         mov ebx, esi
         inc dword [byte ebp-0Ch]
-        call sub_63EB5
+        call DrawTextCentred
         add dword [byte ebp-018h], byte 51h
         cmp dword [byte ebp-0Ch], byte 3
         jl near DrawUserRecords.9
@@ -3478,7 +3478,7 @@ UserRecordsScreen:
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+036h], eax
-        call sub_62F90
+        call SetScreenColors
         push byte 20h
         push dword 100h
         push str_Shadtbl
@@ -3506,9 +3506,9 @@ UserRecordsScreen:
         add esp, byte 0Ch
         mov dword [byte ebp+032h], eax
         mov eax, 87h
-        call sub_64721
+        call InitMenuItems
         mov eax, 4
-        call sub_62AF7
+        call OpenScreen
         mov ecx, 66h
         mov edi, unk_160B50
         mov esi, dword_17BC7C
@@ -3911,7 +3911,7 @@ UserRecordsScreen:
         mov ebx, 3
         mov edx, dword [byte ebp+036h]
         xor eax, eax
-        call sub_63998
+        call FadePalette
 .22:
         mov dword [byte ebp+02Ah], 0FFFFFFFFh
 .23:
@@ -3933,7 +3933,7 @@ UserRecordsScreen:
         mov eax, dword [byte ebp+02Ah]
         jmp dword [nosplit cs:eax*4+jpt_2CB19]
 UserRecordsScreen_A1A:
-        call sub_62E0E
+        call SlideInSideBar
         mov dword [byte ebp+02Eh], 0
         jmp near UserRecordsScreen_CC6.42
 UserRecordsScreen_A2B:
@@ -4240,7 +4240,7 @@ UserRecordsScreen_CC6:
         call NameIndexFree
         mov eax, 3
         mov edx, dword [byte ebp+02Eh]
-        call sub_63A5B
+        call FadeOut
 .43:
         mov eax, edx
         jmp near UpdateUserRecords_47F

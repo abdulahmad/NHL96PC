@@ -9,8 +9,8 @@ extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, off_11D3DC
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
 extern str_HardwareBeforeRunningHOC, str_IhreHardwareZuKonfigurie, str_LDON, str_LEAS, str_Lgo, str_LNEW, str_LNHL, str_LNPA
 extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_, strlen_, GripSetupScreen
-extern ClearSlotUsers, UserRecordsScreen, sub_57F0A, sub_583B8, sub_625F7, sub_62ED9, sub_63076, sub_63955
-extern sub_63B0C, sub_63B6A, sub_63DC4, sub_64E54, sub_64E64, sub_66589, StopMusic, FadeOutMusic
+extern ClearSlotUsers, UserRecordsScreen, sub_57F0A, sub_583B8, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
+extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, sub_66589, StopMusic, FadeOutMusic
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, sub_6A675, sub_73BA5, sub_771F0, sub_77292, sub_77355
 extern sub_7BA57, sub_88509, sub_A4961, sub_A4FD7, sub_AB758, sub_ABF4C, sub_AC868, sub_ADA50
 extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, sub_DD6C4
@@ -409,9 +409,9 @@ InitHardware:
         call sub_E05DA
         add esp, byte 4
         call sub_B3160
-        call sub_63B6A
+        call InitGraphicsFix
         mov eax, 1
-        call sub_63DC4
+        call SetScreenMode
         push unk_1210DC
         push dword 100h
         push byte 0
@@ -595,25 +595,25 @@ StartUp:
         shr edx, 1Fh
         call StartSoundCard
         mov eax, 32h
-        call sub_64E54
+        call SetMenuMoveSfx
         mov eax, 34h
-        call sub_64E64
+        call SetMenuSelectSfx
         mov eax, 1
         mov edx, 20h
-        call sub_63DC4
-        call sub_625F7
+        call SetScreenMode
+        call LoadFrontEndArt
         mov eax, dword [dword_152F58]
-        call sub_63B0C
+        call CopyBitmap
         mov edx, 20h
         mov dword [dword_152F54], eax
         mov eax, dword [dword_152F50]
-        call sub_63B0C
+        call CopyBitmap
         mov dword [dword_152F5C], eax
         cmp dword [dword_114CD3], byte 0
         jle short .5
         call GripSetupScreen
 .5:
-        call sub_63076
+        call RunIntro
         call ClearSlotUsers
         push ModemGameClose
         call sub_E04D0
@@ -628,8 +628,8 @@ StartUp:
 ;-----------------------------------------------------------------------------
 ShutDown:
         call WriteGlobalSet
-        call sub_63955
-        call sub_62ED9
+        call RunCredits
+        call FreeFrontEndArt
         call ShutdownSound
         call sub_77292
         push dword [dword_152F44]

@@ -40,3 +40,11 @@ cut RunInGameMenu front/pause_menu The in-game menu: RunInGameMenu and the pause
 # step 7: front_584A0, the game view
 rename front/front_584A0 front/game_view The 3D game view: set-up and frame draw, shading LUT, player and puck sprites, controller markers, the game overlays (clock, power play, panels) and the line change boxes (96 PC).
 cut CameraPathCoeffs front/camera The game camera: its path polynomials and the camera shots (96 PC).
+# step 8: front_5D993 (camera, sprite art, front-end art, intro, drawing helpers) and front_64F59 (menus)
+rename front/front_5D993 front/camera
+cut PutJerseyDigit front/player_art Player sprite art: the sprite banks (fight.ref, total.ref, oldshp.qfs, cup.ref), the UNPACK frame cache, team palettes, jersey colours and numbers (96 PC).
+cut LoadFrontEndArt front/screen_art Front-end screen art: load and free it, team name images, the screen frame and its sliding bars (96 PC).
+cut PlayIntroMovies front/intro The intro at start-up (screens and movies) and the slide shows, the credits at shut-down (96 PC).
+cut BlackPalette front/draw Drawing helpers: palette fades, the graphics mode, bitmap copies, text in colours, boxes, colour remapping (96 PC).
+cut InitMenuItems front/menu Menus: the menu items, the menu input (mouse, pads, joysticks, keys) and its sounds, the menu loop (96 PC; still to be named).
+rename front/front_64F59 front/menu

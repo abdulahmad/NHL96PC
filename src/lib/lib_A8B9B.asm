@@ -9,12 +9,15 @@ extern dword_1174F0, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, dwo
 extern dword_17CC13, dword_17CF8E, dword_17D162, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
 extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, sub_1E643, sub_1E8E9
-extern sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63998, sub_63A5B, sub_63FEF, sub_640D3
+extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
 extern sub_64F59, sub_77355, sub_78E9E, sub_78EFA, sub_ABF4C, sub_B0430, sub_B0494, sub_B22B0
 extern sub_B2C54, sub_C254C, sub_C2600, sub_C2CB0, sub_DD908, sub_E04E0, unk_17CED5, unk_184B78
 extern unk_184BB4, unk_184BF0, unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48
 extern unk_184F48, unk_184F77, unk_185292
 global _searchenv_, sub_A8C81_555, sub_A8B9B, sub_A8C75, sub_A8C81, sub_A91DD, sub_A9BAC
+;-----------------------------------------------------------------------------
+; sub_A8B9B                                                            A8B9B  
+;-----------------------------------------------------------------------------
 sub_A8B9B:
         push ebx
         push ecx
@@ -85,12 +88,18 @@ sub_A8B9B:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_A8C75                                                            A8C75  
+;-----------------------------------------------------------------------------
 sub_A8C75:
         mov eax, dword [dword_17CF8E]
         and eax, byte 7
         shr eax, 1
         inc eax
         ret
+;-----------------------------------------------------------------------------
+; sub_A8C81                                                            A8C81  
+;-----------------------------------------------------------------------------
 sub_A8C81:
         push ebx
         push ecx
@@ -517,6 +526,9 @@ sub_A8C81_555:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_A91DD                                                            A91DD  
+;-----------------------------------------------------------------------------
 sub_A91DD:
         push ebx
         push ecx
@@ -650,7 +662,7 @@ sub_A91DD:
         add esp, byte 14h
         mov edx, 1E0h
         lea eax, [byte ebp+03Ah]
-        call sub_640D3
+        call DrawColorTextCentred
         movsx eax, byte [dword ecx+byte_184B3E]
         mov ecx, dword [dword ebp-0196h]
         shl ecx, 2
@@ -672,7 +684,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+02h]
         push eax
@@ -687,7 +699,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+04h]
         push eax
@@ -702,7 +714,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+06h]
         push eax
@@ -717,7 +729,7 @@ sub_A91DD:
         mov ebx, 140h
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+0Ch]
         push eax
@@ -732,7 +744,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movsx eax, word [byte eax+010h]
         push eax
@@ -747,7 +759,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+08h]
         push eax
@@ -762,7 +774,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 23Ah
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+0Ah]
         push eax
@@ -777,7 +789,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 23Ah
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         cmp word [byte eax+0Eh], byte 0
         je short .7
@@ -833,7 +845,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+014h]
         push eax
@@ -848,7 +860,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+016h]
         push eax
@@ -863,7 +875,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+018h]
         push eax
@@ -878,7 +890,7 @@ sub_A91DD:
         mov ebx, 140h
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+01Eh]
         push eax
@@ -893,7 +905,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movsx eax, word [byte eax+022h]
         push eax
@@ -908,7 +920,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+01Ah]
         push eax
@@ -923,7 +935,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 23Ah
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+01Ch]
         push eax
@@ -938,7 +950,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 23Ah
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         cmp word [byte eax+020h], byte 0
         je near .7
@@ -971,7 +983,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+02h]
         push eax
@@ -986,7 +998,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+04h]
         push eax
@@ -1001,7 +1013,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+06h]
         push eax
@@ -1016,7 +1028,7 @@ sub_A91DD:
         mov ebx, 17Ch
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+08h]
         push eax
@@ -1031,7 +1043,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 208h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov eax, dword [dword ecx+off_11F531]
         movzx eax, word [byte eax+0Ch]
         push eax
@@ -1046,7 +1058,7 @@ sub_A91DD:
         add esp, byte 10h
         mov edx, 208h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov esi, dword [dword ecx+off_11F531]
         movzx esi, word [byte esi+010h]
         mov eax, esi
@@ -1069,7 +1081,7 @@ sub_A91DD:
         add esp, byte 14h
         mov edx, 208h
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         mov ecx, dword [dword ecx+off_11F531]
         movzx ecx, word [byte ecx+014h]
         mov eax, ecx
@@ -1093,7 +1105,7 @@ sub_A91DD:
         mov edx, 208h
 .10:
         lea eax, [byte ebp+03Ah]
-        call sub_63FEF
+        call DrawColorText
         imul eax, dword [dword ebp-0196h], byte 3Ch
         movzx eax, byte [dword eax+byte_184B3C]
         imul eax, dword 31Bh
@@ -1102,7 +1114,7 @@ sub_A91DD:
         add eax, edx
         mov edx, 1E0h
         add eax, byte 5
-        call sub_640D3
+        call DrawColorTextCentred
         mov eax, dword [dword ebp-0196h]
         mov ebx, 122h
         mov eax, dword [nosplit eax*4+dword_11F4F0]
@@ -1159,14 +1171,14 @@ sub_A91DD:
         mov edx, 140h
 .18:
         call sub_77355
-        call sub_640D3
+        call DrawColorTextCentred
         mov eax, dword [byte ebp+07Eh]
         mov ecx, 66h
         lea edi, [byte ebp-02Ch]
-        call sub_62F90
+        call SetScreenColors
         mov eax, 6
         mov esi, dword_17BD48
-        call sub_62AF7
+        call OpenScreen
         rep movsb
         mov ebx, 3
         mov ecx, 66h
@@ -1177,7 +1189,7 @@ sub_A91DD:
         rep movsb
         xor eax, eax
         mov byte [byte ebp-04Dh], 1
-        call sub_63998
+        call FadePalette
         mov dword [byte ebp+06Eh], 0FFFFFFFFh
 .19:
         cmp dword [byte ebp+06Eh], byte 0FFFFFFFFh
@@ -1195,13 +1207,13 @@ sub_A91DD:
 .20:
         cmp dword [byte ebp+06Eh], byte 0
         je short .21
-        call sub_62D9B
+        call SlideInTitleBar
         jmp short .22
 .21:
-        call sub_62E0E
+        call SlideInSideBar
 .22:
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         push dword [byte ebp+076h]
         call sub_ABF4C
         mov eax, dword [dword ebp-0196h]
@@ -1219,6 +1231,9 @@ sub_A91DD:
         mov eax, dword [byte ebp+06Eh]
         lea esp, [dword ebp+082h]
         jmp near sub_A8C81_555
+;-----------------------------------------------------------------------------
+; sub_A9BAC                                                            A9BAC  
+;-----------------------------------------------------------------------------
 sub_A9BAC:
         push edx
         call sub_A8C81
@@ -1237,6 +1252,9 @@ sub_A9BAC:
         pop edx
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; _searchenv_                                                   A9BCC  library
+;-----------------------------------------------------------------------------
 _searchenv_:
         push ecx
         push esi

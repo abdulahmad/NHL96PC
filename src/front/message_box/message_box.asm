@@ -5,7 +5,7 @@ section s_1A04E progbits alloc exec nowrite align=1
 extern byte_11FA2F, byte_152C3B, byte_152C40, byte_152C41, byte_152C42, DrawArtOpaque, dword_1150C4, dword_1150C8
 extern dword_1150CC, dword_1150D0, dword_11F5C0, dword_152C3C, FillRect, fputchar, mousex, mousey
 extern PutBlock, SetDrawBitmap, sprintf_, str_02, str_BDMEN, str_BDREG, str_BUT, str_D14
-extern str_X, sub_63B0C, sub_63EB5, sub_63F79, sub_640D3, sub_641D4, sub_64721, sub_64F59
+extern str_X, CopyBitmap, DrawTextCentred, SetTextColors, DrawColorTextCentred, DrawBox, InitMenuItems, sub_64F59
 extern sub_66373, SoundIdle, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620
 extern sub_ADA80, sub_ADBEC, sub_AFFD0, sub_DD6C4, sub_DD6E0, sub_DFE9C, unk_152B3C
 global DrawBoxButton, DrawBoxButton_ret, MessageBox, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox
@@ -48,7 +48,7 @@ DrawBoxButton:
         add esp, byte 14h
         movzx edx, byte [byte eax+01h]
         mov eax, edi
-        call sub_63F79
+        call SetTextColors
         push str_X
         mov edx, dword [esi]
         mov eax, dword [dword_152C3C]
@@ -74,7 +74,7 @@ DrawBoxButton:
         add esp, byte 4
         sub edx, eax
         mov eax, dword [edi]
-        call sub_640D3
+        call DrawColorTextCentred
 DrawBoxButton_ret:
         leave
         pop edi
@@ -378,11 +378,11 @@ MessageBox:
         push edx
         dec ecx
         xor edx, edx
-        call sub_641D4
+        call DrawBox
         movzx edx, byte [byte esi+01h]
         movzx eax, byte [esi]
         mov edi, dword [dword ebp-0340h]
-        call sub_63F79
+        call SetTextColors
         movzx eax, byte [byte_11FA2F]
         inc edi
         mov dword [byte ebp-014h], eax
@@ -450,7 +450,7 @@ MessageBox:
         mov edx, dword [byte eax+010h]
         mov eax, dword [dword ebp-0340h]
         sar edx, 1
-        call sub_640D3
+        call DrawColorTextCentred
         movzx eax, byte [byte_11FA2F]
         mov byte [edi], cl
         inc edi
@@ -468,7 +468,7 @@ MessageBox:
         mov edx, dword [byte eax+010h]
         mov eax, dword [dword ebp-0340h]
         sar edx, 1
-        call sub_640D3
+        call DrawColorTextCentred
         mov dword [dword ebp-0340h], edi
         jmp near .26
 .36:
@@ -496,7 +496,7 @@ MessageBox:
         add esp, byte 0Ch
         mov edx, eax
         mov eax, dword [dword ebp-0344h]
-        call sub_64721
+        call InitMenuItems
         mov eax, dword [dword_152C3C]
         mov dword [byte eax+024h], edi
         mov eax, dword [dword_152C3C]
@@ -710,7 +710,7 @@ MessageBox:
         add edx, dword [byte ebp-020h]
         mov eax, dword [eax]
         add dword [byte ebp-024h], byte 66h
-        call sub_640D3
+        call DrawColorTextCentred
         mov eax, dword [dword_152C3C]
         inc dword [byte ebp-014h]
         add edi, byte 40h
@@ -723,7 +723,7 @@ MessageBox:
         movzx edx, byte [byte esi+01h]
         movzx eax, byte [esi]
         dec edi
-        call sub_63F79
+        call SetTextColors
         imul edx, edi, byte 66h
         mov eax, dword [dword_152C3C]
         mov eax, dword [byte eax+024h]
@@ -808,7 +808,7 @@ MessageBox:
         add esp, byte 4
         movzx edx, byte [byte esi+01h]
         movzx eax, byte [esi]
-        call sub_63F79
+        call SetTextColors
         mov eax, dword [byte ebp-03Ch]
         leave
         pop edi
@@ -905,7 +905,7 @@ ShowMessage:
         add esp, byte 0Ch
         mov eax, dword [byte edi+02Ch]
         xor edx, edx
-        call sub_63B0C
+        call CopyBitmap
         mov edx, dword [byte ebp-08h]
         mov dword [dword_1150C4], eax
         mov word [byte eax+0Ch], dx
@@ -940,10 +940,10 @@ ShowMessage:
         push eax
         dec ecx
         mov eax, unk_152B3C
-        call sub_641D4
+        call DrawBox
         movzx edx, byte [byte esi+01h]
         movzx eax, byte [esi]
-        call sub_63F79
+        call SetTextColors
         movzx eax, byte [byte_11FA2F]
         lea ebx, [eax+eax*2]
         sar ebx, 1
@@ -951,7 +951,7 @@ ShowMessage:
         mov edx, dword [byte ebp-014h]
         sub ebx, eax
         mov eax, dword [dword ebp-0318h]
-        call sub_640D3
+        call DrawColorTextCentred
         call sub_DD6C4
         movzx eax, byte [byte_11FA2F]
         lea eax, [eax+eax*2]
@@ -1048,7 +1048,7 @@ ShowProgressBox:
         add esp, byte 0Ch
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
-        call sub_63B0C
+        call CopyBitmap
         mov edx, dword [dword ebp+037Eh]
         mov dword [dword_1150C8], eax
         mov word [byte eax+0Ch], dx
@@ -1084,16 +1084,16 @@ ShowProgressBox:
         push eax
         xor edx, edx
         mov eax, unk_152B3C
-        call sub_641D4
+        call DrawBox
         mov edx, dword [byte ebp+076h]
         mov eax, dword [byte ebp+076h]
         movzx edx, byte [byte edx+01h]
         movzx eax, byte [eax]
-        call sub_63F79
+        call SetTextColors
         mov edx, dword [dword ebp+0382h]
         mov eax, dword [byte ebp+07Ah]
         movzx ebx, byte [byte_11FA2F]
-        call sub_640D3
+        call DrawColorTextCentred
         call sub_DD6C4
         mov eax, dword [dword_1150C8]
         movsx edx, word [byte eax+0Eh]
@@ -1153,7 +1153,7 @@ ShowProgressBox:
         add esp, byte 8
         add edx, eax
         mov eax, str_02
-        call sub_63EB5
+        call DrawTextCentred
         lea esp, [dword ebp+0386h]
         pop ebp
         pop edi
@@ -1281,7 +1281,7 @@ UpdateProgressBox:
         add esp, byte 0Ch
         add edx, eax
         lea eax, [byte ebp-0Ch]
-        call sub_63EB5
+        call DrawTextCentred
         jmp near DrawBoxButton_ret
 ;-----------------------------------------------------------------------------
 ; HideProgressBox                                                 1B00B  96 PC

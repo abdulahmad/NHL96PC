@@ -13,7 +13,7 @@ extern dword_15172E, dword_151730, dword_151732, dword_151770, dword_15178E, dwo
 extern fread_, fseek_, ftell_, GameLoopActive, gameopts, GetTicks, InputRecordCount, InputRecordHead
 extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mousex, mousey, SetViewRect
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
-extern strcat_, strcpy_, sub_619E2, sub_DFA98, sub_DFE9C, sub_DFF28, sub_E0051, sub_E0456
+extern strcat_, strcpy_, CameraFacing, sub_DFA98, sub_DFE9C, sub_DFF28, sub_E0051, sub_E0456
 extern sub_E04D0, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, unk_151784, word_114B40, word_114B42
 extern word_114B44, word_114CDB, word_114CE0, word_114CE4, word_11F910, word_11F914, word_11F918, word_11F91C
 extern word_1515B5, word_151634, word_151636, word_151638, word_15163A, word_151712, word_151714, word_15171C
@@ -216,7 +216,7 @@ ReadEscReplayKeys_52:
         jle short .1
         xor ebx, ebx
 .1:
-        call sub_619E2
+        call CameraFacing
         movsx eax, al
         imul eax, byte 0Bh
         movsx ebx, byte [dword ebx+eax+byte_114C58]
@@ -1049,7 +1049,7 @@ PollControllers:
         jle short .15
         xor ebx, ebx
 .15:
-        call sub_619E2
+        call CameraFacing
         movsx eax, al
         imul eax, byte 0Bh
         movsx ebx, byte [dword ebx+eax+byte_114C58]

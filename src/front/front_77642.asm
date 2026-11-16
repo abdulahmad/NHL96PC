@@ -15,8 +15,8 @@ extern sub_794FF_AEB, sub_794FF_AF7, sub_794FF_B7E, sub_794FF_C05, sub_794FF_C68
 extern rand_, sprintf_, srand_, strcat_, strcpy_, strlen_, NameIndexNew, NameIndexSave
 extern NameIndexAdd, NameIndexFirstId, EditText, MessageBox, ShowProgressBox, UpdateProgressBox, HideProgressBox, LoadTeamLogo
 extern FileOpenRead, FileOpenReadWrite, FileClose, FileWriteAt, FileCopy, sub_1E222, sub_1E268, MakeDataPath
-extern MakeDirPath, LoadPackedFile, MakeDatabasePath, FreeStatsTables, sub_29B9F, sub_62AF7, sub_62D9B, sub_62E0E
-extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_640D3, sub_64296, sub_64721, sub_64F59
+extern MakeDirPath, LoadPackedFile, MakeDatabasePath, FreeStatsTables, sub_29B9F, OpenScreen, SlideInTitleBar, SlideInSideBar
+extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorTextCentred, DrawFrameAt, InitMenuItems, sub_64F59
 extern FillMusicStream, SoundSecondsToBytes, sub_77355, sub_77535, sub_AAA8C, PutBlock, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, TextSetFont, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7256, sub_B7810, sub_C254C, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
@@ -122,9 +122,9 @@ sub_77642:
         call sub_B2C54
         add esp, byte 4
         mov eax, dword [byte ebp+06Ah]
-        call sub_62F90
+        call SetScreenColors
         mov eax, 6
-        call sub_62AF7
+        call OpenScreen
         lea eax, [dword ebp-02F6h]
         push eax
         push dword [byte ebp+06Ah]
@@ -144,7 +144,7 @@ sub_77642:
         add esp, byte 0Ch
         mov dword [byte ebp+05Ah], eax
         mov eax, 0Dh
-        call sub_64721
+        call InitMenuItems
         push str_Bt014
         push dword [byte ebp+05Eh]
         call sub_E04E0
@@ -313,7 +313,7 @@ sub_77642:
         mov ebx, 3
         mov edx, dword [byte ebp+06Ah]
         xor eax, eax
-        call sub_63998
+        call FadePalette
         cmp dword [dword ebp-0B0Ah], byte 0
         jne near sub_77642_7F2.18
         mov byte [byte_17CBEB], 0
@@ -346,10 +346,10 @@ sub_77642:
         add esp, byte 0Ch
         mov eax, 0FCh
         mov ebx, 4Fh
-        call sub_63F79
+        call SetTextColors
         mov edx, 13Ch
         lea eax, [byte ebp-036h]
-        call sub_640D3
+        call DrawColorTextCentred
         push byte 2
         push byte 0
         push dword 0F0h
@@ -605,14 +605,14 @@ sub_77642_8BB:
         mov dword [byte ebp+06Eh], 2717h
         jmp short sub_77642_7F2.18
 sub_77642_8CB:
-        call sub_62E0E
+        call SlideInSideBar
         mov dword [byte ebp+07Eh], 0
 .20:
         mov dword [byte ebp+06Eh], 2710h
         jmp short sub_77642_7F2.18
 sub_77642_8E0:
         mov dword [dword_17CC1B], 0
-        call sub_62D9B
+        call SlideInTitleBar
         xor eax, eax
 .21:
         movsx edx, byte [dword eax+byte_17CC36]
@@ -653,7 +653,7 @@ sub_77642_8E0:
         jmp near sub_77642_7F2.17
 .25:
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         push dword [byte ebp+062h]
         call sub_ABF4C
         add esp, byte 4
@@ -795,10 +795,10 @@ sub_78029:
         mov ecx, dword [dword esi+dword_11E2EC]
         mov ebx, dword [dword esi+dword_11E2D4]
         mov edx, dword [byte edx+02Ch]
-        call sub_64296
+        call DrawFrameAt
         mov eax, 0FCh
         xor edx, edx
-        call sub_63F79
+        call SetTextColors
         mov eax, dword [byte ebp-020h]
         movzx eax, byte [dword eax+byte_11D754]
         imul eax, byte 1Ah
@@ -810,7 +810,7 @@ sub_78029:
         mov edx, dword [dword esi+dword_11E2D4]
         add ebx, byte 5Dh
         add edx, byte 5Ah
-        call sub_640D3
+        call DrawColorTextCentred
 .6:
         mov edx, dword [byte ebp-0Ch]
         mov eax, dword [nosplit edx*4+dword_11E2D4]
@@ -987,7 +987,7 @@ sub_78029:
         mov ecx, dword [dword ecx+dword_11E320]
         mov ebx, dword [dword ebx+dword_11E304]
         mov edx, dword [byte edx+02Ch]
-        call sub_64296
+        call DrawFrameAt
         cmp dword [byte ebp-0Ch], byte 2
         jge short .20
         mov eax, dword [byte ebp-010h]
@@ -1139,7 +1139,7 @@ sub_78029:
         mov edx, dword [dword edx+dword_11E304]
         add ebx, byte 5Dh
         add edx, byte 5Ah
-        call sub_640D3
+        call DrawColorTextCentred
 .32:
         inc dword [byte ebp-038h]
         inc dword [byte ebp-03Ch]

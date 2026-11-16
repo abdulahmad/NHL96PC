@@ -10,8 +10,8 @@ extern str_Jy11, str_Jy12, str_Jy1x, str_Jy20, str_Jy21, str_Jy22, str_Jy2x, str
 extern str_Det1, str_Det22, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, byte_17CA22, byte_17D650
 extern byte_17D651, dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, mousex, mousey, dword_17BC7C
 extern dword_17BD48, dword_17C9A4, globalset, optblock, dword_17D590, dword_17D594, dword_17D654, sprintf_
-extern GetInputDevices, LoadPackedFile, JoystickTestScreen, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968
-extern sub_63998, sub_63A5B, sub_63B0C, sub_64721, sub_64F59, SetSpeechVolume, StopMusic, QueueCurrentMusic
+extern GetInputDevices, LoadPackedFile, JoystickTestScreen, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette
+extern FadePalette, FadeOut, CopyBitmap, InitMenuItems, sub_64F59, SetSpeechVolume, StopMusic, QueueCurrentMusic
 extern FillMusicStream, SetMusicVolume, PlayMusic, FadeOutMusic, PlaySfx, SoundSecondsToBytes, SoundIdle, WriteGlobalSet
 extern sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_DD6C4, MouseRead, sub_DFE9C, sub_E04E0, unk_17D598, unk_708A9
@@ -374,14 +374,14 @@ sub_715E3:
         mov dword [dword_17D590], eax
         call sub_ADA50
         add esp, byte 4
-        call sub_63968
+        call BlackPalette
         push str_Pal13
         push dword [dword_17D590]
         call sub_E04E0
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+06Eh], eax
-        call sub_62F90
+        call SetScreenColors
         call sub_DD6C4
         push str_BKGD7
         push dword [dword_17D590]
@@ -398,7 +398,7 @@ sub_715E3:
         mov eax, 0Dh
         mov edx, dword [dword_17D594]
         mov dword [byte ebp+05Eh], 0
-        call sub_64721
+        call InitMenuItems
         lea eax, [dword ebp-02C6h]
         mov dword [byte ebp+076h], 0
         mov dword [byte ebp+072h], eax
@@ -650,7 +650,7 @@ sub_715E3_177:
         add esp, byte 0Ch
         mov dword [dword eax+042Eh], 33h
         mov eax, 6
-        call sub_62AF7
+        call OpenScreen
         mov esi, dword [dword_17D594]
         mov ecx, 66h
         lea edi, [dword esi+0462h]
@@ -686,7 +686,7 @@ sub_715E3_177:
         add esp, byte 8
         xor eax, eax
         mov dword [byte ebp+05Ah], 0Ch
-        call sub_63998
+        call FadePalette
 .10:
         call SoundIdle
         cmp dword [byte ebp+05Ah], byte 0
@@ -1044,11 +1044,11 @@ sub_715E3_96B:
         call SoundIdle
         jmp short sub_715E3_B00.30
 sub_715E3_AF2:
-        call sub_62E0E
+        call SlideInSideBar
         mov dword [byte ebp+06Ah], 4
         jmp short sub_715E3_B00.30
 sub_715E3_B00:
-        call sub_62D9B
+        call SlideInTitleBar
         mov ecx, 0BCh
         mov esi, unk_17D598
         mov edi, dword_17C9A4
@@ -1061,7 +1061,7 @@ sub_715E3_B00:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         push dword [dword_17D594]
         call sub_ABF4C
         mov eax, dword [byte ebp+06Ah]
@@ -1120,14 +1120,14 @@ sub_72140:
         mov dword [byte ebp+032h], eax
         call sub_ADA50
         add esp, byte 4
-        call sub_63968
+        call BlackPalette
         push str_Pal13
         push esi
         call sub_E04E0
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+02Eh], eax
-        call sub_62F90
+        call SetScreenColors
         call sub_DD6C4
         push str_Bkgd8
         push esi
@@ -1138,7 +1138,7 @@ sub_72140:
         add esp, byte 4
         lea edx, [dword ebp-0E9Eh]
         mov eax, 15h
-        call sub_64721
+        call InitMenuItems
         lea eax, [dword ebp-063Eh]
         mov dword [byte ebp+03Eh], 0
         mov dword [byte ebp+052h], eax
@@ -1320,7 +1320,7 @@ sub_72140:
         call sub_E04E0
         add esp, byte 8
         mov edx, 20h
-        call sub_63B0C
+        call CopyBitmap
         mov ecx, eax
         mov eax, dword [byte ebp+03Eh]
         mov ebx, 3
@@ -1575,7 +1575,7 @@ sub_72140:
         add esp, byte 0Ch
         mov edx, 20h
         mov eax, dword [byte eax+02Ch]
-        call sub_63B0C
+        call CopyBitmap
         push byte 0
         push byte 0
         mov edx, dword [byte ebp+062h]
@@ -1681,7 +1681,7 @@ sub_72140:
         add esp, byte 0Ch
         mov edx, 20h
         mov eax, dword [byte eax+02Ch]
-        call sub_63B0C
+        call CopyBitmap
         push byte 0
         push byte 0
         mov edx, dword [byte ebp+062h]
@@ -1955,7 +1955,7 @@ sub_72140:
         mov dword [dword ebp-06CEh], eax
         mov eax, 2
         mov byte [dword ebp-06C7h], 14h
-        call sub_62AF7
+        call OpenScreen
         rep movsb
         mov byte [dword ebp-0664h], 12h
         mov byte [dword ebp-0663h], 14h
@@ -1969,7 +1969,7 @@ sub_72140:
         add esp, byte 8
         xor eax, eax
         mov dword [byte ebp+046h], 14h
-        call sub_63998
+        call FadePalette
 .50:
         call SoundIdle
         cmp dword [byte ebp+046h], byte 0
@@ -2811,7 +2811,7 @@ sub_72140:
         mov dword [byte ebp+04Ah], 0Ch
         jmp short .110
 .109:
-        call sub_62D9B
+        call SlideInTitleBar
         call WriteGlobalSet
         mov dword [byte ebp+04Ah], 0
 .110:
@@ -2840,7 +2840,7 @@ sub_72140:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         mov eax, dword [byte ebp+04Ah]
         jmp near sub_715E3_B50
 ;-----------------------------------------------------------------------------

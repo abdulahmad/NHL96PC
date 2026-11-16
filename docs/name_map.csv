@@ -552,10 +552,106 @@ address,name,auto_name,source,confidence,evidence,file
 5D82C,CameraPathSlope,sub_5D82C,new,medium,"(coeffs, t): its first derivative (5, 4, 3, 2)",src/front/camera/camera.asm
 5D87E,CameraPathCurve,sub_5D87E,new,medium,"(coeffs, t): its second derivative (20, 12, 6, 2)",src/front/camera/camera.asm
 5D8D1,CameraPathPoint,sub_5D8D1,new,medium,evaluates the 5 camera path polynomials at dword_179D48 into the camera position and angles (dword_179E0B-179E1B),src/front/camera/camera.asm
-606B9,CloseTextOverlay,sub_606B9,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PostInjuryEvent,src/front/front_5D993.asm
-609C6,ReadHotKeys,sub_609C6,95PC,medium,"the hot keys read straight from the keyboard in the game loop, as NHL95PC ReadHotKeys",src/front/front_5D993.asm
+5D993,CameraPathDerivs,sub_5D993,new,low,"the camera path speeds and accelerations (CameraPathSlope / CameraPathCurve) at the path position, or 0 without a path",src/front/camera/camera.asm
+5DBC0,SetCameraShot,sub_5DBC0,new,high,"(shot record): copies the 45h-byte camera shot record to the current shot (dword_179DBD), runs its handler once and starts its path",src/front/camera/camera.asm
+5DCDD,AngleXZ,sub_5DCDD,new,medium,"(a, b): the heading from point b to point a on the ice plane (x, z)",src/front/camera/camera.asm
+5DCF8,AnglePitch,sub_5DCF8,new,medium,"(a, b): the pitch from b to a (height over ice distance)",src/front/camera/camera.asm
+5DD85,CameraTrackPuck,sub_5DD85,new,medium,"the camera target: the puck carrier (dword_1781F0) or the puck, replay positions in a replay",src/front/camera/camera.asm
+5DF3E,CameraLeadOffset,sub_5DF3E,new,low,how far the camera leads the play (dword_11B370) by the carrier's direction near the ends,src/front/camera/camera.asm
+5E0CC,CameraNearNet,sub_5E0CC,new,low,"1 when the tracked player (dword_11BAD4) is near a net, for the close camera shots",src/front/camera/camera.asm
+5E21C,ResetCameraShake,sub_5E21C,new,low,"in a game, clears byte_1175AC / 1175AA and dword_179D74",src/front/camera/camera.asm
+5E23E,CameraAim,sub_5E23E,new,low,turns and moves the camera toward its target (shared by the camera shots),src/front/camera/camera.asm
+5E78F,CamView232,sub_5E78F,new,medium,"camera shot handler, record text 232h (view kind 2)",src/front/camera/camera.asm
+5E8D2,CamView233,sub_5E8D2,new,medium,"camera shot handler, record text 233h (view kind 2)",src/front/camera/camera.asm
+5EA75,CamView234,sub_5EA75,new,medium,"camera shot handler, record text 234h (view kind 3)",src/front/camera/camera.asm
+5ED4B,CamView235,sub_5ED4B,new,medium,"camera shot handler, record text 235h (view kind 4)",src/front/camera/camera.asm
+5EFC8,CamView236,sub_5EFC8,new,medium,"camera shot handler, record text 236h (view kind 5); its tail CamView236_20D is text 237h's",src/front/camera/camera.asm
+5F40A,CamView238,sub_5F40A,new,medium,"camera shot handler, record text 238h (view kind 5)",src/front/camera/camera.asm
+5F5D3,CamView239,sub_5F5D3,new,medium,"camera shot handler, record text 239h (view kind 5)",src/front/camera/camera.asm
+5F7AB,CamView23A,sub_5F7AB,new,medium,"camera shot handler, record text 23Ah (view kind 6)",src/front/camera/camera.asm
+5FB02,CamShot23E,sub_5FB02,new,medium,"cut-scene shot handler, record text 23Eh (view kind 0Ah)",src/front/camera/camera.asm
+5FB98,CamShot23F,sub_5FB98,new,low,cut-scene shot handler of record unk_11B787,src/front/camera/camera.asm
+5FC3D,CamShot240,sub_5FC3D,new,low,cut-scene shot handler of record unk_11B7CC; its tail CamShot240_56 is text 241h's (view kind 0Ch),src/front/camera/camera.asm
+5FD46,CamShot242,sub_5FD46,new,medium,"cut-scene shot handler, record text 242h (view kind 0Dh); its tail CamShot242_126 is text 243h's",src/front/camera/camera.asm
+5FFC5,CamShot245,sub_5FFC5,new,medium,"cut-scene shot handler, record text 245h (view kind 10h)",src/front/camera/camera.asm
+60096,CamShot246,sub_60096,new,medium,"cut-scene shot handler, record text 246h (view kind 11h)",src/front/camera/camera.asm
+60159,CamShot247,sub_60159,new,medium,"cut-scene shot handler, record text 247h (view kind 12h)",src/front/camera/camera.asm
+602B9,CamShot244,sub_602B9,new,medium,"cut-scene shot handler, record text 244h (view kind 0Fh)",src/front/camera/camera.asm
+603FF,CamShot23D,sub_603FF,new,medium,"cut-scene shot handler, record text 23Dh (view kind 9): queues an overlay panel",src/front/camera/camera.asm
+6042C,CamShot23B,sub_6042C,new,medium,"cut-scene shot handler, record text 23Bh (view kind 0Bh)",src/front/camera/camera.asm
+60543,CamShot23C,sub_60543,new,medium,"cut-scene shot handler, record text 23Ch (view kind 13h): dims the view (BuildShadeLut)",src/front/camera/camera.asm
+606B9,CloseTextOverlay,sub_606B9,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PostInjuryEvent,src/front/camera/camera.asm
+60777,EndCameraShot,sub_60777,new,medium,(shot): takes a cut-scene shot off the shot list (dword_11B364) and returns to the saved camera,src/front/camera/camera.asm
+60823,SetGameViewSize,sub_60823,new,medium,"sets the game view rectangle (dword_11B314-11B31C) for the view size option (dword_11B330) and resolution, clears the screen",src/front/camera/camera.asm
+609C6,ReadHotKeys,sub_609C6,95PC,medium,"the hot keys read straight from the keyboard in the game loop, as NHL95PC ReadHotKeys",src/front/camera/camera.asm
+612BC,UpdateCamera,sub_612BC,new,high,"(ticks): per frame: in demo mode changes camera every while, runs the current shot handler and the camera path",src/front/camera/camera.asm
+619E2,CameraFacing,sub_619E2,new,medium,"the camera heading as one of 8 directions, so the pads steer relative to the view",src/front/camera/camera.asm
 61A18,randomd0,,95PC,medium,NHL95PC 8C230 (similar): mnemonic similarity 0.97 over 34 instructions,
 61A78,vtoa,,95PC,medium,NHL95PC 8C8E8 (similar): mnemonic similarity 0.97 over 41 instructions,
+61AD1,PutJerseyDigit,sub_61AD1,new,medium,"(dest, digit): copies a 3x5 digit (byte_11BC28) into a jersey number image",src/front/player_art/player_art.asm
+61B03,MakeJerseyNumber,sub_61B03,new,medium,"(dest, number 0-63h): builds the jersey number image (one or two digits)",src/front/player_art/player_art.asm
+61B6F,SetTeamJerseyColors,sub_61B6F,new,low,"(palette, team): the team's jersey colour ranges (unk_17B248, 120h per team)",src/front/player_art/player_art.asm
+61C18,SaveTeamPalette,sub_61C18,new,low,"(palette, team): copies the team's sprite colours from the palette",src/front/player_art/player_art.asm
+61C88,SetPlayerSpriteColors,sub_61C88,new,medium,"(palette, player): team colours and the jersey number for one player sprite",src/front/player_art/player_art.asm
+61D2E,SetRinkSpriteColors,sub_61D2E,new,low,the sprite colours for DrawRinkSprite,src/front/player_art/player_art.asm
+61DDF,IndexSpriteFrames,sub_61DDF,new,low,(bank): reads the frame table of a sprite bank (dword_11BB3C) into dword_152FEC and the largest frame,src/front/player_art/player_art.asm
+61E53,LoadTeamPalette,sub_61E53,new,medium,"(team, ...): reads the team's colours from teampal.qda",src/front/player_art/player_art.asm
+61F2E,LoadPlayerSprites,sub_61F2E,new,medium,"loads the player sprite banks fight.ref, total.ref and oldshp.qfs once",src/front/player_art/player_art.asm
+62065,LoadGameSprites,sub_62065,new,medium,"for InitGameView: the player sprites, newpal.qfs and both teams' palettes and jersey colours",src/front/player_art/player_art.asm
+6215A,FreeGameSprites,sub_6215A,new,medium,from EndGameCleanup: frees the sprite banks,src/front/player_art/player_art.asm
+621D9,FreeFightSprites,sub_621D9,new,medium,frees the fight sprite bank (dword_11BB40),src/front/player_art/player_art.asm
+62201,LoadFightSprites,sub_62201,new,medium,loads fight.ref into dword_11BB40,src/front/player_art/player_art.asm
+6225D,FreeTotalSprites,sub_6225D,new,medium,frees total.ref (dword_11BB3C),src/front/player_art/player_art.asm
+62285,LoadTotalSprites,sub_62285,new,medium,loads total.ref into dword_11BB3C,src/front/player_art/player_art.asm
+622CD,LoadCupSprites,sub_622CD,new,medium,loads cup.ref (the cup presentation) into the dword_11BB40 slot,src/front/player_art/player_art.asm
+62311,FreeSpriteCache,sub_62311,new,medium,frees the UNPACK sprite cache,src/front/player_art/player_art.asm
+62343,GetSpriteFrame,sub_62343,new,medium,"(bank, frame): a sprite frame from the UNPACK cache (sized by free memory, 2010h a frame), unpacking it on a miss",src/front/player_art/player_art.asm
+625AA,SpriteScale,sub_625AA,new,low,(distance): the sprite scale shift for a distance (0 past dword_11F5F0),src/front/player_art/player_art.asm
+625F7,LoadFrontEndArt,sub_625F7,new,medium,"at start-up and after a game: the front-end art files (0Ah, 0Bh, 0B0h, 0Ch), !pal, CHECK, XBUT, MODEM, the fonts",src/front/screen_art/screen_art.asm
+62A0F,GetTeamNameArt,sub_62A0F,new,medium,(team): the team name image TN%02d from the art file,src/front/screen_art/screen_art.asm
+62A4F,CopyArtRows,sub_62A4F,new,low,copies an art block's rows (for OpenScreen),src/front/screen_art/screen_art.asm
+62AF7,OpenScreen,sub_62AF7,new,low,"draws the screen frame art (title bar, side bars) for the front-end screens",src/front/screen_art/screen_art.asm
+62D9B,SlideInTitleBar,sub_62D9B,new,low,"animates the title bar in (PutBlock 971h steps, 2 ticks each)",src/front/screen_art/screen_art.asm
+62E0E,SlideInSideBar,sub_62E0E,new,low,the same for the second bar (dword_17BC64),src/front/screen_art/screen_art.asm
+62E72,SlideInBottomBar,sub_62E72,new,low,the same for the third bar (dword_17BC68),src/front/screen_art/screen_art.asm
+62ED9,FreeFrontEndArt,sub_62ED9,new,medium,frees what LoadFrontEndArt loaded,src/front/screen_art/screen_art.asm
+62F90,SetScreenColors,sub_62F90,new,low,(palette): copies the front-end text colours into the palette and sets it,src/front/screen_art/screen_art.asm
+62FD8,PlayIntroMovies,sub_62FD8,new,medium,the intro movies (data 0BEh + CD speed) with music stopped; a pressed device skips,src/front/intro/intro.asm
+63076,RunIntro,sub_63076,new,medium,"from StartUp: the intro screens (scr1, scr2, !pl0, !pl1, backgrounds) with music, then the movies",src/front/intro/intro.asm
+63418,WaitOrSkip,sub_63418,new,medium,"(ticks): waits, running the slide events, until the time is up or a device is pressed; returns the device",src/front/intro/intro.asm
+63452,LoadSlideImage,sub_63452,new,low,(file id): loads a slide show image unless it is the current one (fills the music stream first),src/front/intro/intro.asm
+634A4,RunSlideEvents,sub_634A4,new,low,runs the slide show's timed events (handler table off_11BDA8),src/front/intro/intro.asm
+63541,RunSlideShow,sub_63541,new,medium,(script): runs a slide show script (13h ends),src/front/intro/intro.asm
+63955,RunCredits,sub_63955,new,low,"from ShutDown: waits for no device pressed, then the slide show unk_11BFA4",src/front/intro/intro.asm
+63968,BlackPalette,sub_63968,new,high,sets all 256 colours to black,src/front/draw/draw.asm
+63998,FadePalette,sub_63998,new,high,"(out, palette, steps): fades the screen palette from or to black",src/front/draw/draw.asm
+63A5B,FadeOut,sub_63A5B,new,high,(steps): fades the current palette to black,src/front/draw/draw.asm
+63A90,CopyBitmapRows,sub_63A90,new,low,copies a bitmap's rows for CopyBitmap,src/front/draw/draw.asm
+63B0C,CopyBitmap,sub_63B0C,new,medium,(bitmap): a copy of a bitmap in a new COPY block,src/front/draw/draw.asm
+63B6A,InitGraphicsFix,sub_63B6A,new,medium,allocates the LIB BUG FIX block once (fatal error if out of memory),src/front/draw/draw.asm
+63BBA,SetGraphicsMode,sub_63BBA,new,medium,"(mode): switches the graphics mode (needs InitGraphicsFix: ""NHLinitgraphicsfix not called."")",src/front/draw/draw.asm
+63DC4,SetScreenMode,sub_63DC4,new,medium,"(mode): black palette, clear, then SetGraphicsMode when the mode changes",src/front/draw/draw.asm
+63E7C,DrawText,sub_63E7C,new,medium,"draws a string at x, y in the current font",src/front/draw/draw.asm
+63E8A,DrawTextRight,sub_63E8A,new,medium,draws a string ending at x,src/front/draw/draw.asm
+63EB5,DrawTextCentred,sub_63EB5,new,medium,draws a string centred on x,src/front/draw/draw.asm
+63ED0,FindTextColors,sub_63ED0,new,low,"finds the palette colours nearest a colour triple, for the text colours",src/front/draw/draw.asm
+63F79,SetTextColors,sub_63F79,new,high,"(fg, bg): the text colours (dword_11D18C, dword_11D190)",src/front/draw/draw.asm
+63FC8,SetTextColorsRgb,sub_63FC8,new,low,the text colours nearest a colour triple,src/front/draw/draw.asm
+63FEF,DrawColorText,sub_63FEF,new,medium,draws a string in the text colours,src/front/draw/draw.asm
+64054,DrawColorTextRight,sub_64054,new,medium,draws a string ending at x in the text colours,src/front/draw/draw.asm
+640D3,DrawColorTextCentred,sub_640D3,new,medium,draws a string centred on x in the text colours,src/front/draw/draw.asm
+64103,FillBox,sub_64103,new,medium,fills a rectangle clipped to the draw bitmap (dword_1228FC),src/front/draw/draw.asm
+641D4,DrawBox,sub_641D4,new,medium,"a box with a frame style (0, 1, 2) over FillBox",src/front/draw/draw.asm
+6423E,SetScreenPalette,sub_6423E,new,medium,(palette): sets the palette and its colour table,src/front/draw/draw.asm
+64296,DrawFrameAt,sub_64296,new,low,draws frame 0 of an animation,src/front/draw/draw.asm
+642CD,FindNearest,sub_642CD,new,low,the index of the largest value under a limit in a table,src/front/draw/draw.asm
+6430E,NearestColor,sub_6430E,new,low,the palette colour nearest a colour triple,src/front/draw/draw.asm
+643C9,BuildColorRemap,sub_643C9,new,low,maps each colour of one palette to the nearest in another,src/front/draw/draw.asm
+6448D,RemapScreenColors,sub_6448D,new,low,"(USETABLE): remaps a screen's colours to a shared palette (three stars, trophy screens)",src/front/draw/draw.asm
+64721,InitMenuItems,sub_64721,new,low,"(count, items): clears the menu item records (66h bytes) and sets their defaults",src/front/menu/menu.asm
+64776,PollMenuInput,sub_64776,new,medium,"reads the mouse, GrIP pads, joysticks and keys for the menus",src/front/menu/menu.asm
+64E54,SetMenuMoveSfx,sub_64E54,new,medium,(id below 49h): the menu cursor sound,src/front/menu/menu.asm
+64E64,SetMenuSelectSfx,sub_64E64,new,medium,(id below 49h): the menu select sound,src/front/menu/menu.asm
 67000,FindClipIndex,sub_67000,new,low,binary search of the 45h-entry table dword_11D242 for [eax]; stores the index (or -1) back,src/front/speech/speech.asm
 6705C,FindTeamPairClip,sub_6705C,new,medium,"(a, b): finds the pair a<<8|b or b<<8|a in the 16-entry table word_11D356 (two teams 0-1Ch from the event 8 call); the play-by-play adds 81h to the index",src/front/speech/speech.asm
 670E7,ResetSpeechChannels,sub_670E7,new,high,"clears the 3 speech play channels (3 x 14h at dword_17C5C0, request -1) and their counters",src/front/speech/speech.asm

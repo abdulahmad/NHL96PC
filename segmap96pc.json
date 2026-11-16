@@ -337,7 +337,7 @@
   {
    "obj": 1,
    "start": 382727,
-   "end": 383379,
+   "end": 400081,
    "module": "front_camera",
    "file": "front/camera/camera.asm",
    "desc": "The game camera: its path polynomials and the camera shots (96 PC).",
@@ -345,20 +345,54 @@
    "group": "front"
   },
   {
-   "start": 383379,
-   "end": 413529,
-   "module": "front_5D993",
    "obj": 1,
-   "file": "front/front_5D993.asm",
-   "note": "placeholder"
+   "start": 400081,
+   "end": 402935,
+   "module": "front_player_art",
+   "file": "front/player_art/player_art.asm",
+   "desc": "Player sprite art: the sprite banks (fight.ref, total.ref, oldshp.qfs, cup.ref), the UNPACK frame cache, team palettes, jersey colours and numbers (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
-   "start": 413529,
-   "end": 421888,
-   "module": "front_64F59",
    "obj": 1,
-   "file": "front/front_64F59.asm",
-   "note": "placeholder"
+   "start": 402935,
+   "end": 405464,
+   "module": "front_screen_art",
+   "file": "front/screen_art/screen_art.asm",
+   "desc": "Front-end screen art: load and free it, team name images, the screen frame and its sliding bars (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 405464,
+   "end": 407912,
+   "module": "front_intro",
+   "file": "front/intro/intro.asm",
+   "desc": "The intro at start-up (screens and movies) and the slide shows, the credits at shut-down (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 407912,
+   "end": 411425,
+   "module": "front_draw",
+   "file": "front/draw/draw.asm",
+   "desc": "Drawing helpers: palette fades, the graphics mode, bitmap copies, text in colours, boxes, colour remapping (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 411425,
+   "end": 421888,
+   "module": "front_menu",
+   "file": "front/menu/menu.asm",
+   "desc": "Menus: the menu items, the menu input (mouse, pads, joysticks, keys) and its sounds, the menu loop (96 PC; still to be named).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 421888,

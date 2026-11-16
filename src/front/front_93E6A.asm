@@ -13,8 +13,8 @@ extern dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC, dwo
 extern optflags, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820AC, dword_1820B0, dword_1820E4
 extern dword_1820E8, dword_1820EC, dword_18210C, dword_182128, dword_18212C, dword_182130, dword_182134, dword_182138
 extern dword_18213C, dword_182140, jpt_93E46, off_11E8B0, qword_112B02, qword_112B0A, sprintf_, sub_1E643
-extern LoadPackedFile, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_62AF7, sub_62E0E
-extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_64721
+extern LoadPackedFile, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, OpenScreen, SlideInSideBar
+extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems
 extern sub_64F59, FillMusicStream, SoundSecondsToBytes, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325
 extern sub_7D346, sub_7D349, sub_7D49C, sub_90879, sub_908FC, sub_909FE, sub_9C060, sub_AAA40
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC, sub_B0430, sub_B0494
@@ -128,7 +128,7 @@ sub_93E6A:
         lea edx, [dword ebp-0FAEh]
         mov dword [byte ebp+06Ah], eax
         mov eax, 12h
-        call sub_64721
+        call InitMenuItems
         push byte 0
         push dword 0F0h
         push dword 0DCh
@@ -327,7 +327,7 @@ sub_93E6A:
         cmp eax, edx
         jne short .15
         mov eax, dword [byte ebp+05Ah]
-        call sub_62F90
+        call SetScreenColors
         push dword [byte ebp+05Eh]
         call sub_B2C54
         add esp, byte 4
@@ -360,7 +360,7 @@ sub_93E6A:
         mov eax, 4
         mov ecx, 1
         mov ebx, dword [byte ebp+05Ah]
-        call sub_62AF7
+        call OpenScreen
         xor edx, edx
         mov eax, dword [dword_181EAC]
         call sub_95F93
@@ -827,7 +827,7 @@ sub_93E6A:
         mov ebx, 3
         mov edx, dword [byte ebp+05Ah]
         xor eax, eax
-        call sub_63998
+        call FadePalette
         lea eax, [dword ebp-0FAEh]
         lea edx, [dword ebp-0396h]
         lea ebx, [byte eax+042h]
@@ -1021,7 +1021,7 @@ sub_93E6A_E71:
         mov ecx, dword [dword eax+ebp-01BAEh]
         jmp short .52
 .54:
-        call sub_62E0E
+        call SlideInSideBar
         jmp near .72
 .55:
         mov edx, dword [dword ebp-04AAh]
@@ -1521,7 +1521,7 @@ sub_93E6A_E71:
         cmp dword [byte ebp+042h], byte 9
         jl short .106
         mov eax, 3
-        call sub_63A5B
+        call FadeOut
         mov eax, dword [dword ebp-04AAh]
         mov edx, dword [dword_11E678]
         mov eax, dword [edx+eax*4]
@@ -2037,13 +2037,13 @@ sub_9562B_4C1:
         mov ebx, dword [byte ebp-0Ch]
         mov edx, 96h
         lea eax, [byte ebp-038h]
-        call sub_64054
+        call DrawColorTextRight
         jmp short .62
 .61:
         mov ebx, dword [byte ebp-0Ch]
         lea eax, [byte ebp-038h]
         xor edx, edx
-        call sub_63FEF
+        call DrawColorText
 .62:
         add dword [byte ebp-0Ch], byte 14h
         inc dword [byte ebp-018h]
@@ -2316,13 +2316,13 @@ sub_9562B_73E:
         mov ebx, dword [byte ebp-0Ch]
         mov edx, 96h
         lea eax, [byte ebp-038h]
-        call sub_64054
+        call DrawColorTextRight
         jmp short .103
 .102:
         mov ebx, dword [byte ebp-0Ch]
         lea eax, [byte ebp-038h]
         xor edx, edx
-        call sub_63FEF
+        call DrawColorText
 .103:
         add dword [byte ebp-0Ch], byte 14h
         inc dword [byte ebp-01Ch]
@@ -2349,7 +2349,7 @@ sub_9562B_73E:
         add esp, byte 0Ch
         mov eax, 0FCh
         xor edx, edx
-        call sub_63F79
+        call SetTextColors
         leave
         pop edi
         pop esi
@@ -2393,7 +2393,7 @@ sub_95E84:
         mov eax, dword [dword ecx+dword_11E85B]
         xor edx, edx
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         add ecx, byte 4
         add esi, byte 14h
 .2:
@@ -2408,7 +2408,7 @@ sub_95E84:
         mov eax, dword [dword ecx+dword_11E7E0]
         xor edx, edx
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         add ecx, byte 4
         add esi, byte 14h
 .5:
@@ -2425,7 +2425,7 @@ sub_95E84:
         mov eax, dword [dword ecx+dword_11E6B4]
         xor edx, edx
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         add ecx, byte 4
         add esi, byte 14h
 .8:
@@ -2440,7 +2440,7 @@ sub_95E84:
         mov eax, dword [dword ecx+dword_11E684]
         xor edx, edx
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         add ecx, byte 4
         add esi, byte 14h
 .11:
@@ -2657,10 +2657,10 @@ sub_95F93:
         add esp, byte 0Ch
         xor eax, eax
         lea ebx, [byte esi+01h]
-        call sub_63F79
+        call SetTextColors
         lea eax, [byte ebp-0Ch]
         lea edx, [byte edi-015h]
-        call sub_63FEF
+        call DrawColorText
         jmp near sub_95E84_109
 ;-----------------------------------------------------------------------------
 ; sub_961ED                                                       961ED  96 PC
@@ -3064,7 +3064,7 @@ sub_966CA:
         add esp, byte 14h
         mov edx, 64h
         lea eax, [byte ebp-034h]
-        call sub_640D3
+        call DrawColorTextCentred
         mov al, byte [dword esi+byte_17EBF0]
         cmp al, 47h
         jb short .3
@@ -3109,7 +3109,7 @@ sub_966CA:
         mov ebx, 13h
         lea eax, [byte ebp-034h]
         xor edx, edx
-        call sub_63FEF
+        call DrawColorText
         mov eax, esi
         movsx edx, byte [dword esi+byte_17EBF0]
         shl eax, 2
@@ -3141,7 +3141,7 @@ sub_966CA:
         mov ebx, 13h
         mov edx, 64h
         call sub_77355
-        call sub_63FEF
+        call DrawColorText
         mov eax, esi
         shl eax, 2
         test byte [optflags], 0Ch
@@ -3187,7 +3187,7 @@ sub_966CA:
         mov ebx, 26h
         lea eax, [byte ebp-034h]
         xor edx, edx
-        call sub_63FEF
+        call DrawColorText
         mov eax, esi
         shl eax, 2
         test byte [optflags], 0Ch
@@ -3218,7 +3218,7 @@ sub_966CA:
         mov ebx, 26h
         mov edx, 64h
         lea eax, [byte ebp-034h]
-        call sub_63FEF
+        call DrawColorText
         call sub_DD6C4
         cmp dword [byte ebp-038h], byte 0
         jne short .19

@@ -12,7 +12,7 @@ extern off_14F090, off_14F0B0, printf_, sprintf_, sub_ADA50, sub_C2AEC, ReadJoys
 extern SavedTextColumns
 global jpt_E1B6F, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, SetupRectFill_C, SetupRectFill_5A, SetupRectFill_164
 global jpt_E1B6F_40, jpt_E1BCE_D2, jpt_E1CBA_DF, jpt_E1DA4_14A, jpt_E1DA4_1DA, jpt_E1F8A_145, jpt_E1F8A_153, jpt_E1F8A_1AC
-global jpt_E1F8A_1BF, jpt_E1F8A_27E, sub_E2335_5B, sub_E2335_81, sub_E19F0, SetupRectFill, DispatchHotkey, sub_E2335
+global jpt_E1F8A_1BF, jpt_E1F8A_27E, SetHotkey_5B, SetHotkey_81, sub_E19F0, SetupRectFill, DispatchHotkey, SetHotkey
 global sub_E2436, SaveTextMode, RestoreTextMode, AngleFromDelta, SinLookup, CosLookup, DebugLineCount, sub_E272C
 global SinCosLookup, AngleFromDeltaJumpTable
 ;-----------------------------------------------------------------------------
@@ -938,9 +938,10 @@ DispatchHotkey:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_E2335                                                            E2335  
+; SetHotkey                                       E2335  96 PC, low confidence
+; Sets the routine run for a hotkey, adding it to the hotkey list
 ;-----------------------------------------------------------------------------
-sub_E2335:
+SetHotkey:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+0Ch]
@@ -983,7 +984,7 @@ sub_E2335:
         LD xor, eax, eax
         jmp short .4
         db 00h,00h
-sub_E2335_5B:
+SetHotkey_5B:
         call dword [off_14F084]
         LD or, al, al
         jne short .7
@@ -991,12 +992,12 @@ sub_E2335_5B:
         call dword [off_14F07C]
 .7:
         mov eax, str_SOUNDON
-        jmp short sub_E2335_81.11
+        jmp short SetHotkey_81.11
         call dword [off_14F080]
 .8:
         mov eax, str_SOUNDOFF
-        jmp short sub_E2335_81.11
-sub_E2335_81:
+        jmp short SetHotkey_81.11
+SetHotkey_81:
         call dword [off_14F090]
         LD or, al, al
         jne short .9

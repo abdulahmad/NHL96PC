@@ -1,0 +1,42 @@
+sub_B35E4 AaSetFull {confidence=low,source=new} anti-aliased scaling: runs the column step list and stores each pixel's full weight colour sums
+sub_B5168 AaSetTwoThirds {confidence=low,source=new} anti-aliased scaling: runs the column step list and stores two thirds weight colour sums
+sub_B39C8 AaSetHalf {confidence=low,source=new} anti-aliased scaling: runs the column step list and stores half weight colour sums
+sub_B4988 AaSetThird {confidence=low,source=new} anti-aliased scaling: runs the column step list and stores one third weight colour sums
+sub_B41A8 AaSetQuarter {confidence=low,source=new} anti-aliased scaling: runs the column step list and stores quarter weight colour sums
+sub_B5540 AaAddTwoThirds {confidence=low,source=new} anti-aliased scaling: runs the column step list and adds two thirds weight colour sums
+sub_B3DA0 AaAddHalf {confidence=low,source=new} anti-aliased scaling: runs the column step list and adds half weight colour sums
+sub_B4D60 AaAddThird {confidence=low,source=new} anti-aliased scaling: runs the column step list and adds one third weight colour sums
+sub_B4580 AaAddQuarter {confidence=low,source=new} anti-aliased scaling: runs the column step list and adds quarter weight colour sums
+unk_B34D8 AaSetFullJumpTable {confidence=low,source=new} jump table of AaSetFull, one entry per column step code
+unk_B505C AaSetTwoThirdsJumpTable {confidence=low,source=new} jump table of AaSetTwoThirds, one entry per column step code
+unk_B38BC AaSetHalfJumpTable {confidence=low,source=new} jump table of AaSetHalf, one entry per column step code
+unk_B487C AaSetThirdJumpTable {confidence=low,source=new} jump table of AaSetThird, one entry per column step code
+unk_B409C AaSetQuarterJumpTable {confidence=low,source=new} jump table of AaSetQuarter, one entry per column step code
+unk_B5434 AaAddTwoThirdsJumpTable {confidence=low,source=new} jump table of AaAddTwoThirds, one entry per column step code
+unk_B3C94 AaAddHalfJumpTable {confidence=low,source=new} jump table of AaAddHalf, one entry per column step code
+unk_B4C54 AaAddThirdJumpTable {confidence=low,source=new} jump table of AaAddThird, one entry per column step code
+unk_B4474 AaAddQuarterJumpTable {confidence=low,source=new} jump table of AaAddQuarter, one entry per column step code
+dword_121AA8 AaWeights {confidence=medium,source=new} the twelve 16.16 weights of the anti-aliasing colour table (1, 2/3, 1/2, 4/9, 1/3, 1/4, ... 1/16)
+sub_B3360 BuildAaPalLut {confidence=low,source=new} builds the anti-aliasing palette table: for each colour, its RGB at each of the twelve weights
+sub_B3420 CreateAaPalLut {confidence=low,source=new} allocates the anti-aliasing palette table ("AAPLUT") and builds it from a palette
+sub_B3458 BuildPaletteShadeTable {confidence=low,source=new} builds 16 shade levels of a 256 colour palette
+sub_B58D8 SetAaPalLut {confidence=low,source=new} sets the anti-aliasing palette table that scaled art drawing uses
+sub_B583C AaBuildColumnSteps {confidence=low,source=new} builds the list of column step codes for an anti-aliased scale
+sub_B59E8 AaDrawScaledArt {confidence=low,source=new} draws art scaled down with anti-aliasing, row by row through the weight sum routines
+unk_B58E0 AaRowStepJumpTable {confidence=low,source=new} jump table of AaDrawScaledArt for each row step code
+unk_B5964 AaRowStepLastJumpTable {confidence=low,source=new} jump table of AaDrawScaledArt for the last row's step code
+sub_B6140 DrawArtAaScaledInt {confidence=low,source=new} draws art anti-aliased at a scale, at whole pixel x, y
+sub_B6148 DrawArtAaScaled {confidence=low,source=new} draws art anti-aliased at a scale (at least 1/16), at 16.16 x, y
+sub_B621C DrawArtAaScaledXY {confidence=low,source=new} draws art anti-aliased with separate x and y scales
+sub_BE926 FixedInverse {confidence=low,source=new} returns 1/x in 16.16 fixed point
+sub_B3100 SetupMemoryPool {confidence=low,source=new} sets up the memory pool through InitMemoryPool
+sub_B3145 NumLockOff {confidence=medium,source=new} turns Num Lock off in the BIOS keyboard flags
+sub_B3160 InstallHotkeys {confidence=low,source=new} sets the debug hotkeys (joystick calibration, keyboard display and others)
+sub_E2335 SetHotkey {confidence=low,source=new} sets the routine run for a hotkey, adding it to the hotkey list
+sub_B73C4 GetResourceArchiveName {confidence=medium,source=new} returns the resource archive name buffer
+sub_B71D4 DosFindFirst {confidence=medium,source=new} finds the first file matching a pattern (DOS 4Eh) into a find record
+sub_B71F1 DosFindNext {confidence=medium,source=new} finds the next matching file (DOS 4Fh)
+sub_B7210 CopyDtaOut {confidence=low,source=new} copies the DOS transfer area to the caller's find record under the DOS/4GW extender
+sub_B7233 CopyDtaIn {confidence=low,source=new} copies the caller's find record into the DOS transfer area under the DOS/4GW extender
+sub_B6D2C CdPrefetch {confidence=low,source=new} sends a read long prefetch request (82h) to the CD-ROM driver through MSCDEX
+sub_B6DFC CdReadRequest {confidence=low,source=new} reads CD-ROM sectors through MSCDEX into the low memory buffer and copies them out

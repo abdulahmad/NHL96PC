@@ -31,7 +31,7 @@ extern str_GhiR2, str_GloL2, str_GloR2, str_INTERREG, str_Intr, str_Ply02, str_P
 extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str_Sid1
 extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, FreeZamboni
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, sub_64E74, SaveGameFile, sub_6C64B
-extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, sub_B0CA8, sub_B58D8, SetScreenTarget
+extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, sub_B0CA8, SetAaPalLut, SetScreenTarget
 extern FindShape, sub_E0584, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
 extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17D3E8, unk_18440C
 extern unk_184688, unk_184692, UpdateCamera, word_114CE0, word_114F14, word_11ED34, word_1656E8, word_16581E
@@ -77,7 +77,7 @@ DrawInGameMenuFrame:
         cmp dword [dword_1150FC], byte 1
         je near .15
         mov eax, dword [dword_152F4C]
-        call sub_B58D8
+        call SetAaPalLut
         movzx edx, byte [byte_11D91D]
         movzx eax, byte [byte_11D91C]
         mov dword [dword_11BC24], 0FFFFFFFFh

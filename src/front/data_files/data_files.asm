@@ -5,7 +5,7 @@ section s_1E3C8 progbits alloc exec nowrite align=1
 extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
 extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock, MemLargestFreeLocked, UnpackedSize
 extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
-extern OpenResourceArchive, sub_B73C4, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle
+extern OpenResourceArchive, GetResourceArchiveName, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle
 extern LoadPackedHandleQuiet, DataDirPath, unk_1151A7, unk_115333, DataFilePath, unpack, word_11512D
 global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, SelectDataLibrary, SelectDataLibrary_32
@@ -88,7 +88,7 @@ MakeDataPath_63:
         lea edx, [byte ebx+01h]
         mov eax, esi
         call strcat_
-        call sub_B73C4
+        call GetResourceArchiveName
         mov edx, esi
         call stricmp_
         test eax, eax
@@ -322,7 +322,7 @@ SelectDataLibrary_54:
         lea eax, [byte ebp-028h]
         lea edx, [byte ebx+01h]
         call strcat_
-        call sub_B73C4
+        call GetResourceArchiveName
         lea edx, [byte ebp-028h]
         call stricmp_
         test eax, eax

@@ -5,7 +5,7 @@ section s_BE8C5 progbits alloc exec nowrite align=1
 extern __fprtf_, __sys_fini_387_emulator, str_Punct_DrawRinkSurface, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern DrawDestBuffer, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123ABC, dword_123AC0, ScaledRowBuffer, Mul32To64
 extern Sar64, BuildSpanOffsets, SetBlitSource, sub_DDA44, sub_DEF74
-global fprintf_, imul32, sub_BE926, sub_BE960, SortIndices, sub_BEAE4, ProjectPointWide, sub_BEC30
+global fprintf_, imul32, FixedInverse, sub_BE960, SortIndices, sub_BEAE4, ProjectPointWide, sub_BEC30
 global sub_BEF44, sub_BEFF0
 ;-----------------------------------------------------------------------------
 ; imul32                                       BE8C5  95 PC, medium confidence
@@ -48,9 +48,10 @@ imul32:
         div ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BE926                                                            BE926  
+; FixedInverse                                    BE926  96 PC, low confidence
+; Returns 1/x in 16.16 fixed point
 ;-----------------------------------------------------------------------------
-sub_BE926:
+FixedInverse:
         mov eax, dword [byte esp+04h]
         LD mov, ebx, eax
         mov edx, 1

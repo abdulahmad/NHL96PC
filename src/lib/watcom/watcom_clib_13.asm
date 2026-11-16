@@ -12,7 +12,7 @@ extern DrawDestBuffer, dword_1228FC, dword_124109, __NHandles, __io_mode, dword_
 extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, sub_AA9CC, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
-extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaqueAtOwnPos, InitMemoryPoolDefault, sub_B3145, NearestColour
+extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaqueAtOwnPos, InitMemoryPoolDefault, NumLockOff, NearestColour
 extern FileSizeByName, AddVec3, OriScaleVector, InitReciprocalTable, sub_BEAE4, initgraphics, sub_C2AEC, ArtBitDepth
 extern PixelToRgb, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, DrawTextBoxedAt, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
@@ -1377,7 +1377,7 @@ InitSystem:
         push byte 64h
         call InstallTimer
         add esp, byte 4
-        call sub_B3145
+        call NumLockOff
         call sub_DFB88
         push sub_DFB84
         call InstallBreakHandler

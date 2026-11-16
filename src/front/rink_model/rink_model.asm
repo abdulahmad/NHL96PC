@@ -71,7 +71,7 @@ extern PerspScale, ProjectPoint, ProjectPointList, AngleOfVector, SinInterp, Cos
 extern DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, TransformVector, ProjectPointsPersp, DrawPolyList, SetRinkMatrix, SetRinkTranslation
 extern SetScreenScale, ProjectModelPoints, DrawModelFlat, DrawModelSorted, DrawModelPolyList, DrawModelPolys, OriCreateInstance, OriSetObjectMatrix
 extern OriSetObjectPosition, OriLoadModel, MakeRotYMatrix, OriFindGroup, OriFindPartition, OriGetPartition, InitReciprocalTable, ClipPolyNearZ
-extern DrawMarkingPolys, SetPolyVertexArrays, sub_BE926, SetScreenTarget, SetRemapTable, GetRemapTable, sub_DD908, SetBlitSource
+extern DrawMarkingPolys, SetPolyVertexArrays, FixedInverse, SetScreenTarget, SetRemapTable, GetRemapTable, sub_DD908, SetBlitSource
 extern sub_DDB68, FindShape, bcopy, Random32, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
 extern IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
 extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
@@ -10224,7 +10224,7 @@ DrawShadowSprite:
         dec eax
         push dword [byte ebp+010h]
         mov dword [byte ebp-0Ch], eax
-        call sub_BE926
+        call FixedInverse
         mov ecx, eax
         add esp, byte 4
         mov dword [byte ebp-01Ch], eax
@@ -10244,7 +10244,7 @@ DrawShadowSprite:
         sub dword [byte ebp-0Ch], ebx
 .3:
         push dword [byte ebp-018h]
-        call sub_BE926
+        call FixedInverse
         add esp, byte 4
         mov ecx, eax
         mov eax, dword [byte ebp-08h]

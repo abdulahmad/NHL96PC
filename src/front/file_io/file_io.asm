@@ -4,7 +4,7 @@ bits 32
 section s_1DC65 progbits alloc exec nowrite align=1
 extern _dos_close_, _dos_creat_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_, FatalError, lseek_
 extern rmdir_, str_backslash4, str_COPYBUFFER, str_dot2, str_ErrDiskFree2, strcat_, strcpy_, FillMusicStream
-extern SoundSecondsToBytes, AllocMemBlock, FreeMemBlock, sub_B71D4, sub_B71F1, UnlinkJump, unk_1106EC
+extern SoundSecondsToBytes, AllocMemBlock, FreeMemBlock, DosFindFirst, DosFindNext, UnlinkJump, unk_1106EC
 global FileMissing, DeleteFiles, FileOpenRead, FileOpenRead_1A, FileOpenWrite, FileOpenReadWrite, FileCreate, FileClose
 global FileReadAt, FileReadAt_5B, FileReadAt_5D, FileWriteAt, FileWriteAt_6B, FileWriteAt_77, FileCopy, FileCopy_ret
 global WriteDbRecord6, ReadSeasonHeader
@@ -80,7 +80,7 @@ DeleteFiles:
         lea ebx, [byte ebp-04Ch]
         lea eax, [byte ebp-020h]
         xor edx, edx
-        call sub_B71D4
+        call DosFindFirst
         mov ebx, eax
         test eax, eax
         jne near .3
@@ -103,7 +103,7 @@ DeleteFiles:
         call SoundSecondsToBytes
         call FillMusicStream
         lea eax, [byte ebp-04Ch]
-        call sub_B71F1
+        call DosFindNext
         mov ebx, eax
         test eax, eax
         jne short .2
@@ -156,7 +156,7 @@ DeleteFiles:
         call FillMusicStream
         xor edx, edx
         lea eax, [byte ebp-020h]
-        call sub_B71D4
+        call DosFindFirst
         test eax, eax
         jne near .6
         lea eax, [byte ebp-020h]
@@ -178,7 +178,7 @@ DeleteFiles:
         call SoundSecondsToBytes
         call FillMusicStream
         lea eax, [byte ebp-04Ch]
-        call sub_B71F1
+        call DosFindNext
         mov ebx, eax
         test eax, eax
         jne short .5

@@ -26,7 +26,7 @@ extern str_GhiL3, str_GhiR3, str_GloL3, str_GloR3, str_Paus, str_PAUSREG, str_Qu
 extern str_Qui22, str_Rep0, str_Rep1, str_Ret02, str_Ret12, str_Ret22, str_Sav02, str_Sav12
 extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, RefreshControlSlots, ReplayBufferEnd
 extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern FreeBitmap, sub_B0CA8, SaveDataFile, sub_B58D8, DrawArtScaled, SetScreenTarget, FindShape, sub_E0584
+extern FreeBitmap, sub_B0CA8, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, sub_E0584
 extern TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
 extern unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C
 extern UpdateCamera, word_114CE0, word_114F14, word_117902, word_11D927, word_11D929, word_1656E8, word_16581E
@@ -276,7 +276,7 @@ DrawPauseFrame:
         mov edi, 0FAh
 .1:
         mov eax, dword [dword_152F4C]
-        call sub_B58D8
+        call SetAaPalLut
         xor edx, edx
         xor ecx, ecx
         mov eax, 30h

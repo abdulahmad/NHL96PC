@@ -40,9 +40,9 @@ extern DrawDirtyZones, ZoneRect, AddZone, CopyZonesToScreen, SetCameraShot, Rese
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
 extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, DrawArt
 extern sub_AAADC, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, TextSetColor, sub_B0CA8, sub_B0F7C
-extern sub_B58D8, sub_B6140, sub_B6148, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, MultiplyMatrix
+extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, MultiplyMatrix
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
-extern sub_BE926, sub_BE960, sub_BEF44, sub_BEFF0, SetScreenTarget, SetRemapTable, sub_DD908, SetBlitSource
+extern FixedInverse, sub_BE960, sub_BEF44, sub_BEFF0, SetScreenTarget, SetRemapTable, sub_DD908, SetBlitSource
 extern sub_DD975, sub_DDBB4, sub_E0486, FindShape, sub_E0584, sub_E162A, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
@@ -115,7 +115,7 @@ DrawScaledSprite:
         dec eax
         push dword [byte ebp+014h]
         mov dword [byte ebp-0Ch], eax
-        call sub_BE926
+        call FixedInverse
         add esp, byte 4
         mov dword [byte ebp-01Ch], eax
         cmp edi, dword [byte ebp-010h]
@@ -130,7 +130,7 @@ DrawScaledSprite:
         sub dword [byte ebp-0Ch], eax
 .3:
         push dword [byte ebp+010h]
-        call sub_BE926
+        call FixedInverse
         add esp, byte 4
         mov ebx, eax
         mov eax, dword [byte ebp-08h]
@@ -1261,21 +1261,21 @@ DrawRinkSprite:
 .11:
         mov eax, dword [dword_17BA50]
 .12:
-        call sub_B58D8
+        call SetAaPalLut
         cmp dword [byte ebp+018h], byte 0
         je short .13
         mov ecx, dword [byte ebp-014h]
         mov ebx, dword [byte ebp-010h]
         mov edx, dword [byte ebp-04h]
         mov eax, esi
-        call sub_B6148
+        call DrawArtAaScaled
         jmp near DrawScaledSprite_1E2
 .13:
         mov ecx, dword [byte ebp-014h]
         mov ebx, dword [byte ebp-010h]
         mov edx, dword [byte ebp-04h]
         mov eax, esi
-        call sub_B6140
+        call DrawArtAaScaledInt
         jmp near DrawScaledSprite_1E2
 .14:
         cmp dword [byte ebp+018h], byte 0
@@ -1641,7 +1641,7 @@ DrawControlMarker_41:
         mov ebx, edi
         mov edx, dword [dword eax+dword_152FEC]
         mov eax, esi
-        call sub_B6140
+        call DrawArtAaScaledInt
         jmp near DrawOverlayCaption_E1
 .22:
         push dword [byte ebp-08h]
@@ -1817,7 +1817,7 @@ PlaceGoalNets_71:
         sar ecx, 10h
         sar ebx, 10h
         mov edx, dword [nosplit edx*4+dword_152FEC]
-        call sub_B6140
+        call DrawArtAaScaledInt
         jmp short PlaceGoalNets_E0
 .1:
         mov edx, dword [puckc]
@@ -2525,7 +2525,7 @@ DrawPlayerMarkers:
         jne near PlaceGoalNets_20B
         mov eax, dword [dword_17BA54]
         mov dword [byte ebp-01Ch], 0
-        call sub_B58D8
+        call SetAaPalLut
         mov dword [dword_11BC24], 0FFFFFFFFh
 .1:
         mov eax, dword [puckc]
@@ -3073,12 +3073,12 @@ DrawPanelLogo:
         mov dword [byte ebp-04h], eax
         mov eax, dword [dword_152F4C]
         mov ecx, dword [byte ebp-08h]
-        call sub_B58D8
+        call SetAaPalLut
         mov ebx, edi
         mov edx, esi
         mov eax, dword [byte ebp-04h]
         mov dword [dword_11BC24], 0FFFFFFFFh
-        call sub_B6140
+        call DrawArtAaScaledInt
         movsx eax, word [byte esi+08h]
         imul eax, dword [byte ebp-04h]
         sar eax, 10h

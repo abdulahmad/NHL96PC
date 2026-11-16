@@ -7,7 +7,7 @@ extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_Initmemman
 extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, asc_1137B0
 extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, ResourceArchiveName, _Extender
 extern _ExtenderSubtype, _osmajor, _osminor, byte_18B0D0, CpuIs386, CpuIs486, CpuType, CpuHasCpuid
-extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, dword_121AA8
+extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, AaWeights
 extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive, CdSectorSize, CdFileMode, CdFileHandle
 extern dword_121B50, dword_121B54, dword_121B58, dword_121B5C, CdDriveCount, CdStreamSpeed, ScreenWidth, dword_1228D6
 extern dword_1228DA, dword_1228DE, dword_1228E2, DrawDestBuffer, dword_1228FC, _dynend, _curbrk, _LpCmdLine
@@ -16,72 +16,72 @@ extern dword_185848, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dwo
 extern dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, CdBufferSelector, CdBufferAllocated
 extern CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, CdRegs, CdDirEntryBuf, CdRegEbx
 extern CdRegEdi, CdRegEax, CdRegEdx, dword_19F2D4, int386_, int386x_, kaufmfont, LocateBigEntry_168
-extern sub_E2335_5B, sub_E2335_81, segread_, AddMemRegion, AddMemRegions, AddHighMemRegion, TrimMemList, MemListEnd
-extern AllocMemBlock, FreeMemBlock, InitMemDescriptors, sub_BE926, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
+extern SetHotkey_5B, SetHotkey_81, segread_, AddMemRegion, AddMemRegions, AddHighMemRegion, TrimMemList, MemListEnd
+extern AllocMemBlock, FreeMemBlock, InitMemDescriptors, FixedInverse, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
 extern MemUnlock, GetPalette, JoystickCalibrateScreen, ShowKeyboardOn, CdDirSearch, ToUpperChar, KbdPeekKey, bcopy
-extern DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, sub_E2335, CdFileTable, __stdout_buf, unk_18704C
+extern DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, SetHotkey, CdFileTable, __stdout_buf, unk_18704C
 extern unk_19BAD0, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, CdBufferSegment
 extern CdRequestSelector, word_18B0BC, CdRegEs, CdRegSegs
 global _dos_close_, _dos_commit_, _dos_creat_, _dos_creatnew_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_
-global chdir_, sub_B35E4_46, sub_B35E4_53, sub_B35E4_6B, sub_B35E4_95, sub_B35E4_C7, sub_B35E4_105, sub_B35E4_106
-global sub_B35E4_107, sub_B35E4_108, sub_B35E4_109, sub_B35E4_10A, sub_B35E4_10B, sub_B35E4_10C, sub_B35E4_10D, sub_B35E4_10E
-global sub_B35E4_10F, sub_B35E4_110, sub_B35E4_111, sub_B35E4_11C, sub_B35E4_166, sub_B35E4_193, sub_B35E4_1BF, sub_B35E4_1F1
-global sub_B35E4_237, sub_B35E4_274, sub_B35E4_275, sub_B35E4_276, sub_B35E4_277, sub_B35E4_278, sub_B35E4_279, sub_B35E4_27A
-global sub_B35E4_27B, sub_B35E4_27C, sub_B35E4_27D, sub_B35E4_27E, sub_B35E4_27F, sub_B35E4_280, sub_B35E4_2C9, sub_B39C8_46
-global sub_B39C8_54, sub_B39C8_6D, sub_B39C8_97, sub_B39C8_C9, sub_B39C8_107, sub_B39C8_108, sub_B39C8_109, sub_B39C8_10A
-global sub_B39C8_10B, sub_B39C8_10C, sub_B39C8_10D, sub_B39C8_10E, sub_B39C8_10F, sub_B39C8_110, sub_B39C8_111, sub_B39C8_112
-global sub_B39C8_113, sub_B39C8_11E, sub_B39C8_168, sub_B39C8_195, sub_B39C8_1C1, sub_B39C8_1F3, sub_B39C8_239, sub_B39C8_276
-global sub_B39C8_277, sub_B39C8_278, sub_B39C8_279, sub_B39C8_27A, sub_B39C8_27B, sub_B39C8_27C, sub_B39C8_27D, sub_B39C8_27E
-global sub_B39C8_27F, sub_B39C8_280, sub_B39C8_281, sub_B39C8_282, sub_B3DA0_46, sub_B3DA0_54, sub_B3DA0_6D, sub_B3DA0_9A
-global sub_B3DA0_D1, sub_B3DA0_117, sub_B3DA0_118, sub_B3DA0_119, sub_B3DA0_11A, sub_B3DA0_11B, sub_B3DA0_11C, sub_B3DA0_11D
-global sub_B3DA0_11E, sub_B3DA0_11F, sub_B3DA0_120, sub_B3DA0_121, sub_B3DA0_122, sub_B3DA0_123, sub_B3DA0_12E, sub_B3DA0_180
-global sub_B3DA0_1A4, sub_B3DA0_1D1, sub_B3DA0_20B, sub_B3DA0_259, sub_B3DA0_2A1, sub_B3DA0_2A2, sub_B3DA0_2A3, sub_B3DA0_2A4
-global sub_B3DA0_2A5, sub_B3DA0_2A6, sub_B3DA0_2A7, sub_B3DA0_2A8, sub_B3DA0_2A9, sub_B3DA0_2AA, sub_B3DA0_2AB, sub_B3DA0_2AC
-global sub_B3DA0_2AD, sub_B41A8_46, sub_B41A8_54, sub_B41A8_6D, sub_B41A8_97, sub_B41A8_C9, sub_B41A8_107, sub_B41A8_108
-global sub_B41A8_109, sub_B41A8_10A, sub_B41A8_10B, sub_B41A8_10C, sub_B41A8_10D, sub_B41A8_10E, sub_B41A8_10F, sub_B41A8_110
-global sub_B41A8_111, sub_B41A8_112, sub_B41A8_113, sub_B41A8_11E, sub_B41A8_168, sub_B41A8_195, sub_B41A8_1C1, sub_B41A8_1F3
-global sub_B41A8_239, sub_B41A8_276, sub_B41A8_277, sub_B41A8_278, sub_B41A8_279, sub_B41A8_27A, sub_B41A8_27B, sub_B41A8_27C
-global sub_B41A8_27D, sub_B41A8_27E, sub_B41A8_27F, sub_B41A8_280, sub_B41A8_281, sub_B41A8_282, sub_B4580_46, sub_B4580_54
-global sub_B4580_6D, sub_B4580_9A, sub_B4580_D1, sub_B4580_117, sub_B4580_118, sub_B4580_119, sub_B4580_11A, sub_B4580_11B
-global sub_B4580_11C, sub_B4580_11D, sub_B4580_11E, sub_B4580_11F, sub_B4580_120, sub_B4580_121, sub_B4580_122, sub_B4580_123
-global sub_B4580_12E, sub_B4580_180, sub_B4580_1A4, sub_B4580_1D1, sub_B4580_20B, sub_B4580_259, sub_B4580_2A1, sub_B4580_2A2
-global sub_B4580_2A3, sub_B4580_2A4, sub_B4580_2A5, sub_B4580_2A6, sub_B4580_2A7, sub_B4580_2A8, sub_B4580_2A9, sub_B4580_2AA
-global sub_B4580_2AB, sub_B4580_2AC, sub_B4580_2AD, sub_B4988_46, sub_B4988_54, sub_B4988_6D, sub_B4988_97, sub_B4988_C9
-global sub_B4988_107, sub_B4988_108, sub_B4988_109, sub_B4988_10A, sub_B4988_10B, sub_B4988_10C, sub_B4988_10D, sub_B4988_10E
-global sub_B4988_10F, sub_B4988_110, sub_B4988_111, sub_B4988_112, sub_B4988_113, sub_B4988_11E, sub_B4988_168, sub_B4988_195
-global sub_B4988_1C1, sub_B4988_1F3, sub_B4988_239, sub_B4988_276, sub_B4988_277, sub_B4988_278, sub_B4988_279, sub_B4988_27A
-global sub_B4988_27B, sub_B4988_27C, sub_B4988_27D, sub_B4988_27E, sub_B4988_27F, sub_B4988_280, sub_B4988_281, sub_B4988_282
-global sub_B4D60_46, sub_B4D60_54, sub_B4D60_6D, sub_B4D60_9A, sub_B4D60_D1, sub_B4D60_117, sub_B4D60_118, sub_B4D60_119
-global sub_B4D60_11A, sub_B4D60_11B, sub_B4D60_11C, sub_B4D60_11D, sub_B4D60_11E, sub_B4D60_11F, sub_B4D60_120, sub_B4D60_121
-global sub_B4D60_122, sub_B4D60_123, sub_B4D60_12E, sub_B4D60_180, sub_B4D60_1A4, sub_B4D60_1D1, sub_B4D60_20B, sub_B4D60_259
-global sub_B4D60_2A1, sub_B4D60_2A2, sub_B4D60_2A3, sub_B4D60_2A4, sub_B4D60_2A5, sub_B4D60_2A6, sub_B4D60_2A7, sub_B4D60_2A8
-global sub_B4D60_2A9, sub_B4D60_2AA, sub_B4D60_2AB, sub_B4D60_2AC, sub_B4D60_2AD, sub_B5168_46, sub_B5168_54, sub_B5168_6D
-global sub_B5168_97, sub_B5168_C9, sub_B5168_107, sub_B5168_108, sub_B5168_109, sub_B5168_10A, sub_B5168_10B, sub_B5168_10C
-global sub_B5168_10D, sub_B5168_10E, sub_B5168_10F, sub_B5168_110, sub_B5168_111, sub_B5168_112, sub_B5168_113, sub_B5168_11E
-global sub_B5168_168, sub_B5168_195, sub_B5168_1C1, sub_B5168_1F3, sub_B5168_239, sub_B5168_276, sub_B5168_277, sub_B5168_278
-global sub_B5168_279, sub_B5168_27A, sub_B5168_27B, sub_B5168_27C, sub_B5168_27D, sub_B5168_27E, sub_B5168_27F, sub_B5168_280
-global sub_B5168_281, sub_B5168_282, sub_B5540_46, sub_B5540_54, sub_B5540_6D, sub_B5540_9A, sub_B5540_D1, sub_B5540_117
-global sub_B5540_118, sub_B5540_119, sub_B5540_11A, sub_B5540_11B, sub_B5540_11C, sub_B5540_11D, sub_B5540_11E, sub_B5540_11F
-global sub_B5540_120, sub_B5540_121, sub_B5540_122, sub_B5540_123, sub_B5540_12E, sub_B5540_180, sub_B5540_1A4, sub_B5540_1D1
-global sub_B5540_20B, sub_B5540_259, sub_B5540_2A1, sub_B5540_2A2, sub_B5540_2A3, sub_B5540_2A4, sub_B5540_2A5, sub_B5540_2A6
-global sub_B5540_2A7, sub_B5540_2A8, sub_B5540_2A9, sub_B5540_2AA, sub_B5540_2AB, sub_B5540_2AC, sub_B5540_2AD, sub_B59E8_1CA
-global sub_B59E8_1D4, sub_B59E8_1F7, sub_B59E8_211, sub_B59E8_244, sub_B59E8_26E, sub_B59E8_2B1, sub_B59E8_2D6, sub_B59E8_2DB
-global sub_B59E8_2E6, sub_B59E8_2F1, sub_B59E8_2FC, sub_B59E8_307, sub_B59E8_312, sub_B59E8_31D, sub_B59E8_328, sub_B59E8_333
-global sub_B59E8_33E, sub_B59E8_349, sub_B59E8_354, sub_B59E8_3A1, sub_B59E8_3A6, sub_B59E8_3B1, sub_B59E8_3BC, sub_B59E8_3C7
-global sub_B59E8_3D2, sub_B59E8_3DD, sub_B59E8_3E8, sub_B59E8_3F3, sub_B59E8_3FE, sub_B59E8_409, sub_B59E8_414, sub_B59E8_41F
-global sub_B59E8_474, sub_B59E8_487, sub_B59E8_491, sub_B59E8_4BC, sub_B59E8_4D6, sub_B59E8_511, sub_B59E8_516, sub_B59E8_521
-global sub_B59E8_52C, sub_B59E8_537, sub_B59E8_542, sub_B59E8_54D, sub_B59E8_558, sub_B59E8_563, sub_B59E8_56E, sub_B59E8_579
-global sub_B59E8_584, sub_B59E8_58F, sub_B59E8_5D5, sub_B59E8_5DA, sub_B59E8_5E5, sub_B59E8_5F0, sub_B59E8_5FB, sub_B59E8_606
-global sub_B59E8_611, sub_B59E8_61C, sub_B59E8_627, sub_B59E8_632, sub_B59E8_63D, sub_B59E8_648, sub_B59E8_653, start_74
+global chdir_, AaSetFull_46, AaSetFull_53, AaSetFull_6B, AaSetFull_95, AaSetFull_C7, AaSetFull_105, AaSetFull_106
+global AaSetFull_107, AaSetFull_108, AaSetFull_109, AaSetFull_10A, AaSetFull_10B, AaSetFull_10C, AaSetFull_10D, AaSetFull_10E
+global AaSetFull_10F, AaSetFull_110, AaSetFull_111, AaSetFull_11C, AaSetFull_166, AaSetFull_193, AaSetFull_1BF, AaSetFull_1F1
+global AaSetFull_237, AaSetFull_274, AaSetFull_275, AaSetFull_276, AaSetFull_277, AaSetFull_278, AaSetFull_279, AaSetFull_27A
+global AaSetFull_27B, AaSetFull_27C, AaSetFull_27D, AaSetFull_27E, AaSetFull_27F, AaSetFull_280, AaSetFull_2C9, AaSetHalf_46
+global AaSetHalf_54, AaSetHalf_6D, AaSetHalf_97, AaSetHalf_C9, AaSetHalf_107, AaSetHalf_108, AaSetHalf_109, AaSetHalf_10A
+global AaSetHalf_10B, AaSetHalf_10C, AaSetHalf_10D, AaSetHalf_10E, AaSetHalf_10F, AaSetHalf_110, AaSetHalf_111, AaSetHalf_112
+global AaSetHalf_113, AaSetHalf_11E, AaSetHalf_168, AaSetHalf_195, AaSetHalf_1C1, AaSetHalf_1F3, AaSetHalf_239, AaSetHalf_276
+global AaSetHalf_277, AaSetHalf_278, AaSetHalf_279, AaSetHalf_27A, AaSetHalf_27B, AaSetHalf_27C, AaSetHalf_27D, AaSetHalf_27E
+global AaSetHalf_27F, AaSetHalf_280, AaSetHalf_281, AaSetHalf_282, AaAddHalf_46, AaAddHalf_54, AaAddHalf_6D, AaAddHalf_9A
+global AaAddHalf_D1, AaAddHalf_117, AaAddHalf_118, AaAddHalf_119, AaAddHalf_11A, AaAddHalf_11B, AaAddHalf_11C, AaAddHalf_11D
+global AaAddHalf_11E, AaAddHalf_11F, AaAddHalf_120, AaAddHalf_121, AaAddHalf_122, AaAddHalf_123, AaAddHalf_12E, AaAddHalf_180
+global AaAddHalf_1A4, AaAddHalf_1D1, AaAddHalf_20B, AaAddHalf_259, AaAddHalf_2A1, AaAddHalf_2A2, AaAddHalf_2A3, AaAddHalf_2A4
+global AaAddHalf_2A5, AaAddHalf_2A6, AaAddHalf_2A7, AaAddHalf_2A8, AaAddHalf_2A9, AaAddHalf_2AA, AaAddHalf_2AB, AaAddHalf_2AC
+global AaAddHalf_2AD, AaSetQuarter_46, AaSetQuarter_54, AaSetQuarter_6D, AaSetQuarter_97, AaSetQuarter_C9, AaSetQuarter_107, AaSetQuarter_108
+global AaSetQuarter_109, AaSetQuarter_10A, AaSetQuarter_10B, AaSetQuarter_10C, AaSetQuarter_10D, AaSetQuarter_10E, AaSetQuarter_10F, AaSetQuarter_110
+global AaSetQuarter_111, AaSetQuarter_112, AaSetQuarter_113, AaSetQuarter_11E, AaSetQuarter_168, AaSetQuarter_195, AaSetQuarter_1C1, AaSetQuarter_1F3
+global AaSetQuarter_239, AaSetQuarter_276, AaSetQuarter_277, AaSetQuarter_278, AaSetQuarter_279, AaSetQuarter_27A, AaSetQuarter_27B, AaSetQuarter_27C
+global AaSetQuarter_27D, AaSetQuarter_27E, AaSetQuarter_27F, AaSetQuarter_280, AaSetQuarter_281, AaSetQuarter_282, AaAddQuarter_46, AaAddQuarter_54
+global AaAddQuarter_6D, AaAddQuarter_9A, AaAddQuarter_D1, AaAddQuarter_117, AaAddQuarter_118, AaAddQuarter_119, AaAddQuarter_11A, AaAddQuarter_11B
+global AaAddQuarter_11C, AaAddQuarter_11D, AaAddQuarter_11E, AaAddQuarter_11F, AaAddQuarter_120, AaAddQuarter_121, AaAddQuarter_122, AaAddQuarter_123
+global AaAddQuarter_12E, AaAddQuarter_180, AaAddQuarter_1A4, AaAddQuarter_1D1, AaAddQuarter_20B, AaAddQuarter_259, AaAddQuarter_2A1, AaAddQuarter_2A2
+global AaAddQuarter_2A3, AaAddQuarter_2A4, AaAddQuarter_2A5, AaAddQuarter_2A6, AaAddQuarter_2A7, AaAddQuarter_2A8, AaAddQuarter_2A9, AaAddQuarter_2AA
+global AaAddQuarter_2AB, AaAddQuarter_2AC, AaAddQuarter_2AD, AaSetThird_46, AaSetThird_54, AaSetThird_6D, AaSetThird_97, AaSetThird_C9
+global AaSetThird_107, AaSetThird_108, AaSetThird_109, AaSetThird_10A, AaSetThird_10B, AaSetThird_10C, AaSetThird_10D, AaSetThird_10E
+global AaSetThird_10F, AaSetThird_110, AaSetThird_111, AaSetThird_112, AaSetThird_113, AaSetThird_11E, AaSetThird_168, AaSetThird_195
+global AaSetThird_1C1, AaSetThird_1F3, AaSetThird_239, AaSetThird_276, AaSetThird_277, AaSetThird_278, AaSetThird_279, AaSetThird_27A
+global AaSetThird_27B, AaSetThird_27C, AaSetThird_27D, AaSetThird_27E, AaSetThird_27F, AaSetThird_280, AaSetThird_281, AaSetThird_282
+global AaAddThird_46, AaAddThird_54, AaAddThird_6D, AaAddThird_9A, AaAddThird_D1, AaAddThird_117, AaAddThird_118, AaAddThird_119
+global AaAddThird_11A, AaAddThird_11B, AaAddThird_11C, AaAddThird_11D, AaAddThird_11E, AaAddThird_11F, AaAddThird_120, AaAddThird_121
+global AaAddThird_122, AaAddThird_123, AaAddThird_12E, AaAddThird_180, AaAddThird_1A4, AaAddThird_1D1, AaAddThird_20B, AaAddThird_259
+global AaAddThird_2A1, AaAddThird_2A2, AaAddThird_2A3, AaAddThird_2A4, AaAddThird_2A5, AaAddThird_2A6, AaAddThird_2A7, AaAddThird_2A8
+global AaAddThird_2A9, AaAddThird_2AA, AaAddThird_2AB, AaAddThird_2AC, AaAddThird_2AD, AaSetTwoThirds_46, AaSetTwoThirds_54, AaSetTwoThirds_6D
+global AaSetTwoThirds_97, AaSetTwoThirds_C9, AaSetTwoThirds_107, AaSetTwoThirds_108, AaSetTwoThirds_109, AaSetTwoThirds_10A, AaSetTwoThirds_10B, AaSetTwoThirds_10C
+global AaSetTwoThirds_10D, AaSetTwoThirds_10E, AaSetTwoThirds_10F, AaSetTwoThirds_110, AaSetTwoThirds_111, AaSetTwoThirds_112, AaSetTwoThirds_113, AaSetTwoThirds_11E
+global AaSetTwoThirds_168, AaSetTwoThirds_195, AaSetTwoThirds_1C1, AaSetTwoThirds_1F3, AaSetTwoThirds_239, AaSetTwoThirds_276, AaSetTwoThirds_277, AaSetTwoThirds_278
+global AaSetTwoThirds_279, AaSetTwoThirds_27A, AaSetTwoThirds_27B, AaSetTwoThirds_27C, AaSetTwoThirds_27D, AaSetTwoThirds_27E, AaSetTwoThirds_27F, AaSetTwoThirds_280
+global AaSetTwoThirds_281, AaSetTwoThirds_282, AaAddTwoThirds_46, AaAddTwoThirds_54, AaAddTwoThirds_6D, AaAddTwoThirds_9A, AaAddTwoThirds_D1, AaAddTwoThirds_117
+global AaAddTwoThirds_118, AaAddTwoThirds_119, AaAddTwoThirds_11A, AaAddTwoThirds_11B, AaAddTwoThirds_11C, AaAddTwoThirds_11D, AaAddTwoThirds_11E, AaAddTwoThirds_11F
+global AaAddTwoThirds_120, AaAddTwoThirds_121, AaAddTwoThirds_122, AaAddTwoThirds_123, AaAddTwoThirds_12E, AaAddTwoThirds_180, AaAddTwoThirds_1A4, AaAddTwoThirds_1D1
+global AaAddTwoThirds_20B, AaAddTwoThirds_259, AaAddTwoThirds_2A1, AaAddTwoThirds_2A2, AaAddTwoThirds_2A3, AaAddTwoThirds_2A4, AaAddTwoThirds_2A5, AaAddTwoThirds_2A6
+global AaAddTwoThirds_2A7, AaAddTwoThirds_2A8, AaAddTwoThirds_2A9, AaAddTwoThirds_2AA, AaAddTwoThirds_2AB, AaAddTwoThirds_2AC, AaAddTwoThirds_2AD, AaDrawScaledArt_1CA
+global AaDrawScaledArt_1D4, AaDrawScaledArt_1F7, AaDrawScaledArt_211, AaDrawScaledArt_244, AaDrawScaledArt_26E, AaDrawScaledArt_2B1, AaDrawScaledArt_2D6, AaDrawScaledArt_2DB
+global AaDrawScaledArt_2E6, AaDrawScaledArt_2F1, AaDrawScaledArt_2FC, AaDrawScaledArt_307, AaDrawScaledArt_312, AaDrawScaledArt_31D, AaDrawScaledArt_328, AaDrawScaledArt_333
+global AaDrawScaledArt_33E, AaDrawScaledArt_349, AaDrawScaledArt_354, AaDrawScaledArt_3A1, AaDrawScaledArt_3A6, AaDrawScaledArt_3B1, AaDrawScaledArt_3BC, AaDrawScaledArt_3C7
+global AaDrawScaledArt_3D2, AaDrawScaledArt_3DD, AaDrawScaledArt_3E8, AaDrawScaledArt_3F3, AaDrawScaledArt_3FE, AaDrawScaledArt_409, AaDrawScaledArt_414, AaDrawScaledArt_41F
+global AaDrawScaledArt_474, AaDrawScaledArt_487, AaDrawScaledArt_491, AaDrawScaledArt_4BC, AaDrawScaledArt_4D6, AaDrawScaledArt_511, AaDrawScaledArt_516, AaDrawScaledArt_521
+global AaDrawScaledArt_52C, AaDrawScaledArt_537, AaDrawScaledArt_542, AaDrawScaledArt_54D, AaDrawScaledArt_558, AaDrawScaledArt_563, AaDrawScaledArt_56E, AaDrawScaledArt_579
+global AaDrawScaledArt_584, AaDrawScaledArt_58F, AaDrawScaledArt_5D5, AaDrawScaledArt_5DA, AaDrawScaledArt_5E5, AaDrawScaledArt_5F0, AaDrawScaledArt_5FB, AaDrawScaledArt_606
+global AaDrawScaledArt_611, AaDrawScaledArt_61C, AaDrawScaledArt_627, AaDrawScaledArt_632, AaDrawScaledArt_63D, AaDrawScaledArt_648, AaDrawScaledArt_653, start_74
 global start_28F, WriteConsoleMessage_23, _dos_read__5, printf_, rmdir_, start, stricmp_, strncpy_
-global GrabLargestBlock, InitMemoryPool, InitMemoryPoolDefault, sub_B3100, sub_B3145, sub_B3160, NearestColour, DetectCPU
-global sub_B3360, sub_B3420, sub_B3458, sub_B35E4, sub_B39C8, sub_B3DA0, sub_B41A8, sub_B4580
-global sub_B4988, sub_B4D60, sub_B5168, sub_B5540, sub_B583C, sub_B58D8, sub_B59E8, sub_B6140
-global sub_B6148, sub_B621C, WriteConsoleMessage, RestoreDS, CdOpenFile, CdOpenStream, CdHandleEntry, CdCloseFile
+global GrabLargestBlock, InitMemoryPool, InitMemoryPoolDefault, SetupMemoryPool, NumLockOff, InstallHotkeys, NearestColour, DetectCPU
+global BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable, AaSetFull, AaSetHalf, AaAddHalf, AaSetQuarter, AaAddQuarter
+global AaSetThird, AaAddThird, AaSetTwoThirds, AaAddTwoThirds, AaBuildColumnSteps, SetAaPalLut, AaDrawScaledArt, DrawArtAaScaledInt
+global DrawArtAaScaled, DrawArtAaScaledXY, WriteConsoleMessage, RestoreDS, CdOpenFile, CdOpenStream, CdHandleEntry, CdCloseFile
 global CdReadSectors, CdRead, CdSeekSectors, CdSeek, CdFindFile, DriveLetterIndex, IsCdDrive, AllocCdBuffer
-global DetectMscdex, sub_B6D2C, sub_B6DFC, CdSeekCmd, CdDirEntry, sub_B71D4, sub_B71F1, sub_B7210
-global sub_B7233, UnlinkJump, OpenResourceArchive, sub_B73C4, unk_B34D8, unk_B38BC, unk_B3C94, unk_B409C
-global unk_B4474, unk_B487C, unk_B4C54, unk_B505C, unk_B5434, unk_B58E0, unk_B5964, __saved_DS
+global DetectMscdex, CdPrefetch, CdReadRequest, CdSeekCmd, CdDirEntry, DosFindFirst, DosFindNext, CopyDtaOut
+global CopyDtaIn, UnlinkJump, OpenResourceArchive, GetResourceArchiveName, AaSetFullJumpTable, AaSetHalfJumpTable, AaAddHalfJumpTable, AaSetQuarterJumpTable
+global AaAddQuarterJumpTable, AaSetThirdJumpTable, AaAddThirdJumpTable, AaSetTwoThirdsJumpTable, AaAddTwoThirdsJumpTable, AaRowStepJumpTable, AaRowStepLastJumpTable, __saved_DS
 ;-----------------------------------------------------------------------------
 ; printf_                                                       B2C98  library
 ;-----------------------------------------------------------------------------
@@ -480,9 +480,10 @@ InitMemoryPoolDefault:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B3100                                                            B3100  
+; SetupMemoryPool                                 B3100  96 PC, low confidence
+; Sets up the memory pool through InitMemoryPool
 ;-----------------------------------------------------------------------------
-sub_B3100:
+SetupMemoryPool:
         push byte 0
         mov edx, dword [byte esp+010h]
         push edx
@@ -509,40 +510,42 @@ sub_B3100:
         call KbdPeekKey
         ret
 ;-----------------------------------------------------------------------------
-; sub_B3145                                                            B3145  
+; NumLockOff                                   B3145  96 PC, medium confidence
+; Turns Num Lock off in the BIOS keyboard flags
 ;-----------------------------------------------------------------------------
-sub_B3145:
+NumLockOff:
         and byte [0417h], 0DFh
         call KbdPeekKey
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B3160                                                            B3160  
+; InstallHotkeys                                  B3160  96 PC, low confidence
+; Sets the debug hotkeys (joystick calibration, keyboard display and others)
 ;-----------------------------------------------------------------------------
-sub_B3160:
+InstallHotkeys:
         push JoystickCalibrateScreen
         push byte 0Ah
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         push ShowKeyboardOn
         push byte 0Bh
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         push sub_C2C5C
         push byte 10h
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
-        push sub_E2335_81
+        push SetHotkey_81
         push dword 3200h
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
-        push sub_E2335_5B
+        push SetHotkey_5B
         push byte 13h
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         push sub_C2AC4
         push byte 18h
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         ret
         db 00h,00h
@@ -692,9 +695,11 @@ DetectCPU:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B3360                                                            B3360  
+; BuildAaPalLut                                   B3360  96 PC, low confidence
+; Builds the anti-aliasing palette table: for each colour, its RGB at each of
+; the twelve weights
 ;-----------------------------------------------------------------------------
-sub_B3360:
+BuildAaPalLut:
         push ebx
         push ecx
         push esi
@@ -713,7 +718,7 @@ sub_B3360:
         xor ecx, ecx
         mov cl, byte [ebx]
         shl ecx, 2
-        imul ecx, dword [dword edx+dword_121AA8]
+        imul ecx, dword [dword edx+AaWeights]
         sar ecx, 10h
         mov dword [esp], ecx
         mov cl, byte [esp]
@@ -721,7 +726,7 @@ sub_B3360:
         xor ecx, ecx
         mov cl, byte [byte ebx+01h]
         shl ecx, 2
-        imul ecx, dword [dword edx+dword_121AA8]
+        imul ecx, dword [dword edx+AaWeights]
         sar ecx, 10h
         mov dword [esp], ecx
         mov cl, byte [esp]
@@ -729,7 +734,7 @@ sub_B3360:
         xor ecx, ecx
         mov cl, byte [byte ebx+02h]
         shl ecx, 2
-        imul ecx, dword [dword edx+dword_121AA8]
+        imul ecx, dword [dword edx+AaWeights]
         sar ecx, 10h
         add eax, byte 4
         mov dword [esp], ecx
@@ -751,7 +756,7 @@ sub_B3360:
         mov bl, byte [eax]
         mov byte [byte eax+01h], bl
         mov byte [byte eax+02h], bl
-        imul ebx, dword [dword edx+dword_121AA8], dword 0FFh
+        imul ebx, dword [dword edx+AaWeights], dword 0FFh
         add eax, byte 4
         sar ebx, 10h
         add edx, byte 4
@@ -766,9 +771,11 @@ sub_B3360:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_B3420                                                            B3420  
+; CreateAaPalLut                                  B3420  96 PC, low confidence
+; Allocates the anti-aliasing palette table ("AAPLUT") and builds it from a
+; palette
 ;-----------------------------------------------------------------------------
-sub_B3420:
+CreateAaPalLut:
         push ecx
         push esi
         push edi
@@ -782,7 +789,7 @@ sub_B3420:
         mov edx, eax
         mov dword [edi], eax
         mov eax, esi
-        call sub_B3360
+        call BuildAaPalLut
         pop edi
         pop esi
         pop ecx
@@ -795,9 +802,10 @@ sub_B3420:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B3458                                                            B3458  
+; BuildPaletteShadeTable                          B3458  96 PC, low confidence
+; Builds 16 shade levels of a 256 colour palette
 ;-----------------------------------------------------------------------------
-sub_B3458:
+BuildPaletteShadeTable:
         push ebx
         push ecx
         push edx
@@ -852,78 +860,80 @@ sub_B3458:
         pop ecx
         pop ebx
         ret
-unk_B34D8:
-        dd sub_B35E4_46
-        dd sub_B35E4_53
-        dd sub_B35E4_6B
-        dd sub_B35E4_95
-        dd sub_B35E4_C7
-        dd sub_B35E4_11C
-        dd sub_B35E4_11C
-        dd sub_B35E4_111
-        dd sub_B35E4_111
-        dd sub_B35E4_110
-        dd sub_B35E4_110
-        dd sub_B35E4_10F
-        dd sub_B35E4_10F
-        dd sub_B35E4_10E
-        dd sub_B35E4_10E
-        dd sub_B35E4_10D
-        dd sub_B35E4_10D
-        dd sub_B35E4_10C
-        dd sub_B35E4_10C
-        dd sub_B35E4_10B
-        dd sub_B35E4_10B
-        dd sub_B35E4_10A
-        dd sub_B35E4_10A
-        dd sub_B35E4_109
-        dd sub_B35E4_109
-        dd sub_B35E4_108
-        dd sub_B35E4_108
-        dd sub_B35E4_107
-        dd sub_B35E4_107
-        dd sub_B35E4_106
-        dd sub_B35E4_106
-        dd sub_B35E4_105
-        dd sub_B35E4_105
-        dd sub_B35E4_46
-        dd sub_B35E4_46
-        dd sub_B35E4_53
-        dd sub_B35E4_166
-        dd sub_B35E4_193
-        dd sub_B35E4_1BF
-        dd sub_B35E4_1F1
-        dd sub_B35E4_237
-        dd sub_B35E4_280
-        dd sub_B35E4_27F
-        dd sub_B35E4_27F
-        dd sub_B35E4_27E
-        dd sub_B35E4_27E
-        dd sub_B35E4_27D
-        dd sub_B35E4_27D
-        dd sub_B35E4_27C
-        dd sub_B35E4_27C
-        dd sub_B35E4_27B
-        dd sub_B35E4_27B
-        dd sub_B35E4_27A
-        dd sub_B35E4_27A
-        dd sub_B35E4_279
-        dd sub_B35E4_279
-        dd sub_B35E4_278
-        dd sub_B35E4_278
-        dd sub_B35E4_277
-        dd sub_B35E4_277
-        dd sub_B35E4_276
-        dd sub_B35E4_276
-        dd sub_B35E4_275
-        dd sub_B35E4_275
-        dd sub_B35E4_274
-        dd sub_B35E4_274
-        dd sub_B35E4_2C9
+AaSetFullJumpTable:
+        dd AaSetFull_46
+        dd AaSetFull_53
+        dd AaSetFull_6B
+        dd AaSetFull_95
+        dd AaSetFull_C7
+        dd AaSetFull_11C
+        dd AaSetFull_11C
+        dd AaSetFull_111
+        dd AaSetFull_111
+        dd AaSetFull_110
+        dd AaSetFull_110
+        dd AaSetFull_10F
+        dd AaSetFull_10F
+        dd AaSetFull_10E
+        dd AaSetFull_10E
+        dd AaSetFull_10D
+        dd AaSetFull_10D
+        dd AaSetFull_10C
+        dd AaSetFull_10C
+        dd AaSetFull_10B
+        dd AaSetFull_10B
+        dd AaSetFull_10A
+        dd AaSetFull_10A
+        dd AaSetFull_109
+        dd AaSetFull_109
+        dd AaSetFull_108
+        dd AaSetFull_108
+        dd AaSetFull_107
+        dd AaSetFull_107
+        dd AaSetFull_106
+        dd AaSetFull_106
+        dd AaSetFull_105
+        dd AaSetFull_105
+        dd AaSetFull_46
+        dd AaSetFull_46
+        dd AaSetFull_53
+        dd AaSetFull_166
+        dd AaSetFull_193
+        dd AaSetFull_1BF
+        dd AaSetFull_1F1
+        dd AaSetFull_237
+        dd AaSetFull_280
+        dd AaSetFull_27F
+        dd AaSetFull_27F
+        dd AaSetFull_27E
+        dd AaSetFull_27E
+        dd AaSetFull_27D
+        dd AaSetFull_27D
+        dd AaSetFull_27C
+        dd AaSetFull_27C
+        dd AaSetFull_27B
+        dd AaSetFull_27B
+        dd AaSetFull_27A
+        dd AaSetFull_27A
+        dd AaSetFull_279
+        dd AaSetFull_279
+        dd AaSetFull_278
+        dd AaSetFull_278
+        dd AaSetFull_277
+        dd AaSetFull_277
+        dd AaSetFull_276
+        dd AaSetFull_276
+        dd AaSetFull_275
+        dd AaSetFull_275
+        dd AaSetFull_274
+        dd AaSetFull_274
+        dd AaSetFull_2C9
 ;-----------------------------------------------------------------------------
-; sub_B35E4                                                            B35E4  
+; AaSetFull                                       B35E4  96 PC, low confidence
+; Anti-aliased scaling: runs the column step list and stores each pixel's
+; full weight colour sums
 ;-----------------------------------------------------------------------------
-sub_B35E4:
+AaSetFull:
         push ebx
         push ecx
         push edx
@@ -941,17 +951,17 @@ sub_B35E4:
 .1:
         mov ecx, dword [dword ebx+dword_185C4C]
         cmp ecx, byte 42h
-        ja near sub_B35E4_280.2
+        ja near AaSetFull_280.2
         lea ebp, [nosplit ecx*4+00h]
         lea ecx, [byte eax+01h]
         lea esi, [byte eax+02h]
-        jmp dword [dword cs:ebp+unk_B34D8]
-sub_B35E4_46:
+        jmp dword [dword cs:ebp+AaSetFullJumpTable]
+AaSetFull_46:
         mov ecx, dword [edx]
         mov dword [dword ebx+dword_18664C], ecx
         add ebx, byte 4
-        jmp short sub_B35E4.1
-sub_B35E4_53:
+        jmp short AaSetFull.1
+AaSetFull_53:
         mov eax, dword [edx]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -960,8 +970,8 @@ sub_B35E4_53:
         mov ecx, edi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp short sub_B35E4.1
-sub_B35E4_6B:
+        jmp short AaSetFull.1
+AaSetFull_6B:
         mov eax, dword [byte edx+08h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -974,8 +984,8 @@ sub_B35E4_6B:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp short sub_B35E4.1
-sub_B35E4_95:
+        jmp short AaSetFull.1
+AaSetFull_95:
         mov eax, dword [byte edx+010h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -990,8 +1000,8 @@ sub_B35E4_95:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B35E4.1
-sub_B35E4_C7:
+        jmp near AaSetFull.1
+AaSetFull_C7:
         mov eax, dword [byte edx+014h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1009,38 +1019,38 @@ sub_B35E4_C7:
         lea esi, [ecx+ebp]
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B35E4.1
-sub_B35E4_105:
+        jmp near AaSetFull.1
+AaSetFull_105:
         inc eax
-sub_B35E4_106:
+AaSetFull_106:
         inc eax
-sub_B35E4_107:
+AaSetFull_107:
         inc eax
-sub_B35E4_108:
+AaSetFull_108:
         inc eax
-sub_B35E4_109:
+AaSetFull_109:
         inc eax
-sub_B35E4_10A:
+AaSetFull_10A:
         inc eax
-sub_B35E4_10B:
+AaSetFull_10B:
         inc eax
-sub_B35E4_10C:
+AaSetFull_10C:
         inc eax
-sub_B35E4_10D:
+AaSetFull_10D:
         inc eax
-sub_B35E4_10E:
+AaSetFull_10E:
         inc eax
-sub_B35E4_10F:
+AaSetFull_10F:
         inc eax
-sub_B35E4_110:
+AaSetFull_110:
         inc eax
-sub_B35E4_111:
+AaSetFull_111:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
         inc eax
         mov edx, dword [ecx+edx*4]
-sub_B35E4_11C:
+AaSetFull_11C:
         mov edx, dword [byte edx+014h]
         mov dword [dword ebx+dword_18664C], edx
         xor edx, edx
@@ -1062,8 +1072,8 @@ sub_B35E4_11C:
         inc eax
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B35E4.1
-sub_B35E4_166:
+        jmp near AaSetFull.1
+AaSetFull_166:
         mov eax, dword [byte edx+04h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -1076,8 +1086,8 @@ sub_B35E4_166:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B35E4.1
-sub_B35E4_193:
+        jmp near AaSetFull.1
+AaSetFull_193:
         mov eax, dword [byte edx+08h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1091,8 +1101,8 @@ sub_B35E4_193:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B35E4.1
-sub_B35E4_1BF:
+        jmp near AaSetFull.1
+AaSetFull_1BF:
         mov eax, dword [byte edx+08h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1107,8 +1117,8 @@ sub_B35E4_1BF:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B35E4.1
-sub_B35E4_1F1:
+        jmp near AaSetFull.1
+AaSetFull_1F1:
         mov eax, dword [byte edx+014h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1129,8 +1139,8 @@ sub_B35E4_1F1:
         mov dl, byte [eax]
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B35E4.1
-sub_B35E4_237:
+        jmp near AaSetFull.1
+AaSetFull_237:
         mov eax, dword [byte edx+014h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1148,32 +1158,32 @@ sub_B35E4_237:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B35E4.1
-sub_B35E4_274:
+        jmp near AaSetFull.1
+AaSetFull_274:
         inc eax
-sub_B35E4_275:
+AaSetFull_275:
         inc eax
-sub_B35E4_276:
+AaSetFull_276:
         inc eax
-sub_B35E4_277:
+AaSetFull_277:
         inc eax
-sub_B35E4_278:
+AaSetFull_278:
         inc eax
-sub_B35E4_279:
+AaSetFull_279:
         inc eax
-sub_B35E4_27A:
+AaSetFull_27A:
         inc eax
-sub_B35E4_27B:
+AaSetFull_27B:
         inc eax
-sub_B35E4_27C:
+AaSetFull_27C:
         inc eax
-sub_B35E4_27D:
+AaSetFull_27D:
         inc eax
-sub_B35E4_27E:
+AaSetFull_27E:
         inc eax
-sub_B35E4_27F:
+AaSetFull_27F:
         inc eax
-sub_B35E4_280:
+AaSetFull_280:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
@@ -1195,8 +1205,8 @@ sub_B35E4_280:
         mov dword [dword ebx+dword_18664C], ebp
 .2:
         add ebx, byte 4
-        jmp near sub_B35E4.1
-sub_B35E4_2C9:
+        jmp near AaSetFull.1
+AaSetFull_2C9:
         mov dword [dword_18B04C], edi
         pop ebp
         pop edi
@@ -1206,78 +1216,80 @@ sub_B35E4_2C9:
         pop ebx
         ret
         db 08Bh,0C0h
-unk_B38BC:
-        dd sub_B39C8_46
-        dd sub_B39C8_54
-        dd sub_B39C8_6D
-        dd sub_B39C8_97
-        dd sub_B39C8_C9
-        dd sub_B39C8_11E
-        dd sub_B39C8_11E
-        dd sub_B39C8_113
-        dd sub_B39C8_113
-        dd sub_B39C8_112
-        dd sub_B39C8_112
-        dd sub_B39C8_111
-        dd sub_B39C8_111
-        dd sub_B39C8_110
-        dd sub_B39C8_110
-        dd sub_B39C8_10F
-        dd sub_B39C8_10F
-        dd sub_B39C8_10E
-        dd sub_B39C8_10E
-        dd sub_B39C8_10D
-        dd sub_B39C8_10D
-        dd sub_B39C8_10C
-        dd sub_B39C8_10C
-        dd sub_B39C8_10B
-        dd sub_B39C8_10B
-        dd sub_B39C8_10A
-        dd sub_B39C8_10A
-        dd sub_B39C8_109
-        dd sub_B39C8_109
-        dd sub_B39C8_108
-        dd sub_B39C8_108
-        dd sub_B39C8_107
-        dd sub_B39C8_107
-        dd sub_B39C8_46
-        dd sub_B39C8_46
-        dd sub_B39C8_54
-        dd sub_B39C8_168
-        dd sub_B39C8_195
-        dd sub_B39C8_1C1
-        dd sub_B39C8_1F3
-        dd sub_B39C8_239
-        dd sub_B39C8_282
-        dd sub_B39C8_281
-        dd sub_B39C8_281
-        dd sub_B39C8_280
-        dd sub_B39C8_280
-        dd sub_B39C8_27F
-        dd sub_B39C8_27F
-        dd sub_B39C8_27E
-        dd sub_B39C8_27E
-        dd sub_B39C8_27D
-        dd sub_B39C8_27D
-        dd sub_B39C8_27C
-        dd sub_B39C8_27C
-        dd sub_B39C8_27B
-        dd sub_B39C8_27B
-        dd sub_B39C8_27A
-        dd sub_B39C8_27A
-        dd sub_B39C8_279
-        dd sub_B39C8_279
-        dd sub_B39C8_278
-        dd sub_B39C8_278
-        dd sub_B39C8_277
-        dd sub_B39C8_277
-        dd sub_B39C8_276
-        dd sub_B39C8_276
-        dd sub_B35E4_2C9
+AaSetHalfJumpTable:
+        dd AaSetHalf_46
+        dd AaSetHalf_54
+        dd AaSetHalf_6D
+        dd AaSetHalf_97
+        dd AaSetHalf_C9
+        dd AaSetHalf_11E
+        dd AaSetHalf_11E
+        dd AaSetHalf_113
+        dd AaSetHalf_113
+        dd AaSetHalf_112
+        dd AaSetHalf_112
+        dd AaSetHalf_111
+        dd AaSetHalf_111
+        dd AaSetHalf_110
+        dd AaSetHalf_110
+        dd AaSetHalf_10F
+        dd AaSetHalf_10F
+        dd AaSetHalf_10E
+        dd AaSetHalf_10E
+        dd AaSetHalf_10D
+        dd AaSetHalf_10D
+        dd AaSetHalf_10C
+        dd AaSetHalf_10C
+        dd AaSetHalf_10B
+        dd AaSetHalf_10B
+        dd AaSetHalf_10A
+        dd AaSetHalf_10A
+        dd AaSetHalf_109
+        dd AaSetHalf_109
+        dd AaSetHalf_108
+        dd AaSetHalf_108
+        dd AaSetHalf_107
+        dd AaSetHalf_107
+        dd AaSetHalf_46
+        dd AaSetHalf_46
+        dd AaSetHalf_54
+        dd AaSetHalf_168
+        dd AaSetHalf_195
+        dd AaSetHalf_1C1
+        dd AaSetHalf_1F3
+        dd AaSetHalf_239
+        dd AaSetHalf_282
+        dd AaSetHalf_281
+        dd AaSetHalf_281
+        dd AaSetHalf_280
+        dd AaSetHalf_280
+        dd AaSetHalf_27F
+        dd AaSetHalf_27F
+        dd AaSetHalf_27E
+        dd AaSetHalf_27E
+        dd AaSetHalf_27D
+        dd AaSetHalf_27D
+        dd AaSetHalf_27C
+        dd AaSetHalf_27C
+        dd AaSetHalf_27B
+        dd AaSetHalf_27B
+        dd AaSetHalf_27A
+        dd AaSetHalf_27A
+        dd AaSetHalf_279
+        dd AaSetHalf_279
+        dd AaSetHalf_278
+        dd AaSetHalf_278
+        dd AaSetHalf_277
+        dd AaSetHalf_277
+        dd AaSetHalf_276
+        dd AaSetHalf_276
+        dd AaSetFull_2C9
 ;-----------------------------------------------------------------------------
-; sub_B39C8                                                            B39C8  
+; AaSetHalf                                       B39C8  96 PC, low confidence
+; Anti-aliased scaling: runs the column step list and stores half weight
+; colour sums
 ;-----------------------------------------------------------------------------
-sub_B39C8:
+AaSetHalf:
         push ebx
         push ecx
         push edx
@@ -1295,17 +1307,17 @@ sub_B39C8:
 .1:
         mov ecx, dword [dword ebx+dword_185C4C]
         cmp ecx, byte 42h
-        ja near sub_B39C8_282.2
+        ja near AaSetHalf_282.2
         lea ebp, [nosplit ecx*4+00h]
         lea ecx, [byte eax+01h]
         lea esi, [byte eax+02h]
-        jmp dword [dword cs:ebp+unk_B38BC]
-sub_B39C8_46:
+        jmp dword [dword cs:ebp+AaSetHalfJumpTable]
+AaSetHalf_46:
         mov ecx, dword [byte edx+08h]
         mov dword [dword ebx+dword_18664C], ecx
         add ebx, byte 4
-        jmp short sub_B39C8.1
-sub_B39C8_54:
+        jmp short AaSetHalf.1
+AaSetHalf_54:
         mov eax, dword [byte edx+08h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -1314,8 +1326,8 @@ sub_B39C8_54:
         mov ecx, edi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp short sub_B39C8.1
-sub_B39C8_6D:
+        jmp short AaSetHalf.1
+AaSetHalf_6D:
         mov eax, dword [byte edx+014h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -1328,8 +1340,8 @@ sub_B39C8_6D:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp short sub_B39C8.1
-sub_B39C8_97:
+        jmp short AaSetHalf.1
+AaSetHalf_97:
         mov eax, dword [byte edx+01Ch]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1344,8 +1356,8 @@ sub_B39C8_97:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B39C8.1
-sub_B39C8_C9:
+        jmp near AaSetHalf.1
+AaSetHalf_C9:
         mov eax, dword [byte edx+020h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1363,38 +1375,38 @@ sub_B39C8_C9:
         lea esi, [ecx+ebp]
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B39C8.1
-sub_B39C8_107:
+        jmp near AaSetHalf.1
+AaSetHalf_107:
         inc eax
-sub_B39C8_108:
+AaSetHalf_108:
         inc eax
-sub_B39C8_109:
+AaSetHalf_109:
         inc eax
-sub_B39C8_10A:
+AaSetHalf_10A:
         inc eax
-sub_B39C8_10B:
+AaSetHalf_10B:
         inc eax
-sub_B39C8_10C:
+AaSetHalf_10C:
         inc eax
-sub_B39C8_10D:
+AaSetHalf_10D:
         inc eax
-sub_B39C8_10E:
+AaSetHalf_10E:
         inc eax
-sub_B39C8_10F:
+AaSetHalf_10F:
         inc eax
-sub_B39C8_110:
+AaSetHalf_110:
         inc eax
-sub_B39C8_111:
+AaSetHalf_111:
         inc eax
-sub_B39C8_112:
+AaSetHalf_112:
         inc eax
-sub_B39C8_113:
+AaSetHalf_113:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
         inc eax
         mov edx, dword [ecx+edx*4]
-sub_B39C8_11E:
+AaSetHalf_11E:
         mov edx, dword [byte edx+020h]
         mov dword [dword ebx+dword_18664C], edx
         xor edx, edx
@@ -1416,8 +1428,8 @@ sub_B39C8_11E:
         inc eax
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B39C8.1
-sub_B39C8_168:
+        jmp near AaSetHalf.1
+AaSetHalf_168:
         mov eax, dword [byte edx+010h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -1430,8 +1442,8 @@ sub_B39C8_168:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B39C8.1
-sub_B39C8_195:
+        jmp near AaSetHalf.1
+AaSetHalf_195:
         mov eax, dword [byte edx+014h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1445,8 +1457,8 @@ sub_B39C8_195:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B39C8.1
-sub_B39C8_1C1:
+        jmp near AaSetHalf.1
+AaSetHalf_1C1:
         mov eax, dword [byte edx+014h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1461,8 +1473,8 @@ sub_B39C8_1C1:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B39C8.1
-sub_B39C8_1F3:
+        jmp near AaSetHalf.1
+AaSetHalf_1F3:
         mov eax, dword [byte edx+020h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1483,8 +1495,8 @@ sub_B39C8_1F3:
         mov dl, byte [eax]
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B39C8.1
-sub_B39C8_239:
+        jmp near AaSetHalf.1
+AaSetHalf_239:
         mov eax, dword [byte edx+020h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -1502,32 +1514,32 @@ sub_B39C8_239:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B39C8.1
-sub_B39C8_276:
+        jmp near AaSetHalf.1
+AaSetHalf_276:
         inc eax
-sub_B39C8_277:
+AaSetHalf_277:
         inc eax
-sub_B39C8_278:
+AaSetHalf_278:
         inc eax
-sub_B39C8_279:
+AaSetHalf_279:
         inc eax
-sub_B39C8_27A:
+AaSetHalf_27A:
         inc eax
-sub_B39C8_27B:
+AaSetHalf_27B:
         inc eax
-sub_B39C8_27C:
+AaSetHalf_27C:
         inc eax
-sub_B39C8_27D:
+AaSetHalf_27D:
         inc eax
-sub_B39C8_27E:
+AaSetHalf_27E:
         inc eax
-sub_B39C8_27F:
+AaSetHalf_27F:
         inc eax
-sub_B39C8_280:
+AaSetHalf_280:
         inc eax
-sub_B39C8_281:
+AaSetHalf_281:
         inc eax
-sub_B39C8_282:
+AaSetHalf_282:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
@@ -1549,80 +1561,82 @@ sub_B39C8_282:
         mov dword [dword ebx+dword_18664C], ebp
 .2:
         add ebx, byte 4
-        jmp near sub_B39C8.1
+        jmp near AaSetHalf.1
         db 090h
-unk_B3C94:
-        dd sub_B3DA0_46
-        dd sub_B3DA0_54
-        dd sub_B3DA0_6D
-        dd sub_B3DA0_9A
-        dd sub_B3DA0_D1
-        dd sub_B3DA0_12E
-        dd sub_B3DA0_12E
-        dd sub_B3DA0_123
-        dd sub_B3DA0_123
-        dd sub_B3DA0_122
-        dd sub_B3DA0_122
-        dd sub_B3DA0_121
-        dd sub_B3DA0_121
-        dd sub_B3DA0_120
-        dd sub_B3DA0_120
-        dd sub_B3DA0_11F
-        dd sub_B3DA0_11F
-        dd sub_B3DA0_11E
-        dd sub_B3DA0_11E
-        dd sub_B3DA0_11D
-        dd sub_B3DA0_11D
-        dd sub_B3DA0_11C
-        dd sub_B3DA0_11C
-        dd sub_B3DA0_11B
-        dd sub_B3DA0_11B
-        dd sub_B3DA0_11A
-        dd sub_B3DA0_11A
-        dd sub_B3DA0_119
-        dd sub_B3DA0_119
-        dd sub_B3DA0_118
-        dd sub_B3DA0_118
-        dd sub_B3DA0_117
-        dd sub_B3DA0_117
-        dd sub_B3DA0_46
-        dd sub_B3DA0_46
-        dd sub_B3DA0_180
-        dd sub_B3DA0_1A4
-        dd sub_B3DA0_1D1
-        dd sub_B3DA0_1D1
-        dd sub_B3DA0_20B
-        dd sub_B3DA0_259
-        dd sub_B3DA0_2AD
-        dd sub_B3DA0_2AC
-        dd sub_B3DA0_2AC
-        dd sub_B3DA0_2AB
-        dd sub_B3DA0_2AB
-        dd sub_B3DA0_2AA
-        dd sub_B3DA0_2AA
-        dd sub_B3DA0_2A9
-        dd sub_B3DA0_2A9
-        dd sub_B3DA0_2A8
-        dd sub_B3DA0_2A8
-        dd sub_B3DA0_2A7
-        dd sub_B3DA0_2A7
-        dd sub_B3DA0_2A6
-        dd sub_B3DA0_2A6
-        dd sub_B3DA0_2A5
-        dd sub_B3DA0_2A5
-        dd sub_B3DA0_2A4
-        dd sub_B3DA0_2A4
-        dd sub_B3DA0_2A3
-        dd sub_B3DA0_2A3
-        dd sub_B3DA0_2A2
-        dd sub_B3DA0_2A2
-        dd sub_B3DA0_2A1
-        dd sub_B3DA0_2A1
-        dd sub_B35E4_2C9
+AaAddHalfJumpTable:
+        dd AaAddHalf_46
+        dd AaAddHalf_54
+        dd AaAddHalf_6D
+        dd AaAddHalf_9A
+        dd AaAddHalf_D1
+        dd AaAddHalf_12E
+        dd AaAddHalf_12E
+        dd AaAddHalf_123
+        dd AaAddHalf_123
+        dd AaAddHalf_122
+        dd AaAddHalf_122
+        dd AaAddHalf_121
+        dd AaAddHalf_121
+        dd AaAddHalf_120
+        dd AaAddHalf_120
+        dd AaAddHalf_11F
+        dd AaAddHalf_11F
+        dd AaAddHalf_11E
+        dd AaAddHalf_11E
+        dd AaAddHalf_11D
+        dd AaAddHalf_11D
+        dd AaAddHalf_11C
+        dd AaAddHalf_11C
+        dd AaAddHalf_11B
+        dd AaAddHalf_11B
+        dd AaAddHalf_11A
+        dd AaAddHalf_11A
+        dd AaAddHalf_119
+        dd AaAddHalf_119
+        dd AaAddHalf_118
+        dd AaAddHalf_118
+        dd AaAddHalf_117
+        dd AaAddHalf_117
+        dd AaAddHalf_46
+        dd AaAddHalf_46
+        dd AaAddHalf_180
+        dd AaAddHalf_1A4
+        dd AaAddHalf_1D1
+        dd AaAddHalf_1D1
+        dd AaAddHalf_20B
+        dd AaAddHalf_259
+        dd AaAddHalf_2AD
+        dd AaAddHalf_2AC
+        dd AaAddHalf_2AC
+        dd AaAddHalf_2AB
+        dd AaAddHalf_2AB
+        dd AaAddHalf_2AA
+        dd AaAddHalf_2AA
+        dd AaAddHalf_2A9
+        dd AaAddHalf_2A9
+        dd AaAddHalf_2A8
+        dd AaAddHalf_2A8
+        dd AaAddHalf_2A7
+        dd AaAddHalf_2A7
+        dd AaAddHalf_2A6
+        dd AaAddHalf_2A6
+        dd AaAddHalf_2A5
+        dd AaAddHalf_2A5
+        dd AaAddHalf_2A4
+        dd AaAddHalf_2A4
+        dd AaAddHalf_2A3
+        dd AaAddHalf_2A3
+        dd AaAddHalf_2A2
+        dd AaAddHalf_2A2
+        dd AaAddHalf_2A1
+        dd AaAddHalf_2A1
+        dd AaSetFull_2C9
 ;-----------------------------------------------------------------------------
-; sub_B3DA0                                                            B3DA0  
+; AaAddHalf                                       B3DA0  96 PC, low confidence
+; Anti-aliased scaling: runs the column step list and adds half weight colour
+; sums
 ;-----------------------------------------------------------------------------
-sub_B3DA0:
+AaAddHalf:
         push ebx
         push ecx
         push edx
@@ -1640,17 +1654,17 @@ sub_B3DA0:
 .1:
         mov ecx, dword [dword edx+dword_185C4C]
         cmp ecx, byte 42h
-        ja near sub_B3DA0_2AD.2
+        ja near AaAddHalf_2AD.2
         lea ebp, [nosplit ecx*4+00h]
         lea ecx, [byte eax+01h]
         lea esi, [byte eax+02h]
-        jmp dword [dword cs:ebp+unk_B3C94]
-sub_B3DA0_46:
+        jmp dword [dword cs:ebp+AaAddHalfJumpTable]
+AaAddHalf_46:
         mov ecx, dword [byte ebx+08h]
         add dword [dword edx+dword_18664C], ecx
         add edx, byte 4
-        jmp short sub_B3DA0.1
-sub_B3DA0_54:
+        jmp short AaAddHalf.1
+AaAddHalf_54:
         mov eax, dword [byte ebx+08h]
         add dword [dword edx+dword_18664C], eax
         xor ebx, ebx
@@ -1659,8 +1673,8 @@ sub_B3DA0_54:
         mov ecx, edi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp short sub_B3DA0.1
-sub_B3DA0_6D:
+        jmp short AaAddHalf.1
+AaAddHalf_6D:
         mov eax, dword [byte ebx+014h]
         mov esi, dword [dword edx+dword_18664C]
         add esi, eax
@@ -1674,8 +1688,8 @@ sub_B3DA0_6D:
         lea ebp, [esi+ecx]
         mov dword [dword edx+dword_18664C], ebp
         add edx, byte 4
-        jmp short sub_B3DA0.1
-sub_B3DA0_9A:
+        jmp short AaAddHalf.1
+AaAddHalf_9A:
         mov eax, dword [byte ebx+01Ch]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -1692,8 +1706,8 @@ sub_B3DA0_9A:
         mov eax, esi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B3DA0.1
-sub_B3DA0_D1:
+        jmp near AaAddHalf.1
+AaAddHalf_D1:
         mov eax, dword [byte ebx+020h]
         mov ebx, dword [dword edx+dword_18664C]
         add ebx, eax
@@ -1713,38 +1727,38 @@ sub_B3DA0_D1:
         lea esi, [ecx+ebp]
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B3DA0.1
-sub_B3DA0_117:
+        jmp near AaAddHalf.1
+AaAddHalf_117:
         inc eax
-sub_B3DA0_118:
+AaAddHalf_118:
         inc eax
-sub_B3DA0_119:
+AaAddHalf_119:
         inc eax
-sub_B3DA0_11A:
+AaAddHalf_11A:
         inc eax
-sub_B3DA0_11B:
+AaAddHalf_11B:
         inc eax
-sub_B3DA0_11C:
+AaAddHalf_11C:
         inc eax
-sub_B3DA0_11D:
+AaAddHalf_11D:
         inc eax
-sub_B3DA0_11E:
+AaAddHalf_11E:
         inc eax
-sub_B3DA0_11F:
+AaAddHalf_11F:
         inc eax
-sub_B3DA0_120:
+AaAddHalf_120:
         inc eax
-sub_B3DA0_121:
+AaAddHalf_121:
         inc eax
-sub_B3DA0_122:
+AaAddHalf_122:
         inc eax
-sub_B3DA0_123:
+AaAddHalf_123:
         xor ebx, ebx
         mov ecx, edi
         mov bl, byte [byte eax+01h]
         inc eax
         mov ebx, dword [ecx+ebx*4]
-sub_B3DA0_12E:
+AaAddHalf_12E:
         mov ebx, dword [byte ebx+020h]
         mov ecx, dword [dword edx+dword_18664C]
         add ecx, ebx
@@ -1768,8 +1782,8 @@ sub_B3DA0_12E:
         inc eax
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B3DA0.1
-sub_B3DA0_180:
+        jmp near AaAddHalf.1
+AaAddHalf_180:
         mov eax, dword [byte ebx+08h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -1780,8 +1794,8 @@ sub_B3DA0_180:
         mov ecx, edi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B3DA0.1
-sub_B3DA0_1A4:
+        jmp near AaAddHalf.1
+AaAddHalf_1A4:
         mov eax, dword [byte ebx+010h]
         add dword [dword edx+dword_18664C], eax
         xor ebx, ebx
@@ -1794,8 +1808,8 @@ sub_B3DA0_1A4:
         add esi, ecx
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B3DA0.1
-sub_B3DA0_1D1:
+        jmp near AaAddHalf.1
+AaAddHalf_1D1:
         mov eax, dword [byte ebx+014h]
         mov ebx, dword [dword edx+dword_18664C]
         add ebx, eax
@@ -1812,8 +1826,8 @@ sub_B3DA0_1D1:
         mov eax, esi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B3DA0.1
-sub_B3DA0_20B:
+        jmp near AaAddHalf.1
+AaAddHalf_20B:
         mov eax, dword [byte ebx+020h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -1836,8 +1850,8 @@ sub_B3DA0_20B:
         mov bl, byte [eax]
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B3DA0.1
-sub_B3DA0_259:
+        jmp near AaAddHalf.1
+AaAddHalf_259:
         mov eax, dword [byte ebx+020h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -1858,32 +1872,32 @@ sub_B3DA0_259:
         add esi, ecx
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B3DA0.1
-sub_B3DA0_2A1:
+        jmp near AaAddHalf.1
+AaAddHalf_2A1:
         inc eax
-sub_B3DA0_2A2:
+AaAddHalf_2A2:
         inc eax
-sub_B3DA0_2A3:
+AaAddHalf_2A3:
         inc eax
-sub_B3DA0_2A4:
+AaAddHalf_2A4:
         inc eax
-sub_B3DA0_2A5:
+AaAddHalf_2A5:
         inc eax
-sub_B3DA0_2A6:
+AaAddHalf_2A6:
         inc eax
-sub_B3DA0_2A7:
+AaAddHalf_2A7:
         inc eax
-sub_B3DA0_2A8:
+AaAddHalf_2A8:
         inc eax
-sub_B3DA0_2A9:
+AaAddHalf_2A9:
         inc eax
-sub_B3DA0_2AA:
+AaAddHalf_2AA:
         inc eax
-sub_B3DA0_2AB:
+AaAddHalf_2AB:
         inc eax
-sub_B3DA0_2AC:
+AaAddHalf_2AC:
         inc eax
-sub_B3DA0_2AD:
+AaAddHalf_2AD:
         xor ebx, ebx
         mov ecx, edi
         mov bl, byte [byte eax+01h]
@@ -1906,80 +1920,82 @@ sub_B3DA0_2AD:
         mov dword [dword edx+dword_18664C], esi
 .2:
         add edx, byte 4
-        jmp near sub_B3DA0.1
+        jmp near AaAddHalf.1
         db 08Dh,040h,00h
-unk_B409C:
-        dd sub_B41A8_46
-        dd sub_B41A8_54
-        dd sub_B41A8_6D
-        dd sub_B41A8_97
-        dd sub_B41A8_C9
-        dd sub_B41A8_11E
-        dd sub_B41A8_11E
-        dd sub_B41A8_113
-        dd sub_B41A8_113
-        dd sub_B41A8_112
-        dd sub_B41A8_112
-        dd sub_B41A8_111
-        dd sub_B41A8_111
-        dd sub_B41A8_110
-        dd sub_B41A8_110
-        dd sub_B41A8_10F
-        dd sub_B41A8_10F
-        dd sub_B41A8_10E
-        dd sub_B41A8_10E
-        dd sub_B41A8_10D
-        dd sub_B41A8_10D
-        dd sub_B41A8_10C
-        dd sub_B41A8_10C
-        dd sub_B41A8_10B
-        dd sub_B41A8_10B
-        dd sub_B41A8_10A
-        dd sub_B41A8_10A
-        dd sub_B41A8_109
-        dd sub_B41A8_109
-        dd sub_B41A8_108
-        dd sub_B41A8_108
-        dd sub_B41A8_107
-        dd sub_B41A8_107
-        dd sub_B41A8_46
-        dd sub_B41A8_46
-        dd sub_B41A8_54
-        dd sub_B41A8_168
-        dd sub_B41A8_195
-        dd sub_B41A8_1C1
-        dd sub_B41A8_1F3
-        dd sub_B41A8_239
-        dd sub_B41A8_282
-        dd sub_B41A8_281
-        dd sub_B41A8_281
-        dd sub_B41A8_280
-        dd sub_B41A8_280
-        dd sub_B41A8_27F
-        dd sub_B41A8_27F
-        dd sub_B41A8_27E
-        dd sub_B41A8_27E
-        dd sub_B41A8_27D
-        dd sub_B41A8_27D
-        dd sub_B41A8_27C
-        dd sub_B41A8_27C
-        dd sub_B41A8_27B
-        dd sub_B41A8_27B
-        dd sub_B41A8_27A
-        dd sub_B41A8_27A
-        dd sub_B41A8_279
-        dd sub_B41A8_279
-        dd sub_B41A8_278
-        dd sub_B41A8_278
-        dd sub_B41A8_277
-        dd sub_B41A8_277
-        dd sub_B41A8_276
-        dd sub_B41A8_276
-        dd sub_B35E4_2C9
+AaSetQuarterJumpTable:
+        dd AaSetQuarter_46
+        dd AaSetQuarter_54
+        dd AaSetQuarter_6D
+        dd AaSetQuarter_97
+        dd AaSetQuarter_C9
+        dd AaSetQuarter_11E
+        dd AaSetQuarter_11E
+        dd AaSetQuarter_113
+        dd AaSetQuarter_113
+        dd AaSetQuarter_112
+        dd AaSetQuarter_112
+        dd AaSetQuarter_111
+        dd AaSetQuarter_111
+        dd AaSetQuarter_110
+        dd AaSetQuarter_110
+        dd AaSetQuarter_10F
+        dd AaSetQuarter_10F
+        dd AaSetQuarter_10E
+        dd AaSetQuarter_10E
+        dd AaSetQuarter_10D
+        dd AaSetQuarter_10D
+        dd AaSetQuarter_10C
+        dd AaSetQuarter_10C
+        dd AaSetQuarter_10B
+        dd AaSetQuarter_10B
+        dd AaSetQuarter_10A
+        dd AaSetQuarter_10A
+        dd AaSetQuarter_109
+        dd AaSetQuarter_109
+        dd AaSetQuarter_108
+        dd AaSetQuarter_108
+        dd AaSetQuarter_107
+        dd AaSetQuarter_107
+        dd AaSetQuarter_46
+        dd AaSetQuarter_46
+        dd AaSetQuarter_54
+        dd AaSetQuarter_168
+        dd AaSetQuarter_195
+        dd AaSetQuarter_1C1
+        dd AaSetQuarter_1F3
+        dd AaSetQuarter_239
+        dd AaSetQuarter_282
+        dd AaSetQuarter_281
+        dd AaSetQuarter_281
+        dd AaSetQuarter_280
+        dd AaSetQuarter_280
+        dd AaSetQuarter_27F
+        dd AaSetQuarter_27F
+        dd AaSetQuarter_27E
+        dd AaSetQuarter_27E
+        dd AaSetQuarter_27D
+        dd AaSetQuarter_27D
+        dd AaSetQuarter_27C
+        dd AaSetQuarter_27C
+        dd AaSetQuarter_27B
+        dd AaSetQuarter_27B
+        dd AaSetQuarter_27A
+        dd AaSetQuarter_27A
+        dd AaSetQuarter_279
+        dd AaSetQuarter_279
+        dd AaSetQuarter_278
+        dd AaSetQuarter_278
+        dd AaSetQuarter_277
+        dd AaSetQuarter_277
+        dd AaSetQuarter_276
+        dd AaSetQuarter_276
+        dd AaSetFull_2C9
 ;-----------------------------------------------------------------------------
-; sub_B41A8                                                            B41A8  
+; AaSetQuarter                                    B41A8  96 PC, low confidence
+; Anti-aliased scaling: runs the column step list and stores quarter weight
+; colour sums
 ;-----------------------------------------------------------------------------
-sub_B41A8:
+AaSetQuarter:
         push ebx
         push ecx
         push edx
@@ -1997,17 +2013,17 @@ sub_B41A8:
 .1:
         mov ecx, dword [dword ebx+dword_185C4C]
         cmp ecx, byte 42h
-        ja near sub_B41A8_282.2
+        ja near AaSetQuarter_282.2
         lea ebp, [nosplit ecx*4+00h]
         lea ecx, [byte eax+01h]
         lea esi, [byte eax+02h]
-        jmp dword [dword cs:ebp+unk_B409C]
-sub_B41A8_46:
+        jmp dword [dword cs:ebp+AaSetQuarterJumpTable]
+AaSetQuarter_46:
         mov ecx, dword [byte edx+014h]
         mov dword [dword ebx+dword_18664C], ecx
         add ebx, byte 4
-        jmp short sub_B41A8.1
-sub_B41A8_54:
+        jmp short AaSetQuarter.1
+AaSetQuarter_54:
         mov eax, dword [byte edx+014h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -2016,8 +2032,8 @@ sub_B41A8_54:
         mov ecx, edi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp short sub_B41A8.1
-sub_B41A8_6D:
+        jmp short AaSetQuarter.1
+AaSetQuarter_6D:
         mov eax, dword [byte edx+020h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -2030,8 +2046,8 @@ sub_B41A8_6D:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp short sub_B41A8.1
-sub_B41A8_97:
+        jmp short AaSetQuarter.1
+AaSetQuarter_97:
         mov eax, dword [byte edx+028h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2046,8 +2062,8 @@ sub_B41A8_97:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B41A8.1
-sub_B41A8_C9:
+        jmp near AaSetQuarter.1
+AaSetQuarter_C9:
         mov eax, dword [byte edx+02Ch]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2065,38 +2081,38 @@ sub_B41A8_C9:
         lea esi, [ecx+ebp]
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B41A8.1
-sub_B41A8_107:
+        jmp near AaSetQuarter.1
+AaSetQuarter_107:
         inc eax
-sub_B41A8_108:
+AaSetQuarter_108:
         inc eax
-sub_B41A8_109:
+AaSetQuarter_109:
         inc eax
-sub_B41A8_10A:
+AaSetQuarter_10A:
         inc eax
-sub_B41A8_10B:
+AaSetQuarter_10B:
         inc eax
-sub_B41A8_10C:
+AaSetQuarter_10C:
         inc eax
-sub_B41A8_10D:
+AaSetQuarter_10D:
         inc eax
-sub_B41A8_10E:
+AaSetQuarter_10E:
         inc eax
-sub_B41A8_10F:
+AaSetQuarter_10F:
         inc eax
-sub_B41A8_110:
+AaSetQuarter_110:
         inc eax
-sub_B41A8_111:
+AaSetQuarter_111:
         inc eax
-sub_B41A8_112:
+AaSetQuarter_112:
         inc eax
-sub_B41A8_113:
+AaSetQuarter_113:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
         inc eax
         mov edx, dword [ecx+edx*4]
-sub_B41A8_11E:
+AaSetQuarter_11E:
         mov edx, dword [byte edx+02Ch]
         mov dword [dword ebx+dword_18664C], edx
         xor edx, edx
@@ -2118,8 +2134,8 @@ sub_B41A8_11E:
         inc eax
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B41A8.1
-sub_B41A8_168:
+        jmp near AaSetQuarter.1
+AaSetQuarter_168:
         mov eax, dword [byte edx+01Ch]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -2132,8 +2148,8 @@ sub_B41A8_168:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B41A8.1
-sub_B41A8_195:
+        jmp near AaSetQuarter.1
+AaSetQuarter_195:
         mov eax, dword [byte edx+020h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2147,8 +2163,8 @@ sub_B41A8_195:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B41A8.1
-sub_B41A8_1C1:
+        jmp near AaSetQuarter.1
+AaSetQuarter_1C1:
         mov eax, dword [byte edx+020h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2163,8 +2179,8 @@ sub_B41A8_1C1:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B41A8.1
-sub_B41A8_1F3:
+        jmp near AaSetQuarter.1
+AaSetQuarter_1F3:
         mov eax, dword [byte edx+02Ch]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2185,8 +2201,8 @@ sub_B41A8_1F3:
         mov dl, byte [eax]
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B41A8.1
-sub_B41A8_239:
+        jmp near AaSetQuarter.1
+AaSetQuarter_239:
         mov eax, dword [byte edx+02Ch]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2204,32 +2220,32 @@ sub_B41A8_239:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B41A8.1
-sub_B41A8_276:
+        jmp near AaSetQuarter.1
+AaSetQuarter_276:
         inc eax
-sub_B41A8_277:
+AaSetQuarter_277:
         inc eax
-sub_B41A8_278:
+AaSetQuarter_278:
         inc eax
-sub_B41A8_279:
+AaSetQuarter_279:
         inc eax
-sub_B41A8_27A:
+AaSetQuarter_27A:
         inc eax
-sub_B41A8_27B:
+AaSetQuarter_27B:
         inc eax
-sub_B41A8_27C:
+AaSetQuarter_27C:
         inc eax
-sub_B41A8_27D:
+AaSetQuarter_27D:
         inc eax
-sub_B41A8_27E:
+AaSetQuarter_27E:
         inc eax
-sub_B41A8_27F:
+AaSetQuarter_27F:
         inc eax
-sub_B41A8_280:
+AaSetQuarter_280:
         inc eax
-sub_B41A8_281:
+AaSetQuarter_281:
         inc eax
-sub_B41A8_282:
+AaSetQuarter_282:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
@@ -2251,80 +2267,82 @@ sub_B41A8_282:
         mov dword [dword ebx+dword_18664C], ebp
 .2:
         add ebx, byte 4
-        jmp near sub_B41A8.1
+        jmp near AaSetQuarter.1
         db 090h
-unk_B4474:
-        dd sub_B4580_46
-        dd sub_B4580_54
-        dd sub_B4580_6D
-        dd sub_B4580_9A
-        dd sub_B4580_D1
-        dd sub_B4580_12E
-        dd sub_B4580_12E
-        dd sub_B4580_123
-        dd sub_B4580_123
-        dd sub_B4580_122
-        dd sub_B4580_122
-        dd sub_B4580_121
-        dd sub_B4580_121
-        dd sub_B4580_120
-        dd sub_B4580_120
-        dd sub_B4580_11F
-        dd sub_B4580_11F
-        dd sub_B4580_11E
-        dd sub_B4580_11E
-        dd sub_B4580_11D
-        dd sub_B4580_11D
-        dd sub_B4580_11C
-        dd sub_B4580_11C
-        dd sub_B4580_11B
-        dd sub_B4580_11B
-        dd sub_B4580_11A
-        dd sub_B4580_11A
-        dd sub_B4580_119
-        dd sub_B4580_119
-        dd sub_B4580_118
-        dd sub_B4580_118
-        dd sub_B4580_117
-        dd sub_B4580_117
-        dd sub_B4580_46
-        dd sub_B4580_46
-        dd sub_B4580_180
-        dd sub_B4580_1A4
-        dd sub_B4580_1D1
-        dd sub_B4580_1D1
-        dd sub_B4580_20B
-        dd sub_B4580_259
-        dd sub_B4580_2AD
-        dd sub_B4580_2AC
-        dd sub_B4580_2AC
-        dd sub_B4580_2AB
-        dd sub_B4580_2AB
-        dd sub_B4580_2AA
-        dd sub_B4580_2AA
-        dd sub_B4580_2A9
-        dd sub_B4580_2A9
-        dd sub_B4580_2A8
-        dd sub_B4580_2A8
-        dd sub_B4580_2A7
-        dd sub_B4580_2A7
-        dd sub_B4580_2A6
-        dd sub_B4580_2A6
-        dd sub_B4580_2A5
-        dd sub_B4580_2A5
-        dd sub_B4580_2A4
-        dd sub_B4580_2A4
-        dd sub_B4580_2A3
-        dd sub_B4580_2A3
-        dd sub_B4580_2A2
-        dd sub_B4580_2A2
-        dd sub_B4580_2A1
-        dd sub_B4580_2A1
-        dd sub_B35E4_2C9
+AaAddQuarterJumpTable:
+        dd AaAddQuarter_46
+        dd AaAddQuarter_54
+        dd AaAddQuarter_6D
+        dd AaAddQuarter_9A
+        dd AaAddQuarter_D1
+        dd AaAddQuarter_12E
+        dd AaAddQuarter_12E
+        dd AaAddQuarter_123
+        dd AaAddQuarter_123
+        dd AaAddQuarter_122
+        dd AaAddQuarter_122
+        dd AaAddQuarter_121
+        dd AaAddQuarter_121
+        dd AaAddQuarter_120
+        dd AaAddQuarter_120
+        dd AaAddQuarter_11F
+        dd AaAddQuarter_11F
+        dd AaAddQuarter_11E
+        dd AaAddQuarter_11E
+        dd AaAddQuarter_11D
+        dd AaAddQuarter_11D
+        dd AaAddQuarter_11C
+        dd AaAddQuarter_11C
+        dd AaAddQuarter_11B
+        dd AaAddQuarter_11B
+        dd AaAddQuarter_11A
+        dd AaAddQuarter_11A
+        dd AaAddQuarter_119
+        dd AaAddQuarter_119
+        dd AaAddQuarter_118
+        dd AaAddQuarter_118
+        dd AaAddQuarter_117
+        dd AaAddQuarter_117
+        dd AaAddQuarter_46
+        dd AaAddQuarter_46
+        dd AaAddQuarter_180
+        dd AaAddQuarter_1A4
+        dd AaAddQuarter_1D1
+        dd AaAddQuarter_1D1
+        dd AaAddQuarter_20B
+        dd AaAddQuarter_259
+        dd AaAddQuarter_2AD
+        dd AaAddQuarter_2AC
+        dd AaAddQuarter_2AC
+        dd AaAddQuarter_2AB
+        dd AaAddQuarter_2AB
+        dd AaAddQuarter_2AA
+        dd AaAddQuarter_2AA
+        dd AaAddQuarter_2A9
+        dd AaAddQuarter_2A9
+        dd AaAddQuarter_2A8
+        dd AaAddQuarter_2A8
+        dd AaAddQuarter_2A7
+        dd AaAddQuarter_2A7
+        dd AaAddQuarter_2A6
+        dd AaAddQuarter_2A6
+        dd AaAddQuarter_2A5
+        dd AaAddQuarter_2A5
+        dd AaAddQuarter_2A4
+        dd AaAddQuarter_2A4
+        dd AaAddQuarter_2A3
+        dd AaAddQuarter_2A3
+        dd AaAddQuarter_2A2
+        dd AaAddQuarter_2A2
+        dd AaAddQuarter_2A1
+        dd AaAddQuarter_2A1
+        dd AaSetFull_2C9
 ;-----------------------------------------------------------------------------
-; sub_B4580                                                            B4580  
+; AaAddQuarter                                    B4580  96 PC, low confidence
+; Anti-aliased scaling: runs the column step list and adds quarter weight
+; colour sums
 ;-----------------------------------------------------------------------------
-sub_B4580:
+AaAddQuarter:
         push ebx
         push ecx
         push edx
@@ -2342,17 +2360,17 @@ sub_B4580:
 .1:
         mov ecx, dword [dword edx+dword_185C4C]
         cmp ecx, byte 42h
-        ja near sub_B4580_2AD.2
+        ja near AaAddQuarter_2AD.2
         lea ebp, [nosplit ecx*4+00h]
         lea ecx, [byte eax+01h]
         lea esi, [byte eax+02h]
-        jmp dword [dword cs:ebp+unk_B4474]
-sub_B4580_46:
+        jmp dword [dword cs:ebp+AaAddQuarterJumpTable]
+AaAddQuarter_46:
         mov ecx, dword [byte ebx+014h]
         add dword [dword edx+dword_18664C], ecx
         add edx, byte 4
-        jmp short sub_B4580.1
-sub_B4580_54:
+        jmp short AaAddQuarter.1
+AaAddQuarter_54:
         mov eax, dword [byte ebx+014h]
         add dword [dword edx+dword_18664C], eax
         xor ebx, ebx
@@ -2361,8 +2379,8 @@ sub_B4580_54:
         mov ecx, edi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp short sub_B4580.1
-sub_B4580_6D:
+        jmp short AaAddQuarter.1
+AaAddQuarter_6D:
         mov eax, dword [byte ebx+020h]
         mov esi, dword [dword edx+dword_18664C]
         add esi, eax
@@ -2376,8 +2394,8 @@ sub_B4580_6D:
         lea ebp, [esi+ecx]
         mov dword [dword edx+dword_18664C], ebp
         add edx, byte 4
-        jmp short sub_B4580.1
-sub_B4580_9A:
+        jmp short AaAddQuarter.1
+AaAddQuarter_9A:
         mov eax, dword [byte ebx+028h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -2394,8 +2412,8 @@ sub_B4580_9A:
         mov eax, esi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4580.1
-sub_B4580_D1:
+        jmp near AaAddQuarter.1
+AaAddQuarter_D1:
         mov eax, dword [byte ebx+02Ch]
         mov ebx, dword [dword edx+dword_18664C]
         add ebx, eax
@@ -2415,38 +2433,38 @@ sub_B4580_D1:
         lea esi, [ecx+ebp]
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B4580.1
-sub_B4580_117:
+        jmp near AaAddQuarter.1
+AaAddQuarter_117:
         inc eax
-sub_B4580_118:
+AaAddQuarter_118:
         inc eax
-sub_B4580_119:
+AaAddQuarter_119:
         inc eax
-sub_B4580_11A:
+AaAddQuarter_11A:
         inc eax
-sub_B4580_11B:
+AaAddQuarter_11B:
         inc eax
-sub_B4580_11C:
+AaAddQuarter_11C:
         inc eax
-sub_B4580_11D:
+AaAddQuarter_11D:
         inc eax
-sub_B4580_11E:
+AaAddQuarter_11E:
         inc eax
-sub_B4580_11F:
+AaAddQuarter_11F:
         inc eax
-sub_B4580_120:
+AaAddQuarter_120:
         inc eax
-sub_B4580_121:
+AaAddQuarter_121:
         inc eax
-sub_B4580_122:
+AaAddQuarter_122:
         inc eax
-sub_B4580_123:
+AaAddQuarter_123:
         xor ebx, ebx
         mov ecx, edi
         mov bl, byte [byte eax+01h]
         inc eax
         mov ebx, dword [ecx+ebx*4]
-sub_B4580_12E:
+AaAddQuarter_12E:
         mov ebx, dword [byte ebx+02Ch]
         mov ecx, dword [dword edx+dword_18664C]
         add ecx, ebx
@@ -2470,8 +2488,8 @@ sub_B4580_12E:
         inc eax
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4580.1
-sub_B4580_180:
+        jmp near AaAddQuarter.1
+AaAddQuarter_180:
         mov eax, dword [byte ebx+014h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -2482,8 +2500,8 @@ sub_B4580_180:
         mov ecx, edi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4580.1
-sub_B4580_1A4:
+        jmp near AaAddQuarter.1
+AaAddQuarter_1A4:
         mov eax, dword [byte ebx+01Ch]
         add dword [dword edx+dword_18664C], eax
         xor ebx, ebx
@@ -2496,8 +2514,8 @@ sub_B4580_1A4:
         add esi, ecx
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B4580.1
-sub_B4580_1D1:
+        jmp near AaAddQuarter.1
+AaAddQuarter_1D1:
         mov eax, dword [byte ebx+020h]
         mov ebx, dword [dword edx+dword_18664C]
         add ebx, eax
@@ -2514,8 +2532,8 @@ sub_B4580_1D1:
         mov eax, esi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4580.1
-sub_B4580_20B:
+        jmp near AaAddQuarter.1
+AaAddQuarter_20B:
         mov eax, dword [byte ebx+02Ch]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -2538,8 +2556,8 @@ sub_B4580_20B:
         mov bl, byte [eax]
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4580.1
-sub_B4580_259:
+        jmp near AaAddQuarter.1
+AaAddQuarter_259:
         mov eax, dword [byte ebx+02Ch]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -2560,32 +2578,32 @@ sub_B4580_259:
         add esi, ecx
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B4580.1
-sub_B4580_2A1:
+        jmp near AaAddQuarter.1
+AaAddQuarter_2A1:
         inc eax
-sub_B4580_2A2:
+AaAddQuarter_2A2:
         inc eax
-sub_B4580_2A3:
+AaAddQuarter_2A3:
         inc eax
-sub_B4580_2A4:
+AaAddQuarter_2A4:
         inc eax
-sub_B4580_2A5:
+AaAddQuarter_2A5:
         inc eax
-sub_B4580_2A6:
+AaAddQuarter_2A6:
         inc eax
-sub_B4580_2A7:
+AaAddQuarter_2A7:
         inc eax
-sub_B4580_2A8:
+AaAddQuarter_2A8:
         inc eax
-sub_B4580_2A9:
+AaAddQuarter_2A9:
         inc eax
-sub_B4580_2AA:
+AaAddQuarter_2AA:
         inc eax
-sub_B4580_2AB:
+AaAddQuarter_2AB:
         inc eax
-sub_B4580_2AC:
+AaAddQuarter_2AC:
         inc eax
-sub_B4580_2AD:
+AaAddQuarter_2AD:
         xor ebx, ebx
         mov ecx, edi
         mov bl, byte [byte eax+01h]
@@ -2608,80 +2626,82 @@ sub_B4580_2AD:
         mov dword [dword edx+dword_18664C], esi
 .2:
         add edx, byte 4
-        jmp near sub_B4580.1
+        jmp near AaAddQuarter.1
         db 08Dh,040h,00h
-unk_B487C:
-        dd sub_B4988_46
-        dd sub_B4988_54
-        dd sub_B4988_6D
-        dd sub_B4988_97
-        dd sub_B4988_C9
-        dd sub_B4988_11E
-        dd sub_B4988_11E
-        dd sub_B4988_113
-        dd sub_B4988_113
-        dd sub_B4988_112
-        dd sub_B4988_112
-        dd sub_B4988_111
-        dd sub_B4988_111
-        dd sub_B4988_110
-        dd sub_B4988_110
-        dd sub_B4988_10F
-        dd sub_B4988_10F
-        dd sub_B4988_10E
-        dd sub_B4988_10E
-        dd sub_B4988_10D
-        dd sub_B4988_10D
-        dd sub_B4988_10C
-        dd sub_B4988_10C
-        dd sub_B4988_10B
-        dd sub_B4988_10B
-        dd sub_B4988_10A
-        dd sub_B4988_10A
-        dd sub_B4988_109
-        dd sub_B4988_109
-        dd sub_B4988_108
-        dd sub_B4988_108
-        dd sub_B4988_107
-        dd sub_B4988_107
-        dd sub_B4988_46
-        dd sub_B4988_46
-        dd sub_B4988_54
-        dd sub_B4988_168
-        dd sub_B4988_195
-        dd sub_B4988_1C1
-        dd sub_B4988_1F3
-        dd sub_B4988_239
-        dd sub_B4988_282
-        dd sub_B4988_281
-        dd sub_B4988_281
-        dd sub_B4988_280
-        dd sub_B4988_280
-        dd sub_B4988_27F
-        dd sub_B4988_27F
-        dd sub_B4988_27E
-        dd sub_B4988_27E
-        dd sub_B4988_27D
-        dd sub_B4988_27D
-        dd sub_B4988_27C
-        dd sub_B4988_27C
-        dd sub_B4988_27B
-        dd sub_B4988_27B
-        dd sub_B4988_27A
-        dd sub_B4988_27A
-        dd sub_B4988_279
-        dd sub_B4988_279
-        dd sub_B4988_278
-        dd sub_B4988_278
-        dd sub_B4988_277
-        dd sub_B4988_277
-        dd sub_B4988_276
-        dd sub_B4988_276
-        dd sub_B35E4_2C9
+AaSetThirdJumpTable:
+        dd AaSetThird_46
+        dd AaSetThird_54
+        dd AaSetThird_6D
+        dd AaSetThird_97
+        dd AaSetThird_C9
+        dd AaSetThird_11E
+        dd AaSetThird_11E
+        dd AaSetThird_113
+        dd AaSetThird_113
+        dd AaSetThird_112
+        dd AaSetThird_112
+        dd AaSetThird_111
+        dd AaSetThird_111
+        dd AaSetThird_110
+        dd AaSetThird_110
+        dd AaSetThird_10F
+        dd AaSetThird_10F
+        dd AaSetThird_10E
+        dd AaSetThird_10E
+        dd AaSetThird_10D
+        dd AaSetThird_10D
+        dd AaSetThird_10C
+        dd AaSetThird_10C
+        dd AaSetThird_10B
+        dd AaSetThird_10B
+        dd AaSetThird_10A
+        dd AaSetThird_10A
+        dd AaSetThird_109
+        dd AaSetThird_109
+        dd AaSetThird_108
+        dd AaSetThird_108
+        dd AaSetThird_107
+        dd AaSetThird_107
+        dd AaSetThird_46
+        dd AaSetThird_46
+        dd AaSetThird_54
+        dd AaSetThird_168
+        dd AaSetThird_195
+        dd AaSetThird_1C1
+        dd AaSetThird_1F3
+        dd AaSetThird_239
+        dd AaSetThird_282
+        dd AaSetThird_281
+        dd AaSetThird_281
+        dd AaSetThird_280
+        dd AaSetThird_280
+        dd AaSetThird_27F
+        dd AaSetThird_27F
+        dd AaSetThird_27E
+        dd AaSetThird_27E
+        dd AaSetThird_27D
+        dd AaSetThird_27D
+        dd AaSetThird_27C
+        dd AaSetThird_27C
+        dd AaSetThird_27B
+        dd AaSetThird_27B
+        dd AaSetThird_27A
+        dd AaSetThird_27A
+        dd AaSetThird_279
+        dd AaSetThird_279
+        dd AaSetThird_278
+        dd AaSetThird_278
+        dd AaSetThird_277
+        dd AaSetThird_277
+        dd AaSetThird_276
+        dd AaSetThird_276
+        dd AaSetFull_2C9
 ;-----------------------------------------------------------------------------
-; sub_B4988                                                            B4988  
+; AaSetThird                                      B4988  96 PC, low confidence
+; Anti-aliased scaling: runs the column step list and stores one third weight
+; colour sums
 ;-----------------------------------------------------------------------------
-sub_B4988:
+AaSetThird:
         push ebx
         push ecx
         push edx
@@ -2699,17 +2719,17 @@ sub_B4988:
 .1:
         mov ecx, dword [dword ebx+dword_185C4C]
         cmp ecx, byte 42h
-        ja near sub_B4988_282.2
+        ja near AaSetThird_282.2
         lea ebp, [nosplit ecx*4+00h]
         lea ecx, [byte eax+01h]
         lea esi, [byte eax+02h]
-        jmp dword [dword cs:ebp+unk_B487C]
-sub_B4988_46:
+        jmp dword [dword cs:ebp+AaSetThirdJumpTable]
+AaSetThird_46:
         mov ecx, dword [byte edx+010h]
         mov dword [dword ebx+dword_18664C], ecx
         add ebx, byte 4
-        jmp short sub_B4988.1
-sub_B4988_54:
+        jmp short AaSetThird.1
+AaSetThird_54:
         mov eax, dword [byte edx+010h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -2718,8 +2738,8 @@ sub_B4988_54:
         mov ecx, edi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp short sub_B4988.1
-sub_B4988_6D:
+        jmp short AaSetThird.1
+AaSetThird_6D:
         mov eax, dword [byte edx+01Ch]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -2732,8 +2752,8 @@ sub_B4988_6D:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp short sub_B4988.1
-sub_B4988_97:
+        jmp short AaSetThird.1
+AaSetThird_97:
         mov eax, dword [byte edx+024h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2748,8 +2768,8 @@ sub_B4988_97:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B4988.1
-sub_B4988_C9:
+        jmp near AaSetThird.1
+AaSetThird_C9:
         mov eax, dword [byte edx+028h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2767,38 +2787,38 @@ sub_B4988_C9:
         lea esi, [ecx+ebp]
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B4988.1
-sub_B4988_107:
+        jmp near AaSetThird.1
+AaSetThird_107:
         inc eax
-sub_B4988_108:
+AaSetThird_108:
         inc eax
-sub_B4988_109:
+AaSetThird_109:
         inc eax
-sub_B4988_10A:
+AaSetThird_10A:
         inc eax
-sub_B4988_10B:
+AaSetThird_10B:
         inc eax
-sub_B4988_10C:
+AaSetThird_10C:
         inc eax
-sub_B4988_10D:
+AaSetThird_10D:
         inc eax
-sub_B4988_10E:
+AaSetThird_10E:
         inc eax
-sub_B4988_10F:
+AaSetThird_10F:
         inc eax
-sub_B4988_110:
+AaSetThird_110:
         inc eax
-sub_B4988_111:
+AaSetThird_111:
         inc eax
-sub_B4988_112:
+AaSetThird_112:
         inc eax
-sub_B4988_113:
+AaSetThird_113:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
         inc eax
         mov edx, dword [ecx+edx*4]
-sub_B4988_11E:
+AaSetThird_11E:
         mov edx, dword [byte edx+028h]
         mov dword [dword ebx+dword_18664C], edx
         xor edx, edx
@@ -2820,8 +2840,8 @@ sub_B4988_11E:
         inc eax
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B4988.1
-sub_B4988_168:
+        jmp near AaSetThird.1
+AaSetThird_168:
         mov eax, dword [byte edx+018h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -2834,8 +2854,8 @@ sub_B4988_168:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B4988.1
-sub_B4988_195:
+        jmp near AaSetThird.1
+AaSetThird_195:
         mov eax, dword [byte edx+01Ch]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2849,8 +2869,8 @@ sub_B4988_195:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B4988.1
-sub_B4988_1C1:
+        jmp near AaSetThird.1
+AaSetThird_1C1:
         mov eax, dword [byte edx+01Ch]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2865,8 +2885,8 @@ sub_B4988_1C1:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B4988.1
-sub_B4988_1F3:
+        jmp near AaSetThird.1
+AaSetThird_1F3:
         mov eax, dword [byte edx+028h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2887,8 +2907,8 @@ sub_B4988_1F3:
         mov dl, byte [eax]
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B4988.1
-sub_B4988_239:
+        jmp near AaSetThird.1
+AaSetThird_239:
         mov eax, dword [byte edx+028h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -2906,32 +2926,32 @@ sub_B4988_239:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B4988.1
-sub_B4988_276:
+        jmp near AaSetThird.1
+AaSetThird_276:
         inc eax
-sub_B4988_277:
+AaSetThird_277:
         inc eax
-sub_B4988_278:
+AaSetThird_278:
         inc eax
-sub_B4988_279:
+AaSetThird_279:
         inc eax
-sub_B4988_27A:
+AaSetThird_27A:
         inc eax
-sub_B4988_27B:
+AaSetThird_27B:
         inc eax
-sub_B4988_27C:
+AaSetThird_27C:
         inc eax
-sub_B4988_27D:
+AaSetThird_27D:
         inc eax
-sub_B4988_27E:
+AaSetThird_27E:
         inc eax
-sub_B4988_27F:
+AaSetThird_27F:
         inc eax
-sub_B4988_280:
+AaSetThird_280:
         inc eax
-sub_B4988_281:
+AaSetThird_281:
         inc eax
-sub_B4988_282:
+AaSetThird_282:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
@@ -2953,80 +2973,82 @@ sub_B4988_282:
         mov dword [dword ebx+dword_18664C], ebp
 .2:
         add ebx, byte 4
-        jmp near sub_B4988.1
+        jmp near AaSetThird.1
         db 090h
-unk_B4C54:
-        dd sub_B4D60_46
-        dd sub_B4D60_54
-        dd sub_B4D60_6D
-        dd sub_B4D60_9A
-        dd sub_B4D60_D1
-        dd sub_B4D60_12E
-        dd sub_B4D60_12E
-        dd sub_B4D60_123
-        dd sub_B4D60_123
-        dd sub_B4D60_122
-        dd sub_B4D60_122
-        dd sub_B4D60_121
-        dd sub_B4D60_121
-        dd sub_B4D60_120
-        dd sub_B4D60_120
-        dd sub_B4D60_11F
-        dd sub_B4D60_11F
-        dd sub_B4D60_11E
-        dd sub_B4D60_11E
-        dd sub_B4D60_11D
-        dd sub_B4D60_11D
-        dd sub_B4D60_11C
-        dd sub_B4D60_11C
-        dd sub_B4D60_11B
-        dd sub_B4D60_11B
-        dd sub_B4D60_11A
-        dd sub_B4D60_11A
-        dd sub_B4D60_119
-        dd sub_B4D60_119
-        dd sub_B4D60_118
-        dd sub_B4D60_118
-        dd sub_B4D60_117
-        dd sub_B4D60_117
-        dd sub_B4D60_46
-        dd sub_B4D60_46
-        dd sub_B4D60_180
-        dd sub_B4D60_1A4
-        dd sub_B4D60_1D1
-        dd sub_B4D60_1D1
-        dd sub_B4D60_20B
-        dd sub_B4D60_259
-        dd sub_B4D60_2AD
-        dd sub_B4D60_2AC
-        dd sub_B4D60_2AC
-        dd sub_B4D60_2AB
-        dd sub_B4D60_2AB
-        dd sub_B4D60_2AA
-        dd sub_B4D60_2AA
-        dd sub_B4D60_2A9
-        dd sub_B4D60_2A9
-        dd sub_B4D60_2A8
-        dd sub_B4D60_2A8
-        dd sub_B4D60_2A7
-        dd sub_B4D60_2A7
-        dd sub_B4D60_2A6
-        dd sub_B4D60_2A6
-        dd sub_B4D60_2A5
-        dd sub_B4D60_2A5
-        dd sub_B4D60_2A4
-        dd sub_B4D60_2A4
-        dd sub_B4D60_2A3
-        dd sub_B4D60_2A3
-        dd sub_B4D60_2A2
-        dd sub_B4D60_2A2
-        dd sub_B4D60_2A1
-        dd sub_B4D60_2A1
-        dd sub_B35E4_2C9
+AaAddThirdJumpTable:
+        dd AaAddThird_46
+        dd AaAddThird_54
+        dd AaAddThird_6D
+        dd AaAddThird_9A
+        dd AaAddThird_D1
+        dd AaAddThird_12E
+        dd AaAddThird_12E
+        dd AaAddThird_123
+        dd AaAddThird_123
+        dd AaAddThird_122
+        dd AaAddThird_122
+        dd AaAddThird_121
+        dd AaAddThird_121
+        dd AaAddThird_120
+        dd AaAddThird_120
+        dd AaAddThird_11F
+        dd AaAddThird_11F
+        dd AaAddThird_11E
+        dd AaAddThird_11E
+        dd AaAddThird_11D
+        dd AaAddThird_11D
+        dd AaAddThird_11C
+        dd AaAddThird_11C
+        dd AaAddThird_11B
+        dd AaAddThird_11B
+        dd AaAddThird_11A
+        dd AaAddThird_11A
+        dd AaAddThird_119
+        dd AaAddThird_119
+        dd AaAddThird_118
+        dd AaAddThird_118
+        dd AaAddThird_117
+        dd AaAddThird_117
+        dd AaAddThird_46
+        dd AaAddThird_46
+        dd AaAddThird_180
+        dd AaAddThird_1A4
+        dd AaAddThird_1D1
+        dd AaAddThird_1D1
+        dd AaAddThird_20B
+        dd AaAddThird_259
+        dd AaAddThird_2AD
+        dd AaAddThird_2AC
+        dd AaAddThird_2AC
+        dd AaAddThird_2AB
+        dd AaAddThird_2AB
+        dd AaAddThird_2AA
+        dd AaAddThird_2AA
+        dd AaAddThird_2A9
+        dd AaAddThird_2A9
+        dd AaAddThird_2A8
+        dd AaAddThird_2A8
+        dd AaAddThird_2A7
+        dd AaAddThird_2A7
+        dd AaAddThird_2A6
+        dd AaAddThird_2A6
+        dd AaAddThird_2A5
+        dd AaAddThird_2A5
+        dd AaAddThird_2A4
+        dd AaAddThird_2A4
+        dd AaAddThird_2A3
+        dd AaAddThird_2A3
+        dd AaAddThird_2A2
+        dd AaAddThird_2A2
+        dd AaAddThird_2A1
+        dd AaAddThird_2A1
+        dd AaSetFull_2C9
 ;-----------------------------------------------------------------------------
-; sub_B4D60                                                            B4D60  
+; AaAddThird                                      B4D60  96 PC, low confidence
+; Anti-aliased scaling: runs the column step list and adds one third weight
+; colour sums
 ;-----------------------------------------------------------------------------
-sub_B4D60:
+AaAddThird:
         push ebx
         push ecx
         push edx
@@ -3044,17 +3066,17 @@ sub_B4D60:
 .1:
         mov ecx, dword [dword edx+dword_185C4C]
         cmp ecx, byte 42h
-        ja near sub_B4D60_2AD.2
+        ja near AaAddThird_2AD.2
         lea ebp, [nosplit ecx*4+00h]
         lea ecx, [byte eax+01h]
         lea esi, [byte eax+02h]
-        jmp dword [dword cs:ebp+unk_B4C54]
-sub_B4D60_46:
+        jmp dword [dword cs:ebp+AaAddThirdJumpTable]
+AaAddThird_46:
         mov ecx, dword [byte ebx+010h]
         add dword [dword edx+dword_18664C], ecx
         add edx, byte 4
-        jmp short sub_B4D60.1
-sub_B4D60_54:
+        jmp short AaAddThird.1
+AaAddThird_54:
         mov eax, dword [byte ebx+010h]
         add dword [dword edx+dword_18664C], eax
         xor ebx, ebx
@@ -3063,8 +3085,8 @@ sub_B4D60_54:
         mov ecx, edi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp short sub_B4D60.1
-sub_B4D60_6D:
+        jmp short AaAddThird.1
+AaAddThird_6D:
         mov eax, dword [byte ebx+01Ch]
         mov esi, dword [dword edx+dword_18664C]
         add esi, eax
@@ -3078,8 +3100,8 @@ sub_B4D60_6D:
         lea ebp, [esi+ecx]
         mov dword [dword edx+dword_18664C], ebp
         add edx, byte 4
-        jmp short sub_B4D60.1
-sub_B4D60_9A:
+        jmp short AaAddThird.1
+AaAddThird_9A:
         mov eax, dword [byte ebx+024h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -3096,8 +3118,8 @@ sub_B4D60_9A:
         mov eax, esi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4D60.1
-sub_B4D60_D1:
+        jmp near AaAddThird.1
+AaAddThird_D1:
         mov eax, dword [byte ebx+028h]
         mov ebx, dword [dword edx+dword_18664C]
         add ebx, eax
@@ -3117,38 +3139,38 @@ sub_B4D60_D1:
         lea esi, [ecx+ebp]
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B4D60.1
-sub_B4D60_117:
+        jmp near AaAddThird.1
+AaAddThird_117:
         inc eax
-sub_B4D60_118:
+AaAddThird_118:
         inc eax
-sub_B4D60_119:
+AaAddThird_119:
         inc eax
-sub_B4D60_11A:
+AaAddThird_11A:
         inc eax
-sub_B4D60_11B:
+AaAddThird_11B:
         inc eax
-sub_B4D60_11C:
+AaAddThird_11C:
         inc eax
-sub_B4D60_11D:
+AaAddThird_11D:
         inc eax
-sub_B4D60_11E:
+AaAddThird_11E:
         inc eax
-sub_B4D60_11F:
+AaAddThird_11F:
         inc eax
-sub_B4D60_120:
+AaAddThird_120:
         inc eax
-sub_B4D60_121:
+AaAddThird_121:
         inc eax
-sub_B4D60_122:
+AaAddThird_122:
         inc eax
-sub_B4D60_123:
+AaAddThird_123:
         xor ebx, ebx
         mov ecx, edi
         mov bl, byte [byte eax+01h]
         inc eax
         mov ebx, dword [ecx+ebx*4]
-sub_B4D60_12E:
+AaAddThird_12E:
         mov ebx, dword [byte ebx+028h]
         mov ecx, dword [dword edx+dword_18664C]
         add ecx, ebx
@@ -3172,8 +3194,8 @@ sub_B4D60_12E:
         inc eax
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4D60.1
-sub_B4D60_180:
+        jmp near AaAddThird.1
+AaAddThird_180:
         mov eax, dword [byte ebx+010h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -3184,8 +3206,8 @@ sub_B4D60_180:
         mov ecx, edi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4D60.1
-sub_B4D60_1A4:
+        jmp near AaAddThird.1
+AaAddThird_1A4:
         mov eax, dword [byte ebx+018h]
         add dword [dword edx+dword_18664C], eax
         xor ebx, ebx
@@ -3198,8 +3220,8 @@ sub_B4D60_1A4:
         add esi, ecx
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B4D60.1
-sub_B4D60_1D1:
+        jmp near AaAddThird.1
+AaAddThird_1D1:
         mov eax, dword [byte ebx+01Ch]
         mov ebx, dword [dword edx+dword_18664C]
         add ebx, eax
@@ -3216,8 +3238,8 @@ sub_B4D60_1D1:
         mov eax, esi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4D60.1
-sub_B4D60_20B:
+        jmp near AaAddThird.1
+AaAddThird_20B:
         mov eax, dword [byte ebx+028h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -3240,8 +3262,8 @@ sub_B4D60_20B:
         mov bl, byte [eax]
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B4D60.1
-sub_B4D60_259:
+        jmp near AaAddThird.1
+AaAddThird_259:
         mov eax, dword [byte ebx+028h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -3262,32 +3284,32 @@ sub_B4D60_259:
         add esi, ecx
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B4D60.1
-sub_B4D60_2A1:
+        jmp near AaAddThird.1
+AaAddThird_2A1:
         inc eax
-sub_B4D60_2A2:
+AaAddThird_2A2:
         inc eax
-sub_B4D60_2A3:
+AaAddThird_2A3:
         inc eax
-sub_B4D60_2A4:
+AaAddThird_2A4:
         inc eax
-sub_B4D60_2A5:
+AaAddThird_2A5:
         inc eax
-sub_B4D60_2A6:
+AaAddThird_2A6:
         inc eax
-sub_B4D60_2A7:
+AaAddThird_2A7:
         inc eax
-sub_B4D60_2A8:
+AaAddThird_2A8:
         inc eax
-sub_B4D60_2A9:
+AaAddThird_2A9:
         inc eax
-sub_B4D60_2AA:
+AaAddThird_2AA:
         inc eax
-sub_B4D60_2AB:
+AaAddThird_2AB:
         inc eax
-sub_B4D60_2AC:
+AaAddThird_2AC:
         inc eax
-sub_B4D60_2AD:
+AaAddThird_2AD:
         xor ebx, ebx
         mov ecx, edi
         mov bl, byte [byte eax+01h]
@@ -3310,80 +3332,82 @@ sub_B4D60_2AD:
         mov dword [dword edx+dword_18664C], esi
 .2:
         add edx, byte 4
-        jmp near sub_B4D60.1
+        jmp near AaAddThird.1
         db 08Dh,040h,00h
-unk_B505C:
-        dd sub_B5168_46
-        dd sub_B5168_54
-        dd sub_B5168_6D
-        dd sub_B5168_97
-        dd sub_B5168_C9
-        dd sub_B5168_11E
-        dd sub_B5168_11E
-        dd sub_B5168_113
-        dd sub_B5168_113
-        dd sub_B5168_112
-        dd sub_B5168_112
-        dd sub_B5168_111
-        dd sub_B5168_111
-        dd sub_B5168_110
-        dd sub_B5168_110
-        dd sub_B5168_10F
-        dd sub_B5168_10F
-        dd sub_B5168_10E
-        dd sub_B5168_10E
-        dd sub_B5168_10D
-        dd sub_B5168_10D
-        dd sub_B5168_10C
-        dd sub_B5168_10C
-        dd sub_B5168_10B
-        dd sub_B5168_10B
-        dd sub_B5168_10A
-        dd sub_B5168_10A
-        dd sub_B5168_109
-        dd sub_B5168_109
-        dd sub_B5168_108
-        dd sub_B5168_108
-        dd sub_B5168_107
-        dd sub_B5168_107
-        dd sub_B5168_46
-        dd sub_B5168_46
-        dd sub_B5168_54
-        dd sub_B5168_168
-        dd sub_B5168_195
-        dd sub_B5168_1C1
-        dd sub_B5168_1F3
-        dd sub_B5168_239
-        dd sub_B5168_282
-        dd sub_B5168_281
-        dd sub_B5168_281
-        dd sub_B5168_280
-        dd sub_B5168_280
-        dd sub_B5168_27F
-        dd sub_B5168_27F
-        dd sub_B5168_27E
-        dd sub_B5168_27E
-        dd sub_B5168_27D
-        dd sub_B5168_27D
-        dd sub_B5168_27C
-        dd sub_B5168_27C
-        dd sub_B5168_27B
-        dd sub_B5168_27B
-        dd sub_B5168_27A
-        dd sub_B5168_27A
-        dd sub_B5168_279
-        dd sub_B5168_279
-        dd sub_B5168_278
-        dd sub_B5168_278
-        dd sub_B5168_277
-        dd sub_B5168_277
-        dd sub_B5168_276
-        dd sub_B5168_276
-        dd sub_B35E4_2C9
+AaSetTwoThirdsJumpTable:
+        dd AaSetTwoThirds_46
+        dd AaSetTwoThirds_54
+        dd AaSetTwoThirds_6D
+        dd AaSetTwoThirds_97
+        dd AaSetTwoThirds_C9
+        dd AaSetTwoThirds_11E
+        dd AaSetTwoThirds_11E
+        dd AaSetTwoThirds_113
+        dd AaSetTwoThirds_113
+        dd AaSetTwoThirds_112
+        dd AaSetTwoThirds_112
+        dd AaSetTwoThirds_111
+        dd AaSetTwoThirds_111
+        dd AaSetTwoThirds_110
+        dd AaSetTwoThirds_110
+        dd AaSetTwoThirds_10F
+        dd AaSetTwoThirds_10F
+        dd AaSetTwoThirds_10E
+        dd AaSetTwoThirds_10E
+        dd AaSetTwoThirds_10D
+        dd AaSetTwoThirds_10D
+        dd AaSetTwoThirds_10C
+        dd AaSetTwoThirds_10C
+        dd AaSetTwoThirds_10B
+        dd AaSetTwoThirds_10B
+        dd AaSetTwoThirds_10A
+        dd AaSetTwoThirds_10A
+        dd AaSetTwoThirds_109
+        dd AaSetTwoThirds_109
+        dd AaSetTwoThirds_108
+        dd AaSetTwoThirds_108
+        dd AaSetTwoThirds_107
+        dd AaSetTwoThirds_107
+        dd AaSetTwoThirds_46
+        dd AaSetTwoThirds_46
+        dd AaSetTwoThirds_54
+        dd AaSetTwoThirds_168
+        dd AaSetTwoThirds_195
+        dd AaSetTwoThirds_1C1
+        dd AaSetTwoThirds_1F3
+        dd AaSetTwoThirds_239
+        dd AaSetTwoThirds_282
+        dd AaSetTwoThirds_281
+        dd AaSetTwoThirds_281
+        dd AaSetTwoThirds_280
+        dd AaSetTwoThirds_280
+        dd AaSetTwoThirds_27F
+        dd AaSetTwoThirds_27F
+        dd AaSetTwoThirds_27E
+        dd AaSetTwoThirds_27E
+        dd AaSetTwoThirds_27D
+        dd AaSetTwoThirds_27D
+        dd AaSetTwoThirds_27C
+        dd AaSetTwoThirds_27C
+        dd AaSetTwoThirds_27B
+        dd AaSetTwoThirds_27B
+        dd AaSetTwoThirds_27A
+        dd AaSetTwoThirds_27A
+        dd AaSetTwoThirds_279
+        dd AaSetTwoThirds_279
+        dd AaSetTwoThirds_278
+        dd AaSetTwoThirds_278
+        dd AaSetTwoThirds_277
+        dd AaSetTwoThirds_277
+        dd AaSetTwoThirds_276
+        dd AaSetTwoThirds_276
+        dd AaSetFull_2C9
 ;-----------------------------------------------------------------------------
-; sub_B5168                                                            B5168  
+; AaSetTwoThirds                                  B5168  96 PC, low confidence
+; Anti-aliased scaling: runs the column step list and stores two thirds
+; weight colour sums
 ;-----------------------------------------------------------------------------
-sub_B5168:
+AaSetTwoThirds:
         push ebx
         push ecx
         push edx
@@ -3401,17 +3425,17 @@ sub_B5168:
 .1:
         mov ecx, dword [dword ebx+dword_185C4C]
         cmp ecx, byte 42h
-        ja near sub_B5168_282.2
+        ja near AaSetTwoThirds_282.2
         lea ebp, [nosplit ecx*4+00h]
         lea ecx, [byte eax+01h]
         lea esi, [byte eax+02h]
-        jmp dword [dword cs:ebp+unk_B505C]
-sub_B5168_46:
+        jmp dword [dword cs:ebp+AaSetTwoThirdsJumpTable]
+AaSetTwoThirds_46:
         mov ecx, dword [byte edx+04h]
         mov dword [dword ebx+dword_18664C], ecx
         add ebx, byte 4
-        jmp short sub_B5168.1
-sub_B5168_54:
+        jmp short AaSetTwoThirds.1
+AaSetTwoThirds_54:
         mov eax, dword [byte edx+04h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -3420,8 +3444,8 @@ sub_B5168_54:
         mov ecx, edi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp short sub_B5168.1
-sub_B5168_6D:
+        jmp short AaSetTwoThirds.1
+AaSetTwoThirds_6D:
         mov eax, dword [byte edx+010h]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -3434,8 +3458,8 @@ sub_B5168_6D:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp short sub_B5168.1
-sub_B5168_97:
+        jmp short AaSetTwoThirds.1
+AaSetTwoThirds_97:
         mov eax, dword [byte edx+018h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -3450,8 +3474,8 @@ sub_B5168_97:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B5168.1
-sub_B5168_C9:
+        jmp near AaSetTwoThirds.1
+AaSetTwoThirds_C9:
         mov eax, dword [byte edx+01Ch]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -3469,38 +3493,38 @@ sub_B5168_C9:
         lea esi, [ecx+ebp]
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B5168.1
-sub_B5168_107:
+        jmp near AaSetTwoThirds.1
+AaSetTwoThirds_107:
         inc eax
-sub_B5168_108:
+AaSetTwoThirds_108:
         inc eax
-sub_B5168_109:
+AaSetTwoThirds_109:
         inc eax
-sub_B5168_10A:
+AaSetTwoThirds_10A:
         inc eax
-sub_B5168_10B:
+AaSetTwoThirds_10B:
         inc eax
-sub_B5168_10C:
+AaSetTwoThirds_10C:
         inc eax
-sub_B5168_10D:
+AaSetTwoThirds_10D:
         inc eax
-sub_B5168_10E:
+AaSetTwoThirds_10E:
         inc eax
-sub_B5168_10F:
+AaSetTwoThirds_10F:
         inc eax
-sub_B5168_110:
+AaSetTwoThirds_110:
         inc eax
-sub_B5168_111:
+AaSetTwoThirds_111:
         inc eax
-sub_B5168_112:
+AaSetTwoThirds_112:
         inc eax
-sub_B5168_113:
+AaSetTwoThirds_113:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
         inc eax
         mov edx, dword [ecx+edx*4]
-sub_B5168_11E:
+AaSetTwoThirds_11E:
         mov edx, dword [byte edx+01Ch]
         mov dword [dword ebx+dword_18664C], edx
         xor edx, edx
@@ -3522,8 +3546,8 @@ sub_B5168_11E:
         inc eax
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B5168.1
-sub_B5168_168:
+        jmp near AaSetTwoThirds.1
+AaSetTwoThirds_168:
         mov eax, dword [byte edx+0Ch]
         xor edx, edx
         mov dword [dword ebx+dword_18664C], eax
@@ -3536,8 +3560,8 @@ sub_B5168_168:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B5168.1
-sub_B5168_195:
+        jmp near AaSetTwoThirds.1
+AaSetTwoThirds_195:
         mov eax, dword [byte edx+010h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -3551,8 +3575,8 @@ sub_B5168_195:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B5168.1
-sub_B5168_1C1:
+        jmp near AaSetTwoThirds.1
+AaSetTwoThirds_1C1:
         mov eax, dword [byte edx+010h]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -3567,8 +3591,8 @@ sub_B5168_1C1:
         mov eax, esi
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B5168.1
-sub_B5168_1F3:
+        jmp near AaSetTwoThirds.1
+AaSetTwoThirds_1F3:
         mov eax, dword [byte edx+01Ch]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -3589,8 +3613,8 @@ sub_B5168_1F3:
         mov dl, byte [eax]
         mov edx, dword [ecx+edx*4]
         add ebx, byte 4
-        jmp near sub_B5168.1
-sub_B5168_239:
+        jmp near AaSetTwoThirds.1
+AaSetTwoThirds_239:
         mov eax, dword [byte edx+01Ch]
         mov dword [dword ebx+dword_18664C], eax
         xor eax, eax
@@ -3608,32 +3632,32 @@ sub_B5168_239:
         add esi, ecx
         mov dword [dword ebx+dword_18664C], esi
         add ebx, byte 4
-        jmp near sub_B5168.1
-sub_B5168_276:
+        jmp near AaSetTwoThirds.1
+AaSetTwoThirds_276:
         inc eax
-sub_B5168_277:
+AaSetTwoThirds_277:
         inc eax
-sub_B5168_278:
+AaSetTwoThirds_278:
         inc eax
-sub_B5168_279:
+AaSetTwoThirds_279:
         inc eax
-sub_B5168_27A:
+AaSetTwoThirds_27A:
         inc eax
-sub_B5168_27B:
+AaSetTwoThirds_27B:
         inc eax
-sub_B5168_27C:
+AaSetTwoThirds_27C:
         inc eax
-sub_B5168_27D:
+AaSetTwoThirds_27D:
         inc eax
-sub_B5168_27E:
+AaSetTwoThirds_27E:
         inc eax
-sub_B5168_27F:
+AaSetTwoThirds_27F:
         inc eax
-sub_B5168_280:
+AaSetTwoThirds_280:
         inc eax
-sub_B5168_281:
+AaSetTwoThirds_281:
         inc eax
-sub_B5168_282:
+AaSetTwoThirds_282:
         xor edx, edx
         mov ecx, edi
         mov dl, byte [byte eax+01h]
@@ -3655,80 +3679,82 @@ sub_B5168_282:
         mov dword [dword ebx+dword_18664C], ebp
 .2:
         add ebx, byte 4
-        jmp near sub_B5168.1
+        jmp near AaSetTwoThirds.1
         db 090h
-unk_B5434:
-        dd sub_B5540_46
-        dd sub_B5540_54
-        dd sub_B5540_6D
-        dd sub_B5540_9A
-        dd sub_B5540_D1
-        dd sub_B5540_12E
-        dd sub_B5540_12E
-        dd sub_B5540_123
-        dd sub_B5540_123
-        dd sub_B5540_122
-        dd sub_B5540_122
-        dd sub_B5540_121
-        dd sub_B5540_121
-        dd sub_B5540_120
-        dd sub_B5540_120
-        dd sub_B5540_11F
-        dd sub_B5540_11F
-        dd sub_B5540_11E
-        dd sub_B5540_11E
-        dd sub_B5540_11D
-        dd sub_B5540_11D
-        dd sub_B5540_11C
-        dd sub_B5540_11C
-        dd sub_B5540_11B
-        dd sub_B5540_11B
-        dd sub_B5540_11A
-        dd sub_B5540_11A
-        dd sub_B5540_119
-        dd sub_B5540_119
-        dd sub_B5540_118
-        dd sub_B5540_118
-        dd sub_B5540_117
-        dd sub_B5540_117
-        dd sub_B5540_46
-        dd sub_B5540_46
-        dd sub_B5540_180
-        dd sub_B5540_1A4
-        dd sub_B5540_1D1
-        dd sub_B5540_1D1
-        dd sub_B5540_20B
-        dd sub_B5540_259
-        dd sub_B5540_2AD
-        dd sub_B5540_2AC
-        dd sub_B5540_2AC
-        dd sub_B5540_2AB
-        dd sub_B5540_2AB
-        dd sub_B5540_2AA
-        dd sub_B5540_2AA
-        dd sub_B5540_2A9
-        dd sub_B5540_2A9
-        dd sub_B5540_2A8
-        dd sub_B5540_2A8
-        dd sub_B5540_2A7
-        dd sub_B5540_2A7
-        dd sub_B5540_2A6
-        dd sub_B5540_2A6
-        dd sub_B5540_2A5
-        dd sub_B5540_2A5
-        dd sub_B5540_2A4
-        dd sub_B5540_2A4
-        dd sub_B5540_2A3
-        dd sub_B5540_2A3
-        dd sub_B5540_2A2
-        dd sub_B5540_2A2
-        dd sub_B5540_2A1
-        dd sub_B5540_2A1
-        dd sub_B35E4_2C9
+AaAddTwoThirdsJumpTable:
+        dd AaAddTwoThirds_46
+        dd AaAddTwoThirds_54
+        dd AaAddTwoThirds_6D
+        dd AaAddTwoThirds_9A
+        dd AaAddTwoThirds_D1
+        dd AaAddTwoThirds_12E
+        dd AaAddTwoThirds_12E
+        dd AaAddTwoThirds_123
+        dd AaAddTwoThirds_123
+        dd AaAddTwoThirds_122
+        dd AaAddTwoThirds_122
+        dd AaAddTwoThirds_121
+        dd AaAddTwoThirds_121
+        dd AaAddTwoThirds_120
+        dd AaAddTwoThirds_120
+        dd AaAddTwoThirds_11F
+        dd AaAddTwoThirds_11F
+        dd AaAddTwoThirds_11E
+        dd AaAddTwoThirds_11E
+        dd AaAddTwoThirds_11D
+        dd AaAddTwoThirds_11D
+        dd AaAddTwoThirds_11C
+        dd AaAddTwoThirds_11C
+        dd AaAddTwoThirds_11B
+        dd AaAddTwoThirds_11B
+        dd AaAddTwoThirds_11A
+        dd AaAddTwoThirds_11A
+        dd AaAddTwoThirds_119
+        dd AaAddTwoThirds_119
+        dd AaAddTwoThirds_118
+        dd AaAddTwoThirds_118
+        dd AaAddTwoThirds_117
+        dd AaAddTwoThirds_117
+        dd AaAddTwoThirds_46
+        dd AaAddTwoThirds_46
+        dd AaAddTwoThirds_180
+        dd AaAddTwoThirds_1A4
+        dd AaAddTwoThirds_1D1
+        dd AaAddTwoThirds_1D1
+        dd AaAddTwoThirds_20B
+        dd AaAddTwoThirds_259
+        dd AaAddTwoThirds_2AD
+        dd AaAddTwoThirds_2AC
+        dd AaAddTwoThirds_2AC
+        dd AaAddTwoThirds_2AB
+        dd AaAddTwoThirds_2AB
+        dd AaAddTwoThirds_2AA
+        dd AaAddTwoThirds_2AA
+        dd AaAddTwoThirds_2A9
+        dd AaAddTwoThirds_2A9
+        dd AaAddTwoThirds_2A8
+        dd AaAddTwoThirds_2A8
+        dd AaAddTwoThirds_2A7
+        dd AaAddTwoThirds_2A7
+        dd AaAddTwoThirds_2A6
+        dd AaAddTwoThirds_2A6
+        dd AaAddTwoThirds_2A5
+        dd AaAddTwoThirds_2A5
+        dd AaAddTwoThirds_2A4
+        dd AaAddTwoThirds_2A4
+        dd AaAddTwoThirds_2A3
+        dd AaAddTwoThirds_2A3
+        dd AaAddTwoThirds_2A2
+        dd AaAddTwoThirds_2A2
+        dd AaAddTwoThirds_2A1
+        dd AaAddTwoThirds_2A1
+        dd AaSetFull_2C9
 ;-----------------------------------------------------------------------------
-; sub_B5540                                                            B5540  
+; AaAddTwoThirds                                  B5540  96 PC, low confidence
+; Anti-aliased scaling: runs the column step list and adds two thirds weight
+; colour sums
 ;-----------------------------------------------------------------------------
-sub_B5540:
+AaAddTwoThirds:
         push ebx
         push ecx
         push edx
@@ -3746,17 +3772,17 @@ sub_B5540:
 .1:
         mov ecx, dword [dword edx+dword_185C4C]
         cmp ecx, byte 42h
-        ja near sub_B5540_2AD.2
+        ja near AaAddTwoThirds_2AD.2
         lea ebp, [nosplit ecx*4+00h]
         lea ecx, [byte eax+01h]
         lea esi, [byte eax+02h]
-        jmp dword [dword cs:ebp+unk_B5434]
-sub_B5540_46:
+        jmp dword [dword cs:ebp+AaAddTwoThirdsJumpTable]
+AaAddTwoThirds_46:
         mov ecx, dword [byte ebx+04h]
         add dword [dword edx+dword_18664C], ecx
         add edx, byte 4
-        jmp short sub_B5540.1
-sub_B5540_54:
+        jmp short AaAddTwoThirds.1
+AaAddTwoThirds_54:
         mov eax, dword [byte ebx+04h]
         add dword [dword edx+dword_18664C], eax
         xor ebx, ebx
@@ -3765,8 +3791,8 @@ sub_B5540_54:
         mov ecx, edi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp short sub_B5540.1
-sub_B5540_6D:
+        jmp short AaAddTwoThirds.1
+AaAddTwoThirds_6D:
         mov eax, dword [byte ebx+010h]
         mov esi, dword [dword edx+dword_18664C]
         add esi, eax
@@ -3780,8 +3806,8 @@ sub_B5540_6D:
         lea ebp, [esi+ecx]
         mov dword [dword edx+dword_18664C], ebp
         add edx, byte 4
-        jmp short sub_B5540.1
-sub_B5540_9A:
+        jmp short AaAddTwoThirds.1
+AaAddTwoThirds_9A:
         mov eax, dword [byte ebx+018h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -3798,8 +3824,8 @@ sub_B5540_9A:
         mov eax, esi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B5540.1
-sub_B5540_D1:
+        jmp near AaAddTwoThirds.1
+AaAddTwoThirds_D1:
         mov eax, dword [byte ebx+01Ch]
         mov ebx, dword [dword edx+dword_18664C]
         add ebx, eax
@@ -3819,38 +3845,38 @@ sub_B5540_D1:
         lea esi, [ecx+ebp]
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B5540.1
-sub_B5540_117:
+        jmp near AaAddTwoThirds.1
+AaAddTwoThirds_117:
         inc eax
-sub_B5540_118:
+AaAddTwoThirds_118:
         inc eax
-sub_B5540_119:
+AaAddTwoThirds_119:
         inc eax
-sub_B5540_11A:
+AaAddTwoThirds_11A:
         inc eax
-sub_B5540_11B:
+AaAddTwoThirds_11B:
         inc eax
-sub_B5540_11C:
+AaAddTwoThirds_11C:
         inc eax
-sub_B5540_11D:
+AaAddTwoThirds_11D:
         inc eax
-sub_B5540_11E:
+AaAddTwoThirds_11E:
         inc eax
-sub_B5540_11F:
+AaAddTwoThirds_11F:
         inc eax
-sub_B5540_120:
+AaAddTwoThirds_120:
         inc eax
-sub_B5540_121:
+AaAddTwoThirds_121:
         inc eax
-sub_B5540_122:
+AaAddTwoThirds_122:
         inc eax
-sub_B5540_123:
+AaAddTwoThirds_123:
         xor ebx, ebx
         mov ecx, edi
         mov bl, byte [byte eax+01h]
         inc eax
         mov ebx, dword [ecx+ebx*4]
-sub_B5540_12E:
+AaAddTwoThirds_12E:
         mov ebx, dword [byte ebx+01Ch]
         mov ecx, dword [dword edx+dword_18664C]
         add ecx, ebx
@@ -3874,8 +3900,8 @@ sub_B5540_12E:
         inc eax
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B5540.1
-sub_B5540_180:
+        jmp near AaAddTwoThirds.1
+AaAddTwoThirds_180:
         mov eax, dword [byte ebx+04h]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -3886,8 +3912,8 @@ sub_B5540_180:
         mov ecx, edi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B5540.1
-sub_B5540_1A4:
+        jmp near AaAddTwoThirds.1
+AaAddTwoThirds_1A4:
         mov eax, dword [byte ebx+0Ch]
         add dword [dword edx+dword_18664C], eax
         xor ebx, ebx
@@ -3900,8 +3926,8 @@ sub_B5540_1A4:
         add esi, ecx
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B5540.1
-sub_B5540_1D1:
+        jmp near AaAddTwoThirds.1
+AaAddTwoThirds_1D1:
         mov eax, dword [byte ebx+010h]
         mov ebx, dword [dword edx+dword_18664C]
         add ebx, eax
@@ -3918,8 +3944,8 @@ sub_B5540_1D1:
         mov eax, esi
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B5540.1
-sub_B5540_20B:
+        jmp near AaAddTwoThirds.1
+AaAddTwoThirds_20B:
         mov eax, dword [byte ebx+01Ch]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -3942,8 +3968,8 @@ sub_B5540_20B:
         mov bl, byte [eax]
         mov ebx, dword [ecx+ebx*4]
         add edx, byte 4
-        jmp near sub_B5540.1
-sub_B5540_259:
+        jmp near AaAddTwoThirds.1
+AaAddTwoThirds_259:
         mov eax, dword [byte ebx+01Ch]
         mov ebp, dword [dword edx+dword_18664C]
         add ebp, eax
@@ -3964,32 +3990,32 @@ sub_B5540_259:
         add esi, ecx
         mov dword [dword edx+dword_18664C], esi
         add edx, byte 4
-        jmp near sub_B5540.1
-sub_B5540_2A1:
+        jmp near AaAddTwoThirds.1
+AaAddTwoThirds_2A1:
         inc eax
-sub_B5540_2A2:
+AaAddTwoThirds_2A2:
         inc eax
-sub_B5540_2A3:
+AaAddTwoThirds_2A3:
         inc eax
-sub_B5540_2A4:
+AaAddTwoThirds_2A4:
         inc eax
-sub_B5540_2A5:
+AaAddTwoThirds_2A5:
         inc eax
-sub_B5540_2A6:
+AaAddTwoThirds_2A6:
         inc eax
-sub_B5540_2A7:
+AaAddTwoThirds_2A7:
         inc eax
-sub_B5540_2A8:
+AaAddTwoThirds_2A8:
         inc eax
-sub_B5540_2A9:
+AaAddTwoThirds_2A9:
         inc eax
-sub_B5540_2AA:
+AaAddTwoThirds_2AA:
         inc eax
-sub_B5540_2AB:
+AaAddTwoThirds_2AB:
         inc eax
-sub_B5540_2AC:
+AaAddTwoThirds_2AC:
         inc eax
-sub_B5540_2AD:
+AaAddTwoThirds_2AD:
         xor ebx, ebx
         mov ecx, edi
         mov bl, byte [byte eax+01h]
@@ -4012,12 +4038,13 @@ sub_B5540_2AD:
         mov dword [dword edx+dword_18664C], esi
 .2:
         add edx, byte 4
-        jmp near sub_B5540.1
+        jmp near AaAddTwoThirds.1
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B583C                                                            B583C  
+; AaBuildColumnSteps                              B583C  96 PC, low confidence
+; Builds the list of column step codes for an anti-aliased scale
 ;-----------------------------------------------------------------------------
-sub_B583C:
+AaBuildColumnSteps:
         push ebx
         push ecx
         push edx
@@ -4085,84 +4112,87 @@ sub_B583C:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B58D8                                                            B58D8  
+; SetAaPalLut                                     B58D8  96 PC, low confidence
+; Sets the anti-aliasing palette table that scaled art drawing uses
 ;-----------------------------------------------------------------------------
-sub_B58D8:
+SetAaPalLut:
         mov dword [dword_18B04C], eax
         ret
         db 08Bh,0C0h
-unk_B58E0:
-        dd sub_B59E8_1CA
-        dd sub_B59E8_1D4
-        dd sub_B59E8_1F7
-        dd sub_B59E8_211
-        dd sub_B59E8_244
-        dd sub_B59E8_26E
-        dd sub_B59E8_2B1
-        dd sub_B59E8_354
-        dd sub_B59E8_41F
-        dd sub_B59E8_349
-        dd sub_B59E8_414
-        dd sub_B59E8_33E
-        dd sub_B59E8_409
-        dd sub_B59E8_333
-        dd sub_B59E8_3FE
-        dd sub_B59E8_328
-        dd sub_B59E8_3F3
-        dd sub_B59E8_31D
-        dd sub_B59E8_3E8
-        dd sub_B59E8_312
-        dd sub_B59E8_3DD
-        dd sub_B59E8_307
-        dd sub_B59E8_3D2
-        dd sub_B59E8_2FC
-        dd sub_B59E8_3C7
-        dd sub_B59E8_2F1
-        dd sub_B59E8_3BC
-        dd sub_B59E8_2E6
-        dd sub_B59E8_3B1
-        dd sub_B59E8_2DB
-        dd sub_B59E8_3A6
-        dd sub_B59E8_2D6
-        dd sub_B59E8_3A1
-unk_B5964:
-        dd sub_B59E8_1CA
-        dd sub_B59E8_474
-        dd sub_B59E8_487
-        dd sub_B59E8_491
-        dd sub_B59E8_4BC
-        dd sub_B59E8_4D6
-        dd sub_B59E8_2B1
-        dd sub_B59E8_58F
-        dd sub_B59E8_653
-        dd sub_B59E8_584
-        dd sub_B59E8_648
-        dd sub_B59E8_579
-        dd sub_B59E8_63D
-        dd sub_B59E8_56E
-        dd sub_B59E8_632
-        dd sub_B59E8_563
-        dd sub_B59E8_627
-        dd sub_B59E8_558
-        dd sub_B59E8_61C
-        dd sub_B59E8_54D
-        dd sub_B59E8_611
-        dd sub_B59E8_542
-        dd sub_B59E8_606
-        dd sub_B59E8_537
-        dd sub_B59E8_5FB
-        dd sub_B59E8_52C
-        dd sub_B59E8_5F0
-        dd sub_B59E8_521
-        dd sub_B59E8_5E5
-        dd sub_B59E8_516
-        dd sub_B59E8_5DA
-        dd sub_B59E8_511
-        dd sub_B59E8_5D5
+AaRowStepJumpTable:
+        dd AaDrawScaledArt_1CA
+        dd AaDrawScaledArt_1D4
+        dd AaDrawScaledArt_1F7
+        dd AaDrawScaledArt_211
+        dd AaDrawScaledArt_244
+        dd AaDrawScaledArt_26E
+        dd AaDrawScaledArt_2B1
+        dd AaDrawScaledArt_354
+        dd AaDrawScaledArt_41F
+        dd AaDrawScaledArt_349
+        dd AaDrawScaledArt_414
+        dd AaDrawScaledArt_33E
+        dd AaDrawScaledArt_409
+        dd AaDrawScaledArt_333
+        dd AaDrawScaledArt_3FE
+        dd AaDrawScaledArt_328
+        dd AaDrawScaledArt_3F3
+        dd AaDrawScaledArt_31D
+        dd AaDrawScaledArt_3E8
+        dd AaDrawScaledArt_312
+        dd AaDrawScaledArt_3DD
+        dd AaDrawScaledArt_307
+        dd AaDrawScaledArt_3D2
+        dd AaDrawScaledArt_2FC
+        dd AaDrawScaledArt_3C7
+        dd AaDrawScaledArt_2F1
+        dd AaDrawScaledArt_3BC
+        dd AaDrawScaledArt_2E6
+        dd AaDrawScaledArt_3B1
+        dd AaDrawScaledArt_2DB
+        dd AaDrawScaledArt_3A6
+        dd AaDrawScaledArt_2D6
+        dd AaDrawScaledArt_3A1
+AaRowStepLastJumpTable:
+        dd AaDrawScaledArt_1CA
+        dd AaDrawScaledArt_474
+        dd AaDrawScaledArt_487
+        dd AaDrawScaledArt_491
+        dd AaDrawScaledArt_4BC
+        dd AaDrawScaledArt_4D6
+        dd AaDrawScaledArt_2B1
+        dd AaDrawScaledArt_58F
+        dd AaDrawScaledArt_653
+        dd AaDrawScaledArt_584
+        dd AaDrawScaledArt_648
+        dd AaDrawScaledArt_579
+        dd AaDrawScaledArt_63D
+        dd AaDrawScaledArt_56E
+        dd AaDrawScaledArt_632
+        dd AaDrawScaledArt_563
+        dd AaDrawScaledArt_627
+        dd AaDrawScaledArt_558
+        dd AaDrawScaledArt_61C
+        dd AaDrawScaledArt_54D
+        dd AaDrawScaledArt_611
+        dd AaDrawScaledArt_542
+        dd AaDrawScaledArt_606
+        dd AaDrawScaledArt_537
+        dd AaDrawScaledArt_5FB
+        dd AaDrawScaledArt_52C
+        dd AaDrawScaledArt_5F0
+        dd AaDrawScaledArt_521
+        dd AaDrawScaledArt_5E5
+        dd AaDrawScaledArt_516
+        dd AaDrawScaledArt_5DA
+        dd AaDrawScaledArt_511
+        dd AaDrawScaledArt_5D5
 ;-----------------------------------------------------------------------------
-; sub_B59E8                                                            B59E8  
+; AaDrawScaledArt                                 B59E8  96 PC, low confidence
+; Draws art scaled down with anti-aliasing, row by row through the weight sum
+; routines
 ;-----------------------------------------------------------------------------
-sub_B59E8:
+AaDrawScaledArt:
         push ebx
         push ecx
         push edx
@@ -4178,7 +4208,7 @@ sub_B59E8:
         jle short .1
         add edx, ebp
         cmp edx, eax
-        jl near sub_B59E8_653.14
+        jl near AaDrawScaledArt_653.14
         mov ebx, dword [dword_18B054]
         mov edx, eax
         sub edx, ebx
@@ -4198,7 +4228,7 @@ sub_B59E8:
         cmp edx, eax
         jl short .2
         cmp eax, dword [dword_18B054]
-        jle near sub_B59E8_653.14
+        jle near AaDrawScaledArt_653.14
         sub edx, eax
         sub ebp, edx
 .2:
@@ -4210,7 +4240,7 @@ sub_B59E8:
         mov ebx, dword [dword_18B068]
         add edx, ebx
         cmp edx, eax
-        jl near sub_B59E8_653.14
+        jl near AaDrawScaledArt_653.14
         mov ecx, dword [dword_18B058]
         mov edx, eax
         mov esi, ebx
@@ -4236,7 +4266,7 @@ sub_B59E8:
         cmp edx, eax
         jl short .4
         cmp eax, dword [dword_18B058]
-        jle near sub_B59E8_653.14
+        jle near AaDrawScaledArt_653.14
         sub edx, eax
         mov eax, esi
         sub eax, edx
@@ -4255,7 +4285,7 @@ sub_B59E8:
         add eax, edx
         mov edx, dword [dword_18B054]
         add edx, eax
-        call sub_B583C
+        call AaBuildColumnSteps
 .5:
         mov dword [byte esp+04h], edx
         mov esi, dword [dword_18B068]
@@ -4263,7 +4293,7 @@ sub_B59E8:
         mov ebp, dword [dword_18B06C]
         mov dword [dword_18B068], esi
         cmp esi, byte 0FFFFFFFFh
-        je near sub_B59E8_653.14
+        je near AaDrawScaledArt_653.14
         mov edx, dword [byte esp+08h]
         add edx, dword [dword_18B050]
         mov ebx, dword [dword_18B070]
@@ -4285,314 +4315,314 @@ sub_B59E8:
         mov dword [esp], esi
         lea ebx, [nosplit edx*4+00h]
         test ecx, ecx
-        je near sub_B59E8_41F.7
+        je near AaDrawScaledArt_41F.7
         mov dword [dword_18B06C], ebp
         cmp edx, byte 20h
-        ja near sub_B59E8_653.10
-        jmp dword [dword cs:ebx+unk_B58E0]
-sub_B59E8_1CA:
-        call sub_B35E4
-        jmp near sub_B59E8_653.10
-sub_B59E8_1D4:
-        call sub_B35E4
+        ja near AaDrawScaledArt_653.10
+        jmp dword [dword cs:ebx+AaRowStepJumpTable]
+AaDrawScaledArt_1CA:
+        call AaSetFull
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_1D4:
+        call AaSetFull
         mov eax, dword [dword_18B074]
         mov ebx, dword [dword_18B05C]
         xor ecx, ecx
         add ebx, eax
         mov dword [byte esp+0Ch], ecx
         mov dword [dword_18B05C], ebx
-        jmp near sub_B59E8_653.10
-sub_B59E8_1F7:
-        call sub_B39C8
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_1F7:
+        call AaSetHalf
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
-        jmp near sub_B59E8_653.10
-sub_B59E8_211:
-        call sub_B4988
+        call AaAddHalf
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_211:
+        call AaSetThird
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B5540
+        call AaAddTwoThirds
         mov eax, dword [dword_18B074]
         mov esi, dword [dword_18B05C]
         xor edi, edi
         add esi, eax
         mov dword [byte esp+0Ch], edi
         mov dword [dword_18B05C], esi
-        jmp near sub_B59E8_653.10
-sub_B59E8_244:
-        call sub_B41A8
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_244:
+        call AaSetQuarter
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
+        call AaAddHalf
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B4580
-        jmp near sub_B59E8_653.10
-sub_B59E8_26E:
-        call sub_B41A8
+        call AaAddQuarter
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_26E:
+        call AaSetQuarter
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
+        call AaAddHalf
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B4580
+        call AaAddQuarter
         mov eax, dword [dword_18B074]
         mov esi, dword [dword_18B05C]
         xor edi, edi
         add esi, eax
         mov dword [byte esp+0Ch], edi
         mov dword [dword_18B05C], esi
-        jmp near sub_B59E8_653.10
-sub_B59E8_2B1:
-        call sub_B41A8
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_2B1:
+        call AaSetQuarter
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
+        call AaAddHalf
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        jmp near sub_B59E8_653.8
-sub_B59E8_2D6:
+        jmp near AaDrawScaledArt_653.8
+AaDrawScaledArt_2D6:
         mov dword [dword_18B05C], eax
-sub_B59E8_2DB:
+AaDrawScaledArt_2DB:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_2E6:
+AaDrawScaledArt_2E6:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_2F1:
+AaDrawScaledArt_2F1:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_2FC:
+AaDrawScaledArt_2FC:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_307:
+AaDrawScaledArt_307:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_312:
+AaDrawScaledArt_312:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_31D:
+AaDrawScaledArt_31D:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_328:
+AaDrawScaledArt_328:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_333:
+AaDrawScaledArt_333:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_33E:
+AaDrawScaledArt_33E:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_349:
+AaDrawScaledArt_349:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_354:
-        call sub_B41A8
+AaDrawScaledArt_354:
+        call AaSetQuarter
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
+        call AaAddHalf
         mov eax, dword [dword_18B074]
         mov edx, dword [dword_18B05C]
         add eax, eax
         add edx, eax
         mov dword [dword_18B05C], edx
-        call sub_B4580
+        call AaAddQuarter
         mov eax, dword [dword_18B074]
         mov ebx, dword [dword_18B05C]
         xor ecx, ecx
         add ebx, eax
         mov dword [byte esp+0Ch], ecx
         mov dword [dword_18B05C], ebx
-        jmp near sub_B59E8_653.10
-sub_B59E8_3A1:
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_3A1:
         mov dword [dword_18B05C], eax
-sub_B59E8_3A6:
+AaDrawScaledArt_3A6:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_3B1:
+AaDrawScaledArt_3B1:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_3BC:
+AaDrawScaledArt_3BC:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_3C7:
+AaDrawScaledArt_3C7:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_3D2:
+AaDrawScaledArt_3D2:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_3DD:
+AaDrawScaledArt_3DD:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_3E8:
+AaDrawScaledArt_3E8:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_3F3:
+AaDrawScaledArt_3F3:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_3FE:
+AaDrawScaledArt_3FE:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_409:
+AaDrawScaledArt_409:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_414:
+AaDrawScaledArt_414:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_41F:
-        call sub_B41A8
+AaDrawScaledArt_41F:
+        call AaSetQuarter
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
+        call AaAddHalf
         mov eax, dword [dword_18B074]
         mov ecx, dword [dword_18B05C]
         add eax, eax
         add ecx, eax
         mov dword [dword_18B05C], ecx
-        call sub_B4580
+        call AaAddQuarter
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        jmp near sub_B59E8_653.10
+        jmp near AaDrawScaledArt_653.10
 .7:
         mov dword [dword_18B06C], ebp
         cmp edx, byte 20h
-        ja near sub_B59E8_653.10
-        jmp dword [dword cs:ebx+unk_B5964]
-sub_B59E8_474:
+        ja near AaDrawScaledArt_653.10
+        jmp dword [dword cs:ebx+AaRowStepLastJumpTable]
+AaDrawScaledArt_474:
         mov esi, 1
-        call sub_B35E4
+        call AaSetFull
         mov dword [byte esp+0Ch], esi
-        jmp near sub_B59E8_653.10
-sub_B59E8_487:
-        call sub_B35E4
-        jmp near sub_B59E8_653.9
-sub_B59E8_491:
-        call sub_B5168
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_487:
+        call AaSetFull
+        jmp near AaDrawScaledArt_653.9
+AaDrawScaledArt_491:
+        call AaSetTwoThirds
         mov eax, dword [dword_18B074]
         mov edx, dword [dword_18B05C]
         mov ebx, 1
         add edx, eax
         mov dword [byte esp+0Ch], ebx
         mov dword [dword_18B05C], edx
-        call sub_B4D60
-        jmp near sub_B59E8_653.10
-sub_B59E8_4BC:
-        call sub_B39C8
+        call AaAddThird
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_4BC:
+        call AaSetHalf
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
-        jmp near sub_B59E8_653.9
-sub_B59E8_4D6:
-        call sub_B41A8
+        call AaAddHalf
+        jmp near AaDrawScaledArt_653.9
+AaDrawScaledArt_4D6:
+        call AaSetQuarter
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
+        call AaAddHalf
         mov eax, dword [dword_18B074]
         mov ebx, dword [dword_18B05C]
         mov ecx, 1
         add ebx, eax
         mov dword [byte esp+0Ch], ecx
         mov dword [dword_18B05C], ebx
-        call sub_B4580
-        jmp near sub_B59E8_653.10
-sub_B59E8_511:
+        call AaAddQuarter
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_511:
         mov dword [dword_18B05C], eax
-sub_B59E8_516:
+AaDrawScaledArt_516:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_521:
+AaDrawScaledArt_521:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_52C:
+AaDrawScaledArt_52C:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_537:
+AaDrawScaledArt_537:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_542:
+AaDrawScaledArt_542:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_54D:
+AaDrawScaledArt_54D:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_558:
+AaDrawScaledArt_558:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_563:
+AaDrawScaledArt_563:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_56E:
+AaDrawScaledArt_56E:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_579:
+AaDrawScaledArt_579:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_584:
+AaDrawScaledArt_584:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_58F:
-        call sub_B41A8
+AaDrawScaledArt_58F:
+        call AaSetQuarter
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
+        call AaAddHalf
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B4580
+        call AaAddQuarter
         mov eax, dword [dword_18B074]
         mov edx, dword [dword_18B05C]
         mov ebx, 1
         add edx, eax
         mov dword [byte esp+0Ch], ebx
         mov dword [dword_18B05C], edx
-        jmp near sub_B59E8_653.10
-sub_B59E8_5D5:
+        jmp near AaDrawScaledArt_653.10
+AaDrawScaledArt_5D5:
         mov dword [dword_18B05C], eax
-sub_B59E8_5DA:
+AaDrawScaledArt_5DA:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_5E5:
+AaDrawScaledArt_5E5:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_5F0:
+AaDrawScaledArt_5F0:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_5FB:
+AaDrawScaledArt_5FB:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_606:
+AaDrawScaledArt_606:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_611:
+AaDrawScaledArt_611:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_61C:
+AaDrawScaledArt_61C:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_627:
+AaDrawScaledArt_627:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_632:
+AaDrawScaledArt_632:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_63D:
+AaDrawScaledArt_63D:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_648:
+AaDrawScaledArt_648:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-sub_B59E8_653:
-        call sub_B41A8
+AaDrawScaledArt_653:
+        call AaSetQuarter
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
-        call sub_B3DA0
+        call AaAddHalf
         mov eax, dword [dword_18B074]
         mov ebx, dword [dword_18B05C]
         add eax, eax
         add ebx, eax
         mov dword [dword_18B05C], ebx
 .8:
-        call sub_B4580
+        call AaAddQuarter
 .9:
         mov eax, dword [dword_18B074]
         add dword [dword_18B05C], eax
@@ -4650,7 +4680,7 @@ sub_B59E8_653:
         inc edi
         add edx, eax
         mov dword [dword_18B058], edi
-        jmp near sub_B59E8.5
+        jmp near AaDrawScaledArt.5
 .14:
         mov dword [dword_18B06C], ebp
         add esp, byte 14h
@@ -4663,13 +4693,18 @@ sub_B59E8_653:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B6140                                                            B6140  
+; DrawArtAaScaledInt                              B6140  96 PC, low confidence
+; Draws art anti-aliased at a scale, at whole pixel x, y
 ;-----------------------------------------------------------------------------
-sub_B6140:
+DrawArtAaScaledInt:
         shl ecx, 10h
         shl ebx, 10h
         LD mov, eax, eax
-sub_B6148:
+;-----------------------------------------------------------------------------
+; DrawArtAaScaled                                 B6148  96 PC, low confidence
+; Draws art anti-aliased at a scale (at least 1/16), at 16.16 x, y
+;-----------------------------------------------------------------------------
+DrawArtAaScaled:
         push esi
         push edi
         push ebp
@@ -4732,15 +4767,16 @@ sub_B6148:
         sar ebp, 10h
         mov dword [dword_18B054], ebp
         mov dword [dword_18B050], eax
-        call sub_B59E8
+        call AaDrawScaledArt
         pop ebp
         pop edi
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_B621C                                                            B621C  
+; DrawArtAaScaledXY                               B621C  96 PC, low confidence
+; Draws art anti-aliased with separate x and y scales
 ;-----------------------------------------------------------------------------
-sub_B621C:
+DrawArtAaScaledXY:
         push esi
         push edi
         mov esi, eax
@@ -4795,16 +4831,16 @@ sub_B621C:
         shl eax, 10h
         push esi
         mov dword [dword_18B070], eax
-        call sub_BE926
+        call FixedInverse
         add esp, byte 4
         inc eax
         push edi
         mov dword [dword_18B064], eax
-        call sub_BE926
+        call FixedInverse
         inc eax
         add esp, byte 4
         mov dword [dword_18B050], eax
-        call sub_B59E8
+        call AaDrawScaledArt
         pop edi
         pop esi
         ret 4
@@ -4814,7 +4850,7 @@ sub_B621C:
         shl esi, 10h
         push esi
         shl ecx, 10h
-        call sub_B621C
+        call DrawArtAaScaledXY
         pop esi
         ret 4
         db 00h,00h,00h
@@ -5370,7 +5406,7 @@ CdReadSectors:
         mov ebp, dword [dword esi+dword_121B5C]
         push ebp
         push edx
-        call sub_B6DFC
+        call CdReadRequest
         mov eax, dword [dword esi+dword_121B58]
         add eax, edi
         add esp, byte 10h
@@ -5781,9 +5817,11 @@ DetectMscdex:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B6D2C                                                            B6D2C  
+; CdPrefetch                                      B6D2C  96 PC, low confidence
+; Sends a read long prefetch request (82h) to the CD-ROM driver through
+; MSCDEX
 ;-----------------------------------------------------------------------------
-sub_B6D2C:
+CdPrefetch:
         push edi
         sub esp, byte 44h
         mov eax, dword [CdDriveLetter]
@@ -5836,9 +5874,11 @@ sub_B6D2C:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B6DFC                                                            B6DFC  
+; CdReadRequest                                   B6DFC  96 PC, low confidence
+; Reads CD-ROM sectors through MSCDEX into the low memory buffer and copies
+; them out
 ;-----------------------------------------------------------------------------
-sub_B6DFC:
+CdReadRequest:
         push esi
         push edi
         push ebp
@@ -5951,7 +5991,7 @@ sub_B6DFC:
         push ecx
         add eax, ebp
         push eax
-        call sub_B6D2C
+        call CdPrefetch
         add esp, byte 8
 .4:
         add esp, byte 4Ch
@@ -6154,9 +6194,10 @@ _dos_open_:
         call __doserror_
         ret
 ;-----------------------------------------------------------------------------
-; sub_B71D4                                                            B71D4  
+; DosFindFirst                                 B71D4  96 PC, medium confidence
+; Finds the first file matching a pattern (DOS 4Eh) into a find record
 ;-----------------------------------------------------------------------------
-sub_B71D4:
+DosFindFirst:
         push ecx
         push eax
         push edx
@@ -6169,30 +6210,33 @@ sub_B71D4:
         int 21h
         call __doserror_
         mov edx, ebx
-        call sub_B7210
+        call CopyDtaOut
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_B71F1                                                            B71F1  
+; DosFindNext                                  B71F1  96 PC, medium confidence
+; Finds the next matching file (DOS 4Fh)
 ;-----------------------------------------------------------------------------
-sub_B71F1:
+DosFindNext:
         push edx
         mov edx, eax
         mov ah, 1Ah
         int 21h
-        call sub_B7233
+        call CopyDtaIn
         mov ah, 4Fh
         int 21h
         call __doserror_
-        call sub_B7210
+        call CopyDtaOut
         pop edx
         ret
         xor eax, eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_B7210                                                            B7210  
+; CopyDtaOut                                      B7210  96 PC, low confidence
+; Copies the DOS transfer area to the caller's find record under the DOS/4GW
+; extender
 ;-----------------------------------------------------------------------------
-sub_B7210:
+CopyDtaOut:
         cmp byte [_Extender], 9
         jne short .1
         push eax
@@ -6214,9 +6258,11 @@ sub_B7210:
 .1:
         ret
 ;-----------------------------------------------------------------------------
-; sub_B7233                                                            B7233  
+; CopyDtaIn                                       B7233  96 PC, low confidence
+; Copies the caller's find record into the DOS transfer area under the
+; DOS/4GW extender
 ;-----------------------------------------------------------------------------
-sub_B7233:
+CopyDtaIn:
         cmp byte [_Extender], 9
         jne short .1
         push eax
@@ -6434,9 +6480,10 @@ OpenResourceArchive:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B73C4                                                            B73C4  
+; GetResourceArchiveName                       B73C4  96 PC, medium confidence
+; Returns the resource archive name buffer
 ;-----------------------------------------------------------------------------
-sub_B73C4:
+GetResourceArchiveName:
         mov eax, ResourceArchiveName
         ret
 ;-----------------------------------------------------------------------------

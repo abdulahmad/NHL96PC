@@ -8,12 +8,12 @@ extern dword_11FA18, TextOriginX, TextOriginY, ClipTopRow, ClipLeftCol, ClipRigh
 extern BackBufferWidth, _STACKLOW, __amblksiz, dword_14FAD8, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4
 extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
-extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, sub_D7DB0_30, sub_D7DB0_238, sub_E2335_5B
-extern sub_E2335_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, DrawArtRemapFunc, sprintf_
+extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, sub_D7DB0_30, sub_D7DB0_238, SetHotkey_5B
+extern SetHotkey_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, DrawArtRemapFunc, sprintf_
 extern DrawShapeCore, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
 extern FreeBitmap, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
 extern JoystickCalibrateScreen, ShowKeyboardOn, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
-extern MouseReadMotion, sub_DFA98, bcopy, sub_E193C, sub_E1956, sub_E2335, IntrStubs, SavedStackSegment
+extern MouseReadMotion, sub_DFA98, bcopy, sub_E193C, sub_E1956, SetHotkey, IntrStubs, SavedStackSegment
 global __CHK, __GRO, __STK, __int386x_, sub_D09FC_A8, sub_D0B78_A0, __CommonInit_, IsTextModeWidth
 global sub_D06FC, sub_D077C, sub_D0800, sub_D0848, sub_D0918, sub_D0984, sub_D09FC, sub_D0B78
 global sub_D0E90, sub_D0FB8, sub_D1080, sub_D1280, DrawTextBoxedAt, sub_D142C, IntrLoadSegRegs
@@ -1080,39 +1080,39 @@ sub_D1280:
         mov edx, 1
         push byte 4
         mov dword [dword_11F61C], edx
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         push sub_D7DB0_238
         push byte 5
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         push JoystickCalibrateScreen
         push byte 0Ah
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         push ShowKeyboardOn
         push byte 0Bh
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         push sub_C2C5C
         push byte 10h
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
-        push sub_E2335_81
+        push SetHotkey_81
         push dword 3200h
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
-        push sub_E2335_5B
+        push SetHotkey_5B
         push byte 13h
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         push sub_C2AC4
         push byte 18h
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         push sub_DA338
         push byte 16h
-        call sub_E2335
+        call SetHotkey
         add esp, byte 8
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

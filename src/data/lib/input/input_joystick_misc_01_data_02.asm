@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1210D0 progbits alloc noexec write align=1
 global str_OpenhandleSFILEERROR, byte_1219A7, QuantizeTable, ResourceArchiveName, SavedBreakOffset, BreakCallFunc, dword_1219A0, dword_1219A4
-global dword_121AA8, FpuFlags, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive, dword_121B34, unk_1210DC
+global AaWeights, FpuFlags, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive, dword_121B34, unk_1210DC
 global unk_1213DC, unk_1213FC, unk_1215B8, SavedBreakSelector, BreakDataSelector, str_Punct_InitFpuFlags, SavedEsSelector
 SavedBreakOffset:
         db 00h,00h,00h,00h
@@ -181,7 +181,7 @@ QuantizeTable:
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,00h,00h
-dword_121AA8:
+AaWeights:
         db 00h,00h,01h,00h,0AAh,0AAh,00h,00h,00h,080h,00h,00h,0C7h,071h,00h,00h
         db 055h,055h,00h,00h,00h,040h,00h,00h,0E3h,038h,00h,00h,0AAh,02Ah,00h,00h
         db 00h,020h,00h,00h,071h,01Ch,00h,00h,055h,015h,00h,00h,00h,010h,00h,00h

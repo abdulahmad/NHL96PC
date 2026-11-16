@@ -13,7 +13,7 @@ extern ClearSlotUsers, UserRecordsScreen, WatchHighlight, HighlightsMenu, LoadFr
 extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunControlSetup, LoadLangText, FreeLangText, GetLangText
 extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMemBlock, FreeMemBlock, sub_AC868, sub_ADA50
-extern UnpackTo, TextSetColor, sub_B3100, sub_B3145, sub_B3160, NearestColour, sub_B3420, SetScreenTarget
+extern UnpackTo, TextSetColor, SetupMemoryPool, NumLockOff, InstallHotkeys, NearestColour, CreateAaPalLut, SetScreenTarget
 extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, KbdGetKey, AddExitHandler, FindShape
 extern bcopy, InstallBreakHandler, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
 extern unk_1210DC, unk_1213DC, unk_152C44, unk_18584C
@@ -364,7 +364,7 @@ InitHardware:
         push dword 0A0000h
         push dword 1000000h
         push dword 0C8h
-        call sub_B3100
+        call SetupMemoryPool
         add esp, byte 0Ch
         push byte 0
         call sub_AC868
@@ -403,12 +403,12 @@ InitHardware:
         push byte 64h
         call InstallTimer
         add esp, byte 4
-        call sub_B3145
+        call NumLockOff
         call sub_DFB88
         push ReturnTrue
         call InstallBreakHandler
         add esp, byte 4
-        call sub_B3160
+        call InstallHotkeys
         call InitGraphicsFix
         mov eax, 1
         call SetScreenMode
@@ -583,11 +583,11 @@ StartUp:
         mov ebx, 20h
         mov edx, dword_152F4C
         mov eax, unk_152C44
-        call sub_B3420
+        call CreateAaPalLut
         mov ebx, 20h
         mov edx, dword_11D19C
         mov eax, unk_152C44
-        call sub_B3420
+        call CreateAaPalLut
         mov edx, dword [globalset]
         mov eax, dword [globalset]
         shl edx, 1Ch

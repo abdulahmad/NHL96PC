@@ -6,8 +6,8 @@ extern ClearChain4, dword_11D18C, dword_11D190, dword_11D194, dword_11D198, dwor
 extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, BackBufferWidth
 extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, sub_ADA50
-extern sub_ADA80, TextSetColor, sub_B0CA8, sub_B0F7C, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458
-extern sub_B58D8, sub_B6140, TranslatePixels, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
+extern sub_ADA80, TextSetColor, sub_B0CA8, sub_B0F7C, sub_B2B0C, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
+extern SetAaPalLut, DrawArtAaScaledInt, TranslatePixels, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
 extern sub_DE084, bcopy, FillMem, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
 global SetGraphicsMode_204, SetScreenMode, DrawText, DrawTextRight, DrawTextRight_17, DrawTextCentred, FindTextColors, SetTextColors
@@ -968,21 +968,21 @@ SetScreenPalette:
         add esp, byte 4
         mov dword [dword_1219A4], eax
         mov eax, esi
-        call sub_B3458
+        call BuildPaletteShadeTable
         cmp dword [dword_11D19C], byte 0
         jne short .1
         mov ebx, 20h
         mov edx, dword_11D19C
         mov eax, esi
-        call sub_B3420
+        call CreateAaPalLut
         jmp short .2
 .1:
         mov edx, dword [dword_11D19C]
         mov eax, esi
-        call sub_B3360
+        call BuildAaPalLut
 .2:
         mov eax, dword [dword_11D19C]
-        call sub_B58D8
+        call SetAaPalLut
         pop esi
         pop edx
         pop ecx
@@ -1004,7 +1004,7 @@ DrawFrameAt:
         mov dx, word [byte esi+0Ah]
         mov word [byte esi+08h], dx
         mov edx, esi
-        call sub_B6140
+        call DrawArtAaScaledInt
         mov eax, dword [byte ebp-04h]
         mov word [byte esi+08h], di
         mov word [byte esi+0Ah], ax

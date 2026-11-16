@@ -1292,8 +1292,29 @@ B2CBA,chdir_,,WATCOM,high,IDA FLIRT library signature,
 B2CE0,GrabLargestBlock,sub_B2CE0,new,low,"allocates the largest block the memory manager gives, trying smaller sizes",src/lib/watcom/watcom_clib_05.asm
 B2D2C,InitMemoryPool,sub_B2D2C,new,low,sets up the game's memory pool from DOS extender memory,src/lib/watcom/watcom_clib_05.asm
 B30E4,InitMemoryPoolDefault,sub_B30E4,new,low,sets up the memory pool with the default size,src/lib/watcom/watcom_clib_05.asm
+B3100,SetupMemoryPool,sub_B3100,new,low,sets up the memory pool through InitMemoryPool,src/lib/watcom/watcom_clib_05.asm
+B3145,NumLockOff,sub_B3145,new,medium,turns Num Lock off in the BIOS keyboard flags,src/lib/watcom/watcom_clib_05.asm
+B3160,InstallHotkeys,sub_B3160,new,low,"sets the debug hotkeys (joystick calibration, keyboard display and others)",src/lib/watcom/watcom_clib_05.asm
 B31C0,NearestColour,sub_B31C0,new,medium,"finds the palette index nearest an RGB colour, through the 15-bit lookup when one is built",src/lib/watcom/watcom_clib_05.asm
 B32E0,DetectCPU,sub_B32E0,95PC,high,"start-up CPU check that toggles the alignment-check flag, as NHL95PC DetectCPU",src/lib/watcom/watcom_clib_05.asm
+B3360,BuildAaPalLut,sub_B3360,new,low,"builds the anti-aliasing palette table: for each colour, its RGB at each of the twelve weights",src/lib/watcom/watcom_clib_05.asm
+B3420,CreateAaPalLut,sub_B3420,new,low,"allocates the anti-aliasing palette table (""AAPLUT"") and builds it from a palette",src/lib/watcom/watcom_clib_05.asm
+B3458,BuildPaletteShadeTable,sub_B3458,new,low,builds 16 shade levels of a 256 colour palette,src/lib/watcom/watcom_clib_05.asm
+B35E4,AaSetFull,sub_B35E4,new,low,anti-aliased scaling: runs the column step list and stores each pixel's full weight colour sums,src/lib/watcom/watcom_clib_05.asm
+B39C8,AaSetHalf,sub_B39C8,new,low,anti-aliased scaling: runs the column step list and stores half weight colour sums,src/lib/watcom/watcom_clib_05.asm
+B3DA0,AaAddHalf,sub_B3DA0,new,low,anti-aliased scaling: runs the column step list and adds half weight colour sums,src/lib/watcom/watcom_clib_05.asm
+B41A8,AaSetQuarter,sub_B41A8,new,low,anti-aliased scaling: runs the column step list and stores quarter weight colour sums,src/lib/watcom/watcom_clib_05.asm
+B4580,AaAddQuarter,sub_B4580,new,low,anti-aliased scaling: runs the column step list and adds quarter weight colour sums,src/lib/watcom/watcom_clib_05.asm
+B4988,AaSetThird,sub_B4988,new,low,anti-aliased scaling: runs the column step list and stores one third weight colour sums,src/lib/watcom/watcom_clib_05.asm
+B4D60,AaAddThird,sub_B4D60,new,low,anti-aliased scaling: runs the column step list and adds one third weight colour sums,src/lib/watcom/watcom_clib_05.asm
+B5168,AaSetTwoThirds,sub_B5168,new,low,anti-aliased scaling: runs the column step list and stores two thirds weight colour sums,src/lib/watcom/watcom_clib_05.asm
+B5540,AaAddTwoThirds,sub_B5540,new,low,anti-aliased scaling: runs the column step list and adds two thirds weight colour sums,src/lib/watcom/watcom_clib_05.asm
+B583C,AaBuildColumnSteps,sub_B583C,new,low,builds the list of column step codes for an anti-aliased scale,src/lib/watcom/watcom_clib_05.asm
+B58D8,SetAaPalLut,sub_B58D8,new,low,sets the anti-aliasing palette table that scaled art drawing uses,src/lib/watcom/watcom_clib_05.asm
+B59E8,AaDrawScaledArt,sub_B59E8,new,low,"draws art scaled down with anti-aliasing, row by row through the weight sum routines",src/lib/watcom/watcom_clib_05.asm
+B6140,DrawArtAaScaledInt,sub_B6140,new,low,"draws art anti-aliased at a scale, at whole pixel x, y",src/lib/watcom/watcom_clib_05.asm
+B6148,DrawArtAaScaled,sub_B6148,new,low,"draws art anti-aliased at a scale (at least 1/16), at 16.16 x, y",src/lib/watcom/watcom_clib_05.asm
+B621C,DrawArtAaScaledXY,sub_B621C,new,low,draws art anti-aliased with separate x and y scales,src/lib/watcom/watcom_clib_05.asm
 B6308,start,,WATCOM,high,IDA FLIRT library signature,
 B6599,WriteConsoleMessage,sub_B6599,new,low,writes a message to the console through DOS before exit,src/lib/watcom/watcom_clib_05.asm
 B65D4,RestoreDS,sub_B65D4,new,low,loads the saved data segment (for interrupt handlers),src/lib/watcom/watcom_clib_05.asm
@@ -1311,11 +1332,17 @@ B69EC,DriveLetterIndex,sub_B69EC,new,low,returns the drive number of a path's dr
 B6A14,IsCdDrive,sub_B6A14,new,low,returns whether a drive is a CD drive (MSCDEX),src/lib/watcom/watcom_clib_05.asm
 B6A68,AllocCdBuffer,sub_B6A68,new,low,allocates the CD transfer buffer,src/lib/watcom/watcom_clib_05.asm
 B6B10,DetectMscdex,sub_B6B10,new,low,finds MSCDEX and the CD drives,src/lib/watcom/watcom_clib_05.asm
+B6D2C,CdPrefetch,sub_B6D2C,new,low,sends a read long prefetch request (82h) to the CD-ROM driver through MSCDEX,src/lib/watcom/watcom_clib_05.asm
+B6DFC,CdReadRequest,sub_B6DFC,new,low,reads CD-ROM sectors through MSCDEX into the low memory buffer and copies them out,src/lib/watcom/watcom_clib_05.asm
 B6FA0,CdSeekCmd,sub_B6FA0,new,medium,sends a seek to the CD driver,src/lib/watcom/watcom_clib_05.asm
 B7094,CdDirEntry,sub_B7094,new,medium,reads the directory entry of a CD file,src/lib/watcom/watcom_clib_05.asm
 B71A6,_dos_close_,,WATCOM,high,IDA FLIRT library signature,
 B71B5,_dos_commit_,,WATCOM,high,IDA FLIRT library signature,
 B71C5,_dos_open_,,WATCOM,high,IDA FLIRT library signature,
+B71D4,DosFindFirst,sub_B71D4,new,medium,finds the first file matching a pattern (DOS 4Eh) into a find record,src/lib/watcom/watcom_clib_05.asm
+B71F1,DosFindNext,sub_B71F1,new,medium,finds the next matching file (DOS 4Fh),src/lib/watcom/watcom_clib_05.asm
+B7210,CopyDtaOut,sub_B7210,new,low,copies the DOS transfer area to the caller's find record under the DOS/4GW extender,src/lib/watcom/watcom_clib_05.asm
+B7233,CopyDtaIn,sub_B7233,new,low,copies the caller's find record into the DOS transfer area under the DOS/4GW extender,src/lib/watcom/watcom_clib_05.asm
 B7256,UnlinkJump,sub_B7256,new,low,jumps to unlink (file delete),src/lib/watcom/watcom_clib_05.asm
 B725B,rmdir_,,WATCOM,high,IDA FLIRT library signature,
 B727A,_dos_creat_,,WATCOM,high,IDA FLIRT library signature,
@@ -1324,6 +1351,7 @@ B72A2,_dos_read_,,WATCOM,high,IDA FLIRT library signature,
 B72CC,_dos_write_,,WATCOM,high,IDA FLIRT library signature,
 B72D4,_dos_getdiskfree_,,WATCOM,high,IDA FLIRT library signature,
 B7310,OpenResourceArchive,sub_B7310,new,low,frees the old archive and loads the named resource archive for later lookups,src/lib/watcom/watcom_clib_05.asm
+B73C4,GetResourceArchiveName,sub_B73C4,new,medium,returns the resource archive name buffer,src/lib/watcom/watcom_clib_05.asm
 B73CA,stricmp_,,WATCOM,high,IDA FLIRT library signature,
 B7498,LoadFileInto,sub_B7498,new,low,loads a file into a buffer,src/lib/ea/ea_gfx_04.asm
 B74B0,LoadFileToBlockShared,sub_B74B0,new,low,loads a file into a memory block in shared mode,src/lib/ea/ea_gfx_04.asm
@@ -1446,6 +1474,7 @@ BE6E0,DrawMarkingPolys,sub_BE6E0,new,low,"clips, projects and fills a list of fl
 BE8AC,SetPolyVertexArrays,sub_BE8AC,new,low,sets the point arrays and colour DrawMarkingPolys uses,src/lib/watcom/watcom_clib_06.asm
 BE8C0,Init387Emulator,sub_BE8C0,new,low,jumps to the 387 emulator set-up,src/lib/watcom/watcom_clib_06.asm
 BE8C5,imul32,,95PC,medium,NHL95PC 933F0 (similar): mnemonic similarity 0.82 over 47 instructions,
+BE926,FixedInverse,sub_BE926,new,low,returns 1/x in 16.16 fixed point,src/lib/ea/ea_fileblock_03.asm
 BE93C,fprintf_,,WATCOM,high,IDA FLIRT library signature,
 BEA30,SortIndices,,95PC,medium,NHL95PC 93540 (similar): mnemonic similarity 0.83 over 62 instructions,
 BEB48,ProjectPointWide,sub_BEB48,new,low,projects one 3D point with perspective using 64-bit maths,src/lib/ea/ea_fileblock_03.asm
@@ -2163,6 +2192,7 @@ E1836,ZeroMem,sub_E1836,new,medium,"clears memory (dst, count) to zero",src/lib/
 E1927,PollHotkeys,sub_E1927,new,low,reads a key and dispatches its hotkey handler,src/lib/video/video_bios_vga_02.asm
 E19FE,SetupRectFill,sub_E19FE,new,medium,clips a rectangle and fills in its fill description,src/lib/video/video_bios_vga_03.asm
 E22DC,DispatchHotkey,sub_E22DC,new,medium,looks up the handler registered for a key (ASCII or extended scan code) and calls it,src/lib/video/video_bios_vga_03.asm
+E2335,SetHotkey,sub_E2335,new,low,"sets the routine run for a hotkey, adding it to the hotkey list",src/lib/video/video_bios_vga_03.asm
 E2484,SaveTextMode,sub_E2484,95PC,high,video library: save the text mode and BIOS data area (the port stubs it as in NHL95PC),src/lib/video/video_bios_vga_03.asm
 E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode and BIOS data area,src/lib/video/video_bios_vga_03.asm
 E25E0,AngleFromDelta,sub_E25E0,new,low,returns the angle of a 2D vector from the ratio of its components,src/lib/video/video_bios_vga_03.asm
@@ -4208,6 +4238,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1210D6,BreakCallFunc,dword_1210D6,new,low,ctrl-break chain routine,src/data/lib/input/input_joystick_misc_01_data_02.asm
 1210DA,BreakDataSelector,word_1210DA,new,medium,data selector for the ctrl-break handler,src/data/lib/input/input_joystick_misc_01_data_02.asm
 1219A8,QuantizeTable,byte_1219A8,new,low,colour quantise table,src/data/lib/input/input_joystick_misc_01_data_02.asm
+121AA8,AaWeights,dword_121AA8,new,medium,"the twelve 16.16 weights of the anti-aliasing colour table (1, 2/3, 1/2, 4/9, 1/3, 1/4, ... 1/16)",src/data/lib/input/input_joystick_misc_01_data_02.asm
 121AD8,FpuFlags,dword_121AD8,new,low,FPU flags set at start up,src/data/lib/input/input_joystick_misc_01_data_02.asm
 121ADC,str_Punct_InitFpuFlags,word_121ADC,new,high,"string "" """,src/data/lib/input/input_joystick_misc_01_data_02.asm
 121ADE,SavedEsSelector,word_121ADE,new,low,ES selector saved at start up,src/data/lib/input/input_joystick_misc_01_data_02.asm

@@ -2518,8 +2518,7 @@ ReplayChoiceJumpTable:                          ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; ReplayScreen                                                    564A4  96 PC
 ; The instant replay screen (TRANSIT; puk, rew, bak ... buttons): play,
-; rewind, frame steps, cameras, save as highlight; kept in step in a link
-; game
+; rewind, frame steps, cameras, save as highlight; kept in step in a link game
 ;-----------------------------------------------------------------------------
 ReplayScreen:
         push ebx

@@ -1,4 +1,4 @@
-; Text entry field (96 PC).
+; Text entry field.
 bits 32
 %include "hockey.inc"
 section s_197ED progbits alloc exec nowrite align=1

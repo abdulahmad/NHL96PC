@@ -1,4 +1,5 @@
-; GLOBAL.SET, the settings file SETUP writes, read at start and written back; the EXHIBIT.NDX start of the front-end menus (96 PC).
+; GLOBAL.SET, the settings file SETUP writes, read at start and written back; the EXHIBIT.NDX start of the
+; front-end menus.
 bits 32
 %include "hockey.inc"
 section s_6A341 progbits alloc exec nowrite align=1
@@ -225,8 +226,9 @@ WriteGlobalSet:
 ;-----------------------------------------------------------------------------
 ; RunExhibitionMenus                           6A675  96 PC, medium confidence
 ; From RunFrontEnd: loads the exhibition set-up (EXHIBIT.NDX, stats), then
-; team select, the controller screen and the next screens until a game or the
-; main menu
+; team select.
+;
+; The controller screen and the next screens until a game or the main menu
 ;-----------------------------------------------------------------------------
 RunExhibitionMenus:
         push ebx

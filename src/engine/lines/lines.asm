@@ -29,7 +29,8 @@ global AddZonePiece, SplitZoneRect, ClipZoneAgainstList, ClipCurrentZones, ClipP
 global ZoneRect, AddZone, CopyZonesToScreen
 ;-----------------------------------------------------------------------------
 ; BuildDefaultLines                            51F18  95 PC, medium confidence
-; Ranks each team's players by position (SortPlayersByPos D/R/L/C,
+; Ranks each team's players by position (SortPlayersByPos D/R/L/C.
+;
 ; SortNonDefPlayers) into defsort_d / offsort_fwd and fills hmlinetab /
 ; awlinetab and the dressed flags dressflags; called from SetupGame and the
 ; game load path
@@ -243,9 +244,10 @@ BuildDefaultLines:
 ;-----------------------------------------------------------------------------
 ; CanFillLineSlot                              521C1  95 PC, medium confidence
 ; (team, slot, roster idx): 0 when the player's status (dressbystatus of
-; hmroster) is 0, or 2 without a dressed flag 2, or he already holds 2 of the
-; same-position slots (slot mod 3) in hmlinetab / awlinetab; else checks the
-; position byte (hmrosterpos) against the slot
+; hmroster) is 0, or 2 without a dressed flag 2.
+;
+; Or he already holds 2 of the same-position slots (slot mod 3) in hmlinetab /
+; awlinetab; else checks the position byte (hmrosterpos) against the slot
 ;-----------------------------------------------------------------------------
 CanFillLineSlot:
         push ecx
@@ -648,7 +650,9 @@ FillDressedSlots:
         ret
 ;-----------------------------------------------------------------------------
 ; PickForLineSlot                              5260A  95 PC, medium confidence
-; (team, slot): walks the position preference list lineslotgroups from
+; (team.
+;
+; slot): walks the position preference list lineslotgroups from
 ; lineslotgroupstart[slot] and returns the first ranked player that
 ; CanFillLineSlot accepts
 ;-----------------------------------------------------------------------------
@@ -1003,10 +1007,10 @@ PickForLineSlot_3E3:
         ret
 ;-----------------------------------------------------------------------------
 ; PickGoalie                                   529F3  95 PC, medium confidence
-; (team, slot, force): for slot 24h copies the backup (+25h) to the starter;
-; then the first roster player other than +24h/+25h with status 1 becomes
-; +25h (status 2 is promoted to 3 when forced and cleared from slots
-; 28h..2Fh)
+; (team, slot, force): for slot 24h copies the backup (+25h) to the starter.
+;
+; Then the first roster player other than +24h/+25h with status 1 becomes +25h
+; (status 2 is promoted to 3 when forced and cleared from slots 28h..2Fh)
 ;-----------------------------------------------------------------------------
 PickGoalie:
         push ecx
@@ -1193,8 +1197,10 @@ PickExtraSkater:
 ;-----------------------------------------------------------------------------
 ; RefillLineSlots                              52BE7  95 PC, medium confidence
 ; (team, first slot, i, count, step): clears the dressed flag of the slot's
-; current player, then fills count slots (step apart) with PickForLineSlot
-; and clears their flags below slot 12h; ret 4
+; current player.
+;
+; Then fills count slots (step apart) with PickForLineSlot and clears their
+; flags below slot 12h; ret 4
 ;-----------------------------------------------------------------------------
 RefillLineSlots:
         push esi
@@ -1247,10 +1253,14 @@ RefillLineSlots:
         ret 4
 ;-----------------------------------------------------------------------------
 ; RemoveFromLines                              52C67  95 PC, medium confidence
-; Team eax, roster player edx (pnum): takes the player out of the team's line
-; table (hmlinetab home / awlinetab away) and refills the slot from the
-; dressed lists; called when a player is injured or ejected (player logic
-; 4AD5E, physics 56012)
+; Team eax.
+;
+; roster player edx (pnum): takes the player out of the team's line table
+; (hmlinetab home / awlinetab away) and refills the slot from the dressed
+; lists.
+;
+; called when a player is injured or ejected (player logic 4AD5E, physics
+; 56012)
 ;-----------------------------------------------------------------------------
 RemoveFromLines:
         push ebx
@@ -1531,11 +1541,14 @@ RemoveFromLines:
         jl short .44
         jmp near PickForLineSlot_3E3
 ;-----------------------------------------------------------------------------
-; SetupTeamLines                               52F68  95 PC, medium confidence
-; Team eax: counts the available players (dressbystatus by roster status) of
-; the two dressed lists (defsort_d / offsort_fwd) into dresseddefs /
-; dressedfwds, then fills the line table (hmlinetab / awlinetab); called for
-; both teams at game start / load after BuildDefaultLines
+; SetupTeamLines                               52F68  95 PC.
+;
+; medium confidence Team eax: counts the available players (dressbystatus by
+; roster status) of the two dressed lists (defsort_d / offsort_fwd) into
+; dresseddefs / dressedfwds.
+;
+; Then fills the line table (hmlinetab / awlinetab); called for both teams at
+; game start / load after BuildDefaultLines
 ;-----------------------------------------------------------------------------
 SetupTeamLines:
         push ebx
@@ -1728,11 +1741,14 @@ NormalizeDressFlags:
         ret
 ;-----------------------------------------------------------------------------
 ; CanRemovePlayer                              5316C  95 PC, medium confidence
-; Rejects the auto proposal setInjuryType (that is 55E72). Player eax (team
-; by pflags bit 6, roster pnum +47h): counts roster players with status 3 or
-; 4 in the team's dressed list (defsort_d, 19h per team) and returns count >
-; 2 when he is in it, else the count in the second list (offsort_fwd) > 4;
-; injury / penalty code calls it before taking a player out (with PBnum < 8)
+; Rejects the auto proposal setInjuryType (that is 55E72).
+;
+; Player eax (team by pflags bit 6, roster pnum +47h): counts roster players
+; with status 3 or 4 in the team's dressed list (defsort_d, 19h per team) and
+; returns count > 2 when he is in it.
+;
+; Else the count in the second list (offsort_fwd) > 4; injury / penalty code
+; calls it before taking a player out (with PBnum < 8)
 ;-----------------------------------------------------------------------------
 CanRemovePlayer:
         push ebx

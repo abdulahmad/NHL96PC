@@ -1,4 +1,5 @@
-; The 3D game view: set-up and frame draw, shading LUT, player and puck sprites, controller markers, the game overlays (clock, power play, panels) and the line change boxes (96 PC).
+; The 3D game view: set-up and frame draw, shading LUT, player and puck sprites, controller markers, the
+; game overlays (clock, power play, panels) and the line change boxes.
 bits 32
 %include "hockey.inc"
 extern ReplayFrameState
@@ -607,8 +608,9 @@ DimGameView:
 ;-----------------------------------------------------------------------------
 ; InitGameView                                                    58A58  96 PC
 ; Before a game (PlayGame_initslotscall, RunDemoGame): sets up the 3D rink
-; view: palette, shading LUT, ice logo, priority / b000 / b001 art, the
-; overlays (ResetGameOverlays)
+; view: palette, shading LUT, ice logo, priority / b000 / b001 art.
+;
+; The overlays (ResetGameOverlays)
 ;-----------------------------------------------------------------------------
 InitGameView:
         push ebx
@@ -2609,8 +2611,9 @@ DrawRinkView:
 ;-----------------------------------------------------------------------------
 ; DrawGameFrame                                                   5A572  96 PC
 ; (ticks): one frame of the game view from the camera (GameLoop_inputcheck,
-; RunSimFrames, the menus): rink, players, puck, markers, overlays
-; (DrawGameOverlays), line change boxes
+; RunSimFrames, the menus): rink, players, puck, markers.
+;
+; overlays (DrawGameOverlays), line change boxes
 ;-----------------------------------------------------------------------------
 DrawGameFrame:
         push ebx

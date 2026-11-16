@@ -1,4 +1,4 @@
-; The modem / link game set-up from the main menu: team select and the steps to the game (96 PC).
+; The modem / link game set-up from the main menu: team select and the steps to the game.
 bits 32
 %include "hockey.inc"
 extern BottomBarArt
@@ -1020,8 +1020,9 @@ ModemTeamSelectScreen_B78:
 ;-----------------------------------------------------------------------------
 ; RunModemGameSetup                            A4961  96 PC, medium confidence
 ; From the main menu: the modem set-up (or a serial link), the modem game
-; stats and team ranks, team select, the controller screen, until a game
-; starts
+; stats and team ranks, team select, the controller screen.
+;
+; Until a game starts
 ;-----------------------------------------------------------------------------
 RunModemGameSetup:
         push edx

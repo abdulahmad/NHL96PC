@@ -1,4 +1,4 @@
-; The 3D view's line drawer: the anti-alias colour table, clipping, fixed-point lines (96 PC).
+; The 3D view's line drawer: the anti-alias colour table, clipping, fixed-point lines.
 bits 32
 %include "hockey.inc"
 section s_873AE progbits alloc exec nowrite align=1

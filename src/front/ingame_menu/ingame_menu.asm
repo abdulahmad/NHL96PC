@@ -1,4 +1,5 @@
-; The in-game menu over the game view: its frame, quit / return, the front-end screens during a game and back (96 PC).
+; The in-game menu over the game view: its frame, quit / return, the front-end screens during a game and
+; back.
 bits 32
 %include "hockey.inc"
 extern LinesWorkTable
@@ -688,8 +689,9 @@ OpenFrontEndFromGame:
 ;-----------------------------------------------------------------------------
 ; ReturnToGameView                             A20D1  96 PC, medium confidence
 ; Back from a front-end screen into the game view: fade, free the front-end
-; art, restore the speech buffer and the controllers, screen mode (GloL /
-; GloR, GhiL / GhiR)
+; art, restore the speech buffer and the controllers.
+;
+; screen mode (GloL / GloR, GhiL / GhiR)
 ;-----------------------------------------------------------------------------
 ReturnToGameView:
         push ebx
@@ -1003,9 +1005,10 @@ InGameMenuChoiceJumpTable:                      ; jump table for the switch case
         dd InGameMenu_FA8
 ;-----------------------------------------------------------------------------
 ; InGameMenu                                                      A25CD  96 PC
-; The in-game menu RunInGameMenu opens: quit (qui0-2), return (ret0-2) and
-; the other items (INTERREG), stops the crowd and speech, runs the front-end
-; screens in a game (stats, edit lines, player cards)
+; The in-game menu RunInGameMenu opens: quit (qui0-2), return (ret0-2) and the
+; other items (INTERREG), stops the crowd and speech.
+;
+; runs the front-end screens in a game (stats, edit lines, player cards)
 ;-----------------------------------------------------------------------------
 InGameMenu:
         push ebx

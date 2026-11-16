@@ -1,4 +1,4 @@
-; Message boxes: with buttons, without, and with a progress bar (96 PC).
+; Message boxes: with buttons, without, and with a progress bar.
 bits 32
 %include "hockey.inc"
 section s_1A04E progbits alloc exec nowrite align=1
@@ -86,8 +86,9 @@ DrawBoxButton_ret:
 ;-----------------------------------------------------------------------------
 ; MessageBox                                                      1A109  96 PC
 ; (text id, buttons, ...): a message box (BD_REG / BD_MEN board, BUT buttons)
-; over the screen, waits for a button by mouse, pad or keys (with the modem
-; chat on a modem game); returns the button
+; over the screen, waits for a button by mouse.
+;
+; pad or keys (with the modem chat on a modem game); returns the button
 ;-----------------------------------------------------------------------------
 MessageBox:
         push esi

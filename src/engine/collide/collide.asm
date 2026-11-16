@@ -164,8 +164,9 @@ BlockShotDive_127:
 ;-----------------------------------------------------------------------------
 ; TryBlockShot                                 3E819  95 PC, medium confidence
 ; Random roll from attribute 5Ah (easier for the human team's opponents,
-; gmode2 bits 5/6), then CanBlockShot and BlockShotDive; called from
-; check4check
+; gmode2 bits 5/6), then CanBlockShot and BlockShotDive.
+;
+; called from check4check
 ;-----------------------------------------------------------------------------
 TryBlockShot:
         push ebx
@@ -216,14 +217,18 @@ TryBlockShot:
         ret
 ;-----------------------------------------------------------------------------
 ; check4check                        3E885  94G logic94.asm, medium confidence
-; Looks for a good chance to check an opponent. The odds are 20 less p's
-; checking rating, half again with penalties on (gameopts bit 0); a roll of
-; randomd0(twice that) over 8 skips. Otherwise walk the six opponents: one on
-; the ice (position), not animation-locked (pfalock) and not fighting
-; (pflags2 bit 0), within 30 in x and y, straight ahead of p (vtoa of the
-; offset equals facedir) gets checked: 1 in 4 Acheck, else burst. With
-; nobody to check, p may try to block a shot (TryBlockShot). regd0-regd2 are
-; scratch. p: the player. No result.
+; Looks for a good chance to check an opponent.
+;
+; The odds are 20 less p's checking rating, half again with penalties on
+; (gameopts bit 0); a roll of randomd0(twice that) over 8 skips.
+;
+; Otherwise walk the six opponents: one on the ice (position), not
+; animation-locked (pfalock) and not fighting (pflags2 bit 0), within 30 in x
+; and y.
+;
+; straight ahead of p (vtoa of the offset equals facedir) gets checked: 1 in 4
+; Acheck, else burst. With nobody to check, p may try to block a shot
+; (TryBlockShot). regd0-regd2 are scratch. p: the player. No result.
 ;-----------------------------------------------------------------------------
 check4check:
         push ebx
@@ -411,12 +416,14 @@ check4check:
         ret
 ;-----------------------------------------------------------------------------
 ; checkagr                         3EA92  94G collide94.asm, medium confidence
-; Random roll for an aggressive act (fight penalty) by p: range (20 -
-; aggress) * 16, doubled with pflags bit 3, halved within 40 of the puck in
-; both x and y, x8 after the second period, doubled without gameopts bit 9,
-; x4 per power-play man down (other tmap - own tmap >= 1, >= 2) and x4
-; against the puck carrier's team during a stoppage; randomd0 of 1.5 times
-; that. Returns 0 for a hit.
+; Random roll for an aggressive act (fight penalty) by p: range (20 - aggress)
+; * 16, doubled with pflags bit 3.
+;
+; halved within 40 of the puck in both x and y, x8 after the second period,
+; doubled without gameopts bit 9, x4 per power-play man down (other tmap - own
+; tmap >= 1, >= 2) and x4 against the puck carrier's team during a stoppage.
+;
+; randomd0 of 1.5 times that. Returns 0 for a hit.
 ;-----------------------------------------------------------------------------
 checkagr:
         push ebx
@@ -1557,7 +1564,8 @@ checkob:
 ;-----------------------------------------------------------------------------
 ; SkillForAnim                                 3F7AC  95 PC, medium confidence
 ; Returns the stick-handling attribute byte (5Dh / 62h / 65h) that fits the
-; player's current animation (SPA codes 0B1h, 0C9h, 0E1h, 101h, 119h, 11D5h,
+; player's current animation (SPA codes 0B1h, 0C9h, 0E1h, 101h, 119h, 11D5h.
+;
 ; 121Dh); checkpuckcoll
 ;-----------------------------------------------------------------------------
 SkillForAnim:
@@ -2202,10 +2210,13 @@ checkpuckcoll:
         ret
 ;-----------------------------------------------------------------------------
 ; CheckBump                        3FFF3  94G collide94.asm, medium confidence
-; Player p runs into the puck carrier c. One time in 20h (randomd0), with the
-; puck within 28h in y of c and p faster than 1B58h in x or y: c takes a
-; quarter of p's velocity, p stops, sflags bit 6 (sfslock) is set and, while
-; the clock runs, p gets penalty 1Eh (AddPenalty2). Returns 1 then, else 0.
+; Player p runs into the puck carrier c.
+;
+; One time in 20h (randomd0), with the puck within 28h in y of c and p faster
+; than 1B58h in x or y: c takes a quarter of p's velocity, p stops, sflags bit
+; 6 (sfslock) is set and, while the clock runs.
+;
+; p gets penalty 1Eh (AddPenalty2). Returns 1 then, else 0.
 ;-----------------------------------------------------------------------------
 CheckBump:
         push ebx
@@ -2286,8 +2297,10 @@ CheckBump:
 ;-----------------------------------------------------------------------------
 ; GetLowestPen                     400B1  94G penalty94.asm, medium confidence
 ; Shorthanded team from tmap: walks its box list (+0B6h) summing the
-; non-coincidental tmpdst (+7Eh, &3FFFh) time steps, then compares with the
-; power-play team's list; returns the power-play time left
+; non-coincidental tmpdst (+7Eh, &3FFFh) time steps.
+;
+; Then compares with the power-play team's list; returns the power-play time
+; left
 ;-----------------------------------------------------------------------------
 GetLowestPen:
         push ebx
@@ -2363,8 +2376,10 @@ GetLowestPen:
         jmp near chk4pass_4F6
 ;-----------------------------------------------------------------------------
 ; chk4lc                           40189  93G logic93_3.asm, medium confidence
-; (see if computer should call line change). Puck in own half below the blue line,
-; 1 in 4, not pflags2 bit 3; PC adds clock penalty checks (GetLowestPen). Then CompLine, setpersonel and
+; (see if computer should call line change).
+;
+; Puck in own half below the blue line, 1 in 4, not pflags2 bit 3; PC adds
+; clock penalty checks (GetLowestPen). Then CompLine, setpersonel and
 ; chk4lc_shoot: CompShoot dumps the puck. Returns 1 when it did.
 ;-----------------------------------------------------------------------------
 chk4lc:
@@ -2460,8 +2475,9 @@ chk4lc:
 ;-----------------------------------------------------------------------------
 ; chk4lcauto                                      402AD  96 PC, low confidence
 ; Called from assnearest when the line option (gameopts +1 bits 4-5) is 20h:
-; one time in four compares the lines (GetLowestPen, AvgCline, CompLine) and
-; calls setpersonel
+; one time in four compares the lines (GetLowestPen, AvgCline.
+;
+; CompLine) and calls setpersonel
 ;-----------------------------------------------------------------------------
 chk4lcauto:
         push ebx
@@ -2565,9 +2581,10 @@ chk4lcauto:
 ;-----------------------------------------------------------------------------
 ; PassLaneChk                                  403CE  95 PC, medium confidence
 ; Pass target check for passer eax / receiver edx: 0 when the passer is the
-; goalie, when ShotLaneOpen says no, or when the receiver is on the wrong
-; side of the blue line (4Eh by pfgoal); then a vtoa lane test; used by
-; chk4pass and dopass
+; goalie, when ShotLaneOpen says no.
+;
+; Or when the receiver is on the wrong side of the blue line (4Eh by pfgoal);
+; then a vtoa lane test; used by chk4pass and dopass
 ;-----------------------------------------------------------------------------
 PassLaneChk:
         push ebx
@@ -2701,8 +2718,9 @@ PassLaneChk:
 ;-----------------------------------------------------------------------------
 ; ScatterPass                                  40524  95 PC, medium confidence
 ; (player, receiver): counts a pass attempt (team +26h, hmpassatt) unless
-; replay, sets passplayer, receiver gets asstab 13h (asspassrec), puck gets
-; random vx/vy scaled by (12h - passing skill +5Dh)*14h
+; replay, sets passplayer, receiver gets asstab 13h (asspassrec).
+;
+; puck gets random vx/vy scaled by (12h - passing skill +5Dh)*14h
 ;-----------------------------------------------------------------------------
 ScatterPass:
         push ebx
@@ -4541,8 +4559,9 @@ ChkOffsides:
 ;-----------------------------------------------------------------------------
 ; MarkTwoLinePlayers                           41B41  95 PC, medium confidence
 ; Two-line pass option (gameopts bit 3): sets pflags2 bit 7 on the skaters of
-; the team past the red line (Ypos sign by gmode bit 1), clears it on the
-; others; ChkTwoLinePass (from a2touchpuck) reads the flag
+; the team past the red line (Ypos sign by gmode bit 1).
+;
+; clears it on the others; ChkTwoLinePass (from a2touchpuck) reads the flag
 ;-----------------------------------------------------------------------------
 MarkTwoLinePlayers:
         push ebx
@@ -5000,10 +5019,11 @@ FallFrameByFacing:
         ret
 ;-----------------------------------------------------------------------------
 ; NetCollide                                   42072  95 PC, medium confidence
-; Player near a net (x +-60h, y +-0CAh): when inside the frame snaps the
-; player to the net edge for his facing (FallDown_pinxl / CCBEC / CCBFC
-; offset tables), stops him and returns the bump animation (0F0Fh / 0F55h /
-; 0FE1h)
+; Player near a net (x +-60h.
+;
+; y +-0CAh): when inside the frame snaps the player to the net edge for his
+; facing (FallDown_pinxl / CCBEC / CCBFC offset tables), stops him and returns
+; the bump animation (0F0Fh / 0F55h / 0FE1h)
 ;-----------------------------------------------------------------------------
 NetCollide:
         push ecx
@@ -6161,16 +6181,22 @@ Bcheck:
         ret
 ;-----------------------------------------------------------------------------
 ; holdcheck                        42EC3  94G collide94.asm, medium confidence
-; Player a grabbing player b. Not when a is already held (pflags bit 5), is
-; SCnum 16, has no position or pflags2 bit 0 is set; only when b faces a
-; (direction from b to a within one step of b's facedir). Dropping the puck
-; carrier clears sflags bit 3; both skate on at their mean velocity, both get
-; pflags bit 5, a takes SPA 669h and b 651h (88Bh unless b is in 639h). On a
-; quick shot chance (QuickShotChk) with no penalty shot pending, a gets the
-; penalty shot (penshotctl 1 2 -1 by controller) and b a penalty 1Ah, the
-; puck is loose (puckc -1) and b's nopuck 20h; else unless a's checking
-; aggression (checkagr) is over 6, b gets holding (12h when in SPA 651h, else
-; 0Fh). Then collflag -1.
+; Player a grabbing player b.
+;
+; Not when a is already held (pflags bit 5), is SCnum 16, has no position or
+; pflags2 bit 0 is set; only when b faces a (direction from b to a within one
+; step of b's facedir).
+;
+; Dropping the puck carrier clears sflags bit 3; both skate on at their mean
+; velocity, both get pflags bit 5, a takes SPA 669h and b 651h (88Bh unless b
+; is in 639h).
+;
+; On a quick shot chance (QuickShotChk) with no penalty shot pending, a gets
+; the penalty shot (penshotctl 1 2 -1 by controller) and b a penalty 1Ah, the
+; puck is loose (puckc -1) and b's nopuck 20h.
+;
+; Else unless a's checking aggression (checkagr) is over 6, b gets holding
+; (12h when in SPA 651h, else 0Fh). Then collflag -1.
 ;-----------------------------------------------------------------------------
 holdcheck:
         push ebx
@@ -6551,15 +6577,20 @@ puckshadow:
 ;-----------------------------------------------------------------------------
 ; puckglue                         4334D  94G collide94.asm, medium confidence
 ; (92 puckstick.glue): player p takes the puck. puckc gets his SCnum a live
-; penalty shot ends when his team's tmpsplayer takes it. The other team's
-; assist slots are cleared and its tmflags bit 3 set. After a faceoff
-; (sflags3 bit 4) count a faceoff won (and one won in the attacking end),
-; raise crowdlevel by 200 (max 1000) and the home crowd's CwdExciteLvl by 10;
-; otherwise play sfx 9Bh . Then the pass completion, clear the pass/shot dir
-; modes (sflags bits 2-3); a goalie checks the shot stat and gets temp5 hold
-; time (5 after SPA 181h, else 8Ch). Falls into setd0player:
-; GiveControl(regd0). The attacking-end count is two increments (if / else
-; if): one `||` test moved the registers of the crowdlevel clamp after it.
+; penalty shot ends when his team's tmpsplayer takes it.
+;
+; The other team's assist slots are cleared and its tmflags bit 3 set.
+;
+; After a faceoff (sflags3 bit 4) count a faceoff won (and one won in the
+; attacking end), raise crowdlevel by 200 (max 1000) and the home crowd's
+; CwdExciteLvl by 10; otherwise play sfx 9Bh .
+;
+; Then the pass completion, clear the pass/shot dir modes (sflags bits 2-3); a
+; goalie checks the shot stat and gets temp5 hold time (5 after SPA 181h, else
+; 8Ch). Falls into setd0player: GiveControl(regd0).
+;
+; The attacking-end count is two increments (if / else if): one `||` test
+; moved the registers of the crowdlevel clamp after it.
 ;-----------------------------------------------------------------------------
 puckglue:
         push ebx
@@ -6926,6 +6957,7 @@ PickPuckRebound:
 ;-----------------------------------------------------------------------------
 ; puckgoalie                       437EB  94G collide94.asm, medium confidence
 ; The puck pk hits goalie p (regd0 / regd1 = the gap from checkpuckcoll_ccx).
+;
 ; Nothing happens during a stoppage (gmode bit 4) or while p's frame is
 ; 206h-215h with the puck at height 5 or more.
 ;
@@ -7722,10 +7754,11 @@ puckstick:
         jmp near BlockShotDive_127
 ;-----------------------------------------------------------------------------
 ; SetShotMode                        441EF  94G logic94.asm, medium confidence
-; P winds up a shot: pass direction 8 (shot), sflags bit 3; regd0 = direction
-; from p to the attacked goal (x 0, y +/-F0h by pflags bit 7), passspeed =
-; 15, then the slap (SPA 491h, when Findhittype finds a hit type) or wrist
-; shot animation (3F9h).
+; P winds up a shot: pass direction 8 (shot), sflags bit 3.
+;
+; regd0 = direction from p to the attacked goal (x 0, y +/-F0h by pflags bit
+; 7), passspeed = 15, then the slap (SPA 491h, when Findhittype finds a hit
+; type) or wrist shot animation (3F9h).
 ;-----------------------------------------------------------------------------
 SetShotMode:
         push ebx
@@ -7797,12 +7830,15 @@ SetShotMode:
 ;-----------------------------------------------------------------------------
 ; ShotMode                           442B3  94G logic94.asm, medium confidence
 ; Shot wind-up of p (frame counter SPAnum): from frame 14 shoot (doshot).
-; Without regd0 bit 3 the aim direction (regd0 & 7) becomes passdir. Before
-; frame 10 a release (regd1 bit 4 or 6) ends the wind-up: clear sflags bit 3,
-; flag 20h, and switch the slap SPAs 3F9h/491h/DD3h/E2Bh to their
-; follow-through 1265h/12DDh/ 1355h/138Dh. Otherwise before frame 8 count
-; passspeed and jump to the mirrored frame (14 - SPAnum) for a weak shooter
-; (shotspd < 10) past frame 4 or when regd2 bit 5 is set.
+; Without regd0 bit 3 the aim direction (regd0 & 7) becomes passdir.
+;
+; Before frame 10 a release (regd1 bit 4 or 6) ends the wind-up: clear sflags
+; bit 3, flag 20h, and switch the slap SPAs 3F9h/491h/DD3h/E2Bh to their
+; follow-through 1265h/12DDh/ 1355h/138Dh.
+;
+; Otherwise before frame 8 count passspeed and jump to the mirrored frame (14
+; - SPAnum) for a weak shooter (shotspd < 10) past frame 4 or when regd2 bit 5
+; is set.
 ;-----------------------------------------------------------------------------
 ShotMode:
         push ebx
@@ -7920,9 +7956,11 @@ ShotMode:
         ret
 ;-----------------------------------------------------------------------------
 ; Findhittype                        44418  94G logic94.asm, medium confidence
-; Type of swing for player p shooting in direction dir. d = (facedir - dir) &
-; 7; returns 1 (backhand) when bit d of F0h (sprite X-flipped, attribute bit
-; 3) or of 1Eh (not flipped) is set, else 0 (forehand).
+; Type of swing for player p shooting in direction dir.
+;
+; d = (facedir - dir) & 7; returns 1 (backhand) when bit d of F0h (sprite
+; X-flipped, attribute bit 3) or of 1Eh (not flipped) is set, else 0
+; (forehand).
 ;-----------------------------------------------------------------------------
 Findhittype:
         push ecx
@@ -9350,14 +9388,19 @@ wallcoll:
 ;-----------------------------------------------------------------------------
 ; wallcollb                                           456AF  94G collide94.asm
 ; Check for the puck over the wall (called from checkwallcoll). Not the puck
-; (SCnum 0Eh), or Zpos up to 12h: wallcoll. Zpos above 1Dh, or above 12h with
-; Ypos below F8h: out of play. Otherwise only at |Xpos| 28h-38h with Yvel >=
-; FA0h and lty >= 26h (else wallcoll): halve Yvel, SPA 821h on the next
-; struct (the glass) at x 3Fh -40h (by the puck's side), y 10Bh, sfx AEh,
-; crowdlevel +1200 (max 1500) and CwdExciteLvl +15, then out of play. Out of
-; play: sfslock (sflags bit 6), pfnc (pflags bit 2), attribute bit 15 when
-; Ypos < 0, the next struct's frame -1 and, while the clock runs, penalty 3
-; for the last player to touch the puck (lasttouch); the penalty shot ends.
+; (SCnum 0Eh), or Zpos up to 12h: wallcoll.
+;
+; Zpos above 1Dh, or above 12h with Ypos below F8h: out of play.
+;
+; Otherwise only at |Xpos| 28h-38h with Yvel >= FA0h and lty >= 26h (else
+; wallcoll): halve Yvel, SPA 821h on the next struct (the glass) at x 3Fh -40h
+; (by the puck's side), y 10Bh, sfx AEh.
+;
+; crowdlevel +1200 (max 1500) and CwdExciteLvl +15, then out of play.
+;
+; Out of play: sfslock (sflags bit 6), pfnc (pflags bit 2), attribute bit 15
+; when Ypos < 0, the next struct's frame -1 and, while the clock runs, penalty
+; 3 for the last player to touch the puck (lasttouch); the penalty shot ends.
 ;-----------------------------------------------------------------------------
 wallcollb:
         push ebx
@@ -9751,8 +9794,9 @@ checkfight_sf:
 ;-----------------------------------------------------------------------------
 ; checkfight                                                        45B60  93G
 ; Called from checkcx with impact >= 10 on both: SetInst both ways with 10 +
-; max(0, 40 - count)/4, crowd +1000, fighters face each other, the others
-; get the watch assignment 32h, the puck 1Ah
+; max(0, 40 - count)/4, crowd +1000, fighters face each other.
+;
+; The others get the watch assignment 32h, the puck 1Ah
 ;-----------------------------------------------------------------------------
 checkfight:
         push ebx
@@ -10307,11 +10351,13 @@ checkcx:
 ;-----------------------------------------------------------------------------
 ; CPgoalie                           4629D  94G logic94.asm, medium confidence
 ; Computer team t pulls its goalie when no penalty shot runs, gsp is 2 (third
-; period), t trails o by 1-2 goals (up to gsp), at most 60 s are left and the
-; puck y is on the attacking side (sign flipped by the first SortCords
-; entry's pflags bit 7). The goalie byte gets -1, the goalie's menu item is
-; unchecked (2) and "pulled" checked (1) in goaliemenuflags, then
-; setpersonel.
+; period), t trails o by 1-2 goals (up to gsp).
+;
+; At most 60 s are left and the puck y is on the attacking side (sign flipped
+; by the first SortCords entry's pflags bit 7).
+;
+; The goalie byte gets -1, the goalie's menu item is unchecked (2) and
+; "pulled" checked (1) in goaliemenuflags, then setpersonel.
 ;-----------------------------------------------------------------------------
 CPgoalie:
         push ecx
@@ -10461,8 +10507,10 @@ ReturnGoalies:
 ;-----------------------------------------------------------------------------
 ; ChkPullGoalieLate                            4640D  95 PC, medium confidence
 ; Player logic caller: 0 unless 3rd period (gsp 2) with at most 60 s left and
-; the team is not human-controlled; then a team-struct check (likely the
-; score: pull the goalie late, not fully traced)
+; the team is not human-controlled.
+;
+; Then a team-struct check (likely the score: pull the goalie late, not fully
+; traced)
 ;-----------------------------------------------------------------------------
 ChkPullGoalieLate:
         push ebx

@@ -1,4 +1,4 @@
-; The scroll bar widget of the front-end lists (96 PC).
+; The scroll bar widget of the front-end lists.
 bits 32
 %include "hockey.inc"
 section s_7CCB8 progbits alloc exec nowrite align=1

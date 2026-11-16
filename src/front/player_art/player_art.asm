@@ -1,4 +1,5 @@
-; Player sprite art: the sprite banks (fight.ref, total.ref, oldshp.qfs, cup.ref), the UNPACK frame cache, team palettes, jersey colours and numbers (96 PC).
+; Player sprite art: the sprite banks (fight.ref, total.ref, oldshp.qfs, cup.ref), the UNPACK frame cache,
+; team palettes, jersey colours and numbers.
 bits 32
 %include "hockey.inc"
 extern TeamRosterPtrs

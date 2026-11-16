@@ -1,4 +1,4 @@
-; Team ranks by power play and penalty kill % for the pre-game screen (96 PC).
+; Team ranks by power play and penalty kill % for the pre-game screen.
 bits 32
 %include "hockey.inc"
 section s_18E80 progbits alloc exec nowrite align=1
@@ -7,9 +7,11 @@ extern qsort_, read_, MakeSeasonDbPath, CloseFile
 global GetSpecialTeamsRanks, ComparePowerPlayPct, ComparePenaltyKillPct
 ;-----------------------------------------------------------------------------
 ; GetSpecialTeamsRanks                         18E80  96 PC, medium confidence
-; (team, game mode, out): reads every team's record for the mode (exhibition
-; / season / playoff stats file), works out power play % and penalty kill %
-; (x1000), sorts the teams (qsort) and stores this team's rank in each
+; (team, game mode, out): reads every team's record for the mode (exhibition /
+; season / playoff stats file).
+;
+; works out power play % and penalty kill % (x1000), sorts the teams (qsort)
+; and stores this team's rank in each
 ;-----------------------------------------------------------------------------
 GetSpecialTeamsRanks:
         push ecx

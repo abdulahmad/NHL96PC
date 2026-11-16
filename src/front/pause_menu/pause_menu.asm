@@ -1,4 +1,4 @@
-; The in-game menu: RunInGameMenu and the pause menu screens of a game (96 PC; its routines still to be named).
+; The in-game menu: RunInGameMenu and the pause menu screens of a game.
 bits 32
 %include "hockey.inc"
 extern TeamRosterPtrs
@@ -2263,9 +2263,8 @@ PauseGameChoiceJumpTable:                       ; jump table for the switch case
         dd PauseGame_611
 ;-----------------------------------------------------------------------------
 ; PauseGame                                    6C698  96 PC, medium confidence
-; RunInGameMenu's pause (request 1): frees the speech buffer and sprite
-; cache, quiets the crowd, runs the pause menu and its screens, restores the
-; game
+; RunInGameMenu's pause (request 1): frees the speech buffer and sprite cache,
+; quiets the crowd, runs the pause menu and its screens, restores the game
 ;-----------------------------------------------------------------------------
 PauseGame:
         push ebx

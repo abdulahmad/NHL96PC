@@ -1,4 +1,4 @@
-; Game data files: their paths by id and directory, loading them (96 PC).
+; Game data files: their paths by id and directory, loading them.
 bits 32
 %include "hockey.inc"
 section s_1E3C8 progbits alloc exec nowrite align=1
@@ -24,8 +24,10 @@ MakeDataPathCopyJumpTable:                      ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; MakeDataPath                                                    1E3E8  96 PC
 ; (out, file id): the path of a game data file: the language prefix (optflags
-; & 3) where the file has one, its directory (table DataDirPath) and name
-; (table ArtSetTable, 16h-byte entries)
+; & 3) where the file has one.
+;
+; Its directory (table DataDirPath) and name (table ArtSetTable, 16h-byte
+; entries)
 ;-----------------------------------------------------------------------------
 MakeDataPath:
         push ebx
@@ -257,9 +259,11 @@ SelectDataLibraryJumpTable:                     ; jump table for the switch case
         dd SelectDataLibrary_40
 ;-----------------------------------------------------------------------------
 ; SelectDataLibrary                               1E643  96 PC, low confidence
-; (index): builds the library path of a 16h-byte entry at ArtArchivePaths (subdir
-; by the optflags bits, then its name) and opens it (OpenResourceArchive) unless it is
-; the current one
+; (index): builds the library path of a 16h-byte entry at ArtArchivePaths
+; (subdir by the optflags bits.
+;
+; Then its name) and opens it (OpenResourceArchive) unless it is the current
+; one
 ;-----------------------------------------------------------------------------
 SelectDataLibrary:
         push ebx

@@ -1,4 +1,4 @@
-; The controller screen before a game: which controller plays for which team, with the users' names (96 PC).
+; The controller screen before a game: which controller plays for which team, with the users' names.
 bits 32
 %include "hockey.inc"
 extern BottomBarArt

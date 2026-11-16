@@ -1,4 +1,4 @@
-; The player stats screen: its rows, filters, sorting, drawing and text export (96 PC).
+; The player stats screen: its rows, filters, sorting, drawing and text export.
 bits 32
 %include "hockey.inc"
 section s_8BF56 progbits alloc exec nowrite align=1

@@ -1,4 +1,4 @@
-; Menus: the menu items, the menu input (mouse, pads, joysticks, keys) and its sounds, the menu loop (96 PC; still to be named).
+; Menus: the menu items, the menu input (mouse, pads, joysticks, keys) and its sounds, the menu loop.
 bits 32
 %include "hockey.inc"
 extern BottomBarArt
@@ -726,9 +726,10 @@ GetSavedViewSize:
 ;-----------------------------------------------------------------------------
 ; RunMenu                                                         64F59  96 PC
 ; The menu loop of every front-end screen (message boxes, the stats, three
-; stars, pad set-up, user screens): items, highlight, mouse / pads / keys
-; (PollMenuInput), the link exchange in a link game; returns the chosen item
-; (-1 none)
+; stars, pad set-up, user screens): items, highlight.
+;
+; mouse / pads / keys (PollMenuInput), the link exchange in a link game;
+; returns the chosen item (-1 none)
 ;-----------------------------------------------------------------------------
 RunMenu:
         push esi

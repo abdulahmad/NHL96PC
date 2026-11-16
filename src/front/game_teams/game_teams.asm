@@ -1,4 +1,4 @@
-; The teams of a game: rosters and lines from the mode's files, the end-of-game clean-up (96 PC).
+; The teams of a game: rosters and lines from the mode's files, the end-of-game clean-up.
 bits 32
 %include "hockey.inc"
 extern RosterStatsBase

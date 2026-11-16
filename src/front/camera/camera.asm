@@ -1,4 +1,4 @@
-; The game camera: its path polynomials and the camera shots (96 PC).
+; The game camera: its path polynomials and the camera shots.
 bits 32
 %include "hockey.inc"
 extern ReplayFrameState
@@ -3768,8 +3768,10 @@ MarkerToggleJumpTable:                          ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; ReadHotKeys                                  609C6  95 PC, medium confidence
 ; Game hot keys: Esc (1), Ctrl+S (1Fh), Ctrl+M (32h), F1-F10 (3Bh-44h), Tab
-; (0Fh), R (13h); edge-triggered against the last key (lasthotkey), a new key
-; is returned with bit 80h set
+; (0Fh), R (13h).
+;
+; edge-triggered against the last key (lasthotkey), a new key is returned with
+; bit 80h set
 ;-----------------------------------------------------------------------------
 ReadHotKeys:
         push ebx
@@ -4819,8 +4821,9 @@ randomd0:
 ;-----------------------------------------------------------------------------
 ; vtoa                               61A78  94G logic94.asm, medium confidence
 ; : (x,y) vector -> direction 0-7 via vtoa_dt.
-; .dir/.0-.3 follow the x sign -> bit0, y sign -> bit1,
-; |x| vs |y| (and 2x) comparisons -> bits 2/3, then the table lookup.
+;
+; .dir/.0-.3 follow the x sign -> bit0, y sign -> bit1, |x| vs |y| (and 2x)
+; comparisons -> bits 2/3, then the table lookup.
 ;-----------------------------------------------------------------------------
 vtoa:
         push ebp

@@ -1,4 +1,4 @@
-; Front-end main: main_, start-up and shut-down, the front-end screen loop, team logos (96 PC).
+; Front-end main: main_, start-up and shut-down, the front-end screen loop, team logos.
 bits 32
 %include "hockey.inc"
 section s_1B046 progbits alloc exec nowrite align=1
@@ -30,8 +30,9 @@ LoadTeamLogoJumpTable:                          ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; LoadTeamLogo                                 1B05E  96 PC, medium confidence
 ; (team): loads the logo "L" + the team's three letters (LogoNames), or for
-; 1Ch-21h the league logos LNPA, LNHL, LDON, LNEW, LSTA, LEAS, from the logo
-; bank, with its palette
+; 1Ch-21h the league logos LNPA, LNHL, LDON, LNEW, LSTA, LEAS.
+;
+; From the logo bank, with its palette
 ;-----------------------------------------------------------------------------
 LoadTeamLogo:
         push ebx
@@ -122,8 +123,9 @@ LoadTeamLogo_ret:
 ;-----------------------------------------------------------------------------
 ; RunFrontEnd                                                     1B13D  96 PC
 ; The front end: runs the screen with the current number (each screen returns
-; the next: main menu, exhibition, season, playoffs, options, modem, ...)
-; until quit; main_ calls it
+; the next: main menu, exhibition, season, playoffs, options, modem.
+;
+; ...) until quit; main_ calls it
 ;-----------------------------------------------------------------------------
 RunFrontEnd:
         push edx
@@ -444,8 +446,9 @@ InitHardware:
 ;-----------------------------------------------------------------------------
 ; StartUp                                                         1B4D2  96 PC
 ; Main_ first part: seeds rand, InitHardware, InitInputDevices, reads the
-; SETUP settings (else "You must first use the SETUP program..."), checks
-; memory and directories, loads the front end
+; SETUP settings (else "You must first use the SETUP program...").
+;
+; checks memory and directories, loads the front end
 ;-----------------------------------------------------------------------------
 StartUp:
         push ebx

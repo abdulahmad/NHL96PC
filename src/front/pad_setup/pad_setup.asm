@@ -1,4 +1,4 @@
-; GrIP pad set-up screen and the joystick test screen (96 PC).
+; GrIP pad set-up screen and the joystick test screen.
 bits 32
 %include "hockey.inc"
 extern BottomBarArt
@@ -690,9 +690,10 @@ DrawGripPads_73C:
         ret
 ;-----------------------------------------------------------------------------
 ; GripSetupScreen                                                 2090F  96 PC
-; Start-up screen when GrIP pads are connected (GRIPCON / RGRIPCON art): pick
-; the buttons that shoot and pass on each pad (SetGripButtonMap /
-; GetGripButtonMap, kept in GsGripButtons), Enter to go on
+; Start-up screen when GrIP pads are connected (GRIPCON / RGRIPCON art).
+;
+; Picks the buttons that shoot and pass on each pad (SetGripButtonMap /
+; GetGripButtonMap, kept in GsGripButtons); Enter to go on.
 ;-----------------------------------------------------------------------------
 GripSetupScreen:
         push ebx

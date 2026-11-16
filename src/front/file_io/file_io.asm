@@ -1,4 +1,4 @@
-; DOS file helpers: open, create, close, read / write at an offset, copy, delete (96 PC).
+; DOS file helpers: open, create, close, read / write at an offset, copy, delete.
 bits 32
 %include "hockey.inc"
 section s_1DC65 progbits alloc exec nowrite align=1

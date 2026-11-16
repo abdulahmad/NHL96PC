@@ -1,4 +1,5 @@
-; Digital sound effects, crowd noise, arena clips, the sound card start-up, the game and front-end sound banks and the sound idle call (96 PC).
+; Digital sound effects, crowd noise, arena clips, the sound card start-up, the game and front-end sound
+; banks and the sound idle call.
 bits 32
 %include "hockey.inc"
 extern GsOptions
@@ -115,8 +116,9 @@ PlaySfxOr:
 ;-----------------------------------------------------------------------------
 ; PlaySfx                                                         68E31  96 PC
 ; (id 1-48h): plays a digital sound effect from the loaded banks on a free
-; voice at the globalset volume; called from checkcheck, FallDown, CompPass,
-; the faceoff and the menus
+; voice at the globalset volume.
+;
+; called from checkcheck, FallDown, CompPass, the faceoff and the menus
 ;-----------------------------------------------------------------------------
 PlaySfx:
         push ebx
@@ -379,9 +381,11 @@ CrowdFadeOut:
 ;-----------------------------------------------------------------------------
 ; sfx                               69105  94G middle94.asm, medium confidence
 ; Play sound effect id (remembered in lastsfx): while speech plays only 9Ch
-; passes (and in a replay only with oneminsaid); A0h/A1h not on sound devices
-; 4/8; 7Dh raises crowdlevel by 500; AAh on device 4 starts the arena
-; sample stream; 90h also plays 91h (both on device 4).
+; passes (and in a replay only with oneminsaid).
+;
+; A0h/A1h not on sound devices 4/8; 7Dh raises crowdlevel by 500; AAh on
+; device 4 starts the arena sample stream; 90h also plays 91h (both on device
+; 4).
 ;-----------------------------------------------------------------------------
 sfx:
         push ecx
@@ -423,9 +427,8 @@ CrowdReaction:
         jmp near SetCrowdIntensity
 ;-----------------------------------------------------------------------------
 ; PlayArenaClip                                69161  96 PC, medium confidence
-; (file id): with arena music on (optblock 80h) queues an arena clip on its
-; CD stream (stoppages, goals, penalty box); clips 3Ch, 3Dh, 40h cut speech
-; off
+; (file id): with arena music on (optblock 80h) queues an arena clip on its CD
+; stream (stoppages, goals, penalty box); clips 3Ch, 3Dh, 40h cut speech off
 ;-----------------------------------------------------------------------------
 PlayArenaClip:
         push ebx
@@ -828,8 +831,9 @@ StartSoundCard_3F:
 ;-----------------------------------------------------------------------------
 ; StartGameSound                                                  695CB  96 PC
 ; Going into a game: drops the front-end music and banks, opens the game
-; speech banks, the arena stream, the sound effect and crowd banks by free
-; memory
+; speech banks, the arena stream.
+;
+; The sound effect and crowd banks by free memory
 ;-----------------------------------------------------------------------------
 StartGameSound:
         push ebx

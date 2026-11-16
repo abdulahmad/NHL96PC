@@ -1,4 +1,4 @@
-; NAMEINDEX files: the index of saved files in a directory (names, titles, ids) (96 PC).
+; NAMEINDEX files: the index of saved files in a directory (names, titles, ids).
 bits 32
 %include "hockey.inc"
 section s_19382 progbits alloc exec nowrite align=1

@@ -34,11 +34,13 @@ global DeleteSeasonFiles, DeleteSeasonDb, GameEventStub
 ;-----------------------------------------------------------------------------
 ; SaveGameState                                4DED8  95 PC, medium confidence
 ; Writes the in-game state to the open file eax with FileWriteAt (buffer,
-; length): ctl1side (4), the 17 SortCords entries (66h bytes each), both team
-; structs (D4h each), hmlinetab / awlinetab (30h each), then the game globals
-; one by one (clock, scores, flags, PenBuf, ...); "Error Saving Game"
-; (str_ErrSaveGame) on a failed write; called from demo_savegame and the
-; in-game save
+; length): ctl1side (4), the 17 SortCords entries (66h bytes each).
+;
+; Both team structs (D4h each), hmlinetab / awlinetab (30h each), then the
+; game globals one by one (clock, scores, flags, PenBuf, ...); "Error Saving
+; Game" (str_ErrSaveGame) on a failed write.
+;
+; called from demo_savegame and the in-game save
 ;-----------------------------------------------------------------------------
 SaveGameState:
         push ebx
@@ -723,8 +725,9 @@ SaveGameState_7DD:
         jmp near ReadSeasonDbHeader_C8
 ;-----------------------------------------------------------------------------
 ; LoadGameState                                4E6C3  95 PC, medium confidence
-; Reads back what SaveGameState wrote, in the same order, with FileReadAt
-; from file eax; "Error Loading Game" (str_ErrLoadGame) on a failed read;
+; Reads back what SaveGameState wrote, in the same order, with FileReadAt from
+; file eax; "Error Loading Game" (str_ErrLoadGame) on a failed read.
+;
 ; called from gamesave_io
 ;-----------------------------------------------------------------------------
 LoadGameState:

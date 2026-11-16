@@ -1,4 +1,4 @@
-; The intro at start-up (screens and movies) and the slide shows, the credits at shut-down (96 PC).
+; The intro at start-up (screens and movies) and the slide shows, the credits at shut-down.
 bits 32
 %include "hockey.inc"
 section s_62FD8 progbits alloc exec nowrite align=1

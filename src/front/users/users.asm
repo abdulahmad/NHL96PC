@@ -1,4 +1,5 @@
-; User records: LOCAL.NDX of user names, the user record files, picking users for the controllers, the user records screen (96 PC).
+; User records: LOCAL.NDX of user names, the user record files, picking users for the controllers, the user
+; records screen.
 bits 32
 %include "hockey.inc"
 extern SideBarArt
@@ -720,8 +721,9 @@ ScrollUserList:
 ;-----------------------------------------------------------------------------
 ; PickUsersScreen                              2AB8F  96 PC, medium confidence
 ; The screen that puts users on the controller slots: user list with slider
-; (ulxn/ulxh/ulyn/ulyh, slid, slu/sld arrows, ball cursor), new user, delete
-; user
+; (ulxn/ulxh/ulyn/ulyh, slid, slu/sld arrows, ball cursor), new user.
+;
+; delete user
 ;-----------------------------------------------------------------------------
 PickUsersScreen:
         push ebx
@@ -2188,8 +2190,9 @@ DrawUserRecordsJumpTable:                       ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; DrawUserRecords                              2BDD2  96 PC, medium confidence
 ; Draws the user records table (BKGD, column titles TXT%d) a page at a time:
-; per column type a number, a record (w-l-t), a percentage (%3d.%1d), a team
-; name
+; per column type a number, a record (w-l-t), a percentage (%3d.%1d).
+;
+; A team name
 ;-----------------------------------------------------------------------------
 DrawUserRecords:
         push esi
@@ -3313,9 +3316,9 @@ UserRecordsScrollDownJumpTable:                 ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; UserRecordsScreen                            2CB9D  96 PC, medium confidence
 ; The user records screen: allocates the column tables (uname, urate, upts,
-; ugf, uga, upp, upk, uso, ustreak, ulstreak, uteam, uopp, usort),
-; LoadUserRecords, sorts by the picked column (qsort), DrawUserRecords,
-; export
+; ugf, uga, upp, upk, uso, ustreak, ulstreak, uteam, uopp, usort).
+;
+; LoadUserRecords, sorts by the picked column (qsort), DrawUserRecords, export
 ;-----------------------------------------------------------------------------
 UserRecordsScreen:
         push ebx

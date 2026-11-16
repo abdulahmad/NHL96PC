@@ -1,4 +1,5 @@
-; Modem game session: open, connect and close a modem game, sync points, blocks, pad input exchange and the chat box (96 PC).
+; Modem game session: open, connect and close a modem game, sync points, blocks, pad input exchange and the
+; chat box.
 bits 32
 %include "hockey.inc"
 section s_122A6 progbits alloc exec nowrite align=1
@@ -26,9 +27,10 @@ global ThreeStarsScales, str_N, ThreeStarsHotspots
 ;-----------------------------------------------------------------------------
 ; ModemGameOpen                                                   122A6  96 PC
 ; (answer, settings): copies the modem settings (port, speed, numbers, init
-; string) and opens the link with LinkOpen, showing a message while the modem
-; starts (unless GsDirectLink); clears the message queues; 1 when open
-; (LinkFlags bit 1), else shows the error
+; string) and opens the link with LinkOpen.
+;
+; showing a message while the modem starts (unless GsDirectLink); clears the
+; message queues; 1 when open (LinkFlags bit 1), else shows the error
 ;-----------------------------------------------------------------------------
 ModemGameOpen:
         push ebx
@@ -538,8 +540,9 @@ LinkGameMessage_18:
 ;-----------------------------------------------------------------------------
 ; LinkExchangeValues                           1290C  96 PC, medium confidence
 ; (a, b, flag, &a2, &b2, &flag2): sends a type 1 message with three packed
-; values and waits (wait box after 25 ticks) for the other side's; used by a
-; front-end screen to keep both menus in step
+; values and waits (wait box after 25 ticks) for the other side's.
+;
+; used by a front-end screen to keep both menus in step
 ;-----------------------------------------------------------------------------
 LinkExchangeValues:
         push esi
@@ -635,10 +638,11 @@ LinkExchangeValues:
         ret 8
 ;-----------------------------------------------------------------------------
 ; ModemGameConnect                                                12A24  96 PC
-; (abort check): connects (LinkConnect) with a message up; on success sets
-; the side (ControllerScreenMode: 1 dialler), syncs, and the answering side sends its
-; game options (optblock, 0B9h bytes) and option bits to the dialler; 1 when
-; connected (LinkFlags bit 2, SlotsTwoPlayer bit 1)
+; (abort check): connects (LinkConnect) with a message up.
+;
+; On success sets the side (ControllerScreenMode: 1 dialler), syncs, and the
+; answering side sends its game options (optblock, 0B9h bytes) and option bits
+; to the dialler; 1 when connected (LinkFlags bit 2, SlotsTwoPlayer bit 1)
 ;-----------------------------------------------------------------------------
 ModemGameConnect:
         push ebx
@@ -1042,8 +1046,9 @@ LinkSyncTimedOut:
 ;-----------------------------------------------------------------------------
 ; LinkSyncPoint                                                   12FB3  96 PC
 ; (number, abortable): sync point: sends a type 5 message with the number and
-; side and waits for the other side's (the dialler sends first), idling; the
-; abort check can stop the wait
+; side and waits for the other side's (the dialler sends first), idling.
+;
+; The abort check can stop the wait
 ;-----------------------------------------------------------------------------
 LinkSyncPoint:
         push ebx
@@ -1203,7 +1208,8 @@ LinkSyncPoint:
 ;-----------------------------------------------------------------------------
 ; LinkSync                                                        13146  96 PC
 ; (show wait box): syncs with the other side at the next sync point
-; (100-second deadline per try, "ABORT!" to the debug log on a timeout,
+; (100-second deadline per try, "ABORT!" to the debug log on a timeout.
+;
 ; retried), with the wait box
 ;-----------------------------------------------------------------------------
 LinkSync:
@@ -1322,8 +1328,9 @@ LinkSyncWithMessage:
 ;-----------------------------------------------------------------------------
 ; ModemGameClose                                                  13288  96 PC
 ; Ends a modem game: puts the option bits back, clears the message handlers,
-; stops the link timer and closes the link (LinkClose); clears the modem game
-; flags
+; stops the link timer and closes the link (LinkClose).
+;
+; clears the modem game flags
 ;-----------------------------------------------------------------------------
 ModemGameClose:
         push ebx
@@ -1453,8 +1460,9 @@ LinkResyncInput:
 ;-----------------------------------------------------------------------------
 ; LinkExchangeInput                                               13407  96 PC
 ; From InputRecordTimer on a modem game: sends this side's two pads as a type
-; 2 message (packed) and, once both sides' pads for a frame are in, pushes
-; the frame's input record into InputRecordRing
+; 2 message (packed) and, once both sides' pads for a frame are in.
+;
+; pushes the frame's input record into InputRecordRing
 ;-----------------------------------------------------------------------------
 LinkExchangeInput:
         push ebx
@@ -1742,7 +1750,8 @@ LinkExchangeInput:
 ;-----------------------------------------------------------------------------
 ; ModemChat                                    1377E  96 PC, medium confidence
 ; The modem chat box over a front-end screen: typed characters (1Fh-7Eh),
-; Enter sends the line as type 6 messages, lines from the other side show up;
+; Enter sends the line as type 6 messages, lines from the other side show up.
+;
 ; Esc leaves
 ;-----------------------------------------------------------------------------
 ModemChat:

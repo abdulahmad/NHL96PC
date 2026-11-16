@@ -1,4 +1,4 @@
-; Playoff series: the Cup or a series clinched (96 PC).
+; Playoff series: the Cup or a series clinched.
 bits 32
 %include "hockey.inc"
 section s_1E33C progbits alloc exec nowrite align=1
@@ -7,9 +7,11 @@ global IsCupClinched, HomeClinchesSeries, HomeClinchesSeries_21, AwayClinchesSer
 ;-----------------------------------------------------------------------------
 ; IsCupClinched                                1E33C  95 PC, medium confidence
 ; (score1, score2): with cupseries loaded, puts this game's score into the
-; first unplayed final game, asks CupSeriesWinner (best-of from gameopts in
-; Play-Off mode, else SeriesLength), restores the slot; returns 1 when this
-; game wins the Cup; called from the engine end-of-game code
+; first unplayed final game.
+;
+; asks CupSeriesWinner (best-of from gameopts in Play-Off mode, else
+; SeriesLength), restores the slot; returns 1 when this game wins the Cup;
+; called from the engine end-of-game code
 ;-----------------------------------------------------------------------------
 IsCupClinched:
         push ebx

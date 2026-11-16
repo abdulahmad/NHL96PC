@@ -24,11 +24,12 @@ global Stop4Pen, checkfornewpen, ReleaseFromBox, PenaltyHookStub, updatepentime,
 global StartPenaltyShot, EndPenaltyShot, PickForwardLines, PickDefencePairs, PickSpecialLines
 ;-----------------------------------------------------------------------------
 ; AddPenalty                       50154  94G penalty94.asm, medium confidence
-; Call penalty pen on player p (AddPenalty2) unless the clock is stopped, p
-; is SCnum 10h or a penalty shot is on. Penalty 6 always goes through; 8
-; (offside) only with the offsides option, 1Dh (two-line pass) only with that
-; option; the others need the penalties option (gameopts bit 0), fewer than 8
-; players in p's team's box (PBnum) and CanRemovePlayer.
+; Call penalty pen on player p (AddPenalty2) unless the clock is stopped, p is
+; SCnum 10h or a penalty shot is on. Penalty 6 always goes through.
+;
+; 8 (offside) only with the offsides option, 1Dh (two-line pass) only with
+; that option; the others need the penalties option (gameopts bit 0), fewer
+; than 8 players in p's team's box (PBnum) and CanRemovePlayer.
 ;-----------------------------------------------------------------------------
 AddPenalty:
         push ebx
@@ -84,13 +85,17 @@ AddPenalty:
         ret
 ;-----------------------------------------------------------------------------
 ; AddPenalty2                                         501EC  94G penalty94.asm
-; Call penalty pen on player p (not in a replay, sflags bit 7, or with
-; SortPending set): outside a penalty shot raise the banner (penbannertab[pen],
-; timer 50h unless none 6); major penalties (pen >= 7) raise the crowd (+400
-; up to 800; flag 40h side: CwdExciteLvl +20 and sound 7Dh, else A0h). Then
-; the penalty goes into the first free PenBuf slot (pen, SCnum); a penalty
-; with time (penmintab) marks the player (pflags2 bit 4) or, when he already
-; has one, frees the slot again.
+; Call penalty pen on player p (not in a replay, sflags bit 7.
+;
+; Or with SortPending set): outside a penalty shot raise the banner
+; (penbannertab[pen], timer 50h unless none 6); major penalties (pen >= 7)
+; raise the crowd (+400 up to 800.
+;
+; flag 40h side: CwdExciteLvl +20 and sound 7Dh, else A0h).
+;
+; Then the penalty goes into the first free PenBuf slot (pen, SCnum); a
+; penalty with time (penmintab) marks the player (pflags2 bit 4) or, when he
+; already has one, frees the slot again.
 ;-----------------------------------------------------------------------------
 AddPenalty2:
         push ebx
@@ -345,8 +350,9 @@ SortPlayersByDistance_E0:
 ;-----------------------------------------------------------------------------
 ; InProgress                     504C5  93G penalty93_1.asm, medium confidence
 ; Referee in progress: updates graphics, stats and penalty information;
-; reached from chkprogress when Pencntdwn < 0; sprintf messages, assreplace,
-; SetPA
+; reached from chkprogress when Pencntdwn < 0.
+;
+; sprintf messages, assreplace, SetPA
 ;-----------------------------------------------------------------------------
 InProgress:
         push ebx
@@ -895,15 +901,20 @@ InProgress_7EE:
         ret
 ;-----------------------------------------------------------------------------
 ; Stop4Pen                         50CB5  94G penalty94.asm, medium confidence
-; Stop play for penalty entry n of PenBuf (penalty, player). Unless already
-; stopped (gmode bit 0): pick the faceoff spot fox foy - centre for 7, the
-; last touch (ltx lty) for 3 1Dh, else the puck; for 8 (offside-like) the
-; nearer end dot (y +-4Eh) when inside the blue lines, for 6 the offender's
-; end (y -258h 258h); the penalty shot spot when penshotstart. Clamp x to
-; +-60h and pull deep spots to the end dots (+-60h, y +-B8h); then for every
-; queued penalty move the dot out of the offender's zone (y -3Dh / 3Dh, x
-; +-100). Then Pencntdwn 0, gmode bit 2, the whistle (sfx A4h) and the ref
-; (SetPA 5).
+; Stop play for penalty entry n of PenBuf (penalty, player).
+;
+; Unless already stopped (gmode bit 0): pick the faceoff spot fox foy - centre
+; for 7, the last touch (ltx lty) for 3 1Dh, else the puck.
+;
+; For 8 (offside-like) the nearer end dot (y +-4Eh) when inside the blue
+; lines, for 6 the offender's end (y -258h 258h); the penalty shot spot when
+; penshotstart.
+;
+; Clamp x to +-60h and pull deep spots to the end dots (+-60h, y +-B8h); then
+; for every queued penalty move the dot out of the offender's zone (y -3Dh /
+; 3Dh, x +-100).
+;
+; Then Pencntdwn 0, gmode bit 2, the whistle (sfx A4h) and the ref (SetPA 5).
 ;-----------------------------------------------------------------------------
 Stop4Pen:
         push ebx
@@ -1277,8 +1288,9 @@ releasepl:
 ;-----------------------------------------------------------------------------
 ; chkatop                        51179  93G penalty93_1.asm, medium confidence
 ; Attack time of possession: puck y beyond the blue line (+-4Eh) picks the
-; attacking team (gmode bit 1 flips), tmATOP (team+0Eh) += 1; skipped in
-; highlight mode
+; attacking team (gmode bit 1 flips), tmATOP (team+0Eh) += 1.
+;
+; skipped in highlight mode
 ;-----------------------------------------------------------------------------
 chkatop:
         push edx
@@ -1457,9 +1469,11 @@ PenaltyHookStub:
         ret
 ;-----------------------------------------------------------------------------
 ; updatepentime                  51361  93G penalty93_1.asm, medium confidence
-; Clears sflags3 bit 6, returns while the clock is stopped (gmode bit 0) or
-; a penalty shot is live; Penaltytimer -= 1, at < 0 += 18h, sets the bit,
-; chkatop, ChkPowerPlayTime, ProcessPenaltyList for both teams
+; Clears sflags3 bit 6, returns while the clock is stopped (gmode bit 0) or a
+; penalty shot is live.
+;
+; Penaltytimer -= 1, at < 0 += 18h, sets the bit, chkatop, ChkPowerPlayTime,
+; ProcessPenaltyList for both teams
 ;-----------------------------------------------------------------------------
 updatepentime:
         mov al, byte [gmode]
@@ -1501,9 +1515,8 @@ updatepentime:
         mov eax, awtmstruct
 ;-----------------------------------------------------------------------------
 ; updatePPTeamTime                  513E6  94G period94.asm, medium confidence
-; When gmode2 bit 5 (power play) is set, adds 1 to the power-play team's
-; time word (+08h; home unless bit 6); called once a second from
-; updatepentime
+; When gmode2 bit 5 (power play) is set, adds 1 to the power-play team's time
+; word (+08h; home unless bit 6); called once a second from updatepentime
 ;-----------------------------------------------------------------------------
 updatePPTeamTime:
         push ebx
@@ -1520,9 +1533,11 @@ updatePPTeamTime:
         jmp near ReleaseFromBox_111
 ;-----------------------------------------------------------------------------
 ; chkprogress                    5140E  93G penalty93_1.asm, medium confidence
-; Falls through from PenaltyManager: with gmpen (gmode bit 2): Pencntdwn >=
-; 0 -> chkprogress_go, else InProgress; first, with the clock stopped, calls
-; UpdateTextOverlay and counts Pencntdwn2 down to set gmode2 bit 2
+; Falls through from PenaltyManager: with gmpen (gmode bit 2): Pencntdwn >= 0
+; -> chkprogress_go, else InProgress.
+;
+; first, with the clock stopped, calls UpdateTextOverlay and counts Pencntdwn2
+; down to set gmode2 bit 2
 ;-----------------------------------------------------------------------------
 chkprogress:
         call updatepentime
@@ -1628,8 +1643,10 @@ ClearPenaltyBuffer:
 ;-----------------------------------------------------------------------------
 ; PenGoalStuff                     51522  94G penalty94.asm, medium confidence
 ; After a goal, for the scored-on team: drops finished minor penalties from
-; PenBuf (penmintab 2, or 5 / not -1), clears the box flag of released
-; players and returns a player to the ice when the team is short
+; PenBuf (penmintab 2, or 5 / not -1).
+;
+; clears the box flag of released players and returns a player to the ice when
+; the team is short
 ;-----------------------------------------------------------------------------
 PenGoalStuff:
         push ebx
@@ -2058,9 +2075,10 @@ ShotLaneOpen:
         jmp near SortPlayersByDistance_E0
 ;-----------------------------------------------------------------------------
 ; QuickShotChk                                 51A9E  95 PC, medium confidence
-; Human-controlled carrier with gameopts bit 0, shotongoal set and
-; moving/facing toward the net within E4h of the goal line with a goalie in:
-; re-checks ShotLaneOpen and returns 1
+; Human-controlled carrier with gameopts bit 0.
+;
+; shotongoal set and moving/facing toward the net within E4h of the goal line
+; with a goalie in: re-checks ShotLaneOpen and returns 1
 ;-----------------------------------------------------------------------------
 QuickShotChk:
         push edx
@@ -2131,8 +2149,10 @@ QuickShotChk:
 ;-----------------------------------------------------------------------------
 ; CountShotOnGoal                              51B52  95 PC, medium confidence
 ; ShotLaneOpen decides whether the shot is on goal (shotontarget ->
-; shotongoal); if so crowdlevel +64h and, outside penshotmode, the shooting
-; team's +1Ch shots count is incremented
+; shotongoal).
+;
+; If so crowdlevel +64h and, outside penshotmode, the shooting team's +1Ch
+; shots count is incremented
 ;-----------------------------------------------------------------------------
 CountShotOnGoal:
         push edx

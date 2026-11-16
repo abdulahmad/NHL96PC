@@ -1,4 +1,4 @@
-; Simulating a game without playing it: scores and player / team stats (96 PC).
+; Simulating a game without playing it: scores and player / team stats.
 bits 32
 %include "hockey.inc"
 section s_81EEA progbits alloc exec nowrite align=1

@@ -1,4 +1,4 @@
-; The stats tables of the game mode: loading and freeing them (96 PC).
+; The stats tables of the game mode: loading and freeing them.
 bits 32
 %include "hockey.inc"
 section s_1EA14 progbits alloc exec nowrite align=1

@@ -778,9 +778,10 @@ SwapPosition_91:
         ret
 ;-----------------------------------------------------------------------------
 ; SwapDefWithFwd                               31C40  96 PC, medium confidence
-; Called from asspuckc and assnearest: a defenceman deep in the attacking
-; zone trades positions with a forward (SwapPosition), the forward gets
-; assignment 30h and both store the other's number at +6Ah
+; Called from asspuckc and assnearest: a defenceman deep in the attacking zone
+; trades positions with a forward (SwapPosition).
+;
+; The forward gets assignment 30h and both store the other's number at +6Ah
 ;-----------------------------------------------------------------------------
 SwapDefWithFwd:
         push ebx
@@ -3069,9 +3070,10 @@ asseben:
 ;-----------------------------------------------------------------------------
 ; assleaveice                                                     3380F  95 PC
 ; Asstab 1Dh (set by assthreestars, InProgress): skates to the bench gate (x
-; -0A8h, y +-1Ch/24h by team), turns, plays the exit animation, sets pflags
-; 20h (off ice) and RemoveFromLines (gsp<4, not gmode 40h); then assreplace
-; 29h
+; -0A8h, y +-1Ch/24h by team), turns, plays the exit animation.
+;
+; sets pflags 20h (off ice) and RemoveFromLines (gsp<4, not gmode 40h); then
+; assreplace 29h
 ;-----------------------------------------------------------------------------
 assleaveice:
         push ebx
@@ -4567,7 +4569,8 @@ pucknothing:
 ;-----------------------------------------------------------------------------
 ; RequestLineChange                            3492A  95 PC, medium confidence
 ; Team from pflags+44h bit 40h: getlchoice (or the team's current line
-; hmtmstruct/awtmstruct+2Ah) into lcline, lcsel, lctimer=3Ch,
+; hmtmstruct/awtmstruct+2Ah) into lcline, lcsel, lctimer=3Ch.
+;
 ; lcblink/lcblinktime=0Ch, lcboxon=1; clears the home line timer
 ;-----------------------------------------------------------------------------
 RequestLineChange:
@@ -4614,9 +4617,10 @@ RequestLineChange:
 ;-----------------------------------------------------------------------------
 ; SetLCmode                          349D1  94G logic94.asm, medium confidence
 ; Put player p's team into line change mode: only with line changes on
-; (gameopts bit 2) and when the team is not in it already (tmflags bit 1,
-; then set). Clears sflags bits 2-3 (sflags), keeps the joystick on p
-; (pflags2 pf2lcm) and asks for the line change box.
+; (gameopts bit 2) and when the team is not in it already (tmflags bit 1.
+;
+; Then set). Clears sflags bits 2-3 (sflags), keeps the joystick on p (pflags2
+; pf2lcm) and asks for the line change box.
 ;-----------------------------------------------------------------------------
 SetLCmode:
         push ebx
@@ -4642,10 +4646,11 @@ SetLCmode:
 ;-----------------------------------------------------------------------------
 ; StartFaceoffLineChange             34A0C  94G logic94.asm, medium confidence
 ; start a line change for player p's team before a faceoff. r is the object
-; that waits for the change. Clears pf2lcm, calls SetLCmode(p); when the team
-; went into line change mode (pf2lcm set again): away player (pfteam) ->
-; r->temp2 = 168h and r->temp4 = p's SCnum, home player -> r->temp1 = 258h
-; and r->temp3 = SCnum.
+; that waits for the change.
+;
+; Clears pf2lcm, calls SetLCmode(p); when the team went into line change mode
+; (pf2lcm set again): away player (pfteam) -> r->temp2 = 168h and r->temp4 =
+; p's SCnum, home player -> r->temp1 = 258h and r->temp3 = SCnum.
 ;-----------------------------------------------------------------------------
 StartFaceoffLineChange:
         push ebx
@@ -4901,10 +4906,12 @@ Endfaceoff:
         jmp near assrefgoalpa_83E
 ;-----------------------------------------------------------------------------
 ; a2offsides                         34D49  94G logic94.asm, medium confidence
-; Offsides check for p (offsides option on, no penalty shot): the puck is
-; past the blue line (4Eh, toward p's attacking end) while p's team has its
-; offside flag (tmflags bit 4) and play is not stopped (gmode bit 4): call
-; offsides (AddPenalty kind 8), return 1.
+; Offsides check for p (offsides option on, no penalty shot): the puck is past
+; the blue line (4Eh.
+;
+; toward p's attacking end) while p's team has its offside flag (tmflags bit
+; 4) and play is not stopped (gmode bit 4): call offsides (AddPenalty kind 8),
+; return 1.
 ;-----------------------------------------------------------------------------
 a2offsides:
         push edx
@@ -4953,8 +4960,9 @@ a2offsides:
 ;-----------------------------------------------------------------------------
 ; ChkTwoLinePass                               34DD3  95 PC, medium confidence
 ; Two-line pass option (gameopts bit 3, not in highlight mode): receiver eax
-; was past the red line (pflags2 bit 7 from MarkTwoLinePlayers, or on the
-; attacking side) and the pass came from a teammate in his own half
+; was past the red line (pflags2 bit 7 from MarkTwoLinePlayers.
+;
+; Or on the attacking side) and the pass came from a teammate in his own half
 ; (lasttouch): returns 1 for a two-line pass whistle; called by a2touchpuck
 ;-----------------------------------------------------------------------------
 ChkTwoLinePass:
@@ -5031,13 +5039,17 @@ ChkTwoLinePass:
 ;-----------------------------------------------------------------------------
 ; a2touchpuck                        34EA6  94G logic94.asm, medium confidence
 ; Player p touched the puck. Unless a two-line pass (ChkTwoLinePass) or a
-; stoppage: remember the touch place and player (ltx lty lasttouch). In p's
-; team: a new toucher (pnum) shifts the last-toucher words (+30h -> +32h ->
-; +34h; unless tmflags bit 3 was set, which is just cleared) and a repeat of
-; +34h clears its top byte (-1); the same toucher clears pflags bit 3 of the
-; team. A skater with a position clears gmode2 bit 4. Not offside but a
-; two-line pass: penalty 1Dh on p. With iflags bits 2 and 0 set and a skater
-; of the other side than iflags bit 1: penalty 6 on player icingPlayer.
+; stoppage: remember the touch place and player (ltx lty lasttouch).
+;
+; In p's team: a new toucher (pnum) shifts the last-toucher words (+30h ->
+; +32h -> +34h; unless tmflags bit 3 was set, which is just cleared) and a
+; repeat of +34h clears its top byte (-1).
+;
+; The same toucher clears pflags bit 3 of the team. A skater with a position
+; clears gmode2 bit 4. Not offside but a two-line pass: penalty 1Dh on p.
+;
+; With iflags bits 2 and 0 set and a skater of the other side than iflags bit
+; 1: penalty 6 on player icingPlayer.
 ;-----------------------------------------------------------------------------
 a2touchpuck:
         push ebx
@@ -5224,8 +5236,10 @@ ResetFaceoffSkater:
 ;-----------------------------------------------------------------------------
 ; puckflip                           350D3  94G logic94.asm, medium confidence
 ; Flip the puck. PC addition: when Xvel + Yvel of p is below 14h the puck is
-; too slow and puckunflip runs instead. Else facedir ^= regd0 & 1, kept in
-; 0-3, SPAcnt = -1 (st SPAcnt) and the puck-flip animation (SPApflip).
+; too slow and puckunflip runs instead.
+;
+; Else facedir ^= regd0 & 1, kept in 0-3, SPAcnt = -1 (st SPAcnt) and the
+; puck-flip animation (SPApflip).
 ;-----------------------------------------------------------------------------
 puckflip:
         push ebx
@@ -5268,8 +5282,9 @@ puckflip:
 ;-----------------------------------------------------------------------------
 ; assrefatdot                                                     35149  95 PC
 ; Asstab 1Eh (StartHL2, puckfaceoff2): while play is stopped (injurystop 0,
-; clock running) holds the referee at the faceoff spot fox/C90B4 offset
-; +-0Fh, facing 2/6
+; clock running) holds the referee at the faceoff spot fox/C90B4 offset +-0Fh.
+;
+; facing 2/6
 ;-----------------------------------------------------------------------------
 assrefatdot:
         push ebx
@@ -5345,8 +5360,9 @@ assrefatdot:
 ;-----------------------------------------------------------------------------
 ; assreffollow                                                    35232  95 PC
 ; Asstab 1Fh (StartHL2, Endfaceoff, Goal): picks a spot by puck zone (x
-; +-46h/78h/90h, y +-0EDh/0E8h or camy) and skates the referee there; idles
-; (doplayeracc 8) when the clock is stopped
+; +-46h/78h/90h, y +-0EDh/0E8h or camy) and skates the referee there.
+;
+; idles (doplayeracc 8) when the clock is stopped
 ;-----------------------------------------------------------------------------
 assreffollow:
         push ebx
@@ -5581,8 +5597,9 @@ assreffollow:
 ;-----------------------------------------------------------------------------
 ; SkateToSpot                                                     354D0  95 PC
 ; Player eax skates to regd0/regd1; within 8 in x and y it snaps there and
-; stops (Xvel/Yvel 0), else skateto with SetSPA / vtoa facing; used by the PC
-; scripted assignments
+; stops (Xvel/Yvel 0), else skateto with SetSPA / vtoa facing.
+;
+; used by the PC scripted assignments
 ;-----------------------------------------------------------------------------
 SkateToSpot:
         push ebx
@@ -5967,8 +5984,9 @@ SkateToSpot:
         jmp near SwapPosition_91
 ;-----------------------------------------------------------------------------
 ; CrowdOnStoppage                                                 35951  95 PC
-; On a whistle (ovltimer -1, not replay) picks crowd/music reactions by
-; RefPen and clock: PlayCrowdSample 2 late in the period, 5 at period end,
+; On a whistle (ovltimer -1, not replay) picks crowd/music reactions by RefPen
+; and clock: PlayCrowdSample 2 late in the period, 5 at period end.
+;
 ; team music when musicon and gameopts+1 bit 0
 ;-----------------------------------------------------------------------------
 CrowdOnStoppage:
@@ -6244,8 +6262,9 @@ assrefwhistle:
 ;-----------------------------------------------------------------------------
 ; assrefsignal                                                    35CBC  95 PC
 ; Asstab 20h: skates to x 0A0h,y 0 (the timekeeper side), plays 0A5Bh; when
-; RefPen is 7 (goal) posts PostGoalEvent with scorer/assists and period time;
-; then assreplace 21h
+; RefPen is 7 (goal) posts PostGoalEvent with scorer/assists and period time.
+;
+; Then assreplace 21h
 ;-----------------------------------------------------------------------------
 assrefsignal:
         push ebx
@@ -6369,8 +6388,10 @@ assrefsignal:
 ;-----------------------------------------------------------------------------
 ; assrefgoalpa                                 35E4D  95 PC, medium confidence
 ; Asstab 21h (assrefsignal, EndPenaltyShot, assrefpenshot): once ovltimer >=
-; 0ECh and goalevent == 1, calls PaGoal with the scorer/assist jerseys
-; (goalevent_b1..E9AD7) and team abbrev, then clears E9AD3
+; 0ECh and goalevent == 1.
+;
+; calls PaGoal with the scorer/assist jerseys (goalevent_b1..E9AD7) and team
+; abbrev, then clears E9AD3
 ;-----------------------------------------------------------------------------
 assrefgoalpa:
         push ebx
@@ -7446,8 +7467,9 @@ assrefgoalline:
         jmp near assrefgoalpa_839
 ;-----------------------------------------------------------------------------
 ; NextPathPoint                                  36BF8  94G shootoutpath94.asm
-; Advances the path index (sopathpoint) and loads the next point x/y/end
-; from the 3-dword table ShootoutPathData (x negated by the path side);
+; Advances the path index (sopathpoint) and loads the next point x/y/end from
+; the 3-dword table ShootoutPathData (x negated by the path side).
+;
 ; called by asspenshooter
 ;-----------------------------------------------------------------------------
 NextPathPoint:
@@ -7554,8 +7576,9 @@ StartShootoutPath:
 ;-----------------------------------------------------------------------------
 ; asspenshooter                                                   36D37  95 PC
 ; Asstab 2Eh (asspuckc, SetupPenaltyShot): penalty-shot carrier: assexit if
-; not carrying; PickShotAim, then dekes and shoots on the goal (passdir,
-; passspeed)
+; not carrying.
+;
+; PickShotAim, then dekes and shoots on the goal (passdir, passspeed)
 ;-----------------------------------------------------------------------------
 asspenshooter:
         push ebx

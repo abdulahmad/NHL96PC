@@ -113,9 +113,10 @@ SkateToTarget:
         ret
 ;-----------------------------------------------------------------------------
 ; assboxenter                                                     2F4E2  95 PC
-; Asstab 2Ah: Pencntdwn 12Ch; skates to x -91h,y 6, then seats the player in
-; the box (pflags 20h, tmpde 800h, SetBoxDoorObject) and opens the box door
-; sprite (sortobj15)
+; Asstab 2Ah: Pencntdwn 12Ch.
+;
+; skates to x -91h,y 6, then seats the player in the box (pflags 20h, tmpde
+; 800h, SetBoxDoorObject) and opens the box door sprite (sortobj15)
 ;-----------------------------------------------------------------------------
 assboxenter:
         push ebx
@@ -300,7 +301,9 @@ assboxenter:
 ;-----------------------------------------------------------------------------
 ; assbenchside                                                    2F763  95 PC
 ; Asstab 2Bh (clockcont_0): when the camera is at the left boards (camx <=
-; -20h, |camy| <= 14h) places the sprite at x -0BEh,y 3 and plays bench-side
+; -20h.
+;
+; |camy| <= 14h) places the sprite at x -0BEh,y 3 and plays bench-side
 ; animations 0E97h / 0EB5h; waits on PaSpeechBusy
 ;-----------------------------------------------------------------------------
 assbenchside:
@@ -1518,8 +1521,9 @@ assdefo:
 ;-----------------------------------------------------------------------------
 ; asscoverdefo                                 305C2  96 PC, medium confidence
 ; Asstab entry 30h, given by SwapDefWithFwd to the forward who takes over a
-; defence spot: holds the point (y 84h) while his team attacks, else switches
-; to 2Fh; swaps back when the link (+6Ah) ends
+; defence spot: holds the point (y 84h) while his team attacks.
+;
+; Else switches to 2Fh; swaps back when the link (+6Ah) ends
 ;-----------------------------------------------------------------------------
 asscoverdefo:
         push ebx

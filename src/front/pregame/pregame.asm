@@ -1,4 +1,4 @@
-; The pre-game screens between the controller screen and the game: matchup, teams, player cards (96 PC).
+; The pre-game screens between the controller screen and the game: matchup, teams, player cards.
 bits 32
 %include "hockey.inc"
 extern SimWork

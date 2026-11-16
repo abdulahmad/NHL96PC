@@ -1,4 +1,4 @@
-; The edit lines screen and the automatic lines (96 PC).
+; The edit lines screen and the automatic lines.
 bits 32
 %include "hockey.inc"
 extern BottomBarArt
@@ -245,9 +245,10 @@ EditLinesHoverPanel:
         ret
 ;-----------------------------------------------------------------------------
 ; RunEditLines                                 9CDDA  96 PC, medium confidence
-; Sets up the stat tables if needed and runs the edit lines screen, with the
-; player card screen when it asks (from the controller screen and the in-game
-; menu)
+; Sets up the stat tables if needed and runs the edit lines screen.
+;
+; With the player card screen when it asks (from the controller screen and the
+; in-game menu)
 ;-----------------------------------------------------------------------------
 RunEditLines:
         push ebx
@@ -399,8 +400,9 @@ RunEditLines:
 ;-----------------------------------------------------------------------------
 ; EditLinesScreen                                                 9CFE3  96 PC
 ; The edit lines screen (bt09 / bh09, slid / slup / sldw scroll, power play
-; bkpp and penalty kill bkpk boxes, jerseys): who plays on each line; returns
-; 2 for a player card
+; bkpp and penalty kill bkpk boxes, jerseys): who plays on each line.
+;
+; returns 2 for a player card
 ;-----------------------------------------------------------------------------
 EditLinesScreen:
         push ebx

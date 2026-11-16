@@ -1,4 +1,5 @@
-; The player card screen: player profiles with their pictures and season stats, the league logos, text export (96 PC; still being named).
+; The player card screen: player profiles with their pictures and season stats, the league logos, text
+; export.
 bits 32
 %include "hockey.inc"
 section s_903B5 progbits alloc exec nowrite align=1

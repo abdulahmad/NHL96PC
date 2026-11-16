@@ -287,9 +287,10 @@ FormatAssistNames:
 ;-----------------------------------------------------------------------------
 ; BuildEventLines                              4F735  95 PC, medium confidence
 ; Fills the 5 event text lines from the event record E9AC8 (1 goal: time,
-; PP/SH, scorer, Assists/Unassisted; 2 penalty: 'Penalty shot', '%d minutes',
-; 'game misconduct', 'served by #%d'; 3 injury: 'gone for the game' / '1
-; period')
+; PP/SH, scorer, Assists/Unassisted.
+;
+; 2 penalty: 'Penalty shot', '%d minutes', 'game misconduct', 'served by #%d';
+; 3 injury: 'gone for the game' / '1 period')
 ;-----------------------------------------------------------------------------
 BuildEventLines:
         push ebx

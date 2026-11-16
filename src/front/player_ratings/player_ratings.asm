@@ -1,4 +1,4 @@
-; The player ratings screen: pictures and rating bars (96 PC).
+; The player ratings screen: pictures and rating bars.
 bits 32
 %include "hockey.inc"
 extern TeamScoringScore
@@ -30,8 +30,7 @@ global RosterTabHotspots, RosterKeyTable, CreatePlayerHotspots, CreateSkaterNavL
 ;-----------------------------------------------------------------------------
 ; PlayerRatingsScreen                          93E6A  96 PC, medium confidence
 ; The player ratings screen (X-tbl, RAT0, HD01 / HD02, ban2, BALL list): a
-; player's picture and rating bars, from the stats menu and the roster
-; screens
+; player's picture and rating bars, from the stats menu and the roster screens
 ;-----------------------------------------------------------------------------
 PlayerRatingsScreen:
         push esi

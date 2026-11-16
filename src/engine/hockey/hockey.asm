@@ -497,8 +497,10 @@ AvgLinePair:
 ;-----------------------------------------------------------------------------
 ; CompLine                         46A9D  93G logic93_3.asm, medium confidence
 ; (find good line for comp to switch to). eax = other team, edx = team.
-; tmap difference picks the power-play penalty-kill lines, getlinee compares line energies, tmline/tmlcnt take
-; the result (DrawPanelLine is called on a change). Callers: chk4lc and puckfaceoff.
+;
+; tmap difference picks the power-play penalty-kill lines, getlinee compares
+; line energies, tmline/tmlcnt take the result (DrawPanelLine is called on a
+; change). Callers: chk4lc and puckfaceoff.
 ;-----------------------------------------------------------------------------
 CompLine:
         push ebx
@@ -1047,10 +1049,13 @@ HotSpotFrame:
         ret
 ;-----------------------------------------------------------------------------
 ; GetHot                             4704A  94G logic94.asm, medium confidence
-; Sprite hot spot (stick blade) of player p. regd0/regd1 = the x/y bytes of
-; the hot spot table (HotList/HotList_y, 2 bytes per frame) for the player's
-; frame (word 12h, frames outside 0-283h/293h give 0, 0); x is negated when
-; the sprite is X-flipped (attribute bit 3). No result.
+; Sprite hot spot (stick blade) of player p.
+;
+; regd0/regd1 = the x/y bytes of the hot spot table (HotList/HotList_y, 2
+; bytes per frame) for the player's frame (word 12h, frames outside
+; 0-283h/293h give 0, 0).
+;
+; x is negated when the sprite is X-flipped (attribute bit 3). No result.
 ;-----------------------------------------------------------------------------
 GetHot:
         push ebx
@@ -1655,10 +1660,14 @@ ChkTeamPlayerFlag:
         ret
 ;-----------------------------------------------------------------------------
 ; Goal                                         4786F  95 PC, medium confidence
-; (puck in goal). eax = the goal struct the puck went into.
-; esi = scoring team, ebp = the other (puck Ypos sign xor gmdir). Puck stopped in the net, assreplace
-; puck 1Ah. Offside (tmflags bit 4) -> AddPenalty 8 + AddPenalty2 1Bh; PenTeamScored (delayed penalty) -> no goal
-; else tmscore+1 and the scoring bookkeeping (goal/assist counts, PenGoalStuff).
+; (puck in goal). eax = the goal struct the puck went into. esi = scoring
+; team, ebp = the other (puck Ypos sign xor gmdir).
+;
+; Puck stopped in the net, assreplace puck 1Ah.
+;
+; Offside (tmflags bit 4) -> AddPenalty 8 + AddPenalty2 1Bh; PenTeamScored
+; (delayed penalty) -> no goal else tmscore+1 and the scoring bookkeeping
+; (goal/assist counts, PenGoalStuff).
 ;-----------------------------------------------------------------------------
 Goal:
         push ebx
@@ -2328,9 +2337,10 @@ GiveControl:
 ;-----------------------------------------------------------------------------
 ; Setplass                                            4812E  94G collide94.asm
 ; Set player p's initial assignment from his position: for positions 0-6,
-; assreplace(p, Setplass_alist[position]) (goalie: assgoalie, defence:
-; assdefd, wings: asswingd, centre: asscenterd). Other positions (negative,
-; or above 6 on the PC) are left alone.
+; assreplace(p, Setplass_alist[position]) (goalie: assgoalie.
+;
+; defence: assdefd, wings: asswingd, centre: asscenterd). Other positions
+; (negative, or above 6 on the PC) are left alone.
 ;-----------------------------------------------------------------------------
 Setplass:
         push ebx
@@ -2375,8 +2385,11 @@ Setplass:
         ret
 ;-----------------------------------------------------------------------------
 ; setplayer                                         481B1  93G hockey93_05.asm
-; (bring player onto the ice and set his stats). eax = sort object, edx = roster
-; number. pnum = edx, tmpdst entry -1 (ice), roster status byte 4, then the attribute bytes from the roster record.
+; Brings a player onto the ice and sets his stats. eax = sort object, edx =
+; roster number.
+;
+; pnum = edx, tmpdst entry -1 (ice), roster status byte 4, then the attribute
+; bytes from the roster record.
 ;-----------------------------------------------------------------------------
 setplayer:
         push ebx
@@ -3607,13 +3620,16 @@ SetPlList:
 ;-----------------------------------------------------------------------------
 ; setpersonel                      48F65  94G collide94.asm, medium confidence
 ; Set the personnel of team t: clear newpos / newpnum of the team's 6 sort
-; objects, build PlList (SetPlList: pnum per wanted player, -1 none, the new
-; positions at PlListPositions). Pass 1: a wanted player already on the
-; ice keeps its sort object (newpos from the list, newpnum = pnum). Pass 2:
-; each remaining wanted player takes the last free sort object (newpnum < 0),
-; stopping at the first one with a position; a sort object without a position
-; (off the ice) first gets assignment assbenchwait and position 5. Used
-; entries of PlList are set to -1.
+; objects, build PlList (SetPlList: pnum per wanted player, -1 none.
+;
+; The new positions at PlListPositions). Pass 1: a wanted player already on
+; the ice keeps its sort object (newpos from the list, newpnum = pnum).
+;
+; Pass 2: each remaining wanted player takes the last free sort object
+; (newpnum < 0), stopping at the first one with a position.
+;
+; A sort object without a position (off the ice) first gets assignment
+; assbenchwait and position 5. Used entries of PlList are set to -1.
 ;-----------------------------------------------------------------------------
 setpersonel:
         push ebx
@@ -4049,7 +4065,8 @@ PickBenchIdleAnim:
 ;-----------------------------------------------------------------------------
 ; checkwindow                       49526  94G replay94.asm, medium confidence
 ; Sets the scroll position to follow the puck: works on yc1/xc1, camx/camy
-; with clamps, sflags and puckc; gmode bit 7 gives a fixed view at -64h/0Fh;
+; with clamps, sflags and puckc; gmode bit 7 gives a fixed view at -64h/0Fh.
+;
 ; called once a frame from DoGameFrame
 ;-----------------------------------------------------------------------------
 checkwindow:
@@ -6013,8 +6030,10 @@ clockcont_0:
         jmp near Goal_1F6
 ;-----------------------------------------------------------------------------
 ; ClockTick                                    4AE4F  95 PC, medium confidence
-; run from the main loop. Counts clockticks (18h per second) and gameclock down; horn sfx 97h at
-; 60 s (unless music plays), UpdateCoachModes each second. Debug playback (penshotlive) ends via EndPenaltyShot.
+; Run from the main loop. Counts clockticks (18h per second) and gameclock
+; down; horn sfx 97h at 60 s (unless music plays), UpdateCoachModes each second.
+;
+; Debug playback (penshotlive) ends via EndPenaltyShot.
 ;-----------------------------------------------------------------------------
 ClockTick:
         push ebx
@@ -6316,8 +6335,10 @@ ResetBench:
 ;-----------------------------------------------------------------------------
 ; resetplstuff                       4B1E1  94G setup94.asm, medium confidence
 ; For both teams clear tmflags bit 4, and for the 6 SortCords entries of the
-; team: pflags2 0; a player on the ice (position >= 0) gets SPA 289h, nopuck
-; and impact 0 and pflags bits 0, 2-5 cleared.
+; team: pflags2 0.
+;
+; A player on the ice (position >= 0) gets SPA 289h, nopuck and impact 0 and
+; pflags bits 0, 2-5 cleared.
 ;-----------------------------------------------------------------------------
 resetplstuff:
         push ebx

@@ -1,4 +1,4 @@
-; Controls: keyboard, mouse and joystick pads, the key bindings and the Gravis GrIP library (96 PC).
+; Controls: keyboard, mouse and joystick pads, the key bindings and the Gravis GrIP library.
 bits 32
 %include "hockey.inc"
 extern GsOptions
@@ -121,8 +121,9 @@ InitInputDevices:
 ;-----------------------------------------------------------------------------
 ; TestKeyBinding                                                  100F2  96 PC
 ; (ctrl, alt, binding, bit, &out): binding table KeyBindingSet entries {need
-; ctrl, need alt, scan code}; KeyDown on the scan code with the modifier
-; state; ORs bit into *out
+; ctrl, need alt, scan code}.
+;
+; KeyDown on the scan code with the modifier state; ORs bit into *out
 ;-----------------------------------------------------------------------------
 TestKeyBinding:
         push esi
@@ -232,8 +233,10 @@ ReadEscReplayKeys_52:
 ;-----------------------------------------------------------------------------
 ; ReadKeyboardPad                                                 101D9  96 PC
 ; Keyboard pad through the key binding table: Space/Alt (or ;/') buttons
-; 80h/40h, arrows/keypad (or QWE/AD/ZXC) direction bits 4 up 8 down 10h right
-; 20h left, F1-F10 bits 400h-80000h with an 18-tick repeat
+; 80h/40h.
+;
+; arrows/keypad (or QWE/AD/ZXC) direction bits 4 up 8 down 10h right 20h left,
+; F1-F10 bits 400h-80000h with an 18-tick repeat
 ;-----------------------------------------------------------------------------
 ReadKeyboardPad:
         push ebx
@@ -474,9 +477,10 @@ ReadKeyboardPad_2D7:
         ret
 ;-----------------------------------------------------------------------------
 ; ReadMousePad                                                    104DC  96 PC
-; Mouse pad: function keys as the keyboard pad, then mousepollfn; direction
-; from the mouse position against the screen edges/centre, mouse buttons ->
-; pad buttons
+; Mouse pad: function keys as the keyboard pad, then mousepollfn.
+;
+; direction from the mouse position against the screen edges/centre, mouse
+; buttons -> pad buttons
 ;-----------------------------------------------------------------------------
 ReadMousePad:
         push ebx
@@ -1160,9 +1164,8 @@ GetPressedDevice:
         ret
 ;-----------------------------------------------------------------------------
 ; GripLinkLibrary                                                 10D66  96 PC
-; (image, size): checks the GrIP GLL image ("DB" header, sizes, xor
-; checksum), copies it to DOS memory (DPMI 100h) and calls its init (8490h);
-; 0 on failure
+; (image, size): checks the GrIP GLL image ("DB" header, sizes, xor checksum),
+; copies it to DOS memory (DPMI 100h) and calls its init (8490h); 0 on failure
 ;-----------------------------------------------------------------------------
 GripLinkLibrary:
         push ebx
@@ -1631,8 +1634,9 @@ GetGripButtonMap:
 ;-----------------------------------------------------------------------------
 ; LoadGripLibrary                                                 1124D  96 PC
 ; Finds GRIP.GLL on the GRIP and PATH environment variables or in C:\GRIP\,
-; reads it (at most 32 KB) and links it with GripLinkLibrary; failure clears
-; GripLibHandle
+; reads it (at most 32 KB) and links it with GripLinkLibrary.
+;
+; failure clears GripLibHandle
 ;-----------------------------------------------------------------------------
 LoadGripLibrary:
         push ebx
@@ -1725,8 +1729,9 @@ LoadGripLibrary:
 ;-----------------------------------------------------------------------------
 ; GripScanSlots                                                   11378  96 PC
 ; After the GrIP library is up: reads the connected-slot mask (84B0h) and for
-; each slot its class/info (84D0h/84D1h, 84B1h/84B3h/84B4h): button counts
-; and axis ranges
+; each slot its class/info (84D0h/84D1h.
+;
+; 84B1h/84B3h/84B4h): button counts and axis ranges
 ;-----------------------------------------------------------------------------
 GripScanSlots:
         push ebx
@@ -1903,8 +1908,10 @@ GripScanSlots:
 ;-----------------------------------------------------------------------------
 ; GripReadSlots                                                   11589  96 PC
 ; Reads every connected GrIP slot's buttons (84C1h, against the shoot/pass
-; masks) and axes (84C0h, scaled by the axis range) into a direction+button
-; byte per pad in GripPadBits (double buffered by GripBufferSide)
+; masks) and axes (84C0h.
+;
+; scaled by the axis range) into a direction+button byte per pad in
+; GripPadBits (double buffered by GripBufferSide)
 ;-----------------------------------------------------------------------------
 GripReadSlots:
         push ebx
@@ -2078,9 +2085,10 @@ GripReadPadBits:
         ret
 ;-----------------------------------------------------------------------------
 ; ReadAnalogJoysticks                          117C7  96 PC, medium confidence
-; Reads the game-port joysticks (CalibrateJoystick), marks joystick 1/2 present
-; (Joy1Present / Joy2Present), keeps calibration min/max/centre per axis on
-; first use and while reading
+; Reads the game-port joysticks (CalibrateJoystick), marks joystick 1/2
+; present (Joy1Present / Joy2Present).
+;
+; keeps calibration min/max/centre per axis on first use and while reading
 ;-----------------------------------------------------------------------------
 ReadAnalogJoysticks:
         push ebx
@@ -2261,8 +2269,9 @@ ReadAnalogJoysticks:
 ;-----------------------------------------------------------------------------
 ; ReadJoystickBits                                                11A88  96 PC
 ; The joystick bits of every pad in JoyPadBits: from GrIP (GripReadPadBits)
-; when the GrIP library is up, else from the analog joysticks against their
-; centre (+-7Ch dead zone)
+; when the GrIP library is up.
+;
+; Else from the analog joysticks against their centre (+-7Ch dead zone)
 ;-----------------------------------------------------------------------------
 ReadJoystickBits:
         push ebx
@@ -2810,8 +2819,9 @@ GripShutdown:
 ;-----------------------------------------------------------------------------
 ; InitGrip                                                        1218A  96 PC
 ; Joystick init: opens the GrIP library (84A1h) and scans its slots when
-; present (registering GripShutdown with atexit), else reads the analog
-; joysticks; returns the present mask (1/2/4/8)
+; present (registering GripShutdown with atexit).
+;
+; Else reads the analog joysticks; returns the present mask (1/2/4/8)
 ;-----------------------------------------------------------------------------
 InitGrip:
         push ebx

@@ -1,4 +1,4 @@
-; The roster screens: trades, free agents, creating players, team ranks (96 PC).
+; The roster screens: trades, free agents, creating players, team ranks.
 bits 32
 %include "hockey.inc"
 extern BottomBarArt
@@ -40,8 +40,9 @@ global TeamRankScoring_48, TeamRankScoring_4A, TeamRankSkating, TeamRankOffence,
 ;-----------------------------------------------------------------------------
 ; RunRosterScreens                             971E9  96 PC, medium confidence
 ; From the exhibition and season menus: sets up the stat tables (StatDBPTRs,
-; DBPTRs, Player #, Profiles, ...), runs the roster, edit lines, ratings and
-; player card screens, frees them
+; DBPTRs, Player #, Profiles, ...), runs the roster, edit lines.
+;
+; ratings and player card screens, frees them
 ;-----------------------------------------------------------------------------
 RunRosterScreens:
         push ebx

@@ -1,4 +1,5 @@
-; Drawing helpers: palette fades, the graphics mode, bitmap copies, text in colours, boxes, colour remapping (96 PC).
+; Drawing helpers: palette fades, the graphics mode, bitmap copies, text in colours, boxes, colour
+; remapping.
 bits 32
 %include "hockey.inc"
 section s_63968 progbits alloc exec nowrite align=1

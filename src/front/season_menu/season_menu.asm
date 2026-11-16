@@ -1,4 +1,4 @@
-; The season menus: the season menu, standings, picking a season or record from a name index (96 PC).
+; The season menus: the season menu, standings, picking a season or record from a name index.
 bits 32
 %include "hockey.inc"
 extern BottomBarArt

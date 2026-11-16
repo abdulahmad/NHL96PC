@@ -1,4 +1,4 @@
-; 3D rink: the ice and boards model, its textures and the software 3D renderer of the 96 rink view (96 PC; to be split as it gets named).
+; 3D rink: the ice and boards model, its textures and the software 3D renderer of the 96 rink view.
 bits 32
 %include "hockey.inc"
 extern ReplayFrameState
@@ -6497,8 +6497,9 @@ BlendPaletteToGrey:
 ;-----------------------------------------------------------------------------
 ; LoadRinkModel                                                   261A6  96 PC
 ; From InitGameView: loads the rink, stands, score, puck, puck shadow and net
-; models, finds their named parts and lights, sets the face callbacks and the
-; ice (LoadIceTexture, BuildRinkSides)
+; models, finds their named parts and lights.
+;
+; sets the face callbacks and the ice (LoadIceTexture, BuildRinkSides)
 ;-----------------------------------------------------------------------------
 LoadRinkModel:
         push ebx

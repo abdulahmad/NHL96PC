@@ -1,4 +1,4 @@
-; The exhibition team select screen: home and away team panels (logo, name, rank) (96 PC).
+; The exhibition team select screen: home and away team panels (logo, name, rank).
 bits 32
 %include "hockey.inc"
 extern BottomBarArt

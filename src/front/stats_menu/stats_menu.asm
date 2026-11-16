@@ -1,4 +1,4 @@
-; The stats menus: season and conference picks, leaders, stat tables, text export (96 PC; still being named).
+; The stats menus: season and conference picks, leaders, stat tables, text export.
 bits 32
 %include "hockey.inc"
 section s_884BD progbits alloc exec nowrite align=1

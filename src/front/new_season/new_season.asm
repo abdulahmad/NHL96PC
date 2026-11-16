@@ -1,4 +1,4 @@
-; The new season: its set-up screen, creating the season files, the season and playoff database paths (96 PC).
+; The new season: its set-up screen, creating the season files, the season and playoff database paths.
 bits 32
 %include "hockey.inc"
 extern BottomBarArt

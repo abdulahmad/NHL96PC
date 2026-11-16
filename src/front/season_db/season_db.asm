@@ -1,4 +1,4 @@
-; The season database: team files after games, schedule days into the records, simulating the season games (96 PC).
+; The season database: team files after games, schedule days into the records, simulating the season games.
 bits 32
 %include "hockey.inc"
 section s_7FF7F progbits alloc exec nowrite align=1

@@ -1,4 +1,4 @@
-; Modem commands (AT) and the serial link protocol: packets, acks and resends, the link timer (96 PC).
+; Modem commands (AT) and the serial link protocol: packets, acks and resends, the link timer.
 bits 32
 %include "hockey.inc"
 section s_17675 progbits alloc exec nowrite align=1
@@ -40,8 +40,9 @@ ModemInitDefault:
 ;-----------------------------------------------------------------------------
 ; ModemInit                                                       1768A  96 PC
 ; (port, init string): ModemAttention, then ATE1, ATQ0, ATX4, ATF1 and the
-; user's init string, split at '~' (one second pause per '~'), each answered
-; OK; 4 when the modem does not answer
+; user's init string, split at '~' (one second pause per '~').
+;
+; Each answered OK; 4 when the modem does not answer
 ;-----------------------------------------------------------------------------
 ModemInit:
         push esi
@@ -312,8 +313,9 @@ ModemWaitConnect:
 ;-----------------------------------------------------------------------------
 ; ModemReadResult                                                 17906  96 PC
 ; (port, timeout): reads a line from the modem (at most 41 characters) and
-; matches it against the result string table ModemResultTextTable; returns its code, -1
-; for none
+; matches it against the result string table ModemResultTextTable.
+;
+; returns its code, -1 for none
 ;-----------------------------------------------------------------------------
 ModemReadResult:
         push esi
@@ -739,9 +741,10 @@ LinkCheckPacket:
 ;-----------------------------------------------------------------------------
 ; LinkParsePacket                              17CC8  96 PC, medium confidence
 ; Parses the packet at the head of the receive ring: sync byte 0BDh, then 'd'
-; (64h, 12-byte data packet) or 'C' (43h, 6-byte control packet: ack / resend
-; request); the result goes to LinkPacketLen (0 good, 4 bad); returns the
-; bytes used
+; (64h, 12-byte data packet) or 'C' (43h.
+;
+; 6-byte control packet: ack / resend request); the result goes to
+; LinkPacketLen (0 good, 4 bad); returns the bytes used
 ;-----------------------------------------------------------------------------
 LinkParsePacket:
         push ebx
@@ -942,9 +945,10 @@ LinkFirstMissingRx:
         ret
 ;-----------------------------------------------------------------------------
 ; LinkRxAckSeq                                 17EE1  96 PC, medium confidence
-; Advances the acknowledged receive sequence (LinkRxSeq) over the slots
-; that have arrived, marking them acknowledged (state 4); returns it (0FFh
-; none) for the packet's ack byte
+; Advances the acknowledged receive sequence (LinkRxSeq) over the slots that
+; have arrived, marking them acknowledged (state 4).
+;
+; returns it (0FFh none) for the packet's ack byte
 ;-----------------------------------------------------------------------------
 LinkRxAckSeq:
         push ebx
@@ -1198,8 +1202,10 @@ LinkTxRoom:
 ;-----------------------------------------------------------------------------
 ; LinkCheckTimeouts                            18186  96 PC, medium confidence
 ; Timer side of the protocol: resends data packets not acknowledged in time
-; (LinkCopyLow ticks), asks again for receive slots still missing (LinkCopyHigh),
-; sends an ack when one is due
+; (LinkCopyLow ticks).
+;
+; asks again for receive slots still missing (LinkCopyHigh), sends an ack when
+; one is due
 ;-----------------------------------------------------------------------------
 LinkCheckTimeouts:
         push ebx
@@ -1275,9 +1281,10 @@ LinkCheckTimeouts:
 ;-----------------------------------------------------------------------------
 ; LinkTimerTick                                                   18234  96 PC
 ; The link's timer callback (addtimer): when connected, runs
-; LinkCheckTimeouts, LinkReceive and LinkDeliverMessages, and every check
-; period the periodic hook and the carrier check (a lost carrier drops the
-; link)
+; LinkCheckTimeouts, LinkReceive and LinkDeliverMessages.
+;
+; And every check period the periodic hook and the carrier check (a lost
+; carrier drops the link)
 ;-----------------------------------------------------------------------------
 LinkTimerTick:
         push ebx
@@ -1396,9 +1403,10 @@ LinkClearRxSlot:
 ;-----------------------------------------------------------------------------
 ; LinkOpen                                                        183CD  96 PC
 ; (settings): LinkDefaults, copies the settings (port, speed, answer/dial,
-; direct, timer, IRQ, tone, init string, number), clears all slots, opens the
-; serial port; on a modem link ModemInit (fails -> port closed, 0); starts
-; LinkTimerTick; 1 when open
+; direct, timer, IRQ, tone, init string, number), clears all slots.
+;
+; opens the serial port; on a modem link ModemInit (fails -> port closed, 0);
+; starts LinkTimerTick; 1 when open
 ;-----------------------------------------------------------------------------
 LinkOpen:
         push ebx
@@ -1503,9 +1511,10 @@ LinkOpen:
         ret
 ;-----------------------------------------------------------------------------
 ; LinkConnect                                                     18540  96 PC
-; Direct link: connected at once; modem: ModemAutoAnswer (answer) or
-; ModemDial (dial), then waits for the connect result until the abort check
-; says stop; 1 when connected
+; Direct link: connected at once; modem: ModemAutoAnswer (answer) or ModemDial
+; (dial), then waits for the connect result until the abort check says stop.
+;
+; 1 when connected
 ;-----------------------------------------------------------------------------
 LinkConnect:
         push ebx
@@ -1725,8 +1734,10 @@ LinkSetChecksum:
 ;-----------------------------------------------------------------------------
 ; LinkRequestResend                            187CF  96 PC, medium confidence
 ; (slot, reason): asks the other side to send receive slot again with a 'C'
-; control packet (unless asked recently), marks the slot requested (state 2)
-; and calls the resend hook LinkResendHandler
+; control packet (unless asked recently).
+;
+; marks the slot requested (state 2) and calls the resend hook
+; LinkResendHandler
 ;-----------------------------------------------------------------------------
 LinkRequestResend:
         push ebx
@@ -1826,8 +1837,9 @@ LinkSendAck:
 ;-----------------------------------------------------------------------------
 ; LinkSendMessage                                                 1891A  96 PC
 ; (data, length): puts a message in the next transmit slot (state 3, waiting
-; for its ack) and sends it as a data packet; 0 when the transmit buffer or
-; the window (31 slots) is full
+; for its ack) and sends it as a data packet.
+;
+; 0 when the transmit buffer or the window (31 slots) is full
 ;-----------------------------------------------------------------------------
 LinkSendMessage:
         push ebx
@@ -1957,8 +1969,9 @@ LinkAckThrough:
 ;-----------------------------------------------------------------------------
 ; LinkReceive                                                     18A81  96 PC
 ; Reads what the serial port has (up to 256 bytes) into the receive ring,
-; parses every complete packet: data packets are stored and acknowledged, bad
-; ones ask for a resend, acks free transmit slots
+; parses every complete packet: data packets are stored and acknowledged.
+;
+; bad ones ask for a resend, acks free transmit slots
 ;-----------------------------------------------------------------------------
 LinkReceive:
         push ebx
@@ -2099,8 +2112,9 @@ LinkReceive:
 ;-----------------------------------------------------------------------------
 ; LinkPoll                                     18C75  96 PC, medium confidence
 ; Without the timer: every third call LinkReceive, LinkDeliverMessages, and
-; when the check period runs out the periodic hook and the carrier check; 1
-; while connected
+; when the check period runs out the periodic hook and the carrier check.
+;
+; 1 while connected
 ;-----------------------------------------------------------------------------
 LinkPoll:
         cmp dword [LinkPollOn], byte 0

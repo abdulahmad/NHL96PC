@@ -1,4 +1,5 @@
-; TGV movies: open the movie and its audio stream, decode and show the frames, play a movie file between screens (96 PC).
+; TGV movies: open the movie and its audio stream, decode and show the frames, play a movie file between
+; screens.
 bits 32
 %include "hockey.inc"
 section s_69B1E progbits alloc exec nowrite align=1

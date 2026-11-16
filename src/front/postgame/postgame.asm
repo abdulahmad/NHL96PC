@@ -1,4 +1,4 @@
-; Post-game screens: the three stars and the game statistics (96 PC).
+; Post-game screens: the three stars and the game statistics.
 bits 32
 %include "hockey.inc"
 extern RosterStatsBase
@@ -35,8 +35,9 @@ global ThreeStarsScreen_936, PostGameScreens
 ;-----------------------------------------------------------------------------
 ; DrawGameStats                                1456D  96 PC, medium confidence
 ; Draws the team statistics page of the game stats screen: both teams' values
-; from hmtmstruct / awtmstruct (counts, n/m, n/m (p%), time m:ss), labels
-; from the text table (20Ch-215h)
+; from hmtmstruct / awtmstruct (counts, n/m, n/m (p%), time m:ss).
+;
+; labels from the text table (20Ch-215h)
 ;-----------------------------------------------------------------------------
 DrawGameStats:
         push ebx
@@ -911,9 +912,10 @@ DrawGameStats_DD1:
         ret
 ;-----------------------------------------------------------------------------
 ; GameStatsScreen                              15344  96 PC, medium confidence
-; The game statistics screen (BKGD, BANNER, SBACK, page arrows AR00-AR11,
-; puck cursor BALL): pages of DrawGameStats, mouse and pad, the modem chat
-; box and sync on a modem game
+; The game statistics screen (BKGD, BANNER, SBACK, page arrows AR00-AR11, puck
+; cursor BALL): pages of DrawGameStats, mouse and pad.
+;
+; The modem chat box and sync on a modem game
 ;-----------------------------------------------------------------------------
 GameStatsScreen:
         push ebx
@@ -1419,8 +1421,9 @@ AnimateStarsJumpTable:                          ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; AnimateStarsScreen                           15A8E  96 PC, medium confidence
 ; Timed effects of the three stars screen: the scrolling sprite strip, camera
-; flashes at random spots of the crowd (three areas), random sparkles; called
-; each frame
+; flashes at random spots of the crowd (three areas), random sparkles.
+;
+; called each frame
 ;-----------------------------------------------------------------------------
 AnimateStarsScreen:
         push ebx
@@ -1685,7 +1688,8 @@ ThreeStarsChoiceJumpTable:                      ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; ThreeStarsScreen                             15E93  96 PC, medium confidence
 ; Post-game three stars screen: loads the star players' profile photos
-; (profile.fsh, card / plyr) and cards (ST/STR/MET/STRK), buttons BT00-BT12,
+; (profile.fsh, card / plyr) and cards (ST/STR/MET/STRK), buttons BT00-BT12.
+;
 ; animates with AnimateStarsScreen; returns the button: 1 game stats, 2 the
 ; next item, 0 done
 ;-----------------------------------------------------------------------------

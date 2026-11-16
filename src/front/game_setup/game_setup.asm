@@ -43,10 +43,11 @@ BlankForFadeIn:
 ;-----------------------------------------------------------------------------
 ; PlacePlayersAtStart                          1D6F0  95 PC, medium confidence
 ; When demoflag is 0: forceteams, puck to centre, then for the 12 skaters /
-; goalies: assignment 16h (17h goalie), position from the team formation
-; tables (apl, puckfaceoff2_ptab / puckfaceoff2_ptab_y, mirrored by side),
-; facing the puck (vtoa); PlayGame setup calls it when gameopts bit 2 is set
-; or no skate-out
+; goalies: assignment 16h (17h goalie).
+;
+; position from the team formation tables (apl, puckfaceoff2_ptab /
+; puckfaceoff2_ptab_y, mirrored by side), facing the puck (vtoa); PlayGame
+; setup calls it when gameopts bit 2 is set or no skate-out
 ;-----------------------------------------------------------------------------
 PlacePlayersAtStart:
         push ebx
@@ -154,7 +155,8 @@ PlacePlayersAtStart:
 ;-----------------------------------------------------------------------------
 ; SetupGame                                    1D8A2  95 PC, medium confidence
 ; (from PlayGame): lines for both teams (SetupTeamLines), crowd reset,
-; ResetGameVars, team intro scoreboard (DrawHudPanel Home / Visitor),
+; ResetGameVars, team intro scoreboard (DrawHudPanel Home / Visitor).
+;
 ; StartPreGame (-1 on cancel), ResetGameVars again, palette fade-in,
 ; PlacePlayersAtStart
 ;-----------------------------------------------------------------------------
@@ -257,7 +259,8 @@ SetupDemoGame:
 ;-----------------------------------------------------------------------------
 ; ResetGameVars                                1DA02  95 PC, medium confidence
 ; Clears the per-game state (penalty / referee / line-change / penalty-shot
-; vars, pass state, crowd excitement, input counters, exitgame / gameover,
+; vars, pass state, crowd excitement, input counters, exitgame / gameover.
+;
 ; frameaccum), calls StartGame, centres the mouse when a pad uses it,
 ; joyq_flush
 ;-----------------------------------------------------------------------------

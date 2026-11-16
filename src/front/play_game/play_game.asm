@@ -41,10 +41,11 @@ PlayGameStatsLoadJumpTable:                     ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; PlayMenuGame                                 168FA  96 PC, medium confidence
 ; Plays a game started from the menus: by game mode (optflags bits 4-6:
-; exhibition, season, playoffs, modem) picks the game options block, loads
-; the goal sprites (GloL/GloR or GhiL/GhiR), PlayGame, then saves the result
-; for the mode (season / playoff update, modem end) and runs PostGameScreens;
-; 12h on a modem game
+; exhibition, season, playoffs, modem) picks the game options block.
+;
+; loads the goal sprites (GloL/GloR or GhiL/GhiR), PlayGame, then saves the
+; result for the mode (season / playoff update, modem end) and runs
+; PostGameScreens; 12h on a modem game
 ;-----------------------------------------------------------------------------
 PlayMenuGame:
         push ebx
@@ -778,8 +779,9 @@ GameLoop_gameovercall:
 ;-----------------------------------------------------------------------------
 ; RunDemoGame                                                     1739F  96 PC
 ; Attract-mode demo game: seeds rand from the time, InitSlotTable, loads the
-; game, starts InputRecordTimer, SetupDemoGame, GameLoop, then stops the
-; timer and restores the screen
+; game, starts InputRecordTimer, SetupDemoGame, GameLoop.
+;
+; Then stops the timer and restores the screen
 ;-----------------------------------------------------------------------------
 RunDemoGame:
         push ebx
@@ -844,11 +846,13 @@ RunDemoGame:
 ;-----------------------------------------------------------------------------
 ; PlayGame                                     17494  95 PC, medium confidence
 ; (&savefile): without an open saved game runs the pre-game screens
-; (LoadRockMusic, LoadGameGfx, SetupGame; gameresult 2 on cancel), otherwise
-; LoadGameState from the file, rebuilds lines (SetupTeamLines) and resumes;
-; then GameLoop; in league / Play-Off mode a completed game (gameresult 1)
-; deletes <league>\game.sav; called from temp_files, import_export and
-; PlayoffModeLoop
+; (LoadRockMusic, LoadGameGfx, SetupGame.
+;
+; gameresult 2 on cancel), otherwise LoadGameState from the file, rebuilds
+; lines (SetupTeamLines) and resumes; then GameLoop; in league / Play-Off mode
+; a completed game (gameresult 1) deletes <league>\game.sav.
+;
+; called from temp_files, import_export and PlayoffModeLoop
 ;-----------------------------------------------------------------------------
 PlayGame:
         push ebx

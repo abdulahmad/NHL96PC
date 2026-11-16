@@ -1200,8 +1200,10 @@ DrawOverlayPanels:
 ;-----------------------------------------------------------------------------
 ; StartPreGame                                 2E95C  95 PC, medium confidence
 ; Returns 0 when demoflag is set; else runs PreGameIntro unless eax is
-; non-zero, then CrowdNoiseReset; called twice from asset_loading game start
-; code demoflag is a skip flag; introskipped/fadeinpending follow.
+; non-zero, then CrowdNoiseReset.
+;
+; called twice from asset_loading game start code demoflag is a skip flag;
+; introskipped/fadeinpending follow.
 ;-----------------------------------------------------------------------------
 StartPreGame:
         push ebx
@@ -1263,8 +1265,9 @@ StartPreGame:
 ;-----------------------------------------------------------------------------
 ; assintrostand                                2EA39  95 PC, medium confidence
 ; Asstab 25h (PreGameIntro): stands with a countdown in temp5, small random x
-; jitter and random fidget animation (introstandanims_m2); when done
-; assinsert 27h
+; jitter and random fidget animation (introstandanims_m2).
+;
+; When done assinsert 27h
 ;-----------------------------------------------------------------------------
 assintrostand:
         push ebx
@@ -1330,8 +1333,9 @@ assintrostand:
 ;-----------------------------------------------------------------------------
 ; assintroline                                                    2EAEB  95 PC
 ; Asstab 26h (PreGameIntro): skates to the line-up spot (temp3 -0Fh,temp4),
-; turns to face centre, marks temp5 -64h; when all 12 skaters are done sets
-; seqtimer 0Ah; crowdlevel 320h
+; turns to face centre, marks temp5 -64h.
+;
+; When all 12 skaters are done sets seqtimer 0Ah; crowdlevel 320h
 ;-----------------------------------------------------------------------------
 assintroline:
         push ebx
@@ -1574,8 +1578,9 @@ AddStar:
 ;-----------------------------------------------------------------------------
 ; StarEligible                                 2EDB1  95 PC, medium confidence
 ; (team, roster idx): 0 when the roster slot (hmtmpdst) is below -1 or the
-; player's on-ice sprite has +1Ah == 6; else 1. Used by StarCompare when
-; picking three stars
+; player's on-ice sprite has +1Ah == 6; else 1.
+;
+; Used by StarCompare when picking three stars
 ;-----------------------------------------------------------------------------
 StarEligible:
         push ebx

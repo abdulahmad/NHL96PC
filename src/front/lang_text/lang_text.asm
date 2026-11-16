@@ -1,4 +1,4 @@
-; The language text: the Localize buffer, the text index and blocks, GetLangText (96 PC).
+; The language text: the Localize buffer, the text index and blocks, GetLangText.
 bits 32
 %include "hockey.inc"
 section s_771F0 progbits alloc exec nowrite align=1

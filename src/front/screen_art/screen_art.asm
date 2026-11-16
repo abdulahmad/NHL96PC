@@ -1,4 +1,4 @@
-; Front-end screen art: load and free it, team name images, the screen frame and its sliding bars (96 PC).
+; Front-end screen art: load and free it, team name images, the screen frame and its sliding bars.
 bits 32
 %include "hockey.inc"
 section s_625F7 progbits alloc exec nowrite align=1

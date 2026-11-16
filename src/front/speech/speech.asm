@@ -1,4 +1,5 @@
-; Announcer speech: SPEECHBUF, the speech bank files, the 24-clip speech queue and the play-by-play events PaEvent queues clips for (96 PC).
+; Announcer speech: SPEECHBUF, the speech bank files, the 24-clip speech queue and the play-by-play events
+; PaEvent queues clips for.
 bits 32
 %include "hockey.inc"
 section s_67000 progbits alloc exec nowrite align=1
@@ -76,8 +77,9 @@ FindClipIndex_56:
 ;-----------------------------------------------------------------------------
 ; FindTeamPairClip                             6705C  96 PC, medium confidence
 ; (a, b): finds the pair a<<8|b or b<<8|a in the 16-entry table TeamPairClips
-; (two teams 0-1Ch from the event 8 call); the play-by-play adds 81h to the
-; index
+; (two teams 0-1Ch from the event 8 call).
+;
+; The play-by-play adds 81h to the index
 ;-----------------------------------------------------------------------------
 FindTeamPairClip:
         push ebx
@@ -180,8 +182,9 @@ ResetSpeechChannels:
 ;-----------------------------------------------------------------------------
 ; OpenSpeechBanks                              67140  96 PC, medium confidence
 ; (game): stops speech, clears the clip queue, opens the speech bank files
-; (front-end or game list, MakeDataPath) with AsyncRequestOpen and reads
-; their clip tables
+; (front-end or game list.
+;
+; MakeDataPath) with AsyncRequestOpen and reads their clip tables
 ;-----------------------------------------------------------------------------
 OpenSpeechBanks:
         push ebx
@@ -313,8 +316,9 @@ OpenSpeechBanks:
 ;-----------------------------------------------------------------------------
 ; InitSpeech                                                      67329  96 PC
 ; Called from StartSoundCard: seeds rand from the DOS time, sets the speech
-; volume from globalset, allocates SPEECHBUF (56AEAh), opens the front-end
-; banks, setasyncspeed once
+; volume from globalset, allocates SPEECHBUF (56AEAh).
+;
+; opens the front-end banks, setasyncspeed once
 ;-----------------------------------------------------------------------------
 InitSpeech:
         push ebx
@@ -999,8 +1003,10 @@ PaClipGroupJumpTable:                           ; jump table for the switch case
 ;-----------------------------------------------------------------------------
 ; PaEvent                                                         67A63  96 PC
 ; The play-by-play announcer: (event bit, args...) from PostGoalEvent,
-; PostPenaltyEvent, ClockTick (100h, end of period), the three stars and the
-; screens; jump table PaLongMaskJumpTable by event, each case queues clips
+; PostPenaltyEvent, ClockTick (100h, end of period).
+;
+; The three stars and the screens; jump table PaLongMaskJumpTable by event,
+; each case queues clips
 ;-----------------------------------------------------------------------------
 PaEvent:
         push ebx

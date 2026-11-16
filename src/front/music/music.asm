@@ -1,4 +1,4 @@
-; Music on the CD stream: queue, play, fade, stop and feed it (96 PC).
+; Music on the CD stream: queue, play, fade, stop and feed it.
 bits 32
 %include "hockey.inc"
 section s_689D1 progbits alloc exec nowrite align=1

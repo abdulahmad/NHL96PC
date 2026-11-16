@@ -27,9 +27,11 @@ global fightinput, CanBlockShot, Holdplayer, FindCheckTarget, DoCheckInput, doin
 global CenterMouse, PassCompleted, assonetimer, OneTimerChk, ReceivePass, CountTeamSlots, UpdateLineChangeState, RefreshControlSlots
 ;-----------------------------------------------------------------------------
 ; lineinput                          38070  94G logic94.asm, medium confidence
-; role. The PC line change box is one-button: the highlighted choice
-; (lcsel lcline) cycles every 60 frames (lctimer) and blinks every 12 (lcblink); a press takes it
-; through lcfound. Otherwise the player skates (doplayeracc).
+; role.
+;
+; The PC line change box is one-button: the highlighted choice (lcsel lcline)
+; cycles every 60 frames (lctimer) and blinks every 12 (lcblink); a press
+; takes it through lcfound. Otherwise the player skates (doplayeracc).
 ;-----------------------------------------------------------------------------
 lineinput:
         push ebx
@@ -481,9 +483,11 @@ fightinput_287:
 ;-----------------------------------------------------------------------------
 ; Acheck                             385BC  94G logic94.asm, medium confidence
 ; start the hold-check animation of player p against player q: lock the
-; animation (pfalock); the normal hold check, or the stick-in-the-air hold
-; check when p has an impact and q is not behind p relative to the goal p
-; shoots at (pfgoal; dy = p's Ypos - q's Ypos, negated when shooting up).
+; animation (pfalock).
+;
+; The normal hold check, or the stick-in-the-air hold check when p has an
+; impact and q is not behind p relative to the goal p shoots at (pfgoal; dy =
+; p's Ypos - q's Ypos, negated when shooting up).
 ;-----------------------------------------------------------------------------
 Acheck:
         push ebx
@@ -513,10 +517,14 @@ Acheck:
         ret
 ;-----------------------------------------------------------------------------
 ; CanBlockShot                                 385F9  95 PC, medium confidence
-; may this player dive to block a shot? Shooter = puck carrier, or
-; shotplayer if the puck is loose and heading at his goal; shooter must be in a shooting SPA, the
-; player between him and the puck, facing him, and closer than the puck. Returns 0, or the dive
-; direction+1 (0Ah = straight), direction also in [esi+4Ah]; Holdplayer passes it to BlockShotDive.
+; may this player dive to block a shot?
+;
+; Shooter = puck carrier, or shotplayer if the puck is loose and heading at
+; his goal; shooter must be in a shooting SPA, the player between him and the
+; puck, facing him, and closer than the puck.
+;
+; Returns 0, or the dive direction+1 (0Ah = straight), direction also in
+; [esi+4Ah]; Holdplayer passes it to BlockShotDive.
 ;-----------------------------------------------------------------------------
 CanBlockShot:
         push ebx
@@ -787,8 +795,9 @@ CanBlockShot_320:
 ;-----------------------------------------------------------------------------
 ; OppInReach                                   3891F  95 PC, medium confidence
 ; Returns 1 if one of the 6 opponents is within 30 px in x and y and in the
-; front half of facedir (vtoa); holdplayer then plays the hold anim (873h)
-; directly
+; front half of facedir (vtoa).
+;
+; holdplayer then plays the hold anim (873h) directly
 ;-----------------------------------------------------------------------------
 OppInReach:
         push ebx
@@ -1402,12 +1411,17 @@ DoCheckInput:
         jmp near fightinput_287
 ;-----------------------------------------------------------------------------
 ; doinput                            38F9F  94G logic94.asm, medium confidence
-; from.0 on (the PC reads the pads in ReadJoy1/2 and calls this per
-; controlled player; regd0 dpad, regd1 new presses, regd2 changes, regd3 held; bit 4 B, 5 C, 6 A):
-; PC line change request -> lcselect; faceoff -> faceoffinput; pf2lcm -> lineinput; pfjoycon
-; pfalock: B -> changeplayer, else the PC one-timer switch of control to passplayer
-; puck carrier (.pc1): passmode ShotMode B setpassmode A SetLCmode C SetShotMode skate
-; other (.notpc): A Holdplayer, B changeplayer, C burst, else skate.
+; from.0 on (the PC reads the pads in ReadJoy1/2 and calls this per controlled
+; player; regd0 dpad, regd1 new presses, regd2 changes, regd3 held.
+;
+; bit 4 B, 5 C, 6 A): PC line change request -> lcselect; faceoff ->
+; faceoffinput; pf2lcm -> lineinput.
+;
+; pfjoycon pfalock: B -> changeplayer, else the PC one-timer switch of control
+; to passplayer puck carrier (.pc1): passmode ShotMode B setpassmode A
+; SetLCmode C SetShotMode skate other (.notpc): A Holdplayer, B changeplayer.
+;
+; C burst, else skate.
 ;-----------------------------------------------------------------------------
 doinput:
         push ebx
@@ -2263,6 +2277,7 @@ CenterMouse:
 ; PassCompleted                                39955  95 PC, medium confidence
 ; Pass received: when passplayer is on the receiver's team (and not in
 ; highlight mode) the team pass counter (team+28h) goes up; passplayer = -1.
+;
 ; Called from PassRecOneTimer and physics
 ;-----------------------------------------------------------------------------
 PassCompleted:
@@ -2600,8 +2615,10 @@ assonetimer:
 ;-----------------------------------------------------------------------------
 ; OneTimerChk                                  39DB8  95 PC, medium confidence
 ; Receiver eax in the attacking zone (|y| between the blue line 4Eh and DEh,
-; attacking side), opposing goalie present: scans teammates for a one-timer
-; chance; asspassrec caller
+; attacking side).
+;
+; opposing goalie present: scans teammates for a one-timer chance; asspassrec
+; caller
 ;-----------------------------------------------------------------------------
 OneTimerChk:
         push ebx

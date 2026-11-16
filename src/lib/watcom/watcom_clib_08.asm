@@ -4681,7 +4681,7 @@ PutBlockKeyed:
         pop edi
         pop esi
         ret
-_Alphabet:                                      ; IDA FLIRT library signature; used by utoa_
+_Alphabet:                                      ; run-time library digit and letter characters; used by utoa_
         db 030h,031h,032h,033h,034h,035h,036h,037h,038h,039h,061h,062h,063h,064h,065h,066h
         db 067h,068h,069h,06Ah,06Bh,06Ch,06Dh,06Eh,06Fh,070h,071h,072h,073h,074h,075h,076h
         db 077h,078h,079h,07Ah,00h

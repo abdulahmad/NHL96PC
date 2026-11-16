@@ -12,7 +12,7 @@ str_Nan:                                        ; string "nan"; used by __Nan_In
         db 06Eh,061h,06Eh,00h
 F64_neg1_floor_:                                ; double constant -1; used by floor_
         db 00h,00h,00h,00h,00h,00h,0F0h,0BFh
-_IsTable:                                       ; IDA FLIRT library signature; used by CdDirSearch, StrToLong,
+_IsTable:                                       ; run-time library character class table; used by CdDirSearch, StrToLong,
                                                 ; atoi_
         db 00h,01h,01h,01h,01h,01h,01h,01h,01h,01h,03h,03h,03h,03h,03h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h

@@ -13,5 +13,5 @@ global ___begtext, begtext_forever
 begtext_forever:
         int3
         jmp short begtext_forever
-___begtext:                                     ; IDA FLIRT library signature; used by start
+___begtext:                                     ; start of the run-time library code, padding; used by start
         db 090h,090h,090h,090h,090h,090h,090h,090h,090h,090h,090h,090h,090h

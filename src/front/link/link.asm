@@ -25,8 +25,7 @@ global LinkClearRxSlot, LinkOpen, LinkConnect, LinkClose, LinkClose_53, LinkBuil
 global LinkSendAck, LinkSendMessage, LinkResendSlot, LinkResendSlot_60, LinkAckThrough, LinkReceive, LinkPoll, LinkRequestMissing
 ;-----------------------------------------------------------------------------
 ; ModemInitDefault                             17675  96 PC, medium confidence
-; Was a wrong FLIRT match: ModemInit(port, "ATZS7=60S11=55"); no caller (dead
-; code)
+; ModemInit(port, "ATZS7=60S11=55"); no caller (dead code)
 ;-----------------------------------------------------------------------------
 ModemInitDefault:
         push ebp

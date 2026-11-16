@@ -1,0 +1,630 @@
+; Game data files: their paths by id and directory, loading them (96 PC).
+bits 32
+%include "hockey.inc"
+section s_1E3C8 progbits alloc exec nowrite align=1
+extern dword_11D3C8, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
+extern str_dot3, strcat_, stricmp_, sub_68CFE, sub_AB758, sub_ABF4C, sub_AC838, sub_AFD00
+extern sub_B0474, sub_B047B, sub_B0494, sub_B049E, sub_B20D0, sub_B20EC, sub_B2128, sub_B2140
+extern sub_B7310, sub_B73C4, sub_B7498, sub_B74B0, sub_B74D0, sub_B7638, sub_B7654, sub_B7690
+extern sub_B76A8, unk_115120, unk_1151A7, unk_115333, unk_158658, unpack, word_11512D
+global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
+global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, sub_1E643, sub_1E643_32
+global sub_1E643_3A, sub_1E643_40, sub_1E643_54, LoadDataFile, LoadDataFile_1B, sub_1E73F, sub_1E779, LoadPackedFile
+global sub_1E8E9, MakeDatabasePath
+jpt_1E3C8:
+        dd MakeDataPath_63
+        dd MakeDataPath_42
+        dd MakeDataPath_4A
+        dd MakeDataPath_50
+jpt_1E3D8:
+        dd MakeDataPath_101
+        dd MakeDataPath_E0
+        dd MakeDataPath_E8
+        dd MakeDataPath_EE
+;-----------------------------------------------------------------------------
+; MakeDataPath                                                    1E3E8  96 PC
+; (out, file id): the path of a game data file: the language prefix (optflags
+; & 3) where the file has one, its directory (table unk_115120) and name
+; (table unk_115333, 16h-byte entries)
+;-----------------------------------------------------------------------------
+MakeDataPath:
+        push ebx
+        push ecx
+        push esi
+        push edi
+        mov esi, eax
+        mov ebx, edx
+        imul edi, edx, byte 16h
+        mov byte [eax], 0
+        mov edx, dword [optflags]
+        and edx, byte 3
+        mov eax, edx
+        add edi, unk_115333
+        shl eax, 2
+        cmp dword [byte edi+0Eh], byte 0
+        jge near MakeDataPath_63.6
+        imul ebx, dword [byte edi+0Eh], byte 0FFFFFFEAh
+        add ebx, unk_1151A7
+        cmp edx, byte 3
+        ja short MakeDataPath_63
+        jmp dword [dword cs:eax+jpt_1E3C8]
+MakeDataPath_42:
+        test byte [byte ebx+012h], 1
+.1:
+        jne short MakeDataPath_63
+        jmp short MakeDataPath_50.2
+MakeDataPath_4A:
+        test byte [byte ebx+012h], 2
+        jmp short MakeDataPath_42.1
+MakeDataPath_50:
+        test byte [byte ebx+012h], 4
+        jne short MakeDataPath_63
+.2:
+        mov edx, dword [dword_11D3C8]
+        mov eax, esi
+        call strcat_
+MakeDataPath_63:
+        mov eax, dword [byte ebx+0Eh]
+        test eax, eax
+        je short .4
+        cmp eax, byte 8
+        jge short .4
+        test byte [optflags], 0Ch
+        je short .3
+        cmp byte [ebx], 0
+        je short .3
+        imul eax, byte 0Fh
+        movsx eax, word [dword eax+word_11512D]
+.3:
+        imul eax, byte 0Fh
+        mov edx, unk_115120
+        add edx, eax
+        mov eax, esi
+        call strcat_
+        mov edx, str_backslash2
+        mov eax, esi
+        call strcat_
+.4:
+        lea edx, [byte ebx+01h]
+        mov eax, esi
+        call strcat_
+        call sub_B73C4
+        mov edx, esi
+        call stricmp_
+        test eax, eax
+        je short .5
+        push esi
+        call sub_B7310
+        add esp, byte 4
+.5:
+        lea edx, [byte edi+01h]
+        mov eax, esi
+        mov byte [esi], 0
+        jmp near MakeDataPath_101.12
+.6:
+        cmp edx, byte 3
+        ja short MakeDataPath_101
+        jmp dword [dword cs:eax+jpt_1E3D8]
+MakeDataPath_E0:
+        test byte [byte edi+012h], 1
+.7:
+        jne short MakeDataPath_101
+        jmp short MakeDataPath_EE.8
+MakeDataPath_E8:
+        test byte [byte edi+012h], 2
+        jmp short MakeDataPath_E0.7
+MakeDataPath_EE:
+        test byte [byte edi+012h], 4
+        jne short MakeDataPath_101
+.8:
+        mov edx, dword [dword_11D3C8]
+        mov eax, esi
+        call strcat_
+MakeDataPath_101:
+        mov eax, dword [byte edi+0Eh]
+        test eax, eax
+        je short .11
+        cmp eax, byte 8
+        jge short .11
+        test byte [optflags], 0Ch
+        je short .9
+        cmp byte [edi], 0
+        je short .9
+        imul eax, byte 0Fh
+        movsx edx, word [dword eax+word_11512D]
+        imul edx, byte 0Fh
+        mov eax, esi
+        add edx, unk_115120
+        jmp short .10
+.9:
+        imul eax, byte 0Fh
+        mov edx, unk_115120
+        add edx, eax
+        mov eax, esi
+.10:
+        call strcat_
+        mov edx, str_backslash2
+        mov eax, esi
+        call strcat_
+.11:
+        test ebx, ebx
+        je short .13
+        lea edx, [byte edi+01h]
+        mov eax, esi
+.12:
+        call strcat_
+.13:
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+jpt_1E54A:
+        dd .6
+        dd .1
+        dd .3
+        dd .4
+        push ebx
+        push ecx
+        mov ebx, eax
+        imul edx, byte 16h
+        mov byte [eax], 0
+        mov eax, dword [optflags]
+        mov ecx, unk_1151A7
+        and eax, byte 3
+        add ecx, edx
+        cmp eax, byte 3
+        ja short .6
+        jmp dword [nosplit cs:eax*4+jpt_1E54A]
+.1:
+        test byte [byte ecx+012h], 1
+.2:
+        jne short .6
+        jmp short .5
+.3:
+        test byte [byte ecx+012h], 2
+        jmp short .2
+.4:
+        test byte [byte ecx+012h], 4
+        jne short .6
+.5:
+        mov edx, dword [dword_11D3C8]
+        mov eax, ebx
+        call strcat_
+.6:
+        mov eax, dword [byte ecx+0Eh]
+        test eax, eax
+        je short .9
+        cmp eax, byte 8
+        jge short .9
+        test byte [optflags], 0Ch
+        je short .7
+        cmp byte [ecx], 0
+        je short .7
+        imul eax, byte 0Fh
+        movsx edx, word [dword eax+word_11512D]
+        imul edx, byte 0Fh
+        mov eax, ebx
+        add edx, unk_115120
+        jmp short .8
+.7:
+        imul eax, byte 0Fh
+        mov edx, unk_115120
+        add edx, eax
+        mov eax, ebx
+.8:
+        call strcat_
+        mov edx, str_backslash2
+        mov eax, ebx
+        call strcat_
+.9:
+        lea edx, [byte ecx+01h]
+        mov eax, ebx
+        call strcat_
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; MakeDirPath                                                     1E5FC  96 PC
+; (out, dir, language): a game directory path (language prefix, directory
+; from unk_115120, backslash)
+;-----------------------------------------------------------------------------
+MakeDirPath:
+        push ecx
+        push esi
+        mov ecx, eax
+        mov esi, edx
+        mov byte [eax], 0
+        test ebx, ebx
+        je short .1
+        mov edx, dword [dword_11D3C8]
+        call strcat_
+.1:
+        imul edx, esi, byte 0Fh
+        mov eax, ecx
+        add edx, unk_115120
+        call strcat_
+        mov edx, str_backslash2
+        mov eax, ecx
+        call strcat_
+        pop esi
+        pop ecx
+        ret
+jpt_1E633:
+        dd sub_1E643_54
+        dd sub_1E643_32
+        dd sub_1E643_3A
+        dd sub_1E643_40
+;-----------------------------------------------------------------------------
+; sub_1E643                                                       1E643  96 PC
+;-----------------------------------------------------------------------------
+sub_1E643:
+        push ebx
+        push ecx
+        push edx
+        enter 28h, 0
+        mov byte [byte ebp-028h], 0
+        test eax, eax
+        je near sub_1E643_54.6
+        imul eax, byte 0FFFFFFEAh
+        mov ebx, unk_1151A7
+        add ebx, eax
+        mov eax, dword [optflags]
+        and eax, byte 3
+        cmp eax, byte 3
+        ja short sub_1E643_54
+        jmp dword [nosplit cs:eax*4+jpt_1E633]
+sub_1E643_32:
+        test byte [byte ebx+012h], 1
+.1:
+        jne short sub_1E643_54
+        jmp short sub_1E643_40.2
+sub_1E643_3A:
+        test byte [byte ebx+012h], 2
+        jmp short sub_1E643_32.1
+sub_1E643_40:
+        test byte [byte ebx+012h], 4
+        jne short sub_1E643_54
+.2:
+        lea eax, [byte ebp-028h]
+        mov edx, dword [dword_11D3C8]
+        call strcat_
+sub_1E643_54:
+        mov eax, dword [byte ebx+0Eh]
+        test eax, eax
+        je short .5
+        cmp eax, byte 8
+        jge short .5
+        test byte [optflags], 0Ch
+        je short .3
+        cmp byte [ebx], 0
+        je short .3
+        imul eax, byte 0Fh
+        movsx edx, word [dword eax+word_11512D]
+        imul edx, byte 0Fh
+        lea eax, [byte ebp-028h]
+        add edx, unk_115120
+        jmp short .4
+.3:
+        imul eax, byte 0Fh
+        mov edx, unk_115120
+        add edx, eax
+        lea eax, [byte ebp-028h]
+.4:
+        call strcat_
+        mov edx, str_backslash2
+        lea eax, [byte ebp-028h]
+        call strcat_
+.5:
+        lea eax, [byte ebp-028h]
+        lea edx, [byte ebx+01h]
+        call strcat_
+        call sub_B73C4
+        lea edx, [byte ebp-028h]
+        call stricmp_
+        test eax, eax
+        je short .7
+        lea eax, [byte ebp-028h]
+.6:
+        push eax
+        call sub_B7310
+        add esp, byte 4
+.7:
+        leave
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; LoadDataFile                                 1E715  96 PC, medium confidence
+; (file id, flags): loads a game data file by id (MakeDataPath, then the
+; loader)
+;-----------------------------------------------------------------------------
+LoadDataFile:
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B20D0
+LoadDataFile_1B:
+        add esp, byte 8
+        mov edx, eax
+        call sub_68CFE
+        mov eax, edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; sub_1E73F                                                       1E73F  96 PC
+;-----------------------------------------------------------------------------
+sub_1E73F:
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B20EC
+        jmp short LoadDataFile_1B
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B2128
+        jmp short LoadDataFile_1B
+;-----------------------------------------------------------------------------
+; sub_1E779                                                       1E779  96 PC
+;-----------------------------------------------------------------------------
+sub_1E779:
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B2140
+        jmp short LoadDataFile_1B
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B7498
+        jmp near LoadDataFile_1B
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B74B0
+        jmp near LoadDataFile_1B
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B74D0
+        jmp near LoadDataFile_1B
+;-----------------------------------------------------------------------------
+; LoadPackedFile                               1E7F6  96 PC, medium confidence
+; (file id, flags): loads a game data file and unpacks it when packed
+;-----------------------------------------------------------------------------
+LoadPackedFile:
+        push ebx
+        push ecx
+        push esi
+        push edi
+        enter 8, 0
+        mov edi, edx
+        mov edx, eax
+        mov eax, unk_158658
+        xor esi, esi
+        call MakeDataPath
+        cmp edi, byte 20h
+        jne short .2
+        push esi
+        push unk_158658
+        call sub_B20D0
+        add esp, byte 8
+        push eax
+        mov edi, eax
+        mov dword [byte ebp-08h], eax
+        call sub_AFD00
+        add esp, byte 4
+        mov dword [byte ebp-04h], eax
+        call sub_AC838
+        cmp eax, dword [byte ebp-04h]
+        jl short .1
+        push byte 20h
+        push dword [byte ebp-04h]
+        push unk_158658
+        call sub_AB758
+        add esp, byte 0Ch
+        push byte 0
+        push eax
+        push edi
+        mov esi, eax
+        call unpack
+        add esp, byte 0Ch
+.1:
+        push dword [byte ebp-08h]
+        call sub_ABF4C
+        add esp, byte 4
+.2:
+        test esi, esi
+        jne short .3
+        push byte 20h
+        push unk_158658
+        call sub_B7638
+        add esp, byte 8
+        mov esi, eax
+.3:
+        call sub_68CFE
+        mov eax, esi
+        leave
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B7654
+        jmp near LoadDataFile_1B
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B7690
+        jmp near LoadDataFile_1B
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B76A8
+        jmp near LoadDataFile_1B
+;-----------------------------------------------------------------------------
+; sub_1E8E9                                                       1E8E9  96 PC
+;-----------------------------------------------------------------------------
+sub_1E8E9:
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B0494
+        jmp near LoadDataFile_1B
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B049E
+        jmp near LoadDataFile_1B
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B047B
+        jmp near LoadDataFile_1B
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        mov eax, unk_158658
+        call MakeDataPath
+        push ebx
+        push unk_158658
+        call sub_B0474
+        jmp near LoadDataFile_1B
+;-----------------------------------------------------------------------------
+; MakeDatabasePath                             1E969  96 PC, medium confidence
+; (id, out, drive): path of a saved database file: the save directory (or
+; drive X:\) + the id as %07d + ".DB"
+;-----------------------------------------------------------------------------
+MakeDatabasePath:
+        push esi
+        enter 0Ch, 0
+        push eax
+        mov esi, edx
+        push ebx
+        push str_07d
+        lea edx, [byte ebp-0Ch]
+        push edx
+        call sprintf_
+        add esp, byte 0Ch
+        cmp dword [byte ebp-010h], byte 0
+        jne short .1
+        mov edx, 4
+        mov eax, esi
+        xor ebx, ebx
+        call MakeDirPath
+        lea edx, [byte ebp-0Ch]
+        mov eax, esi
+        jmp short .2
+.1:
+        mov byte [byte esi+01h], 3Ah
+        mov dl, byte [byte ebp-010h]
+        mov byte [byte esi+02h], 5Ch
+        add dl, 40h
+        mov eax, esi
+        mov byte [esi], dl
+        lea edx, [byte ebp-0Ch]
+        mov byte [byte esi+03h], 0
+.2:
+        call strcat_
+        push ecx
+        push str_D15
+        lea edx, [byte ebp-0Ch]
+        push edx
+        call sprintf_
+        add esp, byte 0Ch
+        lea edx, [byte ebp-0Ch]
+        mov eax, esi
+        call strcat_
+        mov edx, str_dot3
+        mov eax, esi
+        call strcat_
+        cmp dword [byte ebp+0Ch], byte 0FFFFFFFFh
+        jne short .3
+        mov edx, str_DB2
+        jmp short .4
+.3:
+        push dword [byte ebp+0Ch]
+        push str_02d
+        lea edx, [byte ebp-0Ch]
+        push edx
+        call sprintf_
+        add esp, byte 0Ch
+        lea edx, [byte ebp-0Ch]
+.4:
+        mov eax, esi
+        call strcat_
+        leave
+        pop esi
+        ret 4

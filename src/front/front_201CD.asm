@@ -12,7 +12,7 @@ extern dword_158D68, dword_158D6C, dword_158D70, dword_15E698, dword_15E6B0, dwo
 extern dword_15E6D0, dword_15E6D4, dword_15E810, dword_15E824, dword_15E84C, dword_15E86C, dword_15E8E4, dword_1798E4
 extern dword_1798E8, dword_17BC78, dword_17BC7C, dword_17BD48, dword_190E94, dword_190E98, fputchar, sub_24D8C_1A3
 extern sub_24D8C_1A4, sub_27E24_F6, sprintf_, strcat_, strcpy_, strlen_, GetInputDevices, InitInputDevices
-extern SetGripButtonMap, GetGripButtonMap, ReadJoystickBits, sub_1A109, sub_1E7F6, sub_62AF7, sub_62D9B, sub_62E0E
+extern SetGripButtonMap, GetGripButtonMap, ReadJoystickBits, MessageBox, LoadPackedFile, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64054
 extern sub_640D3, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_69A94, sub_69A9B, sub_77355
 extern sub_87DD6, sub_8805A, sub_AA988, sub_AADA4, sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C
@@ -1606,7 +1606,7 @@ sub_21596:
         call sub_69A94
         call sub_68AB1
         mov eax, 53h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov esi, eax
         mov dword [byte ebp+06Ah], eax
@@ -1793,7 +1793,7 @@ sub_21596:
         push byte 0
         mov edx, 1
         lea eax, [byte ebp+02Ah]
-        call sub_1A109
+        call MessageBox
         cmp dword [dword ebp-014Eh], byte 0
         je short .6
         and byte [byte_17CA3C], 0FEh

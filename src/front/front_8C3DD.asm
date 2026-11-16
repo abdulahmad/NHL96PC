@@ -35,8 +35,8 @@ extern dword_1820CC, dword_1820D0, dword_1820D4, dword_1820D8, dword_1820DC, dwo
 extern dword_1820EC, dword_1820F4, dword_1820FC, dword_182100, dword_182104, dword_18210C, dword_182110, dword_182114
 extern dword_182118, dword_182120, fclose_, fopen_, fprintf_, gameopts, off_11D3DC, off_11E6E0
 extern qsort_, qword_11281C, qword_112824, qword_11283C, qword_112844, sprintf_, str_D02d, strcat_
-extern strcpy_, strlen_, LinkSync, LinkSyncWithMessage, ModemChat, EditText, sub_1A109, sub_1AC0E
-extern sub_1AE8C, sub_1B00B, sub_1E8E9, sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1EE7C, sub_1F15E
+extern strcpy_, strlen_, LinkSync, LinkSyncWithMessage, ModemChat, EditText, MessageBox, ShowProgressBox
+extern UpdateProgressBox, HideProgressBox, sub_1E8E9, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, sub_1F15E
 extern sub_1F2C9, sub_1F2D4, sub_62AF7, sub_62E0E, sub_62E72, sub_62F90, sub_63998, sub_63A5B
 extern sub_63F79, sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, sub_68AB1, sub_68BFA
 extern sub_68C8F, sub_69A94, sub_69A9B, sub_77355, sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC
@@ -1416,20 +1416,20 @@ sub_8C51B_1038:
         ja short sub_8C51B_13DD.58
         jmp dword [nosplit cs:eax*4+jpt_8C4BB]
 sub_8C51B_13B5:
-        call sub_1ECDB
+        call LoadExhibitionStats
         jmp short sub_8C51B_13DD.58
 sub_8C51B_13BC:
         cmp dword [dword_17D267], byte 0
         jne short sub_8C51B_13D1
         mov eax, dword [dword_17D162]
-        call sub_1EBBC
+        call LoadPlayoffStats
         jmp short sub_8C51B_13DD.58
 sub_8C51B_13D1:
         mov eax, dword [dword_17CBE7]
-        call sub_1EA14
+        call LoadSeasonStats
         jmp short sub_8C51B_13DD.58
 sub_8C51B_13DD:
-        call sub_1EE7C
+        call LoadModemStats
 .58:
         mov edx, dword [byte ebp+032h]
         mov eax, dword [byte ebp+07Ah]
@@ -3557,7 +3557,7 @@ sub_8F5B3:
         mov ebx, 140h
         mov edx, byte_17BDAE
         call sub_77355
-        call sub_1AC0E
+        call ShowProgressBox
         mov edx, str_Wt3
         lea eax, [byte ebp-050h]
         call fopen_
@@ -3746,7 +3746,7 @@ sub_8F5B3_17F:
         mov ebx, dword [byte ebp-054h]
         jmp near .63
 .22:
-        call sub_1AE8C
+        call UpdateProgressBox
         call sub_69A9B
         mov eax, dword [byte ebp-010h]
         inc eax
@@ -4191,9 +4191,9 @@ sub_8F5B3_17F:
         mov eax, 22Eh
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
 .64:
-        call sub_1B00B
+        call HideProgressBox
 .65:
         leave
         pop edi

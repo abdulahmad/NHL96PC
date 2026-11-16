@@ -15,8 +15,8 @@ extern lasttouch, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq, off_1
 extern optflags, passplayer, PBnum, Pencntdwn, Pencntdwn2, penshotctl, penshotlive, penshotmode
 extern penshotplayer, penshotstart, penshottimer, PlList, psendcount, refhitcount, seed, sflags
 extern shotongoal, shotontarget, SortCords, sprintf_, SprSort, str_05d, str_05dCsg, str_CsgDb
-extern str_DB, strcat_, sub_1DC65, sub_1DCDC, sub_1DED8, sub_1DF55, sub_1DFEA, sub_1E5FC
-extern sub_1F362, sub_48A4D, sub_535D5, sub_B7256, threat, unk_115108, unk_115113, unk_156E6C
+extern str_DB, strcat_, FileMissing, DeleteFiles, FileOpenRead, FileClose, FileWriteAt, MakeDirPath
+extern LoadGameRosters, sub_48A4D, sub_535D5, sub_B7256, threat, unk_115108, unk_115113, unk_156E6C
 extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C
 extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
 extern word_1178AE, word_1178B4, word_1178B8, word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_1178F4
@@ -59,7 +59,7 @@ SaveGameState:
         mov eax, dword [byte ebp-01Eh]
         add edx, SortCords
         add esi, 0A0h
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
         jmp short .1
 .2:
@@ -69,7 +69,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         mov edx, hmtmstruct
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .3:
         test ebx, ebx
@@ -78,7 +78,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         mov edx, awtmstruct
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .4:
         test ebx, ebx
@@ -87,7 +87,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         mov edx, unk_158610
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .5:
         test ebx, ebx
@@ -96,7 +96,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         mov edx, unk_157F9C
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .6:
         test ebx, ebx
@@ -330,7 +330,7 @@ SaveGameState:
         mov word [eax], dx
         lea edx, [byte ebp-01Ah]
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .9:
         test ebx, ebx
@@ -569,7 +569,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         lea edx, [byte ebp-01Ah]
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .15:
         test ebx, ebx
@@ -578,7 +578,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         mov edx, byte_176AE2
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .16:
         test ebx, ebx
@@ -587,7 +587,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         mov edx, byte_176B90
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .17:
         test ebx, ebx
@@ -596,7 +596,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         mov edx, goalevent
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .18:
         test ebx, ebx
@@ -605,7 +605,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         mov edx, unk_115108
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .19:
         test ebx, ebx
@@ -614,7 +614,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         mov edx, unk_115113
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 .20:
         test ebx, ebx
@@ -636,7 +636,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         lea edx, [byte ebp-01Ah]
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
         lea eax, [byte ebp-01Ah]
         mov dword [byte ebp+07Eh], 0
@@ -679,7 +679,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         lea edx, [byte ebp-01Ah]
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         lea ecx, [byte ebp-01Ah]
         mov dword [byte ebp+07Eh], 0
         mov ebx, eax
@@ -711,7 +711,7 @@ SaveGameState:
         mov ebx, 0FFFFFFFFh
         lea edx, [byte ebp-01Ah]
         mov eax, dword [byte ebp-01Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, eax
 SaveGameState_7DD:
         mov eax, ebx
@@ -1374,7 +1374,7 @@ LoadGameState:
         test byte [optflags], 70h
         je short .23
         mov eax, 1
-        call sub_1F362
+        call LoadGameRosters
 .23:
         mov dword [byte ebp+07Eh], 0
         mov eax, dword [off_11786C]
@@ -1494,7 +1494,7 @@ LoadGameState:
         call SprSort
 .37:
         lea eax, [byte ebp-01Eh]
-        call sub_1DF55
+        call FileClose
         mov dword [dword_1150D8], 0FFFFFFFFh
         jmp near SaveGameState_7DD
 ;-----------------------------------------------------------------------------
@@ -1512,7 +1512,7 @@ sub_4F08B:
         lea eax, [byte ebp-044h]
         xor ebx, ebx
         mov dword [gameopts], unk_17CB2E
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17CBE7]
         push str_05d
         lea eax, [byte ebp-010h]
@@ -1537,7 +1537,7 @@ sub_4F08B:
         call strcat_
         lea edx, [byte ebp-04h]
         lea eax, [byte ebp-044h]
-        call sub_1DED8
+        call FileOpenRead
         test eax, eax
         jne short sub_4F08B_C4
         mov ecx, 3A7h
@@ -1548,7 +1548,7 @@ sub_4F08B:
         test eax, eax
         je short .1
         lea eax, [byte ebp-04h]
-        call sub_1DF55
+        call FileClose
         mov dword [byte ebp-04h], 0FFFFFFFFh
         jmp short sub_4F08B_C4
 .1:
@@ -1585,14 +1585,14 @@ sub_4F159:
         mov edx, 4
         lea eax, [byte ebp-044h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17CBE7]
         jmp short .2
 .1:
         mov edx, 6
         lea eax, [byte ebp-044h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17D162]
 .2:
         push str_05d
@@ -1617,7 +1617,7 @@ sub_4F159:
         je short .4
         lea edx, [byte ebp-04h]
         lea eax, [byte ebp-044h]
-        call sub_1DED8
+        call FileOpenRead
         test eax, eax
         jne short .4
         mov ecx, 3A7h
@@ -1628,7 +1628,7 @@ sub_4F159:
         test eax, eax
         je short .3
         lea eax, [byte ebp-04h]
-        call sub_1DF55
+        call FileClose
         mov dword [byte ebp-04h], 0FFFFFFFFh
         jmp short .4
 .3:
@@ -1641,7 +1641,7 @@ sub_4F159:
         jne short .5
         lea edx, [byte ebp-04h]
         lea eax, [byte ebp-044h]
-        call sub_1DED8
+        call FileOpenRead
         test eax, eax
         jne near sub_4F08B_C4
 .5:
@@ -1653,7 +1653,7 @@ sub_4F159:
         test eax, eax
         je short .6
         lea eax, [byte ebp-04h]
-        call sub_1DF55
+        call FileClose
         mov dword [byte ebp-04h], 0FFFFFFFFh
         jmp near sub_4F08B_C4
 .6:
@@ -1673,7 +1673,7 @@ sub_4F2A8:
         mov edx, 4
         lea eax, [byte ebp-040h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17CBE7]
         push str_05d
         lea eax, [byte ebp-0Ch]
@@ -1697,13 +1697,13 @@ sub_4F2A8:
         lea eax, [byte ebp-040h]
         call strcat_
         lea eax, [byte ebp-040h]
-        call sub_1DC65
+        call FileMissing
         cmp eax, byte 1
         jne short .1
         mov edx, 4
         lea eax, [byte ebp-040h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov eax, dword [dword_17CEC3]
         add eax, byte 41h
         push eax
@@ -1716,7 +1716,7 @@ sub_4F2A8:
         add esp, byte 10h
         lea edx, [byte ebp-0Ch]
         lea eax, [byte ebp-040h]
-        call sub_1DCDC
+        call DeleteFiles
         mov eax, dword [gameopts]
         mov edx, dword [byte eax+01h]
         shl edx, 0Fh
@@ -1745,7 +1745,7 @@ sub_4F385:
         mov edx, 4
         lea eax, [byte ebp-040h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17CBE7]
         push str_05d
         lea eax, [byte ebp-0Ch]
@@ -1768,7 +1768,7 @@ sub_4F385:
         mov edx, 6
         lea eax, [byte ebp-040h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17D162]
         push str_05d
         lea eax, [byte ebp-0Ch]

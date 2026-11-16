@@ -13,7 +13,7 @@ extern dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC, dwo
 extern optflags, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820AC, dword_1820B0, dword_1820E4
 extern dword_1820E8, dword_1820EC, dword_18210C, dword_182128, dword_18212C, dword_182130, dword_182134, dword_182138
 extern dword_18213C, dword_182140, jpt_93E46, off_11E8B0, qword_112B02, qword_112B0A, sprintf_, sub_1E643
-extern sub_1E7F6, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_62AF7, sub_62E0E
+extern LoadPackedFile, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_62AF7, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_64721
 extern sub_64F59, sub_68AB1, sub_69A94, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325
 extern sub_7D346, sub_7D349, sub_7D49C, sub_90879, sub_908FC, sub_909FE, sub_9C060, sub_AAA40
@@ -176,7 +176,7 @@ sub_93E6A:
         mov eax, 138h
 .8:
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         mov dword [dword_18210C], eax
         push str_Bkgd18
         push dword [dword_18210C]

@@ -17,9 +17,9 @@ extern dword_11E39C, dword_17BC78, dword_17BC7C, dword_17BD48, dword_17CB2F, dwo
 extern dword_17CC1B, dword_17CEC3, dword_17CEC7, dword_17CED1, dword_17CED6, dword_17D1E2, dword_17D202, dword_17D7CC
 extern dword_17D7D0, gameopts, jpt_794CB, jpt_794EF, sub_7D580_13D3, sub_7D580_13E4, sub_7D580_153A, sub_7D580_1AC2
 extern sub_7D580_1B49, sub_7D580_1B6C, qsort_, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame
-extern sub_193E8, sub_19491, sub_19522, sub_19659, sub_19706, sub_19731, sub_1A109, sub_1AA27
-extern sub_1AA62, sub_1AC0E, sub_1AE8C, sub_1B00B, sub_1DED8, sub_1DF55, sub_1E5FC, sub_1E7F6
-extern sub_1E8E9, sub_1EA14, sub_1EFFF, sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385
+extern NameIndexLoad, NameIndexSave, NameIndexFree, NameIndexRemove, NameIndexId, NameIndexPath, MessageBox, HideMessage
+extern ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox, FileOpenRead, FileClose, MakeDirPath, LoadPackedFile
+extern sub_1E8E9, LoadSeasonStats, FreeStatsTables, sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385
 extern sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63F79
 extern sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, sub_68AB1, sub_68BFA, sub_68C8F
 extern sub_69A94, sub_70840, sub_77355, sub_77642, sub_77FF2, sub_78029, sub_78E9E, sub_78EFA
@@ -519,7 +519,7 @@ sub_794FF_7AC:
 .16:
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
 .17:
         cmp dword [byte ebp+06Eh], byte 0
         jge near sub_794FF_C68.40
@@ -971,7 +971,7 @@ sub_7A2AE:
         cmp dword [dword_1174E8], byte 0
         jne short .1
         mov eax, dword [dword_17CBE7]
-        call sub_1EA14
+        call LoadSeasonStats
 .1:
         mov ebx, 6
         lea eax, [byte ebp+03Ah]
@@ -988,7 +988,7 @@ sub_7A2AE:
         call sub_64721
         mov eax, 60h
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         push str_Pal15
         push eax
         mov dword [byte ebp+076h], eax
@@ -2124,10 +2124,10 @@ sub_7B15A:
         mov ebx, 140h
         mov edx, byte_17BDAE
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
         mov eax, dword [dword_17CBE7]
-        call sub_1EA14
-        call sub_1AA27
+        call LoadSeasonStats
+        call HideMessage
 .4:
         call sub_DD6C4
         mov dword [byte ebp+04Ah], 8Ch
@@ -2168,7 +2168,7 @@ sub_7B15A:
         mov esi, 1
 .8:
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp short .11
 .9:
         cmp edi, byte 1
@@ -2196,7 +2196,7 @@ sub_7B15A:
         push byte 0
         mov edx, 2
         lea eax, [dword ebp-0DEh]
-        call sub_1A109
+        call MessageBox
         cmp eax, byte 1
         jne short .11
         mov esi, eax
@@ -2224,12 +2224,12 @@ sub_7B15A:
         mov eax, 39h
         mov edx, byte_17BDAE
         call sub_77355
-        call sub_1AC0E
+        call ShowProgressBox
         mov edx, 4
         lea eax, [byte ebp-052h]
         xor ebx, ebx
         mov dword [byte ebp+046h], esi
-        call sub_1E5FC
+        call MakeDirPath
 .12:
         movsx eax, byte [dword esi+byte_17CC35]
         cmp eax, byte 1
@@ -2268,7 +2268,7 @@ sub_7B15A:
         inc dword [byte ebp+03Ah]
         mov eax, dword [byte ebp+03Ah]
         dec dword [dword_17CC1B]
-        call sub_1AE8C
+        call UpdateProgressBox
         push dword [byte ebp+05Ah]
         push dword [dword_17CBE7]
         lea eax, [byte ebp-052h]
@@ -2681,7 +2681,7 @@ sub_7B15A:
         push dword [dword_17D7CC]
         call sub_ABF4C
         add esp, byte 4
-        call sub_1B00B
+        call HideProgressBox
 .52:
         lea esp, [dword ebp+082h]
         pop ebp
@@ -2730,12 +2730,12 @@ sub_7BA57:
         lea eax, [byte ebp-028h]
         xor ebx, ebx
         mov dword [dword_17D7D0], 0
-        call sub_1E5FC
+        call MakeDirPath
         cmp dword [dword_17D7D0], byte 0
         jne short .1
         mov edx, str_SEASONNDX2
         lea eax, [byte ebp-028h]
-        call sub_193E8
+        call NameIndexLoad
         mov dword [dword_17D7D0], eax
 .1:
         cmp dword [dword_17D7D0], byte 0
@@ -2759,14 +2759,14 @@ sub_7BA57_6E:
         mov ecx, eax
         xor eax, eax
         xor ebx, ebx
-        call sub_19522
+        call NameIndexFree
         mov edx, 4
         lea eax, [byte ebp-028h]
         mov dword [dword_17D7D0], 0
-        call sub_1E5FC
+        call MakeDirPath
         mov edx, str_SEASONNDX2
         lea eax, [byte ebp-028h]
-        call sub_193E8
+        call NameIndexLoad
         mov dword [dword_17D7D0], eax
         cmp edi, 2710h
         jne near sub_7BA57_138.6
@@ -2797,7 +2797,7 @@ sub_7BA57_D2:
         mov dword [dword_1150D8], eax
         mov eax, dword [dword_17CBE7]
         mov ecx, 2715h
-        call sub_1EA14
+        call LoadSeasonStats
         jmp short sub_7BA57_138.6
 sub_7BA57_138:
         push byte 0
@@ -2854,11 +2854,11 @@ sub_7BA57_1E1:
         cmp dword [dword_1150D8], byte 0FFFFFFFFh
         je near sub_7BA57_138.6
         mov eax, dword_1150D8
-        call sub_1DF55
+        call FileClose
         cmp dword [dword_1174E8], byte 0
         jne short sub_7BA57_189.8
         mov eax, dword [dword_17CBE7]
-        call sub_1EA14
+        call LoadSeasonStats
         jmp short sub_7BA57_189.8
 sub_7BA57_224:
         mov eax, dword [dword_17CBE7]
@@ -3030,7 +3030,7 @@ sub_7BA57_25A:
         mov ebx, 140h
         mov edx, byte_17BDAE
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
         imul ecx, dword [dword_17CEC3], dword 31Bh
         mov eax, dword [dword_17CEC7]
         add ecx, dword [byte ebp-08h]
@@ -3055,7 +3055,7 @@ sub_7BA57_25A:
         xor edx, edx
         call sub_7FF7F
 .27:
-        call sub_1AA27
+        call HideMessage
         mov eax, dword [byte ebp-04h]
         xor edx, edx
         mov dword [dword_17CEC3], eax
@@ -3071,7 +3071,7 @@ sub_7BA57_533:
 .28:
         mov edx, dword [dword_17D7D0]
         xor eax, eax
-        call sub_19522
+        call NameIndexFree
         mov eax, ecx
         leave
         pop edi
@@ -3132,7 +3132,7 @@ sub_7BFAF:
         mov eax, 4Fh
 .5:
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         mov dword [byte ebp+072h], eax
 .6:
         push str_Pal16
@@ -3430,11 +3430,11 @@ sub_7BFAF:
         mov ecx, dword [dword ebp-0BBEh]
         mov eax, dword [eax]
         lea ebx, [byte ebp+026h]
-        call sub_19706
+        call NameIndexId
         mov ecx, dword [ecx]
         mov edx, eax
         mov eax, ecx
-        call sub_19731
+        call NameIndexPath
         cmp dword [dword ebp-0BBAh], byte 1
         jb short .18
         jbe near .26
@@ -3448,7 +3448,7 @@ sub_7BFAF:
         jne short .21
         mov edx, dword_1150D8
         lea eax, [byte ebp+026h]
-        call sub_1DED8
+        call FileOpenRead
         test eax, eax
         jne short .24
 .19:
@@ -3489,7 +3489,7 @@ sub_7BFAF:
 .25:
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp short .21
 .26:
         lea eax, [byte ebp+026h]
@@ -3520,7 +3520,7 @@ sub_7BFAF:
         call sub_ABF4C
         add esp, byte 4
         mov ebx, 0Ah
-        call sub_1EFFF
+        call FreeStatsTables
         mov eax, dword [dword ebp-0BC2h]
         mov edx, dword [byte ebp+062h]
         mov dword [byte ebp+06Ah], eax
@@ -3543,7 +3543,7 @@ sub_7BFAF:
 .28:
         mov edx, dword_1150D8
         lea eax, [byte ebp+026h]
-        call sub_1DED8
+        call FileOpenRead
         test eax, eax
         je near .19
         push byte 2
@@ -3582,7 +3582,7 @@ sub_7BFAF:
         push edx
         call sub_ABF4C
         add esp, byte 4
-        call sub_1EFFF
+        call FreeStatsTables
         jmp near .19
 .31:
         lea eax, [dword ebp-01E2h]
@@ -3631,7 +3631,7 @@ sub_7BFAF:
         push byte 0
         mov edx, 2
         lea eax, [byte ebp-02Ah]
-        call sub_1A109
+        call MessageBox
         cmp eax, byte 1
         jne near .46
         cmp eax, dword [dword ebp-0BBAh]
@@ -3651,11 +3651,11 @@ sub_7BFAF:
         mov ecx, dword [dword ebp-0BBEh]
         mov eax, dword [eax]
         lea ebx, [byte ebp+026h]
-        call sub_19706
+        call NameIndexId
         mov ecx, dword [ecx]
         mov edx, eax
         mov eax, ecx
-        call sub_19731
+        call NameIndexPath
         lea eax, [byte ebp+026h]
         call sub_B7256
         jmp near .45
@@ -3665,11 +3665,11 @@ sub_7BFAF:
         mov ecx, dword [dword ebp-0BBEh]
         mov eax, dword [eax]
         lea ebx, [byte ebp+026h]
-        call sub_19706
+        call NameIndexId
         mov ecx, dword [ecx]
         mov edx, eax
         mov eax, ecx
-        call sub_19731
+        call NameIndexPath
         lea eax, [byte ebp+026h]
 .39:
         movsx edx, byte [eax]
@@ -3685,11 +3685,11 @@ sub_7BFAF:
         mov ecx, dword [dword ebp-0BBEh]
         mov eax, dword [eax]
         lea ebx, [byte ebp+026h]
-        call sub_19706
+        call NameIndexId
         mov ecx, dword [ecx]
         mov edx, eax
         mov eax, ecx
-        call sub_19731
+        call NameIndexPath
         lea eax, [byte ebp+026h]
 .41:
         movsx edx, byte [eax]
@@ -3745,7 +3745,7 @@ sub_7BFAF:
         xor ebx, ebx
         lea eax, [byte ebp-02Ah]
         mov esi, 61h
-        call sub_1E5FC
+        call MakeDirPath
 .42:
         push esi
         push edi
@@ -3791,10 +3791,10 @@ sub_7BFAF:
         mov eax, dword [dword ebp-0BBEh]
         add edx, 3E8h
         mov eax, dword [eax]
-        call sub_19659
+        call NameIndexRemove
         mov edx, dword [dword ebp-0BBEh]
         mov dword [edx], eax
-        call sub_19491
+        call NameIndexSave
 .46:
         lea eax, [dword ebp-01E2h]
         xor edx, edx

@@ -20,8 +20,8 @@ extern dword_1820EC, dword_183028, dword_1836E8, dword_1836EC, dword_1836F0, dwo
 extern dword_183700, dword_183704, dword_183728, dword_18372C, dword_183730, dword_183734, dword_183738, dword_18373C
 extern dword_183740, dword_183744, dword_183BC4, dword_183C28, dword_183C98, dword_183D2C, dword_183D30, dword_183D34
 extern dword_184398, dword_18439C, dword_1843A0, dword_1843A4, dword_1843A8, dword_1843AC, dword_1843B0, dword_1843B4
-extern gameopts, hmroster, qsort_, sprintf_, strcpy_, sub_1A109, sub_1DEFC, sub_1DF55
-extern sub_1DFEA, sub_1E3E8, sub_1E7F6, sub_1E8E9, sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1F15E
+extern gameopts, hmroster, qsort_, sprintf_, strcpy_, MessageBox, FileOpenWrite, FileClose
+extern FileWriteAt, MakeDataPath, LoadPackedFile, sub_1E8E9, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, sub_1F15E
 extern sub_1F2F5, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63998, sub_63A5B, sub_63F79
 extern sub_63FEF, sub_6423E, sub_64296, sub_64721, sub_64F59, sub_68AB1, sub_68BFA, sub_68C8F
 extern sub_69A94, sub_69A9B, sub_77355, sub_78E9E, sub_78EFA, sub_7CCB8, sub_7D2CE, sub_7D2DC
@@ -105,7 +105,7 @@ sub_9CFE3:
         call sub_69A94
         call sub_68AB1
         mov eax, 132h
-        call sub_1E7F6
+        call LoadPackedFile
         mov esi, eax
         mov dword [byte ebp+05Eh], eax
         mov eax, dword [dword_1843B4]
@@ -222,7 +222,7 @@ sub_9CFE3:
         mov dword [byte ebp+046h], eax
         cmp dword [dword_1843B0], byte 0
         jne short .12
-        call sub_1ECDB
+        call LoadExhibitionStats
         jmp short .14
 .12:
         cmp dword [dword_1843B0], 3E7h
@@ -230,14 +230,14 @@ sub_9CFE3:
         cmp dword [dword_1843B0], 2AF8h
         jge short .13
         mov eax, dword [dword_1843B0]
-        call sub_1EA14
+        call LoadSeasonStats
         jmp short .14
 .13:
         cmp dword [dword_1843B0], 2AF7h
         jle short .14
         mov eax, dword [dword_1843B0]
         sub eax, 2710h
-        call sub_1EBBC
+        call LoadPlayoffStats
 .14:
         cmp dword [dword_1843B0], byte 3
         jne near .19
@@ -1721,7 +1721,7 @@ sub_9CFE3:
         mov edx, 2
         call sub_77355
 .87:
-        call sub_1A109
+        call MessageBox
         cmp eax, byte 1
         jne short .88
         mov ebx, dword [byte ebp+04Eh]
@@ -1811,7 +1811,7 @@ sub_9CFE3:
         push byte 0
         mov edx, 2
         lea eax, [dword ebp-0D6h]
-        call sub_1A109
+        call MessageBox
         cmp eax, byte 1
         jne short .91
         mov ebx, dword [byte ebp+04Eh]
@@ -1888,7 +1888,7 @@ sub_9CFE3:
         jne short .97
         mov edx, 7
         lea eax, [byte ebp-02h]
-        call sub_1E3E8
+        call MakeDataPath
         jmp short .98
 .97:
         cmp dword [dword_1843B0], 2AF7h
@@ -1901,7 +1901,7 @@ sub_9CFE3:
 .98:
         lea edx, [byte ebp+036h]
         lea eax, [byte ebp-02h]
-        call sub_1DEFC
+        call FileOpenWrite
         mov eax, 2
         call sub_69A94
         call sub_68AB1
@@ -1909,9 +1909,9 @@ sub_9CFE3:
         mov ecx, 31Bh
         mov edx, dword [byte ebp+032h]
         mov eax, dword [byte ebp+036h]
-        call sub_1DFEA
+        call FileWriteAt
         lea eax, [byte ebp+036h]
-        call sub_1DF55
+        call FileClose
 .99:
         mov dword [byte ebp+056h], 15h
         jmp near .120

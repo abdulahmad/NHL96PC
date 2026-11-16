@@ -15,8 +15,8 @@ extern dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dwo
 extern dword_1820FC, dword_182100, dword_182104, dword_182108, dword_18210C, dword_182110, dword_182114, dword_18211C
 extern dword_182120, fclose_, fopen_, fprintf_, sub_93E6A_E11, sub_93E6A_E3B, sub_93E6A_E44, sub_93E6A_E4D
 extern sub_93E6A_E56, sub_93E6A_E5F, sub_93E6A_E68, sub_93E6A_E71, memcmp_, off_11E764, qword_1128CD, qword_1128D5
-extern qword_1129AF, qword_1129B7, qword_1129FE, sprintf_, strcat_, strlen_, EditText, sub_1A109
-extern sub_1AC0E, sub_1AE8C, sub_1B00B, sub_1B05E, sub_1E643, sub_1E7F6, sub_1F2C9, sub_1F2D4
+extern qword_1129AF, qword_1129B7, qword_1129FE, sprintf_, strcat_, strlen_, EditText, MessageBox
+extern ShowProgressBox, UpdateProgressBox, HideProgressBox, LoadTeamLogo, sub_1E643, LoadPackedFile, sub_1F2C9, sub_1F2D4
 extern sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_62AF7, sub_62E0E, sub_62F90, sub_63998, sub_63A5B
 extern sub_63F79, sub_63FEF, sub_640D3, sub_6423E, sub_64296, sub_64721, sub_64F59, sub_68AB1
 extern sub_68BFA, sub_68C8F, sub_69A94, sub_77355, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325
@@ -380,7 +380,7 @@ sub_90AF8:
 .4:
         mov eax, 115h
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         mov dword [dword ebp-04AAh], 4
         mov dword [dword ebp-0494h], 118h
         mov dword [dword ebp-0490h], 64h
@@ -1407,7 +1407,7 @@ sub_90AF8:
         mov eax, dword [eax]
         mov edx, 2
         call sub_88735
-        call sub_1A109
+        call MessageBox
         test eax, eax
         jne near .64
         mov eax, dword [dword ebp-0430h]
@@ -2691,7 +2691,7 @@ sub_92A6A:
         mov ecx, 0Ah
         movsx eax, byte [eax]
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 9999h
         call sub_64296
@@ -3092,7 +3092,7 @@ sub_9311A:
         mov eax, 34h
         mov edx, byte_17BDAE
         call sub_77355
-        call sub_1AC0E
+        call ShowProgressBox
         cmp dword [byte ebp-04Ch], 3E7h
         jge short .1
         mov eax, 0D4h
@@ -3378,7 +3378,7 @@ sub_9311A_33C:
         cmp dword [byte ebp-08h], byte 0Bh
         jl near sub_9311A.19
         mov eax, 1
-        call sub_1AE8C
+        call UpdateProgressBox
         mov eax, 13Bh
         call sub_77355
         push eax
@@ -3766,7 +3766,7 @@ sub_9311A_74D:
         cmp ecx, byte 0Ah
         jl near sub_9311A_4B6.54
         mov eax, 1
-        call sub_1AE8C
+        call UpdateProgressBox
         mov eax, 13Bh
         call sub_77355
         push eax
@@ -3955,7 +3955,7 @@ sub_9311A_8AB:
         cmp ebx, byte 0Dh
         jl near .72
 .77:
-        call sub_1B00B
+        call HideProgressBox
         mov eax, esi
         call fclose_
         jmp near sub_90879_7D

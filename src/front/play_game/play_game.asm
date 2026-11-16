@@ -13,8 +13,8 @@ extern InputRecordCount, InputRecordHead, InputRecordPhase, InputRecordRing, Inp
 extern LinkResyncInput, LoadGameState, NormalizeDressFlags, optblock, optblock_end, optflags, PauseReplayPending, penshotlive
 extern PeriodOver, PickThreeStars, PollControllers, PostGameScreens, PullGoalie, rand_, ReadHotKeys, ResetInputSlots
 extern RunInGameMenu, seed, SetupDemoGame, SetupGame, SetupTeamLines, SetViewRect, SlotButtons, str_FhiL2
-extern str_FhiR2, str_GhiL, str_GhiR, str_GloL5, str_GloR5, str_PAL, strcpy_, sub_1A109
-extern sub_1D6C1, sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_1F300, sub_1F771
+extern str_FhiR2, str_GhiL, str_GhiR, str_GloL5, str_GloR5, str_PAL, strcpy_, MessageBox
+extern BlankForFadeIn, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, FreeStatsTables, EndGameCleanup, InitGameTeams
 extern sub_2B4B9, sub_3A6F3, sub_4B59F, sub_5358E, sub_58A58, sub_59188, sub_5A572, sub_5AF42
 extern sub_612BC, sub_62311, sub_625F7, sub_62ED9, sub_62F90, sub_63A5B, sub_63B0C, sub_63DC4
 extern sub_689D1, sub_68A10, sub_68C33, sub_68E31, sub_68E72, sub_68F82, sub_6904C, sub_692E9
@@ -66,7 +66,7 @@ PlayMenuGame:
         call sub_68C33
         call sub_689D1
         call sub_62ED9
-        call sub_1EFFF
+        call FreeStatsTables
         call sub_B0CA8
         mov eax, dword [optflags]
         shl eax, 19h
@@ -96,7 +96,7 @@ PlayMenuGame_AF:
         xor eax, eax
         mov dword [gameopts], unk_17D272
 .1:
-        call sub_1F771
+        call InitGameTeams
 .2:
         test byte [byte_17CA5D], 20h
         jne short .3
@@ -196,20 +196,20 @@ PlayMenuGame_243:
         mov edi, optblock_end
         rep movsb
 .9:
-        call sub_1ECDB
+        call LoadExhibitionStats
         jmp short PlayMenuGame_280.10
 PlayMenuGame_25F:
         mov eax, dword [dword_17CBE7]
-        call sub_1EA14
+        call LoadSeasonStats
         jmp short PlayMenuGame_280.10
 PlayMenuGame_26B:
         cmp dword [dword_17D267], byte 0
         jne short PlayMenuGame_25F
         mov eax, dword [dword_17D162]
-        call sub_1EBBC
+        call LoadPlayoffStats
         jmp short PlayMenuGame_280.10
 PlayMenuGame_280:
-        call sub_1EE7C
+        call LoadModemStats
         mov dword [byte ebp-04h], 12h
 .10:
         cmp dword [byte ebp-08h], byte 0
@@ -252,7 +252,7 @@ PlayMenuGame_280:
         mov eax, 3Fh
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp short .12
 .11:
         cmp dword [dword_1150FC], byte 1
@@ -770,7 +770,7 @@ GameLoop_gameovercall:
         call sub_69A9B
         jmp short .2
 .3:
-        call sub_1F300
+        call EndGameCleanup
         leave
         jmp near HandleSlotButtons_18D
 ;-----------------------------------------------------------------------------
@@ -795,7 +795,7 @@ RunDemoGame:
         imul edx, eax
         mov dword [seed], edx
         call InitSlotTable
-        call sub_1D6C1
+        call BlankForFadeIn
         mov eax, unk_16443C
         call sub_5358E
         xor eax, eax
@@ -891,7 +891,7 @@ PlayGame:
         add dword [seed], edx
 PlayGame_initslotscall:
         call InitSlotTable
-        call sub_1D6C1
+        call BlankForFadeIn
         mov eax, unk_16443C
         call sub_5358E
         test byte [byte_17CA5D], 20h
@@ -947,7 +947,7 @@ PlayGame_menucall:
         call sub_62311
         mov eax, 50h
         call sub_6904C
-        call sub_1F300
+        call EndGameCleanup
         jmp short PlayGame_menucall_42.4
 PlayGame_menucall_42:
         call SetupGame

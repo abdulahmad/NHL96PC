@@ -12,7 +12,7 @@ extern dword_17BC7C, dword_17BD48, optflags, dword_17CBE7, dword_17CC13, dword_1
 extern dword_17CEC7, dword_17D7D4, dword_17D804, dword_17D830, dword_17D834, dword_17D860, dword_17D864, dword_17D894
 extern dword_17D8C0, dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dword_17D900, dword_17D904, dword_17D908
 extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924, gameopts
-extern jpt_7D568, sprintf_, sub_1A109, sub_1B05E, sub_1E7F6, sub_1E8E9, sub_1EA14, sub_62AF7
+extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, sub_1E8E9, LoadSeasonStats, sub_62AF7
 extern sub_62D9B, sub_62E0E, sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_64103, sub_64296
 extern sub_64721, sub_64F59, sub_77355, sub_78E9E, sub_80E4D, sub_81EEA, sub_AAA40, sub_AAA8C
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
@@ -74,7 +74,7 @@ sub_7D580:
         mov esi, eax
         mov dword [byte ebp+022h], eax
         mov eax, 7Eh
-        call sub_1E7F6
+        call LoadPackedFile
         push str_DK00
         push eax
         mov dword [byte ebp+03Ah], eax
@@ -129,7 +129,7 @@ sub_7D580:
         cmp dword [dword_1174E8], byte 0
         jne short .3
         mov eax, dword [dword_17CBE7]
-        call sub_1EA14
+        call LoadSeasonStats
 .3:
         mov ebx, 6
         lea eax, [byte ebp-05Ah]
@@ -1519,7 +1519,7 @@ sub_7D580_13E4:
         mov eax, 14Ah
         mov edx, 2
         call sub_77355
-        call sub_1A109
+        call MessageBox
         mov edx, eax
 .24:
         test edx, edx
@@ -2046,7 +2046,7 @@ sub_7D580_1B6C:
         mov eax, 14Ah
         mov edx, 2
         call sub_77355
-        call sub_1A109
+        call MessageBox
         mov ebx, eax
 .35:
         test ebx, ebx
@@ -2733,7 +2733,7 @@ sub_7F6FA:
         push byte 0
         push byte 0
 .15:
-        call sub_1B05E
+        call LoadTeamLogo
         push eax
         call sub_C2600
         add esp, byte 0Ch
@@ -2752,7 +2752,7 @@ sub_7F6FA:
         push byte 0
         push byte 0
 .18:
-        call sub_1B05E
+        call LoadTeamLogo
         push eax
         call sub_C2600
         add esp, byte 0Ch

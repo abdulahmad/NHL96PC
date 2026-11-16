@@ -13,7 +13,7 @@ extern hmtmstruct, InGameMenuRequest, InputRecordCount, InputRecordRing, IsCupCl
 extern off_11788C, off_117894, off_11D44C, off_11D4BC, off_11D52C, optblock, puckc, qsort_
 extern randomd0, reenergizeteam, regd0, regd1, regd2, resetplstuff, RunSimFrames, SetClipWindow
 extern setpersonel, SetSPA, sflags, sfx, skateto, SkateToSpot, SlotButtons, SortCords
-extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncInput, sub_1B05E, sub_1F300
+extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncInput, LoadTeamLogo, EndGameCleanup
 extern sub_493D4, sub_4B59F, sub_5439F, sub_5A572, sub_5BD7D, sub_5DBC0, sub_60777, sub_612BC
 extern sub_62311, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_641D4
 extern sub_68E72, sub_6904C, sub_69141, sub_69161, sub_692E9, sub_69312, sub_6934E, sub_69A9B
@@ -450,7 +450,7 @@ sub_2DE30_69:
         call sub_69A9B
         jmp short .9
 .10:
-        call sub_1F300
+        call EndGameCleanup
         mov eax, 0FFFFFFFFh
         jmp near sub_2D9D9_450
 .11:
@@ -848,7 +848,7 @@ sub_2E1BE:
         movsx ecx, word [byte ebp-016h]
         shr eax, 1Bh
         movsx ebx, word [byte ebp-02Eh]
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         test byte [byte_17CA5D], 20h
         je short .18
@@ -866,7 +866,7 @@ sub_2E1BE:
         movsx ecx, word [byte ebp-0Eh]
         shr eax, 1Bh
         movsx ebx, word [byte ebp-02Eh]
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         test byte [byte_17CA5D], 20h
         je short .20
@@ -882,7 +882,7 @@ sub_2E1BE:
         movsx ecx, word [byte ebp-0Eh]
         shr eax, 1Bh
         movsx ebx, word [byte ebp-020h]
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         test byte [byte_17CA5D], 20h
         je short .22

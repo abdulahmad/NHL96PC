@@ -48,7 +48,7 @@ extern gameclock, gameopts, gmode, unk_5D591_84, mousepollfn, off_11787C, puckc,
 extern off_117894, off_11BB4C, off_11BDA8, passplayer, penshotlive, penshotmode, penshotstart, puckvx
 extern puckvz, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, sflags, sprintf_, str_Pl1, GetInputDevices, GetPressedDevice, GripReadSlots
-extern ReadJoystickBits, sub_1E3E8, sub_1E643, sub_1E7F6, sub_21BE3, sub_2976B, sub_297A8, sub_53260
+extern ReadJoystickBits, MakeDataPath, sub_1E643, LoadPackedFile, sub_21BE3, sub_2976B, sub_297A8, sub_53260
 extern sub_587B7, sub_589E4, sub_5CC12, sub_5D707, sub_5D82C, sub_5D87E, sub_5D8D1, sub_67A63
 extern sub_689D1, sub_68A10, sub_68AB1, sub_68B37, sub_68BA4, sub_68BFA, sub_68C33, sub_68E31
 extern sub_69A94, sub_69A9B, sub_6A229, sub_77355, sub_AA7E0, PutBlock, sub_AADA4, sub_AB758
@@ -5672,19 +5672,19 @@ sub_625F7:
         enter 2Ch, 0
         mov edx, 20h
         mov eax, 0Ah
-        call sub_1E7F6
+        call LoadPackedFile
         mov edx, 20h
         mov dword [dword_17BC78], eax
         mov eax, 0Bh
-        call sub_1E7F6
+        call LoadPackedFile
         mov edx, 20h
         mov dword [dword_17BC74], eax
         mov eax, 0B0h
-        call sub_1E7F6
+        call LoadPackedFile
         mov edx, 20h
         mov dword [dword_11BCE0], eax
         mov eax, 0Ch
-        call sub_1E7F6
+        call LoadPackedFile
         push str_Pal7
         push eax
         mov dword [dword_11BCE4], eax
@@ -6372,7 +6372,7 @@ sub_62FD8:
         lea eax, [byte ebp-034h]
         add edx, 0BEh
         xor ebx, ebx
-        call sub_1E3E8
+        call MakeDataPath
         mov edx, 1
         lea eax, [byte ebp-034h]
         call sub_6A229
@@ -6387,7 +6387,7 @@ sub_62FD8:
         lea eax, [byte ebp-034h]
         add edx, 0C0h
         mov ebx, 1
-        call sub_1E3E8
+        call MakeDataPath
         lea eax, [byte ebp-034h]
         xor edx, edx
         call sub_6A229
@@ -6426,7 +6426,7 @@ sub_63076:
         jne short .1
         mov eax, 0BDh
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 20h
         push dword 300h
         push str_Scr1
@@ -6623,7 +6623,7 @@ sub_63076:
 .10:
         mov eax, 0B8h
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         push str_Bkgd3
         push eax
         mov esi, eax
@@ -6749,7 +6749,7 @@ sub_63452:
         call sub_68AB1
         xor edx, edx
         mov eax, esi
-        call sub_1E7F6
+        call LoadPackedFile
         mov dword [dword_17BDD4], eax
         mov dword [dword_17BDD8], esi
 .2:
@@ -6924,7 +6924,7 @@ sub_63541_145:
         call sub_69A94
         call sub_68AB1
         mov eax, dword [byte esi+04h]
-        call sub_1E7F6
+        call LoadPackedFile
         push eax
         mov dword [byte ebp-08h], eax
         call TextSetFont

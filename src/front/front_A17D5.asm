@@ -27,9 +27,9 @@ extern dword_1844F6, dword_184558, dword_18455C, dword_1845BE, dword_1845C2, dwo
 extern dword_184674, dword_184678, dword_18467C, dword_184680, dword_184684, dword_1846F0, dword_1846F4, dword_1846F8
 extern fadeinpending, gameopts, hmtmstruct, sub_A4FD7_73, sub_A4FD7_89, sub_A4FD7_A6, sub_A4FD7_CD, sub_A4FD7_D6
 extern sub_A4FD7_E1, sub_A4FD7_102, sub_A4FD7_115, sprintf_, strcat_, strcpy_, InitSlotTable, ResetInputSlots
-extern LinkSync, ModemChat, GameStatsScreen, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799
-extern EditText, sub_1A109, sub_1B05E, sub_1E383, sub_1E3A7, sub_1E5FC, sub_1E7F6, sub_1EE7C
-extern sub_1EFFF, sub_21BE3, sub_25087, sub_251E6, sub_25EB3, sub_28459, sub_2929F, sub_29B9F
+extern LinkSync, ModemChat, GameStatsScreen, NameIndexNew, NameIndexLoad, NameIndexFree, NameIndexAdd, NameIndexFirstId
+extern EditText, MessageBox, LoadTeamLogo, HomeClinchesSeries, AwayClinchesSeries, MakeDirPath, LoadPackedFile, LoadModemStats
+extern FreeStatsTables, sub_21BE3, sub_25087, sub_251E6, sub_25EB3, sub_28459, sub_2929F, sub_29B9F
 extern sub_2E1BE, sub_3A6F3, sub_5A4FF, sub_5A572, CloseTextOverlay, sub_60777, sub_60823, sub_612BC
 extern sub_621D9, sub_62201, sub_6225D, sub_62285, sub_62311, sub_625F7, sub_62A0F, sub_62AF7
 extern sub_62D9B, sub_62E0E, sub_62E72, sub_62ED9, sub_62F90, sub_63968, sub_63998, sub_63A5B
@@ -133,7 +133,7 @@ sub_A17D5:
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        call sub_1B05E
+        call LoadTeamLogo
         mov esi, dword [dword_184678]
         mov edx, eax
         mov eax, esi
@@ -262,7 +262,7 @@ sub_A17D5:
         sar edx, 11h
         shr eax, 1Bh
         sub ebx, edx
-        call sub_1B05E
+        call LoadTeamLogo
         mov esi, dword [dword_184678]
         mov edx, eax
         mov eax, esi
@@ -1546,10 +1546,10 @@ sub_A25CD:
         and eax, byte 70h
         cmp eax, byte 20h
         jne near .39
-        call sub_1E383
+        call HomeClinchesSeries
         test eax, eax
         jne short .26
-        call sub_1E3A7
+        call AwayClinchesSeries
         test eax, eax
         je near .39
 .26:
@@ -1597,7 +1597,7 @@ sub_A25CD:
 .35:
         mov dword [byte ebp-04h], 6
 .36:
-        call sub_1E383
+        call HomeClinchesSeries
         test eax, eax
         je short .37
         mov eax, dword [gameopts]
@@ -1711,7 +1711,7 @@ sub_A25CD_ABD:
         mov eax, 54h
         mov edx, 2
         call sub_77355
-        call sub_1A109
+        call MessageBox
         test eax, eax
         jne short .47
         mov dword [byte ebp-08h], eax
@@ -1894,7 +1894,7 @@ sub_A25CD_D17:
         mov eax, 1
         call sub_9CDDA
 .63:
-        call sub_1EFFF
+        call FreeStatsTables
 .64:
         call sub_A20D1
         jmp near sub_A25CD_ABD.50
@@ -1931,7 +1931,7 @@ sub_A25CD_D17:
         mov eax, 14Bh
         mov edx, 3
         call sub_77355
-        call sub_1A109
+        call MessageBox
         mov dword [dword_1843AC], eax
         test eax, eax
         je short .68
@@ -1982,7 +1982,7 @@ sub_A25CD_D17:
         mov eax, 208h
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp near sub_A25CD_ABD.47
 sub_A25CD_F31:
         call sub_A1FEF
@@ -2034,20 +2034,20 @@ sub_A25CD_FA8:
         mov edx, 5
         mov eax, unk_184692
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov edx, str_EXHIBITNDX2
         mov eax, unk_184692
-        call sub_193E8
+        call NameIndexLoad
         mov esi, eax
         test eax, eax
         jne short .73
         mov edx, str_EXHIBITNDX2
         mov eax, unk_184692
-        call sub_19384
+        call NameIndexNew
         mov esi, eax
 .73:
         mov eax, esi
-        call sub_19799
+        call NameIndexFirstId
         push eax
         push str_08d2
         jmp near .80
@@ -2059,7 +2059,7 @@ sub_A25CD_FA8:
         mov edx, 4
         mov eax, unk_184692
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17CBE7]
         push str_05d3
         push unk_184688
@@ -2083,7 +2083,7 @@ sub_A25CD_FA8:
         mov edx, 4
         mov eax, unk_184692
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17CBE7]
 .76:
         push str_05d3
@@ -2098,7 +2098,7 @@ sub_A25CD_FA8:
         mov edx, 6
         mov eax, unk_184692
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17D162]
         jmp short .76
 .78:
@@ -2183,7 +2183,7 @@ sub_A25CD_FA8:
         mov eax, 60h
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp near .87
 .85:
         test esi, esi
@@ -2191,7 +2191,7 @@ sub_A25CD_FA8:
         mov ebx, byte_1846C4
         mov edx, unk_184688
         mov eax, esi
-        call sub_1955B
+        call NameIndexAdd
         mov esi, eax
 .86:
         xor eax, eax
@@ -2216,7 +2216,7 @@ sub_A25CD_FA8:
         mov eax, 61h
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         test byte [optflags], 70h
         je short .87
         mov dword [dword_1150FC], 2
@@ -2226,7 +2226,7 @@ sub_A25CD_FA8:
         je near sub_A25CD_ABD.47
         mov eax, 1
         mov edx, esi
-        call sub_19522
+        call NameIndexFree
         jmp near sub_A25CD_ABD.47
 unk_A3851:
         db 062h,00h,00h,00h,0E4h,00h,00h,00h,077h,00h,00h,00h,0CFh,00h,00h,00h
@@ -2281,7 +2281,7 @@ sub_A3A11:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0E3D7h
         call sub_64296
@@ -2396,7 +2396,7 @@ sub_A3B74:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0E3D7h
         call sub_64296
@@ -2508,7 +2508,7 @@ sub_A3CF8:
         call sub_69A94
         call sub_68AB1
         mov eax, 58h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov dword [byte ebp+076h], eax
         mov dword [byte ebp+072h], eax
@@ -3240,7 +3240,7 @@ sub_A4961:
 .2:
         cmp edx, byte 12h
         jne short .3
-        call sub_1EE7C
+        call LoadModemStats
         mov dword [gameopts], unk_17D272
         call sub_9C866
 .3:

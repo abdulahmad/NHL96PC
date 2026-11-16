@@ -17,9 +17,9 @@ extern dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dwo
 extern dword_17D514, dword_17D518, dword_17D51C, dword_17D520, dword_17D524, dword_17D528, dword_17D564, dword_17D56C
 extern dword_17D574, dword_17D57C, dword_17D580, dword_1843AC, dword_1843B0, dword_1843B4, gameclock, gameopts
 extern hmtmstruct, sprintf_, strcat_, strcpy_, GetInputDevices, InitSlotTable, ResetInputSlots, LinkSync
-extern ModemChat, GameStatsScreen, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
-extern sub_1A109, sub_1B05E, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1EA14, sub_1EBBC
-extern sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_2AB8F, sub_3A6F3, SaveGameState, sub_5360D, sub_5439F
+extern ModemChat, GameStatsScreen, NameIndexNew, NameIndexLoad, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText
+extern MessageBox, LoadTeamLogo, FileCreate, FileClose, FileWriteAt, MakeDirPath, LoadSeasonStats, LoadPlayoffStats
+extern LoadExhibitionStats, LoadModemStats, FreeStatsTables, sub_2AB8F, sub_3A6F3, SaveGameState, sub_5360D, sub_5439F
 extern sub_564A4, sub_5A572, sub_5B0F9, CloseTextOverlay, sub_60777, sub_612BC, sub_621D9, sub_62201
 extern sub_6225D, sub_62285, sub_62311, sub_625F7, sub_62ED9, sub_63998, sub_63A5B, sub_63B0C
 extern sub_63DC4, sub_63F79, sub_640D3, sub_64103, sub_641D4, sub_6423E, sub_64296, sub_64721
@@ -300,7 +300,7 @@ sub_6AA3B:
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, dword [dword_17D524]
         mov dword [byte ebp-020h], edx
         mov edx, eax
@@ -465,7 +465,7 @@ sub_6AA3B:
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
         shr eax, 1Bh
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, dword [dword_17D524]
         mov dword [byte ebp-01Ch], edx
         mov edx, eax
@@ -983,7 +983,7 @@ sub_6B486:
         enter 44h, 0
         lea edx, [byte ebp-018h]
         mov dword [byte ebp-04h], 1
-        call sub_1DF34
+        call FileCreate
         test eax, eax
         jne near sub_6B486_81.16
         mov eax, dword [optflags]
@@ -1002,26 +1002,26 @@ sub_6B486:
         ja short sub_6B486_81.2
         jmp dword [nosplit cs:eax*4+jpt_6B476]
 sub_6B486_59:
-        call sub_1ECDB
+        call LoadExhibitionStats
         jmp short sub_6B486_81.2
 sub_6B486_60:
         mov eax, dword [dword_17CBE7]
-        call sub_1EA14
+        call LoadSeasonStats
         jmp short sub_6B486_81.2
 sub_6B486_6C:
         cmp dword [dword_17D267], byte 0
         jne short sub_6B486_60
         mov eax, dword [dword_17D162]
-        call sub_1EBBC
+        call LoadPlayoffStats
         jmp short sub_6B486_81.2
 sub_6B486_81:
-        call sub_1EE7C
+        call LoadModemStats
 .2:
         mov ecx, 0B9h
         mov ebx, 0FFFFFFFFh
         mov edx, optblock_end
         mov eax, dword [byte ebp-018h]
-        call sub_1DFEA
+        call FileWriteAt
         mov dword [byte ebp-04h], eax
         mov eax, dword [gameopts]
         mov edx, dword [byte eax+01h]
@@ -1033,7 +1033,7 @@ sub_6B486_81:
         mov ebx, 0FFFFFFFFh
         add edx, eax
         mov eax, dword [byte ebp-018h]
-        call sub_1DFEA
+        call FileWriteAt
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
@@ -1044,7 +1044,7 @@ sub_6B486_81:
         mov ebx, 0FFFFFFFFh
         add edx, eax
         mov eax, dword [byte ebp-018h]
-        call sub_1DFEA
+        call FileWriteAt
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
@@ -1067,12 +1067,12 @@ sub_6B486_81:
         mov eax, dword [byte ebp-018h]
         mov dword [byte ebp-01Ch], ebx
         mov ebx, 0FFFFFFFFh
-        call sub_1DFEA
+        call FileWriteAt
         mov ecx, 15h
         mov ebx, 0FFFFFFFFh
         mov edx, dword [byte ebp-01Ch]
         mov eax, dword [byte ebp-018h]
-        call sub_1DFEA
+        call FileWriteAt
 .4:
         add edi, byte 4
         cmp edi, dword [byte ebp-0Ch]
@@ -1090,12 +1090,12 @@ sub_6B486_81:
         mov esi, dword [dword_1174F4]
         mov eax, dword [byte ebp-018h]
         add esi, dword [byte edx+024h]
-        call sub_1DFEA
+        call FileWriteAt
         mov ecx, 11h
         mov ebx, 0FFFFFFFFh
         mov eax, dword [byte ebp-018h]
         mov edx, esi
-        call sub_1DFEA
+        call FileWriteAt
 .6:
         add edi, byte 4
         cmp edi, dword [byte ebp-014h]
@@ -1122,12 +1122,12 @@ sub_6B486_81:
         mov eax, dword [byte ebp-018h]
         mov dword [byte ebp-01Ch], ebx
         mov ebx, 0FFFFFFFFh
-        call sub_1DFEA
+        call FileWriteAt
         mov ecx, 15h
         mov ebx, 0FFFFFFFFh
         mov edx, dword [byte ebp-01Ch]
         mov eax, dword [byte ebp-018h]
-        call sub_1DFEA
+        call FileWriteAt
 .8:
         add esi, byte 4
         cmp esi, dword [byte ebp-08h]
@@ -1145,17 +1145,17 @@ sub_6B486_81:
         mov edi, dword [dword_1174F4]
         mov eax, dword [byte ebp-018h]
         add edi, dword [byte edx+024h]
-        call sub_1DFEA
+        call FileWriteAt
         mov ecx, 11h
         mov ebx, 0FFFFFFFFh
         mov eax, dword [byte ebp-018h]
         mov edx, edi
-        call sub_1DFEA
+        call FileWriteAt
 .10:
         add esi, byte 4
         cmp esi, dword [byte ebp-010h]
         jne short .9
-        call sub_1EFFF
+        call FreeStatsTables
         jmp near .14
 .11:
         mov esi, dword [gameopts]
@@ -1187,7 +1187,7 @@ sub_6B486_81:
         add esp, byte 0Ch
         mov edx, unk_17CB2E
         mov eax, dword [byte ebp-018h]
-        call sub_1DFEA
+        call FileWriteAt
         mov dword [byte ebp-04h], eax
         jmp near .14
 .12:
@@ -1223,13 +1223,13 @@ sub_6B486_81:
         add esp, byte 0Ch
         mov edx, unk_17CB2E
         mov eax, dword [byte ebp-018h]
-        call sub_1DFEA
+        call FileWriteAt
 .13:
         mov ecx, 39Dh
         mov ebx, 0FFFFFFFFh
         mov edx, unk_17CED5
         mov eax, dword [byte ebp-018h]
-        call sub_1DFEA
+        call FileWriteAt
         mov ebx, 7
         mov edx, dword [dword_17D162]
         mov dword [byte ebp-04h], eax
@@ -1249,7 +1249,7 @@ sub_6B486_81:
         mov dword [byte ebp-04h], eax
 .15:
         lea eax, [byte ebp-018h]
-        call sub_1DF55
+        call FileClose
 .16:
         cmp dword [byte ebp-04h], byte 0
         sete al
@@ -1663,7 +1663,7 @@ sub_6B894_66B:
         mov eax, 1D2h
         mov edx, 2
         call sub_77355
-        call sub_1A109
+        call MessageBox
         test eax, eax
         jne near sub_6B894_748.25
         mov dword [dword_1150FC], 2
@@ -1702,20 +1702,20 @@ sub_6B894_748:
         mov edx, 5
         mov eax, unk_17D52C
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov edx, str_EXHIBITNDX3
         mov eax, unk_17D52C
-        call sub_193E8
+        call NameIndexLoad
         mov esi, eax
         test eax, eax
         jne short .13
         mov edx, str_EXHIBITNDX3
         mov eax, unk_17D52C
-        call sub_19384
+        call NameIndexNew
         mov esi, eax
 .13:
         mov eax, esi
-        call sub_19799
+        call NameIndexFirstId
         push eax
         push str_08d3
         jmp near .18
@@ -1727,7 +1727,7 @@ sub_6B894_748:
         mov edx, 4
         mov eax, unk_17D52C
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17CBE7]
         push str_05d4
         lea eax, [byte ebp+06Eh]
@@ -1752,14 +1752,14 @@ sub_6B894_748:
         mov edx, 4
         mov eax, unk_17D52C
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17CBE7]
         jmp short .17
 .16:
         mov edx, 6
         mov eax, unk_17D52C
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [dword_17D162]
 .17:
         push str_05d4
@@ -1843,7 +1843,7 @@ sub_6B894_748:
         mov eax, 60h
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp near .24
 .21:
         test esi, esi
@@ -1851,7 +1851,7 @@ sub_6B894_748:
         lea ebx, [byte ebp+042h]
         lea edx, [byte ebp+06Eh]
         mov eax, esi
-        call sub_1955B
+        call NameIndexAdd
         mov esi, eax
 .22:
         xor eax, eax
@@ -1876,7 +1876,7 @@ sub_6B894_748:
         mov eax, 61h
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         test byte [optflags], 70h
         je short .23
         mov dword [dword_1150FC], 2
@@ -1888,7 +1888,7 @@ sub_6B894_748:
         je short .25
         mov eax, 1
         mov edx, esi
-        call sub_19522
+        call NameIndexFree
 .25:
         cmp dword [byte ebp+07Eh], byte 0FFFFFFFFh
         je near sub_6B894.9
@@ -2152,10 +2152,10 @@ sub_6C3B0:
 sub_6C3B0_28A:
         ret
 jpt_6C63B:
-        dd sub_1ECDB
+        dd LoadExhibitionStats
         dd sub_6C663
         dd sub_6C66D
-        dd sub_1EE7C
+        dd LoadModemStats
 ;-----------------------------------------------------------------------------
 ; sub_6C64B                                                       6C64B  96 PC
 ;-----------------------------------------------------------------------------
@@ -2171,7 +2171,7 @@ sub_6C64B:
 ;-----------------------------------------------------------------------------
 sub_6C663:
         mov eax, dword [dword_17CBE7]
-        jmp near sub_1EA14
+        jmp near LoadSeasonStats
 ;-----------------------------------------------------------------------------
 ; sub_6C66D                                                       6C66D  96 PC
 ;-----------------------------------------------------------------------------
@@ -2179,7 +2179,7 @@ sub_6C66D:
         cmp dword [dword_17D267], byte 0
         jne short sub_6C663
         mov eax, dword [dword_17D162]
-        jmp near sub_1EBBC
+        jmp near LoadPlayoffStats
 jpt_6C680:
         dd sub_6C698_375
         dd sub_6C698_3A3
@@ -2488,7 +2488,7 @@ sub_6C698_3A3:
 .16:
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp near sub_6C698_620
 sub_6C698_47F:
         xor edx, edx
@@ -2570,7 +2570,7 @@ sub_6C698_47F:
         mov eax, 14Bh
         mov edx, 3
         call sub_77355
-        call sub_1A109
+        call MessageBox
         mov dword [dword_1843AC], eax
         test eax, eax
         je near sub_6C698_620

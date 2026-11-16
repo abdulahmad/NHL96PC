@@ -24,8 +24,8 @@ extern dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dwo
 extern dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, dword_183020, dword_183024, dword_183C28, dword_183C98
 extern dword_184398, dword_18439C, dword_1843A0, dword_1843A4, dword_1843A8, dword_1843B0, dword_1843B4, gameopts
 extern off_11E908, qsort_, qword_112D16, qword_112D1E, rand_, sprintf_, strcat_, strcmp_
-extern strcpy_, EditText, sub_1A109, sub_1B05E, sub_1E3E8, sub_1E5FC, sub_1E7F6, sub_1EA14
-extern sub_1ECDB, sub_1EE7C, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63998
+extern strcpy_, EditText, MessageBox, LoadTeamLogo, MakeDataPath, MakeDirPath, LoadPackedFile, LoadSeasonStats
+extern LoadExhibitionStats, LoadModemStats, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63998
 extern sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_64103, sub_64296, sub_64721, sub_64F59
 extern sub_77355, sub_78E9E, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349
 extern sub_7D49C, sub_90AF8, sub_93E6A, sub_9CFE3, sub_A0355, sub_A0480, sub_AAA40, PutBlock
@@ -321,16 +321,16 @@ sub_97420:
         jne near .13
         cmp dword [dword ebp-036C2h], 3E8h
         jge short .9
-        call sub_1ECDB
+        call LoadExhibitionStats
         jmp short .10
 .9:
         mov eax, dword [dword ebp-036C2h]
-        call sub_1EA14
+        call LoadSeasonStats
 .10:
         mov edx, 2
         lea eax, [byte ebp-052h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov edx, str_FREEAGNTDB
         lea eax, [byte ebp-052h]
         call strcat_
@@ -370,7 +370,7 @@ sub_97420:
         mov eax, 108h
 .15:
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         mov dword [byte ebp+046h], eax
         push str_Pal26
         push dword [byte ebp+046h]
@@ -1569,7 +1569,7 @@ sub_97420:
         mov eax, 1FDh
         mov edx, 2
         call sub_77355
-        call sub_1A109
+        call MessageBox
         test eax, eax
         jne near .129
 .70:
@@ -1597,7 +1597,7 @@ sub_97420:
         jne short .73
         mov edx, 3
         lea eax, [byte ebp-052h]
-        call sub_1E3E8
+        call MakeDataPath
         jmp short .74
 .73:
         lea eax, [byte ebp-052h]
@@ -1615,7 +1615,7 @@ sub_97420:
         jne short .75
         mov edx, 7
         lea eax, [byte ebp-052h]
-        call sub_1E3E8
+        call MakeDataPath
         jmp short .76
 .75:
         mov ebx, 4
@@ -1632,7 +1632,7 @@ sub_97420:
         add esp, byte 0Ch
         lea eax, [byte ebp-052h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov edx, str_FREEAGNTDB
         lea eax, [byte ebp-052h]
         call strcat_
@@ -2837,11 +2837,11 @@ sub_97420:
         mov eax, 1FEh
         mov edx, 2
         call sub_77355
-        call sub_1A109
+        call MessageBox
         test eax, eax
         jne near .129
         mov dword [dword_11E8F8], eax
-        call sub_1EE7C
+        call LoadModemStats
         xor eax, eax
         shl eax, 2
 .169:
@@ -3197,7 +3197,7 @@ sub_9A1DB:
         cmp dword [byte ebp-04h], byte 1Ah
         je short .3
         mov eax, dword [byte ebp-04h]
-        call sub_1B05E
+        call LoadTeamLogo
         xor ecx, ecx
         xor ebx, ebx
         mov edx, eax
@@ -4215,7 +4215,7 @@ sub_9AC78:
         push byte 0
         lea ebx, [byte ebp-04h]
         lea eax, [byte ebp-068h]
-        call sub_1A109
+        call MessageBox
         leave
         pop ecx
         pop ebx
@@ -4359,7 +4359,7 @@ sub_9AE18:
         xor edx, edx
         rep stosb
         mov eax, 13Ah
-        call sub_1E7F6
+        call LoadPackedFile
         push str_Pal26
         push eax
         mov dword [dword_182FB4], eax
@@ -4748,7 +4748,7 @@ sub_9AE18_6BE:
         mov eax, 200h
         mov edx, 2
         call sub_77355
-        call sub_1A109
+        call MessageBox
         test eax, eax
         jne near sub_9AE18_BD2.29
         mov dword [byte ebp+036h], 1
@@ -4784,7 +4784,7 @@ sub_9AE18_71A:
         lea ebx, [byte ebp+022h]
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp near sub_9AE18_BD2.29
 .16:
         cmp byte [byte ebp-0Ah], 0
@@ -4842,7 +4842,7 @@ sub_9AE18_71A:
         push byte 0
         mov edx, 2
         lea eax, [byte ebp-07Ah]
-        call sub_1A109
+        call MessageBox
         test eax, eax
         sete al
         mov byte [byte ebp-01Eh], al
@@ -4857,7 +4857,7 @@ sub_9AE18_71A:
         push byte 0
         mov edx, 2
         lea eax, [byte ebp-07Ah]
-        call sub_1A109
+        call MessageBox
         mov byte [byte ebp-036h], al
 .21:
         mov eax, 1
@@ -4955,7 +4955,7 @@ sub_9AE18_8F5:
         mov edx, 3
         inc byte [dword eax+0C34Fh]
         lea eax, [byte ebp-056h]
-        call sub_1E3E8
+        call MakeDataPath
         push dword [dword_11750C]
         push dword [dword_1174EC]
         lea eax, [byte ebp-056h]
@@ -4964,7 +4964,7 @@ sub_9AE18_8F5:
         add esp, byte 0Ch
         mov edx, 5
         lea eax, [byte ebp-056h]
-        call sub_1E3E8
+        call MakeDataPath
         push dword [dword_117514]
         push dword [dword_1174F4]
         lea eax, [byte ebp-056h]
@@ -4973,7 +4973,7 @@ sub_9AE18_8F5:
         add esp, byte 0Ch
         mov edx, 0BAh
         lea eax, [byte ebp-056h]
-        call sub_1E3E8
+        call MakeDataPath
         push dword [dword_117504]
         push dword [dword_1174E4]
         lea eax, [byte ebp-056h]
@@ -5002,7 +5002,7 @@ sub_9AE18_8F5:
         lea ebx, [byte ebp+022h]
         mov edx, 2
         call sub_77355
-        call sub_1A109
+        call MessageBox
         test eax, eax
         jne near sub_9AE18_BD2.29
         mov byte [byte ebp+016h], 0

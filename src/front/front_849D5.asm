@@ -18,8 +18,8 @@ extern dword_17DC64, dword_17DC68, dword_17DC6C, dword_17DC74, dword_17DD34, dwo
 extern dword_17E3A4, dword_17E8FC, dword_17FDF0, dword_181EAC, dword_181EB0, dword_1820A8, dword_1820AC, dword_1820B0
 extern dword_1820B4, dword_1820B8, dword_1820E4, dword_1820E8, dword_1820EC, gameopts, sub_88E09_8FE, sub_88E09_916
 extern sub_88E09_92E, sub_88E09_946, sub_88E09_957, sub_88E09_96F, sub_88E09_132A, sub_88E09_134F, sub_88E09_136C, sub_88E09_1380
-extern off_11D44C, off_11D52C, sprintf_, strcat_, strcmp_, LinkSync, ModemChat, sub_1B05E
-extern sub_1DED8, sub_1DF55, sub_1E222, sub_1E643, sub_1E7F6, sub_1F15E, sub_62A0F, sub_62AF7
+extern off_11D44C, off_11D52C, sprintf_, strcat_, strcmp_, LinkSync, ModemChat, LoadTeamLogo
+extern FileOpenRead, FileClose, sub_1E222, sub_1E643, LoadPackedFile, sub_1F15E, sub_62A0F, sub_62AF7
 extern sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C
 extern sub_63F79, sub_63FC8, sub_64054, sub_640D3, sub_6423E, sub_64296, sub_6448D, sub_64721
 extern sub_64F59, sub_66373, sub_67A63, sub_686DF, sub_68AB1, sub_69A94, sub_69A9B, sub_6A2A8
@@ -126,7 +126,7 @@ sub_849D5:
         xor edx, edx
         call sub_62F90
         mov eax, 2Eh
-        call sub_1E7F6
+        call LoadPackedFile
         push eax
         mov esi, eax
         call TextSetFont
@@ -453,7 +453,7 @@ sub_84F20:
         call sub_68AB1
         xor edx, edx
         mov eax, 0B3h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov dword [byte ebp+056h], eax
         mov dword [byte ebp+032h], eax
@@ -549,7 +549,7 @@ sub_84F20:
         shl eax, 0Fh
         shr eax, 1Bh
         mov ecx, 14h
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0F333h
         call sub_64296
@@ -601,7 +601,7 @@ sub_84F20:
         shl eax, 0Ah
         shr eax, 1Bh
         mov ecx, 14h
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0F333h
         call sub_64296
@@ -880,7 +880,7 @@ sub_84F20:
         call sub_78E9E
         lea edx, [byte ebp+042h]
         lea eax, [byte ebp-01Eh]
-        call sub_1DED8
+        call FileOpenRead
         test eax, eax
         jne near .29
         push eax
@@ -954,7 +954,7 @@ sub_84F20:
         mov dword [byte ebp+04Ah], 0
 .28:
         lea eax, [byte ebp+042h]
-        call sub_1DF55
+        call FileClose
         push edi
         call sub_ABF4C
         add esp, byte 4
@@ -1227,7 +1227,7 @@ sub_85911:
         call sub_68AB1
         xor edx, edx
         mov eax, 0B6h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov esi, eax
         mov dword [byte ebp+056h], eax
@@ -2253,7 +2253,7 @@ sub_86428:
         call sub_69A94
         call sub_68AB1
         mov eax, 0B4h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov dword [byte ebp+07Eh], eax
         mov dword [byte ebp+05Eh], eax
@@ -2388,7 +2388,7 @@ sub_86428:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0FD70h
         call sub_64296
@@ -2432,7 +2432,7 @@ sub_86428:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0FD70h
         call sub_64296
@@ -2789,7 +2789,7 @@ sub_86BE4:
         call sub_69A94
         call sub_68AB1
         mov eax, 0B5h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov dword [byte ebp+07Eh], eax
         mov dword [byte ebp+05Eh], eax
@@ -2921,7 +2921,7 @@ sub_86BE4:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0FD70h
         call sub_64296
@@ -2964,7 +2964,7 @@ sub_86BE4:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0FD70h
         call sub_64296

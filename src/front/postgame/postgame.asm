@@ -12,7 +12,7 @@ extern str_004, str_04d, str_AR005, str_AR015, str_AR105, str_AR115, str_Ard5, s
 extern str_BANNER, str_BKGD28, str_BT006, str_BT0110, str_BT028, str_BT108, str_BT118, str_BT124
 extern str_Card5, str_D02d2, str_D20, str_DD, str_DD11, str_DDD, str_fmtSS, str_FSH7
 extern str_METD, str_Pal25, str_PALS2, str_Plyr5, str_ProfileFsh5, str_SBACK, str_ST10, str_STDD
-extern str_STRD, str_STRK, sub_1A109, sub_1E643, sub_1E7F6, sub_1F15E, sub_62AF7, sub_62D9B
+extern str_STRD, str_STRK, MessageBox, sub_1E643, LoadPackedFile, sub_1F15E, sub_62AF7, sub_62D9B
 extern sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_64054
 extern sub_640D3, sub_6423E, sub_64296, sub_6448D, sub_64721, sub_64F59, sub_66373, sub_67A63
 extern sub_686DF, sub_689D1, sub_68AB1, sub_68BFA, sub_68C33, sub_68C8F, sub_69A94, sub_69A9B
@@ -929,7 +929,7 @@ GameStatsScreen:
         add esp, byte 4
         mov eax, 0FEh
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         push str_BKGD28
         push eax
         mov esi, eax
@@ -969,7 +969,7 @@ GameStatsScreen:
         idiv esi
         add eax, 100h
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         push edi
         push str_04d
         mov esi, eax
@@ -1020,7 +1020,7 @@ GameStatsScreen:
         idiv edi
         add eax, 100h
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         push esi
         push str_04d
         mov edi, eax
@@ -1063,7 +1063,7 @@ GameStatsScreen:
         call sub_69A94
         call sub_68AB1
         mov eax, 2Fh
-        call sub_1E7F6
+        call LoadPackedFile
         push eax
         mov dword [byte ebp+076h], eax
         call TextSetFont
@@ -1073,7 +1073,7 @@ GameStatsScreen:
         call sub_63F79
         mov eax, 0FFh
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         push str_Pal25
         push eax
         mov dword [byte ebp+066h], eax
@@ -1834,7 +1834,7 @@ ThreeStarsScreen:
         call sub_69A94
         call sub_68AB1
         mov eax, 0B7h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov esi, eax
         mov dword [byte ebp+07Eh], eax
@@ -2305,7 +2305,7 @@ ThreeStarsScreen_8CF:
         mov eax, 266h
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp short ThreeStarsScreen_936.15
 .14:
         mov dword [byte ebp+076h], 2

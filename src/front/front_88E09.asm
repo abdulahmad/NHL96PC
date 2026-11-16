@@ -20,8 +20,8 @@ extern dword_17E3BC, dword_17E3C0, dword_17E3C4, dword_17E3C8, dword_17E3CC, dwo
 extern dword_17E3DC, dword_17E3E0, dword_17E8FC, dword_17E9D0, dword_17EA50, dword_17EA54, dword_17EB90, dword_17FDF0
 extern dword_18209C, dword_1820AC, dword_1820B0, dword_1820B4, dword_1820B8, dword_1820C4, dword_1820E8, dword_1820EC
 extern fclose_, fopen_, fprintf_, jpt_88DE1, jpt_88DF9, qsort_, qword_11266E, sprintf_
-extern strcat_, strcmp_, strlen_, EditText, sub_1A109, sub_1AC0E, sub_1AE8C, sub_1B00B
-extern sub_1E7F6, sub_1EA14, sub_1EBBC, sub_1EE7C, sub_62AF7, sub_62E0E, sub_62F90, sub_63998
+extern strcat_, strcmp_, strlen_, EditText, MessageBox, ShowProgressBox, UpdateProgressBox, HideProgressBox
+extern LoadPackedFile, LoadSeasonStats, LoadPlayoffStats, LoadModemStats, sub_62AF7, sub_62E0E, sub_62F90, sub_63998
 extern sub_63A5B, sub_63F79, sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, sub_77355
 extern sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349, sub_7D49C
 extern sub_88AE6, sub_88B71, sub_88C21, PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8
@@ -241,7 +241,7 @@ sub_88E09:
         jne near .3
         mov eax, 104h
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         push str_Bkgd15
         push eax
         mov esi, eax
@@ -417,7 +417,7 @@ sub_88E09:
         call sub_DD6C4
         cmp dword [dword ebp-01EDEh], 3E8h
         jge short .8
-        call sub_1EE7C
+        call LoadModemStats
         jmp short .10
 .8:
         cmp dword [dword_1174F0], byte 0
@@ -425,14 +425,14 @@ sub_88E09:
         cmp dword [dword ebp-01EDEh], 2AF8h
         jge short .9
         mov eax, dword [dword ebp-01EDEh]
-        call sub_1EA14
+        call LoadSeasonStats
         jmp short .10
 .9:
         cmp dword [dword_1174F0], byte 0
         jne short .10
         mov eax, dword [dword ebp-01EDEh]
         sub eax, 2710h
-        call sub_1EBBC
+        call LoadPlayoffStats
 .10:
         cmp dword [dword ebp-01EDEh], 2AF8h
         jge short .11
@@ -2026,7 +2026,7 @@ sub_8A9B0:
         mov eax, 34h
         mov edx, byte_17BDAE
         call sub_77355
-        call sub_1AC0E
+        call ShowProgressBox
         mov eax, 0D4h
         call sub_77355
         push eax
@@ -2149,7 +2149,7 @@ sub_8A9B0_12C:
         jmp near .33
 .13:
         mov eax, ecx
-        call sub_1AE8C
+        call UpdateProgressBox
         mov eax, dword [byte ebp-03Ch]
         movsx eax, byte [ecx+eax]
         imul edx, eax, byte 63h
@@ -2372,7 +2372,7 @@ sub_8A9B0_12C:
 .33:
         cmp ecx, dword [byte ebp-040h]
         jl near .13
-        call sub_1B00B
+        call HideProgressBox
         mov eax, esi
         call fclose_
         xor eax, eax
@@ -2394,7 +2394,7 @@ sub_8A9B0_12C:
         mov eax, 22Eh
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
 .34:
         leave
         pop edi
@@ -3210,7 +3210,7 @@ sub_8B7BB:
         push byte 0
         mov edx, 2
         lea eax, [byte ebp-06Ch]
-        call sub_1A109
+        call MessageBox
 .8:
         leave
         pop esi

@@ -9,7 +9,7 @@ extern dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70, dword_11DF74, dwo
 extern mousey, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48, optflags, dword_17CBE7
 extern dword_17D162, dword_17D267, dword_17D564, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0
 extern dword_1843B4, fputchar, gameopts, sub_6CF0D_6, sprintf_, GetInputDevices, LinkSync, LinkSyncWithMessage
-extern ModemChat, sub_1B05E, sub_1E7F6, sub_2A502, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E
+extern ModemChat, LoadTeamLogo, LoadPackedFile, sub_2A502, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF
 extern sub_64054, sub_64296, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_68BFA, sub_68C8F
 extern sub_68E31, sub_69A94, sub_69A9B, sub_6CF0D, sub_6CF1B, sub_6D350, sub_6D828, sub_6DB5C
@@ -979,7 +979,7 @@ sub_6F056:
         call sub_69A94
         call sub_68AB1
         mov eax, 4Dh
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov dword [dword_17D588], eax
         call sub_ADA50
@@ -1057,7 +1057,7 @@ sub_6F056:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0EB85h
         call sub_64296
@@ -1088,7 +1088,7 @@ sub_6F056:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0EB85h
         call sub_64296

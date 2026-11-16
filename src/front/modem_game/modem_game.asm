@@ -12,7 +12,7 @@ extern dword_151AD0, dword_151AD5, dword_151ADE, dword_15291C, dword_17C9AA, dwo
 extern GameLoopActive, GetTicks, InputRecordCount, InputRecordHead, InputRecordRing, LinkClose, LinkConnect, LinkCopyBytes
 extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClipWindow, SetDrawBitmap, SetLinkAbortCheck
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
-extern str_SHAD, str_X3, strcpy_, sub_1A109, sub_1AA27, sub_1AA62, sub_63B0C, sub_63F79
+extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, sub_63B0C, sub_63F79
 extern sub_63FEF, sub_640D3, sub_641D4, sub_689D1, sub_68A0B, sub_68AB1, sub_68BFA, sub_68C33
 extern sub_69A94, sub_69A9B, sub_77355, sub_AA664, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_AD35C, sub_AD620, sub_ADA80, sub_ADBEC, sub_DD6C4, sub_DD6E0, sub_DD724
@@ -68,7 +68,7 @@ ModemGameOpen:
         mov edx, byte_17BDAE
         mov eax, 55h
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
         xor edx, edx
         mov eax, 50h
         call sub_68C33
@@ -139,7 +139,7 @@ ModemGameOpen:
 .4:
         cmp word [word_17C9B0], byte 0
         jne short .5
-        call sub_1AA27
+        call HideMessage
 .5:
         xor eax, eax
         call SetLinkAbortCheck
@@ -156,7 +156,7 @@ ModemGameOpen:
         mov edx, 1
         mov eax, 129h
         call sub_77355
-        call sub_1A109
+        call MessageBox
         mov dword [byte_114D96], 0
         mov dword [byte ebp-04h], 0
         jmp short .8
@@ -168,7 +168,7 @@ ModemGameOpen:
         add esp, byte 4
         cmp word [word_17C9B0], byte 0
         jne short .7
-        call sub_1AA27
+        call HideMessage
 .7:
         xor eax, eax
         call SetLinkAbortCheck
@@ -667,7 +667,7 @@ ModemGameConnect:
         mov edx, byte_17BDAE
         mov eax, 56h
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
         jmp short .4
 .3:
         mov ecx, 0F0h
@@ -675,7 +675,7 @@ ModemGameConnect:
         mov edx, byte_17BDAE
         mov eax, 57h
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
 .4:
         mov eax, dword [byte ebp-014h]
         call SetLinkAbortCheck
@@ -729,7 +729,7 @@ ModemGameConnect:
         call sub_68AB1
         call sub_68BFA
 .5:
-        call sub_1AA27
+        call HideMessage
         xor eax, eax
         call sub_77355
         mov dword [byte ebp-0Ch], eax
@@ -743,7 +743,7 @@ ModemGameConnect:
         mov edx, 1
         mov eax, 58h
         call sub_77355
-        call sub_1A109
+        call MessageBox
         mov dword [byte ebp-04h], 0
         jmp near .17
 .6:
@@ -754,7 +754,7 @@ ModemGameConnect:
 .7:
         mov word [word_114CE4], 0
 .8:
-        call sub_1AA27
+        call HideMessage
         mov dword [byte ebp-020h], 0F0h
         mov dword [byte ebp-01Ch], 140h
         mov eax, byte_17BDAE
@@ -774,7 +774,7 @@ ModemGameConnect:
         mov ecx, dword [byte ebp-020h]
         mov ebx, dword [byte ebp-01Ch]
         mov edx, dword [byte ebp-018h]
-        call sub_1AA62
+        call ShowMessage
         cmp word [word_17C9B0], byte 0
         jne short .11
         call sub_68A0B
@@ -790,7 +790,7 @@ ModemGameConnect:
         call LinkSyncPoint
         test eax, eax
         jne short .14
-        call sub_1AA27
+        call HideMessage
         xor eax, eax
         call sub_77355
         mov dword [byte ebp-0Ch], eax
@@ -814,13 +814,13 @@ ModemGameConnect:
         lea ebx, [byte ebp-0Ch]
         mov edx, 1
         mov eax, dword [byte ebp-08h]
-        call sub_1A109
+        call MessageBox
         mov word [word_114DBE], 0
         mov dword [byte ebp-04h], 0
         jmp near .17
 .14:
         mov word [word_114DBE], 0
-        call sub_1AA27
+        call HideMessage
         xor eax, eax
         call SetLinkAbortCheck
         or byte [byte_114D96], 2
@@ -830,7 +830,7 @@ ModemGameConnect:
         mov edx, byte_17BDAE
         mov eax, 59h
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
         cmp word [word_114CE4], byte 0
         jne short .15
         mov edx, 0B9h
@@ -883,7 +883,7 @@ ModemGameConnect:
         mov eax, dword [dword_114DA6]
         call LinkSyncPoint
 .16:
-        call sub_1AA27
+        call HideMessage
         mov dword [byte ebp-04h], 1
 .17:
         mov eax, dword [byte ebp-04h]
@@ -1289,7 +1289,7 @@ LinkSyncWithMessage:
         mov ebx, 140h
         mov edx, byte_17BDAE
         mov eax, dword [byte ebp-08h]
-        call sub_1AA62
+        call ShowMessage
 .1:
         mov edx, 1
         inc dword [dword_114DA6]
@@ -1307,7 +1307,7 @@ LinkSyncWithMessage:
         cmp dword [byte ebp-04h], byte 0
         cmp dword [byte ebp-04h], byte 0
         jl short .1
-        call sub_1AA27
+        call HideMessage
         xor eax, eax
         call SetLinkAbortCheck
 .4:

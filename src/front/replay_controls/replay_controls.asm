@@ -48,9 +48,9 @@ extern dword_179908, dword_179914, dword_179918, dword_179934, dword_179978, dwo
 extern dword_179DBD, dword_179E0B, dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA54, optflags
 extern optblock, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11BA08
 extern rand_, sflags, sprintf_, strcat_, strcpy_, strlen_, LinkSendBlock, LinkReceiveBlock
-extern LinkSync, ModemChat, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
-extern sub_1A109, sub_1D6C1, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1E7F6, sub_1EFFF
-extern sub_1F300, sub_23476, sub_2363D, sub_23820, sub_23AE5, sub_23C91, sub_2500F, sub_25502
+extern LinkSync, ModemChat, NameIndexNew, NameIndexLoad, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText
+extern MessageBox, BlankForFadeIn, FileCreate, FileClose, FileWriteAt, MakeDirPath, LoadPackedFile, FreeStatsTables
+extern EndGameCleanup, sub_23476, sub_2363D, sub_23820, sub_23AE5, sub_23C91, sub_2500F, sub_25502
 extern sub_25820, sub_2767F, sub_27BF1, sub_28327, sub_283C1, sub_28A87, sub_28C50, sub_2976B
 extern sub_297C9, sub_4B38C, sub_5358E, sub_535F2, sub_58A58, sub_59188, sub_59256, sub_592BA
 extern sub_59349, sub_594F1, sub_595DC, sub_5961F, sub_598DA, sub_5DBC0, sub_5DCDD, sub_5DCF8
@@ -111,7 +111,7 @@ sub_54519:
         mov edx, 20h
         mov eax, 0B1h
 .2:
-        call sub_1E7F6
+        call LoadPackedFile
         mov dword [dword_1781D0], eax
         mov eax, dword [dword_179918]
         push unk_1774C4
@@ -3883,17 +3883,17 @@ sub_57BF7:
         movsd
         movsd
         movsb
-        call sub_193E8
+        call NameIndexLoad
         mov esi, eax
         test eax, eax
         jne short .1
         mov edx, str_HILITESNDX2
         lea eax, [byte ebp-0Ah]
-        call sub_19384
+        call NameIndexNew
         mov esi, eax
 .1:
         mov eax, esi
-        call sub_19799
+        call NameIndexFirstId
         push eax
         push str_08d4
         lea eax, [byte ebp+056h]
@@ -3905,7 +3905,7 @@ sub_57BF7:
         call strcat_
         lea edx, [byte ebp+066h]
         lea eax, [byte ebp-0Ah]
-        call sub_1DF34
+        call FileCreate
         mov edi, eax
         test eax, eax
         jne near .5
@@ -3913,7 +3913,7 @@ sub_57BF7:
         mov ebx, 0FFFFFFFFh
         mov edx, byte_177504
         mov eax, dword [byte ebp+066h]
-        call sub_1DFEA
+        call FileWriteAt
         mov edi, eax
         test eax, eax
         jne short .2
@@ -3921,7 +3921,7 @@ sub_57BF7:
         mov ebx, 0FFFFFFFFh
         mov eax, dword [byte ebp+066h]
         mov edx, dword [off_11786C]
-        call sub_1DFEA
+        call FileWriteAt
         mov edi, eax
 .2:
         test edi, edi
@@ -3963,11 +3963,11 @@ sub_57BF7:
         mov ebx, 0FFFFFFFFh
         mov edx, byte_17710C
         mov eax, dword [byte ebp+066h]
-        call sub_1DFEA
+        call FileWriteAt
         mov edi, eax
 .5:
         lea eax, [byte ebp+066h]
-        call sub_1DF55
+        call FileClose
         test edi, edi
         jne near .7
         mov al, byte [byte_110FCF]
@@ -3996,7 +3996,7 @@ sub_57BF7:
         lea ebx, [byte ebp+02Ah]
         lea edx, [byte ebp+056h]
         mov eax, esi
-        call sub_1955B
+        call NameIndexAdd
         mov esi, eax
         mov eax, 72h
         call sub_77355
@@ -4009,7 +4009,7 @@ sub_57BF7:
 .7:
         mov eax, 1
         mov edx, esi
-        call sub_19522
+        call NameIndexFree
         test edi, edi
         je short .8
         xor eax, eax
@@ -4034,7 +4034,7 @@ sub_57BF7:
         mov eax, 73h
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
 .8:
         push unk_1774C4
         call sub_B026C
@@ -4088,7 +4088,7 @@ sub_57F0A:
         call sub_68C33
         call sub_689D1
         call sub_62ED9
-        call sub_1EFFF
+        call FreeStatsTables
         call sub_B0CA8
         test byte [byte_17CA5D], 20h
         jne short .1
@@ -4194,7 +4194,7 @@ sub_57F0A:
         add esp, byte 8
         mov dword [dword_152F50], eax
 .5:
-        call sub_1D6C1
+        call BlankForFadeIn
         mov eax, unk_16443C
         call sub_5358E
         test byte [byte_17CA5D], 20h
@@ -4217,7 +4217,7 @@ sub_57F0A:
         call sub_59188
         mov eax, 2
         call sub_63A5B
-        call sub_1F300
+        call EndGameCleanup
         push str_FhiL6
         push dword [dword_1150D4]
         call sub_E04E0
@@ -4438,10 +4438,10 @@ sub_583B8:
         lea eax, [byte ebp-038h]
         xor ebx, ebx
         mov dword [byte ebp-04h], 0
-        call sub_1E5FC
+        call MakeDirPath
         mov edx, str_HILITESNDX3
         lea eax, [byte ebp-038h]
-        call sub_193E8
+        call NameIndexLoad
         mov dword [byte ebp-04h], eax
 .1:
         cmp dword [byte ebp-04h], byte 0
@@ -4471,7 +4471,7 @@ sub_583B8:
         mov ebx, 16h
 .5:
         mov eax, dword_1150D8
-        call sub_1DF55
+        call FileClose
 .6:
         cmp ebx, byte 0Bh
         je short .1
@@ -4479,7 +4479,7 @@ sub_583B8:
         je short .7
         mov edx, dword [byte ebp-04h]
         mov eax, 1
-        call sub_19522
+        call NameIndexFree
         mov dword [byte ebp-04h], 0
 .7:
         cmp ebx, byte 16h

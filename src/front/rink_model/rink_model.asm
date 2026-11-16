@@ -58,7 +58,7 @@ extern dword_15E8F0, dword_15E8F4, dword_15E8F8, dword_15E8FC, dword_15E900, dwo
 extern dword_1770BB, dword_1770BF, dword_1770C3, dword_1770C7, dword_1770CB, dword_1770CF, dword_1797FC, dword_179800
 extern dword_17997C, dword_179AC8, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_190E94, dword_190E98
 extern gameopts, sub_21C1A_E1, sub_22159_4F, qword_110786, qword_11078E, randomd0, sprintf_, str_Back
-extern str_Puck, strcpy_, GetPressedDevice, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E643, sub_1E7F6
+extern str_Puck, strcpy_, GetPressedDevice, FileCreate, FileClose, FileWriteAt, sub_1E643, LoadPackedFile
 extern sub_21C1A, sub_21D14, sub_220FB, sub_22159, sub_221AE, sub_22268, sub_22299, sub_2234B
 extern sub_223BA, sub_2242A, sub_22494, sub_224AE, sub_224D1, sub_224DB, sub_49300, sub_4B38C
 extern sub_4B4F3, sub_59349, sub_625AA, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_69A94
@@ -9220,7 +9220,7 @@ sub_29B9F:
         call sub_69A94
         call sub_68AB1
         mov eax, 51h
-        call sub_1E7F6
+        call LoadPackedFile
         push str_Bkgd26
         push eax
         mov dword [byte ebp+076h], 0FFFFFFFFh
@@ -9928,7 +9928,7 @@ sub_2A645:
         enter 120h, 0
         lea edx, [byte ebp-04h]
         mov ecx, 1
-        call sub_1DF34
+        call FileCreate
         test eax, eax
         jne short .1
         mov ecx, 11Ch
@@ -9938,10 +9938,10 @@ sub_2A645:
         xor ebx, ebx
         mov ecx, 11Ch
         mov eax, dword [byte ebp-04h]
-        call sub_1DFEA
+        call FileWriteAt
         mov ecx, eax
         lea eax, [byte ebp-04h]
-        call sub_1DF55
+        call FileClose
 .1:
         mov eax, ecx
         leave

@@ -30,8 +30,8 @@ extern dword_17992C, dword_179930, dword_179934, dword_179978, dword_17997C, dwo
 extern dword_179C8C, dword_179C90, dword_179D48, dword_179DCE, dword_179E0B, dword_179E0F, dword_179E13, dword_179E17
 extern dword_179E1B, dword_17BA4C, dword_17BA50, dword_17BA54, optflags, dword_17CA5C, dword_17D528, fputchar
 extern gameclock, gameopts, gmode, hmroster, hmtmstruct, lcboxon, lcline, puckc
-extern off_11788C, off_11B278, puckz, rand_, sprintf_, strcmp_, strcpy_, sub_18E80
-extern sub_1B05E, sub_1E7F6, sub_23812, sub_23B16, sub_23F6A, sub_24F36, sub_24F75, sub_2500F
+extern off_11788C, off_11B278, puckz, rand_, sprintf_, strcmp_, strcpy_, GetSpecialTeamsRanks
+extern LoadTeamLogo, LoadPackedFile, sub_23812, sub_23B16, sub_23F6A, sub_24F36, sub_24F75, sub_2500F
 extern sub_2503F, sub_25226, sub_25502, sub_25820, sub_25E4D, sub_25E7B, sub_25EB3, sub_261A6
 extern sub_2751C, sub_2767F, sub_27BF1, sub_28A87, sub_28C50, sub_28D97, sub_297C9, sub_299CF
 extern sub_2E1BE, GetLowestPen, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F, sub_54237, sub_54391
@@ -532,7 +532,7 @@ sub_58992:
 .1:
         mov edx, 20h
         add eax, byte 0Eh
-        call sub_1E7F6
+        call LoadPackedFile
         push str_Logo
         push eax
         mov dword [dword_1798F0], eax
@@ -873,7 +873,7 @@ sub_58A58:
         shl eax, 0Fh
         shr edx, 1Dh
         shr eax, 1Bh
-        call sub_18E80
+        call GetSpecialTeamsRanks
         mov eax, dword [gameopts]
         mov ebx, dword_17829C
         mov edx, dword [optflags]
@@ -882,7 +882,7 @@ sub_58A58:
         shl eax, 0Ah
         shr edx, 1Dh
         shr eax, 1Bh
-        call sub_18E80
+        call GetSpecialTeamsRanks
         jmp short .9
 .8:
         mov dword [dword_1782A8], 0FFFFFFFFh
@@ -896,50 +896,50 @@ sub_58A58:
 .9:
         mov edx, 20h
         mov eax, 107h
-        call sub_1E7F6
+        call LoadPackedFile
         mov dword [dword_179904], eax
         test byte [byte_17CA5D], 20h
         je short .10
         mov edx, 20h
         mov eax, 28h
-        call sub_1E7F6
+        call LoadPackedFile
         mov edx, 20h
         mov dword [dword_179918], eax
         mov eax, 29h
         mov dword [dword_1798FC], 0Fh
-        call sub_1E7F6
+        call LoadPackedFile
         mov edx, 20h
         mov dword [dword_179920], eax
         mov eax, 2Eh
         mov dword [dword_17992C], 1Ah
-        call sub_1E7F6
+        call LoadPackedFile
         mov edx, 20h
         mov dword [dword_179924], eax
         mov eax, 2Ah
         mov dword [dword_179930], 2Dh
-        call sub_1E7F6
+        call LoadPackedFile
         push str_B001
         mov dword [dword_179900], 1Dh
         jmp short .11
 .10:
         mov edx, 20h
         mov eax, 63h
-        call sub_1E7F6
+        call LoadPackedFile
         mov edx, 20h
         mov dword [dword_179918], eax
         mov eax, 2Bh
         mov dword [dword_1798FC], 8
-        call sub_1E7F6
+        call LoadPackedFile
         mov edx, 20h
         mov dword [dword_179920], eax
         mov eax, 2Fh
         mov dword [dword_17992C], 0Dh
-        call sub_1E7F6
+        call LoadPackedFile
         mov edx, 20h
         mov dword [dword_179924], eax
         mov eax, 2Ch
         mov dword [dword_179930], 16h
-        call sub_1E7F6
+        call LoadPackedFile
         push str_B000
         mov dword [dword_179900], 0Dh
 .11:
@@ -963,7 +963,7 @@ sub_58A58:
         mov edx, 20h
         mov eax, 61h
 .13:
-        call sub_1E7F6
+        call LoadPackedFile
         mov dword [dword_17D528], eax
         mov dword [dword_1797B8], 0
         mov dword [dword_1797B4], 0
@@ -3207,7 +3207,7 @@ sub_5AC3E:
         mov eax, dword [dword_11B2EC]
         add eax, byte 1Ch
 .8:
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, 1Eh
         mov cl, byte [byte_1798A4]
         sar edx, cl
@@ -3641,7 +3641,7 @@ sub_5B1B3:
         shl eax, 0Fh
 .8:
         shr eax, 1Bh
-        call sub_1B05E
+        call LoadTeamLogo
         mov ecx, dword [byte_1798A4]
         movsx edx, word [byte eax+08h]
         inc ecx
@@ -5999,7 +5999,7 @@ sub_5CE42:
         shl eax, 0Fh
 .29:
         shr eax, 1Bh
-        call sub_1B05E
+        call LoadTeamLogo
         mov ecx, dword [byte_1798A4]
         mov dword [byte ebp-01Ch], eax
         inc ecx

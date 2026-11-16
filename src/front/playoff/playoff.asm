@@ -19,10 +19,10 @@ extern dword_17D1EA, dword_17D202, dword_17D20A, dword_17D252, dword_17D256, dwo
 extern dword_17D267, dword_17D26B, dword_18210C, dword_1845FC, dword_184600, dword_18460C, dword_184610, dword_1846F4
 extern dword_1846FC, dword_184700, dword_18470C, dword_184710, dword_184ABC, dword_184ADC, dword_184AFC, dword_184B00
 extern dword_184B04, dword_184B08, dword_184B0C, dword_184B10, dword_184B14, dword_184B1C, dword_184B20, gameopts
-extern jpt_A4FB7, off_11D44C, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame, sub_19384
-extern sub_193E8, sub_19491, sub_19522, sub_1955B, sub_19799, EditText, sub_1A109, sub_1AC0E
-extern sub_1AE8C, sub_1B00B, sub_1B05E, sub_1E08B, sub_1E3E8, sub_1E5FC, sub_1E7F6, sub_1E8E9
-extern sub_1EA14, sub_1EBBC, sub_29B9F, sub_4F159, sub_4F385, sub_62AF7, sub_62D9B, sub_62E0E
+extern jpt_A4FB7, off_11D44C, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame, NameIndexNew
+extern NameIndexLoad, NameIndexSave, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText, MessageBox, ShowProgressBox
+extern UpdateProgressBox, HideProgressBox, LoadTeamLogo, FileCopy, MakeDataPath, MakeDirPath, LoadPackedFile, sub_1E8E9
+extern LoadSeasonStats, LoadPlayoffStats, sub_29B9F, sub_4F159, sub_4F385, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_64296
 extern sub_64721, sub_64F59, sub_68AB1, sub_68BFA, sub_68C8F, sub_69A94, sub_70840, sub_77355
 extern sub_78E9E, sub_78EFA, sub_7BFAF, sub_7FF7F, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
@@ -54,16 +54,16 @@ sub_A4FD7:
         xor ebx, ebx
         mov dword [dword_17CC17], esi
         mov dword [dword_11ED78], esi
-        call sub_1E5FC
+        call MakeDirPath
         cmp dword [dword_11ED78], byte 0
         jne short .1
         mov eax, 1
         mov edx, dword [dword_11ED78]
-        call sub_19522
+        call NameIndexFree
 .1:
         mov edx, str_PLAYOFFNDX
         lea eax, [byte ebp-020h]
-        call sub_193E8
+        call NameIndexLoad
         mov dword [dword_11ED78], eax
         test eax, eax
         je short .2
@@ -214,7 +214,7 @@ sub_A4FD7_115:
 .17:
         mov eax, 1
         mov edx, dword [dword_11ED78]
-        call sub_19522
+        call NameIndexFree
         mov eax, ebx
         jmp near sub_A7B4B_172
 ;-----------------------------------------------------------------------------
@@ -308,7 +308,7 @@ sub_A524B:
         mov eax, 135h
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp near .12
 .7:
         mov dword [byte ebp-04h], 0
@@ -409,7 +409,7 @@ sub_A540A:
         mov eax, 139h
         xor edx, edx
         mov dword [byte ebp+03Ah], 7
-        call sub_1E7F6
+        call LoadPackedFile
         lea edx, [dword ebp-01A8Ah]
         mov dword [dword_18210C], eax
         mov eax, 26h
@@ -997,7 +997,7 @@ sub_A540A:
 .26:
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         mov dword [byte ebp+04Ah], 0FFFFFFFFh
         jmp near .33
 .27:
@@ -1235,16 +1235,16 @@ sub_A540A:
         mov edx, 6
         lea eax, [byte ebp-02Eh]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov edx, str_PLAYOFFNDX
         lea eax, [byte ebp-02Eh]
-        call sub_19384
+        call NameIndexNew
         mov dword [dword_11ED78], eax
 .44:
         mov ecx, 0F0h
         mov eax, dword [dword_11ED78]
         mov ebx, 140h
-        call sub_19799
+        call NameIndexFirstId
         push byte 6
         mov esi, eax
         mov dword [byte ebp+04Eh], eax
@@ -1252,103 +1252,103 @@ sub_A540A:
         mov eax, 225h
         mov edx, byte_17BDAE
         call sub_77355
-        call sub_1AC0E
+        call ShowProgressBox
         lea eax, [byte ebp-0Eh]
         mov edx, esi
         xor ebx, ebx
         call sub_78EFA
         mov edx, 3
         lea eax, [byte ebp-04Eh]
-        call sub_1E3E8
+        call MakeDataPath
         lea edx, [byte ebp-0Eh]
         lea eax, [byte ebp-04Eh]
         mov ebx, 1
-        call sub_1E08B
+        call FileCopy
         mov ecx, eax
         mov dword [byte ebp+036h], eax
         mov eax, 1
         mov edx, esi
-        call sub_1AE8C
+        call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
         call sub_78EFA
         mov edx, 0BAh
         lea eax, [byte ebp-04Eh]
-        call sub_1E3E8
+        call MakeDataPath
         test ecx, ecx
         jne short .45
         lea edx, [byte ebp-0Eh]
         lea eax, [byte ebp-04Eh]
-        call sub_1E08B
+        call FileCopy
         mov dword [byte ebp+036h], eax
 .45:
         mov eax, 2
         mov ebx, 2
         mov edx, dword [byte ebp+04Eh]
-        call sub_1AE8C
+        call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
         call sub_78EFA
         mov edx, 5
         lea eax, [byte ebp-04Eh]
-        call sub_1E3E8
+        call MakeDataPath
         cmp dword [byte ebp+036h], byte 0
         jne short .46
         lea edx, [byte ebp-0Eh]
         lea eax, [byte ebp-04Eh]
-        call sub_1E08B
+        call FileCopy
         mov dword [byte ebp+036h], eax
 .46:
         mov eax, 3
         mov ebx, 3
         mov edx, dword [byte ebp+04Eh]
-        call sub_1AE8C
+        call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
         call sub_78EFA
         mov edx, 6
         lea eax, [byte ebp-04Eh]
-        call sub_1E3E8
+        call MakeDataPath
         cmp dword [byte ebp+036h], byte 0
         jne short .47
         lea edx, [byte ebp-0Eh]
         lea eax, [byte ebp-04Eh]
-        call sub_1E08B
+        call FileCopy
         mov dword [byte ebp+036h], eax
 .47:
         mov eax, 4
         mov ebx, 4
         mov edx, dword [byte ebp+04Eh]
-        call sub_1AE8C
+        call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
         call sub_78EFA
         mov edx, 7
         lea eax, [byte ebp-04Eh]
-        call sub_1E3E8
+        call MakeDataPath
         cmp dword [byte ebp+036h], byte 0
         jne short .48
         lea edx, [byte ebp-0Eh]
         lea eax, [byte ebp-04Eh]
-        call sub_1E08B
+        call FileCopy
         mov dword [byte ebp+036h], eax
 .48:
         mov eax, 5
         mov ebx, 5
         mov edx, dword [byte ebp+04Eh]
-        call sub_1AE8C
+        call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
         call sub_78EFA
         mov edx, 8
         lea eax, [byte ebp-04Eh]
-        call sub_1E3E8
+        call MakeDataPath
         cmp dword [byte ebp+036h], byte 0
         jne short .49
         lea edx, [byte ebp-0Eh]
         lea eax, [byte ebp-04Eh]
-        call sub_1E08B
+        call FileCopy
         mov dword [byte ebp+036h], eax
 .49:
         mov eax, 6
         mov ebx, 7
-        call sub_1AE8C
-        call sub_1B00B
+        call UpdateProgressBox
+        call HideProgressBox
         mov eax, dword [byte ebp+03Ah]
         and byte [dword_17CF8E], 0F8h
         and eax, byte 7
@@ -1381,7 +1381,7 @@ sub_A540A:
         mov edx, 6
         lea eax, [dword ebp-0BEh]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov eax, dword [dword esi+dword_17D1E2]
         add eax, byte 41h
         push eax
@@ -1456,9 +1456,9 @@ sub_A540A:
         add esp, byte 0Ch
         lea edx, [byte ebp-0Eh]
         mov eax, dword [dword_11ED78]
-        call sub_1955B
+        call NameIndexAdd
         mov dword [dword_11ED78], eax
-        call sub_19491
+        call NameIndexSave
         jmp short .57
 .56:
         cmp dword [byte ebp+04Ah], byte 1
@@ -1476,7 +1476,7 @@ sub_A540A:
         mov eax, 267h
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
 .57:
         mov eax, 3
         call sub_63A5B
@@ -1523,7 +1523,7 @@ sub_A6561:
         add esp, byte 4
         mov eax, dword [byte ebp-08h]
         mov ebx, 0FFFFFFF6h
-        call sub_1B05E
+        call LoadTeamLogo
         xor ecx, ecx
         mov edx, eax
         mov eax, 4000h
@@ -2052,11 +2052,11 @@ sub_A6B94:
         call sub_ABF4C
         add esp, byte 4
         mov eax, dword [dword_17CBE7]
-        call sub_1EA14
+        call LoadSeasonStats
         jmp short .3
 .2:
         mov eax, dword [dword_17D162]
-        call sub_1EBBC
+        call LoadPlayoffStats
 .3:
         mov ecx, 3C0h
         mov esi, unk_11EFDC
@@ -2572,7 +2572,7 @@ sub_A6B94:
         lea ebx, [byte ebp+05Eh]
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         mov dword [byte ebp+05Ah], 0FFFFFFFFh
 .27:
         cmp dword [byte ebp+05Ah], byte 13h
@@ -3603,7 +3603,7 @@ sub_A80FC:
         mov edx, 6
         lea eax, [byte ebp-040h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         movzx eax, byte [byte ebp-01Eh]
         add eax, byte 41h
         push eax
@@ -3635,7 +3635,7 @@ sub_A80FC:
         mov edx, 1
         mov dword [byte ebp-0Ch], 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
 .7:
         cmp dword [byte ebp-0Ch], byte 1
         je near .18
@@ -3820,7 +3820,7 @@ sub_A8351:
         je short .4
         mov eax, dword [dword eax+dword_17D1E2]
         mov ebx, 0FFFFFFF6h
-        call sub_1B05E
+        call LoadTeamLogo
         xor ecx, ecx
         mov edx, eax
         mov eax, 4000h
@@ -3828,7 +3828,7 @@ sub_A8351:
 .4:
         mov eax, dword [dword eax+dword_17D1E2]
         mov ebx, 0FFFFFFF6h
-        call sub_1B05E
+        call LoadTeamLogo
         xor ecx, ecx
         mov edx, eax
         mov eax, 5999h

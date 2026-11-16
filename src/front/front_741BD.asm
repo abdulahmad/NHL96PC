@@ -18,7 +18,7 @@ extern dword_17D688, dword_17D68C, dword_17D690, dword_17D694, dword_17D6A0, dwo
 extern dword_17D6C4, fclose_, fopen_, fputchar, fread_, fseek_, gameopts, sub_77642_5FB
 extern sub_77642_768, sub_77642_798, sub_77642_7C5, sub_77642_7F2, sub_77642_8AF, sub_77642_8BB, sub_77642_8CB, sub_77642_8E0
 extern qsort_, sprintf_, strcpy_, strlen_, ModemGameOpen, ModemGameConnect, ModemGameClose, ModemGameQuit
-extern ModemChat, EditText, sub_1A109, sub_1B05E, sub_1E3E8, sub_1E715, sub_1E7F6, sub_29B9F
+extern ModemChat, EditText, MessageBox, LoadTeamLogo, MakeDataPath, LoadDataFile, LoadPackedFile, sub_29B9F
 extern sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998
 extern sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64296, sub_64721, sub_64F59, sub_66373
 extern sub_68AB1, sub_69A94, sub_69A9B, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4
@@ -63,7 +63,7 @@ sub_741BD:
         mov dword [byte ebp+062h], eax
         xor edx, edx
         mov eax, 59h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov edi, eax
         mov dword [byte ebp+05Ah], eax
@@ -941,7 +941,7 @@ sub_741BD:
 .36:
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp near .44
 .37:
         mov edx, unk_17C9CC
@@ -1261,7 +1261,7 @@ sub_7513A:
         call sub_68AB1
         xor edx, edx
         mov eax, 55h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov esi, eax
         mov dword [byte ebp+072h], eax
@@ -1791,7 +1791,7 @@ sub_7513A_8DB:
         mov eax, 1FCh
         mov edx, 1
         call sub_77355
-        call sub_1A109
+        call MessageBox
         jmp near sub_7513A_BD2.36
 sub_7513A_9DA:
         cmp word [word_17C9B0], byte 0
@@ -2038,7 +2038,7 @@ sub_75E2C:
         call sub_68AB1
         xor edx, edx
         mov eax, 56h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov esi, eax
         mov dword [byte ebp+072h], eax
@@ -2223,7 +2223,7 @@ sub_76231:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0E3D7h
         call sub_64296
@@ -2338,7 +2338,7 @@ sub_76394:
         xor ecx, ecx
         shr eax, 1Bh
         xor ebx, ebx
-        call sub_1B05E
+        call LoadTeamLogo
         mov edx, eax
         mov eax, 0E3D7h
         call sub_64296
@@ -2451,7 +2451,7 @@ sub_76518:
         call sub_69A94
         call sub_68AB1
         mov eax, 57h
-        call sub_1E7F6
+        call LoadPackedFile
         push byte 0
         mov dword [byte ebp+076h], eax
         mov dword [byte ebp+07Eh], eax
@@ -3209,7 +3209,7 @@ sub_771F0:
 .1:
         mov edx, 20h
         lea eax, [dword esi+0136h]
-        call sub_1E715
+        call LoadDataFile
         mov dword [dword_11E2C0], eax
         cmp dword [dword_11E2C4], byte 0
         je short .2
@@ -3283,7 +3283,7 @@ sub_772DB:
         mov edx, dword [dword_17D6C4]
         lea eax, [byte ebp-034h]
         add edx, 134h
-        call sub_1E3E8
+        call MakeDataPath
         mov edx, str_Rb
         lea eax, [byte ebp-034h]
         call fopen_

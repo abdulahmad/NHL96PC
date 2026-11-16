@@ -24,9 +24,9 @@ extern dword_160C9C, dword_160CA0, dword_160CA4, dword_160CA8, dword_160CAC, dwo
 extern dword_160CFC, dword_160D02, dword_160D06, dword_160D0A, dword_160D0E, dword_160D12, dword_160D22, dword_160D26
 extern dword_17BC74, dword_17BC7C, dword_17BC96, dword_17BCA2, dword_17BCA6, optflags, fclose_, fopen_
 extern fprintf_, fputchar, gameopts, off_11D3DC, qsort_, sprintf_, str_fmtTenths, strcat_
-extern strcmp_, strcpy_, strlen_, GetPressedDevice, sub_19384, sub_193E8, sub_19491, sub_19522
-extern sub_1955B, sub_19659, sub_19706, sub_19731, sub_19799, EditText, sub_1A109, sub_1AA27
-extern sub_1AA62, sub_1DCDC, sub_1DED8, sub_1DF18, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1E7F6
+extern strcmp_, strcpy_, strlen_, GetPressedDevice, NameIndexNew, NameIndexLoad, NameIndexSave, NameIndexFree
+extern NameIndexAdd, NameIndexRemove, NameIndexId, NameIndexPath, NameIndexFirstId, EditText, MessageBox, HideMessage
+extern ShowMessage, DeleteFiles, FileOpenRead, FileOpenReadWrite, FileClose, FileWriteAt, MakeDirPath, LoadPackedFile
 extern sub_2A5B5, sub_2A645, sub_62AF7, sub_62E0E, sub_62F90, sub_63998, sub_63A5B, sub_63E7C
 extern sub_63EB5, sub_63F79, sub_63FEF, sub_64103, sub_64721, sub_64F59, sub_68E31, sub_69A9B
 extern sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349, sub_8B7BB
@@ -86,23 +86,23 @@ sub_2A692:
         push byte 0
         mov edx, 2
         lea eax, [byte ebp-05Ch]
-        call sub_1A109
+        call MessageBox
         test eax, eax
         jne near .8
         mov ebx, byte_110B48
         mov eax, dword [esi]
         mov edx, dword [byte ebp-04h]
         add eax, byte 15h
-        call sub_1DCDC
+        call DeleteFiles
         test eax, eax
         je near .5
         mov edx, edi
         mov eax, dword [esi]
-        call sub_19706
+        call NameIndexId
         mov ebx, dword [esi]
         mov edx, eax
         mov eax, ebx
-        call sub_19659
+        call NameIndexRemove
         mov dword [esi], eax
         mov ebx, eax
         cmp dword [byte eax+066h], byte 2
@@ -133,7 +133,7 @@ sub_2A692:
         cmp ebx, 84h
         jne short .2
         mov eax, dword [esi]
-        call sub_19491
+        call NameIndexSave
         mov eax, 1
         jmp near sub_2B99B_131
 .5:
@@ -148,7 +148,7 @@ sub_2A692:
         mov ebx, dword [dword_11F5C0]
         sar ecx, 1
         sar ebx, 1
-        call sub_1AA62
+        call ShowMessage
 .6:
         call GetPressedDevice
         test eax, eax
@@ -160,7 +160,7 @@ sub_2A692:
         call GetPressedDevice
         test eax, eax
         jne short .7
-        call sub_1AA27
+        call HideMessage
 .8:
         xor eax, eax
         jmp near sub_2B99B_131
@@ -198,9 +198,9 @@ sub_2A804:
         mov edx, 3
         lea eax, [byte ebp-068h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov eax, dword [esi]
-        call sub_19799
+        call NameIndexFirstId
         push eax
         push str_08d
         lea eax, [byte ebp-0Ch]
@@ -226,7 +226,7 @@ sub_2A804:
         mov ebx, dword [dword_11F5C0]
         sar ecx, 1
         sar ebx, 1
-        call sub_1AA62
+        call ShowMessage
 .1:
         call GetPressedDevice
         test eax, eax
@@ -243,9 +243,9 @@ sub_2A804:
         lea ebx, [byte ebp-034h]
         lea edx, [byte ebp-0Ch]
         mov eax, dword [esi]
-        call sub_1955B
+        call NameIndexAdd
         mov dword [esi], eax
-        call sub_19491
+        call NameIndexSave
         jmp short .8
 .4:
         mov eax, 6Dh
@@ -259,7 +259,7 @@ sub_2A804:
         mov ebx, dword [dword_11F5C0]
         sar ecx, 1
         sar ebx, 1
-        call sub_1AA62
+        call ShowMessage
 .5:
         call GetPressedDevice
         test eax, eax
@@ -272,7 +272,7 @@ sub_2A804:
         test eax, eax
         jne short .6
 .7:
-        call sub_1AA27
+        call HideMessage
 .8:
         mov eax, edi
 sub_2A804_159:
@@ -420,18 +420,18 @@ sub_2AABB:
         mov edx, 3
         lea eax, [byte ebp-040h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov edx, str_LOCALNDX
         lea eax, [byte ebp-040h]
-        call sub_193E8
+        call NameIndexLoad
         mov dword [ecx], eax
         test eax, eax
         jne short .1
         mov edx, str_LOCALNDX
         lea eax, [byte ebp-040h]
-        call sub_19384
+        call NameIndexNew
         mov dword [ecx], eax
-        call sub_19799
+        call NameIndexFirstId
         push eax
         push str_08d
         lea eax, [byte ebp-0Ch]
@@ -444,9 +444,9 @@ sub_2AABB:
         mov esi, dword [ecx]
         mov ebx, eax
         mov eax, esi
-        call sub_1955B
+        call NameIndexAdd
         mov dword [ecx], eax
-        call sub_19799
+        call NameIndexFirstId
         push eax
         push str_08d
         lea eax, [byte ebp-0Ch]
@@ -459,9 +459,9 @@ sub_2AABB:
         mov esi, dword [ecx]
         mov ebx, eax
         mov eax, esi
-        call sub_1955B
+        call NameIndexAdd
         mov dword [ecx], eax
-        call sub_19491
+        call NameIndexSave
 .1:
         leave
         pop esi
@@ -878,7 +878,7 @@ sub_2AB8F:
         sar ecx, 1
         sar ebx, 1
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
         push dword [dword_17BC74]
         call TextSetFont
         add esp, byte 4
@@ -893,7 +893,7 @@ sub_2AB8F:
         call GetPressedDevice
         test eax, eax
         jne short .16
-        call sub_1AA27
+        call HideMessage
         jmp near .31
 .17:
         mov eax, dword [byte ebp-0Ch]
@@ -901,7 +901,7 @@ sub_2AB8F:
         mov word [dword esi+word_160ACC], ax
         mov eax, dword [byte ebp-028h]
         mov ebx, dword [byte ebp-014h]
-        call sub_19706
+        call NameIndexId
         mov edx, eax
         mov eax, dword [byte ebp-028h]
         mov dword [byte ebp-018h], 1
@@ -998,7 +998,7 @@ sub_2AB8F:
         mov word [dword esi+word_160ACC], ax
         mov eax, dword [byte ebp-028h]
         mov ebx, dword [byte ebp-014h]
-        call sub_19706
+        call NameIndexId
         mov edx, eax
         mov eax, dword [byte ebp-028h]
         call sub_2AA81
@@ -1015,7 +1015,7 @@ sub_2AB8F:
         sar ecx, 1
         sar ebx, 1
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
         push dword [dword_17BC74]
         call TextSetFont
         add esp, byte 4
@@ -1030,7 +1030,7 @@ sub_2AB8F:
         call GetPressedDevice
         test eax, eax
         jne short .28
-        call sub_1AA27
+        call HideMessage
 .29:
         cmp dword [byte ebp-018h], byte 0
         jne short .30
@@ -1056,7 +1056,7 @@ sub_2AB8F:
         je near .5
         mov edx, dword [byte ebp-028h]
         mov eax, 1
-        call sub_19522
+        call NameIndexFree
         call sub_DD6C4
         push dword [byte edi+02Ch]
         call sub_AADA4
@@ -1119,15 +1119,15 @@ sub_2B4B9:
         movsx edx, word [dword eax+word_160ACC]
         mov eax, dword [byte ebp+052h]
         lea ebx, [byte ebp-012h]
-        call sub_19706
+        call NameIndexId
         mov edx, eax
         mov eax, dword [byte ebp+052h]
-        call sub_19731
+        call NameIndexPath
         test eax, eax
         je near .26
         lea edx, [byte ebp+04Eh]
         lea eax, [byte ebp-012h]
-        call sub_1DF18
+        call FileOpenReadWrite
         mov ecx, eax
         test eax, eax
         jne near .26
@@ -1387,11 +1387,11 @@ sub_2B4B9:
         xor ebx, ebx
         mov dword [byte ebp-016h], eax
         mov eax, dword [byte ebp+04Eh]
-        call sub_1DFEA
+        call FileWriteAt
         mov ecx, eax
 .25:
         lea eax, [byte ebp+04Eh]
-        call sub_1DF55
+        call FileClose
 .26:
         inc dword [byte ebp+07Ah]
         add dword [byte ebp+076h], byte 21h
@@ -1399,7 +1399,7 @@ sub_2B4B9:
         jl near .1
         mov edx, dword [byte ebp+052h]
         mov eax, 1
-        call sub_19522
+        call NameIndexFree
         mov eax, ecx
 sub_2B4B9_47F:
         lea esp, [dword ebp+082h]
@@ -2409,17 +2409,17 @@ sub_2C31A:
         xor esi, esi
         jmp near .11
 .1:
-        call sub_19706
+        call NameIndexId
         lea ebx, [byte ebp-070h]
         mov ecx, dword [dword_160AB4]
         mov edx, eax
         mov eax, ecx
-        call sub_19731
+        call NameIndexPath
         test eax, eax
         je near .10
         lea edx, [byte ebp-03Ch]
         lea eax, [byte ebp-070h]
-        call sub_1DED8
+        call FileOpenRead
         mov dword [byte ebp-018h], eax
         test eax, eax
         jne near .10
@@ -2440,7 +2440,7 @@ sub_2C31A:
         mov edx, dword [byte ebp-08h]
         mov eax, dword [dword_160AB4]
         mov ebx, dword [dword_160AB8]
-        call sub_19706
+        call NameIndexId
         mov edx, dword [dword_160AB4]
         mov dword [byte ebp-038h], edx
         mov edx, eax
@@ -2602,7 +2602,7 @@ sub_2C31A:
         mov word [byte edi+eax-04h], dx
 .9:
         lea eax, [byte ebp-03Ch]
-        call sub_1DF55
+        call FileClose
 .10:
         add dword [byte ebp-030h], byte 10h
         add dword [byte ebp-04h], byte 4
@@ -2665,7 +2665,7 @@ sub_2C65C:
         sar ecx, 1
         sar ebx, 1
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
 .1:
         call GetPressedDevice
         test eax, eax
@@ -2677,7 +2677,7 @@ sub_2C65C:
         call GetPressedDevice
         test eax, eax
         jne short .2
-        call sub_1AA27
+        call HideMessage
         jmp near sub_2A804_159
 .3:
         mov eax, 63h
@@ -3098,7 +3098,7 @@ sub_2CB9D:
         jg short .1
         mov edx, eax
         mov eax, 1
-        call sub_19522
+        call NameIndexFree
         xor edx, edx
         jmp near sub_2CB9D_CC6.43
 .1:
@@ -3224,7 +3224,7 @@ sub_2CB9D:
         add esp, byte 4
         mov eax, 133h
         xor edx, edx
-        call sub_1E7F6
+        call LoadPackedFile
         push str_Pal5
         push eax
         mov dword [byte ebp+042h], eax
@@ -3992,7 +3992,7 @@ sub_2CB9D_CC6:
         add esp, byte 4
         mov eax, 1
         mov edx, dword [dword_160AB4]
-        call sub_19522
+        call NameIndexFree
         mov eax, 3
         mov edx, dword [byte ebp+02Eh]
         call sub_63A5B

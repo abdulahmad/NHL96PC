@@ -65,10 +65,130 @@
   {
    "obj": 1,
    "start": 102016,
-   "end": 131533,
+   "end": 103298,
+   "module": "front_main",
+   "file": "front/team_ranks/team_ranks.asm",
+   "desc": "Front-end main: start-up, async and CD streaming, text edit fields and screen helpers (to be split as they get named).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 103298,
+   "end": 104429,
+   "module": "front_name_index",
+   "file": "front/name_index/name_index.asm",
+   "desc": "NAMEINDEX files: the index of saved files in a directory (names, titles, ids) (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 104429,
+   "end": 106574,
+   "module": "front_edit_text",
+   "file": "front/edit_text/edit_text.asm",
+   "desc": "Text entry field (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 106574,
+   "end": 110662,
+   "module": "front_message_box",
+   "file": "front/message_box/message_box.asm",
+   "desc": "Message boxes: with buttons, without, and with a progress bar (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 110662,
+   "end": 112647,
    "module": "front_main",
    "file": "front/main/main.asm",
-   "desc": "Front-end main: start-up, async and CD streaming, text edit fields and screen helpers (to be split as they get named).",
+   "desc": "Front-end main: main_, start-up and shut-down, the front-end screen loop, team logos (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 112647,
+   "end": 116263,
+   "module": "front_async",
+   "file": "front/async/async.asm",
+   "desc": "EA async file reader: request queue, read rate, timer (EA library, names from its debug messages).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 116263,
+   "end": 120513,
+   "module": "front_cdstream",
+   "file": "front/cdstream/cdstream.asm",
+   "desc": "EA CD stream: ring-buffered data streams off the CD (EA library, names from its debug messages).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 120513,
+   "end": 121957,
+   "module": "front_game_setup",
+   "file": "front/game_setup/game_setup.asm",
+   "desc": "Setting up a game: players at the start, SetupGame, SetupDemoGame, the game variables (95 PC front/main).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 121957,
+   "end": 123708,
+   "module": "front_file_io",
+   "file": "front/file_io/file_io.asm",
+   "desc": "DOS file helpers: open, create, close, read / write at an offset, copy, delete (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 123708,
+   "end": 123848,
+   "module": "front_series",
+   "file": "front/series/series.asm",
+   "desc": "Playoff series: the Cup or a series clinched (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 123848,
+   "end": 125460,
+   "module": "front_data_files",
+   "file": "front/data_files/data_files.asm",
+   "desc": "Game data files: their paths by id and directory, loading them (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 125460,
+   "end": 127744,
+   "module": "front_stats_tables",
+   "file": "front/stats_tables/stats_tables.asm",
+   "desc": "The stats tables of the game mode: loading and freeing them (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 127744,
+   "end": 131533,
+   "module": "front_game_teams",
+   "file": "front/game_teams/game_teams.asm",
+   "desc": "The teams of a game: rosters and lines from the mode's files, the end-of-game clean-up (96 PC).",
    "conf": "subject split (cleanup phase 2)",
    "group": "front"
   },

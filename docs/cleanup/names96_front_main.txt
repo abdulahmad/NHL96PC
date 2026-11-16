@@ -1,0 +1,129 @@
+# NHL 96 PC front/main.asm (18E80-201CD). PC-only. Lowercase names are EA's own (from the library's debug strings).
+sub_18E80 GetSpecialTeamsRanks {confidence=medium} (team, game mode, out): reads every team's record for the mode (exhibition / season / playoff stats file), works out power play % and penalty kill % (x1000), sorts the teams (qsort) and stores this team's rank in each
+sub_19336 ComparePowerPlayPct {confidence=medium} qsort comparator for GetSpecialTeamsRanks: by power play % (dword_152AD4), then team number
+sub_1935C ComparePenaltyKillPct {confidence=medium} qsort comparator for GetSpecialTeamsRanks: by penalty kill % (dword_152A6C), then team number
+sub_19384 NameIndexNew {confidence=high} (name, dir): a new NAMEINDEX block (magic 2C093h, directory, title, no entries, first id 1000)
+sub_193E8 NameIndexLoad {confidence=high} (dir, file): loads a NAMEINDEX file (dir\file), checks its magic; 0 when missing or bad
+sub_193E8_A3 NameIndexLoad_ret {no_record} shared ret
+sub_19491 NameIndexSave {confidence=high} writes a changed NAMEINDEX block back to its file (header plus 36h-byte entries)
+sub_19522 NameIndexFree {confidence=high} (save, index): saves the index when asked and changed, then frees it
+sub_1955B NameIndexAdd {confidence=high} (index, file name, title): adds an entry (grows the block); returns the new block
+sub_19659 NameIndexRemove {confidence=high} (index, id): removes the entry with that id (1000 + n); returns the new block
+sub_19706 NameIndexId {confidence=high} (index, n): the id of entry n (1000 + n), -1 when out of range
+sub_19731 NameIndexPath {confidence=high} (index, id, out): dir\file of an entry; 0 when the id is not in the index
+sub_19799 NameIndexFirstId {confidence=medium} the index's first id field (1000 for no index, -1 for a bad one)
+sub_1A04E DrawBoxButton {confidence=medium} draws one button (BUT art) of the open message box, highlighted or not, with its text
+sub_1A04E_B4 DrawBoxButton_ret {no_record} shared ret
+sub_1A109 MessageBox {confidence=high} (text id, buttons, ...): a message box (BD_REG / BD_MEN board, BUT buttons) over the screen, waits for a button by mouse, pad or keys (with the modem chat on a modem game); returns the button
+sub_1AA27 HideMessage {confidence=high} takes down the message put up by ShowMessage
+sub_1AA62 ShowMessage {confidence=high} (text id, w, h, screen): puts up a message box with no buttons and returns (HideMessage takes it down)
+sub_1AC0E ShowProgressBox {confidence=high} (text, total): a message box with a progress bar ("0%")
+sub_1AE8C UpdateProgressBox {confidence=high} (done): fills the progress bar to done / total and prints the percentage
+sub_1B00B HideProgressBox {confidence=high} takes the progress box down
+sub_1B05E LoadTeamLogo {confidence=medium} (team): loads the logo "L" + the team's three letters (off_11D3DC), or for 1Ch-21h the league logos LNPA, LNHL, LDON, LNEW, LSTA, LEAS, from the logo bank, with its palette
+sub_1B05E_3B LoadTeamLogo_3B {no_record} jump table case
+sub_1B05E_45 LoadTeamLogo_45 {no_record} jump table case
+sub_1B05E_4F LoadTeamLogo_4F {no_record} jump table case
+sub_1B05E_59 LoadTeamLogo_59 {no_record} jump table case
+sub_1B05E_63 LoadTeamLogo_63 {no_record} jump table case
+sub_1B05E_6D LoadTeamLogo_6D {no_record} jump table case and the load
+sub_1B05E_D8 LoadTeamLogo_ret {no_record} shared ret
+sub_1B13D RunFrontEnd {confidence=high} the front end: runs the screen with the current number (each screen returns the next: main menu, exhibition, season, playoffs, options, modem, ...) until quit; main_ calls it
+sub_1B229 ReturnTrue {confidence=high} returns 1 (a callback that always says yes)
+sub_1B22F CheckFreeMemory {confidence=high} start-up: free DOS / extended memory against 5 MB (4CE1A4h) and 4.6 MB; not enough prints the text and waits for Esc
+sub_1B311 CheckGameDirs {confidence=medium} start-up: changes into each of the game's 8 data directories and back; a missing one prints the text and waits for Esc
+sub_1B3AC InitHardware {confidence=medium} start-up: mouse, GrIP library, memory pools (CLEARER), timer, video mode, palette and fonts
+sub_1B4D2 StartUp {confidence=high} main_ first part: seeds rand, InitHardware, InitInputDevices, reads the SETUP settings (else "You must first use the SETUP program..."), checks memory and directories, loads the front end
+sub_1B4D2_2CB ShutDown {confidence=high} main_ last part: frees the front end, sound and art, then the exit hook
+sub_1B4D2_31C ShutDown_51 {no_record} exit hook call
+sub_1B4D2_322 StartUp_ret {no_record} shared ret
+sub_1B807 setasyncspeed {source=new,confidence=high} EA async reader: measures the read speed of two files (time to read up to 4A3E8h bytes) for the async read rate; name from its debug message
+sub_1B807_1E0 setasyncspeed_ret {no_record} shared ret
+sub_1BA4D AsyncInit {confidence=medium} EA async reader: allocates the ASYNC FILE request blocks (0ABh bytes each, free list), sets the read rate, starts AsyncTimerTick
+sub_1BB20 AsyncClose {confidence=medium} EA async reader: stops AsyncTimerTick, closes its files and frees the request blocks
+sub_1BC7A AsyncRequestOpen {confidence=low} EA async reader: queues a type 3 request (open a file by name)
+sub_1BD67 AsyncRequestSection {confidence=medium} EA async reader: queues a type 5 request (a section read, "NO FILE SPECIFIED FOR SECTION READ" when no file is open)
+sub_1BE50 AsyncCancelRequest {confidence=low} marks a request's destination -1 (dropped when it comes up)
+sub_1BE72 asyncreader {source=new,confidence=high} EA async reader: works through the request queue a piece at a time (open, chunk, section and handle reads); name from its debug messages
+sub_1BE72_B asyncreader_B {no_record} body
+sub_1BE72_34D asyncreader_34D {no_record} body
+sub_1BE72_3EF asyncreader_3EF {no_record} body
+sub_1BE72_614 asyncreader_614 {no_record} body
+sub_1C51E AsyncTimerTick {confidence=medium} EA async reader timer callback: counts ticks and lets the read budget recover
+sub_1C51E_45 AsyncTimerTick_45 {no_record} body of the routine after it
+sub_1C56B AsyncRequestDone {confidence=medium} (request): 1 when the request has finished (its block goes back to the free list)
+sub_1C5F3 getasyncblock {source=new,confidence=high} EA async reader: takes a request block off the free list ("NO ASYNC BLOCKS LEFT" when none); name from its debug message
+sub_1C627 CdStreamInit {confidence=medium} (stream, buffer size, ...): sets up a CD stream's ring buffer and state and starts its timer
+sub_1C6E0 CdStreamOpen {confidence=medium} allocates a CDSTREAM buffer and CdStreamInit
+sub_1C6E0_2B CdStreamOpen_2B {no_record} shared tail
+sub_1C711 CdStreamOpenDefault {confidence=medium} CdStreamOpen with no options
+sub_1C729 setstreamspeed {source=new,confidence=high} EA CD stream: measures the read speed of the stream files for the data stream rate; name from its debug message
+sub_1C957 delstream {source=new,confidence=high} EA CD stream: removes a stream (stops its timer, closes its file, frees it); name from its debug message ("STREAM NOT FOUND")
+sub_1C9DC CdStreamStart {confidence=low} (stream, file): sets the stream's file name and state 1 (open and start reading)
+sub_1CA02 CdStreamQueue {confidence=low} (stream, file): sets the stream's file name and state 0Dh (open the next file)
+sub_1CA28 CdStreamSeek {confidence=low} (stream, offset): state 2, read position = file start + offset
+sub_1CA52 CdStreamSyncTime {confidence=low} stores the current stream's play position (sub_B6964) in the stream
+sub_1CA78 CdStreamInitSecondary {confidence=low} sets up the secondary CD stream's ring buffer and state
+sub_1CAF0 CdStreamOpenSecondary {confidence=low} allocates a SECCDSTREAM buffer and CdStreamInitSecondary
+sub_1CB54 CdStreamService {confidence=medium} the current CD stream's state machine (open, read, refill, wrap, next file), driven by its read budget
+sub_1CB54_18 CdStreamService_18 {no_record} state dispatch
+sub_1CB54_2E CdStreamService_2E {no_record} state case
+sub_1CB54_3C CdStreamService_3C {no_record} state case
+sub_1CB54_95 CdStreamService_95 {no_record} state case
+sub_1CB54_EC CdStreamService_EC {no_record} state case
+sub_1CB54_129 CdStreamService_129 {no_record} state case
+sub_1CB54_34E CdStreamService_34E {no_record} state case
+sub_1CB54_456 CdStreamService_456 {no_record} state case
+sub_1CB54_5F4 CdStreamService_5F4 {no_record} state case
+sub_1CB54_6BE CdStreamService_6BE {no_record} state case
+sub_1CB54_7C1 CdStreamService_7C1 {no_record} state case
+sub_1CB54_914 CdStreamService_914 {no_record} state case
+sub_1D53B CdStreamTimerTick {confidence=medium} CD stream timer callback: adds to the current stream's read budget
+sub_1D54E CdStreamSkipMarks {confidence=medium} moves a stream's read pointer over skip (-2) and wrap (-1) marks in its ring buffer
+sub_1D582 CdStreamContigData {confidence=low} bytes readable in one piece from the stream's ring buffer
+sub_1D5A9 CdStreamSpaceLeft {confidence=low} room left at the end of the stream's ring buffer
+sub_1D5D1 CdStreamNextPacket {confidence=medium} services the stream and returns its next packet (-2 at the end of the stream)
+sub_1D658 CdStreamFreePacket {confidence=medium} marks a packet as used (-2), so the ring buffer space comes back
+sub_1D6C1 BlankForFadeIn {confidence=low} waits for the vertical blank, clears the screen and sets fadeinpending
+sub_1DC65 FileMissing {confidence=high} (path): 1 when the file cannot be opened
+sub_1DCDC DeleteFiles {confidence=high} (dir, name, ext): deletes every dir\name.ext (find first / next, unlink)
+sub_1DED8 FileOpenRead {confidence=high} (path, &handle): _dos_open_ read only
+sub_1DED8_1A FileOpenRead_1A {no_record} shared tail
+sub_1DEFC FileOpenWrite {confidence=high} (path, &handle): _dos_open_ write only
+sub_1DF18 FileOpenReadWrite {confidence=high} (path, &handle): _dos_open_ read / write
+sub_1DF34 FileCreate {confidence=high} (path, &handle): _dos_creat_
+sub_1DF55 FileClose {confidence=high} (&handle): closes it when open, sets -1
+sub_1DFEA FileWriteAt {confidence=high} (handle, data, size, offset): seeks (offset >= 0) and writes; 0 ok, -1 seek error, 1 short write (the write side of FileReadAt)
+sub_1DFEA_6B FileWriteAt_6B {no_record} shared tail
+sub_1DFEA_77 FileWriteAt_77 {no_record} shared tail
+sub_1E08B FileCopy {confidence=high} (from, to): copies a file through a 200 KB COPYBUFFER
+sub_1E08B_17E FileCopy_ret {no_record} shared ret
+sub_1E383 HomeClinchesSeries {confidence=medium} 1 when the home team is ahead and one win from taking the series (dword_17D263 bit 2)
+sub_1E383_21 HomeClinchesSeries_21 {no_record} shared return 0
+sub_1E3A7 AwayClinchesSeries {confidence=medium} 1 when the away team is ahead and one win from taking the series (dword_17D263 bit 1)
+sub_1E3E8 MakeDataPath {confidence=high} (out, file id): the path of a game data file: the language prefix (optflags & 3) where the file has one, its directory (table unk_115120) and name (table unk_115333, 16h-byte entries)
+sub_1E3E8_42 MakeDataPath_42 {no_record} jump table case
+sub_1E3E8_4A MakeDataPath_4A {no_record} jump table case
+sub_1E3E8_50 MakeDataPath_50 {no_record} jump table case
+sub_1E3E8_63 MakeDataPath_63 {no_record} jump table case and the rest
+sub_1E3E8_E0 MakeDataPath_E0 {no_record} jump table case
+sub_1E3E8_E8 MakeDataPath_E8 {no_record} jump table case
+sub_1E3E8_EE MakeDataPath_EE {no_record} jump table case
+sub_1E3E8_101 MakeDataPath_101 {no_record} jump table case and the rest
+unk_1E3C8 jpt_1E3C8 {no_record} jump table
+unk_1E3D8 jpt_1E3D8 {no_record} jump table
+sub_1E5FC MakeDirPath {confidence=high} (out, dir, language): a game directory path (language prefix, directory from unk_115120, backslash)
+sub_1E715 LoadDataFile {confidence=medium} (file id, flags): loads a game data file by id (MakeDataPath, then the loader)
+sub_1E715_1B LoadDataFile_1B {no_record} shared tail
+sub_1E7F6 LoadPackedFile {confidence=medium} (file id, flags): loads a game data file and unpacks it when packed
+sub_1EA14 LoadSeasonStats {confidence=medium} (season): frees the stats tables and loads the season's stats files (team, players, schedule, ...)
+sub_1EA14_11A LoadSeasonStats_11A {no_record} body shared with the playoff loader
+sub_1EBBC LoadPlayoffStats {confidence=medium} (playoff): frees the stats tables and loads the playoff's stats files
+sub_1ECDB LoadExhibitionStats {confidence=medium} frees the stats tables and loads the exhibition stats files
+sub_1ECDB_17E LoadExhibitionStats_17E {no_record} body shared with LoadModemStats
+sub_1EE7C LoadModemStats {confidence=medium} frees the stats tables and loads the modem game stats files
+sub_1EFFF FreeStatsTables {confidence=high} frees the loaded stats tables (dword_1174E0-1174FC) and clears their sizes
+sub_1F300 EndGameCleanup {confidence=medium} after a game: sound off, GameOver, clears the game mode flag and the player slots, frees the game's buffers; the game loop is no longer running
+sub_1F362 LoadGameRosters {confidence=medium} loads both teams' rosters and lines for the game from the files of the game mode (exhibition, season, playoff, modem)
+sub_1F771 InitGameTeams {confidence=medium} (home, away): sets the teams and options of the game to play (period -1, game summary fields) and LoadGameRosters
+sub_1E969 MakeDatabasePath {confidence=medium} (id, out, drive): path of a saved database file: the save directory (or drive X:\) + the id as %07d + ".DB"

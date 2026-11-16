@@ -18,10 +18,10 @@ extern dword_17C958, dword_17C960, dword_17C964, dword_17C968, tgvpalpending, dw
 extern dword_17C97C, dword_17C980, dword_17C984, dword_17C988, dword_17C98C, dword_17C990, dword_17C994, dword_17C998
 extern dword_17C99C, dword_17C9A4, optflags, dword_17C9F4, globalset, optblock, dword_17CA5C, dword_17CA76
 extern gameopts, getcwd_, gmode, sub_BFA45_90, rand_, srand_, strcat_, strlen_
-extern strncpy_, ResetSlotButtons, GetPressedDevice, LinkResyncInput, sub_193E8, sub_19522, sub_1B807, sub_1BA4D
-extern sub_1BB20, sub_1BC7A, sub_1BD67, sub_1BE50, sub_1BE72, sub_1C56B, sub_1C711, sub_1C729
-extern sub_1C957, sub_1C9DC, sub_1CA02, sub_1CA52, sub_1CAF0, sub_1D5D1, sub_1D658, sub_1DF55
-extern sub_1E3E8, sub_1E5FC, sub_1E73F, sub_1E779, sub_1ECDB, sub_57B11, sub_63A5B, sub_63BBA
+extern strncpy_, ResetSlotButtons, GetPressedDevice, LinkResyncInput, NameIndexLoad, NameIndexFree, setasyncspeed, AsyncInit
+extern AsyncClose, AsyncRequestOpen, AsyncRequestSection, AsyncCancelRequest, asyncreader, AsyncRequestDone, CdStreamOpenDefault, setstreamspeed
+extern delstream, CdStreamStart, CdStreamQueue, CdStreamSyncTime, CdStreamOpenSecondary, CdStreamNextPacket, CdStreamFreePacket, FileClose
+extern MakeDataPath, MakeDirPath, sub_1E73F, sub_1E779, LoadExhibitionStats, sub_57B11, sub_63A5B, sub_63BBA
 extern sub_63DC4, sub_6C698, sub_70840, sub_76518, sub_7BFAF, sub_971E9, sub_9C866, sub_A25CD
 extern sub_AB758, sub_ABF4C, sub_AC838, sub_AC868, DetectCPU, sub_B69EC, sub_B6A14, sub_B6A68
 extern sub_BFA45, sub_BFAF5, sub_BFB53, sub_BFB74, sub_BFB7C, sub_BFBE3, sub_BFC16, sub_BFC91
@@ -262,7 +262,7 @@ sub_67140:
         mov edx, dword [dword eax+dword_11D23E]
 .7:
         mov eax, edi
-        call sub_1E3E8
+        call MakeDataPath
         imul esi, dword [byte ebp-04h], byte 32h
         lea eax, [byte ebp-014h]
         push eax
@@ -322,16 +322,16 @@ sub_67140:
         mov eax, dword [byte ebp-04h]
         cmp eax, dword [dword_11D38A]
         jl near .5
-        call sub_1BB20
+        call AsyncClose
         push byte 20h
         push dword 2000h
         push byte 18h
-        call sub_1BA4D
+        call AsyncInit
         add esp, byte 0Ch
         push byte_17C60C
-        call sub_1BC7A
+        call AsyncRequestOpen
         add esp, byte 4
-        call sub_1BE72
+        call asyncreader
         jmp near sub_67000_55
 ;-----------------------------------------------------------------------------
 ; sub_67329                                                       67329  96 PC
@@ -383,15 +383,15 @@ sub_67329:
         jne short .1
         mov edx, 5Bh
         lea eax, [byte ebp-038h]
-        call sub_1E3E8
+        call MakeDataPath
         mov edx, 5Ah
         lea eax, [byte ebp-06Ch]
-        call sub_1E3E8
+        call MakeDataPath
         lea eax, [byte ebp-06Ch]
         push eax
         lea eax, [byte ebp-038h]
         push eax
-        call sub_1B807
+        call setasyncspeed
         mov dword [dword_11D38E], 1
         add esp, byte 8
 .1:
@@ -2128,9 +2128,9 @@ sub_686DF:
         cmp dword [dword esi+dword_17C5C4], byte 0
         je short .5
         push dword [dword esi+dword_17C5C4]
-        call sub_1BE50
+        call AsyncCancelRequest
         add esp, byte 4
-        call sub_1BE72
+        call asyncreader
 .5:
         add esi, byte 14h
         cmp esi, byte 3Ch
@@ -2143,7 +2143,7 @@ sub_686DF:
         je short .7
         push dword [dword esi+dword_17C5C4]
         mov word [word_11D23A], 1
-        call sub_1C56B
+        call AsyncRequestDone
         add esp, byte 4
         test eax, eax
         je near .11
@@ -2260,7 +2260,7 @@ sub_686DF_207:
         mov dword [dword esi+dword_17C5D0], 0FFFFFFFFh
         push dword [dword eax+dword_17C4A0]
         mov dword [dword esi+dword_17C5CC], edx
-        call sub_1BD67
+        call AsyncRequestSection
         mov dword [dword esi+dword_17C5C4], eax
         movsx eax, word [word_17C63E]
         inc eax
@@ -2302,7 +2302,7 @@ sub_68A10:
         mov dword [dword_11D232], eax
         mov edx, eax
         mov eax, byte_11D20A
-        call sub_1E3E8
+        call MakeDataPath
 .1:
         cmp dword [sndcard], byte 0
         jl near .3
@@ -2323,7 +2323,7 @@ sub_68A10:
         push byte_11D20A
         push dword [dword_11D1D2]
         mov dword [byte_11D1DE], 0
-        call sub_1CA02
+        call CdStreamQueue
         add esp, byte 8
         mov eax, dword [dword_11D1D2]
         call sub_C0252
@@ -2363,7 +2363,7 @@ sub_68AB1:
         cmp esi, 0C8h
         jge short .5
         push dword [dword_11D1D2]
-        call sub_1D5D1
+        call CdStreamNextPacket
         add esp, byte 4
         mov edx, eax
         cmp eax, byte 0FFFFFFFDh
@@ -2411,7 +2411,7 @@ sub_68B37:
         cmp dword [dword_11D1D2], byte 0
         je short .2
         push dword [dword_11D1D2]
-        call sub_1C957
+        call delstream
         add esp, byte 4
 .2:
         mov dword [dword_11D1D2], 0
@@ -2431,7 +2431,7 @@ sub_68BA4:
         push byte 20h
         push dword 2000h
         push dword 35B60h
-        call sub_1C711
+        call CdStreamOpenDefault
         add esp, byte 0Ch
         mov dword [dword_11D1D2], eax
 .1:
@@ -2546,7 +2546,7 @@ sub_68CB7:
         test eax, eax
         jne short .2
         push dword [dword_11D1D2]
-        call sub_1D5D1
+        call CdStreamNextPacket
         add esp, byte 4
         mov edx, eax
         cmp eax, byte 0FFFFFFFDh
@@ -2573,7 +2573,7 @@ sub_68CFE:
         test byte [byte_11D1DE], 4
         je short .1
         push dword [dword_11D1D2]
-        call sub_1CA52
+        call CdStreamSyncTime
         add esp, byte 4
 .1:
         pop edx
@@ -3010,10 +3010,10 @@ sub_69161:
         je short .6
         mov eax, unk_17C474
         mov dword [dword_11D3B2], edx
-        call sub_1E3E8
+        call MakeDataPath
         push unk_17C474
         push dword [dword_11D1D6]
-        call sub_1CA02
+        call CdStreamQueue
         add esp, byte 8
         mov eax, dword [dword_11D1D6]
         mov ebx, 1
@@ -3039,7 +3039,7 @@ sub_69234:
         cmp dword [dword_11D3AA], byte 1
         jle near .4
         push dword [dword_11D1D6]
-        call sub_1D5D1
+        call CdStreamNextPacket
         add esp, byte 4
         mov esi, eax
         cmp eax, byte 0FFFFFFFDh
@@ -3250,7 +3250,7 @@ sub_6941E:
 .2:
         push dword [byte ebp-04h]
         push edi
-        call sub_1C729
+        call setstreamspeed
         add esp, byte 8
         cmp eax, 7A120h
         jle short .3
@@ -3312,7 +3312,7 @@ StartSoundCard_3F:
         push byte 20h
         push dword 2000h
         push byte 18h
-        call sub_1BA4D
+        call AsyncInit
         add esp, byte 0Ch
         mov dword [sndcard], esi
         mov dword [dword_11D1C8], edi
@@ -3330,7 +3330,7 @@ StartSoundCard_3F:
         push byte 20h
         push dword 2000h
         push dword 35B60h
-        call sub_1C711
+        call CdStreamOpenDefault
         mov dword [byte_11D1DE], 0
         add esp, byte 0Ch
         mov dword [dword_11D1D2], eax
@@ -3389,7 +3389,7 @@ sub_695CB:
 .2:
         push dword [dword_11D1D2]
         mov dword [byte_11D1DE], 0
-        call sub_1C957
+        call delstream
         add esp, byte 4
         mov dword [dword_11D1D2], 0
         call sub_686DF
@@ -3398,7 +3398,7 @@ sub_695CB:
         push byte 0
         push dword 2000h
         push dword 157C0h
-        call sub_1C711
+        call CdStreamOpenDefault
         add esp, byte 0Ch
         push byte 0
         mov dword [dword_11D1D6], eax
@@ -3556,7 +3556,7 @@ sub_6986B:
         xor eax, eax
         call sub_6934E
         push dword [dword_11D1D6]
-        call sub_1C957
+        call delstream
         mov dword [dword_11D1D6], 0
         mov dword [byte_11D1DE], 0
         add esp, byte 4
@@ -3606,7 +3606,7 @@ sub_6986B:
         push byte 20h
         push dword 2000h
         push dword 35B60h
-        call sub_1C711
+        call CdStreamOpenDefault
         add esp, byte 0Ch
         mov dword [dword_11D1D2], eax
         cmp dword [dword_11D1E6], byte 0
@@ -3664,10 +3664,10 @@ sub_699D0:
 .3:
         push dword [dword_11D1D2]
         mov dword [byte_11D1DE], 0
-        call sub_1C957
+        call delstream
         add esp, byte 4
         mov dword [dword_11D1D2], 0
-        call sub_1BB20
+        call AsyncClose
         call sub_C181F
 .4:
         pop edx
@@ -3705,7 +3705,7 @@ sub_69AB2:
         mov word [word_11D23A], 0
         cmp word [word_17C640], byte 0
         je near sub_686DF_207
-        call sub_1BE72
+        call asyncreader
         mov dword [byte ebp-04h], 0
         jmp near sub_686DF_1FA
 ;-----------------------------------------------------------------------------
@@ -3784,7 +3784,7 @@ sub_69B99:
         push dword 2000h
         push dword 7A120h
         mov esi, eax
-        call sub_1C711
+        call CdStreamOpenDefault
         add esp, byte 0Ch
         push esi
         mov dword [dword_17C988], eax
@@ -3794,12 +3794,12 @@ sub_69B99:
         push dword 35C60h
         push dword 0FFh
         push byte 31h
-        call sub_1CAF0
+        call CdStreamOpenSecondary
         add esp, byte 10h
         push edi
         push dword [dword_17C988]
         mov dword [dword_17C99C], eax
-        call sub_1C9DC
+        call CdStreamStart
         add esp, byte 8
         cmp dword [dword_17C984], byte 0
         je short .1
@@ -3891,7 +3891,7 @@ PlayTGV:
         add esp, byte 4
 .9:
         push dword [dword_17C988]
-        call sub_1C957
+        call delstream
         add esp, byte 4
         pop esi
         pop edx
@@ -3913,7 +3913,7 @@ sub_69D61:
         mov esi, eax
 .2:
         push dword [dword_17C988]
-        call sub_1D5D1
+        call CdStreamNextPacket
         add esp, byte 4
         mov dword [dword_17C98C], eax
         cmp eax, byte 0FFFFFFFFh
@@ -3959,7 +3959,7 @@ sub_69D61:
 .6:
         push dword [dword_17C98C]
         push dword [dword_17C988]
-        call sub_1D658
+        call CdStreamFreePacket
         add esp, byte 8
 .7:
         call GetTicks
@@ -4002,7 +4002,7 @@ sub_69D61:
         mov edi, eax
 .13:
         push dword [dword_17C99C]
-        call sub_1D5D1
+        call CdStreamNextPacket
         add esp, byte 4
         mov dword [dword_17C98C], eax
         cmp eax, byte 0FFFFFFFFh
@@ -4039,7 +4039,7 @@ sub_69D61:
 .17:
         push dword [dword_17C98C]
         push dword [dword_17C99C]
-        call sub_1D658
+        call CdStreamFreePacket
         add esp, byte 8
         cmp dword [dword_17C968], byte 0
         jne short .19
@@ -4317,11 +4317,11 @@ sub_6A2A8:
         call sub_68B37
         lea eax, [byte ebp-034h]
         mov edx, ebx
-        call sub_1E3E8
+        call MakeDataPath
         lea eax, [byte ebp-034h]
         push eax
         push eax
-        call sub_1C729
+        call setstreamspeed
         add esp, byte 8
         cmp byte [byte ebp-034h], 0
         je short .2
@@ -4365,7 +4365,7 @@ ReadGlobalSet:
         mov edx, 1
         lea eax, [byte ebp-040h]
         lea ebx, [byte ebp-0Ch]
-        call sub_1E3E8
+        call MakeDataPath
         mov edx, 2
         lea eax, [byte ebp-040h]
         mov dword [byte ebp-08h], 0
@@ -4513,7 +4513,7 @@ sub_6A5EB:
         enter 40h, 0
         mov edx, 1
         lea eax, [byte ebp-040h]
-        call sub_1E3E8
+        call MakeDataPath
         lea eax, [byte ebp-08h]
         push eax
         lea eax, [byte ebp-0Ch]
@@ -4567,15 +4567,15 @@ sub_6A675:
         enter 38h, 0
         mov dword [byte ebp-04h], 0
         mov edx, 5
-        call sub_1ECDB
+        call LoadExhibitionStats
         xor ebx, ebx
         mov dword [gameopts], optblock_end
         call sub_9C866
         lea eax, [byte ebp-038h]
-        call sub_1E5FC
+        call MakeDirPath
         mov edx, str_EXHIBITNDX
         lea eax, [byte ebp-038h]
-        call sub_193E8
+        call NameIndexLoad
         mov dword [byte ebp-04h], eax
 .1:
         cmp dword [byte ebp-04h], byte 0
@@ -4654,7 +4654,7 @@ sub_6A675:
         mov edi, optblock_end
         rep movsb
         mov eax, dword_1150D8
-        call sub_1DF55
+        call FileClose
         mov dword [dword_1150D8], 0FFFFFFFFh
 .12:
         cmp ebx, byte 1
@@ -4663,7 +4663,7 @@ sub_6A675:
         je short .13
         mov edx, dword [byte ebp-04h]
         mov eax, 1
-        call sub_19522
+        call NameIndexFree
         mov dword [byte ebp-04h], 0
 .13:
         mov eax, ebx

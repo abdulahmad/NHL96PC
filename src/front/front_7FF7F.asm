@@ -7,7 +7,7 @@ extern byte_17CFB1, byte_17D262, byte_17D26F, byte_17D270, byte_17D271, dword_11
 extern dword_117500, dword_117510, dword_11E4B8, dword_1657EA, dword_1657F6, dword_1657FA, dword_1657FE, dword_17CB2F
 extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CEC3, dword_17CED1, dword_17CED6, dword_17D162, dword_17D1E2
 extern dword_17D202, dword_17D267, dword_17D26B, gameopts, qsort_, sprintf_, srand_, strcat_
-extern strlen_, sub_1AA27, sub_1AA62, sub_1AC0E, sub_1AE8C, sub_1B00B, sub_1E5FC, sub_1EA14
+extern strlen_, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox, MakeDirPath, LoadSeasonStats
 extern sub_63968, sub_68AB1, sub_69A94, sub_69A9B, sub_77355, sub_78E9E, sub_78EFA, sub_7A787
 extern sub_81EEA, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_ABF4C, sub_B20D0
 extern sub_B22B0, sub_B7810, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, word_1656DC
@@ -39,7 +39,7 @@ sub_7FF7F:
         mov edx, 4
         lea eax, [byte ebp-066h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov eax, dword [dword_17CEC3]
 .1:
         add eax, byte 41h
@@ -52,7 +52,7 @@ sub_7FF7F:
         mov edx, 4
         lea eax, [byte ebp-066h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         movsx eax, byte [byte_17D26F]
         mov eax, dword [nosplit eax*4+dword_17D1E2]
         jmp short .1
@@ -60,7 +60,7 @@ sub_7FF7F:
         mov edx, 6
         lea eax, [byte ebp-066h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         movsx eax, byte [byte_17D26F]
         mov eax, dword [nosplit eax*4+dword_17D1E2]
         add eax, byte 41h
@@ -1389,7 +1389,7 @@ sub_80E4D:
         mov eax, 4Fh
         mov edx, byte_17BDAE
         call sub_77355
-        call sub_1AC0E
+        call ShowProgressBox
 .4:
         movzx eax, word [esi]
         cmp eax, dword [byte ebp-066h]
@@ -1398,7 +1398,7 @@ sub_80E4D:
         call sub_69A9B
         mov eax, dword [byte ebp+032h]
         mov edi, dword [byte ebp-06Ah]
-        call sub_1AE8C
+        call UpdateProgressBox
         movzx edx, word [esi]
         add edi, edx
         movzx eax, byte [byte edi+02h]
@@ -1514,14 +1514,14 @@ sub_80E4D:
         push eax
         call sub_B22B0
         add esp, byte 0Ch
-        call sub_1B00B
+        call HideProgressBox
 .10:
         mov eax, 50h
         mov ecx, 0C8h
         mov ebx, 140h
         mov edx, byte_17BDAE
         call sub_77355
-        call sub_1AA62
+        call ShowMessage
         cmp dword [dword_17CC13], byte 2
         jne short .11
         mov dword [byte ebp+06Ah], 19h
@@ -1550,7 +1550,7 @@ sub_80E4D:
         mov edx, 4
         lea eax, [byte ebp-062h]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         push dword [byte ebp+036h]
         push dword [dword_17CBE7]
         lea eax, [byte ebp-062h]
@@ -2000,13 +2000,13 @@ sub_80E4D:
         push eax
         call sub_B22B0
         add esp, byte 0Ch
-        call sub_1AA27
+        call HideMessage
         cmp dword [byte ebp+026h], byte 0
         jne short .52
         call sub_63968
 .52:
         mov eax, dword [dword_17CBE7]
-        call sub_1EA14
+        call LoadSeasonStats
         jmp near sub_7FF7F_86F
 ;-----------------------------------------------------------------------------
 ; sub_81721                                                       81721  96 PC
@@ -2579,7 +2579,7 @@ sub_81D7C:
         mov edx, 4
         lea eax, [byte ebp-05Ch]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov eax, dword [dword esi+dword_17D1E2]
         add eax, byte 41h
         push eax
@@ -2607,7 +2607,7 @@ sub_81D7C:
         mov edx, 6
         lea eax, [byte ebp-05Ch]
         xor ebx, ebx
-        call sub_1E5FC
+        call MakeDirPath
         mov eax, dword [dword esi+dword_17D1E2]
         add eax, byte 41h
         push eax

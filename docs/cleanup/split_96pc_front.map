@@ -9,3 +9,17 @@ cut sub_18E80 front/main Front-end main: start-up, async and CD streaming, text 
 # step 2: front_1456D
 rename front/front_1456D front/postgame Post-game screens: the three stars and the game statistics (96 PC).
 cut PlayMenuGame front/play_game Playing a game: from the menus by game mode, the input record timer, the game loop, the demo game (95 PC front/main, 96 PC).
+# step 3: front/main (18E80-201CD)
+rename front/main front/team_ranks Team ranks by power play and penalty kill % for the pre-game screen (96 PC).
+cut NameIndexNew front/name_index NAMEINDEX files: the index of saved files in a directory (names, titles, ids) (96 PC).
+cut EditText front/edit_text Text entry field (96 PC).
+cut DrawBoxButton front/message_box Message boxes: with buttons, without, and with a progress bar (96 PC).
+cut LoadTeamLogo front/main Front-end main: main_, start-up and shut-down, the front-end screen loop, team logos (96 PC).
+cut setasyncspeed front/async EA async file reader: request queue, read rate, timer (EA library, names from its debug messages).
+cut CdStreamInit front/cdstream EA CD stream: ring-buffered data streams off the CD (EA library, names from its debug messages).
+cut BlankForFadeIn front/game_setup Setting up a game: players at the start, SetupGame, SetupDemoGame, the game variables (95 PC front/main).
+cut FileMissing front/file_io DOS file helpers: open, create, close, read / write at an offset, copy, delete (96 PC).
+cut IsCupClinched front/series Playoff series: the Cup or a series clinched (96 PC).
+cut MakeDataPath front/data_files Game data files: their paths by id and directory, loading them (96 PC).
+cut LoadSeasonStats front/stats_tables The stats tables of the game mode: loading and freeing them (96 PC).
+cut EndGameCleanup front/game_teams The teams of a game: rosters and lines from the mode's files, the end-of-game clean-up (96 PC).

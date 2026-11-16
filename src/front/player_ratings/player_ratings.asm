@@ -16,8 +16,8 @@ extern str_Bkgd18, str_Card3, str_D11, str_DD10, str_DD9, str_DSS4, str_FSH5, st
 extern str_HD023, str_NAV, str_Pal24, str_Plyr3, str_PROFILEFSH3, str_RAT02, str_S1, str_S1dg
 extern str_S1dw, str_S1ug, str_S1up, str_S22, str_S2dg, str_S2dw, str_S2ug, str_S2up
 extern str_S32, str_S3dg, str_S3dw, str_S3ug, str_S3up, str_SD5, str_TR00, str_TR01
-extern str_TR02, str_TR0D, str_XTbl2, sub_1E643, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA
-extern sub_1F2F5, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0430, sub_B0494
+extern str_TR02, str_TR0D, str_XTbl2, SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record
+extern StatsDb2Record, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0430, sub_B0494
 extern sub_B2C54, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed, unk_93BE6, unk_93CA6
 extern unk_93D26
 global PlayerRatingsScreen, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B, PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68
@@ -1613,12 +1613,12 @@ DrawRatingBars:
         je short .5
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax]
-        call sub_1F2F5
+        call StatsDb2Record
         jmp short .6
 .5:
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax]
-        call sub_1F2F5
+        call StatsDb2Record
 .6:
         mov edi, eax
         mov esi, dword [byte ebp-010h]
@@ -1767,22 +1767,22 @@ DrawRatingBars:
 .26:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2DF
+        call StatsDataBBRecord
         jmp short .30
 .27:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2D4
+        call StatsDb1Record
         jmp short .30
 .28:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2EA
+        call StatsData4Record
         jmp short .30
 .29:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2C9
+        call StatsDb5Record
 .30:
         mov dword [byte ebp-08h], eax
 .31:
@@ -2076,22 +2076,22 @@ DrawRatingBars_4C1:
 .66:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2DF
+        call StatsDataBBRecord
         jmp short .70
 .67:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2D4
+        call StatsDb1Record
         jmp short .70
 .68:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2EA
+        call StatsData4Record
         jmp short .70
 .69:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2C9
+        call StatsDb5Record
 .70:
         mov edi, eax
 .71:
@@ -2491,7 +2491,7 @@ LoadRatingsPicture:
         add esp, byte 4
 .3:
         mov eax, 0FFFFFFF8h
-        call sub_1E643
+        call SelectDataLibrary
         push str_FSH5
         lea eax, [byte ebp-018h]
         push eax
@@ -3127,7 +3127,7 @@ DrawRatingsName:
         jne short .12
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax]
-        call sub_1F2F5
+        call StatsDb2Record
         movzx eax, byte [eax]
         test eax, eax
         jne short .11
@@ -3139,7 +3139,7 @@ DrawRatingsName:
 .12:
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax]
-        call sub_1F2F5
+        call StatsDb2Record
         movzx eax, byte [eax]
         test eax, eax
         je short .13

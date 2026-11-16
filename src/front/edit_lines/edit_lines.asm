@@ -26,7 +26,7 @@ extern str_Bt018, str_Bt02d4, str_Bt092, str_Bt17, str_CD2, str_CS4, str_DBPTRs3
 extern str_Drs1, str_Drs2, str_Drs3, str_FName3, str_HeightNWeight3, str_Jers, str_Jrhl, str_LinesSort
 extern str_LName3, str_Nhl1, str_Nhl2, str_Nhl3, str_Pal28, str_Player3, str_Profiles3, str_Scr12
 extern str_Scr22, str_Scr3, str_Sld12, str_Sldw, str_Slid2, str_Slu12, str_Slup, str_Sta13
-extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, sub_1E8E9, sub_1F15E, sub_1F2F5
+extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, StatsDb2Record
 extern sub_AAA40, sub_AAA8C, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B2C54, sub_DD6C4
 extern sub_E04E0, sub_E0584, TickDeadlinePassed, unk_157B1C, unk_157B82, unk_157FDA, unk_183D08, word_11D1B4
 extern word_1656E8, word_16581E
@@ -476,7 +476,7 @@ EditLinesScreen:
         mov eax, dword [dword_1843B4]
         xor edx, edx
         add eax, 116h
-        call sub_1E8E9
+        call LoadDataFileLib
         lea edx, [dword ebp-017EEh]
         mov dword [byte ebp+062h], eax
         mov eax, 2Dh
@@ -4320,7 +4320,7 @@ SortTeamPlayers:
         jmp short .3
 .2:
         mov eax, dword [byte ebp-010h]
-        call sub_1F15E
+        call PlayerDbRecord
 .3:
         mov dword [dword edi+dword_183C28], eax
         mov edi, dword [nosplit esi*4+dword_183C28]
@@ -4418,7 +4418,7 @@ AutoSetLines:
         jmp short .3
 .2:
         mov eax, dword [byte eax+024h]
-        call sub_1F2F5
+        call StatsDb2Record
         mov dword [byte ebp+052h], eax
 .3:
         mov edi, edx
@@ -4443,7 +4443,7 @@ AutoSetLines:
         jmp short .7
 .6:
         mov eax, dword [byte eax+024h]
-        call sub_1F2F5
+        call StatsDb2Record
         mov dword [byte ebp+03Eh], eax
 .7:
         mov edi, edx

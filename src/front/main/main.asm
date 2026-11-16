@@ -11,7 +11,7 @@ extern str_HardwareBeforeRunningHOC, str_IhreHardwareZuKonfigurie, str_LDON, str
 extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_, strlen_, GripSetupScreen
 extern ClearSlotUsers, UserRecordsScreen, WatchHighlight, HighlightsMenu, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
 extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
-extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, sub_73BA5, LoadLangText, FreeLangText, GetLangText
+extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunControlSetup, LoadLangText, FreeLangText, GetLangText
 extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, sub_AB758, sub_ABF4C, sub_AC868, sub_ADA50
 extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, sub_DD6C4
 extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, sub_DFF28, sub_E04D0, sub_E04E0
@@ -177,7 +177,7 @@ RunFrontEnd:
         call RunPlayoffMenus
         jmp short .17
 .9:
-        call sub_73BA5
+        call RunControlSetup
         jmp short .17
 .10:
         call UserRecordsScreen

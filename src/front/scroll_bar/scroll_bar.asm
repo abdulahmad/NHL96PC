@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_7CCB8 progbits alloc exec nowrite align=1
 extern __CHP, dword_1122F8, dword_1122FC, dword_112300, dword_112304, dword_11D1A8, dword_11D1AC, PutBlock
-extern SetDrawBitmap, sub_7D580_13D3, sub_7D580_13E4, sub_7D580_153A, sub_7D580_1AC2, sub_7D580_1B49, sub_7D580_1B6C, sub_AAA40
+extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, sub_AAA40
 extern sub_AAADC, sub_AD35C, sub_ADBEC, sub_B2C70, sub_DD6C4
 global InitVScrollBar, InitVScrollBar_217, InitHScrollBar, InitHScrollBar_207, InitHScrollBar_337, ScrollBarRet, ScrollBarUp, ScrollBarDown
 global ScrollBarPageUp, ScrollBarPageUp_B, ScrollBarPageUp_14, ScrollBarPageUp_19, ScrollBarPageDown, FreeScrollBar, SetScrollBarPos, DrawScrollBar
@@ -723,9 +723,9 @@ unk_7D500:
         db 0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh
         db 0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh
 jpt_7D568:
-        dd sub_7D580_13D3
-        dd sub_7D580_13E4
-        dd sub_7D580_153A
-        dd sub_7D580_1AC2
-        dd sub_7D580_1B49
-        dd sub_7D580_1B6C
+        dd CalendarScreen_13D3
+        dd CalendarScreen_13E4
+        dd CalendarScreen_153A
+        dd CalendarScreen_1AC2
+        dd CalendarScreen_1B49
+        dd CalendarScreen_1B6C

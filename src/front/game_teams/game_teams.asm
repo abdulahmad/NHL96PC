@@ -11,7 +11,7 @@ extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, GetLang
 extern sub_ABF4C, sub_B71D4, unk_156E6C, unk_157AF8, unk_157B1C, unk_157B82, unk_157F9C, unk_157FDA
 extern unk_1580AD, unk_1582F5, unk_1583C8, unk_158610, word_11510D, word_156E6E, word_156E70, word_156E72
 extern word_156E74, word_156E76, word_156E78, word_156E7A, word_157AFA, word_157AFC, word_165758, word_16578A
-global EndGameCleanup, LoadGameRosters, InitGameTeams, sub_1F8A6, sub_1FACB, sub_1FDB0, unk_2018D
+global EndGameCleanup, LoadGameRosters, InitGameTeams, ReadPlayerRecord, OpenRosterDb, FillTeamRoster, unk_2018D
 ;-----------------------------------------------------------------------------
 ; EndGameCleanup                               1F300  96 PC, medium confidence
 ; After a game: sound off, GameOver, clears the game mode flag and the player
@@ -303,7 +303,7 @@ LoadGameRosters:
         push eax
         lea edx, [byte ebp-04h]
         mov eax, dword [byte ebp-06Ch]
-        call sub_1FACB
+        call OpenRosterDb
         push byte 0
         mov ecx, dword [byte ebp-0Ch]
         mov ebx, dword [byte ebp-08h]
@@ -311,7 +311,7 @@ LoadGameRosters:
         mov edx, dword [byte ebp-04h]
         push dword [byte ebp-010h]
         mov eax, dword [byte ebp-06Ch]
-        call sub_1FDB0
+        call FillTeamRoster
         lea eax, [byte ebp-04h]
         call FileClose
         lea eax, [byte ebp-08h]
@@ -331,7 +331,7 @@ LoadGameRosters:
         push eax
         lea edx, [byte ebp-04h]
         mov eax, dword [byte ebp-06Ch]
-        call sub_1FACB
+        call OpenRosterDb
         push byte 1
         mov ecx, dword [byte ebp-0Ch]
         mov ebx, dword [byte ebp-08h]
@@ -339,7 +339,7 @@ LoadGameRosters:
         mov edx, dword [byte ebp-04h]
         push dword [byte ebp-010h]
         mov eax, dword [byte ebp-06Ch]
-        call sub_1FDB0
+        call FillTeamRoster
         lea eax, [byte ebp-04h]
         call FileClose
         lea eax, [byte ebp-08h]
@@ -473,9 +473,11 @@ InitGameTeams:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1F8A6                                                       1F8A6  96 PC
+; ReadPlayerRecord                                1F8A6  96 PC, low confidence
+; Seeks and reads one player's records (3Ch bytes and more) from the open
+; roster files, fatal error on a failure
 ;-----------------------------------------------------------------------------
-sub_1F8A6:
+ReadPlayerRecord:
         push esi
         push edi
         enter 0Ch, 0
@@ -656,9 +658,11 @@ sub_1F8A6:
         pop esi
         ret 20h
 ;-----------------------------------------------------------------------------
-; sub_1FACB                                                       1FACB  96 PC
+; OpenRosterDb                                 1FACB  96 PC, medium confidence
+; Opens the roster database for the game kind (optflags): data file 3, the
+; season or playoff db, or data file 109h
 ;-----------------------------------------------------------------------------
-sub_1FACB:
+OpenRosterDb:
         push esi
         push edi
         enter 58h, 0
@@ -916,9 +920,11 @@ sub_1FACB:
         pop esi
         ret 8
 ;-----------------------------------------------------------------------------
-; sub_1FDB0                                                       1FDB0  96 PC
+; FillTeamRoster                               1FDB0  96 PC, medium confidence
+; (team): fills the team's hmroster records (name, position, number) from
+; ReadPlayerRecord, for LoadGameRosters
 ;-----------------------------------------------------------------------------
-sub_1FDB0:
+FillTeamRoster:
         push esi
         push edi
         enter 130h, 0
@@ -968,7 +974,7 @@ sub_1FDB0:
         mov edx, dword [dword ebp-0C6h]
         push dword [dword eax+dword_15803D]
         mov eax, dword [dword ebp-0C2h]
-        call sub_1F8A6
+        call ReadPlayerRecord
         mov edx, dword [byte ebp+056h]
         mov al, byte [dword ebp-0B9h]
         mov byte [dword edx+byte_157191], al
@@ -1111,7 +1117,7 @@ sub_1FDB0:
         xor ecx, ecx
         push dword [dword eax+dword_1580A1]
         mov eax, dword [dword ebp-0C2h]
-        call sub_1F8A6
+        call ReadPlayerRecord
         mov eax, dword [byte ebp+066h]
         add eax, byte 19h
         imul ebx, eax, byte 2Bh

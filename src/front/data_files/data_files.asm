@@ -8,9 +8,9 @@ extern sub_B0474, sub_B047B, sub_B0494, sub_B049E, sub_B20D0, sub_B20EC, sub_B21
 extern sub_B7310, sub_B73C4, sub_B7498, sub_B74B0, sub_B74D0, sub_B7638, sub_B7654, sub_B7690
 extern sub_B76A8, unk_115120, unk_1151A7, unk_115333, unk_158658, unpack, word_11512D
 global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
-global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, sub_1E643, sub_1E643_32
-global sub_1E643_3A, sub_1E643_40, sub_1E643_54, LoadDataFile, LoadDataFile_1B, sub_1E73F, sub_1E779, LoadPackedFile
-global sub_1E8E9, MakeDatabasePath
+global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, SelectDataLibrary, SelectDataLibrary_32
+global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadDataFileFlag0, LoadDataFileHandle, LoadPackedFile
+global LoadDataFileLib, MakeDatabasePath
 jpt_1E3C8:
         dd MakeDataPath_63
         dd MakeDataPath_42
@@ -251,45 +251,48 @@ MakeDirPath:
         pop ecx
         ret
 jpt_1E633:
-        dd sub_1E643_54
-        dd sub_1E643_32
-        dd sub_1E643_3A
-        dd sub_1E643_40
+        dd SelectDataLibrary_54
+        dd SelectDataLibrary_32
+        dd SelectDataLibrary_3A
+        dd SelectDataLibrary_40
 ;-----------------------------------------------------------------------------
-; sub_1E643                                                       1E643  96 PC
+; SelectDataLibrary                               1E643  96 PC, low confidence
+; (index): builds the library path of a 16h-byte entry at unk_1151A7 (subdir
+; by the optflags bits, then its name) and opens it (sub_B7310) unless it is
+; the current one
 ;-----------------------------------------------------------------------------
-sub_1E643:
+SelectDataLibrary:
         push ebx
         push ecx
         push edx
         enter 28h, 0
         mov byte [byte ebp-028h], 0
         test eax, eax
-        je near sub_1E643_54.6
+        je near SelectDataLibrary_54.6
         imul eax, byte 0FFFFFFEAh
         mov ebx, unk_1151A7
         add ebx, eax
         mov eax, dword [optflags]
         and eax, byte 3
         cmp eax, byte 3
-        ja short sub_1E643_54
+        ja short SelectDataLibrary_54
         jmp dword [nosplit cs:eax*4+jpt_1E633]
-sub_1E643_32:
+SelectDataLibrary_32:
         test byte [byte ebx+012h], 1
 .1:
-        jne short sub_1E643_54
-        jmp short sub_1E643_40.2
-sub_1E643_3A:
+        jne short SelectDataLibrary_54
+        jmp short SelectDataLibrary_40.2
+SelectDataLibrary_3A:
         test byte [byte ebx+012h], 2
-        jmp short sub_1E643_32.1
-sub_1E643_40:
+        jmp short SelectDataLibrary_32.1
+SelectDataLibrary_40:
         test byte [byte ebx+012h], 4
-        jne short sub_1E643_54
+        jne short SelectDataLibrary_54
 .2:
         lea eax, [byte ebp-028h]
         mov edx, dword [dword_11D3C8]
         call strcat_
-sub_1E643_54:
+SelectDataLibrary_54:
         mov eax, dword [byte ebx+0Eh]
         test eax, eax
         je short .5
@@ -359,9 +362,10 @@ LoadDataFile_1B:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1E73F                                                       1E73F  96 PC
+; LoadDataFileFlag0                               1E73F  96 PC, low confidence
+; LoadDataFile through the same loader with flag 0 (sub_B20EC)
 ;-----------------------------------------------------------------------------
-sub_1E73F:
+LoadDataFileFlag0:
         push ebx
         push ecx
         mov ebx, edx
@@ -383,9 +387,11 @@ sub_1E73F:
         call sub_B2128
         jmp short LoadDataFile_1B
 ;-----------------------------------------------------------------------------
-; sub_1E779                                                       1E779  96 PC
+; LoadDataFileHandle                              1E779  96 PC, low confidence
+; LoadDataFile returning the loader's handle (sub_B2140), for the sound banks
+; (sub_C04C3)
 ;-----------------------------------------------------------------------------
-sub_1E779:
+LoadDataFileHandle:
         push ebx
         push ecx
         mov ebx, edx
@@ -519,9 +525,11 @@ LoadPackedFile:
         call sub_B76A8
         jmp near LoadDataFile_1B
 ;-----------------------------------------------------------------------------
-; sub_1E8E9                                                       1E8E9  96 PC
+; LoadDataFileLib                                 1E8E9  96 PC, low confidence
+; LoadDataFile through the other library loader (sub_B0494 -> sub_C4DE0, flag
+; 1)
 ;-----------------------------------------------------------------------------
-sub_1E8E9:
+LoadDataFileLib:
         push ebx
         push ecx
         mov ebx, edx

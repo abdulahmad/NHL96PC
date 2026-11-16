@@ -60,7 +60,7 @@ extern str_Puckshad, str_R02d, str_Redlite, str_Right1, str_Right2, str_Rink, st
 extern str_Rlxh, str_Rlxn, str_Rlyh, str_Rlyn, str_Rsd0, str_Rsd1, str_Rubber, str_Rubberside
 extern str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink, str_SideNotFoundInStands, str_STAND, str_STAND2ND, str_STANDS
 extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_Top, str_Topboards, str_WALL
-extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, sub_1E643, sub_49300
+extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectDataLibrary, sub_49300
 extern sub_4B38C, sub_4B4F3, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, sub_AA988, sub_AAA40, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
@@ -5103,7 +5103,7 @@ sub_25087:
         push edi
         mov eax, 0FFFFFFFDh
         mov edx, 20h
-        call sub_1E643
+        call SelectDataLibrary
         mov eax, str_Zamboni
         call sub_BC5C0
         push byte 0
@@ -5188,7 +5188,7 @@ sub_251E6:
         push ecx
         push edx
         xor eax, eax
-        call sub_1E643
+        call SelectDataLibrary
         push dword [dword_15E7E4]
         call sub_ABF4C
         add esp, byte 4
@@ -6134,7 +6134,7 @@ sub_25EB3:
         enter 10h, 0
         mov edx, eax
         mov eax, 0FFFFFFFDh
-        call sub_1E643
+        call SelectDataLibrary
         lea eax, [byte edx+01h]
         cmp eax, byte 3
         ja short sub_25EB3_61.2
@@ -6214,7 +6214,7 @@ sub_25EB3_61:
         mov dword [dword_15E86C], eax
         xor eax, eax
 sub_25EB3_11B:
-        call sub_1E643
+        call SelectDataLibrary
         jmp near sub_24D8C_1A3
         push ebx
         push ecx
@@ -6503,7 +6503,7 @@ sub_261A6:
         add esp, byte 0Ch
         mov eax, 0FFFFFFFDh
         mov edx, 20h
-        call sub_1E643
+        call SelectDataLibrary
         mov eax, str_Rink
         call sub_BC5C0
         mov edx, 20h

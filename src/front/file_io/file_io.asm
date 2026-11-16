@@ -7,7 +7,7 @@ extern rmdir_, str_backslash4, str_COPYBUFFER, str_dot2, str_ErrDiskFree2, strca
 extern SoundSecondsToBytes, sub_AB758, sub_ABF4C, sub_B71D4, sub_B71F1, sub_B7256, unk_1106EC
 global FileMissing, DeleteFiles, FileOpenRead, FileOpenRead_1A, FileOpenWrite, FileOpenReadWrite, FileCreate, FileClose
 global FileReadAt, FileReadAt_5B, FileReadAt_5D, FileWriteAt, FileWriteAt_6B, FileWriteAt_77, FileCopy, FileCopy_ret
-global sub_1E222, sub_1E268
+global WriteDbRecord6, ReadSeasonHeader
 ;-----------------------------------------------------------------------------
 ; FileMissing                                                     1DC65  96 PC
 ; (path): 1 when the file cannot be opened
@@ -536,9 +536,10 @@ FileCopy_ret:
         mov ecx, 2Fh
         jmp near FileWriteAt_6B
 ;-----------------------------------------------------------------------------
-; sub_1E222                                                       1E222  96 PC
+; WriteDbRecord6                                  1E222  96 PC, low confidence
+; (handle, data, index): writes a 6-byte season db record through FileWriteAt
 ;-----------------------------------------------------------------------------
-sub_1E222:
+WriteDbRecord6:
         push ecx
         push esi
         mov esi, eax
@@ -562,9 +563,10 @@ sub_1E222:
         inc ebx
         jmp near FileWriteAt_77
 ;-----------------------------------------------------------------------------
-; sub_1E268                                                       1E268  96 PC
+; ReadSeasonHeader                             1E268  96 PC, medium confidence
+; (handle, buf): reads the 50BEh-byte header at the start of a season file
 ;-----------------------------------------------------------------------------
-sub_1E268:
+ReadSeasonHeader:
         push ebx
         push ecx
         push esi

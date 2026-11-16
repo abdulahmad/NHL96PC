@@ -12,18 +12,20 @@ extern dword_17BC7C, dword_17BD48, optflags, dword_17CBE7, dword_17CC13, dword_1
 extern dword_17CEC7, dword_17D7D4, dword_17D804, dword_17D830, dword_17D834, dword_17D860, dword_17D864, dword_17D894
 extern dword_17D8C0, dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dword_17D900, dword_17D904, dword_17D908
 extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924, gameopts
-extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, sub_1E8E9, LoadSeasonStats, OpenScreen
+extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFileLib, LoadSeasonStats, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, sub_AAA40, sub_AAA8C
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
 extern sub_B20D0, sub_B2C54, sub_BF120, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
-global sub_7D580_13D3, sub_7D580_13E4, sub_7D580_153A, sub_7D580_1AC2, sub_7D580_1B49, sub_7D580_1B6C, sub_7D580, sub_7F6FA
+global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
 global unk_7FF77
 ;-----------------------------------------------------------------------------
-; sub_7D580                                                       7D580  96 PC
+; CalendarScreen                               7D580  96 PC, medium confidence
+; The season calendar screen ("Month Choice", "Calendar Choices", month
+; regions)
 ;-----------------------------------------------------------------------------
-sub_7D580:
+CalendarScreen:
         push ebx
         push ecx
         push edx
@@ -69,7 +71,7 @@ sub_7D580:
         mov eax, dword [dword_17CEC3]
         xor edx, edx
         add eax, byte 64h
-        call sub_1E8E9
+        call LoadDataFileLib
         mov edx, 20h
         mov esi, eax
         mov dword [byte ebp+022h], eax
@@ -269,7 +271,7 @@ sub_7D580:
         mov edx, dword [byte ebp+022h]
         push dword [byte ebp+076h]
         mov eax, dword [dword_17D8FC]
-        call sub_7F6FA
+        call DrawCalendar
         push dword [byte ebp-0Ah]
         mov eax, dword [dword_17D8F8]
         push dword [byte ebp-06h]
@@ -312,7 +314,7 @@ sub_7D580:
         mov edx, dword [byte ebp+022h]
         push dword [byte ebp+076h]
         mov eax, dword [dword_17D8FC]
-        call sub_7F6FA
+        call DrawCalendar
 .13:
         mov edx, dword [byte ebp-0Eh]
         mov eax, 29h
@@ -1459,23 +1461,23 @@ sub_7D580:
         imul edx, byte 44h
         add edx, byte 52h
         mov dword [byte ebp+06Eh], edx
-        jmp near sub_7D580_1B6C.47
+        jmp near CalendarScreen_1B6C.47
 .21:
         mov eax, dword [byte ebp-06h]
         mov dword [byte ebp+072h], eax
         mov eax, dword [byte ebp-0Ah]
         mov dword [byte ebp+06Eh], eax
-        jmp near sub_7D580_1B6C.47
+        jmp near CalendarScreen_1B6C.47
 .22:
         cmp dword [byte ebp-016h], byte 5
-        ja near sub_7D580_1B6C.50
+        ja near CalendarScreen_1B6C.50
         mov eax, dword [byte ebp-016h]
         jmp dword [nosplit cs:eax*4+jpt_7D568]
-sub_7D580_13D3:
+CalendarScreen_13D3:
         call SlideInSideBar
         mov dword [byte ebp-01Eh], 2712h
-        jmp near sub_7D580_1B6C.47
-sub_7D580_13E4:
+        jmp near CalendarScreen_1B6C.47
+CalendarScreen_13E4:
         cmp dword [dword_17D90C], byte 0FFFFFFFFh
         je near .25
         call SlideInTitleBar
@@ -1523,7 +1525,7 @@ sub_7D580_13E4:
         mov edx, eax
 .24:
         test edx, edx
-        je near sub_7D580_1B6C.47
+        je near CalendarScreen_1B6C.47
         mov eax, dword [dword_1174F0]
         mov dword [byte ebp+012h], eax
         imul eax, dword [dword_17CEC3], dword 31Bh
@@ -1552,13 +1554,13 @@ sub_7D580_13E4:
         and byte [optflags], 8Fh
         mov dword [byte ebp-01Eh], 2715h
         or byte [optflags], 10h
-        jmp near sub_7D580_1B6C.47
+        jmp near CalendarScreen_1B6C.47
 .25:
         cmp dword [dword_17CC17], byte 0
-        je near sub_7D580_1B6C.47
+        je near CalendarScreen_1B6C.47
         mov dword [byte ebp-01Eh], 2714h
-        jmp near sub_7D580_1B6C.47
-sub_7D580_153A:
+        jmp near CalendarScreen_1B6C.47
+CalendarScreen_153A:
         mov eax, dword [byte ebp+0Ah]
         movsx eax, word [byte eax+0Ch]
         mov dword [byte ebp+072h], eax
@@ -1911,7 +1913,7 @@ sub_7D580_153A:
         mov eax, dword [dword_17D8FC]
         push dword [byte ebp+076h]
         xor esi, esi
-        call sub_7F6FA
+        call DrawCalendar
         mov dword [dword_17D90C], 0FFFFFFFFh
 .32:
         push dword [dword esi+dword_17D7D4]
@@ -1961,10 +1963,10 @@ sub_7D580_153A:
         push dword [dword_17D8F4]
         call sub_ADBEC
         add esp, byte 4
-        jmp near sub_7D580_1B6C.47
-sub_7D580_1AC2:
+        jmp near CalendarScreen_1B6C.47
+CalendarScreen_1AC2:
         cmp dword [byte ebp+076h], byte 9
-        je near sub_7D580_1B6C.47
+        je near CalendarScreen_1B6C.47
         dec dword [byte ebp+076h]
         jne short .33
         mov dword [byte ebp+076h], 0Ch
@@ -1992,18 +1994,18 @@ sub_7D580_1AC2:
         mov ecx, dword [byte ebp+016h]
         push dword [byte ebp+076h]
         mov eax, dword [dword_17D8FC]
-        call sub_7F6FA
+        call DrawCalendar
         mov dword [dword_17D90C], 0FFFFFFFFh
-        jmp near sub_7D580_1B6C.47
-sub_7D580_1B49:
+        jmp near CalendarScreen_1B6C.47
+CalendarScreen_1B49:
         cmp dword [byte ebp+076h], byte 6
-        je near sub_7D580_1B6C.47
+        je near CalendarScreen_1B6C.47
         inc dword [byte ebp+076h]
         cmp dword [byte ebp+076h], byte 0Dh
-        jne near sub_7D580_1AC2.33
+        jne near CalendarScreen_1AC2.33
         mov dword [byte ebp+076h], 1
-        jmp near sub_7D580_1AC2.33
-sub_7D580_1B6C:
+        jmp near CalendarScreen_1AC2.33
+CalendarScreen_1B6C:
         cmp dword [dword_17D90C], byte 0FFFFFFFFh
         je near .47
         mov eax, dword [dword_17D90C]
@@ -2201,7 +2203,7 @@ sub_7D580_1B6C:
         mov edx, dword [byte ebp+022h]
         push dword [byte ebp+076h]
         mov eax, dword [dword_17D8FC]
-        call sub_7F6FA
+        call DrawCalendar
         cmp dword [dword_17D90C], byte 0FFFFFFFFh
         je near .49
         cmp dword [byte ebp+02Eh], byte 0
@@ -2267,7 +2269,7 @@ sub_7D580_1B6C:
         mov dword [byte ebp-016h], 0FFFFFFFFh
 .48:
         cmp dword [byte ebp-016h], byte 0
-        jge near sub_7D580.22
+        jge near CalendarScreen.22
         push dword [byte ebp-01Ah]
         lea eax, [byte ebp-016h]
         push byte 0
@@ -2459,9 +2461,10 @@ sub_7D580_1B6C:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_7F6FA                                                       7F6FA  96 PC
+; DrawCalendar                                    7F6FA  96 PC, low confidence
+; Draws the calendar month (wht%d day numbers, frames)
 ;-----------------------------------------------------------------------------
-sub_7F6FA:
+DrawCalendar:
         push esi
         push edi
         enter 3ACh, 0

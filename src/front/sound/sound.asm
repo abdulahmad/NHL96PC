@@ -8,7 +8,7 @@ extern dword_11D1D6, dword_11D1E2, dword_11D1E6, dword_11D1EA, dword_11D1EE, dwo
 extern dword_11D1FE, dword_11D202, dword_11D206, dword_11D236, dword_11D37E, dword_11D3A6, dword_11D3AA, dword_11D3AE
 extern dword_11D3B2, dword_17C604, dword_17C608, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
 extern globalset, InitSpeech, MakeDataPath, OpenSpeechBanks, optblock, setstreamspeed, SetTickDeadline, ShutdownSpeech
-extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, sub_1E73F, sub_1E779, sub_ABF4C
+extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadDataFileFlag0, LoadDataFileHandle, sub_ABF4C
 extern sub_AC838, sub_AC868, sub_B69EC, sub_B6A14, sub_B6A68, sub_BFB53, sub_BFC16, sub_BFC91
 extern sub_BFE4C, sub_C0252, sub_C02D6, sub_C032E, sub_C0423, sub_C04C3, sub_C0578, sub_C061E
 extern sub_C08F5, sub_C0902, sub_C0D7E, sub_C0E2D, sub_C0E3C, sub_C0E49, sub_C0F09, sub_C0F30
@@ -789,7 +789,7 @@ StartSoundCard_3F:
         jge short .3
         mov edx, 20h
         mov eax, 30h
-        call sub_1E779
+        call LoadDataFileHandle
         test eax, eax
         je short .3
         call sub_C04C3
@@ -807,7 +807,7 @@ StartSoundCard_3F:
         jge short .4
         mov eax, 31h
         xor edx, edx
-        call sub_1E779
+        call LoadDataFileHandle
         test eax, eax
         je short .4
         call sub_C04C3
@@ -901,14 +901,14 @@ StartGameSound:
         mov eax, 3Ah
 .8:
         xor edx, edx
-        call sub_1E73F
+        call LoadDataFileFlag0
         mov dword [dword_11D206], eax
         call sub_AC838
         cmp eax, 500000h
         jle short .9
         mov eax, 3Bh
         xor edx, edx
-        call sub_1E779
+        call LoadDataFileHandle
         test eax, eax
         je short .9
         cmp dword [dword_11D1F2], byte 0FFFFFFFFh
@@ -920,7 +920,7 @@ StartGameSound:
         jne short .12
         mov eax, 32h
         xor edx, edx
-        call sub_1E779
+        call LoadDataFileHandle
         test eax, eax
         je short .10
         cmp dword [dword_11D1EA], byte 0FFFFFFFFh
@@ -931,7 +931,7 @@ StartGameSound:
         mov eax, 33h
 .11:
         xor edx, edx
-        call sub_1E779
+        call LoadDataFileHandle
         test eax, eax
         je near .17
         cmp dword [dword_11D1EE], byte 0FFFFFFFFh
@@ -942,7 +942,7 @@ StartGameSound:
         jne short .14
         mov eax, 35h
         xor edx, edx
-        call sub_1E779
+        call LoadDataFileHandle
         test eax, eax
         je short .13
         cmp dword [dword_11D1EA], byte 0FFFFFFFFh
@@ -955,7 +955,7 @@ StartGameSound:
 .14:
         mov eax, 38h
         xor edx, edx
-        call sub_1E779
+        call LoadDataFileHandle
         test eax, eax
         je short .15
         cmp dword [dword_11D1EA], byte 0FFFFFFFFh
@@ -965,7 +965,7 @@ StartGameSound:
 .15:
         mov eax, 39h
         xor edx, edx
-        call sub_1E779
+        call LoadDataFileHandle
         test eax, eax
         je short .17
         cmp dword [dword_11D1EE], byte 0FFFFFFFFh
@@ -1087,7 +1087,7 @@ EndGameSound:
         jge short .8
         mov eax, 31h
         xor edx, edx
-        call sub_1E779
+        call LoadDataFileHandle
         test eax, eax
         je short .8
         cmp dword [dword_11D1E6], byte 0FFFFFFFFh

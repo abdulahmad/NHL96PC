@@ -39,8 +39,8 @@ extern str_D02d, str_D10, str_D9, str_DBPTRs, str_DD3, str_DD4, str_DD5, str_Don
 extern str_FName, str_GlobalSort, str_HBAL2, str_HD01, str_HD02, str_HD03, str_HeightNWeight, str_LName
 extern str_LocalSort, str_Pal21, str_Player, str_PLR0, str_PlusMinus, str_Profiles, str_S3, str_SD3
 extern str_SEA02, str_Shot, str_SLDH, str_SLDV, str_Space, str_StatDBPTRs, str_Stats, str_VBAL2
-extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, sub_1E8E9, sub_1F15E, sub_1F2C9
-extern sub_1F2D4, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
+extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRecord, StatsDb5Record
+extern StatsDb1Record, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
 extern sub_B0430, sub_B2C54, sub_B2C70, sub_C2500, sub_DD6C4, sub_E04E0, TextSetFont, TickDeadlinePassed
 extern unk_11282F, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
 extern unk_1802C0, unk_8B87F, unk_8BD9F, unk_8BF1F, UpdateProgressBox, word_114CE0, word_1656E8, word_181EB4
@@ -782,7 +782,7 @@ PlayerStatsScreen:
 .10:
         mov eax, 105h
         xor edx, edx
-        call sub_1E8E9
+        call LoadDataFileLib
         push str_Pal21
         push eax
         mov dword [dword_181EA8], eax
@@ -799,7 +799,7 @@ PlayerStatsScreen:
         xor edx, edx
         add eax, 165h
 .12:
-        call sub_1E8E9
+        call LoadDataFileLib
         mov dword [dword_18210C], eax
         push str_BKGD16
         push dword [dword_18210C]
@@ -2781,7 +2781,7 @@ FillSkaterStatRows:
         mov edx, dword [byte ebp-08h]
         mov edx, dword [byte edx+063h]
         mov eax, edx
-        call sub_1F15E
+        call PlayerDbRecord
         mov dword [byte ebp-010h], eax
         cmp edx, byte 0FFFFFFFFh
         je near .8
@@ -2818,14 +2818,14 @@ FillSkaterStatRows:
         mov edx, dword [dword_11E670]
         mov eax, edi
         mov dword [edx+ebx], edi
-        call sub_1F2D4
+        call StatsDb1Record
         jmp short .4
 .3:
         mov edi, dword [byte eax+02Ch]
         mov edx, dword [dword_11E670]
         mov eax, edi
         mov dword [edx+ebx], edi
-        call sub_1F2C9
+        call StatsDb5Record
 .4:
         mov edx, dword [dword_1820B4]
         lea edi, [byte eax+010h]
@@ -2900,7 +2900,7 @@ FillSkaterStatRows:
 .9:
         mov edi, dword [dword ecx+0C7h]
         mov eax, edi
-        call sub_1F15E
+        call PlayerDbRecord
         mov edx, eax
         mov dword [byte ebp-014h], eax
         cmp edi, byte 0FFFFFFFFh
@@ -2942,14 +2942,14 @@ FillSkaterStatRows:
         cmp dword [byte ebp-02Ch], 3E8h
         jge short .10
         mov eax, dword [byte edx+028h]
-        call sub_1F2D4
+        call StatsDb1Record
         mov edi, dword [dword_11E670]
         add edi, ebx
         mov edx, dword [byte edx+028h]
         jmp short .11
 .10:
         mov eax, dword [byte edx+02Ch]
-        call sub_1F2C9
+        call StatsDb5Record
         mov edi, dword [dword_11E670]
         add edi, ebx
         mov edx, dword [byte edx+02Ch]
@@ -3056,7 +3056,7 @@ FillGoalieStatRows:
         mov edx, dword [byte ebp-04h]
         mov edx, dword [byte edx+063h]
         mov eax, edx
-        call sub_1F15E
+        call PlayerDbRecord
         mov dword [byte ebp-010h], eax
         cmp edx, byte 0FFFFFFFFh
         je near .7
@@ -3093,14 +3093,14 @@ FillGoalieStatRows:
         mov edx, dword [dword_11E670]
         mov eax, edi
         mov dword [edx+ebx], edi
-        call sub_1F2D4
+        call StatsDb1Record
         jmp short .4
 .3:
         mov edi, dword [byte eax+02Ch]
         mov edx, dword [dword_11E670]
         mov eax, edi
         mov dword [edx+ebx], edi
-        call sub_1F2C9
+        call StatsDb5Record
 .4:
         mov edx, dword [dword_1820B4]
         lea edi, [byte eax+022h]
@@ -3171,7 +3171,7 @@ FillGoalieStatRows:
 .8:
         mov ecx, dword [dword ebx+0C7h]
         mov eax, ecx
-        call sub_1F15E
+        call PlayerDbRecord
         mov dword [byte ebp-014h], eax
         cmp ecx, byte 0FFFFFFFFh
         je near .11
@@ -3208,14 +3208,14 @@ FillGoalieStatRows:
         mov ecx, dword [dword_11E670]
         mov eax, edi
         mov dword [ecx+edx], edi
-        call sub_1F2D4
+        call StatsDb1Record
         jmp short .10
 .9:
         mov edi, dword [byte eax+02Ch]
         mov ecx, dword [dword_11E670]
         mov eax, edi
         mov dword [ecx+edx], edi
-        call sub_1F2C9
+        call StatsDb5Record
 .10:
         mov ecx, dword [dword_1820B4]
         mov dword [ecx+edx], 0

@@ -13,7 +13,7 @@ extern dword_17DAA0, dword_17DAA4, dword_17DAA8, dword_17DAAC, dword_17DAB0, dwo
 extern dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dword_17DAD4, dword_17DAD8, dword_17DADC
 extern gameopts, hmtmgoalie, optflags, qword_11244E, qword_112456, qword_11245E, qword_112466, qword_11246E
 extern qword_112476, qword_11247E, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
-extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, sub_1F15E, sub_1F2C9, sub_1F2D4
+extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, StatsDb5Record, StatsDb1Record
 extern sub_AB758, sub_ABF4C, sub_B7256, tag_agset, tag_apset, tag_gset, tag_pset, unk_112428
 extern unk_11242B, unk_81ED1, UpdateTeamDbs, word_1656DC, word_1656E2, word_1656E8, word_165812, word_16581E
 extern word_17DB76
@@ -311,7 +311,7 @@ SimulateGame:
         mov eax, dword [byte ecx+eax+063h]
         cmp eax, byte 0FFFFFFFFh
         je near .27
-        call sub_1F15E
+        call PlayerDbRecord
         mov edx, eax
         mov eax, dword [dword ebx+dword_17DA90]
         mov dword [ecx+eax], edx
@@ -320,7 +320,7 @@ SimulateGame:
         mov eax, dword [dword ebx+dword_17DA90]
         mov eax, dword [ecx+eax]
         mov eax, dword [byte eax+028h]
-        call sub_1F2D4
+        call StatsDb1Record
         mov edx, eax
         mov eax, dword [dword ebx+dword_17DA28]
         mov dword [ecx+eax], edx
@@ -532,7 +532,7 @@ SimulateGame:
         mov dword [ecx+edx], eax
         jmp short .24
 .23:
-        call sub_1F2C9
+        call StatsDb5Record
         mov edx, eax
         mov eax, dword [dword ebx+dword_17D930]
         mov dword [ecx+eax], edx
@@ -571,7 +571,7 @@ SimulateGame:
         mov eax, dword [dword esi+eax+0C7h]
         cmp eax, byte 0FFFFFFFFh
         je near .35
-        call sub_1F15E
+        call PlayerDbRecord
         mov edx, eax
         mov eax, dword [dword ebx+dword_17DA88]
         mov dword [esi+eax], edx
@@ -580,7 +580,7 @@ SimulateGame:
         mov eax, dword [dword ebx+dword_17DA88]
         mov eax, dword [esi+eax]
         mov eax, dword [byte eax+028h]
-        call sub_1F2D4
+        call StatsDb1Record
         mov edx, eax
         mov eax, dword [dword ebx+dword_17DA78]
         mov dword [esi+eax], edx
@@ -600,7 +600,7 @@ SimulateGame:
         mov edx, dword [dword ecx+esi+dword_17D938]
         jmp short .33
 .32:
-        call sub_1F2C9
+        call StatsDb5Record
         mov edx, eax
         mov eax, dword [dword ebx+dword_17DA20]
 .33:

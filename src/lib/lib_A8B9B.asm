@@ -8,7 +8,7 @@ extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_185
 extern dword_1174F0, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, dword_17BC7C, dword_17BD48, dword_17CBE7
 extern dword_17CC13, dword_17CF8E, dword_17D162, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
 extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
-extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, sub_1E643, sub_1E8E9
+extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
 extern RunMenu, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, sub_ABF4C, sub_B0430, sub_B0494, sub_B22B0
 extern sub_B2C54, sub_C254C, sub_C2600, sub_C2CB0, sub_DD908, sub_E04E0, unk_17CED5, unk_184B78
@@ -540,7 +540,7 @@ sub_A91DD:
         sub ebp, 82h
         mov eax, dword [nosplit eax*4+dword_11F4BC]
         xor edx, edx
-        call sub_1E8E9
+        call LoadDataFileLib
         push str_Pal19
         push eax
         mov edi, eax
@@ -561,7 +561,7 @@ sub_A91DD:
         call sub_B2C54
         add esp, byte 4
         mov eax, 0FFFFFFF8h
-        call sub_1E643
+        call SelectDataLibrary
         imul eax, dword [dword ebp-0196h], byte 3Ch
         lea edi, [byte ebp+03Ah]
         add eax, byte_184B3C
@@ -1156,7 +1156,7 @@ sub_A91DD:
 .17:
         lea eax, [dword esi+014Bh]
         xor edx, edx
-        call sub_1E8E9
+        call LoadDataFileLib
         push str_0000
         push eax
         mov dword [byte ebp+072h], eax

@@ -25,18 +25,19 @@ extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_DD6C4, sub_DFE
 extern sub_E04E0, TextSetFont, unk_17C9B8, unk_17C9CC, unk_17D598, unk_708A9, unk_70901, unk_70BC1
 extern unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED, word_114CE0, word_11E270, word_17C9AC, word_17C9AE
 extern word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6, WriteGlobalSet
-global sub_711ED, jpt_7130F, sub_71333, sub_71333_94, sub_71333_B6, sub_71333_D5, sub_71333_F6, sub_71333_117
-global sub_71333_138, sub_71333_156, sub_71333_174, sub_71333_192, unk_7158B, jpt_715AF, jpt_715D3, sub_715E3
-global sub_715E3_124, sub_715E3_12E, sub_715E3_13B, sub_715E3_145, sub_715E3_14F, sub_715E3_159, sub_715E3_163, sub_715E3_16D
-global sub_715E3_177, sub_715E3_657, sub_715E3_67C, sub_715E3_69B, sub_715E3_6BC, sub_715E3_6DD, sub_715E3_6FE, sub_715E3_71C
-global sub_715E3_73A, sub_715E3_758, sub_715E3_84D, sub_715E3_96B, sub_715E3_AF2, sub_715E3_B00, sub_715E3_B50, sub_715E3_B57
-global sub_72140, sub_73BA5, unk_73BD5, unk_73C35, unk_73F35, unk_73F7D, ModemSettingsScreen, ModemSettingsScreen_D42
+global DrawOnOffSlider, jpt_7130F, PollOptionKeys, PollOptionKeys_94, PollOptionKeys_B6, PollOptionKeys_D5, PollOptionKeys_F6, PollOptionKeys_117
+global PollOptionKeys_138, PollOptionKeys_156, PollOptionKeys_174, PollOptionKeys_192, unk_7158B, jpt_715AF, jpt_715D3, ControlPicksScreen
+global ControlPicksScreen_124, ControlPicksScreen_12E, ControlPicksScreen_13B, ControlPicksScreen_145, ControlPicksScreen_14F, ControlPicksScreen_159, ControlPicksScreen_163, ControlPicksScreen_16D
+global ControlPicksScreen_177, ControlPicksScreen_657, ControlPicksScreen_67C, ControlPicksScreen_69B, ControlPicksScreen_6BC, ControlPicksScreen_6DD, ControlPicksScreen_6FE, ControlPicksScreen_71C
+global ControlPicksScreen_73A, ControlPicksScreen_758, ControlPicksScreen_84D, ControlPicksScreen_96B, ControlPicksScreen_AF2, ControlPicksScreen_B00, ControlPicksScreen_B50, ControlPicksScreen_B57
+global ControlSetupScreen, RunControlSetup, unk_73BD5, unk_73C35, unk_73F35, unk_73F7D, ModemSettingsScreen, ModemSettingsScreen_D42
 global ModemSettingsScreen_D49, ModemWaitIdle, DrawPhoneNumber, jpt_7510E, ModemDialScreen, ModemDialScreen_75A, ModemDialScreen_81F, ModemDialScreen_8DB
 global ModemDialScreen_9DA, ModemDialScreen_AB2, ModemDialScreen_BB5, ModemDialScreen_BC1, ModemDialScreen_BD2, RunModemSetup, LinkSetupScreen
 ;-----------------------------------------------------------------------------
-; sub_711ED                                                       711ED  96 PC
+; DrawOnOffSlider                              711ED  96 PC, medium confidence
+; Draws an on/off slider (Off0/Off1, Onn0/Onn1, sld%d)
 ;-----------------------------------------------------------------------------
-sub_711ED:
+DrawOnOffSlider:
         push esi
         push edi
         enter 28h, 0
@@ -142,19 +143,21 @@ sub_711ED:
         pop esi
         ret
 jpt_7130F:
-        dd sub_71333_94
-        dd sub_71333_B6
-        dd sub_71333_D5
-        dd sub_71333_F6
-        dd sub_71333_117
-        dd sub_71333_138
-        dd sub_71333_156
-        dd sub_71333_174
-        dd sub_71333_192
+        dd PollOptionKeys_94
+        dd PollOptionKeys_B6
+        dd PollOptionKeys_D5
+        dd PollOptionKeys_F6
+        dd PollOptionKeys_117
+        dd PollOptionKeys_138
+        dd PollOptionKeys_156
+        dd PollOptionKeys_174
+        dd PollOptionKeys_192
 ;-----------------------------------------------------------------------------
-; sub_71333                                                       71333  96 PC
+; PollOptionKeys                                  71333  96 PC, low confidence
+; Checks the 9 option keys (sub_DFE9C, held-tick timers dword_17D654), plays
+; sound 33h and toggles the option bits (byte_17D650)
 ;-----------------------------------------------------------------------------
-sub_71333:
+PollOptionKeys:
         push ebx
         push ecx
         push edx
@@ -166,7 +169,7 @@ sub_71333:
         call sub_DFE9C
         add esp, byte 4
         test eax, eax
-        je near sub_71333_192.8
+        je near PollOptionKeys_192.8
         mov dword [byte ebp-04h], 0
         mov dword [byte ebp-08h], 2
         xor esi, esi
@@ -191,30 +194,30 @@ sub_71333:
         cmp dword [byte ebp-04h], byte 9
         jl short .1
         cmp dword [byte ebp-0Ch], byte 0
-        jl near sub_71333_192.9
+        jl near PollOptionKeys_192.9
         mov eax, 33h
         call PlaySfx
         cmp dword [byte ebp-0Ch], byte 8
-        ja near sub_71333_192.5
+        ja near PollOptionKeys_192.5
         mov esi, dword [byte ebp-0Ch]
         jmp dword [nosplit cs:esi*4+jpt_7130F]
-sub_71333_94:
+PollOptionKeys_94:
         test byte [byte_17D650], 1
         sete al
         movzx edi, al
         and byte [byte_17D650], 0FEh
         and edi, byte 1
         or dword [byte_17D650], edi
-        jmp near sub_71333_192.5
-sub_71333_B6:
+        jmp near PollOptionKeys_192.5
+PollOptionKeys_B6:
         test byte [byte_17D650], 2
         sete al
         movzx edi, al
         and edi, byte 1
         and byte [byte_17D650], 0FDh
         lea eax, [edi+edi]
-        jmp near sub_71333_192.4
-sub_71333_D5:
+        jmp near PollOptionKeys_192.4
+PollOptionKeys_D5:
         test byte [byte_17D650], 4
         sete al
         movzx edi, al
@@ -222,8 +225,8 @@ sub_71333_D5:
         mov eax, edi
         and byte [byte_17D650], 0FBh
         shl eax, 2
-        jmp near sub_71333_192.4
-sub_71333_F6:
+        jmp near PollOptionKeys_192.4
+PollOptionKeys_F6:
         test byte [byte_17D650], 8
         sete al
         movzx edi, al
@@ -231,8 +234,8 @@ sub_71333_F6:
         mov eax, edi
         and byte [byte_17D650], 0F7h
         shl eax, 3
-        jmp near sub_71333_192.4
-sub_71333_117:
+        jmp near PollOptionKeys_192.4
+PollOptionKeys_117:
         test byte [byte_17D650], 10h
         sete al
         movzx edi, al
@@ -240,8 +243,8 @@ sub_71333_117:
         mov eax, edi
         and byte [byte_17D650], 0EFh
         shl eax, 4
-        jmp near sub_71333_192.4
-sub_71333_138:
+        jmp near PollOptionKeys_192.4
+PollOptionKeys_138:
         test byte [byte_17D650], 20h
         sete al
         movzx edi, al
@@ -249,8 +252,8 @@ sub_71333_138:
         mov eax, edi
         and byte [byte_17D650], 0DFh
         shl eax, 5
-        jmp short sub_71333_192.4
-sub_71333_156:
+        jmp short PollOptionKeys_192.4
+PollOptionKeys_156:
         test byte [byte_17D650], 40h
         sete al
         movzx edi, al
@@ -258,8 +261,8 @@ sub_71333_156:
         mov eax, edi
         and byte [byte_17D650], 0BFh
         shl eax, 6
-        jmp short sub_71333_192.4
-sub_71333_174:
+        jmp short PollOptionKeys_192.4
+PollOptionKeys_174:
         test byte [byte_17D650], 80h
         sete al
         movzx edi, al
@@ -267,8 +270,8 @@ sub_71333_174:
         mov eax, edi
         and byte [byte_17D650], 7Fh
         shl eax, 7
-        jmp short sub_71333_192.4
-sub_71333_192:
+        jmp short PollOptionKeys_192.4
+PollOptionKeys_192:
         test byte [byte_17D651], 1
         sete al
         movzx edi, al
@@ -285,7 +288,7 @@ sub_71333_192:
         imul esi, byte 66h
         mov eax, dword [dword_17D590]
         mov ecx, edi
-        call sub_711ED
+        call DrawOnOffSlider
         test edi, edi
         je short .6
         push str_Onn0
@@ -320,36 +323,37 @@ sub_71333_192:
         rep stosb
 .9:
         leave
-        jmp near sub_715E3_B57
+        jmp near ControlPicksScreen_B57
 unk_7158B:
-        dd sub_715E3_124
-        dd sub_715E3_12E
-        dd sub_715E3_13B
-        dd sub_715E3_145
-        dd sub_715E3_14F
-        dd sub_715E3_159
-        dd sub_715E3_163
-        dd sub_715E3_16D
-        dd sub_715E3_177
+        dd ControlPicksScreen_124
+        dd ControlPicksScreen_12E
+        dd ControlPicksScreen_13B
+        dd ControlPicksScreen_145
+        dd ControlPicksScreen_14F
+        dd ControlPicksScreen_159
+        dd ControlPicksScreen_163
+        dd ControlPicksScreen_16D
+        dd ControlPicksScreen_177
 jpt_715AF:
-        dd sub_715E3_657
-        dd sub_715E3_67C
-        dd sub_715E3_69B
-        dd sub_715E3_6BC
-        dd sub_715E3_6DD
-        dd sub_715E3_6FE
-        dd sub_715E3_71C
-        dd sub_715E3_73A
-        dd sub_715E3_758
+        dd ControlPicksScreen_657
+        dd ControlPicksScreen_67C
+        dd ControlPicksScreen_69B
+        dd ControlPicksScreen_6BC
+        dd ControlPicksScreen_6DD
+        dd ControlPicksScreen_6FE
+        dd ControlPicksScreen_71C
+        dd ControlPicksScreen_73A
+        dd ControlPicksScreen_758
 jpt_715D3:
-        dd sub_715E3_84D
-        dd sub_715E3_96B
-        dd sub_715E3_AF2
-        dd sub_715E3_B00
+        dd ControlPicksScreen_84D
+        dd ControlPicksScreen_96B
+        dd ControlPicksScreen_AF2
+        dd ControlPicksScreen_B00
 ;-----------------------------------------------------------------------------
-; sub_715E3                                                       715E3  96 PC
+; ControlPicksScreen                              715E3  96 PC, low confidence
+; The PICKS screen, after the control setup
 ;-----------------------------------------------------------------------------
-sub_715E3:
+ControlPicksScreen:
         push ebx
         push ecx
         push edx
@@ -420,44 +424,44 @@ sub_715E3:
         mov byte [byte ebp+07Eh], al
 .1:
         cmp dword [byte ebp+05Eh], byte 8
-        ja near sub_715E3_177.4
+        ja near ControlPicksScreen_177.4
         mov eax, dword [byte ebp+076h]
         jmp dword [dword cs:eax+unk_7158B]
-sub_715E3_124:
+ControlPicksScreen_124:
         mov eax, dword [byte_17D650]
         and eax, byte 1
-        jmp short sub_715E3_177.3
-sub_715E3_12E:
+        jmp short ControlPicksScreen_177.3
+ControlPicksScreen_12E:
         mov eax, dword [byte_17D650]
         shl eax, 1Eh
 .2:
         shr eax, 1Fh
-        jmp short sub_715E3_177.3
-sub_715E3_13B:
+        jmp short ControlPicksScreen_177.3
+ControlPicksScreen_13B:
         mov eax, dword [byte_17D650]
         shl eax, 1Dh
-        jmp short sub_715E3_12E.2
-sub_715E3_145:
+        jmp short ControlPicksScreen_12E.2
+ControlPicksScreen_145:
         mov eax, dword [byte_17D650]
         shl eax, 1Ch
-        jmp short sub_715E3_12E.2
-sub_715E3_14F:
+        jmp short ControlPicksScreen_12E.2
+ControlPicksScreen_14F:
         mov eax, dword [byte_17D650]
         shl eax, 1Bh
-        jmp short sub_715E3_12E.2
-sub_715E3_159:
+        jmp short ControlPicksScreen_12E.2
+ControlPicksScreen_159:
         mov eax, dword [byte_17D650]
         shl eax, 1Ah
-        jmp short sub_715E3_12E.2
-sub_715E3_163:
+        jmp short ControlPicksScreen_12E.2
+ControlPicksScreen_163:
         mov eax, dword [byte_17D650]
         shl eax, 19h
-        jmp short sub_715E3_12E.2
-sub_715E3_16D:
+        jmp short ControlPicksScreen_12E.2
+ControlPicksScreen_16D:
         mov eax, dword [byte_17D650]
         shl eax, 18h
-        jmp short sub_715E3_12E.2
-sub_715E3_177:
+        jmp short ControlPicksScreen_12E.2
+ControlPicksScreen_177:
         mov eax, dword [byte_17D650]
         shl eax, 17h
         shr eax, 1Fh
@@ -536,7 +540,7 @@ sub_715E3_177:
         call sub_AAA40
         add esp, byte 0Ch
         cmp dword [byte ebp+05Eh], byte 9
-        jl near sub_715E3.1
+        jl near ControlPicksScreen.1
         mov eax, dword [byte_17D650]
         shl eax, 13h
         shr eax, 1Ch
@@ -719,21 +723,21 @@ sub_715E3_177:
         push byte 2
         lea eax, [byte ebp+05Ah]
         push byte 0Bh
-        mov ecx, sub_71333
+        mov ecx, PollOptionKeys
         mov ebx, 0FFFFFFFFh
         push eax
         mov edx, dword [dword_17D594]
         mov eax, 0Dh
         call RunMenu
         cmp dword [byte ebp+05Ah], byte 0
-        jl near sub_715E3_758.16
+        jl near ControlPicksScreen_758.16
         cmp dword [byte ebp+05Ah], byte 9
-        jge near sub_715E3_758.16
+        jge near ControlPicksScreen_758.16
         cmp dword [byte ebp+05Ah], byte 8
-        ja near sub_715E3_758.14
+        ja near ControlPicksScreen_758.14
         mov eax, dword [byte ebp+05Ah]
         jmp dword [nosplit cs:eax*4+jpt_715AF]
-sub_715E3_657:
+ControlPicksScreen_657:
         test byte [byte_17D650], 1
         sete al
         movzx eax, al
@@ -741,16 +745,16 @@ sub_715E3_657:
         and byte [byte_17D650], 0FEh
         mov dword [byte ebp+07Ah], eax
         or dword [byte_17D650], eax
-        jmp near sub_715E3_758.14
-sub_715E3_67C:
+        jmp near ControlPicksScreen_758.14
+ControlPicksScreen_67C:
         test byte [byte_17D650], 2
         sete al
         movzx eax, al
         and eax, byte 1
         lea edx, [eax+eax]
         and byte [byte_17D650], 0FDh
-        jmp near sub_715E3_758.13
-sub_715E3_69B:
+        jmp near ControlPicksScreen_758.13
+ControlPicksScreen_69B:
         test byte [byte_17D650], 4
         sete al
         movzx eax, al
@@ -758,8 +762,8 @@ sub_715E3_69B:
         mov edx, eax
         and byte [byte_17D650], 0FBh
         shl edx, 2
-        jmp near sub_715E3_758.13
-sub_715E3_6BC:
+        jmp near ControlPicksScreen_758.13
+ControlPicksScreen_6BC:
         test byte [byte_17D650], 8
         sete al
         movzx eax, al
@@ -767,8 +771,8 @@ sub_715E3_6BC:
         mov edx, eax
         and byte [byte_17D650], 0F7h
         shl edx, 3
-        jmp near sub_715E3_758.13
-sub_715E3_6DD:
+        jmp near ControlPicksScreen_758.13
+ControlPicksScreen_6DD:
         test byte [byte_17D650], 10h
         sete al
         movzx eax, al
@@ -776,8 +780,8 @@ sub_715E3_6DD:
         mov edx, eax
         and byte [byte_17D650], 0EFh
         shl edx, 4
-        jmp near sub_715E3_758.13
-sub_715E3_6FE:
+        jmp near ControlPicksScreen_758.13
+ControlPicksScreen_6FE:
         test byte [byte_17D650], 20h
         sete al
         movzx eax, al
@@ -785,8 +789,8 @@ sub_715E3_6FE:
         mov edx, eax
         and byte [byte_17D650], 0DFh
         shl edx, 5
-        jmp short sub_715E3_758.13
-sub_715E3_71C:
+        jmp short ControlPicksScreen_758.13
+ControlPicksScreen_71C:
         test byte [byte_17D650], 40h
         sete al
         movzx eax, al
@@ -794,8 +798,8 @@ sub_715E3_71C:
         mov edx, eax
         and byte [byte_17D650], 0BFh
         shl edx, 6
-        jmp short sub_715E3_758.13
-sub_715E3_73A:
+        jmp short ControlPicksScreen_758.13
+ControlPicksScreen_73A:
         test byte [byte_17D650], 80h
         sete al
         movzx eax, al
@@ -803,8 +807,8 @@ sub_715E3_73A:
         mov edx, eax
         and byte [byte_17D650], 7Fh
         shl edx, 7
-        jmp short sub_715E3_758.13
-sub_715E3_758:
+        jmp short ControlPicksScreen_758.13
+ControlPicksScreen_758:
         test byte [byte_17D651], 1
         sete al
         movzx eax, al
@@ -821,7 +825,7 @@ sub_715E3_758:
         mov ebx, dword [nosplit eax*8+dword_11DF84]
         mov edx, dword [nosplit eax*8+dword_11DF80]
         mov eax, dword [dword_17D590]
-        call sub_711ED
+        call DrawOnOffSlider
         cmp dword [byte ebp+07Ah], byte 0
         je short .15
         push str_Onn0
@@ -840,7 +844,7 @@ sub_715E3_758:
         mov ebx, dword [dword_17D594]
         add esp, byte 8
         mov dword [byte ebx+eax+01Eh], edx
-        jmp near sub_715E3_B00.30
+        jmp near ControlPicksScreen_B00.30
 .15:
         push str_Off0
         push dword [dword_17D590]
@@ -858,14 +862,14 @@ sub_715E3_758:
         mov edx, dword [dword_17D594]
         add esp, byte 8
         mov dword [byte edx+eax+01Eh], esi
-        jmp near sub_715E3_B00.30
+        jmp near ControlPicksScreen_B00.30
 .16:
         mov eax, dword [byte ebp+05Ah]
         sub eax, byte 9
         cmp eax, byte 3
-        ja near sub_715E3_B00.30
+        ja near ControlPicksScreen_B00.30
         jmp dword [nosplit cs:eax*4+jpt_715D3]
-sub_715E3_84D:
+ControlPicksScreen_84D:
         mov eax, dword [byte_17D650]
         shl eax, 13h
         shr eax, 1Ch
@@ -946,8 +950,8 @@ sub_715E3_84D:
         mov eax, dword [dword_17D594]
         add esp, byte 8
         mov dword [dword eax+03A2h], 1
-        jmp near sub_715E3_B00.30
-sub_715E3_96B:
+        jmp near ControlPicksScreen_B00.30
+ControlPicksScreen_96B:
         test byte [byte_17D651], 20h
         je short .21
         push str_HGH1
@@ -1053,12 +1057,12 @@ sub_715E3_96B:
         cmp eax, esi
         jl short .29
         call SoundIdle
-        jmp short sub_715E3_B00.30
-sub_715E3_AF2:
+        jmp short ControlPicksScreen_B00.30
+ControlPicksScreen_AF2:
         call SlideInSideBar
         mov dword [byte ebp+06Ah], 4
-        jmp short sub_715E3_B00.30
-sub_715E3_B00:
+        jmp short ControlPicksScreen_B00.30
+ControlPicksScreen_B00:
         call SlideInTitleBar
         mov ecx, 0BCh
         mov esi, unk_17D598
@@ -1067,7 +1071,7 @@ sub_715E3_B00:
         rep movsb
 .30:
         cmp dword [byte ebp+06Ah], byte 0
-        jl near sub_715E3_177.10
+        jl near ControlPicksScreen_177.10
         push dword [dword_17D590]
         call sub_ABF4C
         add esp, byte 4
@@ -1077,10 +1081,10 @@ sub_715E3_B00:
         call sub_ABF4C
         mov eax, dword [byte ebp+06Ah]
         add esp, byte 4
-sub_715E3_B50:
+ControlPicksScreen_B50:
         lea esp, [dword ebp+082h]
         pop ebp
-sub_715E3_B57:
+ControlPicksScreen_B57:
         pop edi
         pop esi
         pop edx
@@ -1088,9 +1092,11 @@ sub_715E3_B57:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_72140                                                       72140  96 PC
+; ControlSetupScreen                           72140  96 PC, medium confidence
+; The control setup screen: mouse, keyboard, joystick 1 and 2 pictures,
+; detect and on/off sliders
 ;-----------------------------------------------------------------------------
-sub_72140:
+ControlSetupScreen:
         push ebx
         push ecx
         push edx
@@ -2157,7 +2163,7 @@ sub_72140:
         mov edx, dword [dword ebp-0DACh]
         or dword [globalset], eax
         mov eax, dword [byte ebp+032h]
-        call sub_711ED
+        call DrawOnOffSlider
         test byte [byte_17CA1E], 10h
         je short .64
         push str_Onn0
@@ -2289,7 +2295,7 @@ sub_72140:
         mov edx, dword [dword ebp-0C7Ah]
         or dword [globalset], eax
         mov eax, dword [byte ebp+032h]
-        call sub_711ED
+        call DrawOnOffSlider
         test byte [byte_17CA1F], 10h
         je short .72
         push str_Onn0
@@ -2426,7 +2432,7 @@ sub_72140:
         mov edx, dword [dword ebp-0B48h]
         or dword [optblock], eax
         mov eax, dword [byte ebp+032h]
-        call sub_711ED
+        call DrawOnOffSlider
         test byte [optblock], 80h
         je short .80
         push str_Onn0
@@ -2558,7 +2564,7 @@ sub_72140:
         mov edx, dword [dword ebp-0A16h]
         movzx ecx, al
         mov eax, dword [byte ebp+032h]
-        call sub_711ED
+        call DrawOnOffSlider
         test byte [globalset], 10h
         je short .87
         mov eax, 50h
@@ -2714,7 +2720,7 @@ sub_72140:
         mov edx, dword [dword ebp-08E4h]
         or dword [globalset], eax
         mov eax, dword [byte ebp+032h]
-        call sub_711ED
+        call DrawOnOffSlider
         test byte [byte_17CA1D], 10h
         je short .98
         push str_Onn0
@@ -2853,14 +2859,16 @@ sub_72140:
         mov eax, 3
         call FadeOut
         mov eax, dword [byte ebp+04Ah]
-        jmp near sub_715E3_B50
+        jmp near ControlPicksScreen_B50
 ;-----------------------------------------------------------------------------
-; sub_73BA5                                                       73BA5  96 PC
+; RunControlSetup                              73BA5  96 PC, medium confidence
+; From the main menu: ControlSetupScreen, JoystickTestScreen (result 3E8h+)
+; and ControlPicksScreen, looping while 4
 ;-----------------------------------------------------------------------------
-sub_73BA5:
+RunControlSetup:
         push edx
 .1:
-        call sub_72140
+        call ControlSetupScreen
         mov edx, eax
         cmp eax, 3E8h
         jl short .2
@@ -2871,7 +2879,7 @@ sub_73BA5:
 .2:
         test eax, eax
         je short .3
-        call sub_715E3
+        call ControlPicksScreen
 .3:
         cmp eax, byte 4
         je short .1

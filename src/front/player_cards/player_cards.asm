@@ -20,7 +20,7 @@ extern str_DD7, str_DD8, str_DNRS, str_DSS2, str_DSS3, str_fmtpd, str_FSH4, str_
 extern str_HD00, str_HD022, str_LG02d2, str_Pal23, str_PHT0, str_PHT1, str_PHT2, str_PLY0
 extern str_PLY4, str_Plyr2, str_PRN02, str_PRN12, str_PRN22, str_PROFILEFSH2, str_RAT, str_RAT0
 extern str_S5, str_SD4, str_SEA4, str_SLDH2, str_Wt4, str_XTbl, strcat_, strlen_
-extern sub_1E643, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
+extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, sub_AAA40
 extern sub_AADA4, sub_AADC0, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0430, sub_B0494
 extern sub_B2C54, sub_B2C70, sub_C2600, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed
@@ -759,7 +759,7 @@ PlayerCardScreen:
         lea eax, [dword ebp-0454h]
         call SetScrollBarPos
         mov eax, 0FFFFFFFBh
-        call sub_1E643
+        call SelectDataLibrary
         push str_Bkgd17
         push dword [dword_18210C]
         call sub_E04E0
@@ -1900,13 +1900,13 @@ DrawPlayerCardStats:
         jne short .1
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2D4
+        call StatsDb1Record
         mov esi, eax
         jmp short .2
 .1:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2D4
+        call StatsDb1Record
         mov edi, eax
 .2:
         push dword [byte ebp-0Eh]
@@ -1975,19 +1975,19 @@ DrawPlayerCardStats:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
-        call sub_1F2D4
+        call StatsDb1Record
         jmp short .11
 .9:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
-        call sub_1F2DF
+        call StatsDataBBRecord
         jmp short .11
 .10:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
-        call sub_1F2EA
+        call StatsData4Record
 .11:
         mov esi, eax
 .12:
@@ -1996,7 +1996,7 @@ DrawPlayerCardStats:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
-        call sub_1F2C9
+        call StatsDb5Record
         mov esi, eax
 .13:
         mov dword [byte ebp+06Ah], 0
@@ -2154,19 +2154,19 @@ DrawPlayerCardStats_241:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
-        call sub_1F2D4
+        call StatsDb1Record
         jmp short .30
 .28:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
-        call sub_1F2DF
+        call StatsDataBBRecord
         jmp short .30
 .29:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
-        call sub_1F2EA
+        call StatsData4Record
 .30:
         mov edi, eax
 .31:
@@ -2175,7 +2175,7 @@ DrawPlayerCardStats_241:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
-        call sub_1F2C9
+        call StatsDb5Record
         mov edi, eax
 .32:
         mov dword [byte ebp+06Eh], 0
@@ -2325,19 +2325,19 @@ DrawPlayerCardStats_423:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
-        call sub_1F2D4
+        call StatsDb1Record
         jmp short .48
 .46:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
-        call sub_1F2DF
+        call StatsDataBBRecord
         jmp short .48
 .47:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
-        call sub_1F2EA
+        call StatsData4Record
 .48:
         mov esi, eax
 .49:
@@ -2346,7 +2346,7 @@ DrawPlayerCardStats_423:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
-        call sub_1F2C9
+        call StatsDb5Record
         mov esi, eax
 .50:
         mov dword [byte ebp+072h], 0
@@ -2504,19 +2504,19 @@ DrawPlayerCardStats_664:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
-        call sub_1F2D4
+        call StatsDb1Record
         jmp short .67
 .65:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
-        call sub_1F2DF
+        call StatsDataBBRecord
         jmp short .67
 .66:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
-        call sub_1F2EA
+        call StatsData4Record
 .67:
         mov edi, eax
 .68:
@@ -2525,7 +2525,7 @@ DrawPlayerCardStats_664:
         mov eax, dword [dword_11E670]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
-        call sub_1F2C9
+        call StatsDb5Record
         mov edi, eax
 .69:
         mov dword [byte ebp+076h], 0
@@ -2642,13 +2642,13 @@ DrawPlayerCardStats_847:
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax]
         mov dword [byte ebp+012h], 9
-        call sub_1F2F5
+        call StatsDb2Record
         jmp short .80
 .79:
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax]
         mov dword [byte ebp+012h], 0Eh
-        call sub_1F2F5
+        call StatsDb2Record
 .80:
         mov dword [byte ebp+0Eh], eax
         mov edi, dword [byte ebp+056h]
@@ -2805,7 +2805,7 @@ LoadPlayerCardArt:
         cmp eax, byte 4Eh
         je near .4
         mov eax, 0FFFFFFFBh
-        call sub_1E643
+        call SelectDataLibrary
         mov eax, dword [dword_1820A8]
         mov ecx, 4
         mov esi, dword [edi+eax]
@@ -2843,7 +2843,7 @@ LoadPlayerCardArt:
         jmp near .7
 .4:
         mov eax, 0FFFFFFF8h
-        call sub_1E643
+        call SelectDataLibrary
         mov eax, dword [byte ebp-02Ch]
         mov edx, dword [dword_1820B0]
         mov ecx, 4
@@ -3098,7 +3098,7 @@ DrawPlayerCardName:
         jne short .10
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax]
-        call sub_1F2F5
+        call StatsDb2Record
         movzx eax, byte [eax]
         test eax, eax
         jne short .9
@@ -3110,7 +3110,7 @@ DrawPlayerCardName:
 .10:
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax]
-        call sub_1F2F5
+        call StatsDb2Record
         movzx eax, byte [eax]
         test eax, eax
         je short .11
@@ -3456,18 +3456,18 @@ ExportPlayerCard:
         jle short .12
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2C9
+        call StatsDb5Record
         jmp short .13
 .12:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2D4
+        call StatsDb1Record
 .13:
         mov ebx, eax
         mov eax, dword [byte ebp-048h]
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax*4]
-        call sub_1F2F5
+        call StatsDb2Record
         push asc_1129CF
         push esi
         mov dword [byte ebp-010h], eax
@@ -3850,18 +3850,18 @@ ExportPlayerCard_4B6:
         jle short .47
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2C9
+        call StatsDb5Record
         jmp short .48
 .47:
         mov edx, dword [dword_11E670]
         mov eax, dword [edx+eax]
-        call sub_1F2D4
+        call StatsDb1Record
 .48:
         mov ebx, eax
         mov eax, dword [byte ebp-048h]
         mov edx, dword [dword_1820E4]
         mov eax, dword [edx+eax*4]
-        call sub_1F2F5
+        call StatsDb2Record
         push asc_1129CF
         push esi
         mov dword [byte ebp-01Ch], eax

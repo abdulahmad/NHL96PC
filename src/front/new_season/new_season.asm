@@ -15,7 +15,7 @@ extern SetTickDeadline, ShowProgressBox, SlideInSideBar, SlideInTitleBar, SoundS
 extern str_Bkgd9, str_Bt014, str_Bt024, str_Bt02d2, str_Bt103, str_Bt113, str_Bt192, str_Bt202
 extern str_Bt282, str_Bt292, str_Nothing, str_Pal14, str_Rul12, str_Rul22, str_Rul32, str_S05dCNZDB2
 extern str_S05dCnzDb3, str_S05dCsgDb, str_Sched, str_SDB, str_SEASONNDX, str_Set12, str_Set22, str_Set3
-extern str_Teams, strcat_, strcpy_, strlen_, sub_1E222, sub_1E268, sub_29B9F, SeasonMenuScreen_794
+extern str_Teams, strcat_, strcpy_, strlen_, WriteDbRecord6, ReadSeasonHeader, sub_29B9F, SeasonMenuScreen_794
 extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
 extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, sub_AAA8C, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_AD620, sub_ADBEC, sub_B20D0, sub_B22B0, sub_B2C54, sub_B7256, sub_B7810, sub_C254C
@@ -1565,7 +1565,7 @@ CreateSeason:
         mov edx, dword [byte ebp+066h]
         mov eax, dword [byte ebp+05Ah]
         mov ebx, esi
-        call sub_1E222
+        call WriteDbRecord6
         mov dword [byte ebp+07Eh], eax
 .17:
         mov eax, dword [byte ebp+066h]
@@ -1614,7 +1614,7 @@ CreateSeason:
         mov ebx, esi
         mov edx, dword [byte ebp+066h]
         mov eax, dword [byte ebp+05Ah]
-        call sub_1E222
+        call WriteDbRecord6
         mov ebx, 4
         mov edx, dword [byte ebp+06Eh]
         lea eax, [byte ebp-07Eh]
@@ -1625,7 +1625,7 @@ CreateSeason:
         mov edx, dword [byte ebp+07Ah]
         mov eax, dword [byte ebp+056h]
         xor ecx, ecx
-        call sub_1E268
+        call ReadSeasonHeader
         mov edx, dword [byte ebp+066h]
         jmp short .24
 .23:

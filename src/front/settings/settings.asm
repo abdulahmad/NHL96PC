@@ -7,7 +7,7 @@ extern byte_17CA57, byte_17CA58, byte_17CA59, byte_17CA5A, byte_17CA5B, byte_17C
 extern byte_17CA7A, DetectCPU, dword_1150D8, dword_11D3C8, dword_11F5E8, dword_17C9A4, dword_17C9F4, dword_17CA5C
 extern dword_17CA76, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadExhibitionStats, MakeDataPath
 extern MakeDirPath, NameIndexFree, NameIndexLoad, optblock, optblock_end, optflags, str_5552362337, str_ATD2
-extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, sub_1E73F, RunControllerScreen
+extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, LoadDataFileFlag0, RunControllerScreen
 extern TeamSelectScreen, PickIndexEntryScreen, RunRosterScreens, ComputeTeamRanks, sub_ABF4C, sub_E069C, sub_E07B8, sub_E07C8
 extern unk_17C9B8, unk_17C9CC, unk_17D32C, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4
 extern word_17C9B6, word_17CA7C
@@ -44,7 +44,7 @@ ReadGlobalSet:
         mov edx, 20h
         call _dos_close_
         mov eax, 1
-        call sub_1E73F
+        call LoadDataFileFlag0
         mov dword [byte ebp-04h], eax
 .2:
         cmp dword [byte ebp-04h], byte 0

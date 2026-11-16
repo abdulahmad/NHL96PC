@@ -12,7 +12,7 @@ extern str_004, str_04d, str_AR005, str_AR015, str_AR105, str_AR115, str_Ard5, s
 extern str_BANNER, str_BKGD28, str_BT006, str_BT0110, str_BT028, str_BT108, str_BT118, str_BT124
 extern str_Card5, str_D02d2, str_D20, str_DD, str_DD11, str_DDD, str_fmtSS, str_FSH7
 extern str_METD, str_Pal25, str_PALS2, str_Plyr5, str_ProfileFsh5, str_SBACK, str_ST10, str_STDD
-extern str_STRD, str_STRK, MessageBox, sub_1E643, LoadPackedFile, sub_1F15E, OpenScreen, SlideInTitleBar
+extern str_STRD, str_STRK, MessageBox, SelectDataLibrary, LoadPackedFile, PlayerDbRecord, OpenScreen, SlideInTitleBar
 extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap, SetTextColors, DrawColorTextRight
 extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, RunMenu, SetMenuMouse, PaEvent
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
@@ -1732,7 +1732,7 @@ ThreeStarsScreen:
         movsx eax, word [dword esi+word_176BBA]
         imul eax, byte 2Bh
         mov eax, dword [dword edx+eax+dword_1571B3]
-        call sub_1F15E
+        call PlayerDbRecord
         mov dword [byte esi+ebp+0Eh], eax
         mov edx, dword [dword_1174E0]
         mov eax, dword [byte eax+02Ch]
@@ -1744,7 +1744,7 @@ ThreeStarsScreen:
         cmp edi, byte 6
         jne short .1
         mov eax, 0FFFFFFF8h
-        call sub_1E643
+        call SelectDataLibrary
         push byte 20h
         push dword 900h
         mov dword [byte ebp+06Ah], 0
@@ -1828,7 +1828,7 @@ ThreeStarsScreen:
         cmp dword [byte ebp+06Ah], byte 0Ch
         jne near .2
         xor eax, eax
-        call sub_1E643
+        call SelectDataLibrary
         mov eax, 4
         xor edx, edx
         call SoundSecondsToBytes

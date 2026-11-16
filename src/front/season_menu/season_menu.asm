@@ -21,8 +21,8 @@ extern str_Bt09, str_Bt104, str_BT105, str_Bt114, str_BT115, str_BT122, str_Bt19
 extern str_Bt283, str_Bt293, str_D6, str_dbgDash, str_Del1, str_Del2, str_Del3, str_Mod1
 extern str_Mod2, str_Mod3, str_Pal15, str_Pal16, str_S, str_S05dCnzDb4, str_S05dCnzDb5, str_S05dCsgDb2
 extern str_S05dCsgDb3, str_SEASONNDX2, str_SLDR, str_Sta12, str_Sta22, str_Sta32, str_star, str_Stn1
-extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, sub_1E8E9
-extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, sub_7D580, UpdateTeamDbs, SimSeasonGames
+extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, LoadDataFileLib
+extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, CalendarScreen, UpdateTeamDbs, SimSeasonGames
 extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2
 extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, sub_ABF4C
 extern sub_AD35C, sub_AD5C8, sub_ADA80, sub_ADBEC, sub_B0430, sub_B178B, sub_B20D0, sub_B20EC
@@ -68,7 +68,7 @@ SeasonMenuScreen:
         mov eax, 5Fh
         xor edx, edx
         mov esi, unk_152C44
-        call sub_1E8E9
+        call LoadDataFileLib
         push str_Pal15
         add esi, 1F2h
         push eax
@@ -2827,7 +2827,7 @@ RunSeasonMenus_182:
 RunSeasonMenus_189:
         cmp dword [dword_17CC17], byte 0
         jne short .7
-        call sub_7D580
+        call CalendarScreen
         jmp short RunSeasonMenus_138.5
 .7:
         mov eax, 1

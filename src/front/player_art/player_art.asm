@@ -6,7 +6,7 @@ extern byte_11BC28, dword_11BB38, dword_11BB3C, dword_11BB40, dword_11BB44, dwor
 extern dword_11F5F0, dword_123AC0, dword_152FEC, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34, dword_17BA38
 extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54, gameopts
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
-extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, sub_1E643, sub_297A8, sub_AB758, sub_ABF4C
+extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, sub_297A8, sub_AB758, sub_ABF4C
 extern sub_AC838, sub_AFCD0, sub_AFD00, sub_B20D0, sub_B3420, sub_B3458, sub_B7638, sub_BEFF0
 extern sub_BF02C, sub_BF034, sub_E04E0, sub_E0520, sub_E1824, unk_16443C, unk_164688, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
@@ -523,7 +523,7 @@ LoadPlayerSprites:
         cmp dword [dword_11BB38], byte 0
         jne near LoadPlayerSprites_131
         mov eax, 0FFFFFFFFh
-        call sub_1E643
+        call SelectDataLibrary
         push byte 0
         push str_FightRef
         call sub_B20D0
@@ -591,7 +591,7 @@ LoadPlayerSprites:
         call sub_ABF4C
         add esp, byte 4
         xor eax, eax
-        call sub_1E643
+        call SelectDataLibrary
         test edi, edi
         je short .1
         mov dword [dword_11BCD1], 1
@@ -642,7 +642,7 @@ LoadGameSprites:
         inc esi
 .3:
         mov eax, 0FFFFFFFFh
-        call sub_1E643
+        call SelectDataLibrary
         push byte 0
         push str_NewpalQfs
         call sub_B7638
@@ -678,7 +678,7 @@ LoadGameSprites:
         mov eax, dword [dword_17BA4C]
         call SetTeamJerseyColors
         xor eax, eax
-        call sub_1E643
+        call SelectDataLibrary
         mov eax, unk_16443C
         call sub_B3458
         mov eax, unk_16443C
@@ -762,7 +762,7 @@ LoadFightSprites:
 .1:
         mov eax, 0FFFFFFFFh
         mov dword [dword_11BB40], 0
-        call sub_1E643
+        call SelectDataLibrary
         push byte 0
         push str_FightRef
         call sub_B20D0
@@ -774,7 +774,7 @@ LoadFightSprites_3F:
 LoadFightSprites_4C:
         call IndexSpriteFrames
         xor eax, eax
-        call sub_1E643
+        call SelectDataLibrary
         pop edx
         pop ecx
         pop ebx
@@ -814,7 +814,7 @@ LoadTotalSprites:
 .1:
         mov eax, 0FFFFFFFFh
         mov dword [dword_11BB3C], 0
-        call sub_1E643
+        call SelectDataLibrary
         push byte 0
         push str_TotalRef
         call sub_B20D0
@@ -839,7 +839,7 @@ LoadCupSprites:
 .1:
         mov eax, 0FFFFFFFFh
         mov dword [dword_11BB40], 0
-        call sub_1E643
+        call SelectDataLibrary
         push byte 0
         push str_CupRef
         call sub_B20D0

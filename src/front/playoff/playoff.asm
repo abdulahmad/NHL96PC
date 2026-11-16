@@ -21,7 +21,7 @@ extern dword_1846FC, dword_184700, dword_18470C, dword_184710, dword_184ABC, dwo
 extern dword_184B04, dword_184B08, dword_184B0C, dword_184B10, dword_184B14, dword_184B1C, dword_184B20, gameopts
 extern jpt_A4FB7, off_11D44C, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame, NameIndexNew
 extern NameIndexLoad, NameIndexSave, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText, MessageBox, ShowProgressBox
-extern UpdateProgressBox, HideProgressBox, LoadTeamLogo, FileCopy, MakeDataPath, MakeDirPath, LoadPackedFile, sub_1E8E9
+extern UpdateProgressBox, HideProgressBox, LoadTeamLogo, FileCopy, MakeDataPath, MakeDirPath, LoadPackedFile, LoadDataFileLib
 extern LoadSeasonStats, LoadPlayoffStats, sub_29B9F, sub_4F159, sub_4F385, OpenScreen, SlideInTitleBar, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawFrameAt
 extern InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, RunControllerScreen, GetLangText
@@ -2074,7 +2074,7 @@ PlayoffTreeScreen:
         rep movsb
         xor edx, edx
         mov eax, 13Bh
-        call sub_1E8E9
+        call LoadDataFileLib
         push str_PTOP
         push eax
         mov esi, eax

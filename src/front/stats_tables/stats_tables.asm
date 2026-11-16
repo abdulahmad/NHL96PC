@@ -6,8 +6,8 @@ extern dword_1174E0, dword_1174E4, dword_1174E8, dword_1174EC, dword_1174F0, dwo
 extern dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510, dword_117514, dword_117518, dword_11751C
 extern LoadDataFile, MakeDataPath, strcat_, strcpy_, MakeSeasonDbPath, MakePlayoffDbPath, sub_ABF4C, sub_B20D0
 extern sub_B7810, unk_117522
-global LoadSeasonStats, LoadSeasonStats_11A, LoadPlayoffStats, LoadExhibitionStats, LoadExhibitionStats_17E, LoadModemStats, FreeStatsTables, sub_1F15E
-global sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5
+global LoadSeasonStats, LoadSeasonStats_11A, LoadPlayoffStats, LoadExhibitionStats, LoadExhibitionStats_17E, LoadModemStats, FreeStatsTables, PlayerDbRecord
+global StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record
 ;-----------------------------------------------------------------------------
 ; LoadSeasonStats                              1EA14  96 PC, medium confidence
 ; (season): frees the stats tables and loads the season's stats files (team,
@@ -522,9 +522,11 @@ FreeStatsTables:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1F15E                                                       1F15E  96 PC
+; PlayerDbRecord                               1F15E  96 PC, medium confidence
+; (offset): pointer into the player table (stats db file 0, dword_1174EC):
+; +1, +2 number and position, +3 first name, +13h last name
 ;-----------------------------------------------------------------------------
-sub_1F15E:
+PlayerDbRecord:
         push edx
         mov edx, dword [dword_1174EC]
         add eax, edx
@@ -655,45 +657,50 @@ sub_1F15E:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1F2C9                                                       1F2C9  96 PC
+; StatsDb5Record                                  1F2C9  96 PC, low confidence
+; (offset): pointer into stats db file 5 (dword_1174E0)
 ;-----------------------------------------------------------------------------
-sub_1F2C9:
+StatsDb5Record:
         push edx
         mov edx, dword [dword_1174E0]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1F2D4                                                       1F2D4  96 PC
+; StatsDb1Record                                  1F2D4  96 PC, low confidence
+; (offset): pointer into stats db file 1 (dword_1174E4)
 ;-----------------------------------------------------------------------------
-sub_1F2D4:
+StatsDb1Record:
         push edx
         mov edx, dword [dword_1174E4]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1F2DF                                                       1F2DF  96 PC
+; StatsDataBBRecord                               1F2DF  96 PC, low confidence
+; (offset): pointer into data file 0BBh (dword_1174FC)
 ;-----------------------------------------------------------------------------
-sub_1F2DF:
+StatsDataBBRecord:
         push edx
         mov edx, dword [dword_1174FC]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1F2EA                                                       1F2EA  96 PC
+; StatsData4Record                                1F2EA  96 PC, low confidence
+; (offset): pointer into data file 4 (dword_1174F8)
 ;-----------------------------------------------------------------------------
-sub_1F2EA:
+StatsData4Record:
         push edx
         mov edx, dword [dword_1174F8]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1F2F5                                                       1F2F5  96 PC
+; StatsDb2Record                                  1F2F5  96 PC, low confidence
+; (offset): pointer into stats db file 2 (dword_1174F4)
 ;-----------------------------------------------------------------------------
-sub_1F2F5:
+StatsDb2Record:
         push edx
         mov edx, dword [dword_1174F4]
         add eax, edx

@@ -30,7 +30,7 @@ extern str_Uopp, str_Upk, str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_
 extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, OpenScreen, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetTextColors, DrawColorText, FillBox
 extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, InitVScrollBar, ScrollBarUp, ScrollBarDown
-extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, sub_8B7BB, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C
+extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, sub_DD6C4, sub_DD8B0
 extern sub_E04E0, sub_E15AC, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
 extern word_1656E8, word_165810, word_165812, word_16581E
@@ -2889,7 +2889,7 @@ ExportUserRecords:
         test eax, eax
         je near NewUser_159
         lea eax, [byte ebp-014h]
-        call sub_8B7BB
+        call CheckExportName
         test eax, eax
         jne near NewUser_159
         mov edx, str_wt

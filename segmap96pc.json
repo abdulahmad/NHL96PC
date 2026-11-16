@@ -561,7 +561,7 @@
   {
    "obj": 1,
    "start": 558269,
-   "end": 574429,
+   "end": 573270,
    "module": "front_stats_menu",
    "file": "front/stats_menu/stats_menu.asm",
    "desc": "The stats menus: season and conference picks, leaders, stat tables, text export (96 PC; still being named).",
@@ -569,20 +569,24 @@
    "group": "front"
   },
   {
-   "start": 574429,
-   "end": 591993,
-   "module": "front_8C3DD",
    "obj": 1,
-   "file": "front/front_8C3DD.asm",
-   "note": "placeholder"
+   "start": 573270,
+   "end": 590773,
+   "module": "front_player_stats",
+   "file": "front/player_stats/player_stats.asm",
+   "desc": "The player stats screen: its rows, filters, sorting, drawing and text export (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
-   "start": 591993,
-   "end": 605802,
-   "module": "front_90879",
    "obj": 1,
-   "file": "front/front_90879.asm",
-   "note": "placeholder"
+   "start": 590773,
+   "end": 605802,
+   "module": "front_player_cards",
+   "file": "front/player_cards/player_cards.asm",
+   "desc": "The player card screen: player profiles with their pictures and season stats, the league logos, text export (96 PC; still being named).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 605802,

@@ -4,56 +4,58 @@ bits 32
 section s_884BD progbits alloc exec nowrite align=1
 extern abs_, byte_17BDAE, byte_17CBEB, byte_17D13A, DrawColorText, DrawColorTextCentred, DrawScrollBar, dword_1174E8
 extern dword_1174F0, dword_11D59C, dword_11D674, dword_11E624, dword_11E664, dword_11E668, dword_11E66C, dword_11E670
-extern dword_11E674, dword_11E678, dword_17BC7C, dword_17DC74, dword_17DC78, dword_17DC7C, dword_17DC80, dword_17DD34
-extern dword_17DD38, dword_17DD3C, dword_17DD40, dword_17DD44, dword_17DD48, dword_17DD4C, dword_17DD50, dword_17DD54
-extern dword_17DD58, dword_17DD5C, dword_17DD60, dword_17DD64, dword_17DD68, dword_17DD6C, dword_17DD70, dword_17DD74
-extern dword_17DD78, dword_17DD7C, dword_17DD80, dword_17DD8C, dword_17DD90, dword_17DD94, dword_17DD98, dword_17DD9C
-extern dword_17DDA0, dword_17DDA4, dword_17DDA8, dword_17DDAC, dword_17DDB0, dword_17DF14, dword_17DF18, dword_17DF1C
-extern dword_17DF94, dword_17DF98, dword_17DF9C, dword_17DFA0, dword_17DFA4, dword_17DFA8, dword_17DFAC, dword_17DFB0
-extern dword_17DFB4, dword_17DFB8, dword_17DFBC, dword_17DFC0, dword_17DFC4, dword_17DFC8, dword_17E3A4, dword_17E3B4
-extern dword_17E3B8, dword_17E3BC, dword_17E3C0, dword_17E3C4, dword_17E3C8, dword_17E3CC, dword_17E3D0, dword_17E3D4
-extern dword_17E3D8, dword_17E3DC, dword_17E3E0, dword_17E8FC, dword_17E9D0, dword_17EA50, dword_17EA54, dword_17EB90
-extern dword_17FDF0, dword_181EAC, dword_181EB0, dword_18209C, dword_1820A8, dword_1820AC, dword_1820B0, dword_1820B4
-extern dword_1820B8, dword_1820C4, dword_1820E4, dword_1820E8, dword_1820EC, EditText, FadeOut, FadePalette
-extern fclose_, FillBox, fopen_, fprintf_, FreeScrollBar, GetLangText, HideProgressBox, InitHScrollBar
-extern InitMenuItems, InitVScrollBar, LoadModemStats, LoadPackedFile, LoadPlayoffStats, LoadSeasonStats, MessageBox, OpenScreen
-extern PlayMovieFile, PutBlock, qsort_, qword_11266E, RunMenu, ScrollBarDown, ScrollBarToMouse, ScrollBarUp
-extern SetDrawBitmap, SetScreenColors, SetScrollBarPos, SetTextColors, SetTickDeadline, ShowProgressBox, SlideInSideBar, sprintf_
-extern str_000, str_03d, str_10002, str_ALL, str_AR002, str_AR012, str_AR102, str_AR112
-extern str_AR20, str_AR21, str_AR30, str_AR31, str_ATL, str_Bkgd15, str_CEN, str_CON
-extern str_CON0, str_D42, str_D5, str_D7, str_D8, str_dbgD, str_DD2, str_DDD4
-extern str_DEF, str_DIV, str_EAS, str_FOR, str_GOL, str_HBAL, str_HED1, str_HED2
-extern str_HORZ, str_LEA, str_LGR0, str_LGR1, str_LGR2, str_Menupicks, str_NOR, str_PAC
-extern str_Pal20, str_PLR, str_PLY2, str_PLY3, str_PRN0, str_PRN1, str_PRN2, str_ROK
-extern str_S2, str_SavetimeOut, str_SD2, str_SEA0, str_SEA2, str_SEA3, str_Space2, str_spDDDD
-extern str_TEA0, str_TEA1, str_TEA2, str_TXT, str_VBAL, str_VERT, str_WES, str_WES0
-extern str_Wt2, strcat_, strcmp_, strlen_, sub_8C51B, sub_90AF8, sub_93E6A, sub_AB758
-extern sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC, sub_B0430, sub_B2C54, sub_C2500
-extern sub_DD6C4, sub_DD724, sub_E04E0, TickDeadlinePassed, unk_112633, unk_11263E, unk_11266B, UpdateProgressBox
-extern word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900, word_17E934, word_17E968, word_17E99C
-global unk_884BD, jpt_884F1, sub_88509, sub_88509_25, sub_88509_104, sub_88509_13E, sub_88509_169, sub_88509_183
-global sub_88509_1AD, PlayTeamMovie, sub_88735, unk_88767, unk_888E7, unk_88917, sub_88AE6, sub_88B71
-global sub_88C21, jpt_88DE1, jpt_88DF9, sub_88E09, sub_88E09_8FE, sub_88E09_916, sub_88E09_92E, sub_88E09_946
-global sub_88E09_957, sub_88E09_96F, sub_88E09_132A, sub_88E09_134F, sub_88E09_136C, sub_88E09_1380, sub_8A494, jpt_8A844
-global sub_8A854, sub_8A854_82, sub_8A854_89, sub_8A854_90, sub_8A854_97, sub_8A93A, jpt_8A9A0, sub_8A9B0
-global sub_8A9B0_117, sub_8A9B0_11E, sub_8A9B0_125, sub_8A9B0_12C, sub_8AE90, sub_8AE90_265, sub_8AE90_266, sub_8B0FC
-global sub_8B7BB, unk_8B87F, unk_8BD9F, unk_8BF1F, sub_8BF56, sub_8C006, sub_8C1C6, sub_8C210
+extern dword_11E678, dword_17BC7C, dword_17DC74, dword_17DC78, dword_17DC7C, dword_17DC80, dword_17DD34, dword_17DD38
+extern dword_17DD3C, dword_17DD40, dword_17DD44, dword_17DD48, dword_17DD4C, dword_17DD50, dword_17DD54, dword_17DD58
+extern dword_17DD5C, dword_17DD60, dword_17DD64, dword_17DD68, dword_17DD6C, dword_17DD70, dword_17DD74, dword_17DD78
+extern dword_17DD7C, dword_17DD80, dword_17DD8C, dword_17DD90, dword_17DD94, dword_17DD98, dword_17DD9C, dword_17DDA0
+extern dword_17DDA4, dword_17DDA8, dword_17DDAC, dword_17DDB0, dword_17DF14, dword_17DF18, dword_17DF1C, dword_17DF94
+extern dword_17DF98, dword_17DF9C, dword_17DFA0, dword_17DFA4, dword_17DFA8, dword_17DFAC, dword_17DFB0, dword_17DFB4
+extern dword_17DFB8, dword_17DFBC, dword_17DFC0, dword_17DFC4, dword_17DFC8, dword_17E3A4, dword_17E3B4, dword_17E3B8
+extern dword_17E3BC, dword_17E3C0, dword_17E3C4, dword_17E3C8, dword_17E3CC, dword_17E3D0, dword_17E3D4, dword_17E3D8
+extern dword_17E3DC, dword_17E3E0, dword_17E8FC, dword_17EA50, dword_17EA54, dword_17FDF0, dword_181EAC, dword_181EB0
+extern dword_1820A8, dword_1820AC, dword_1820B0, dword_1820B4, dword_1820B8, dword_1820E4, dword_1820E8, dword_1820EC
+extern EditText, FadeOut, FadePalette, fclose_, FillBox, fopen_, fprintf_, FreeScrollBar
+extern GetLangText, HideProgressBox, InitHScrollBar, InitMenuItems, InitVScrollBar, LoadModemStats, LoadPackedFile, LoadPlayoffStats
+extern LoadSeasonStats, MessageBox, OpenScreen, PlayerStatsScreen, PlayMovieFile, PutBlock, qsort_, qword_11266E
+extern RunMenu, ScrollBarDown, ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScrollBarPos, SetTextColors
+extern SetTickDeadline, ShowProgressBox, SlideInSideBar, sprintf_, str_000, str_03d, str_10002, str_ALL
+extern str_AR002, str_AR012, str_AR102, str_AR112, str_AR20, str_AR21, str_AR30, str_AR31
+extern str_ATL, str_Bkgd15, str_CEN, str_CON, str_CON0, str_D42, str_D5, str_D7
+extern str_D8, str_dbgD, str_DD2, str_DDD4, str_DEF, str_DIV, str_EAS, str_FOR
+extern str_GOL, str_HBAL, str_HED1, str_HED2, str_HORZ, str_LEA, str_LGR0, str_LGR1
+extern str_LGR2, str_Menupicks, str_NOR, str_PAC, str_Pal20, str_PLR, str_PLY2, str_PLY3
+extern str_PRN0, str_PRN1, str_PRN2, str_ROK, str_S2, str_SavetimeOut, str_SD2, str_SEA0
+extern str_SEA2, str_SEA3, str_Space2, str_spDDDD, str_TEA0, str_TEA1, str_TEA2, str_TXT
+extern str_VBAL, str_VERT, str_WES, str_WES0, str_Wt2, strcat_, strcmp_, strlen_
+extern sub_90AF8, sub_93E6A, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
+extern sub_B0430, sub_B2C54, sub_C2500, sub_DD6C4, sub_DD724, sub_E04E0, TickDeadlinePassed, unk_112633
+extern unk_11263E, unk_11266B, UpdateProgressBox, word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900
+extern word_17E934, word_17E968, word_17E99C
+global unk_884BD, jpt_884F1, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
+global RunStatsMenu_1AD, PlayTeamMovie, GetTeamMovieText, unk_88767, unk_888E7, unk_88917, CompareTeamStatRows, AnimateTeamStatsButton
+global AnimateTeamStatsButtons, jpt_88DE1, jpt_88DF9, TeamStatsScreen, TeamStatsScreen_8FE, TeamStatsScreen_916, TeamStatsScreen_92E, TeamStatsScreen_946
+global TeamStatsScreen_957, TeamStatsScreen_96F, TeamStatsScreen_132A, TeamStatsScreen_134F, TeamStatsScreen_136C, TeamStatsScreen_1380, DrawTeamStatsTable, jpt_8A844
+global CopyTeamStatName, CopyTeamStatName_82, CopyTeamStatName_89, CopyTeamStatName_90, CopyTeamStatName_97, FindTeamStatRow, jpt_8A9A0, ExportTeamStats
+global ExportTeamStats_117, ExportTeamStats_11E, ExportTeamStats_125, ExportTeamStats_12C, BuildTeamStatTables, BuildTeamStatTables_265, BuildTeamStatTables_266, DumpSaveTimes
+global CheckExportName, unk_8B87F, unk_8BD9F, unk_8BF1F
 unk_884BD:
         db 00h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,01h,00h,0FFh,0FFh,02h,00h,0FFh,0FFh
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,03h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
         db 04h,00h,05h,00h,06h,00h,07h,00h,08h,00h,0FFh,0FFh,0FFh,0FFh,09h,00h
         db 0FFh,0FFh,0FFh,0FFh
 jpt_884F1:
-        dd sub_88509_25
-        dd sub_88509_13E
-        dd sub_88509_104
-        dd sub_88509_169
-        dd sub_88509_183
-        dd sub_88509_1AD
+        dd RunStatsMenu_25
+        dd RunStatsMenu_13E
+        dd RunStatsMenu_104
+        dd RunStatsMenu_169
+        dd RunStatsMenu_183
+        dd RunStatsMenu_1AD
 ;-----------------------------------------------------------------------------
-; sub_88509                                                       88509  96 PC
+; RunStatsMenu                                 88509  96 PC, medium confidence
+; From the main menu, the season menus and the play-offs: runs the team stats
+; and player stats screens, frees their tables after
 ;-----------------------------------------------------------------------------
-sub_88509:
+RunStatsMenu:
         push ebx
         push ecx
         push edx
@@ -66,8 +68,8 @@ sub_88509:
         mov esi, unk_884BD
         mov dword [byte ebp-04h], 0A410h
         rep movsd
-        jmp near sub_88509_104.6
-sub_88509_25:
+        jmp near RunStatsMenu_104.6
+RunStatsMenu_25:
         cmp dword [dword_11E670], byte 0
         je near .3
         push dword [dword_1820AC]
@@ -119,47 +121,47 @@ sub_88509_25:
         mov eax, dword [byte ebp-04h]
         mov dword [byte ebp-08h], eax
         mov eax, dword [byte ebp-040h]
-        call sub_88E09
-        jmp short sub_88509_104.5
-sub_88509_104:
+        call TeamStatsScreen
+        jmp short RunStatsMenu_104.5
+RunStatsMenu_104:
         mov eax, dword [byte ebp-04h]
         mov edx, dword [byte ebp-040h]
         mov dword [byte ebp-08h], eax
         mov eax, 63h
 .4:
-        call sub_8C51B
+        call PlayerStatsScreen
 .5:
         mov dword [byte ebp-04h], eax
 .6:
         cmp dword [byte ebp-04h], byte 0
-        je near sub_88509_1AD.11
+        je near RunStatsMenu_1AD.11
         mov esi, dword [byte ebp-04h]
         sub esi, 0A410h
         cmp esi, byte 5
-        ja near sub_88509_1AD.10
+        ja near RunStatsMenu_1AD.10
         jmp dword [nosplit cs:esi*4+jpt_884F1]
-sub_88509_13E:
+RunStatsMenu_13E:
         mov ecx, dword [byte ebp-040h]
         mov edx, dword_181EAC
         mov ebx, dword [dword_181EB0]
         mov eax, dword [dword_11E678]
         call sub_90AF8
         cmp eax, 0A413h
-        je short sub_88509_104.5
+        je short RunStatsMenu_104.5
         cmp eax, 0A415h
-        je short sub_88509_104.5
+        je short RunStatsMenu_104.5
 .7:
         mov eax, dword [byte ebp-08h]
-        jmp short sub_88509_104.5
-sub_88509_169:
+        jmp short RunStatsMenu_104.5
+RunStatsMenu_169:
         mov edx, dword [byte ebp-040h]
         mov eax, dword [dword_181EB0]
         xor ecx, ecx
         xor ebx, ebx
         mov dword [byte ebp-04h], 0A411h
         call sub_93E6A
-        jmp short sub_88509_104.6
-sub_88509_183:
+        jmp short RunStatsMenu_104.6
+RunStatsMenu_183:
         mov eax, dword [byte ebp-08h]
         movsx ebx, word [dword ebp+eax*2-014868h]
         cmp word [word_11D1D0], byte 0
@@ -171,20 +173,20 @@ sub_88509_183:
 .9:
         add eax, ebx
         call PlayMovieFile
-        jmp short sub_88509_13E.7
-sub_88509_1AD:
+        jmp short RunStatsMenu_13E.7
+RunStatsMenu_1AD:
         mov eax, dword [dword_181EAC]
         mov dword [byte ebp-04h], 0A411h
         call PlayTeamMovie
-        jmp near sub_88509_104.6
+        jmp near RunStatsMenu_104.6
 .10:
         cmp dword [byte ebp-04h], 0A416h
-        jl near sub_88509_104.6
+        jl near RunStatsMenu_104.6
         mov eax, dword [byte ebp-04h]
         mov edx, dword [byte ebp-040h]
         mov dword [byte ebp-08h], eax
         sub eax, 0A416h
-        jmp near sub_88509_104.4
+        jmp near RunStatsMenu_104.4
 .11:
         mov eax, dword [byte ebp-04h]
         leave
@@ -228,9 +230,11 @@ PlayTeamMovie:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_88735                                                       88735  96 PC
+; GetTeamMovieText                                88735  96 PC, low confidence
+; (team): the text (248h + index) of a team in the team movie list
+; (word_11E5FC)
 ;-----------------------------------------------------------------------------
-sub_88735:
+GetTeamMovieText:
         push ebx
         push ecx
         push edx
@@ -331,9 +335,10 @@ unk_88917:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_88AE6                                                       88AE6  96 PC
+; CompareTeamStatRows                             88AE6  96 PC, low confidence
+; Qsort compare of two team stat rows by the sort column (dword_17E8FC)
 ;-----------------------------------------------------------------------------
-sub_88AE6:
+CompareTeamStatRows:
         push ebx
         push ecx
         push esi
@@ -385,9 +390,10 @@ sub_88AE6:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_88B71                                                       88B71  96 PC
+; AnimateTeamStatsButton                          88B71  96 PC, low confidence
+; Plays a button's frames (4 ticks each) on the team stats screen
 ;-----------------------------------------------------------------------------
-sub_88B71:
+AnimateTeamStatsButton:
         push ecx
         push esi
         push edi
@@ -450,9 +456,10 @@ sub_88B71:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_88C21                                                       88C21  96 PC
+; AnimateTeamStatsButtons                         88C21  96 PC, low confidence
+; The same for a row of buttons
 ;-----------------------------------------------------------------------------
-sub_88C21:
+AnimateTeamStatsButtons:
         push esi
         push edi
         enter 20h, 0
@@ -597,21 +604,23 @@ sub_88C21:
         pop esi
         ret 14h
 jpt_88DE1:
-        dd sub_88E09_92E
-        dd sub_88E09_946
-        dd sub_88E09_96F
-        dd sub_88E09_957
-        dd sub_88E09_8FE
-        dd sub_88E09_916
+        dd TeamStatsScreen_92E
+        dd TeamStatsScreen_946
+        dd TeamStatsScreen_96F
+        dd TeamStatsScreen_957
+        dd TeamStatsScreen_8FE
+        dd TeamStatsScreen_916
 jpt_88DF9:
-        dd sub_88E09_132A
-        dd sub_88E09_134F
-        dd sub_88E09_1380
-        dd sub_88E09_136C
+        dd TeamStatsScreen_132A
+        dd TeamStatsScreen_134F
+        dd TeamStatsScreen_1380
+        dd TeamStatsScreen_136C
 ;-----------------------------------------------------------------------------
-; sub_88E09                                                       88E09  96 PC
+; TeamStatsScreen                              88E09  96 PC, medium confidence
+; The team stats screen (Menupicks, SEA0 / CON0: season, conference):
+; sortable columns, scroll bar, export
 ;-----------------------------------------------------------------------------
-sub_88E09:
+TeamStatsScreen:
         push ebx
         push ecx
         push edx
@@ -1013,11 +1022,11 @@ sub_88E09:
         cmp dword [dword_11E664], byte 1
         je short .11
         mov eax, dword [dword ebp-01EDEh]
-        call sub_8AE90
+        call BuildTeamStatTables
         jmp short .12
 .11:
         mov eax, dword [dword ebp-01EDEh]
-        call sub_8B0FC
+        call DumpSaveTimes
 .12:
         mov dword [byte ebp-02h], 0
 .13:
@@ -1027,7 +1036,7 @@ sub_88E09:
         mov byte [byte eax+ebp-052h], dl
         cmp dword [byte ebp-02h], byte 1Ah
         jl short .13
-        mov ecx, sub_88AE6
+        mov ecx, CompareTeamStatRows
         mov ebx, 1
         mov edx, 1Ah
         lea eax, [byte ebp-052h]
@@ -1037,7 +1046,7 @@ sub_88E09:
         lea eax, [byte ebp-052h]
         mov ecx, dword [dword_11E668]
         mov ebx, dword [dword_11E66C]
-        call sub_8A854
+        call CopyTeamStatName
         mov eax, dword [byte ebp-012h]
         mov edx, dword [byte ebp-012h]
         mov dword [dword eax+0142h], 4
@@ -1143,41 +1152,41 @@ sub_88E09:
         mov edx, dword [dword_11E668]
         add esp, byte 8
         cmp edx, byte 5
-        ja near sub_88E09_96F.23
+        ja near TeamStatsScreen_96F.23
         mov eax, dword [byte ebp-012h]
         add eax, 1FEh
         jmp dword [nosplit cs:edx*4+jpt_88DE1]
-sub_88E09_8FE:
+TeamStatsScreen_8FE:
         mov edx, dword [dword_17DD64]
         mov dword [byte eax+01Ah], edx
         mov edx, dword [dword_17DD68]
         mov dword [byte ebp+01Ah], 0Ch
-        jmp short sub_88E09_96F.22
-sub_88E09_916:
+        jmp short TeamStatsScreen_96F.22
+TeamStatsScreen_916:
         mov edx, dword [dword_17DD6C]
         mov dword [byte eax+01Ah], edx
         mov edx, dword [dword_17DD70]
         mov dword [byte ebp+01Ah], 0Eh
-        jmp short sub_88E09_96F.22
-sub_88E09_92E:
+        jmp short TeamStatsScreen_96F.22
+TeamStatsScreen_92E:
         mov edx, dword [dword_17DD74]
         mov dword [byte eax+01Ah], edx
         mov edx, dword [dword_17DD78]
 .21:
         mov dword [byte ebp+01Ah], 6
-        jmp short sub_88E09_96F.22
-sub_88E09_946:
+        jmp short TeamStatsScreen_96F.22
+TeamStatsScreen_946:
         mov edx, dword [dword_17DD64]
         mov dword [byte eax+01Ah], edx
         mov edx, dword [dword_17DD68]
-        jmp short sub_88E09_92E.21
-sub_88E09_957:
+        jmp short TeamStatsScreen_92E.21
+TeamStatsScreen_957:
         mov edx, dword [dword_17DD7C]
         mov dword [byte eax+01Ah], edx
         mov edx, dword [dword_17DD80]
         mov dword [byte ebp+01Ah], 7
-        jmp short sub_88E09_96F.22
-sub_88E09_96F:
+        jmp short TeamStatsScreen_96F.22
+TeamStatsScreen_96F:
         mov edx, dword [dword_17DD8C]
         mov dword [byte eax+01Ah], edx
         mov edx, dword [dword_17DD90]
@@ -1558,7 +1567,7 @@ sub_88E09_96F:
         push byte 0
         lea eax, [byte ebp-036h]
         lea edi, [dword esi+02AA2h]
-        call sub_8A494
+        call DrawTeamStatsTable
 .28:
         cmp dword [byte esi+01Ah], byte 0
         je short .29
@@ -1600,43 +1609,43 @@ sub_88E09_96F:
         add eax, 396h
         add edi, 198h
         mov dword [byte ebp+03Ah], eax
-        jmp near sub_88E09_1380.74
+        jmp near TeamStatsScreen_1380.74
 .31:
         cmp dword [byte ebp+02h], byte 8
         jb short .33
-        jbe near sub_88E09_1380.54
+        jbe near TeamStatsScreen_1380.54
         cmp dword [byte ebp+02h], byte 0Ch
         jb short .32
-        jbe near sub_88E09_1380.59
+        jbe near TeamStatsScreen_1380.59
         cmp dword [byte ebp+02h], byte 0Eh
-        jb near sub_88E09_1380.62
+        jb near TeamStatsScreen_1380.62
         cmp dword [byte ebp+02h], byte 0Fh
-        jbe near sub_88E09_1380.63
+        jbe near TeamStatsScreen_1380.63
         cmp dword [byte ebp+02h], byte 10h
-        je near sub_88E09_1380.64
-        jmp near sub_88E09_1380.65
+        je near TeamStatsScreen_1380.64
+        jmp near TeamStatsScreen_1380.65
 .32:
         cmp dword [byte ebp+02h], byte 9
-        jbe near sub_88E09_1380.55
-        jmp near sub_88E09_1380.57
+        jbe near TeamStatsScreen_1380.55
+        jmp near TeamStatsScreen_1380.57
 .33:
         cmp dword [byte ebp+02h], byte 4
         jb short .34
         jbe near .40
         cmp dword [byte ebp+02h], byte 6
         jb near .46
-        jbe near sub_88E09_1380.52
-        jmp near sub_88E09_1380.53
+        jbe near TeamStatsScreen_1380.52
+        jmp near TeamStatsScreen_1380.53
 .34:
         cmp dword [byte ebp+02h], byte 0
         jbe short .35
         cmp dword [byte ebp+02h], byte 3
         je short .36
-        jmp near sub_88E09_1380.65
+        jmp near TeamStatsScreen_1380.65
 .35:
         call SlideInSideBar
         mov dword [byte ebp+0Ah], 0
-        jmp near sub_88E09_1380.74
+        jmp near TeamStatsScreen_1380.74
 .36:
         cmp dword [dword_11E664], byte 0
         jne short .37
@@ -1652,9 +1661,9 @@ sub_88E09_96F:
         push eax
         mov eax, 2
         mov dword [dword_11E664], 1
-        call sub_88C21
+        call AnimateTeamStatsButtons
         mov eax, dword [dword ebp-01EDEh]
-        call sub_8B0FC
+        call DumpSaveTimes
         jmp short .38
 .37:
         cmp dword [dword ebp-01EDEh], 2AF8h
@@ -1671,15 +1680,15 @@ sub_88E09_96F:
         push eax
         mov eax, 1
         mov dword [dword_11E664], 0
-        call sub_88C21
+        call AnimateTeamStatsButtons
         mov eax, dword [dword ebp-01EDEh]
-        call sub_8AE90
+        call BuildTeamStatTables
 .38:
         lea edx, [byte ebp-036h]
         lea eax, [byte ebp-052h]
         mov ecx, dword [dword_11E668]
         mov ebx, dword [dword_11E66C]
-        call sub_8A854
+        call CopyTeamStatName
 .39:
         lea eax, [dword ebp-09DAh]
         push eax
@@ -1688,7 +1697,7 @@ sub_88E09_96F:
         mov edx, dword [byte ebp+01Ah]
         push dword [byte ebp-06h]
         xor ecx, ecx
-        jmp near sub_88E09_1380.73
+        jmp near TeamStatsScreen_1380.73
 .40:
         mov eax, dword [dword_11E66C]
         cmp eax, byte 1
@@ -1714,7 +1723,7 @@ sub_88E09_96F:
         push eax
         mov eax, 4
         mov dword [byte ebp+01Ah], 6
-        call sub_88C21
+        call AnimateTeamStatsButtons
         mov dword [dword_11E668], 0
         jmp short .45
 .43:
@@ -1730,7 +1739,7 @@ sub_88E09_96F:
         push eax
         mov eax, 3
         mov dword [byte ebp+01Ah], 1Ah
-        call sub_88C21
+        call AnimateTeamStatsButtons
         jmp short .45
 .44:
         push eax
@@ -1745,14 +1754,14 @@ sub_88E09_96F:
         push eax
         mov eax, 5
         mov dword [byte ebp+01Ah], 0Ch
-        call sub_88C21
+        call AnimateTeamStatsButtons
         mov dword [dword_11E668], 4
 .45:
         lea edx, [byte ebp-036h]
         lea eax, [byte ebp-052h]
         mov ecx, dword [dword_11E668]
         mov ebx, dword [dword_11E66C]
-        call sub_8A854
+        call CopyTeamStatName
         lea eax, [dword ebp-032Eh]
         call FreeScrollBar
         push str_VBAL
@@ -1794,12 +1803,12 @@ sub_88E09_96F:
         lea edx, [byte ebp+0Eh]
         mov eax, 6
         mov dword [byte ebp+01Ah], 0Ch
-        jmp short sub_88E09_132A.50
+        jmp short TeamStatsScreen_132A.50
 .47:
         lea edx, [byte ebp+0Eh]
         mov eax, 7
         mov dword [byte ebp+01Ah], 0Eh
-        jmp short sub_88E09_132A.50
+        jmp short TeamStatsScreen_132A.50
 .48:
         cmp dword [dword_11E66C], byte 2
         jne near .45
@@ -1808,7 +1817,7 @@ sub_88E09_96F:
         cmp eax, byte 3
         ja near .45
         jmp dword [nosplit cs:eax*4+jpt_88DF9]
-sub_88E09_132A:
+TeamStatsScreen_132A:
         mov dword [dword_11E668], 1
         lea edx, [byte ebp+0Eh]
         mov eax, 0Ah
@@ -1816,33 +1825,33 @@ sub_88E09_132A:
         mov ebx, esi
         mov dword [byte ebp+01Ah], 6
 .50:
-        call sub_88B71
-        jmp near sub_88E09_96F.45
-sub_88E09_134F:
+        call AnimateTeamStatsButton
+        jmp near TeamStatsScreen_96F.45
+TeamStatsScreen_134F:
         mov dword [dword_11E668], 3
         lea edx, [byte ebp+0Eh]
         mov eax, 9
 .51:
         mov ebx, esi
         mov dword [byte ebp+01Ah], 7
-        jmp short sub_88E09_132A.50
-sub_88E09_136C:
+        jmp short TeamStatsScreen_132A.50
+TeamStatsScreen_136C:
         mov dword [dword_11E668], 2
         lea edx, [byte ebp+0Eh]
         mov eax, 0Bh
-        jmp short sub_88E09_134F.51
-sub_88E09_1380:
+        jmp short TeamStatsScreen_134F.51
+TeamStatsScreen_1380:
         mov dword [dword_11E668], 0
         lea edx, [byte ebp+0Eh]
         mov eax, 8
-        jmp short sub_88E09_132A.49
+        jmp short TeamStatsScreen_132A.49
 .52:
         mov edx, dword [byte ebp+01Ah]
         lea eax, [byte ebp-036h]
         push dword [dword_11E664]
         mov ecx, dword [dword_11E668]
         mov ebx, dword [dword_11E66C]
-        call sub_8A9B0
+        call ExportTeamStats
         jmp near .74
 .53:
         mov dword [byte ebp+0Ah], 0A412h
@@ -1922,7 +1931,7 @@ sub_88E09_1380:
         mov edx, dword [byte ebp+01Ah]
         push dword [dword ebp-01D2h]
         lea eax, [byte ebp-036h]
-        call sub_8A494
+        call DrawTeamStatsTable
 .70:
         cmp dword [byte ebp+02h], byte 24h
         jne near .76
@@ -1940,12 +1949,12 @@ sub_88E09_1380:
         mov ecx, dword [dword_11E668]
         mov ebx, dword [dword_11E66C]
         mov dword [byte ebp+01Eh], 63h
-        call sub_8A854
+        call CopyTeamStatName
         lea ecx, [dword ebp-032Eh]
         mov ebx, dword [byte ebp+01Ah]
         lea edx, [byte ebp-036h]
         lea eax, [byte ebp+01Eh]
-        call sub_8A93A
+        call FindTeamStatRow
 .72:
         lea eax, [dword ebp-09DAh]
         push eax
@@ -1957,14 +1966,14 @@ sub_88E09_1380:
 .73:
         push dword [dword ebp-01D2h]
         lea eax, [byte ebp-036h]
-        call sub_8A494
+        call DrawTeamStatsTable
 .74:
         cmp dword [byte ebp+0Ah], byte 0FFFFFFFFh
         jne near .79
         mov dword [byte ebp+02h], 0FFFFFFFFh
 .75:
         cmp dword [byte ebp+02h], byte 0
-        jge near sub_88E09_96F.31
+        jge near TeamStatsScreen_96F.31
         push byte 3
         lea eax, [byte ebp+02h]
         push byte 0
@@ -1994,7 +2003,7 @@ sub_88E09_1380:
 .78:
         mov eax, dword [byte ebp+076h]
         mov edx, dword [dword ebp-01D2h]
-        mov ecx, sub_88AE6
+        mov ecx, CompareTeamStatRows
         sub eax, byte 1Fh
         mov ebx, 1
         add edx, eax
@@ -2006,12 +2015,12 @@ sub_88E09_1380:
         lea eax, [byte ebp-052h]
         mov ecx, dword [dword_11E668]
         mov ebx, dword [dword_11E66C]
-        call sub_8A854
+        call CopyTeamStatName
         lea ecx, [dword ebp-032Eh]
         mov ebx, dword [byte ebp+01Ah]
         lea edx, [byte ebp-036h]
         lea eax, [byte ebp+01Eh]
-        call sub_8A93A
+        call FindTeamStatRow
         mov eax, dword [byte ebp+076h]
         cmp eax, dword [byte ebp+02h]
         jne near .72
@@ -2056,11 +2065,13 @@ sub_88E09_1380:
         mov eax, dword [byte ebp+0Ah]
         lea esp, [dword ebp+082h]
         pop ebp
-        jmp near sub_8AE90_266
+        jmp near BuildTeamStatTables_266
 ;-----------------------------------------------------------------------------
-; sub_8A494                                                       8A494  96 PC
+; DrawTeamStatsTable                           8A494  96 PC, medium confidence
+; Draws the team stats rows ("%d-%d-%d" records, "1.000" / ".%03d",
+; "%d.%d%%")
 ;-----------------------------------------------------------------------------
-sub_8A494:
+DrawTeamStatsTable:
         push esi
         push edi
         enter 50h, 0
@@ -2368,14 +2379,15 @@ sub_8A494:
         pop esi
         ret 10h
 jpt_8A844:
-        dd sub_8A854_82
-        dd sub_8A854_90
-        dd sub_8A854_89
-        dd sub_8A854_97
+        dd CopyTeamStatName_82
+        dd CopyTeamStatName_90
+        dd CopyTeamStatName_89
+        dd CopyTeamStatName_97
 ;-----------------------------------------------------------------------------
-; sub_8A854                                                       8A854  96 PC
+; CopyTeamStatName                                8A854  96 PC, low confidence
+; Copies a team row's name (1Ah) by the name kind
 ;-----------------------------------------------------------------------------
-sub_8A854:
+CopyTeamStatName:
         push esi
         push edi
         enter 8, 0
@@ -2392,7 +2404,7 @@ sub_8A854:
         mov byte [edx], cl
         inc edx
         cmp eax, ebx
-        je near sub_8A854_97.12
+        je near CopyTeamStatName_97.12
         jmp short .1
 .2:
         cmp ebx, byte 1
@@ -2412,7 +2424,7 @@ sub_8A854:
 .4:
         inc eax
         cmp eax, ebx
-        je near sub_8A854_97.12
+        je near CopyTeamStatName_97.12
         jmp short .3
 .5:
         mov ecx, dword [byte ebp-04h]
@@ -2427,23 +2439,23 @@ sub_8A854:
 .7:
         inc eax
         cmp eax, ecx
-        je short sub_8A854_97.12
+        je short CopyTeamStatName_97.12
         jmp short .6
 .8:
         xor ebx, ebx
         cmp ecx, byte 3
-        ja short sub_8A854_97.9
+        ja short CopyTeamStatName_97.9
         jmp dword [nosplit cs:ecx*4+jpt_8A844]
-sub_8A854_82:
+CopyTeamStatName_82:
         mov edi, 1
-        jmp short sub_8A854_97.9
-sub_8A854_89:
+        jmp short CopyTeamStatName_97.9
+CopyTeamStatName_89:
         mov edi, 8
-        jmp short sub_8A854_97.9
-sub_8A854_90:
+        jmp short CopyTeamStatName_97.9
+CopyTeamStatName_90:
         mov edi, 2
-        jmp short sub_8A854_97.9
-sub_8A854_97:
+        jmp short CopyTeamStatName_97.9
+CopyTeamStatName_97:
         mov edi, 4
 .9:
         mov eax, esi
@@ -2492,9 +2504,10 @@ sub_8A854_97:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_8A93A                                                       8A93A  96 PC
+; FindTeamStatRow                                 8A93A  96 PC, low confidence
+; Finds a team's row and scrolls to it (SetScrollBarPos)
 ;-----------------------------------------------------------------------------
-sub_8A93A:
+FindTeamStatRow:
         push esi
         push edi
         enter 8, 0
@@ -2549,14 +2562,16 @@ sub_8A93A:
         pop esi
         ret
 jpt_8A9A0:
-        dd sub_8A9B0_117
-        dd sub_8A9B0_11E
-        dd sub_8A9B0_12C
-        dd sub_8A9B0_125
+        dd ExportTeamStats_117
+        dd ExportTeamStats_11E
+        dd ExportTeamStats_12C
+        dd ExportTeamStats_125
 ;-----------------------------------------------------------------------------
-; sub_8A9B0                                                       8A9B0  96 PC
+; ExportTeamStats                              8A9B0  96 PC, medium confidence
+; Asks a file name (text 0D3h) and writes the team stats as text (fopen "wt",
+; fprintf)
 ;-----------------------------------------------------------------------------
-sub_8A9B0:
+ExportTeamStats:
         push esi
         push edi
         enter 38h, 0
@@ -2580,15 +2595,15 @@ sub_8A9B0:
         xor eax, eax
         call EditText
         test eax, eax
-        je near sub_8A9B0_12C.34
+        je near ExportTeamStats_12C.34
         lea eax, [byte ebp-038h]
         call strlen_
         test eax, eax
-        je near sub_8A9B0_12C.34
+        je near ExportTeamStats_12C.34
         lea eax, [byte ebp-038h]
-        call sub_8B7BB
+        call CheckExportName
         test eax, eax
-        jne near sub_8A9B0_12C.34
+        jne near ExportTeamStats_12C.34
         mov edx, str_Wt2
         lea eax, [byte ebp-038h]
         mov ecx, 0F0h
@@ -2628,7 +2643,7 @@ sub_8A9B0:
         push esi
         call fprintf_
         add esp, byte 8
-        jmp short sub_8A9B0_12C.7
+        jmp short ExportTeamStats_12C.7
 .4:
         cmp dword [byte ebp-044h], byte 1
         jne short .6
@@ -2641,21 +2656,21 @@ sub_8A9B0:
         jmp short .3
 .6:
         cmp dword [byte ebp-048h], byte 3
-        ja short sub_8A9B0_12C.7
+        ja short ExportTeamStats_12C.7
         mov eax, dword [byte ebp-048h]
         jmp dword [nosplit cs:eax*4+jpt_8A9A0]
-sub_8A9B0_117:
+ExportTeamStats_117:
         mov eax, 119h
-        jmp short sub_8A9B0.3
-sub_8A9B0_11E:
+        jmp short ExportTeamStats.3
+ExportTeamStats_11E:
         mov eax, 11Ah
-        jmp short sub_8A9B0.3
-sub_8A9B0_125:
+        jmp short ExportTeamStats.3
+ExportTeamStats_125:
         mov eax, 11Bh
-        jmp short sub_8A9B0.3
-sub_8A9B0_12C:
+        jmp short ExportTeamStats.3
+ExportTeamStats_12C:
         mov eax, 11Ch
-        jmp short sub_8A9B0.3
+        jmp short ExportTeamStats.3
 .7:
         cmp dword [dword_17E8FC], byte 0FFFFFFFFh
         jle short .8
@@ -2975,9 +2990,10 @@ sub_8A9B0_12C:
         pop esi
         ret 4
 ;-----------------------------------------------------------------------------
-; sub_8AE90                                                       8AE90  96 PC
+; BuildTeamStatTables                             8AE90  96 PC, low confidence
+; Adds up the season's team stat tables (word_17E894-17E99C) from the games
 ;-----------------------------------------------------------------------------
-sub_8AE90:
+BuildTeamStatTables:
         push ebx
         push ecx
         push edx
@@ -3133,9 +3149,9 @@ sub_8AE90:
         add edi, byte 28h
         cmp ecx, byte 34h
         jne near .1
-sub_8AE90_265:
+BuildTeamStatTables_265:
         leave
-sub_8AE90_266:
+BuildTeamStatTables_266:
         pop edi
         pop esi
         pop edx
@@ -3143,9 +3159,10 @@ sub_8AE90_266:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_8B0FC                                                       8B0FC  96 PC
+; DumpSaveTimes                                   8B0FC  96 PC, low confidence
+; Debug: writes savetime.out ("[%d][4] = {" tables)
 ;-----------------------------------------------------------------------------
-sub_8B0FC:
+DumpSaveTimes:
         push ebx
         push ecx
         push edx
@@ -3289,7 +3306,7 @@ sub_8B0FC:
         add edi, byte 28h
         cmp esi, byte 34h
         jne near .1
-        jmp near sub_8AE90_265
+        jmp near BuildTeamStatTables_265
         push ebx
         push ecx
         push esi
@@ -3707,9 +3724,11 @@ sub_8B0FC:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_8B7BB                                                       8B7BB  96 PC
+; CheckExportName                              8B7BB  96 PC, medium confidence
+; Checks an export file name (path, ".TXT", spaces); a message box if it is
+; not good
 ;-----------------------------------------------------------------------------
-sub_8B7BB:
+CheckExportName:
         push ebx
         push ecx
         push edx
@@ -3914,401 +3933,5 @@ unk_8BF1F:
         mov dword [byte edx+01Ah], ebx
         mov eax, dword [nosplit eax*8+dword_17EA54]
         mov dword [byte edx+01Eh], eax
-        pop ebx
-        ret
-;-----------------------------------------------------------------------------
-; sub_8BF56                                                       8BF56  96 PC
-;-----------------------------------------------------------------------------
-sub_8BF56:
-        push ecx
-        push esi
-        push edi
-        enter 0Ch, 0
-        push eax
-        mov edi, edx
-        mov esi, ebx
-        mov dword [byte ebp-08h], 0
-.1:
-        imul eax, dword [edi], byte 0Ch
-        push dword [byte esi+02Ah]
-        push dword [byte esi+026h]
-        add eax, dword [byte ebp-08h]
-        push dword [dword eax+dword_17EB90]
-        call PutBlock
-        add esp, byte 0Ch
-        push byte 4
-        call SetTickDeadline
-        add esp, byte 4
-.2:
-        call TickDeadlinePassed
-        test eax, eax
-        je short .2
-        add dword [byte ebp-08h], byte 4
-        cmp dword [byte ebp-08h], byte 0Ch
-        jne short .1
-        mov eax, dword [byte ebp-010h]
-        shl eax, 4
-        mov dword [byte ebp-04h], eax
-        add eax, byte 10h
-        mov dword [byte ebp-0Ch], eax
-.3:
-        push dword [byte esi+02Ah]
-        mov eax, dword [byte ebp-04h]
-        push dword [byte esi+026h]
-        push dword [dword eax+dword_17E9D0]
-        call PutBlock
-        add esp, byte 0Ch
-        push byte 4
-        call SetTickDeadline
-        add esp, byte 4
-.4:
-        call TickDeadlinePassed
-        test eax, eax
-        je short .4
-        add dword [byte ebp-04h], byte 4
-        mov eax, dword [byte ebp-04h]
-        cmp eax, dword [byte ebp-0Ch]
-        jne short .3
-        mov eax, dword [byte ebp-010h]
-        mov edx, dword [nosplit eax*8+dword_17EA50]
-        mov dword [byte esi+01Ah], edx
-        mov eax, dword [nosplit eax*8+dword_17EA54]
-        mov dword [byte esi+01Eh], eax
-        mov eax, dword [byte ebp-010h]
-        mov dword [edi], eax
-        leave
-        pop edi
-        pop esi
-        pop ecx
-        ret
-;-----------------------------------------------------------------------------
-; sub_8C006                                                       8C006  96 PC
-;-----------------------------------------------------------------------------
-sub_8C006:
-        push esi
-        push edi
-        enter 20h, 0
-        mov edi, dword [byte ebp+014h]
-        mov dword [byte ebp-0Ch], eax
-        mov dword [byte ebp-01Ch], edx
-        mov esi, ebx
-        mov dword [byte ebp-08h], ecx
-        mov dword [byte ebp-04h], 0
-.1:
-        cmp dword [byte ebp-0Ch], byte 0FFFFFFFFh
-        je short .2
-        mov eax, dword [byte ebp-01Ch]
-        imul eax, dword [eax], byte 0Ch
-        push dword [byte esi+02Ah]
-        push dword [byte esi+026h]
-        add eax, dword [byte ebp-04h]
-        push dword [dword eax+dword_17EB90]
-        call PutBlock
-        add esp, byte 0Ch
-.2:
-        cmp dword [byte ebp-08h], byte 0FFFFFFFFh
-        je short .3
-        mov eax, dword [byte ebp+010h]
-        imul eax, dword [eax], byte 0Ch
-        push dword [byte edi+02Ah]
-        push dword [byte edi+026h]
-        add eax, dword [byte ebp-04h]
-        push dword [dword eax+dword_17EB90]
-        call PutBlock
-        add esp, byte 0Ch
-.3:
-        cmp dword [byte ebp+018h], byte 0FFFFFFFFh
-        je short .4
-        mov eax, dword [byte ebp+020h]
-        push dword [byte eax+02Ah]
-        push dword [byte eax+026h]
-        mov eax, dword [byte ebp+01Ch]
-        imul eax, dword [eax], byte 0Ch
-        add eax, dword [byte ebp-04h]
-        push dword [dword eax+dword_17EB90]
-        call PutBlock
-        add esp, byte 0Ch
-.4:
-        push byte 4
-        call SetTickDeadline
-        add esp, byte 4
-.5:
-        call TickDeadlinePassed
-        test eax, eax
-        je short .5
-        add dword [byte ebp-04h], byte 4
-        cmp dword [byte ebp-04h], byte 0Ch
-        jne near .1
-        mov eax, dword [byte ebp+018h]
-        mov ebx, dword [byte ebp-08h]
-        mov edx, dword [byte ebp-0Ch]
-        shl eax, 4
-        shl edx, 4
-        shl ebx, 4
-        mov dword [byte ebp-018h], edx
-        mov dword [byte ebp-010h], eax
-        add eax, byte 10h
-        mov dword [byte ebp-014h], ebx
-        mov dword [byte ebp-020h], eax
-.6:
-        cmp dword [byte ebp-0Ch], byte 0FFFFFFFFh
-        je short .7
-        push dword [byte esi+02Ah]
-        mov eax, dword [byte ebp-018h]
-        push dword [byte esi+026h]
-        push dword [dword eax+dword_17E9D0]
-        call PutBlock
-        add esp, byte 0Ch
-.7:
-        cmp dword [byte ebp-08h], byte 0FFFFFFFFh
-        je short .8
-        push dword [byte edi+02Ah]
-        mov eax, dword [byte ebp-014h]
-        push dword [byte edi+026h]
-        push dword [dword eax+dword_17E9D0]
-        call PutBlock
-        add esp, byte 0Ch
-.8:
-        cmp dword [byte ebp+018h], byte 0FFFFFFFFh
-        je short .9
-        mov eax, dword [byte ebp+020h]
-        push dword [byte eax+02Ah]
-        push dword [byte eax+026h]
-        mov eax, dword [byte ebp-010h]
-        push dword [dword eax+dword_17E9D0]
-        call PutBlock
-        add esp, byte 0Ch
-.9:
-        push byte 4
-        call SetTickDeadline
-        add esp, byte 4
-.10:
-        call TickDeadlinePassed
-        test eax, eax
-        je short .10
-        add dword [byte ebp-010h], byte 4
-        add dword [byte ebp-018h], byte 4
-        mov eax, dword [byte ebp-010h]
-        add dword [byte ebp-014h], byte 4
-        cmp eax, dword [byte ebp-020h]
-        jne near .6
-        cmp dword [byte ebp-0Ch], byte 0FFFFFFFFh
-        je short .11
-        mov edx, dword [byte ebp-01Ch]
-        mov eax, dword [byte ebp-0Ch]
-        mov dword [edx], eax
-        mov edx, dword [nosplit eax*8+dword_17EA50]
-        mov dword [byte esi+01Ah], edx
-        mov eax, dword [nosplit eax*8+dword_17EA54]
-        mov dword [byte esi+01Eh], eax
-.11:
-        cmp dword [byte ebp-08h], byte 0FFFFFFFFh
-        je short .12
-        mov eax, dword [byte ebp-08h]
-        mov edx, dword [nosplit eax*8+dword_17EA50]
-        mov dword [byte edi+01Ah], edx
-        mov eax, dword [nosplit eax*8+dword_17EA54]
-        mov edx, dword [byte ebp+010h]
-        mov dword [byte edi+01Eh], eax
-        mov eax, dword [byte ebp-08h]
-        mov dword [edx], eax
-.12:
-        cmp dword [byte ebp+018h], byte 0FFFFFFFFh
-        je short .13
-        mov esi, dword [byte ebp+018h]
-        mov edx, dword [byte ebp+020h]
-        mov eax, dword [nosplit esi*8+dword_17EA50]
-        mov dword [byte edx+01Ah], eax
-        mov eax, dword [nosplit esi*8+dword_17EA54]
-        mov dword [byte edx+01Eh], eax
-        mov edx, dword [byte ebp+01Ch]
-        mov dword [edx], esi
-.13:
-        leave
-        pop edi
-        pop esi
-        ret 14h
-;-----------------------------------------------------------------------------
-; sub_8C1C6                                                       8C1C6  96 PC
-;-----------------------------------------------------------------------------
-sub_8C1C6:
-        push ebx
-        push ecx
-        push esi
-        mov ebx, eax
-        mov ecx, edx
-        mov esi, dword [dword_1820E8]
-        mov eax, dword [edx]
-        mov edx, dword [esi+eax*4]
-        mov eax, dword [ebx]
-        mov eax, dword [esi+eax*4]
-        call strcmp_
-        test eax, eax
-        jne short .1
-        mov eax, dword [dword_1820EC]
-        mov ecx, dword [ecx]
-        mov ebx, dword [ebx]
-        mov edx, dword [eax+ecx*4]
-        mov eax, dword [eax+ebx*4]
-        jmp short .2
-.1:
-        mov eax, dword [ecx]
-        mov ecx, dword [dword_1820E8]
-        mov edx, dword [ecx+eax*4]
-        mov eax, dword [ebx]
-        mov eax, dword [ecx+eax*4]
-.2:
-        call strcmp_
-        pop esi
-        pop ecx
-        pop ebx
-        ret
-;-----------------------------------------------------------------------------
-; sub_8C210                                                       8C210  96 PC
-;-----------------------------------------------------------------------------
-sub_8C210:
-        push ebx
-        push ecx
-        push esi
-        push edi
-        enter 4, 0
-        cmp dword [dword_18209C], byte 0FFFFFFFFh
-        je near .13
-        cmp dword [dword_18209C], byte 4
-        jne near .4
-        cmp dword [dword_11E674], byte 0
-        je near .4
-        mov ecx, dword [dword_1820B8]
-        mov ebx, dword [edx]
-        mov ebx, dword [ecx+ebx*4]
-        cmp word [ebx], byte 0
-        jne short .1
-        mov ebx, dword [eax]
-        mov ebx, dword [ecx+ebx*4]
-        cmp word [ebx], byte 0
-        je near .13
-.1:
-        mov ecx, dword [edx]
-        mov esi, dword [dword_1820B8]
-        shl ecx, 2
-        mov ebx, dword [ecx+esi]
-        cmp word [ebx], byte 0
-        jne short .2
-        mov eax, 0FFFFFFFFh
-        jmp near .14
-.2:
-        mov edi, dword [eax]
-        shl edi, 2
-        mov ebx, dword [edi+esi]
-        cmp word [ebx], byte 0
-        jne short .3
-        mov eax, 1
-        jmp near .14
-.3:
-        mov ebx, dword [dword_18209C]
-        mov ebx, dword [nosplit ebx*4+dword_1820B0]
-        mov ecx, dword [ecx+ebx]
-        mov ebx, dword [edi+ebx]
-        mov si, word [ecx]
-        cmp si, word [ebx]
-        je near .13
-        movzx eax, si
-        movzx edx, word [ebx]
-        jmp near .11
-.4:
-        cmp dword [dword_11E674], byte 1
-        jne short .5
-        cmp dword [dword_18209C], byte 2
-        jle short .5
-        mov ebx, dword [dword_18209C]
-        mov esi, dword [edx]
-        mov ecx, dword [nosplit ebx*4+dword_1820B0]
-        mov ebx, dword [ecx+esi*4]
-        mov esi, dword [eax]
-        mov ecx, dword [ecx+esi*4]
-        mov si, word [ebx]
-        cmp si, word [ecx]
-        je near .13
-        movzx edx, si
-        movzx eax, word [ecx]
-        jmp near .11
-.5:
-        cmp dword [dword_18209C], byte 2
-        jge short .6
-        mov ebx, dword [dword_18209C]
-        mov esi, dword [edx]
-        mov ebx, dword [nosplit ebx*4+dword_17FDF0]
-        mov ecx, dword [eax]
-        mov esi, dword [ebx+esi*4]
-        mov ebx, dword [ebx+ecx*4]
-        mov cl, byte [esi]
-        cmp cl, byte [ebx]
-        je near .13
-        movzx edx, cl
-        movzx eax, byte [ebx]
-        jmp near .11
-.6:
-        cmp dword [dword_18209C], byte 8
-        jne short .7
-        mov ebx, dword [dword_1820B4]
-        mov ecx, dword [edx]
-        mov esi, dword [eax]
-        mov ecx, dword [ebx+ecx*4]
-        mov ebx, dword [ebx+esi*4]
-        mov si, word [ecx]
-        cmp si, word [ebx]
-        je near .13
-        movsx edx, si
-        movsx eax, word [ebx]
-        jmp short .11
-.7:
-        jge short .12
-        mov ecx, dword [edx]
-        mov ebx, dword [dword_18209C]
-        shl ecx, 2
-        mov ebx, dword [nosplit ebx*4+dword_1820B0]
-        mov esi, dword [eax]
-        mov dword [byte ebp-04h], ecx
-        mov ecx, dword [ecx+ebx]
-        shl esi, 2
-        mov di, word [ecx]
-        mov ebx, dword [esi+ebx]
-        cmp di, word [ebx]
-        je short .8
-        movzx edx, di
-        jmp short .10
-.8:
-        mov ecx, dword [byte ebp-04h]
-        mov ebx, dword [dword_1820C4]
-        mov ecx, dword [ecx+ebx]
-        mov ebx, dword [esi+ebx]
-        mov si, word [ecx]
-        cmp si, word [ebx]
-        je short .13
-.9:
-        movzx edx, si
-.10:
-        movzx eax, word [ebx]
-.11:
-        sub edx, eax
-        mov eax, edx
-        jmp short .14
-.12:
-        mov ebx, dword [dword_18209C]
-        mov ecx, dword [edx]
-        mov ebx, dword [nosplit ebx*4+dword_1820AC]
-        mov esi, dword [eax]
-        mov ecx, dword [ebx+ecx*4]
-        mov ebx, dword [ebx+esi*4]
-        mov si, word [ecx]
-        cmp si, word [ebx]
-        jne short .9
-.13:
-        call sub_8C1C6
-.14:
-        leave
-        pop edi
-        pop esi
-        pop ecx
         pop ebx
         ret

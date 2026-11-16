@@ -61,9 +61,9 @@
 1 81EEA 849D5 10987 front_81EEA front/sim_game/sim_game.asm
 1 849D5 873AE 10713 front_849D5 front/pregame/pregame.asm
 1 873AE 884BD 4367 front_line_draw front/line_draw/line_draw.asm
-1 884BD 8C3DD 16160 front_stats_menu front/stats_menu/stats_menu.asm
-1 8C3DD 90879 17564 front_8C3DD front/front_8C3DD.asm
-1 90879 93E6A 13809 front_90879 front/front_90879.asm
+1 884BD 8BF56 15001 front_stats_menu front/stats_menu/stats_menu.asm
+1 8BF56 903B5 17503 front_player_stats front/player_stats/player_stats.asm
+1 903B5 93E6A 15029 front_player_cards front/player_cards/player_cards.asm
 1 93E6A 971E9 13183 front_93E6A front/front_93E6A.asm
 1 971E9 9CFE3 24058 front_971E9 front/front_971E9.asm
 1 9CFE3 A17D5 18418 front_9CFE3 front/front_9CFE3.asm

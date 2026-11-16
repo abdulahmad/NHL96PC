@@ -16,7 +16,7 @@ extern str_STRD, str_STRK, MessageBox, sub_1E643, LoadPackedFile, sub_1F15E, Ope
 extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap, SetTextColors, DrawColorTextRight
 extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, RunMenu, SetMenuMouse, PaEvent
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
-extern GetLangText, sub_8C51B, sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
+extern GetLangText, PlayerStatsScreen, sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_AFCD0, sub_B0430, sub_B0494, sub_DD6C4, sub_E04E0, sub_E0520
 extern sub_E0584, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
 extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8
@@ -2360,7 +2360,7 @@ ThreeStarsScreen_936:
 ;-----------------------------------------------------------------------------
 ; PostGameScreens                              16875  96 PC, medium confidence
 ; After a game: ThreeStarsScreen, then GameStatsScreen or the other screen
-; (sub_8C51B) as picked, until done; then the front-end music
+; (PlayerStatsScreen) as picked, until done; then the front-end music
 ;-----------------------------------------------------------------------------
 PostGameScreens:
         push ebx
@@ -2388,7 +2388,7 @@ PostGameScreens:
         cmp eax, 0A410h
         je short .4
         mov edx, 64h
-        call sub_8C51B
+        call PlayerStatsScreen
         jmp short .3
 .4:
         test ecx, ecx

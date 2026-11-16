@@ -789,7 +789,33 @@ address,name,auto_name,source,confidence,evidence,file
 87CBF,DrawLineX,sub_87CBF,new,low,draws a mostly horizontal line straight into the bitmap,src/front/line_draw/line_draw.asm
 87DD6,DrawFixedLine,sub_87DD6,new,medium,"(x0, y0, x1, y1 in 16.16, colour): a line of the 3D rink model (rink_model calls)",src/front/line_draw/line_draw.asm
 8805A,DrawFixedLineClip,sub_8805A,new,medium,the same with its own clip window,src/front/line_draw/line_draw.asm
+88509,RunStatsMenu,sub_88509,new,medium,"from the main menu, the season menus and the play-offs: runs the team stats and player stats screens, frees their tables after",src/front/stats_menu/stats_menu.asm
 886F6,PlayTeamMovie,sub_886F6,new,medium,"(team): plays the team's movie when it has one (word_11E5FC, 20 teams; data D6h or EAh by CD speed)",src/front/stats_menu/stats_menu.asm
+88735,GetTeamMovieText,sub_88735,new,low,(team): the text (248h + index) of a team in the team movie list (word_11E5FC),src/front/stats_menu/stats_menu.asm
+88AE6,CompareTeamStatRows,sub_88AE6,new,low,qsort compare of two team stat rows by the sort column (dword_17E8FC),src/front/stats_menu/stats_menu.asm
+88B71,AnimateTeamStatsButton,sub_88B71,new,low,plays a button's frames (4 ticks each) on the team stats screen,src/front/stats_menu/stats_menu.asm
+88C21,AnimateTeamStatsButtons,sub_88C21,new,low,the same for a row of buttons,src/front/stats_menu/stats_menu.asm
+88E09,TeamStatsScreen,sub_88E09,new,medium,"the team stats screen (Menupicks, SEA0 / CON0: season, conference): sortable columns, scroll bar, export",src/front/stats_menu/stats_menu.asm
+8A494,DrawTeamStatsTable,sub_8A494,new,medium,"draws the team stats rows (""%d-%d-%d"" records, ""1.000"" / "".%03d"", ""%d.%d%%"")",src/front/stats_menu/stats_menu.asm
+8A854,CopyTeamStatName,sub_8A854,new,low,copies a team row's name (1Ah) by the name kind,src/front/stats_menu/stats_menu.asm
+8A93A,FindTeamStatRow,sub_8A93A,new,low,finds a team's row and scrolls to it (SetScrollBarPos),src/front/stats_menu/stats_menu.asm
+8A9B0,ExportTeamStats,sub_8A9B0,new,medium,"asks a file name (text 0D3h) and writes the team stats as text (fopen ""wt"", fprintf)",src/front/stats_menu/stats_menu.asm
+8AE90,BuildTeamStatTables,sub_8AE90,new,low,adds up the season's team stat tables (word_17E894-17E99C) from the games,src/front/stats_menu/stats_menu.asm
+8B0FC,DumpSaveTimes,sub_8B0FC,new,low,"debug: writes savetime.out (""[%d][4] = {"" tables)",src/front/stats_menu/stats_menu.asm
+8B7BB,CheckExportName,sub_8B7BB,new,medium,"checks an export file name (path, "".TXT"", spaces); a message box if it is not good",src/front/stats_menu/stats_menu.asm
+8BF56,AnimatePlayerStatsButton,sub_8BF56,new,low,plays a button's frames (4 ticks each) on the player stats screen,src/front/player_stats/player_stats.asm
+8C006,AnimatePlayerStatsButtons,sub_8C006,new,low,the same for a row of buttons,src/front/player_stats/player_stats.asm
+8C1C6,ComparePlayerNames,sub_8C1C6,new,medium,"qsort compare of two players by last name, then first name (dword_1820E8 / 1820EC)",src/front/player_stats/player_stats.asm
+8C210,ComparePlayerStatRows,sub_8C210,new,low,"qsort compare of two player stat rows by the sort column (dword_18209C), names on ties",src/front/player_stats/player_stats.asm
+8C3DD,ShowPlayerStatsTitle,sub_8C3DD,new,low,shows the player stats title strip (BKGD) for a moment,src/front/player_stats/player_stats.asm
+8C51B,PlayerStatsScreen,sub_8C51B,new,high,"the player stats screen (StatDBPTRs, ""Player #"", ""+/-"", FName, LName, DonRuss): sortable columns, filters, scroll bar, export",src/front/player_stats/player_stats.asm
+8E76B,FillSkaterStatRows,sub_8E76B,new,low,fills the player stat rows of the skaters from the stats database,src/front/player_stats/player_stats.asm
+8EB04,FillGoalieStatRows,sub_8EB04,new,low,fills the player stat rows of the goalies,src/front/player_stats/player_stats.asm
+8EE72,DrawPlayerStatsTable,sub_8EE72,new,medium,"draws the player stats rows (""%d.%d%%"", ""%d-%d"", ""%c   %d"")",src/front/player_stats/player_stats.asm
+8F44A,CountPlayerStatRows,sub_8F44A,new,low,"counts the rows that pass the filter (position byte_17EBF0, 'D' ...)",src/front/player_stats/player_stats.asm
+8F539,FindPlayerStatRow,sub_8F539,new,low,finds a player's row and scrolls to it (SetScrollBarPos),src/front/player_stats/player_stats.asm
+8F5B3,ExportPlayerStats,sub_8F5B3,new,medium,"asks a file name and writes the player stats as text (fopen ""wt"", fprintf)",src/front/player_stats/player_stats.asm
+8FD8F,BuildPlayerStatRows,sub_8FD8F,new,low,"builds the player stat rows of a team from its roster (word_181EB4, 136h per team)",src/front/player_stats/player_stats.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

@@ -38,7 +38,7 @@ extern InitMenuItems, sub_64E74, RunMenu, SetMenuMouse, FreeSpeechBuffer, Restor
 extern StopSpeech, StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, StopAllSfx
 extern Crowd_Noise, CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdFadeOut, sfx, CrowdReaction, StopArenaClip
 extern StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle, sub_6B486, sub_6C64B, ControllerScreen, RunControllerScreen
-extern RunModemSetup, LinkSetupScreen, GetLangText, sub_8C51B, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
+extern RunModemSetup, LinkSetupScreen, GetLangText, PlayerStatsScreen, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
 extern PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont
 extern sub_B0CA8, DrawArtOpaque, sub_B58D8, sub_DD6C4, SetClipWindow, SetViewRect, sub_E04E0, sub_E0584
 extern str_D13, str_7GM, str_5GM, str_3GM, str_1GM, unk_11D7A4, unk_11D7BC, unk_11D7D4
@@ -2016,7 +2016,7 @@ sub_A25CD_F42:
         cmp eax, 0A410h
         je near sub_A25CD_D17.63
         mov edx, 64h
-        call sub_8C51B
+        call PlayerStatsScreen
         jmp short .72
 sub_A25CD_FA8:
         call sub_A1F6C

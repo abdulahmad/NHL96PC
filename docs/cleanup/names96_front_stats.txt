@@ -1,0 +1,85 @@
+# NHL 96 PC stats screens: the stats menu, team stats, player stats, sorting and exporting them as text. PC-only, source new.
+sub_88509 RunStatsMenu {confidence=medium} from the main menu, the season menus and the play-offs: runs the team stats and player stats screens, frees their tables after
+sub_88735 GetTeamMovieText {confidence=low} (team): the text (248h + index) of a team in the team movie list (word_11E5FC)
+sub_88AE6 CompareTeamStatRows {confidence=low} qsort compare of two team stat rows by the sort column (dword_17E8FC)
+sub_88B71 AnimateTeamStatsButton {confidence=low} plays a button's frames (4 ticks each) on the team stats screen
+sub_88C21 AnimateTeamStatsButtons {confidence=low} the same for a row of buttons
+sub_88E09 TeamStatsScreen {confidence=medium} the team stats screen (Menupicks, SEA0 / CON0: season, conference): sortable columns, scroll bar, export
+sub_8A494 DrawTeamStatsTable {confidence=medium} draws the team stats rows ("%d-%d-%d" records, "1.000" / ".%03d", "%d.%d%%")
+sub_8A854 CopyTeamStatName {confidence=low} copies a team row's name (1Ah) by the name kind
+sub_8A93A FindTeamStatRow {confidence=low} finds a team's row and scrolls to it (SetScrollBarPos)
+sub_8A9B0 ExportTeamStats {confidence=medium} asks a file name (text 0D3h) and writes the team stats as text (fopen "wt", fprintf)
+sub_8AE90 BuildTeamStatTables {confidence=low} adds up the season's team stat tables (word_17E894-17E99C) from the games
+sub_8B0FC DumpSaveTimes {confidence=low} debug: writes savetime.out ("[%d][4] = {" tables)
+sub_8B7BB CheckExportName {confidence=medium} checks an export file name (path, ".TXT", spaces); a message box if it is not good
+sub_8BF56 AnimatePlayerStatsButton {confidence=low} plays a button's frames (4 ticks each) on the player stats screen
+sub_8C006 AnimatePlayerStatsButtons {confidence=low} the same for a row of buttons
+sub_8C1C6 ComparePlayerNames {confidence=medium} qsort compare of two players by last name, then first name (dword_1820E8 / 1820EC)
+sub_8C210 ComparePlayerStatRows {confidence=low} qsort compare of two player stat rows by the sort column (dword_18209C), names on ties
+sub_8C3DD ShowPlayerStatsTitle {confidence=low} shows the player stats title strip (BKGD) for a moment
+sub_8C51B PlayerStatsScreen {confidence=high} the player stats screen (StatDBPTRs, "Player #", "+/-", FName, LName, DonRuss): sortable columns, filters, scroll bar, export
+sub_8E76B FillSkaterStatRows {confidence=low} fills the player stat rows of the skaters from the stats database
+sub_8EB04 FillGoalieStatRows {confidence=low} fills the player stat rows of the goalies
+sub_8EE72 DrawPlayerStatsTable {confidence=medium} draws the player stats rows ("%d.%d%%", "%d-%d", "%c   %d")
+sub_8F44A CountPlayerStatRows {confidence=low} counts the rows that pass the filter (position byte_17EBF0, 'D' ...)
+sub_8F539 FindPlayerStatRow {confidence=low} finds a player's row and scrolls to it (SetScrollBarPos)
+sub_8F5B3 ExportPlayerStats {confidence=medium} asks a file name and writes the player stats as text (fopen "wt", fprintf)
+sub_8FD8F BuildPlayerStatRows {confidence=low} builds the player stat rows of a team from its roster (word_181EB4, 136h per team)
+sub_88509_104 RunStatsMenu_104 {no_record}
+sub_88509_13E RunStatsMenu_13E {no_record}
+sub_88509_169 RunStatsMenu_169 {no_record}
+sub_88509_183 RunStatsMenu_183 {no_record}
+sub_88509_1AD RunStatsMenu_1AD {no_record}
+sub_88509_25 RunStatsMenu_25 {no_record}
+sub_88E09_132A TeamStatsScreen_132A {no_record}
+sub_88E09_134F TeamStatsScreen_134F {no_record}
+sub_88E09_136C TeamStatsScreen_136C {no_record}
+sub_88E09_1380 TeamStatsScreen_1380 {no_record}
+sub_88E09_8FE TeamStatsScreen_8FE {no_record}
+sub_88E09_916 TeamStatsScreen_916 {no_record}
+sub_88E09_92E TeamStatsScreen_92E {no_record}
+sub_88E09_946 TeamStatsScreen_946 {no_record}
+sub_88E09_957 TeamStatsScreen_957 {no_record}
+sub_88E09_96F TeamStatsScreen_96F {no_record}
+sub_8A854_82 CopyTeamStatName_82 {no_record}
+sub_8A854_89 CopyTeamStatName_89 {no_record}
+sub_8A854_90 CopyTeamStatName_90 {no_record}
+sub_8A854_97 CopyTeamStatName_97 {no_record}
+sub_8A9B0_117 ExportTeamStats_117 {no_record}
+sub_8A9B0_11E ExportTeamStats_11E {no_record}
+sub_8A9B0_125 ExportTeamStats_125 {no_record}
+sub_8A9B0_12C ExportTeamStats_12C {no_record}
+sub_8AE90_265 BuildTeamStatTables_265 {no_record}
+sub_8AE90_266 BuildTeamStatTables_266 {no_record}
+sub_8C51B_1008 PlayerStatsScreen_1008 {no_record}
+sub_8C51B_1020 PlayerStatsScreen_1020 {no_record}
+sub_8C51B_1038 PlayerStatsScreen_1038 {no_record}
+sub_8C51B_13B5 PlayerStatsScreen_13B5 {no_record}
+sub_8C51B_13BC PlayerStatsScreen_13BC {no_record}
+sub_8C51B_13D1 PlayerStatsScreen_13D1 {no_record}
+sub_8C51B_13DD PlayerStatsScreen_13DD {no_record}
+sub_8C51B_1630 PlayerStatsScreen_1630 {no_record}
+sub_8C51B_1641 PlayerStatsScreen_1641 {no_record}
+sub_8C51B_1693 PlayerStatsScreen_1693 {no_record}
+sub_8C51B_18F3 PlayerStatsScreen_18F3 {no_record}
+sub_8C51B_1C1D PlayerStatsScreen_1C1D {no_record}
+sub_8C51B_1C3D PlayerStatsScreen_1C3D {no_record}
+sub_8C51B_1D23 PlayerStatsScreen_1D23 {no_record}
+sub_8C51B_1D52 PlayerStatsScreen_1D52 {no_record}
+sub_8C51B_1DCF PlayerStatsScreen_1DCF {no_record}
+sub_8C51B_1E07 PlayerStatsScreen_1E07 {no_record}
+sub_8C51B_1E55 PlayerStatsScreen_1E55 {no_record}
+sub_8C51B_1E90 PlayerStatsScreen_1E90 {no_record}
+sub_8C51B_1EEB PlayerStatsScreen_1EEB {no_record}
+sub_8C51B_1F0E PlayerStatsScreen_1F0E {no_record}
+sub_8C51B_1F1B PlayerStatsScreen_1F1B {no_record}
+sub_8C51B_1FAF PlayerStatsScreen_1FAF {no_record}
+sub_8C51B_1FBA PlayerStatsScreen_1FBA {no_record}
+sub_8C51B_1FC5 PlayerStatsScreen_1FC5 {no_record}
+sub_8C51B_FF0 PlayerStatsScreen_FF0 {no_record}
+sub_8E76B_37A FillSkaterStatRows_37A {no_record}
+sub_8E76B_387 FillSkaterStatRows_387 {no_record}
+sub_8F5B3_146 ExportPlayerStats_146 {no_record}
+sub_8F5B3_171 ExportPlayerStats_171 {no_record}
+sub_8F5B3_178 ExportPlayerStats_178 {no_record}
+sub_8F5B3_17F ExportPlayerStats_17F {no_record}

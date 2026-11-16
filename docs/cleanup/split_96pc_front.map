@@ -67,3 +67,8 @@ rename front/front_849D5 front/pregame The pre-game screens between the controll
 cut BuildAntiAliasTable front/line_draw The 3D view's line drawer: the anti-alias colour table, clipping, fixed-point lines (96 PC).
 cut sub_88509 front/stats_menu The stats menus: season and conference picks, leaders, stat tables, text export (96 PC; still being named).
 rename front/front_88E09 front/stats_menu
+# step 14: front_8C3DD (player stats) and front_90879 (player cards)
+cut AnimatePlayerStatsButton front/player_stats The player stats screen: its rows, filters, sorting, drawing and text export (96 PC).
+rename front/front_8C3DD front/player_stats
+cut sub_905A1 front/player_cards The player card screen: player profiles with their pictures and season stats, the league logos, text export (96 PC; still being named).
+rename front/front_90879 front/player_cards

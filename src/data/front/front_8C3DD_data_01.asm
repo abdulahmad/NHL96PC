@@ -9,8 +9,8 @@ global str_BT30, str_BT41, str_BT51, str_SD3, str_SEA02, str_HD01, str_BT04, str
 global str_HD02, str_PLR0, str_ALL0, str_AR003, str_AR013, str_AR103, str_AR113, str_AR202
 global str_AR212, str_AR302, str_AR312, str_SLDV, str_VBAL2, str_SLDH, str_HBAL2, str_D9
 global str_CD, str_DD3, str_DD4, str_DD5, str_03d2, str_10003, asc_112831, asc_112837
-global str_Bkgd17, qword_11281C, qword_112824, qword_11283C, qword_112844, str_D02d, str_Space, str_S3
-global str_D10, str_Wt3, unk_11282F, str_0410, str_0707, str_0177, str_1230, str_2314
+global str_Bkgd17, F64_0p454545, F64_2p54, F64_2p54_ExportPlayerStats, F64_0p454545_ExportPlayerStats, str_D02d, str_Space, str_S3
+global str_D10, str_Wt3, str_Punct_ExportPlayerStats, str_0410, str_0707, str_0177, str_1230, str_2314
 global str_2309, str_0427, str_2293, str_1931, str_0109, str_1688, str_1404, str_2316
 global str_1033, str_0509, str_0844, str_1227, str_2409, str_1720, str_0009, str_0834
 global str_RAT, str_SEA4, str_PLY4
@@ -131,21 +131,21 @@ str_03d2:
         db 02Eh,025h,030h,033h,064h,00h
 str_10003:
         db 031h,02Eh,030h,030h,030h,00h
-qword_11281C:
+F64_0p454545:
         db 018h,05Dh,074h,0D1h,045h,017h,0DDh,03Fh
-qword_112824:
+F64_2p54:
         db 052h,0B8h,01Eh,085h,0EBh,051h,04h,040h
 str_Wt3:
         db 077h,074h,00h
-unk_11282F:
+str_Punct_ExportPlayerStats:
         db 0Ah,00h
 asc_112831:
         db 020h,020h,020h,020h,020h,00h
 asc_112837:
         db 020h,020h,020h,020h,00h
-qword_11283C:
+F64_2p54_ExportPlayerStats:
         db 052h,0B8h,01Eh,085h,0EBh,051h,04h,040h
-qword_112844:
+F64_0p454545_ExportPlayerStats:
         db 018h,05Dh,074h,0D1h,045h,017h,0DDh,03Fh
 str_0410:
         db 030h,034h,031h,030h,00h

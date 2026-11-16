@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_B2C98 progbits alloc exec nowrite align=1
 extern FatalError, __CMain, __FiniRtns, __InitRtns, ___begtext, __doserror_, __fprtf_, __set_EINVAL_
-extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_InitmemmanINSUFFICIENTROW, asc_113658, asc_113680
-extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, asc_1137B0
-extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, ResourceArchiveName, _Extender
+extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_InitmemmanINSUFFICIENTROW, str_InitmemmanTOOMUCHDOSALLOCATE, str_InitmemmanDOSMEMORYNOTALLOCA
+extern str_InitmemmanDOSSUBMEMORYNOTALL, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, str_OpenblockhandleSNOHANDLESLEF, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, str_CdromcheckCDROMSTATUSNOTRETU
+extern str_CdromreadREADGREATERTHANMAXR, str_CdromreadREADSTATUSERRORX, str_CdromseekSEEKSTATUSX, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, ResourceArchiveName, _Extender
 extern _ExtenderSubtype, _osmajor, _osminor, ResourceArchiveData, CpuIs386, CpuIs486, CpuType, CpuHasCpuid
 extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, MemPoolBase, dword_1219A0, dword_1219A4, AaWeights
 extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive, CdSectorSize, CdFileMode, CdFileHandle
@@ -258,7 +258,7 @@ InitMemoryPool:
         call int386_
         cmp dword [byte esp+034h], byte 0
         jne short .7
-        push asc_113658
+        push str_InitmemmanTOOMUCHDOSALLOCATE
         call FatalError
         add esp, byte 4
 .7:
@@ -300,7 +300,7 @@ InitMemoryPool:
         push eax
         mov ebx, dword [MemPoolSize]
         push ebx
-        push asc_113680
+        push str_InitmemmanDOSMEMORYNOTALLOCA
         call FatalError
         add esp, byte 0Ch
 .10:
@@ -343,7 +343,7 @@ InitMemoryPool:
         mov eax, dword [byte esp+068h]
         shl eax, 4
         push eax
-        push asc_1136C4
+        push str_InitmemmanDOSSUBMEMORYNOTALL
         call FatalError
         add esp, byte 0Ch
 .12:
@@ -5188,7 +5188,7 @@ CdOpenFile:
         jne short .3
         mov ecx, dword [dword esp+0A4h]
         push ecx
-        push asc_113740
+        push str_OpenblockhandleSNOHANDLESLEF
         call FatalError
         add esp, byte 8
 .3:
@@ -5792,7 +5792,7 @@ DetectMscdex:
         cwde
         test eax, eax
         je short .4
-        push asc_1137B0
+        push str_CdromcheckCDROMSTATUSNOTRETU
         call FatalError
         add esp, byte 4
 .4:
@@ -5919,7 +5919,7 @@ CdReadRequest:
         cmp eax, byte 20h
         jle short .2
         push eax
-        push asc_1137DC
+        push str_CdromreadREADGREATERTHANMAXR
         call FatalError
         add esp, byte 8
 .2:
@@ -5966,7 +5966,7 @@ CdReadRequest:
         test edx, edx
         jg near .1
         push eax
-        push asc_113810
+        push str_CdromreadREADSTATUSERRORX
         call FatalError
         add esp, byte 8
         jmp near .1
@@ -6059,7 +6059,7 @@ CdSeekCmd:
         test ah, 80h
         je short .1
         push eax
-        push asc_113834
+        push str_CdromseekSEEKSTATUSX
         call FatalError
         add esp, byte 8
 .1:

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_11ED30 progbits alloc noexec write align=1
 global dword_11ED30, dword_11ED3C, dword_11ED40, dword_11ED58, dword_11ED5C, dword_11ED60, dword_11ED64, dword_11ED68
-global dword_11ED6C, dword_11ED70, dword_11ED74, dword_11ED78, dword_11ED7C, dword_11ED9C, dword_11EDBC, dword_11EDCC
+global dword_11ED6C, dword_11ED70, dword_11ED74, dword_11ED78, str_5_PlayoffSetupScreen, dword_11ED9C, dword_11EDBC, dword_11EDCC
 global dword_11EDDC, dword_11EE18, word_11ED34, word_11ED38
 dword_11ED30:
         db 00h,00h,00h,00h
@@ -34,7 +34,7 @@ dword_11ED74:
         db 00h,00h,00h,00h
 dword_11ED78:
         db 00h,00h,00h,00h
-dword_11ED7C:
+str_5_PlayoffSetupScreen:
         db 035h,00h,00h,00h,039h,00h,00h,00h,03Eh,00h,00h,00h,041h,00h,00h,00h
         db 046h,00h,00h,00h,04Ah,00h,00h,00h,04Eh,00h,00h,00h,052h,00h,00h,00h
 dword_11ED9C:

@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_B75A0 progbits alloc exec nowrite align=1
-extern DebugPrintf, FatalError, __STOSD, _os_handle_0, _os_handle_1, str_UpsideDown, asc_11389C, str_OrisetmaterialcolorInval
-extern asc_1138F4, str_OrisetmaterialdrawfnInva, byte_190EC0, byte_191300, str_Punct_DrawRinkSurface, dword_12231C, dword_122350, SinTable
+extern DebugPrintf, FatalError, __STOSD, _os_handle_0, _os_handle_1, str_UpsideDown, str_OrisetmaterialrgbInvalidMate, str_OrisetmaterialcolorInval
+extern str_OrisetmaterialtextureInvalid, str_OrisetmaterialdrawfnInva, byte_190EC0, byte_191300, str_Punct_DrawRinkSurface, dword_12231C, dword_122350, SinTable
 extern str_Punct_SetScreenScale, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228FC, ViewCenterY
 extern str_D_ProjectPointsPersp, dword_123AC0, TextureTileSize, TexturePageBase, TextureDetail, dword_190E9C, dword_190EA0, dword_190EA4
 extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dword_190EBC, dword_190EC4, dword_190EC8
@@ -3569,7 +3569,7 @@ OriSetMaterialRgb:
         jle short .4
 .3:
         push edx
-        push asc_11389C
+        push str_OrisetmaterialrgbInvalidMate
         call FatalError
         add esp, byte 8
 .4:
@@ -3641,7 +3641,7 @@ OriSetMaterialTexture:
         jle short .2
 .1:
         push ebx
-        push asc_1138F4
+        push str_OrisetmaterialtextureInvalid
         call FatalError
         add esp, byte 8
 .2:

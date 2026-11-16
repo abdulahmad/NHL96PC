@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_11309C progbits alloc noexec write align=1
 global str_Pal19, str_Bkgd27, str_FSH6, str_Plyr4, str_PROFILEFSH4, str_Card4, str_Ard4, str_DSS5
-global str_SD8, str_SDD, str_S0, str_SDD2, str_0000, str_AddtimerLISTFULL, asc_113110, str_LOWMEM
-global str_HIGHMEM, str_GAP, asc_11316C
+global str_SD8, str_SDD, str_S0, str_SDD2, str_0000, str_AddtimerLISTFULL, str_InitmemmanadrINSUFFICIENTMEM, str_LOWMEM
+global str_HIGHMEM, str_GAP, str_UnlinkmemclassareaReleaseMem
 str_Pal19:
         db 021h,070h,061h,06Ch,00h
 str_Bkgd27:
@@ -34,7 +34,7 @@ str_0000:
 str_AddtimerLISTFULL:
         db 061h,064h,064h,074h,069h,06Dh,065h,072h,020h,02Dh,020h,04Ch,049h,053h,054h,020h
         db 046h,055h,04Ch,04Ch,0Ah,00h,00h,00h
-asc_113110:
+str_InitmemmanadrINSUFFICIENTMEM:
         db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,061h,064h,072h,020h,02Dh,020h
         db 049h,04Eh,053h,055h,046h,046h,049h,043h,049h,045h,04Eh,054h,020h,04Dh,045h,04Dh
         db 04Fh,052h,059h,020h,054h,04Fh,020h,049h,04Eh,049h,054h,049h,041h,04Ch,049h,05Ah
@@ -46,7 +46,7 @@ str_HIGHMEM:
         db 048h,049h,047h,048h,020h,04Dh,045h,04Dh,00h,079h,031h,02Ch
 str_GAP:
         db 047h,041h,050h,00h
-asc_11316C:
+str_UnlinkmemclassareaReleaseMem:
         db 075h,06Eh,06Ch,069h,06Eh,06Bh,06Dh,065h,06Dh,063h,06Ch,061h,073h,073h,061h,072h
         db 065h,061h,020h,02Dh,020h,052h,065h,06Ch,065h,061h,073h,065h,020h,04Dh,065h,06Dh
         db 06Fh,072h,079h,020h,04Eh,06Fh,074h,020h,046h,06Fh,075h,06Eh,064h,0Ah,00h,064h

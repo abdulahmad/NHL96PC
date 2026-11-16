@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_711ED progbits alloc exec nowrite align=1
-extern asc_11DFC8, BlackPalette, byte_11FA2F, byte_17BDAE, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21
+extern str_GenericHayesCompatible, BlackPalette, byte_11FA2F, byte_17BDAE, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21
 extern byte_17CA22, byte_17CA5D, byte_17CA5E, byte_17D650, byte_17D651, CopyBitmap, DrawColorText, DrawFrameAt
-extern dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11E278, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
+extern dword_114CD3, dword_11D1A8, dword_11DF80, str_Punct_ControlPicksScreen, dword_11E278, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
 extern dword_17BCE2, str_Standings, GlobalSetData, dword_17C9F4, dword_17CA5C, dword_17D590, dword_17D594, dword_17D654
 extern dword_17D678, dword_17D67C, dword_17D680, dword_17D684, EditText, FadeOut, FadeOutMusic, FadePalette
 extern FillMusicStream, TextStringWidth, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
@@ -23,7 +23,7 @@ extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, 
 extern str_YES0, str_YES1, strcpy_, strlen_, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlockAtOwnPos
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SetScreenTarget, KeyIsDown, KbdGetKey
 extern FindShape, TextSetFont, unk_17C9B8, unk_17C9CC, unk_17D598, unk_708A9, unk_70901, unk_70BC1
-extern unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED, word_114CE0, word_11E270, word_17C9AC, word_17C9AE
+extern unk_70BCB, str_N_ControlSetupScreen, str_R, str_F, word_114CE0, word_11E270, word_17C9AC, word_17C9AE
 extern word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6, WriteGlobalSet
 global DrawOnOffSlider, jpt_7130F, PollOptionKeys, PollOptionKeys_94, PollOptionKeys_B6, PollOptionKeys_D5, PollOptionKeys_F6, PollOptionKeys_117
 global PollOptionKeys_138, PollOptionKeys_156, PollOptionKeys_174, PollOptionKeys_192, unk_7158B, jpt_715AF, jpt_715D3, ControlPicksScreen
@@ -283,7 +283,7 @@ PollOptionKeys_192:
         or dword [byte_17D650], eax
 .5:
         mov esi, dword [byte ebp-0Ch]
-        mov ebx, dword [nosplit esi*8+dword_11DF84]
+        mov ebx, dword [nosplit esi*8+str_Punct_ControlPicksScreen]
         mov edx, dword [nosplit esi*8+dword_11DF80]
         imul esi, byte 66h
         mov eax, dword [dword_17D590]
@@ -503,7 +503,7 @@ ControlPicksScreen_177:
         mov edx, dword [dword edi+dword_11DF80]
         mov dword [byte esi+eax+026h], edx
         mov eax, dword [dword_17D594]
-        mov edx, dword [dword edi+dword_11DF84]
+        mov edx, dword [dword edi+str_Punct_ControlPicksScreen]
         mov dword [byte esi+eax+02Ah], edx
         mov eax, dword [dword_17D594]
         mov edx, dword [byte edi+ebp-06h]
@@ -822,7 +822,7 @@ ControlPicksScreen_758:
 .14:
         mov eax, dword [byte ebp+05Ah]
         mov ecx, dword [byte ebp+07Ah]
-        mov ebx, dword [nosplit eax*8+dword_11DF84]
+        mov ebx, dword [nosplit eax*8+str_Punct_ControlPicksScreen]
         mov edx, dword [nosplit eax*8+dword_11DF80]
         mov eax, dword [dword_17D590]
         call DrawOnOffSlider
@@ -1116,15 +1116,15 @@ ControlSetupScreen:
         movsw
         mov ecx, 1Eh
         lea edi, [dword ebp-09Eh]
-        mov esi, unk_70BD5
+        mov esi, str_N_ControlSetupScreen
         rep movsd
         mov ecx, 28h
         lea edi, [dword ebp-013Eh]
-        mov esi, unk_70C4D
+        mov esi, str_R
         rep movsd
         mov ecx, 140h
         lea edi, [dword ebp-063Eh]
-        mov esi, unk_70CED
+        mov esi, str_F
         mov eax, 2
         xor edx, edx
         rep movsd
@@ -3340,7 +3340,7 @@ ModemSettingsScreen:
         push eax
         movsx eax, word [word_17C9B6]
         imul eax, byte 44h
-        add eax, asc_11DFC8
+        add eax, str_GenericHayesCompatible
         push eax
         call TextStringWidth
         add esp, byte 4
@@ -3370,7 +3370,7 @@ ModemSettingsScreen:
         add esp, byte 4
         xor ebx, ebx
         xor edx, edx
-        add eax, asc_11DFC8
+        add eax, str_GenericHayesCompatible
         call DrawColorText
         call SetScreenTarget
         push dword [byte esi+02Ch]
@@ -3726,7 +3726,7 @@ ModemSettingsScreen:
         push eax
         movsx eax, dx
         imul eax, byte 44h
-        add eax, asc_11DFC8
+        add eax, str_GenericHayesCompatible
         push eax
         mov word [word_17C9B6], dx
         call TextStringWidth
@@ -3757,7 +3757,7 @@ ModemSettingsScreen:
         add esp, byte 4
         xor ebx, ebx
         xor edx, edx
-        add eax, asc_11DFC8
+        add eax, str_GenericHayesCompatible
         call DrawColorText
         call SetScreenTarget
         push dword [byte esi+02Ch]
@@ -3773,7 +3773,7 @@ ModemSettingsScreen:
         call FreeMemBlock
         movsx eax, word [word_17C9B6]
         imul eax, byte 44h
-        mov edx, asc_11DFC8
+        mov edx, str_GenericHayesCompatible
         add esp, byte 4
         add edx, eax
         mov eax, unk_17C9CC

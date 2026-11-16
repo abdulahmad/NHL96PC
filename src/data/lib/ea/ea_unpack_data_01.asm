@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_1135A8 progbits alloc noexec write align=1
-global asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, str_Inversetbl, str_Inversetmp, str_SavefileblockaOPENFAILEDFOR, str_InitmemmanINSUFFICIENTROW
-global asc_113658, asc_113680
-asc_1135A8:
+global str_Lzh, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, str_Inversetbl, str_Inversetmp, str_SavefileblockaOPENFAILEDFOR, str_InitmemmanINSUFFICIENTROW
+global str_InitmemmanTOOMUCHDOSALLOCATE, str_InitmemmanDOSMEMORYNOTALLOCA
+str_Lzh:
         db 06Ch,07Ah,068h,00h
 str_Copyright:
         db 043h,06Fh,070h,079h,072h,069h,067h,068h,074h,00h,020h,073h
@@ -26,11 +26,11 @@ str_InitmemmanINSUFFICIENTROW:
         db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,020h,02Dh,020h,049h,04Eh,053h
         db 055h,046h,046h,049h,043h,049h,045h,04Eh,054h,020h,052h,04Fh,057h,020h,054h,041h
         db 042h,04Ch,045h,020h,053h,050h,041h,043h,045h,0Ah,00h,069h
-asc_113658:
+str_InitmemmanTOOMUCHDOSALLOCATE:
         db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,020h,02Dh,020h,054h,04Fh,04Fh
         db 020h,04Dh,055h,043h,048h,020h,044h,04Fh,053h,020h,041h,04Ch,04Ch,04Fh,043h,041h
         db 054h,045h,044h,0Ah,00h,020h,069h,06Eh
-asc_113680:
+str_InitmemmanDOSMEMORYNOTALLOCA:
         db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,020h,02Dh,020h,044h,04Fh,053h
         db 020h,04Dh,045h,04Dh,04Fh,052h,059h,020h,04Eh,04Fh,054h,020h,041h,04Ch,04Ch,04Fh
         db 043h,041h,054h,045h,044h,020h,025h,078h,020h,052h,045h,051h,055h,045h,053h,054h

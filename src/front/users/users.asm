@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_2A3D6 progbits alloc exec nowrite align=1
-extern asc_110BCE, asc_110C09, asc_110C57, asc_110CAC, byte_110B48, byte_160B2D, byte_160B92, byte_160B93
+extern str_Punct_ExportUserRecords, asc_110C09, asc_110C57, asc_110CAC, byte_110B48, byte_160B2D, byte_160B92, byte_160B93
 extern byte_160B94, byte_160B95, byte_160BF8, byte_160BFA, byte_160BFB, byte_160C5E, byte_160C60, byte_160C61
 extern byte_160CC5, byte_160CC6, byte_160CC7, byte_160D2B, byte_160D2C, byte_160D2D, byte_17BDAE, DeleteFiles
-extern UserRecordsTop, UserRecordsFirst, UserRecordsRow, dword_117800, dword_117804, dword_11F5C0, dword_11F5C4, dword_15EA0C
+extern UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J, str_V, dword_11F5C0, dword_11F5C4, dword_15EA0C
 extern dword_15EA10, dword_15EA14, dword_15EA18, dword_15EA1C, dword_15EA20, dword_15EA24, dword_15EA28, UserRecordList
 extern dword_160A90, UserOpponentColumn, dword_160A98, dword_160A9C, dword_160AA0, dword_160AA4, dword_160AA8, UserRatingColumn
 extern UserShutoutColumn, UserNameIndex, UserStreakColumn, dword_160ABC, UserLongStreakColumn, UserPowerPlayColumn, dword_160AC8, dword_160AFA
@@ -34,7 +34,7 @@ extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, DrawShape
 extern CreateBitmap, TintRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
 extern FindShape, RemapPolygonArgs, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
 extern hmscore, word_165810, word_165812, awscore
-global unk_2A3D6, unk_2A3E2, unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, unk_2A482, ClearSlotUser
+global unk_2A3D6, unk_2A3E2, unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, str_3_UserRecordsScreen, ClearSlotUser
 global ClearSlotUsers, UserRecordRating, CreateUserRecord, DeleteUser, NewUser, NewUser_159, DrawUserList, GetUserName
 global LoadUserIndex, ScrollUserList, PickUsersScreen, UpdateUserRecords, UpdateUserRecords_47F, UpdateUserRecords_ret, CompareUsersByName, CompareUsersByRating
 global CompareUsersByRecord, CompareUsersByRecord_127, CompareUsersByRecord_12C, CompareUsersByRecord_ret, CompareUsersByGoalsFor, CompareUsersByGoalsAgainst, CompareUsersByPowerPlay, CompareUsersByPenaltyKill
@@ -63,7 +63,7 @@ unk_2A442:
         db 0E9h,01h,00h,00h,0D2h,01h,00h,00h,064h,01h,00h,00h,0D2h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_2A482:
+str_3_UserRecordsScreen:
         db 033h,00h,00h,00h,037h,00h,00h,00h,045h,00h,00h,00h,037h,00h,00h,00h
         db 045h,00h,00h,00h,049h,00h,00h,00h,033h,00h,00h,00h,049h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -2240,7 +2240,7 @@ DrawUserRecords:
         mov ecx, dword [byte ebp-024h]
         mov eax, dword [byte ebx+066h]
         mov edx, dword [byte ebp-028h]
-        mov ebx, dword [dword_117800]
+        mov ebx, dword [str_J]
         push dword [nosplit eax*4+UserRecordsFirst]
         mov eax, dword [byte ebp-074h]
         call FillBox
@@ -2282,7 +2282,7 @@ DrawUserRecords:
         mov eax, dword [byte ebp-030h]
         inc dword [byte ebp-010h]
         inc esi
-        mov eax, dword [dword eax+dword_117800]
+        mov eax, dword [dword eax+str_J]
         mov dword [byte ebp-018h], 175h
         sub eax, esi
         mov edx, dword [byte ebp-08h]
@@ -2975,7 +2975,7 @@ ExportUserRecords:
         push edx
         call fprintf_
         add esp, byte 8
-        push asc_110BCE
+        push str_Punct_ExportUserRecords
         lea eax, [byte ebp-064h]
         push eax
         call sprintf_
@@ -3330,7 +3330,7 @@ UserRecordsScreen:
         rep movsd
         mov ecx, 20h
         lea edi, [dword ebp-0116h]
-        mov esi, unk_2A482
+        mov esi, str_3_UserRecordsScreen
         mov eax, UserNameIndex
         rep movsd
         call LoadUserIndex
@@ -3683,7 +3683,7 @@ UserRecordsScreen:
         add eax, byte 0Ch
         mov byte [byte_160D2B], 9
         mov dword [dword_160D26], eax
-        mov eax, dword [dword_117800]
+        mov eax, dword [str_J]
         mov bl, cl
         sub eax, byte 4
         add bl, 6
@@ -3702,7 +3702,7 @@ UserRecordsScreen:
         mov dword [dword eax+dword_15EA10], 50h
         mov dword [dword eax+dword_15EA14], 0F0h
         mov dword [dword eax+dword_15EA18], 50h
-        mov edi, dword [dword_117800]
+        mov edi, dword [str_J]
         mov dword [dword eax+dword_15EA1C], 0F0h
         mov byte [dword edx+byte_160B94], 3
         mov dword [dword eax+dword_15EA24], 3Ch
@@ -3719,7 +3719,7 @@ UserRecordsScreen:
         mov dword [dword eax+dword_15EA10], 50h
         mov dword [dword eax+dword_15EA14], 12Ch
         mov dword [dword eax+dword_15EA18], 50h
-        mov edi, dword [dword_117800]
+        mov edi, dword [str_J]
         mov dword [dword eax+dword_15EA1C], 12Ch
         mov byte [dword edx+byte_160B92], 3
         mov dword [dword eax+dword_15EA24], 0F1h
@@ -3733,7 +3733,7 @@ UserRecordsScreen:
         mov dword [dword eax+dword_15EA24], esi
         mov dword [dword eax+dword_15EA14], edi
         mov dword [dword eax+dword_15EA1C], edi
-        mov edi, dword [dword_117800]
+        mov edi, dword [str_J]
         mov dword [dword eax+dword_15EA20], edi
         mov byte [dword edx+byte_160B94], bh
         mov dword [dword eax+dword_15EA28], edi
@@ -3796,13 +3796,13 @@ UserRecordsScreen:
         mov dword [dword eax+dword_15EA0C], 3Ch
         mov dword [dword eax+dword_15EA14], 0F0h
         mov dword [dword eax+dword_15EA1C], 0F0h
-        mov edi, dword [dword ebx+dword_117800]
+        mov edi, dword [dword ebx+str_J]
         mov dword [dword eax+dword_15EA24], 3Ch
         inc edi
 .12:
         mov dword [dword eax+dword_15EA10], edi
         mov dword [dword eax+dword_15EA18], edi
-        mov edi, dword [dword ebx+dword_117804]
+        mov edi, dword [dword ebx+str_V]
         mov dword [dword eax+dword_15EA20], edi
         jmp near .15
 .13:
@@ -3811,14 +3811,14 @@ UserRecordsScreen:
         mov dword [dword eax+dword_15EA0C], 0F1h
         mov dword [dword eax+dword_15EA14], 12Ch
         mov dword [dword eax+dword_15EA1C], 12Ch
-        mov edi, dword [dword ebx+dword_117800]
+        mov edi, dword [dword ebx+str_J]
         mov dword [dword eax+dword_15EA24], 0F1h
         add edi, esi
         jmp short .12
 .14:
         mov edi, dword [byte ebp+066h]
         mov dword [dword eax+dword_15EA0C], edi
-        mov edi, dword [dword ebx+dword_117800]
+        mov edi, dword [dword ebx+str_J]
         inc edi
         mov dword [byte ebp+076h], edi
         mov dword [dword eax+dword_15EA10], edi
@@ -3828,11 +3828,11 @@ UserRecordsScreen:
         mov dword [dword eax+dword_15EA18], edi
         mov edi, dword [byte ebp+062h]
         mov dword [dword eax+dword_15EA1C], edi
-        mov edi, dword [dword ebx+dword_117804]
+        mov edi, dword [dword ebx+str_V]
         mov dword [dword eax+dword_15EA20], edi
         mov edi, dword [byte ebp+066h]
         mov dword [dword eax+dword_15EA24], edi
-        mov edi, dword [dword ebx+dword_117804]
+        mov edi, dword [dword ebx+str_V]
 .15:
         mov dword [dword eax+dword_15EA28], edi
         mov eax, ecx

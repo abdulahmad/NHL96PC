@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_11E9C0 progbits alloc noexec write align=1
-global dword_11E9C0, dword_11EA10, dword_11EA60, dword_11EAB0, dword_11EAFC, dword_11EB50, dword_11EB88, dword_11EBC0
+global dword_11E9C0, dword_11EA10, str_V_DrawLinesPanel, dword_11EAB0, dword_11EAFC, str_T_DrawLinesPanel, dword_11EB88, dword_11EBC0
 global dword_11EBF8, dword_11ECE8, dword_11ECEC, dword_11ED2C
 dword_11E9C0:
         db 096h,00h,00h,00h,096h,00h,00h,00h,096h,00h,00h,00h,0C9h,00h,00h,00h
@@ -16,7 +16,7 @@ dword_11EA10:
         db 01Dh,023h,01Fh,028h,01Eh,02Ah,015h,022h,01Fh,02Bh,021h,023h,020h,02Bh,022h,0Ah
         db 00h,026h,01Ah,025h,00h,027h,024h,0Ah,024h,028h,01Dh,027h,025h,029h,026h,0Ah
         db 026h,02Bh,020h,029h,027h,02Bh,028h,0Ah,021h,01h,015h,02Bh,022h,01h,02Ah,0Ah
-dword_11EA60:
+str_V_DrawLinesPanel:
         db 056h,00h,00h,00h,091h,00h,00h,00h,0CCh,00h,00h,00h,07h,01h,00h,00h
         db 042h,01h,00h,00h,056h,00h,00h,00h,091h,00h,00h,00h,0CCh,00h,00h,00h
         db 07h,01h,00h,00h,042h,01h,00h,00h,056h,00h,00h,00h,091h,00h,00h,00h
@@ -35,7 +35,7 @@ dword_11EAFC:
         db 01Eh,027h,022h,024h,01Fh,028h,023h,025h,020h,029h,024h,0Ah,022h,02Ah,015h,027h
         db 023h,02Bh,026h,028h,024h,02Bh,027h,029h,025h,02Bh,028h,0Ah,026h,01h,015h,02Bh
         db 027h,01h,02Ah,0Ah
-dword_11EB50:
+str_T_DrawLinesPanel:
         db 074h,00h,00h,00h,0AFh,00h,00h,00h,0EAh,00h,00h,00h,025h,01h,00h,00h
         db 074h,00h,00h,00h,0AFh,00h,00h,00h,0EAh,00h,00h,00h,025h,01h,00h,00h
         db 074h,00h,00h,00h,0AFh,00h,00h,00h,0EAh,00h,00h,00h,074h,00h,00h,00h

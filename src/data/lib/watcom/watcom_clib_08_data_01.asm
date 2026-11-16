@@ -4,7 +4,7 @@ bits 32
 section s_113B10 progbits alloc noexec write align=1
 global str_UnknownError, str_EnvironmentVariableNotSe, str_ErrorInEnvironmentVariab, str_InvalidDriver, str_CardNotDetected, str_ErrorAllocatingMemory, str_ErrorInitializingCard, str_ErrorInitializingSoftwar
 global str_ErrorInDMAChannel, str_ErrorNotAnEACSFormatFile, str_ErrorInvalidChannel, str_ErrorInvalidVolume, str_ErrorInvalidHandle, str_ErrorInvalidPan, str_ErrorUnsupportedAudioTyp, str_ErrorInvalidBend
-global str_ErrorCouldNotResolveSfxB, str_ErrorInvalidBankNumber, str_ErrorInvalidSfxNumber, str_NoFreeChannelToPlayOn, asc_113E28, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, str_EXITTODOSY
+global str_ErrorCouldNotResolveSfxB, str_ErrorInvalidBankNumber, str_ErrorInvalidSfxNumber, str_NoFreeChannelToPlayOn, str_TGV, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, str_EXITTODOSY
 global str_PAUSEPRESSANYKEY, str_RemovewindowROWSPACE, str_FshVshQfsQvs, str_Vsh, str_Qvs, str_spEACSNDFLIB32BitSoundLibr, str_NoCardInstalled, str_SoundBlaster10
 global str_SoundBlaster15, str_SoundBlaster20, str_SoundBlasterPro10, str_SoundBlasterPro20, str_SoundBlaster16, str_GravisUltraSound, str_WindowsSoundSystem
 str_UnknownError:
@@ -103,7 +103,7 @@ str_GravisUltraSound:
 str_WindowsSoundSystem:
         db 057h,069h,06Eh,064h,06Fh,077h,073h,020h,053h,06Fh,075h,06Eh,064h,020h,053h,079h
         db 073h,074h,065h,06Dh,00h,00h
-asc_113E28:
+str_TGV:
         db 054h,047h,056h,00h
 str_TgvdecodeInvalidChunkTyp:
         db 074h,067h,076h,064h,065h,063h,06Fh,064h,065h,03Ah,020h,049h,06Eh,076h,061h,06Ch

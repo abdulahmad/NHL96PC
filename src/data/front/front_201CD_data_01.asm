@@ -5,7 +5,7 @@ section s_110730 progbits alloc noexec write align=1
 global str_GRIPCON, str_RGRIPCON, str_Pal4, str_BKGD, str_LTD0, str_BT00, str_BT01, str_BT02
 global str_FSH2, str_Ice, str_IceFsh, str_Crud, str_Zamboni, str_Glassline, str_Glass, str_Topboards
 global str_Botboards, str_FatRedLines, str_FatBlueLines, str_SideD, str_SideNotFoundInRink, str_SideNotFoundInStands, str_Gt002d, str_Gt102d
-global str_Gt202d, str_Gt302d, str_Icelogo, qword_110786, qword_11078E, str_A, str_feB, str_D3
+global str_Gt202d, str_Gt302d, str_Icelogo, F64_0p00138889, F64_65536, str_A, str_feB, str_D3
 str_A:
         db 041h,00h
 str_feB:
@@ -38,9 +38,9 @@ str_Crud:
         db 063h,072h,075h,064h,00h
 str_Zamboni:
         db 07Ah,061h,06Dh,062h,06Fh,06Eh,069h,00h
-qword_110786:
+F64_0p00138889:
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,056h,03Fh
-qword_11078E:
+F64_65536:
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
 str_Glassline:
         db 067h,06Ch,061h,073h,073h,06Ch,069h,06Eh,065h,00h

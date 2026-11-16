@@ -5,7 +5,7 @@ section s_6A7D3 progbits alloc exec nowrite align=1
 extern awtmstruct, byte_11D91C, byte_11FA2F, byte_17CA5D, byte_17CC37, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox, DrawColorTextCentred, DrawFrameAt
 extern DrawGameClock, DrawGameFrame, dword_1150D4, gameresult, dword_1174EC, statsplayoffs, dword_1174F4, ReplayRemoteShape
-extern dword_11B320, dword_11B324, dword_11BC24, dword_11D91F, dword_11D923, dword_11F5C0, dword_11F5C4, dword_152F4C
+extern dword_11B320, str_D_DrawGameFrame, dword_11BC24, dword_11D91F, dword_11D923, dword_11F5C0, dword_11F5C4, dword_152F4C
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, dword_16596C, dword_177108, dword_179918, dword_179920
 extern dword_17CB2F, PlayoffTreeData, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC
 extern dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C
@@ -27,7 +27,7 @@ extern str_Qui22, str_Rep0, str_Rep1, str_Ret02, str_Ret12, str_Ret22, str_Sav02
 extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, RefreshControlSlots, ReplayBufferEnd
 extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, ClearClipRect
-extern TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
+extern TextSetFont, unk_11D7A4, unk_11D7BC, str_Punct_InGameMenu, unk_11D7EC, str_N_InGameMenu, str_F_InGameMenu, unk_11D810
 extern unk_11D816, unk_11D81C, unk_11D89C, exhstate, SeasonUserRecords, unk_17CED5, unk_17D3E8, unk_17D52C
 extern UpdateCamera, word_114CE0, word_114F14, clockticks, word_11D927, word_11D929, hmscore, awscore
 global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, jpt_6B476, SaveGameFile
@@ -2284,7 +2284,7 @@ PauseGame:
         call SetCrowdTarget
         test byte [byte_17CA5D], 20h
         je short .2
-        mov dword [dword_17D51C], unk_11D7D4
+        mov dword [dword_17D51C], str_Punct_InGameMenu
         mov dword [dword_17D520], unk_11D7EC
         mov dword [dword_17D4EC], unk_11D810
         mov dword [dword_17D4F0], unk_11D816
@@ -2293,8 +2293,8 @@ PauseGame:
 .2:
         mov dword [dword_17D51C], unk_11D7A4
         mov dword [dword_17D520], unk_11D7BC
-        mov dword [dword_17D4EC], unk_11D804
-        mov dword [dword_17D4F0], unk_11D80A
+        mov dword [dword_17D4EC], str_N_InGameMenu
+        mov dword [dword_17D4F0], str_F_InGameMenu
         mov dword [dword_17D524], 3D70h
 .3:
         mov esi, dword [dword_17D51C]
@@ -2826,7 +2826,7 @@ PauseGame_620:
         push byte 0
         call SetViewRect
         add esp, byte 10h
-        push dword [dword_11B324]
+        push dword [str_D_DrawGameFrame]
         push dword [dword_11B320]
         call MouseRead
         add esp, byte 8

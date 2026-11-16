@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_ACED8 progbits alloc exec nowrite align=1
-extern FatalError, _dos_getdate_, _dos_gettime_, asc_113484, str_2d02d02d2, asc_1134A4, asc_1134F4, asc_1134FC
+extern FatalError, _dos_getdate_, _dos_gettime_, str_02d3s02d, str_2d02d02d2, str_CreatewindowblockINVALIDWIND, str_WINDOW, str_CreatewindowblockOUTOFMEMORY
 extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, TintTable, QuantizeByte, QuantizeTable, dword_11F5C8, DebugMode
 extern dword_11F9DC, TintMulGreen, TintMulBlue, TintRowCount, TintPixelGreen, TintPixelBlue, TintMulRed, TintRemapTable
 extern TintPixelRed, fputs_, sprintf_, AllocMemBlockLocked, MemLargestFreeLocked, DebugShowLines, VfprintfThunk, FillRowTable
@@ -174,7 +174,7 @@ FormatDateStamp:
         push edx
         mov al, byte [byte esp+08h]
         push eax
-        push asc_113484
+        push str_02d3s02d
         push ebx
         call sprintf_
         add esp, byte 14h
@@ -229,7 +229,7 @@ CreateBitmapEx:
         push dword 4000h
         push edi
         push ebp
-        push asc_1134A4
+        push str_CreatewindowblockINVALIDWIND
         call FatalError
         add esp, byte 14h
 .3:
@@ -252,7 +252,7 @@ CreateBitmapEx:
         push edx
         add eax, byte 40h
         push eax
-        push asc_1134F4
+        push str_WINDOW
         call AllocMemBlockLocked
         add esp, byte 0Ch
         mov dword [esp], eax
@@ -264,7 +264,7 @@ CreateBitmapEx:
         push eax
         push edi
         push ebp
-        push asc_1134FC
+        push str_CreatewindowblockOUTOFMEMORY
         call FatalError
         add esp, byte 10h
 .5:

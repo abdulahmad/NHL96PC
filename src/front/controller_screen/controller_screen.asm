@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_6CF0D progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, dword_1150D8
-extern dword_11D910, dword_11D914, dword_11D930, dword_11D940, dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70
+extern dword_11D910, dword_11D914, dword_11D930, dword_11D940, dword_11D954, str_G, dword_11DED4, dword_11DF70
 extern dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5C0, dword_11F5C4, dword_17BC74, MatchupLayer, TeamStatsBitmap
 extern dword_17BCE2, str_Standings, PlayoffTreeData, dword_17D162, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
 extern dword_17D57C, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut
@@ -16,7 +16,7 @@ extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, st
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
 extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, DrawShapeCore
 extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
-extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, unk_11DE50, unk_11DE90, str_WesternConference2, word_114CE0
+extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, str_Punct_ControllerScreen, unk_11DE90, str_WesternConference2, word_114CE0
 extern word_114CE4, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 extern word_160ACC, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
 global ControllerSlotDefaults, ControllerColumnDefaults, ControllerUsersPanel, NextControllerDeviceMasks, NextControllerDeviceJumpTable, NextControllerDevice, NextControllerDevice_2C, NextControllerDevice_F2
@@ -25,7 +25,7 @@ global DeviceIconJumpTable, DeviceIconShape, DeviceIconShape_51, DeviceIconShape
 global DeviceIconShape_99, DeviceIconShape_A5, DeviceIconShape_CB, DrawControllerIcons, SetControllerColumn, SetControllerIcon, SetControllerIcon_F9, DrawControllerColumns
 global jpt_6F02E, jpt_6F042, ControllerScreen, ControllerScreen_11AB, ControllerScreen_149D, ControllerScreen_14E4, ControllerScreen_1503, ControllerScreen_1548
 global ControllerScreen_15D1, ControllerScreen_168B, ControllerScreen_16B0, ControllerScreen_16D6, RunControllerScreen, unk_708A9, unk_70901, unk_70BC1
-global unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED
+global unk_70BCB, str_N_ControlSetupScreen, str_R, str_F
 ;-----------------------------------------------------------------------------
 ; ControllerSlotDefaults                          6CF0D  96 PC, low confidence
 ; Six bytes of start values for the controller slots, kept in the code and
@@ -2909,7 +2909,7 @@ ControllerScreen:
         mov dword [byte edx+esi+02Ah], eax
         mov eax, dword [byte ebp-04Ch]
         mov edx, dword [dword_17D580]
-        mov ebx, dword [nosplit eax*8+dword_11DED0]
+        mov ebx, dword [nosplit eax*8+str_G]
         mov dword [byte edx+esi+03Ah], ebx
         mov edx, dword [dword_17D580]
         mov eax, dword [nosplit eax*8+dword_11DED4]
@@ -3113,7 +3113,7 @@ ControllerScreen:
         mov dword [byte esi+eax+02Ah], edx
         mov edx, dword [byte ebp-02Ch]
         mov eax, dword [dword_17D580]
-        mov edx, dword [dword edx+dword_11DED0]
+        mov edx, dword [dword edx+str_G]
         mov dword [byte esi+eax+03Ah], edx
         mov edx, dword [byte ebp-02Ch]
         mov eax, dword [dword_17D580]
@@ -3189,7 +3189,7 @@ ControllerScreen:
         mov dword [byte edx+eax+02Ah], ebx
         mov ebx, dword [byte ebp-04Ch]
         mov edx, dword [dword_17D580]
-        mov ecx, dword [nosplit ebx*8+dword_11DED0]
+        mov ecx, dword [nosplit ebx*8+str_G]
         mov dword [byte edx+eax+03Ah], ecx
         mov edx, dword [dword_17D580]
         mov ebx, dword [nosplit ebx*8+dword_11DED4]
@@ -3394,7 +3394,7 @@ ControllerScreen:
         mov eax, dword [dword_17D580]
         mov dword [dword eax+0808h], 8
         mov eax, dword [dword_17D580]
-        mov dword [dword eax+080Ch], unk_11DE50
+        mov dword [dword eax+080Ch], str_Punct_ControllerScreen
         mov eax, dword [dword_17D580]
         mov edx, dword [dword eax+0812h]
         movsx edx, word [byte edx+0Ch]
@@ -4261,7 +4261,7 @@ unk_70BC1:
         db 081h,00h,06Dh,00h,05Bh,00h,04Ah,00h,038h,00h
 unk_70BCB:
         db 089h,00h,0C9h,00h,09h,01h,04Ah,01h,08Ch,01h
-unk_70BD5:
+str_N_ControlSetupScreen:
         db 06Eh,00h,00h,00h,086h,00h,00h,00h,0Ah,01h,00h,00h,085h,00h,00h,00h
         db 034h,01h,00h,00h,06Bh,00h,00h,00h,059h,00h,00h,00h,0C6h,00h,00h,00h
         db 0F5h,00h,00h,00h,0C5h,00h,00h,00h,022h,01h,00h,00h,0ABh,00h,00h,00h
@@ -4270,7 +4270,7 @@ unk_70BD5:
         db 0D3h,00h,00h,00h,046h,01h,00h,00h,0FEh,00h,00h,00h,02Ah,01h,00h,00h
         db 025h,00h,00h,00h,089h,01h,00h,00h,0C1h,00h,00h,00h,088h,01h,00h,00h
         db 0ECh,00h,00h,00h,06Bh,01h,00h,00h
-unk_70C4D:
+str_R:
         db 072h,00h,00h,00h,088h,00h,00h,00h,0Eh,01h,00h,00h,088h,00h,00h,00h
         db 059h,01h,00h,00h,082h,00h,00h,00h,05Eh,00h,00h,00h,0C8h,00h,00h,00h
         db 0FAh,00h,00h,00h,0C8h,00h,00h,00h,047h,01h,00h,00h,0C2h,00h,00h,00h
@@ -4281,7 +4281,7 @@ unk_70C4D:
         db 0Ah,01h,00h,00h,083h,01h,00h,00h,06Bh,02h,00h,00h,08Dh,00h,00h,00h
         db 06Bh,02h,00h,00h,0DEh,00h,00h,00h,06Bh,02h,00h,00h,030h,01h,00h,00h
         db 06Bh,02h,00h,00h,082h,01h,00h,00h,0A3h,01h,00h,00h,0B3h,01h,00h,00h
-unk_70CED:
+str_F:
         db 066h,00h,00h,00h,086h,00h,00h,00h,06Ch,00h,00h,00h,083h,00h,00h,00h
         db 07Ah,00h,00h,00h,083h,00h,00h,00h,07Ah,00h,00h,00h,08Dh,00h,00h,00h
         db 06Ah,00h,00h,00h,08Dh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

@@ -5,7 +5,7 @@ section s_1228D6 progbits alloc noexec write align=1
 global __8087, FpuType, ColourRemap, dword_1228D6, ClipTopRow, dword_1228DA, ClipLeftCol, dword_1228DE
 global ClipRight, dword_1228E2, ScreenHeight, dword_1228E8, dword_1228F0, KeyedDraw, DrawDestBuffer, dword_1228FC
 global BackBufferWidth, ModeSetCount, dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920
-global dword_122924, dword_122930, str_BK, dword_123390, dword_123930, dword_123934, dword_123A88, BlitColumnOffsets
+global dword_122924, dword_122930, str_BK, dword_123390, dword_123930, str_F_PutBlock, dword_123A88, BlitColumnOffsets
 global BlitSourcePtr
 dword_1228D6:
         db 00h,00h
@@ -314,7 +314,7 @@ dword_123390:
         db 00h,0F6h,09h,00h,080h,0F8h,09h,00h,00h,0FBh,09h,00h,080h,0FDh,09h,00h
 dword_123930:
         db 00h,00h,0Ah,00h
-dword_123934:
+str_F_PutBlock:
         db 066h,00h,00h,00h,0CCh,00h,00h,00h,033h,01h,00h,00h,099h,01h,00h,00h
         db 00h,02h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h
         db 00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h

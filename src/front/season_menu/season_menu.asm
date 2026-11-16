@@ -27,11 +27,11 @@ extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTre
 extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, SaveLeagueDb, DrawArt, DrawShape, PutBlockAtOwnPos, FreeMemBlock
 extern CreateBitmap, TintRows, DrawRectOutline, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr, OpenArtArchive
 extern SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, SetScreenTarget, SetPaletteEntries, FindShape, ClearClipRect
-extern TextSetFont, TickDeadlinePassed, str_WesternConference2, SeasonUserRecords, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
+extern TextSetFont, TickDeadlinePassed, str_WesternConference2, SeasonUserRecords, unk_17CC1F, unk_17CED5, unk_17CF9A, str_Punct
 extern unk_79303, unk_79483, unk_794C3, UpdateProgressBox
 global SeasonMenuScreen, SeasonMenuScreen_794, SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61
 global SeasonMenuScreen_ADF, SeasonMenuScreen_AEB, SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, SeasonMenuScreen_D9C, StandingsScreen
-global CompareTeamPoints, DrawStandings, SimulateRestOfSeason, unk_7B991, unk_7BA11, jpt_7BA27, RunSeasonMenus, RunSeasonMenus_6E
+global CompareTeamPoints, DrawStandings, SimulateRestOfSeason, str_T_PickIndexEntryScreen, unk_7BA11, jpt_7BA27, RunSeasonMenus, RunSeasonMenus_6E
 global RunSeasonMenus_CB, RunSeasonMenus_D2, RunSeasonMenus_138, RunSeasonMenus_182, RunSeasonMenus_189, RunSeasonMenus_1E1, RunSeasonMenus_224, RunSeasonMenus_238
 global RunSeasonMenus_24E, RunSeasonMenus_25A, RunSeasonMenus_533, PickIndexEntryScreen, DrawIndexEntries
 ;-----------------------------------------------------------------------------
@@ -47,7 +47,7 @@ SeasonMenuScreen:
         enter 0C44h, 0
         sub ebp, 82h
         lea edi, [byte ebp+03Ah]
-        mov esi, unk_792EB
+        mov esi, str_Punct
         movsd
         movsd
         movsd
@@ -2693,7 +2693,7 @@ SimulateRestOfSeason:
         pop ecx
         pop ebx
         ret
-unk_7B991:
+str_T_PickIndexEntryScreen:
         db 074h,00h,00h,00h,0BAh,01h,00h,00h,082h,00h,00h,00h,0B4h,01h,00h,00h
         db 0F0h,00h,00h,00h,0B4h,01h,00h,00h,0FCh,00h,00h,00h,0BBh,01h,00h,00h
         db 0FCh,00h,00h,00h,0C6h,01h,00h,00h,0EEh,00h,00h,00h,0CAh,01h,00h,00h
@@ -3100,7 +3100,7 @@ PickIndexEntryScreen:
         sub ebp, byte 7Eh
         mov ecx, 20h
         lea edi, [dword ebp-0AAh]
-        mov esi, unk_7B991
+        mov esi, str_T_PickIndexEntryScreen
         mov eax, 1
         rep movsd
         call GetLangText

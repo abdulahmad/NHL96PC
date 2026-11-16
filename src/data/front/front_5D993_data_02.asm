@@ -28,7 +28,7 @@ extern str_StatsInc, str_SteveBabineau, str_BruceBennett, str_BradGour, str_Dani
 extern str_DaveMercier, str_TerryLee, str_JimmyHayward, str_AmoryWong, str_ChipLange, str_JohnSmith, str_AdvancedGravisComputerTe, str_RonSmith
 extern str_JimHughson, str_GeoffCourtnall, unk_17BDB4
 global byte_11B380, byte_11B3C5, byte_11B40A, byte_11B44F, byte_11B494, byte_11B4D9, byte_11B51E, byte_11B563
-global byte_11B5A8, byte_11B5ED, byte_11B632, byte_11BB20, byte_11BB24, HexDigits, byte_11BC28, dword_11B338
+global byte_11B5A8, byte_11B5ED, byte_11B632, byte_11BB20, byte_11BB24, HexDigits, byte_11BC28, str_C_CloseTextOverlay
 global dword_11B364, dword_11B368, dword_11B370, dword_11B374, dword_11B37C, dword_11B381, dword_11B3C1, dword_11B3C6
 global dword_11B406, dword_11B40B, dword_11B44B, dword_11B450, dword_11B490, dword_11B495, dword_11B4D5, dword_11B4DA
 global dword_11B51A, dword_11B51F, dword_11B55F, dword_11B564, dword_11B5A4, dword_11B5A9, dword_11B5E9, dword_11B5EE
@@ -46,7 +46,7 @@ global unk_11BDB8, unk_11BDC0, unk_11BDEC, unk_11BE00, unk_11BE14, unk_11BE28, u
 global unk_11BE64, unk_11BE78, unk_11BE8C, unk_11BEA0, unk_11BEB4, unk_11BEC8, unk_11BEDC, unk_11BEF0
 global unk_11BF04, unk_11BF18, unk_11BF2C, unk_11BF40, unk_11BF54, unk_11BF68, unk_11BF7C, unk_11BF90
 global unk_11BFA4, word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4
-dword_11B338:
+str_C_CloseTextOverlay:
         db 063h,00h,00h,00h,062h,00h,00h,00h,05Fh,00h,00h,00h,01Eh,00h,00h,00h
         db 014h,00h,00h,00h,0Eh,00h,00h,00h,0Dh,00h,00h,00h,0Ch,00h,00h,00h
         db 0Bh,00h,00h,00h,0Bh,00h,00h,00h,0Ah,00h,00h,00h

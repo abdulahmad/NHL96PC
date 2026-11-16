@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_AB834 progbits alloc exec nowrite align=1
-extern FatalError, str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
-extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, FileCacheList, FreeSpaceList, MemLockOn, MemPoolBase
+extern FatalError, str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, str_ReservememOUTOFMEMORYRequest, str_ReservememOUTOFMEMORYRequest_AllocMemBlockEx, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
+extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, str_PurgememblockNULLPointer, str_GetmemblockNOMEMORYBLOCKS, FileCacheList, FreeSpaceList, MemLockOn, MemPoolBase
 extern memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle, MemFreeStart, MemFreeBytes, strncmp_, strncpy_
 extern PathBaseName, MemLock, MemUnlock, bcopy
 global findmemblock, AllocMemBlockLockedAt, AllocMemBlockEx, ResizeMemBlock, FreeMemBlock, PushMemDescriptorLocked, PushMemDescriptor, MergeFreeSpace
@@ -282,7 +282,7 @@ AllocMemBlockEx:
         push eax
         mov eax, dword [byte esp+024h]
         push eax
-        push asc_113270
+        push str_ReservememOUTOFMEMORYRequest
         jmp near .32
 .18:
         cmp dword [MemLockOn], byte 0
@@ -425,7 +425,7 @@ AllocMemBlockEx:
         push eax
         mov edx, dword [byte esp+024h]
         push edx
-        push asc_1132AC
+        push str_ReservememOUTOFMEMORYRequest_AllocMemBlockEx
 .32:
         call FatalError
         add esp, byte 0Ch
@@ -743,7 +743,7 @@ PushMemDescriptor:
         mov esi, eax
         test eax, eax
         jne short .1
-        push asc_1133C0
+        push str_PurgememblockNULLPointer
         call FatalError
         add esp, byte 4
 .1:

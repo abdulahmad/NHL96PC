@@ -10,8 +10,8 @@ global dword_1150D4, dword_1150D8, dword_1150DC, dword_1150E0, AsyncQueueTail, S
 global dword_1150F4, dword_1150F8, gameresult, seasondb, dword_1174E4, statsfromleague, dword_1174EC, statsplayoffs
 global dword_1174F4, dword_1174F8, dword_1174FC, dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510
 global dword_117514, dword_117518, dword_11751C, dword_117588, gsumheader, gsumtail, DataDirPath, ArtArchivePaths
-global str_X_SetArtArchive, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, unk_11749D
-global unk_117522, word_11510D, word_11512D, word_11758C
+global str_X_SetArtArchive, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, str_SCHEDULE
+global str_Punct_PlayerDbRecord, word_11510D, word_11512D, word_11758C
 dword_115098:
         db 00h,00h,00h,00h
 str_0123456789abcdefghijklmn:
@@ -653,7 +653,7 @@ str_TEAMS3:
         db 054h,045h,041h,04Dh,053h,00h
 str_SEASON4:
         db 053h,045h,041h,053h,04Fh,04Eh,00h
-unk_11749D:
+str_SCHEDULE:
         db 053h,043h,048h,045h,044h,055h,04Ch,045h,00h
         dd str_KEY3
         dd str_CAREER2
@@ -661,7 +661,7 @@ unk_11749D:
         dd str_CARTEAMS
         dd str_TEAMS3
         dd str_SEASON4
-        dd unk_11749D
+        dd str_SCHEDULE
         db 050h,049h,04Eh,046h,04Fh,00h,050h,04Ch,041h,059h,045h,052h,00h,04Ch,053h,053h
         db 043h,048h,045h,044h,00h,050h,047h,053h,00h,047h,041h,04Dh,045h,00h
 seasondb:
@@ -696,7 +696,7 @@ dword_117518:
         db 00h,00h,00h,00h
 dword_11751C:
         db 00h,00h,00h,00h,02Eh,00h
-unk_117522:
+str_Punct_PlayerDbRecord:
         db 020h,00h,0Ch,015h,00h,00h,025h,073h,02Eh,064h,062h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,025h,073h,02Eh,064h,062h,00h,00h,00h,00h,00h

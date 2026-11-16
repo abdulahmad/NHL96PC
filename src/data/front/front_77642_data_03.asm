@@ -4,10 +4,10 @@ bits 32
 section s_11E2D4 progbits alloc noexec write align=1
 extern str_KEY, str_CAR, str_ATT2, str_CRT, str_TEM, str_SEA, str_SCH, str_SET
 extern str_INC, str_TRD, str_PLY
-global byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9, dword_11E2D4, dword_11E2EC, dword_11E304, dword_11E320
+global byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9, str_2_DrawSeasonTeams, dword_11E2EC, dword_11E304, dword_11E320
 global dword_11E39C, dword_11E4B8, dword_11E4C4, dword_11E514, off_11E370, unk_11E33C, unk_11E354, unk_11E3B6
 global unk_11E3F6, unk_11E436, unk_11E476, word_11E5FC
-dword_11E2D4:
+str_2_DrawSeasonTeams:
         db 032h,00h,00h,00h,0B0h,00h,00h,00h,02Eh,01h,00h,00h,032h,00h,00h,00h
         db 0B0h,00h,00h,00h,02Eh,01h,00h,00h
 dword_11E2EC:

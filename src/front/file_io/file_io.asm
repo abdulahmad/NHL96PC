@@ -4,7 +4,7 @@ bits 32
 section s_1DC65 progbits alloc exec nowrite align=1
 extern _dos_close_, _dos_creat_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_, FatalError, lseek_
 extern rmdir_, str_backslash4, str_COPYBUFFER, str_dot2, str_ErrDiskFree2, strcat_, strcpy_, FillMusicStream
-extern SoundSecondsToBytes, AllocMemBlock, FreeMemBlock, DosFindFirst, DosFindNext, UnlinkJump, unk_1106EC
+extern SoundSecondsToBytes, AllocMemBlock, FreeMemBlock, DosFindFirst, DosFindNext, UnlinkJump, str_Punct_DeleteFiles
 global FileMissing, DeleteFiles, FileOpenRead, FileOpenRead_1A, FileOpenWrite, FileOpenReadWrite, FileCreate, FileClose
 global FileReadAt, FileReadAt_5B, FileReadAt_5D, FileWriteAt, FileWriteAt_6B, FileWriteAt_77, FileCopy, FileCopy_ret
 global WriteDbRecord6, ReadSeasonHeader
@@ -141,13 +141,13 @@ DeleteFiles:
         mov edx, str_backslash4
         lea eax, [byte ebp-020h]
         call strcat_
-        mov edx, unk_1106EC
+        mov edx, str_Punct_DeleteFiles
         lea eax, [byte ebp-020h]
         call strcat_
         mov edx, str_dot2
         lea eax, [byte ebp-020h]
         call strcat_
-        mov edx, unk_1106EC
+        mov edx, str_Punct_DeleteFiles
         lea eax, [byte ebp-020h]
         call strcat_
         mov eax, 2

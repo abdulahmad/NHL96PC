@@ -18,7 +18,7 @@ extern str_Senators, str_Flyers, str_Penguins, str_Nordiques, str_Blues, str_Sha
 extern str_Canucks, str_Capitals, str_Jets, str_AllStars
 global byte_11D1DE, byte_11D20A, byte_11D392, byte_11D74B, dword_11D1C8, dword_11D1CC, dword_11D1D2, dword_11D1D6
 global sndcard, SpeechStreamFile, SpeechStreamTimer, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
-global dword_11D1FE, dword_11D202, dword_11D206, dword_11D232, dword_11D236, dword_11D23E, dword_11D242, dword_11D376
+global dword_11D1FE, dword_11D202, dword_11D206, dword_11D232, dword_11D236, str_Z_OpenSpeechBanks, dword_11D242, str_Punct_OpenSpeechBanks
 global speechq, dword_11D37E, dword_11D38A, speechinit, dword_11D3A6, dword_11D3AA, dword_11D3AE, dword_11D3B2
 global dword_11D3B8, dword_11D3BC, dword_11D3C0, dword_11D3C4, DirPathTable, dword_11D59C, dword_11D674, dword_11D744
 global LogoNames, off_11D44C, off_11D4BC, off_11D52C, word_11D1D0, word_11D23A, word_11D23C, word_11D356
@@ -69,7 +69,7 @@ word_11D23A:
         db 00h,00h
 word_11D23C:
         db 00h,00h
-dword_11D23E:
+str_Z_OpenSpeechBanks:
         db 05Ah,00h,00h,00h
 dword_11D242:
         db 00h,00h,00h,00h,03Ch,00h,00h,00h,054h,06h,00h,00h,090h,06h,00h,00h
@@ -93,7 +93,7 @@ dword_11D242:
 word_11D356:
         db 09h,01h,0Bh,01h,017h,03h,06h,04h,013h,04h,016h,06h,03h,07h,00h,0Ah
         db 012h,0Bh,016h,0Bh,0Ch,0Eh,0Dh,0Eh,010h,011h,08h,015h,0Eh,016h,0Eh,017h
-dword_11D376:
+str_Punct_OpenSpeechBanks:
         db 05Bh,00h,00h,00h
 speechq:
         db 00h,00h,00h,00h

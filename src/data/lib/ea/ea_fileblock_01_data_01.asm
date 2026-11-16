@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_113438 progbits alloc noexec write align=1
-global str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, asc_113484, str_2d02d02d2
-global asc_1134A4, asc_1134F4, asc_1134FC, str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, unk_113444
+global str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, str_02d3s02d, str_2d02d02d2
+global str_CreatewindowblockINVALIDWIND, str_WINDOW, str_CreatewindowblockOUTOFMEMORY, str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, str_Wt
 str_DBUGTXT:
         db 044h,042h,055h,047h,03Fh,03Fh,02Eh,054h,058h,054h,00h,072h
-unk_113444:
+str_Wt:
         db 077h,074h,00h,06Eh
 str_FILES:
         db 046h,049h,04Ch,045h,03Ah,020h,025h,073h,0Ah,00h,069h,06Eh
@@ -18,19 +18,19 @@ str_CLOSED:
         db 0Ah,043h,04Ch,04Fh,053h,045h,044h,0Ah,00h,069h,06Eh,074h
 str_TIMES2:
         db 054h,049h,04Dh,045h,03Ah,020h,025h,073h,0Ah,00h,02Ch,069h
-asc_113484:
+str_02d3s02d:
         db 025h,030h,032h,064h,02Dh,025h,033h,073h,02Dh,025h,030h,032h,064h,00h,063h,064h
 str_2d02d02d2:
         db 025h,032h,064h,03Ah,025h,030h,032h,064h,03Ah,025h,030h,032h,064h,00h,00h,00h
-asc_1134A4:
+str_CreatewindowblockINVALIDWIND:
         db 063h,072h,065h,061h,074h,065h,077h,069h,06Eh,064h,06Fh,077h,062h,06Ch,06Fh,063h
         db 06Bh,020h,02Dh,020h,049h,04Eh,056h,041h,04Ch,049h,044h,020h,057h,049h,04Eh,044h
         db 04Fh,057h,020h,044h,049h,04Dh,045h,04Eh,053h,049h,04Fh,04Eh,053h,0Ah,072h,065h
         db 071h,075h,065h,073h,074h,065h,064h,03Ah,020h,025h,064h,078h,025h,064h,020h,06Dh
         db 061h,078h,069h,06Dh,075h,06Dh,03Ah,020h,025h,064h,078h,025h,064h,0Ah,00h,031h
-asc_1134F4:
+str_WINDOW:
         db 057h,049h,04Eh,044h,04Fh,057h,00h,02Ch
-asc_1134FC:
+str_CreatewindowblockOUTOFMEMORY:
         db 063h,072h,065h,061h,074h,065h,077h,069h,06Eh,064h,06Fh,077h,062h,06Ch,06Fh,063h
         db 06Bh,020h,02Dh,020h,04Fh,055h,054h,020h,04Fh,046h,020h,04Dh,045h,04Dh,04Fh,052h
         db 059h,0Ah,072h,065h,071h,075h,065h,073h,074h,065h,064h,03Ah,020h,025h,064h,078h

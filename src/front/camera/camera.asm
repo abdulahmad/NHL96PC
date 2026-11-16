@@ -7,7 +7,7 @@ extern byte_1175AA, byte_1175AB, byte_1175AC, byte_11B380, byte_11B3C5, byte_11B
 extern byte_11B4D9, byte_11B51E, byte_11B563, byte_11B5A8, byte_11B5ED, byte_11B632, byte_11BB20, byte_11BB24
 extern HexDigits, byte_1647E3, PenBuf, byte_1770A6, byte_1770B1, byte_179D7C, byte_179DC1, byte_179E47
 extern byte_17CA5D, DemoMode, dword_11A3F8, ReplayRemoteShape, dword_11B244, dword_11B314, dword_11B318, dword_11B31C
-extern dword_11B320, dword_11B324, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, dword_11B338, dword_11B364
+extern dword_11B320, str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, str_C_CloseTextOverlay, dword_11B364
 extern dword_11B368, dword_11B370, dword_11B374, dword_11B37C, dword_11B381, dword_11B3C1, dword_11B3C6, dword_11B406
 extern dword_11B40B, dword_11B44B, dword_11B450, dword_11B490, dword_11B495, dword_11B4D5, dword_11B4DA, dword_11B51A
 extern dword_11B51F, dword_11B55F, dword_11B564, dword_11B5A4, dword_11B5A9, dword_11B5E9, dword_11B5EE, dword_11B62E
@@ -24,14 +24,14 @@ extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_179E1F, dwo
 extern dword_179E2F, dword_179E33, dword_179E37, dword_179E3B, dword_179E3F, dword_179E43, dword_17CA5C, fox
 extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, puckvy, off_117890
 extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
-extern QueueOverlayPanel, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
-extern qword_1110BC, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
+extern QueueOverlayPanel, F64_0p00277778, F64_65536_CamView236, F64_0p00277778_CamView236, qword_11109C, F64_0p00277778_CamView238, F64_65536_CamView238, F64_0p00277778_CamView239
+extern F64_65536_CamView239, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
 extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, TransformVector, MakeRotYMatrix
 extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin, SetCameraAngles, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
 extern exhstate, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
 extern unk_5D549, unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84
-extern unk_5D639, unk_5D65D, unk_5D681, vecdist, PerTimeTotal, word_176FB8, word_176FDA, word_1770AB
+extern str_D_SetGameViewSize, unk_5D65D, unk_5D681, vecdist, PerTimeTotal, word_176FB8, word_176FDA, word_1770AB
 extern word_1770AD, word_1770AF, word_179DC8, word_179DCC, word_179E0D, word_179E11
 global CameraPathCoeffs, CameraPathEval, CameraPathEval_70, CameraPathSlope, CameraPathCurve, CameraPathPoint, CameraPathDerivs, SetCameraShot
 global AngleXZ, AnglePitch, CameraTrackPuck, CameraLeadOffset, CameraNearNet, CameraNearNet_12E, ResetCameraShake, CameraAim
@@ -1933,8 +1933,8 @@ CamView236:
 .6:
         fild dword [byte ebp-04h]
 .7:
-        fmul qword [qword_111084]
-        fmul qword [qword_11108C]
+        fmul qword [F64_0p00277778]
+        fmul qword [F64_65536_CamView236]
         call __CHP
         fistp dword [dword_179DC6]
         jmp near .24
@@ -2084,7 +2084,7 @@ CamView236_20D:
 .31:
         fild dword [byte ebp-04h]
 .32:
-        fmul qword [qword_111094]
+        fmul qword [F64_0p00277778_CamView236]
         fmul qword [qword_11109C]
         call __CHP
         fistp dword [dword_179DC6]
@@ -2233,8 +2233,8 @@ CamView238:
 .4:
         fild dword [byte ebp-04h]
 .5:
-        fmul qword [qword_1110A4]
-        fmul qword [qword_1110AC]
+        fmul qword [F64_0p00277778_CamView238]
+        fmul qword [F64_65536_CamView238]
         call __CHP
         fistp dword [dword_179DC6]
         jmp near .22
@@ -2370,8 +2370,8 @@ CamView239:
 .4:
         fild dword [byte ebp-04h]
 .5:
-        fmul qword [qword_1110B4]
-        fmul qword [qword_1110BC]
+        fmul qword [F64_0p00277778_CamView239]
+        fmul qword [F64_65536_CamView239]
         call __CHP
         fistp dword [dword_179DC6]
         jmp near .22
@@ -3545,7 +3545,7 @@ CloseTextOverlay:
         enter 0Ch, 0
         mov edi, eax
         mov dword [byte ebp-08h], edx
-        mov eax, dword [nosplit eax*4+dword_11B338]
+        mov eax, dword [nosplit eax*4+str_C_CloseTextOverlay]
         mov dword [byte ebp-04h], eax
         mov esi, dword [dword_11B364]
         mov edx, dword [byte ebp-04h]
@@ -3660,7 +3660,7 @@ SetGameViewSize:
         rep movsd
         mov ecx, 9
         lea edi, [byte ebp-048h]
-        mov esi, unk_5D639
+        mov esi, str_D_SetGameViewSize
         rep movsd
         mov ecx, 9
         lea edi, [byte ebp-06Ch]
@@ -3688,7 +3688,7 @@ SetGameViewSize:
         sar eax, 1
         mov dword [dword_11B320], 140h
         sub edx, eax
-        mov dword [dword_11B324], 0F0h
+        mov dword [str_D_DrawGameFrame], 0F0h
         jmp short .2
 .1:
         mov edx, dword [byte eax+ebp-024h]
@@ -3705,7 +3705,7 @@ SetGameViewSize:
         sar eax, 1
         mov dword [dword_11B320], 0A0h
         sub edx, eax
-        mov dword [dword_11B324], 64h
+        mov dword [str_D_DrawGameFrame], 64h
 .2:
         mov dword [dword_11B32C], edx
         push dword [dword_11B31C]

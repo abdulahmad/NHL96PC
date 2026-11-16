@@ -4,8 +4,8 @@ bits 32
 section s_1177F4 progbits alloc noexec write align=1
 extern dword_164F1C, dword_164FBC, ViewScreenHeight, unk_16505E, unk_165062, unk_165066, unk_165068, unk_16506A
 extern unk_16506C, unk_16509E, unk_1650FC, unk_16519C, unk_1659D6
-global Pencntdwn, byte_1178C8, byte_1178F9, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, dword_117800
-global dword_117804, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, seed
+global Pencntdwn, byte_1178C8, byte_1178F9, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J
+global str_V, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, seed
 global fox, foy, gameclock, gmode, lastplayer, replaystart, puckvy, puckc
 global PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer, puckvx, puckvz
 global puckx, pucky, puckz, sflags, threat, wcradiusx, word_1178A0, word_1178A2
@@ -19,9 +19,9 @@ UserRecordsFirst:
         db 00h,00h,00h,00h
 UserRecordsRow:
         db 00h,00h,00h,00h
-dword_117800:
+str_J:
         db 06Ah,00h,00h,00h
-dword_117804:
+str_V:
         db 076h,00h,00h,00h,082h,00h,00h,00h,08Eh,00h,00h,00h,09Bh,00h,00h,00h
         db 0A7h,00h,00h,00h,0B3h,00h,00h,00h,0BFh,00h,00h,00h,0CBh,00h,00h,00h
         db 0D7h,00h,00h,00h,0E3h,00h,00h,00h,0EFh,00h,00h,00h,0FCh,00h,00h,00h

@@ -2499,6 +2499,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 110115,str_PAL,asc_110115,new,high,string 'PAL',src/data/front/front_1456D_data_01.asm
 11011C,str_OK,unk_11011C,new,high,string '_OK',src/data/front/front_1456D_data_01.asm
 110120,str_0,unk_110120,new,high,string '_0_',src/data/front/front_1456D_data_01.asm
+110124,str_0_ModemResultCodeTable,unk_110124,new,high,"string ""0""",src/data/front/front_1456D_data_01.asm
 110126,str_CONNECT,unk_110126,new,high,string '_CONNECT',src/data/front/front_1456D_data_01.asm
 11012F,str_1,unk_11012F,new,high,string '_1_',src/data/front/front_1456D_data_01.asm
 110133,str_fe1,unk_110133,95PC,high,string '1',src/data/front/front_1456D_data_01.asm
@@ -2516,6 +2517,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 110172,str_fe5,unk_110172,95PC,high,string '5',src/data/front/front_1456D_data_01.asm
 110174,str_NODIALTONE,unk_110174,new,high,string '_NO DIALTONE',src/data/front/front_1456D_data_01.asm
 110181,str_6,unk_110181,new,high,string '_6_',src/data/front/front_1456D_data_01.asm
+110185,str_6_ModemResultCodeTable,unk_110185,new,high,"string ""6""",src/data/front/front_1456D_data_01.asm
 110187,str_NODIALTONE2,unk_110187,new,high,string '_NO DIAL TONE',src/data/front/front_1456D_data_01.asm
 110195,str_BUSY,unk_110195,new,high,string '_BUSY',src/data/front/front_1456D_data_01.asm
 11019B,str_7,unk_11019B,new,high,string '_7_',src/data/front/front_1456D_data_01.asm
@@ -2586,11 +2588,14 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 110342,str_LNEW,asc_110342,new,high,string 'LNEW',src/data/front/main_data_01.asm
 110347,str_LSTA,asc_110347,new,high,string 'LSTA',src/data/front/main_data_01.asm
 11034C,str_LEAS,asc_11034C,new,high,string 'LEAS',src/data/front/main_data_01.asm
+110351,str_0_LoadTeamLogo,unk_110351,new,high,"string ""0""",src/data/front/main_data_01.asm
 110353,str_Dot,unk_110353,95PC,high,string '.',src/data/front/main_data_01.asm
+110355,str_Punct_CheckGameDirs,unk_110355,new,high,"string ""..""",src/data/front/main_data_01.asm
 110358,str_CLEARER,asc_110358,new,high,string 'CLEARER',src/data/front/main_data_01.asm
 110360,str_YouMustFirstUseTheSETUPP,asc_110360,new,high,string 'You must first use the SETUP program to configure your ',src/data/front/main_data_01.asm
 110398,str_HardwareBeforeRunningHOC,asc_110398,new,high,string 'hardware before running HOCKEY. ',src/data/front/main_data_01.asm
 1103B9,str_spPressESCToReturnToDOS,asc_1103B9,new,high,string ' Press ESC to return to DOS.  ',src/data/front/main_data_01.asm
+1103D8,str_Punct_StartUp,asc_1103D8,new,high,"string ""\n--------------------------------------------------------------\n\n""",src/data/front/main_data_01.asm
 110452,str_IhreHardwareZuKonfigurie,asc_110452,new,high,"string 'Ihre Hardware zu konfigurieren, bevor Sie HOCKEY starten. '",src/data/front/main_data_01.asm
 1104B7,str_FhiL4,asc_1104B7,new,high,string 'FhiL',src/data/front/main_data_01.asm
 1104BC,str_FhiR4,asc_1104BC,new,high,string 'FhiR',src/data/front/main_data_01.asm
@@ -2612,6 +2617,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1106B3,str_StreamreaderILLEGALCHUNK,asc_1106B3,new,high,string 'streamreader - ILLEGAL CHUNK SIZE %d BUFFERSIZE %d ',src/data/front/main_data_01.asm
 1106E8,str_backslash4,unk_1106E8,95PC,high,string '\',src/data/front/main_data_01.asm
 1106EA,str_dot2,unk_1106EA,95PC,high,string '.',src/data/front/main_data_01.asm
+1106EC,str_Punct_DeleteFiles,unk_1106EC,new,high,"string ""*""",src/data/front/main_data_01.asm
 1106EE,str_COPYBUFFER,asc_1106EE,new,high,string 'COPYBUFFER',src/data/front/main_data_01.asm
 1106F9,str_ErrDiskFree2,asc_1106F9,95PC,high,string 'error getting disk space free ',src/data/front/main_data_01.asm
 110718,str_backslash2,unk_110718,95PC,high,string '\',src/data/front/main_data_01.asm
@@ -2636,6 +2642,8 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 110771,str_IceFsh,asc_110771,new,high,string 'ice.fsh',src/data/front/front_201CD_data_01.asm
 110779,str_Crud,asc_110779,new,high,string 'crud',src/data/front/front_201CD_data_01.asm
 11077E,str_Zamboni,asc_11077E,new,high,string 'zamboni',src/data/front/front_201CD_data_01.asm
+110786,F64_0p00138889,qword_110786,new,high,double constant 0.001388888889,src/data/front/front_201CD_data_01.asm
+11078E,F64_65536,qword_11078E,new,high,double constant 65536,src/data/front/front_201CD_data_01.asm
 110796,str_Glassline,asc_110796,new,high,string 'glassline',src/data/front/front_201CD_data_01.asm
 1107A0,str_Glass,asc_1107A0,new,high,string 'glass',src/data/front/front_201CD_data_01.asm
 1107A6,str_Topboards,asc_1107A6,new,high,string 'topboards',src/data/front/front_201CD_data_01.asm
@@ -2783,6 +2791,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 110BC1,str_FL00,asc_110BC1,new,high,string 'FL00',src/data/front/front_2A692_data_01.asm
 110BC6,str_FL01,asc_110BC6,new,high,string 'FL01',src/data/front/front_2A692_data_01.asm
 110BCB,str_wt,unk_110BCB,95PC,high,string 'wt',src/data/front/front_2A692_data_01.asm
+110BCE,str_Punct_ExportUserRecords,asc_110BCE,new,high,"string ""-------------------- ----  ----------- ----------- -------""",src/data/front/front_2A692_data_01.asm
 110C4B,str_20s,asc_110C4B,new,high,string '%-20s',src/data/front/front_2A692_data_01.asm
 110C51,str_sp3s,asc_110C51,new,high,string '  %3s',src/data/front/front_2A692_data_01.asm
 110C5D,str_sp3d3d3d3d3d3d3d3d,asc_110C5D,new,high,string '  %3d-%3d-%3d %3d-%3d-%3d %3d-%3d',src/data/front/front_2A692_data_01.asm
@@ -2921,6 +2930,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 111002,str_C6,unk_111002,95PC,high,string 'C',src/data/front/replay_controls_data_01.asm
 111004,str_R5,unk_111004,95PC,high,string 'R',src/data/front/replay_controls_data_01.asm
 111006,str_X2,unk_111006,new,high,string 'X',src/data/front/replay_controls_data_01.asm
+111008,str_LUT,asc_111008,new,high,"string ""LUT""",src/data/front/front_584A0_data_01.asm
 11100C,str_Logo,asc_11100C,new,high,string 'logo',src/data/front/front_584A0_data_01.asm
 111011,str_Priority,asc_111011,new,high,string 'priority',src/data/front/front_584A0_data_01.asm
 11101A,str_B001,asc_11101A,new,high,string 'b001',src/data/front/front_584A0_data_01.asm
@@ -2940,6 +2950,13 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11107B,str_24,unk_11107B,new,high,string '2',src/data/front/front_584A0_data_01.asm
 11107D,str_32,unk_11107D,new,high,string '3',src/data/front/front_584A0_data_01.asm
 11107F,str_42,unk_11107F,new,high,string '4',src/data/front/front_584A0_data_01.asm
+111084,F64_0p00277778,qword_111084,new,high,double constant 0.002777777778,src/data/front/front_584A0_data_01.asm
+11108C,F64_65536_CamView236,qword_11108C,new,high,double constant 65536,src/data/front/front_584A0_data_01.asm
+111094,F64_0p00277778_CamView236,qword_111094,new,high,double constant 0.002777777778,src/data/front/front_584A0_data_01.asm
+1110A4,F64_0p00277778_CamView238,qword_1110A4,new,high,double constant 0.002777777778,src/data/front/front_584A0_data_01.asm
+1110AC,F64_65536_CamView238,qword_1110AC,new,high,double constant 65536,src/data/front/front_584A0_data_01.asm
+1110B4,F64_0p00277778_CamView239,qword_1110B4,new,high,double constant 0.002777777778,src/data/front/front_584A0_data_01.asm
+1110BC,F64_65536_CamView239,qword_1110BC,new,high,double constant 65536,src/data/front/front_584A0_data_01.asm
 1110C4,str_Priority2,asc_1110C4,new,high,string 'priority',src/data/front/front_584A0_data_01.asm
 1110D0,str_Anh,unk_1110D0,new,high,string '!anh',src/data/front/front_584A0_data_01.asm
 1110D5,str_Ana,unk_1110D5,new,high,string '!ana',src/data/front/front_584A0_data_01.asm
@@ -3470,6 +3487,8 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 112128,str_Bt202,asc_112128,new,high,string 'bt20',src/data/front/front_741BD_data_01.asm
 11212D,str_Bt282,asc_11212D,new,high,string 'bt28',src/data/front/front_741BD_data_01.asm
 112132,str_Bt292,asc_112132,new,high,string 'bt29',src/data/front/front_741BD_data_01.asm
+112137,F64_143p964,qword_112137,new,high,double constant 143.964,src/data/front/front_741BD_data_01.asm
+11213F,F64_neg20,qword_11213F,new,high,double constant -20,src/data/front/front_741BD_data_01.asm
 112147,str_SEASONNDX,asc_112147,new,high,string 'SEASON.NDX',src/data/front/front_741BD_data_01.asm
 112152,str_Teams,asc_112152,new,high,string 'Teams',src/data/front/front_741BD_data_01.asm
 112158,str_Sched,asc_112158,new,high,string 'Sched.',src/data/front/front_741BD_data_01.asm
@@ -3542,7 +3561,10 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1122D5,str_S05dCsgDb3,asc_1122D5,new,high,string '%s%05d%csg.db',src/data/front/front_794FF_data_01.asm
 1122E3,str_S05dCnzDb5,asc_1122E3,new,high,string '%s%05d%cnz.db',src/data/front/front_794FF_data_01.asm
 1122F1,str_S,asc_1122F1,new,high,string '>%s',src/data/front/front_794FF_data_01.asm
+1122F8,F32_0p5,dword_1122F8,new,high,float constant 0.5,src/data/front/front_794FF_data_01.asm
+1122FC,F32_0p5_InitHScrollBar,dword_1122FC,new,high,float constant 0.5,src/data/front/front_794FF_data_01.asm
 112300,F32_14_InitScrollTable,dword_112300,new,low,float constant 14,src/data/front/front_794FF_data_01.asm
+112304,F32_0p5_ScrollBarToMouse,dword_112304,new,high,float constant 0.5,src/data/front/front_794FF_data_01.asm
 112308,str_MonthChoice,asc_112308,new,high,string 'Month Choice',src/data/front/front_794FF_data_01.asm
 112315,str_CalendarChoices,asc_112315,new,high,string 'Calendar Choices',src/data/front/front_794FF_data_01.asm
 112326,str_Regions,asc_112326,new,high,string 'regions',src/data/front/front_794FF_data_01.asm
@@ -3572,7 +3594,9 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1123AC,str_Tttt,asc_1123AC,new,high,string 'tttt',src/data/front/calendar_data_01.asm
 1123B1,str_Llll,asc_1123B1,new,high,string 'llll',src/data/front/calendar_data_01.asm
 1123B6,str_Wwww,asc_1123B6,new,high,string 'wwww',src/data/front/calendar_data_01.asm
+1123BB,str_Punct_DrawCalendar,asc_1123BB,new,high,"string ""::::""",src/data/front/calendar_data_01.asm
 1123C0,str_DarD,asc_1123C0,new,high,string 'dar%d',src/data/front/calendar_data_01.asm
+1123CB,F32_65536,dword_1123CB,new,high,float constant 65536,src/data/front/calendar_data_01.asm
 1123D0,str_05dCNZDB,asc_1123D0,new,high,string '%05d%cNZ.DB',src/data/front/calendar_data_01.asm
 1123DC,str_S05dCNZDB,asc_1123DC,new,high,string '%s%05d%cNZ.DB',src/data/front/calendar_data_01.asm
 1123EC,str_Pk,unk_1123EC,new,high,string 'pk',src/data/front/calendar_data_01.asm
@@ -3585,10 +3609,20 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 112417,str_Tmdata,asc_112417,new,high,string 'tmdata',src/data/front/calendar_data_01.asm
 11241E,str_Aps,asc_11241E,new,high,string 'aps',src/data/front/calendar_data_01.asm
 112422,tag_apset,,95PC,high,NHL95PC C1AB8 (string): 'apset',
+112428,str_Gk,unk_112428,new,high,"string ""gk""",src/data/front/calendar_data_01.asm
+11242B,str_Gs,unk_11242B,new,high,"string ""gs""",src/data/front/calendar_data_01.asm
 11242E,tag_gset,,95PC,high,NHL95PC C1AC4 (string): 'gset',
+112433,str_Ags,asc_112433,new,high,"string ""ags""",src/data/front/calendar_data_01.asm
 112437,tag_agset,,95PC,high,NHL95PC C1ACD (string): 'agset',
 11243D,str_Tset,asc_11243D,new,high,string 'tset',src/data/front/calendar_data_01.asm
 112442,str_GSUMMARYDB,asc_112442,new,high,string 'GSUMMARY.DB',src/data/front/calendar_data_01.asm
+11244E,F64_0p333333,qword_11244E,new,high,double constant 0.3333333333,src/data/front/calendar_data_01.asm
+112456,F64_0p75,qword_112456,new,high,double constant 0.75,src/data/front/calendar_data_01.asm
+11245E,F64_0p0119048,qword_11245E,new,high,double constant 0.0119047619,src/data/front/calendar_data_01.asm
+112466,F64_0p0166667,qword_112466,new,high,double constant 0.01666666667,src/data/front/calendar_data_01.asm
+11246E,F64_0p8,qword_11246E,new,high,double constant 0.8,src/data/front/calendar_data_01.asm
+112476,F64_10,qword_112476,new,high,double constant 10,src/data/front/calendar_data_01.asm
+11247E,F64_1000,qword_11247E,new,high,double constant 1000,src/data/front/calendar_data_01.asm
 112488,str_H07d,asc_112488,new,high,string 'H%07d',src/data/front/calendar_data_01.asm
 11248E,str_FSH,asc_11248E,new,high,string '.FSH',src/data/front/calendar_data_01.asm
 112493,str_Down,asc_112493,95PC,high,string 'down',src/data/front/calendar_data_01.asm
@@ -3666,11 +3700,14 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11262B,str_Wt2,unk_11262B,new,high,string 'wt',src/data/front/front_88E09_data_01.asm
 11262E,str_S2,unk_11262E,95PC,high,string '%s',src/data/front/front_88E09_data_01.asm
 112631,str_Space2,unk_112631,95PC,high,string ' ',src/data/front/front_88E09_data_01.asm
+112633,str_Punct_ExportTeamStats,unk_112633,new,high,"string ""\n""",src/data/front/front_88E09_data_01.asm
 112635,str_dbgD,asc_112635,95PC,high,string '%d ',src/data/front/front_88E09_data_01.asm
 112639,str_D8,asc_112639,new,high,string '.%d ',src/data/front/front_88E09_data_01.asm
 112640,str_SavetimeOut,asc_112640,new,high,string 'savetime.out',src/data/front/front_88E09_data_01.asm
 11264D,str_D42,asc_11264D,new,high,string '[%d][4] = {',src/data/front/front_88E09_data_01.asm
 112659,str_spDDDD,asc_112659,new,high,"string '  {%d,%d,%d,%d}, '",src/data/front/front_88E09_data_01.asm
+11266B,str_Punct_DumpSaveTimes,unk_11266B,new,high,"string ""};""",src/data/front/front_88E09_data_01.asm
+11266E,F64_0p1,qword_11266E,new,high,double constant 0.1,src/data/front/front_88E09_data_01.asm
 112676,str_TXT,asc_112676,new,high,string '.TXT',src/data/front/front_88E09_data_01.asm
 11267C,str_FLM0,unk_11267C,new,high,string 'FLM0',src/data/front/front_88E09_data_01.asm
 112681,str_FLM1,unk_112681,new,high,string 'FLM1',src/data/front/front_88E09_data_01.asm
@@ -3746,7 +3783,12 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 112808,str_D02d,,95PC,high,NHL95PC C5286 (string): '%d.%02d',
 112810,str_03d2,asc_112810,new,high,string '.%03d',src/data/front/front_8C3DD_data_01.asm
 112816,str_10003,asc_112816,new,high,string '1.000',src/data/front/front_8C3DD_data_01.asm
+11281C,F64_0p454545,qword_11281C,new,high,double constant 0.4545454545,src/data/front/front_8C3DD_data_01.asm
+112824,F64_2p54,qword_112824,new,high,double constant 2.54,src/data/front/front_8C3DD_data_01.asm
 11282C,str_Wt3,unk_11282C,new,high,string 'wt',src/data/front/front_8C3DD_data_01.asm
+11282F,str_Punct_ExportPlayerStats,unk_11282F,new,high,"string ""\n""",src/data/front/front_8C3DD_data_01.asm
+11283C,F64_2p54_ExportPlayerStats,qword_11283C,new,high,double constant 2.54,src/data/front/front_8C3DD_data_01.asm
+112844,F64_0p454545_ExportPlayerStats,qword_112844,new,high,double constant 0.4545454545,src/data/front/front_8C3DD_data_01.asm
 11284C,str_0410,unk_11284C,new,high,string '0410',src/data/front/front_8C3DD_data_01.asm
 112851,str_0707,unk_112851,new,high,string '0707',src/data/front/front_8C3DD_data_01.asm
 112856,str_0177,unk_112856,new,high,string '0177',src/data/front/front_8C3DD_data_01.asm
@@ -3773,6 +3815,8 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1128BD,str_PLY4,unk_1128BD,new,high,string 'PLY',src/data/front/front_8C3DD_data_01.asm
 1128C1,str_Bkgd17,asc_1128C1,95PC,high,string 'bkgd',src/data/front/front_8C3DD_data_01.asm
 1128C6,str_LG02d2,asc_1128C6,new,high,string 'LG%02d',src/data/front/front_90879_data_01.asm
+1128CD,F64_0p1_SlideCardLeft,qword_1128CD,new,high,double constant 0.1,src/data/front/front_90879_data_01.asm
+1128D5,F64_0p1_SlideCardRight,qword_1128D5,new,high,double constant 0.1,src/data/front/front_90879_data_01.asm
 1128DD,str_XTbl,asc_1128DD,new,high,string 'XTbl',src/data/front/front_90879_data_01.asm
 1128E2,str_PHT0,asc_1128E2,new,high,string 'PHT0',src/data/front/front_90879_data_01.asm
 1128E7,str_SLDH2,asc_1128E7,new,high,string 'SLDH',src/data/front/front_90879_data_01.asm
@@ -3811,10 +3855,23 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 112994,str_PROFILEFSH2,asc_112994,new,high,string 'PROFILE.FSH',src/data/front/front_90879_data_01.asm
 1129A0,str_DNRS,asc_1129A0,new,high,string 'DNRS',src/data/front/front_90879_data_01.asm
 1129A5,str_DSS2,asc_1129A5,new,high,string '#%d %s %s',src/data/front/front_90879_data_01.asm
+1129AF,F64_2p54_DrawPlayerCardName,qword_1129AF,new,high,double constant 2.54,src/data/front/front_90879_data_01.asm
+1129B7,F64_0p454545_DrawPlayerCardName,qword_1129B7,new,high,double constant 0.4545454545,src/data/front/front_90879_data_01.asm
 1129BF,str_Wt4,unk_1129BF,new,high,string 'wt',src/data/front/front_90879_data_01.asm
+1129C2,str_Punct_ExportPlayerCard,unk_1129C2,new,high,"string ""\n""",src/data/front/front_90879_data_01.asm
 1129C4,str_DSS3,asc_1129C4,new,high,string '#%d %s %s ',src/data/front/front_90879_data_01.asm
+1129E6,str_S_ExportPlayerCard,asc_1129E6,new,high,"string ""\n%s""",src/data/front/front_90879_data_01.asm
 1129EA,str_S5,unk_1129EA,95PC,high,string '%s',src/data/front/front_90879_data_01.asm
 1129ED,str_DD8,asc_1129ED,new,high,string '%d.%d%%%%',src/data/front/front_90879_data_01.asm
+1129FA,F32_0p5_ScaleBlock,dword_1129FA,new,high,float constant 0.5,src/data/front/front_90879_data_01.asm
+1129FE,F64_0p1_ScaleBlock,qword_1129FE,new,high,double constant 0.1,src/data/front/front_90879_data_01.asm
+112A0C,str_45S,unk_112A0C,new,high,"string ""45S""",src/data/front/front_90879_data_01.asm
+112A10,str_45P,unk_112A10,new,high,"string ""45P""",src/data/front/front_90879_data_01.asm
+112A14,str_34S,unk_112A14,new,high,"string ""34S""",src/data/front/front_90879_data_01.asm
+112A18,str_34P,unk_112A18,new,high,"string ""34P""",src/data/front/front_90879_data_01.asm
+112A1C,str_CRS,unk_112A1C,new,high,"string ""CRS""",src/data/front/front_90879_data_01.asm
+112A20,str_CRP,unk_112A20,new,high,"string ""CRP""",src/data/front/front_90879_data_01.asm
+112A28,str_PLA,unk_112A28,new,high,"string ""PLA""",src/data/front/front_90879_data_01.asm
 112A2C,str_XTbl2,asc_112A2C,new,high,string 'X-tbl',src/data/front/front_93E6A_data_01.asm
 112A32,str_Bkgd18,asc_112A32,new,high,string 'bkgd',src/data/front/front_93E6A_data_01.asm
 112A37,str_Pal24,asc_112A37,95PC,high,string '!pal',src/data/front/front_93E6A_data_01.asm
@@ -3854,6 +3911,10 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 112AEE,str_Card3,asc_112AEE,new,high,string 'card',src/data/front/front_93E6A_data_01.asm
 112AF3,str_Ard3,asc_112AF3,new,high,string '!ard',src/data/front/front_93E6A_data_01.asm
 112AF8,str_DSS4,asc_112AF8,new,high,string '#%d %s %s',src/data/front/front_93E6A_data_01.asm
+112B02,F64_2p54_DrawRatingsName,qword_112B02,new,high,double constant 2.54,src/data/front/front_93E6A_data_01.asm
+112B0A,F64_0p454545_DrawRatingsName,qword_112B0A,new,high,double constant 0.4545454545,src/data/front/front_93E6A_data_01.asm
+112B18,str_LFT,unk_112B18,new,high,"string ""LFT""",src/data/front/front_93E6A_data_01.asm
+112B1C,str_RHT,unk_112B1C,new,high,"string ""RHT""",src/data/front/front_93E6A_data_01.asm
 112B28,str_StatDBPTRs2,asc_112B28,new,high,string 'StatDBPTRs',src/data/front/front_93E6A_data_01.asm
 112B33,str_DBPTRs2,asc_112B33,new,high,string 'DBPTRs',src/data/front/front_971E9_data_01.asm
 112B3A,str_Player2,asc_112B3A,new,high,string 'Player #',src/data/front/front_971E9_data_01.asm
@@ -3928,6 +3989,24 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 112CCC,str_NUM2,asc_112CCC,new,high,string 'NUM2',src/data/front/front_971E9_data_01.asm
 112CD1,str_SS4,asc_112CD1,95PC,high,string '%s %s',src/data/front/front_971E9_data_01.asm
 112CD7,str_D12,unk_112CD7,new,high,string '%d',src/data/front/front_971E9_data_01.asm
+112CDA,F32_0p001,dword_112CDA,new,high,float constant 0.001000000047,src/data/front/front_971E9_data_01.asm
+112CDE,F32_0p0208333,dword_112CDE,new,high,float constant 0.02083333395,src/data/front/front_971E9_data_01.asm
+112CE2,F32_0p00333333,dword_112CE2,new,high,float constant 0.003333333414,src/data/front/front_971E9_data_01.asm
+112CE6,F32_390,dword_112CE6,new,high,float constant 390,src/data/front/front_971E9_data_01.asm
+112CEA,F32_0p005,dword_112CEA,new,high,float constant 0.004999999888,src/data/front/front_971E9_data_01.asm
+112CEE,F32_100,dword_112CEE,new,high,float constant 100,src/data/front/front_971E9_data_01.asm
+112CF2,F32_neg50,dword_112CF2,new,high,float constant -50,src/data/front/front_971E9_data_01.asm
+112CF6,F32_0p002,dword_112CF6,new,high,float constant 0.002000000095,src/data/front/front_971E9_data_01.asm
+112CFA,F32_0p0111111,dword_112CFA,new,high,float constant 0.01111111138,src/data/front/front_971E9_data_01.asm
+112CFE,F32_0p1,dword_112CFE,new,high,float constant 0.1000000015,src/data/front/front_971E9_data_01.asm
+112D02,F32_0p0142857,dword_112D02,new,high,float constant 0.01428571437,src/data/front/front_971E9_data_01.asm
+112D06,F32_0p0333333,dword_112D06,new,high,float constant 0.03333333507,src/data/front/front_971E9_data_01.asm
+112D0A,F32_58,dword_112D0A,new,high,float constant 58,src/data/front/front_971E9_data_01.asm
+112D0E,F32_90,dword_112D0E,new,high,float constant 90,src/data/front/front_971E9_data_01.asm
+112D12,F32_0p01,dword_112D12,new,high,float constant 0.009999999776,src/data/front/front_971E9_data_01.asm
+112D16,F64_0p9,qword_112D16,new,high,double constant 0.9,src/data/front/front_971E9_data_01.asm
+112D1E,F64_0p1_CreatePlayerRatings,qword_112D1E,new,high,double constant 0.1,src/data/front/front_971E9_data_01.asm
+112D26,F32_347,dword_112D26,new,high,float constant 347,src/data/front/front_971E9_data_01.asm
 112D2C,str_StatDBPTRs3,asc_112D2C,new,high,string 'StatDBPTRs',src/data/front/front_971E9_data_01.asm
 112D37,str_DBPTRs3,asc_112D37,new,high,string 'DBPTRs',src/data/front/front_971E9_data_01.asm
 112D3E,str_Player3,asc_112D3E,new,high,string 'Player #',src/data/front/front_971E9_data_01.asm
@@ -4094,16 +4173,21 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1130E7,str_SDD2,asc_1130E7,new,high,string '%s %d.%d',src/data/lib/lib_A8B9B_data_01.asm
 1130F0,str_0000,asc_1130F0,95PC,high,string '0000',src/data/lib/lib_A8B9B_data_01.asm
 1130F8,str_AddtimerLISTFULL,,95PC,high,NHL95PC C3F5C (string): 'addtimer - LIST FULL\n',
+113110,str_InitmemmanadrINSUFFICIENTMEM,asc_113110,new,high,"string ""initmemmanadr - INSUFFICIENT MEMORY TO INITIALIZE MEMORY MANAGER\n""",src/data/lib/lib_A8B9B_data_01.asm
 113154,str_LOWMEM,,95PC,high,NHL95PC C3B98 (string): 'LOW MEM',
 11315C,str_HIGHMEM,,95PC,high,NHL95PC C3BA0 (string): 'HIGH MEM',
 113168,str_GAP,asc_113168,95PC,high,string 'GAP',src/data/lib/lib_A8B9B_data_01.asm
+11316C,str_UnlinkmemclassareaReleaseMem,asc_11316C,new,high,"string ""unlinkmemclassarea - Release Memory Not Found\n""",src/data/lib/lib_A8B9B_data_01.asm
 11319C,str_ReservememMEMORYMANAGERN,asc_11319C,new,high,string 'reservemem - MEMORY MANAGER NOT INITIALIZED requested: %ld ',src/data/lib/ea/ea_memman_data_01.asm
 1131D8,str_ReservememINVALIDSIZE,,95PC,high,NHL95PC C3BCC (string): 'reservemem - INVALID SIZE REQUESTED\nrequested: %ld availab,
 11321C,str_ReservememMEMORYMANAGERB,asc_11321C,new,high,string 'reservemem - MEMORY MANAGER BLOCKS CORRUPTED requested: %ld. type %x. should be %x ',src/data/lib/ea/ea_memman_data_01.asm
+113270,str_ReservememOUTOFMEMORYRequest,asc_113270,new,high,"string ""reservemem - OUT OF MEMORY\nrequested: %ld available: %ld\n""",src/data/lib/ea/ea_memman_data_01.asm
+1132AC,str_ReservememOUTOFMEMORYRequest_AllocMemBlockEx,asc_1132AC,new,high,"string ""reservemem - OUT OF MEMORY\nrequested: %ld available: %ld\n""",src/data/lib/ea/ea_memman_data_01.asm
 1132E8,str_ReservememINVALIDTYPEFLAGS,,95PC,high,NHL95PC C3C88 (string): 'reservemem - INVALID TYPE FLAGS (%04x)\n',
 113310,str_ResizememINVALIDSIZE,,95PC,high,NHL95PC C3CB0 (string): 'resizemem - INVALID SIZE REQUESTED\nrequested: %ld availabl,
 113354,str_ResizememblockNOROOMTO,,95PC,high,NHL95PC C3CF4 (string): 'resizememblock - NO ROOM TO RESIZE\nrequested: %ld availabl,
 113398,str_FindmemblockBLOCKNOTFOUND,,95PC,high,NHL95PC C3D38 (string): 'findmemblock - BLOCK NOT FOUND (%p)\n',
+1133C0,str_PurgememblockNULLPointer,asc_1133C0,new,high,"string ""purgememblock - NULL pointer\n""",src/data/lib/ea/ea_memman_data_01.asm
 1133E0,str_GetmemblockNOMEMORYBLOCKS,,95PC,high,NHL95PC C3D60 (string): 'getmemblock - NO MEMORY BLOCKS LEFT\n',
 113408,str_Jan,unk_113408,95PC,high,string 'Jan',src/data/lib/ea/ea_memman_data_01.asm
 11340C,str_Feb2,unk_11340C,95PC,high,string 'Feb',src/data/lib/ea/ea_memman_data_01.asm
@@ -4118,14 +4202,20 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 113430,str_Nov,unk_113430,95PC,high,string 'Nov',src/data/lib/ea/ea_memman_data_01.asm
 113434,str_Dec,unk_113434,95PC,high,string 'Dec',src/data/lib/ea/ea_memman_data_01.asm
 113438,str_DBUGTXT,,95PC,high,NHL95PC C4034 (string): 'DBUG??.TXT',
+113444,str_Wt,unk_113444,new,high,"string ""wt""",src/data/lib/ea/ea_fileblock_01_data_01.asm
 113448,str_FILES,,95PC,high,NHL95PC C4044 (string): 'FILE: %s\n',
 113454,str_DATES,,95PC,high,NHL95PC C4050 (string): 'DATE: %s\n',
 113460,str_TIMES,,95PC,high,NHL95PC C405C (string): 'TIME: %s\n\n',
 11346C,str_CLOSED,,95PC,high,NHL95PC C4068 (string): '\nCLOSED\n',
 113478,str_TIMES2,,95PC,high,NHL95PC C4074 (string): 'TIME: %s\n',
+113484,str_02d3s02d,asc_113484,new,high,"string ""%02d-%3s-%02d""",src/data/lib/ea/ea_fileblock_01_data_01.asm
 113494,str_2d02d02d2,asc_113494,95PC,high,string '%2d:%02d:%02d',src/data/lib/ea/ea_fileblock_01_data_01.asm
+1134A4,str_CreatewindowblockINVALIDWIND,asc_1134A4,new,high,"string ""createwindowblock - INVALID WINDOW DIMENSIONS\nrequested: %dx%d maximum: %dx%d\n""",src/data/lib/ea/ea_fileblock_01_data_01.asm
+1134F4,str_WINDOW,asc_1134F4,new,high,"string ""WINDOW""",src/data/lib/ea/ea_fileblock_01_data_01.asm
+1134FC,str_CreatewindowblockOUTOFMEMORY,asc_1134FC,new,high,"string ""createwindowblock - OUT OF MEMORY\nrequested: %dx%d available: %ld\n""",src/data/lib/ea/ea_fileblock_01_data_01.asm
 113540,str_CreatewindowblockBADBLOC,asc_113540,new,high,string 'createwindowblock - BAD BLOCK requested: %dx%d ',src/data/lib/ea/ea_fileblock_01_data_01.asm
 113570,str_CreatewindowblockOUTOFRO,asc_113570,new,high,string 'createwindowblock - OUT OF ROW SPACE requested: %dx%d ',src/data/lib/ea/ea_fileblock_01_data_01.asm
+1135A8,str_Lzh,asc_1135A8,new,high,"string ""lzh""",src/data/lib/ea/ea_unpack_data_01.asm
 1135AC,str_Copyright,,95PC,high,NHL95PC C47B8 (string): 'Copyright',
 1135B8,str_UnpackINVALIDPACKCODE,,95PC,high,NHL95PC C47C4 (string): 'unpack - INVALID PACK CODE (%x)\n',
 1135DC,str_TextTable,asc_1135DC,new,high,string 'Text Table',src/data/lib/ea/ea_unpack_data_01.asm
@@ -4133,19 +4223,34 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1135F4,str_Inversetmp,asc_1135F4,new,high,string 'inversetmp',src/data/lib/ea/ea_unpack_data_01.asm
 113600,str_SavefileblockaOPENFAILEDFOR,,95PC,high,NHL95PC C3FD8 (string): 'savefileblocka - OPEN FAILED FOR FILE <%s>\n',
 11362C,str_InitmemmanINSUFFICIENTROW,,95PC,high,NHL95PC C3D88 (string): 'initmemman - INSUFFICIENT ROW TABLE SPACE\n',
+113658,str_InitmemmanTOOMUCHDOSALLOCATE,asc_113658,new,high,"string ""initmemman - TOO MUCH DOS ALLOCATED\n""",src/data/lib/ea/ea_unpack_data_01.asm
+113680,str_InitmemmanDOSMEMORYNOTALLOCA,asc_113680,new,high,"string ""initmemman - DOS MEMORY NOT ALLOCATED %x REQUESTED %x AVAILABLE\n""",src/data/lib/ea/ea_unpack_data_01.asm
+1136C4,str_InitmemmanDOSSUBMEMORYNOTALL,asc_1136C4,new,high,"string ""initmemman - DOS SUB MEMORY NOT ALLOCATED %x REQUESTED %x AVAILABLE\n""",src/data/lib/watcom/watcom_clib_05_data_01.asm
 11370C,str_InitmemmanDOSSUBMEMORYNO,asc_11370C,new,high,string 'initmemman - DOS SUB MEMORY NOT RELEASED ',src/data/lib/watcom/watcom_clib_05_data_01.asm
 113738,str_AAPLUT,asc_113738,new,high,string 'AAPLUT',src/data/lib/watcom/watcom_clib_05_data_01.asm
+113740,str_OpenblockhandleSNOHANDLESLEF,asc_113740,new,high,"string ""openblockhandle - %s NO HANDLES LEFT\n""",src/data/lib/watcom/watcom_clib_05_data_01.asm
 113768,str_OpenblockhandleSPATHNAME,asc_113768,new,high,string 'openblockhandle - %s PATH NAME NOT FOUND ',src/data/lib/watcom/watcom_clib_05_data_01.asm
 113794,str_CDROMDATA,asc_113794,new,medium,"string ""CDROM DATA""",src/data/lib/watcom/watcom_clib_05_data_01.asm
 1137A0,str_CDROMBUFFER,asc_1137A0,new,medium,"string ""CDROM BUFFER""",src/data/lib/watcom/watcom_clib_05_data_01.asm
+1137B0,str_CdromcheckCDROMSTATUSNOTRETU,asc_1137B0,new,high,"string ""cdromcheck - CDROM STATUS NOT RETURNED \n""",src/data/lib/watcom/watcom_clib_05_data_01.asm
+1137DC,str_CdromreadREADGREATERTHANMAXR,asc_1137DC,new,high,"string ""cdromread - READ GREATER THAN MAXREADSECTORS %d\n""",src/data/lib/watcom/watcom_clib_05_data_01.asm
+113810,str_CdromreadREADSTATUSERRORX,asc_113810,new,high,"string ""cdromread - READ STATUS ERROR=%x\n""",src/data/lib/watcom/watcom_clib_05_data_01.asm
+113834,str_CdromseekSEEKSTATUSX,asc_113834,new,high,"string ""cdromseek - SEEK STATUS =%x\n""",src/data/lib/watcom/watcom_clib_05_data_01.asm
 113854,str_CdromdirectoryentryERROR,asc_113854,new,high,string 'cdromdirectoryentry - ERROR %x READING DIRECTORY %s ',src/data/lib/watcom/watcom_clib_05_data_01.asm
 11388C,str_UpsideDown,asc_11388C,new,high,string 'upside down ',src/data/lib/ea/ea_shpi_01_data_01.asm
+11389C,str_OrisetmaterialrgbInvalidMate,asc_11389C,new,high,"string ""orisetmaterialrgb: invalid material id %d""",src/data/lib/ea/ea_shpi_01_data_01.asm
 1138C8,str_OrisetmaterialcolorInval,asc_1138C8,new,high,string 'orisetmaterialcolor: invalid material id %d',src/data/lib/ea/ea_shpi_01_data_01.asm
+1138F4,str_OrisetmaterialtextureInvalid,asc_1138F4,new,high,"string ""orisetmaterialtexture: invalid material id %d""",src/data/lib/ea/ea_shpi_01_data_01.asm
 113924,str_OrisetmaterialdrawfnInva,asc_113924,new,high,string 'orisetmaterialdrawfn: invalid material id %d',src/data/lib/ea/ea_shpi_01_data_01.asm
 113954,str_ORIINST,asc_113954,new,high,string 'ORI_INST',src/data/lib/ea/ea_shpi_01_data_01.asm
+113960,str_INVMATRX,asc_113960,new,high,"string ""INVMATRX""",src/data/lib/ea/ea_shpi_01_data_01.asm
+11396C,str_Ori,asc_11396C,new,high,"string "".ori""",src/data/lib/ea/ea_shpi_01_data_01.asm
 113974,str_OriloadCouldNotLoadORIGA,asc_113974,new,high,string 'oriload: Could not load ORIGAMI header file '%s'',src/data/lib/ea/ea_shpi_01_data_01.asm
 1139A8,str_OrigetpartitionDIsAnInva,asc_1139A8,new,high,string 'origetpartition: %d is an invalid partition ID',src/data/lib/ea/ea_shpi_01_data_01.asm
+1139D8,str_VESAMEM,asc_1139D8,new,high,"string ""VESA MEM""",src/data/lib/watcom/watcom_clib_07_data_01.asm
+1139E4,str_GetvesainfoINVALIDDOSSEGMENT,asc_1139E4,new,high,"string ""getvesainfo - INVALID DOS SEGMENT %lx\n""",src/data/lib/watcom/watcom_clib_07_data_01.asm
 113A0C,str_VESA,,95PC,high,NHL95PC C3E94 (string): 'VESA',
+113A14,str_GetvesainfoINVALIDVESAINFOVE,asc_113A14,new,high,"string ""getvesainfo - INVALID VESA INFO\nVESA driver is installed?\n""",src/data/lib/watcom/watcom_clib_07_data_01.asm
 113A50,str_InitgraphicsINITMEMMAN,,95PC,high,NHL95PC C3E9C (string): 'initgraphics - INITMEMMAN REQUIRED BEFORE INITGRAPHICS\n',
 113A88,str_InitgraphicsINVALIDSCREEN,,95PC,high,"NHL95PC C3ED4 (string): 'initgraphics - INVALID SCREEN SIZE (%d,%d)\n'",
 113AB4,str_VESAVideoBiosDriver,,95PC,high,NHL95PC C3F00 (string): 'VESA video bios driver required.\nPlease install a driver f,
@@ -4179,6 +4284,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 113DF0,str_SoundBlaster16,unk_113DF0,new,high,string 'SoundBlaster 16',src/data/lib/watcom/watcom_clib_08_data_01.asm
 113E00,str_GravisUltraSound,unk_113E00,new,high,string 'Gravis UltraSound',src/data/lib/watcom/watcom_clib_08_data_01.asm
 113E12,str_WindowsSoundSystem,unk_113E12,new,high,string 'Windows Sound System',src/data/lib/watcom/watcom_clib_08_data_01.asm
+113E28,str_TGV,asc_113E28,new,high,"string ""TGV""",src/data/lib/watcom/watcom_clib_08_data_01.asm
 113E2C,str_TgvdecodeInvalidChunkTyp,asc_113E2C,new,high,string 'tgvdecode: Invalid chunk type',src/data/lib/watcom/watcom_clib_08_data_01.asm
 113E4C,str_RateDDAvgDD,asc_113E4C,new,high,string 'rate=%d.%d  avg=%d.%d ',src/data/lib/watcom/watcom_clib_08_data_01.asm
 113E64,str_EXITTODOSY,,95PC,high,NHL95PC C47E8 (string): 'EXIT TO DOS (Y/N)',
@@ -4189,11 +4295,18 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 113ED8,str_Qvs,,95PC,high,NHL95PC C485C (string): '.qvs',
 113EE0,str_CalibrateYourJoystickByU,asc_113EE0,new,high,string 'Calibrate your joystick by using it',src/data/lib/watcom/watcom_clib_13_data_01.asm
 113F04,str_ToMoveTheJoystickPositio,asc_113F04,new,high,string 'to move the joystick position indicator',src/data/lib/watcom/watcom_clib_13_data_01.asm
+113F2C,str_BelowToAllSquares,asc_113F2C,new,high,"string ""below, to all squares""",src/data/lib/watcom/watcom_clib_13_data_01.asm
 113F44,str_PressJoystickButtonWhenC,asc_113F44,new,high,string 'Press joystick button when complete',src/data/lib/watcom/watcom_clib_13_data_01.asm
 113F68,str_KEYBOARDON,asc_113F68,new,high,string 'KEYBOARD ON',src/data/lib/watcom/watcom_clib_13_data_01.asm
+113F74,str_PATH_InitSystem,asc_113F74,new,high,"string ""PATH""",src/data/lib/watcom/watcom_clib_13_data_01.asm
+113F7C,str_DOS4GWEXE,asc_113F7C,new,high,"string ""DOS4GW.EXE""",src/data/lib/watcom/watcom_clib_13_data_01.asm
+113F88,str_CS_InitSystem,asc_113F88,new,high,"string ""c:\%s""",src/data/lib/watcom/watcom_clib_13_data_01.asm
 113F90,str_CheckextenderINCORRECTEX,asc_113F90,new,high,string 'checkextender - INCORRECT EXTENDER VERSION INSTALLED Check '%s'. Currently %ld bytes in size. Should be %ld bytes. ',src/data/lib/watcom/watcom_clib_13_data_01.asm
 114004,str_LocatebigNOBIGFILESETNUL,asc_114004,new,high,string 'locatebig - NO BIG FILE SET (NULL POINTER) ',src/data/lib/watcom/watcom_clib_13_data_01.asm
+114030,str_LocatebigFILEISNOTAUNITFILE,asc_114030,new,high,"string ""locatebig - FILE IS NOT A UNIT FILE\n""",src/data/lib/watcom/watcom_clib_13_data_01.asm
 114058,str_LocatebigsFILENOTFOUNDS,asc_114058,new,high,string 'locatebigs - FILE NOT FOUND <%s> ',src/data/lib/watcom/watcom_clib_13_data_01.asm
+11407C,str_OriinitmorphObjectCannotMorp,asc_11407C,new,high,"string ""oriinitmorph: object cannot morph""",src/data/lib/watcom/watcom_clib_13_data_01.asm
+1140A0,str_OriapplymorphObjectCannotMor,asc_1140A0,new,high,"string ""oriapplymorph: object cannot morph""",src/data/lib/watcom/watcom_clib_13_data_01.asm
 1140C4,str_OriapplymorphObjectCanno,asc_1140C4,new,high,string 'oriapplymorph: object cannot morph',src/data/lib/watcom/watcom_clib_13_data_01.asm
 1140E8,str_BLASTER,,95PC,high,NHL95PC C4A94 (string): 'BLASTER',
 1140F0,str_DMABUFFER,asc_1140F0,new,high,string 'DMA BUFFER',src/data/lib/sound/snd_soundblaster_data_01.asm
@@ -4205,7 +4318,10 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11412C,str_NotEnoughMemoryTo,,95PC,high,NHL95PC C4B00 (string): 'Not enough memory to allocate file structures\r\n',
 11415C,str_FloatingPointSupportNot,,95PC,high,NHL95PC C4ADC (string): 'Floating-point support not loaded\r\n',
 114180,str_SaveText,asc_114180,new,high,string 'Save Text',src/data/lib/sound/snd_soundblaster_data_01.asm
+11418C,str_Mouse,unk_11418C,new,high,"string ""mouse""",src/data/lib/sound/snd_soundblaster_data_01.asm
+114194,str_CUtilMouse,asc_114194,new,high,"string ""c:\util\mouse""",src/data/lib/sound/snd_soundblaster_data_01.asm
 1141A4,str_Ptr0ptr1ptr2,asc_1141A4,new,high,string 'ptr0ptr1ptr2',src/data/lib/sound/snd_soundblaster_data_01.asm
+1141B4,str_BuildtableminLinearmapfExcee,asc_1141B4,new,high,"string ""buildtablemin (linearmapf) - exceeded 768 max height (%d)\n""",src/data/lib/sound/snd_soundblaster_data_01.asm
 1141F0,str_BuildfixedtableminLinear,asc_1141F0,new,high,string 'buildfixedtablemin (linearmapf) - exceeded 768 max height (%d) ',src/data/lib/sound/snd_soundblaster_data_01.asm
 114230,str_BuildtableminLinearmapfE,asc_114230,new,high,string 'buildtablemin (linearmapf) - exceeded 768 max height (%d) ',src/data/lib/sound/snd_soundblaster_data_01.asm
 11426C,str_BuildtableminLinearmapfE2,asc_11426C,new,high,string 'buildtablemin (linearmapf) - exceeded 768 max height (%d) ',src/data/lib/sound/snd_soundblaster_data_01.asm
@@ -4225,13 +4341,28 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 114324,str_Oct2,unk_114324,95PC,high,string 'Oct',src/data/lib/sound/snd_soundblaster_data_01.asm
 114328,str_Nov2,unk_114328,95PC,high,string 'Nov',src/data/lib/sound/snd_soundblaster_data_01.asm
 11432C,str_Dec2,unk_11432C,95PC,high,string 'Dec',src/data/lib/sound/snd_soundblaster_data_01.asm
+114330,str_HW77xPool77xMax77xDOSHW77xDO,asc_114330,new,high,"string ""  HW=%7.7x Pool=%7.7x Max=%7.7x DOSHW=%7.7x DOSPool=%7.7x""",src/data/lib/ea/ea_debug_02_data_01.asm
+11436C,str_HW7uPool7uMax7uDOSHW7uDOSPoo,asc_11436C,new,high,"string ""  HW=%-7u Pool=%-7u Max=%-7u DOSHW=%-7u DOSPool=%-7u""",src/data/lib/ea/ea_debug_02_data_01.asm
 1143A4,str_Used77xFree77xLargst77x,asc_1143A4,new,high,string 'Used=%7.7x Free=%7.7x Largst=%7.7x ',src/data/lib/ea/ea_debug_02_data_01.asm
 1143C8,str_Used7uFree7u,,95PC,high,NHL95PC C417C (string): 'Used=%-7u Free=%-7u Largst=%-7u',
+1143E8,str_NAMESIZEADRFLAG,asc_1143E8,new,high,"string ""    NAME      SIZE       ADR      FLAG  """,src/data/lib/ea/ea_debug_02_data_01.asm
 114414,str_IDXNAMESIZEADRFLAG,asc_114414,new,high,string 'IDX     NAME           SIZE    ADR    FLAG',src/data/lib/ea/ea_debug_02_data_01.asm
+114440,str_C,unk_114440,new,high,"string ""%c""",src/data/lib/ea/ea_debug_02_data_01.asm
+114444,str_80s,asc_114444,new,high,"string ""%-80s""",src/data/lib/ea/ea_debug_02_data_01.asm
 114450,str_S9,asc_114450,95PC,high,string '%s ',src/data/lib/ea/ea_debug_02_data_01.asm
+114454,str_S_MemViewerDrawList,asc_114454,new,high,"string ""%s\n\n""",src/data/lib/ea/ea_debug_02_data_01.asm
+11445C,str_SPACE10x8s8s,asc_11445C,new,high,"string ""     SPACE   %10x %8s %8s""",src/data/lib/ea/ea_debug_02_data_01.asm
+114478,str_SPACE10d8s8s,asc_114478,new,high,"string ""     SPACE   %10d %8s %8s""",src/data/lib/ea/ea_debug_02_data_01.asm
+114494,str_SPACE1010x88s88s,asc_114494,new,high,"string ""       SPACE     %10.10x %8.8s %8.8s""",src/data/lib/ea/ea_debug_02_data_01.asm
+1144BC,str_SPACE10d88s88s,asc_1144BC,new,high,"string ""       SPACE     %10d %8.8s %8.8s""",src/data/lib/ea/ea_debug_02_data_01.asm
 1144E0,str_1212s10x8s8s,asc_1144E0,new,high,string '%-12.12s %10x %8s %8s',src/data/lib/ea/ea_debug_02_data_01.asm
+1144F8,str_1212s10d8s8s,asc_1144F8,new,high,"string ""%-12.12s %10d %8s %8s""",src/data/lib/ea/ea_debug_02_data_01.asm
+114510,str_33d1212s1010x88s88s44x,asc_114510,new,high,"string ""%3.3d %-12.12s %10.10x %8.8s %8.8s %4.4x""",src/data/lib/ea/ea_debug_02_data_01.asm
+11453C,str_33d1212s10d88s88s44x,asc_11453C,new,high,"string ""%3.3d %-12.12s %10d %8.8s %8.8s %4.4x""",src/data/lib/ea/ea_debug_02_data_01.asm
 114564,str_MEMMANAGER,,95PC,high,NHL95PC C430C (string): 'MEM MANAGER',
+114570,str_X_DebugSprintf,unk_114570,new,high,"string ""%x""",src/data/lib/ea/ea_debug_02_data_01.asm
 114574,str_044X00000000,,95PC,high,NHL95PC C431C (string): '%04.4X (0000 0000 0000 0000)',
+114594,str_1_MemViewerBlockInfo,unk_114594,new,high,"string ""1""",src/data/lib/ea/ea_debug_02_data_01.asm
 114598,str_SYSTEM,,95PC,high,NHL95PC C4340 (string): ' SYSTEM ',
 1145A4,str_SPACE3,,95PC,high,NHL95PC C434C (string): ' SPACE ',
 1145AC,str_HIGHMemoryBlock,,95PC,high,NHL95PC C4354 (string): 'HIGH memory block',
@@ -4245,11 +4376,15 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 114648,str_BlockIsPURGABLE,,95PC,high,NHL95PC C43F0 (string): 'Block is PURGABLE',
 11465C,str_04x2,,95PC,high,NHL95PC C4404 (string): '%04x   ',
 114664,str_02x,,95PC,high,NHL95PC C440C (string): '%02x',
+11466C,str_Punct_HexDumpRow,unk_11466C,new,high,"string ""*""",src/data/lib/ea/ea_debug_02_data_01.asm
 11467C,str_FILES2,,95PC,high,NHL95PC C4424 (string): '* FILE: %s\n',
 114688,str_DATES2,,95PC,high,NHL95PC C4430 (string): '* DATE: %s\n',
 114694,str_TIMES3,,95PC,high,NHL95PC C443C (string): '* TIME: %s\n',
+1146A0,str_N_WriteMemMap,unk_1146A0,new,high,"string ""N""",src/data/lib/ea/ea_debug_02_data_01.asm
+1146A4,str_FF,unk_1146A4,new,high,"string ""FF""",src/data/lib/ea/ea_debug_02_data_01.asm
 1146A8,str_HexmemdspOS,,95PC,high,NHL95PC C4450 (string): 'hexmemdsp = O%s\n\n',
 1146BC,str_XxMMAPTXT,,95PC,high,NHL95PC C4464 (string): 'xxMMAP??.TXT',
+1146CC,str_W_DumpMemoryMap,unk_1146CC,new,high,"string ""w""",src/data/lib/ea/ea_debug_02_data_01.asm
 1146D0,str_ErrorDumpingMemoryMap,,95PC,high,NHL95PC C4478 (string): 'Error Dumping Memory Map',
 1146EC,str_ShapeFileIsInvalid,,95PC,high,NHL95PC C4494 (string): 'Shape file is invalid.  Work with it?',
 114714,str_NumDPackedD,,95PC,high,"NHL95PC C44BC (string): 'Num = %d, # packed = %d, # not packed = %d, # no shows = %d",
@@ -4262,6 +4397,9 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1147EC,str_Un,,95PC,medium,NHL95PC C4594 (refset): referenced by the same 2 matched functions,
 1147F0,str_Spacked,,95PC,high,NHL95PC C4598 (string): ' %spacked\n',
 1147FC,str_Packed,,95PC,high,NHL95PC C45A4 (string): 'packed  ',
+114808,str_Unpacked_ShapeInfo,asc_114808,new,high,"string ""unpacked""",src/data/lib/ea/ea_debug_02_data_01.asm
+114814,str_3d3d3d3dS,asc_114814,new,high,"string ""%3d/%3d, %3d/%3d, %s""",src/data/lib/ea/ea_debug_02_data_01.asm
+11482C,str_Type02xNext05x,asc_11482C,new,high,"string ""type %02x, next %05x""",src/data/lib/ea/ea_debug_02_data_01.asm
 114844,str_ShapeIsInvalidDraw,,95PC,high,NHL95PC C45D4 (string): 'Shape is invalid.  Draw it anyways?',
 114868,str_MEMSHPTXT,,95PC,high,NHL95PC C45F8 (string): 'MEMSHP??.TXT',
 114878,str_ErrorDumpingShapesList,,95PC,high,NHL95PC C4608 (string): 'Error Dumping Shapes List',
@@ -4271,11 +4409,15 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1148E0,str_44s66ld,,95PC,high,"NHL95PC C4670 (string): ""'%-4.4s' @ %6.6ld, """,
 1148F4,str_Bytes3dRows3d2,,95PC,high,"NHL95PC C4684 (string): 'bytes = %3d, rows = %3d, '",
 114910,str_XY3d3d,,95PC,high,"NHL95PC C46A0 (string): 'x/y = %3d/%3d, cx/cy = %3d/%3d'",
+114930,str_Punct_DumpShapesList,unk_114930,new,high,"string ""\n""",src/data/lib/ea/ea_debug_02_data_01.asm
 114934,str_033d022X,,95PC,high,NHL95PC C46C4 (string): '%03.3d (%02.2X)',
 114944,str_R022d,,95PC,high,NHL95PC C46D4 (string): 'R=%02.2d',
 114950,str_G022d,,95PC,high,NHL95PC C46E0 (string): 'G=%02.2d',
 11495C,str_B022d,,95PC,high,NHL95PC C46EC (string): 'B=%02.2d',
+114968,str_02d_PaletteViewerLabel,asc_114968,new,high,"string ""%02d""",src/data/lib/ea/ea_debug_02_data_01.asm
 114970,str_SCREEN2,,95PC,high,NHL95PC C4700 (string): 'SCREEN??.*',
+11497C,str_Tga,asc_11497C,new,high,"string "".tga""",src/data/lib/ea/ea_debug_02_data_01.asm
+114984,str_02d3s02d_FormatDateTime,asc_114984,new,high,"string ""%02d-%3s-%02d""",src/data/lib/ea/ea_debug_02_data_01.asm
 114994,str_2d02d02d,asc_114994,95PC,high,string '%2d:%02d:%02d',src/data/lib/ea/ea_debug_02_data_01.asm
 1149A4,str_Unpackf,,95PC,high,NHL95PC C48FC (string): 'unpackf',
 1149AC,str_Targa,asc_1149AC,new,high,string 'Targa',src/data/lib/ea/ea_debug_02_data_01.asm
@@ -4300,7 +4442,10 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 114CC1,str_GRIP,asc_114CC1,new,high,string 'GRIP',src/data/front/front_10010_data_01.asm
 114CC6,str_CGRIP,asc_114CC6,new,high,string 'C:\GRIP\',src/data/front/front_10010_data_01.asm
 114CCF,GripLinked,dword_114CCF,new,low,Gravis GrIP library linked,src/data/front/front_10010_data_01.asm
+114D12,str_Punct_ModemGameOpen,dword_114D12,new,high,"string ""\t""",src/data/front/front_10010_data_01.asm
 114DB6,str_Punct_ModemSettingsScreen,dword_114DB6,new,low,"string "" """,src/data/front/front_10010_data_01.asm
+114DDC,str_Punct_DrawGameStats,word_114DDC,new,high,"string ""~""",src/data/front/front_1456D_data_02.asm
+114DF4,str_Z_AnimateStarsScreen,dword_114DF4,new,high,"string ""Z""",src/data/front/front_1456D_data_02.asm
 114F04,InputRecordTicks,dword_114F04,new,high,"ticks since last record, capped 0x3E8",
 114F08,GameLoopActive,dword_114F08,new,medium,1 while the in-game loop runs,
 114F0C,InputRecordBusy,word_114F0C,new,high,re-entry guard of the timer,
@@ -4310,9 +4455,12 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 114F24,ModemResultCodeTable,off_114F24,new,low,modem result code string table,src/data/front/front_1456D_data_02.asm
 115000,ModemResultCount,dword_115000,new,low,number of modem result codes,src/data/front/front_1456D_data_02.asm
 115004,ModemLastResult,dword_115004,new,low,last modem result code,src/data/front/front_1456D_data_02.asm
+115010,str_Punct_LinkOpen,dword_115010,new,high,"string ""\t""",src/data/front/front_1456D_data_02.asm
 11506C,str_ctl06,dword_11506C,95PC,high,string ' ',src/data/front/front_1456D_data_02.asm
 115070,str_22,dword_115070,new,high,string '2',src/data/front/front_1456D_data_02.asm
+115074,str_D_LinkCopyBytes,dword_115074,new,high,"string ""d""",src/data/front/front_1456D_data_02.asm
 115078,str_newline,dword_115078,95PC,high,string ' ',src/data/front/front_1456D_data_02.asm
+115084,str_Punct_LinkTimerTick,byte_115084,new,high,"string "":""",src/data/front/front_1456D_data_02.asm
 11509C,str_0123456789abcdefghijklmn,asc_11509C,new,high,string '0123456789abcdefghijklmnopqrstuvwxyz ',src/data/front/main_data_02.asm
 1150E4,AsyncQueueTail,dword_1150E4,new,low,last request in the async queue,src/data/front/main_data_02.asm
 1150E8,StreamBlockSize,dword_1150E8,new,low,stream block size,src/data/front/main_data_02.asm
@@ -4329,14 +4477,19 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 117487,str_CARTEAMS,unk_117487,95PC,high,string 'CARTEAMS',src/data/front/main_data_02.asm
 117490,str_TEAMS3,unk_117490,95PC,high,string 'TEAMS',src/data/front/main_data_02.asm
 117496,str_SEASON4,unk_117496,95PC,high,string 'SEASON',src/data/front/main_data_02.asm
+11749D,str_SCHEDULE,unk_11749D,new,high,"string ""SCHEDULE""",src/data/front/main_data_02.asm
 1174E0,seasondb,dword_1174E0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
 1174E8,statsfromleague,dword_1174E8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
 1174F0,statsplayoffs,dword_1174F0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+117522,str_Punct_PlayerDbRecord,unk_117522,new,high,"string "" """,src/data/front/main_data_02.asm
+1175BD,str_Punct_DrawIceSurface,unk_1175BD,new,high,"string "".""",src/data/front/rink_model_data_02.asm
 117605,IceSurfaceDef,unk_117605,new,medium,ice surface definition,src/data/front/rink_model_data_02.asm
 11764D,IceGeometryDef,unk_11764D,new,medium,ice geometry definition,src/data/front/rink_model_data_02.asm
 1177F4,UserRecordsTop,dword_1177F4,new,low,user records list top,src/data/front/front_2A692_data_02.asm
 1177F8,UserRecordsFirst,dword_1177F8,new,low,first user record shown,src/data/front/front_2A692_data_02.asm
 1177FC,UserRecordsRow,dword_1177FC,new,low,user records row,src/data/front/front_2A692_data_02.asm
+117800,str_J,dword_117800,new,high,"string ""j""",src/data/front/front_2A692_data_02.asm
+117804,str_V,dword_117804,new,high,"string ""v""",src/data/front/front_2A692_data_02.asm
 11786C,replaystart,off_11786C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 117870,puckx,,95PC,medium,NHL95PC C907C (refset): referenced by the same 6 matched functions,
 117874,puckvx,,95PC,medium,NHL95PC C9080 (refset): referenced by the same 9 matched functions,
@@ -4431,8 +4584,12 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 119204,HotList_y,byte_119204,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
 119CC3,HotStickList,byte_119CC3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
 119CC4,HotStickList_y,byte_119CC4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+119D0A,str_C_DrawOverlayPanels,unk_119D0A,new,high,"string ""C""",src/data/engine/engine_2D9D9_data_01.asm
+119D22,str_Punct_DrawOverlayPanels,unk_119D22,new,high,"string ""$""",src/data/engine/engine_2D9D9_data_01.asm
+119D4E,str_V_DrawOverlayPanels,unk_119D4E,new,high,"string ""V""",src/data/engine/engine_2D9D9_data_01.asm
 119D76,starskatermin,byte_119D76,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119D79,stargoaliemin,byte_119D79,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
+119D9C,str_Q,unk_119D9C,new,high,"string ""q""",src/data/engine/engine_2D9D9_data_01.asm
 119DF7,Endfaceoff_ftab_m1,byte_119DF7,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119DFE,refsigdir,word_119DFE,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119E8A,str_wildcard,dword_119E8A,95PC,high,string '*',src/data/engine/logic_data_01.asm
@@ -4452,9 +4609,14 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11A319,lineslotgroups,byte_11A319,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data_01.asm
 11A3B4,lineslotgroupstart,byte_11A3B4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data_01.asm
 11A3E8,DemoMode,dword_11A3E8,new,medium,1 during the attract demo,
+11A40C,str_Punct_DrawReplayCounter,word_11A40C,new,high,"string ""?""",src/data/engine/lines_data_01.asm
+11B0B0,str_Punct_ReplayScreen,unk_11B0B0,new,high,"string ""\n""",src/data/front/replay_controls_data_02.asm
+11B230,str_0_SaveHighlight,unk_11B230,new,high,"string ""0""",src/data/front/replay_controls_data_02.asm
 11B234,ReplayRemoteShape,dword_11B234,new,low,replay remote shape,src/data/front/replay_controls_data_02.asm
 11B276,ovlstep,word_11B276,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_584A0_data_02.asm
 11B2AC,OverlayPanelQueue,unk_11B2AC,new,low,queued overlay panels,src/data/front/front_584A0_data_02.asm
+11B324,str_D_DrawGameFrame,dword_11B324,new,high,"string ""d""",src/data/front/front_584A0_data_02.asm
+11B338,str_C_CloseTextOverlay,dword_11B338,new,high,"string ""c""",src/data/front/front_5D993_data_02.asm
 11BB28,HexDigits,byte_11BB28,new,low,hex digit characters,src/data/front/front_5D993_data_02.asm
 11D18C,textcolor,dword_11D18C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_data_02.asm
 11D190,textshadow,dword_11D190,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_data_02.asm
@@ -4462,24 +4624,40 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11D1DA,sndcard,dword_11D1DA,new,medium,the sound driver StartSoundCard started (-1: none),src/data/front/front_67000_data_01.asm
 11D1E2,SpeechStreamFile,dword_11D1E2,new,low,speech stream file,src/data/front/front_67000_data_01.asm
 11D1E6,SpeechStreamTimer,dword_11D1E6,new,low,speech stream timer handle (-1 none),src/data/front/front_67000_data_01.asm
+11D23E,str_Z_OpenSpeechBanks,dword_11D23E,new,high,"string ""Z""",src/data/front/front_67000_data_01.asm
+11D376,str_Punct_OpenSpeechBanks,dword_11D376,new,high,"string ""[""",src/data/front/front_67000_data_01.asm
 11D37A,speechq,dword_11D37A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
 11D38E,speechinit,dword_11D38E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
 11D3A2,lastsfx,word_11D3A2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
 11D3C8,DirPathTable,dword_11D3C8,new,low,directory path table,src/data/front/front_67000_data_01.asm
 11D3DC,LogoNames,off_11D3DC,new,low,team logo names,src/data/front/front_67000_data_01.asm
 11D7A0,InGameMenuRequest,dword_11D7A0,new,medium,"1 pause menu, 2 replay menu, 3 other",
+11D7D4,str_Punct_InGameMenu,unk_11D7D4,new,high,"string ""\t""",src/data/front/front_77642_data_02.asm
+11D804,str_N_InGameMenu,unk_11D804,new,high,"string ""N""",src/data/front/front_77642_data_02.asm
+11D80A,str_F_InGameMenu,unk_11D80A,new,high,"string ""F""",src/data/front/front_77642_data_02.asm
 11D950,str_dbgO,dword_11D950,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
 11D968,str_feO,word_11D968,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
+11DE50,str_Punct_ControllerScreen,unk_11DE50,new,high,"string ""~""",src/data/front/front_6E233_data_02.asm
+11DED0,str_G,dword_11DED0,new,high,"string ""g""",src/data/front/front_6E233_data_02.asm
+11DF84,str_Punct_ControlPicksScreen,dword_11DF84,new,high,"string ""[""",src/data/front/front_6E233_data_02.asm
+11DFC8,str_GenericHayesCompatible,asc_11DFC8,new,high,"string ""Generic Hayes-Compatible""",src/data/front/front_741BD_data_02.asm
 11E27C,LinkSetupSlots,dword_11E27C,new,low,link setup slot records,src/data/front/front_741BD_data_02.asm
 11E2B0,TeamSelectDrawn,dword_11E2B0,new,low,set once the team select screen is drawn,src/data/front/front_741BD_data_02.asm
 11E2B8,PanelTeamNameShift,dword_11E2B8,new,low,team name shift on the team panels,src/data/front/front_741BD_data_02.asm
 11E2C0,LangTextHandle,dword_11E2C0,new,low,language text data handle,src/data/front/front_741BD_data_02.asm
 11E2C4,LangTextLoaded,dword_11E2C4,new,low,set once language text is loaded,src/data/front/front_741BD_data_02.asm
 11E2C8,str_LFERROR,asc_11E2C8,new,high,string 'LFERROR!!!',src/data/front/front_741BD_data_02.asm
+11E2D4,str_2_DrawSeasonTeams,dword_11E2D4,new,high,"string ""2""",src/data/front/front_77642_data_03.asm
 11E668,StatsMenuItems,dword_11E668,new,low,stats menu items,src/data/front/front_88E09_data_02.asm
 11E8FC,RatingsGoalieShown,dword_11E8FC,new,low,goalie shown on the ratings page,src/data/front/front_93E6A_data_02.asm
 11E900,RatingsSkaterShown,dword_11E900,new,low,skater shown on the ratings page,src/data/front/front_93E6A_data_02.asm
+11E970,str_B_DrawLinesPanel,dword_11E970,new,high,"string ""B""",src/data/front/front_93E6A_data_02.asm
+11EA60,str_V_DrawLinesPanel,dword_11EA60,new,high,"string ""V""",src/data/front/front_9CFE3_data_02.asm
+11EB50,str_T_DrawLinesPanel,dword_11EB50,new,high,"string ""t""",src/data/front/front_9CFE3_data_02.asm
+11ED7C,str_5_PlayoffSetupScreen,dword_11ED7C,new,high,"string ""5""",src/data/front/front_A17D5_data_02.asm
+11EE94,str_Punct_DrawPlayoffTree,dword_11EE94,new,high,"string ""\r""",src/data/front/playoff_data_02.asm
 11EF8C,PlayoffSparkleSoundOn,dword_11EF8C,new,low,set once the playoff sparkle sound plays,src/data/front/playoff_data_02.asm
+11EF90,str_Punct_PlayoffTreeScreen,unk_11EF90,new,high,"string ""\t""",src/data/front/playoff_data_02.asm
 11F568,mouseminx,dword_11F568,95PC,high,"mouse library: pointer range, left; MouseReadMotion clamps to it (the same code as NHL95PC)",src/data/lib/lib_A8B9B_data_02.asm
 11F56C,mouseminy,dword_11F56C,95PC,high,"mouse library: pointer range, top",src/data/lib/lib_A8B9B_data_02.asm
 11F570,mousemaxx,dword_11F570,95PC,high,"mouse library: pointer range, right (exclusive)",src/data/lib/lib_A8B9B_data_02.asm
@@ -4632,6 +4810,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 122900,BackBufferWidth,dword_122900,new,low,back buffer width,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122904,ModeSetCount,dword_122904,new,low,graphics mode set count,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122B90,str_BK,dword_122B90,new,medium,"string ""BK""",src/data/lib/watcom/watcom_clib_05_data_04.asm
+123934,str_F_PutBlock,dword_123934,new,high,"string ""f""",src/data/lib/watcom/watcom_clib_05_data_04.asm
 123984,__8087,byte_123984,95PC,medium,same code as in the next game,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123985,FpuType,byte_123985,new,low,FPU type found at start up,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123988,ColourRemap,byte_123988,new,medium,"colour remap table, 256 entries",src/data/lib/watcom/watcom_clib_05_data_04.asm
@@ -4721,6 +4900,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 124124,__NHandles,dword_124124,new,low,number of file handles,src/data/lib/watcom/watcom_clib_13_data_02.asm
 124128,__init_mode,unk_124128,new,medium,initial file handle modes,src/data/lib/watcom/watcom_clib_13_data_02.asm
 124178,__io_mode,dword_124178,new,low,file handle mode table pointer,src/data/lib/watcom/watcom_clib_13_data_02.asm
+1241A0,str_G_JoystickCalibrateScreen,dword_1241A0,new,high,"string ""g""",src/data/lib/watcom/watcom_clib_13_data_02.asm
 1241C4,HotkeyScanTable,byte_1241C4,new,low,scan code per registered hotkey,src/data/lib/watcom/watcom_clib_13_data_02.asm
 124244,HotkeyModTable,byte_124244,new,low,shift state per registered hotkey,src/data/lib/video/video_bios_vga_03_data_01.asm
 1242CA,HotkeyNesting,dword_1242CA,new,medium,hotkey dispatch nesting count,src/data/lib/video/video_bios_vga_03_data_01.asm
@@ -4819,6 +4999,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 14FAA8,__EFG_printf,off_14FAA8,new,low,float formatting routine for printf,src/data/lib/sound/snd_soundblaster_data_02.asm
 14FAAC,__EFG_scanf,off_14FAAC,new,low,float parsing routine for scanf,src/data/lib/sound/snd_soundblaster_data_02.asm
 14FAB0,str_SHPI2,,95PC,high,NHL95PC D544C (string): 'SHPI',
+14FACC,str_KK,byte_14FACC,new,high,"string ""KK""",src/data/lib/video/video_bios_vga_03_data_02.asm
 14FAD4,DrawArtRemapFunc,off_14FAD4,new,low,routine used to draw remapped art,src/data/lib/video/video_bios_vga_03_data_02.asm
 14FADC,SavedStackSegment,word_14FADC,new,low,stack segment saved at start up,src/data/lib/video/video_bios_vga_03_data_02.asm
 14FADE,str_StackOverflow,,95PC,high,NHL95PC D2F46 (string): 'Stack Overflow!\r\n',
@@ -4872,6 +5053,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 151396,GusStreamStartHi,word_151396,new,low,high word of the stream voices' start address,src/data/lib/sound/snd_hw_sb_data_01.asm
 151398,GusStreamEndLo,word_151398,new,low,low word of the stream voices' end address,src/data/lib/sound/snd_hw_sb_data_01.asm
 15139A,GusStreamEndHi,word_15139A,new,low,high word of the stream voices' end address,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513D4,str_UU,dword_1513D4,new,high,"string ""UU""",src/data/lib/sound/snd_hw_sb_data_01.asm
 15140C,GusBasePort,word_15140C,new,low,base port of the card; the other port words follow,src/data/lib/sound/snd_hw_sb_data_01.asm
 15140E,GusIrqStatusPort,word_15140E,new,low,card port of the IRQ status register,src/data/lib/sound/snd_hw_sb_data_01.asm
 151414,GusIrqLatchPort,word_151414,new,low,card port of the IRQ latch register,src/data/lib/sound/snd_hw_sb_data_01.asm

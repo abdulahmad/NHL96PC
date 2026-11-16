@@ -12,9 +12,9 @@ global str_S4dw, str_S4dg, str_S1up2, str_S1ug2, str_S1dw2, str_S1dg2, str_S2up2
 global str_S2dw2, str_S2dg2, str_TraD, str_RosterSort, str_LFRE, str_C2dCS, str_SGID, str_SD6
 global str_GOL0, str_NME0, str_NME1, str_NME2, str_NUM0, str_NUM1, str_NUM2, str_SS4
 global str_StatDBPTRs3, str_DBPTRs3, str_Player3, str_FName3, str_LName3, str_Profiles3, str_HeightNWeight3, str_DonrussCards
-global dword_112CDA, dword_112CDE, dword_112CE2, dword_112CE6, dword_112CEA, dword_112CEE, dword_112CF2, dword_112CF6
-global dword_112CFA, dword_112CFE, dword_112D02, dword_112D06, dword_112D0A, dword_112D0E, dword_112D12, dword_112D26
-global qword_112D16, qword_112D1E, str_D12
+global F32_0p001, F32_0p0208333, F32_0p00333333, F32_390, F32_0p005, F32_100, F32_neg50, F32_0p002
+global F32_0p0111111, F32_0p1, F32_0p0142857, F32_0p0333333, F32_58, F32_90, F32_0p01, F32_347
+global F64_0p9, F64_0p1_CreatePlayerRatings, str_D12
 str_DBPTRs2:
         db 044h,042h,050h,054h,052h,073h,00h
 str_Player2:
@@ -162,41 +162,41 @@ str_SS4:
         db 025h,073h,020h,025h,073h,00h
 str_D12:
         db 025h,064h,00h
-dword_112CDA:
+F32_0p001:
         db 06Fh,012h,083h,03Ah
-dword_112CDE:
+F32_0p0208333:
         db 0ABh,0AAh,0AAh,03Ch
-dword_112CE2:
+F32_0p00333333:
         db 0Eh,074h,05Ah,03Bh
-dword_112CE6:
+F32_390:
         db 00h,00h,0C3h,043h
-dword_112CEA:
+F32_0p005:
         db 0Ah,0D7h,0A3h,03Bh
-dword_112CEE:
+F32_100:
         db 00h,00h,0C8h,042h
-dword_112CF2:
+F32_neg50:
         db 00h,00h,048h,0C2h
-dword_112CF6:
+F32_0p002:
         db 06Fh,012h,03h,03Bh
-dword_112CFA:
+F32_0p0111111:
         db 061h,0Bh,036h,03Ch
-dword_112CFE:
+F32_0p1:
         db 0CDh,0CCh,0CCh,03Dh
-dword_112D02:
+F32_0p0142857:
         db 0A1h,0Eh,06Ah,03Ch
-dword_112D06:
+F32_0p0333333:
         db 089h,088h,08h,03Dh
-dword_112D0A:
+F32_58:
         db 00h,00h,068h,042h
-dword_112D0E:
+F32_90:
         db 00h,00h,0B4h,042h
-dword_112D12:
+F32_0p01:
         db 0Ah,0D7h,023h,03Ch
-qword_112D16:
+F64_0p9:
         db 0CDh,0CCh,0CCh,0CCh,0CCh,0CCh,0ECh,03Fh
-qword_112D1E:
+F64_0p1_CreatePlayerRatings:
         db 09Ah,099h,099h,099h,099h,099h,0B9h,03Fh
-dword_112D26:
+F32_347:
         db 00h,080h,0ADh,043h,00h,00h
 str_StatDBPTRs3:
         db 053h,074h,061h,074h,044h,042h,050h,054h,052h,073h,00h

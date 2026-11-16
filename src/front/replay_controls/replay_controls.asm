@@ -22,7 +22,7 @@ extern byte_177C15, byte_177C16, byte_177C7A, byte_177C7C, byte_177DAC, byte_177
 extern byte_178247, byte_178288, byte_17CA5D, crowdlevel, curperiod, dword_1150D4, dword_1150D8, dword_1175B5
 extern dword_1175B9, dword_1176E1, dword_118E89, dword_11A3F8, dword_11A3FC, dword_11A400, dword_11A404, dword_11A408
 extern dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, dword_11B294
-extern dword_11B314, dword_11B318, dword_11B31C, dword_11B320, dword_11B324, dword_11B328, dword_11B32C, dword_11B330
+extern dword_11B314, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330
 extern dword_11B374, dword_11B9F4, dword_11BC24, ModeLinear, dword_11D1A8, dword_11D1AC, dword_11F5C0, dword_11F5C4
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, dword_152FEC, dword_15E4B0, dword_15E4B4, dword_15E4B8
 extern dword_15E4BC, dword_15E4C4, dword_15E8D8, dword_15E8E0, dword_164F1C, dword_164F20, dword_164F24, dword_164FBC
@@ -65,9 +65,9 @@ extern FreeColourLookup, TextPrintAt, SetAaPalLut, DrawArtAaScaledInt, ProjectPo
 extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, BuildPerspTable
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, ClearClipRect, SetViewScreenOrigin
 extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
-extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, exhstate, unk_1774C4, unk_177510, unk_1778C4
+extern unk_11AE70, str_Punct_ReplayScreen, str_0_SaveHighlight, unk_122344, exhstate, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
-extern word_114CE0, word_114CE4, word_119127, word_11A40C, word_11A410, word_11A414, regd0, regd1
+extern word_114CE0, word_114CE4, word_119127, str_Punct_DrawReplayCounter, word_11A410, word_11A414, regd0, regd1
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
 extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
 extern word_177508, word_17750A, word_177CB6, word_177D1C, word_1781FC
@@ -76,7 +76,7 @@ global ReplayCameraUpdate_142, ReplayCameraAim, ReplayScreen_D18, ReplayScreen_D
 global ReplayScreen_FF6, ReplayScreen_10E1, ReplayScreen_1110, ReplayScreen_122D, ReplayScreen_1255, ReplayScreen_161B, StartReplay, EndReplay
 global StepReplay, ReplayCameraMatrix, DrawReplayObjects, DrawReplayShadows, DrawReplayPlayers, DrawReplayCounter, DrawReplayClock, DrawReplayView
 global SetReplayCamera, ClipLineAtFloor, ReplayFreeCamera, FindPlayerAtMouse, ReplayCameraUpdate, ReplayFrame, PickReplayPlayer, ReplayScreen
-global RunReplay, SaveHighlight, ReadHighlight, WatchHighlight, HighlightsMenu, ReplayCameraJumpTable, unk_58468, unk_5848C
+global RunReplay, SaveHighlight, ReadHighlight, WatchHighlight, HighlightsMenu, ReplayCameraJumpTable, str_T_DrawOverlayCaption, unk_5848C
 ;-----------------------------------------------------------------------------
 ; StartReplay                                  54519  96 PC, medium confidence
 ; Into the replay: stops the arena clip and speech, frees the fight sprites,
@@ -175,7 +175,7 @@ StartReplay:
         push byte 0
         add eax, edx
         push dword [dword_11B314]
-        mov dword [dword_11B324], eax
+        mov dword [str_D_DrawGameFrame], eax
         call SetCameraAngles
         add esp, byte 10h
         call BuildPerspTable
@@ -1380,7 +1380,7 @@ DrawReplayCounter:
         mov eax, dword [dword_17CA5C]
         shl eax, 12h
         shr eax, 1Fh
-        movsx eax, word [nosplit eax*2+word_11A40C]
+        movsx eax, word [nosplit eax*2+str_Punct_DrawReplayCounter]
         push edx
         dec eax
         dec eax
@@ -1395,7 +1395,7 @@ DrawReplayCounter:
         cdq
         idiv edi
         add esp, byte 14h
-        movsx edi, word [dword ebx+word_11A40C]
+        movsx edi, word [dword ebx+str_Punct_DrawReplayCounter]
         push byte 7Dh
         add edi, eax
         test byte [byte_17CA5D], 20h
@@ -1837,7 +1837,7 @@ ReplayFreeCamera:
         mov eax, dword [dword_1781D8]
         sub eax, dword [dword_11B320]
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_11B324]
+        mov eax, dword [str_D_DrawGameFrame]
         sub eax, dword [dword_1781D4]
         mov dword [byte ebp-08h], eax
         lea eax, [byte ebp-054h]
@@ -2582,7 +2582,7 @@ ReplayScreen:
         je short .7
         mov dword [dword_1781DC], unk_11AB30
         mov dword [byte ebp-020h], unk_11AE70
-        mov dword [byte ebp-018h], unk_11B0B0
+        mov dword [byte ebp-018h], str_Punct_ReplayScreen
         jmp short .8
 .7:
         mov dword [dword_1781DC], unk_11A430
@@ -3791,7 +3791,7 @@ ReplayScreen_161B:
         push byte 0
         call SetViewRect
         add esp, byte 10h
-        push dword [dword_11B324]
+        push dword [str_D_DrawGameFrame]
         push dword [dword_11B320]
         call MouseRead
         add esp, byte 8
@@ -4016,7 +4016,7 @@ SaveHighlight:
         mov ecx, 1Eh
         push eax
         mov eax, 138h
-        mov ebx, unk_11B230
+        mov ebx, str_0_SaveHighlight
         call GetLangText
         mov edx, eax
         xor eax, eax
@@ -4062,7 +4062,7 @@ SaveHighlight:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, unk_11B230
+        mov ecx, str_0_SaveHighlight
         lea ebx, [byte ebp+062h]
         push byte 0
         mov eax, 73h
@@ -4532,7 +4532,7 @@ HighlightsMenu:
         pop ecx
         pop ebx
         ret
-unk_58468:
+str_T_DrawOverlayCaption:
         db 074h,00h,00h,00h,075h,00h,00h,00h,076h,00h,00h,00h,077h,00h,00h,00h
         db 078h,00h,00h,00h,079h,00h,00h,00h,07Ah,00h,00h,00h,07Bh,00h,00h,00h
         db 019h,00h,00h,00h

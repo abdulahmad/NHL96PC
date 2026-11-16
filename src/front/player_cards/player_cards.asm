@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_903B5 progbits alloc exec nowrite align=1
-extern __CHP, asc_1129CF, asc_1129E6, byte_11E844, byte_11E852, byte_17BDAE, SeasonUserTeam, byte_17D13A
-extern byte_17EBF0, byte_182124, CheckExportName, DrawColorText, DrawColorTextCentred, DrawFrameAt, DrawScrollBar, dword_1129FA
+extern __CHP, asc_1129CF, str_S_ExportPlayerCard, byte_11E844, byte_11E852, byte_17BDAE, SeasonUserTeam, byte_17D13A
+extern byte_17EBF0, byte_182124, CheckExportName, DrawColorText, DrawColorTextCentred, DrawFrameAt, DrawScrollBar, F32_0p5_ScaleBlock
 extern dword_11E670, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B, dword_11E87F, dword_11E883, dword_11E887
 extern dword_11E88B, TeamStatsBitmap, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820A0, dword_1820A4
 extern dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_1820F4, dword_1820F8
@@ -11,8 +11,8 @@ extern dword_1820FC, dword_182100, dword_182104, dword_182108, dword_18210C, dwo
 extern dword_18211C, dword_182120, EditText, FadeOut, FadePalette, fclose_, FillMusicStream, FillRect
 extern fopen_, fprintf_, FreeScrollBar, GetLangText, GetTeamMovieText, GetTicks, HideProgressBox, InitHScrollBar
 extern InitMenuItems, LoadPackedFile, LoadTeamLogo, memcmp_, MessageBox, MusicDone, off_11E6E0, off_11E764
-extern OpenScreen, optflags, PlayMusic, PutBlock, qword_1128CD, qword_1128D5, qword_1129AF, qword_1129B7
-extern qword_1129FE, RunMenu, ScrollBarDown, ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScreenPalette
+extern OpenScreen, optflags, PlayMusic, PutBlock, F64_0p1_SlideCardLeft, F64_0p1_SlideCardRight, F64_2p54_DrawPlayerCardName, F64_0p454545_DrawPlayerCardName
+extern F64_0p1_ScaleBlock, RunMenu, ScrollBarDown, ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScreenPalette
 extern SetScrollBarPos, SetTextColors, SetTickDeadline, ShowProgressBox, SlideInSideBar, SoundSecondsToBytes, sprintf_, str_002
 extern str_9394, str_9495, str_AR004, str_AR014, str_AR104, str_AR114, str_Ard2, str_Bkgd17
 extern str_Card2, str_CMP0, str_CMP1, str_CMP2, str_CRD0, str_CRD1, str_CRD2, str_DD6
@@ -24,7 +24,7 @@ extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, Sta
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, DrawArt
 extern PutBlockAtOwnPos, BlitShapeAt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
 extern DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, PutBlockKeyed, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed
-extern unk_1129C2, unk_1129E4, unk_1129F7, str_WesternConference2, UpdateProgressBox
+extern str_Punct_ExportPlayerCard, unk_1129E4, unk_1129F7, str_WesternConference2, UpdateProgressBox
 global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
 global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
 global DrawPlayerCardStats_1C4, DrawPlayerCardStats_1DE, DrawPlayerCardStats_1E4, DrawPlayerCardStats_217, DrawPlayerCardStats_21D, DrawPlayerCardStats_223, DrawPlayerCardStats_229, DrawPlayerCardStats_22F
@@ -406,7 +406,7 @@ SlideCardLeft:
         jne short .4
 .3:
         fild dword [byte ebp-04h]
-        fmul qword [qword_1128CD]
+        fmul qword [F64_0p1_SlideCardLeft]
         push byte 1
         mov edx, esi
         push byte 1
@@ -415,14 +415,14 @@ SlideCardLeft:
         cmp dword [dword_11E88B], byte 0
         je short .5
         fild dword [byte ebp-04h]
-        fmul qword [qword_1128CD]
+        fmul qword [F64_0p1_SlideCardLeft]
         push byte 33h
         mov edx, esi
         push byte 7
         jmp short .6
 .5:
         fild dword [byte ebp-04h]
-        fmul qword [qword_1128CD]
+        fmul qword [F64_0p1_SlideCardLeft]
         push byte 51h
         mov edx, esi
         push byte 0FFFFFFE9h
@@ -501,7 +501,7 @@ SlideCardRight:
 .3:
         fild dword [byte ebp-04h]
         push byte 1
-        fmul qword [qword_1128D5]
+        fmul qword [F64_0p1_SlideCardRight]
         push byte 1
         jmp short .6
 .4:
@@ -509,13 +509,13 @@ SlideCardRight:
         je short .5
         fild dword [byte ebp-04h]
         push byte 33h
-        fmul qword [qword_1128D5]
+        fmul qword [F64_0p1_SlideCardRight]
         push byte 7
         jmp short .6
 .5:
         fild dword [byte ebp-04h]
         push byte 51h
-        fmul qword [qword_1128D5]
+        fmul qword [F64_0p1_SlideCardRight]
         push byte 0FFFFFFE9h
 .6:
         mov edx, esi
@@ -3145,7 +3145,7 @@ DrawPlayerCardName:
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax
         fild word [byte ebp-04h]
-        fmul qword [qword_1129AF]
+        fmul qword [F64_2p54_DrawPlayerCardName]
         call __CHP
         fistp dword [byte ebp-0Ch]
         mov eax, dword [byte ebp-0Ch]
@@ -3184,7 +3184,7 @@ DrawPlayerCardName:
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax
         fild word [byte ebp-04h]
-        fmul qword [qword_1129B7]
+        fmul qword [F64_0p454545_DrawPlayerCardName]
         call __CHP
         fistp dword [byte ebp-010h]
         push dword [byte ebp-010h]
@@ -3371,7 +3371,7 @@ ExportPlayerCard:
         push edi
         call fprintf_
         add esp, byte 0Ch
-        push unk_1129C2
+        push str_Punct_ExportPlayerCard
         jmp short .3
 .2:
         push byte_17D13A
@@ -3381,7 +3381,7 @@ ExportPlayerCard:
         push edi
         call fprintf_
         add esp, byte 0Ch
-        push unk_1129C2
+        push str_Punct_ExportPlayerCard
 .3:
         push edi
         call fprintf_
@@ -3503,7 +3503,7 @@ ExportPlayerCard:
         mov eax, 13Ah
         call GetLangText
         push eax
-        push asc_1129E6
+        push str_S_ExportPlayerCard
         lea eax, [byte ebp-044h]
         push eax
         call sprintf_
@@ -3644,7 +3644,7 @@ ExportPlayerCard_33C:
         mov eax, 13Bh
         call GetLangText
         push eax
-        push asc_1129E6
+        push str_S_ExportPlayerCard
         lea eax, [byte ebp-044h]
         push eax
         call sprintf_
@@ -3780,7 +3780,7 @@ ExportPlayerCard_4B6:
         add edi, byte 4
         cmp dword [byte ebp-0Ch], byte 0Bh
         jl near ExportPlayerCard_33C.30
-        push unk_1129C2
+        push str_Punct_ExportPlayerCard
         push esi
         xor ebx, ebx
         xor edx, edx
@@ -3790,7 +3790,7 @@ ExportPlayerCard_4B6:
         mov eax, dword [dword edx+dword_11E85B]
         call GetLangText
         push eax
-        push asc_1129E6
+        push str_S_ExportPlayerCard
         push esi
         mov ecx, edx
         xor edi, edi
@@ -3901,7 +3901,7 @@ ExportPlayerCard_4B6:
         mov eax, 13Ah
         call GetLangText
         push eax
-        push asc_1129E6
+        push str_S_ExportPlayerCard
         lea eax, [byte ebp-044h]
         push eax
         call sprintf_
@@ -4032,7 +4032,7 @@ ExportPlayerCard_74D:
         mov eax, 13Bh
         call GetLangText
         push eax
-        push asc_1129E6
+        push str_S_ExportPlayerCard
         lea eax, [byte ebp-044h]
         push eax
         call sprintf_
@@ -4158,7 +4158,7 @@ ExportPlayerCard_8AB:
         add edi, byte 4
         cmp ecx, byte 0Ah
         jl near ExportPlayerCard_74D.64
-        push unk_1129C2
+        push str_Punct_ExportPlayerCard
         push esi
         xor ebx, ebx
         xor edi, edi
@@ -4168,7 +4168,7 @@ ExportPlayerCard_8AB:
         mov eax, dword [dword edi+dword_11E7E0]
         call GetLangText
         push eax
-        push asc_1129E6
+        push str_S_ExportPlayerCard
         push esi
         mov ecx, edi
         xor edx, edx
@@ -4245,7 +4245,7 @@ ScaleBlock:
         fmul st1
         fsubp st2
         fxch
-        fmul dword [dword_1129FA]
+        fmul dword [F32_0p5_ScaleBlock]
         mov dword [byte ebp-04h], 0
         mov edi, eax
         fild dword [byte ebp+01Ch]
@@ -4253,7 +4253,7 @@ ScaleBlock:
         add esp, byte 0Ch
         call __CHP
         fistp dword [byte ebp-08h]
-        fcomp qword [qword_1129FE]
+        fcomp qword [F64_0p1_ScaleBlock]
         fnstsw ax
         sahf
         jb short .2

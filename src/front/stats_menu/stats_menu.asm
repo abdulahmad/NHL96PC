@@ -16,7 +16,7 @@ extern dword_17E3DC, dword_17E3E0, dword_17E8FC, dword_17EA50, dword_17EA54, dwo
 extern dword_1820A8, dword_1820AC, dword_1820B0, dword_1820B4, dword_1820B8, dword_1820E4, dword_1820E8, dword_1820EC
 extern EditText, FadeOut, FadePalette, fclose_, FillBox, fopen_, fprintf_, FreeScrollBar
 extern GetLangText, HideProgressBox, InitHScrollBar, InitMenuItems, InitVScrollBar, LoadModemStats, LoadPackedFile, LoadPlayoffStats
-extern LoadSeasonStats, MessageBox, OpenScreen, PlayerStatsScreen, PlayMovieFile, PutBlock, qsort_, qword_11266E
+extern LoadSeasonStats, MessageBox, OpenScreen, PlayerStatsScreen, PlayMovieFile, PutBlock, qsort_, F64_0p1
 extern RunMenu, ScrollBarDown, ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScrollBarPos, SetTextColors
 extern SetTickDeadline, ShowProgressBox, SlideInSideBar, sprintf_, str_000, str_03d, str_10002, str_ALL
 extern str_AR002, str_AR012, str_AR102, str_AR112, str_AR20, str_AR21, str_AR30, str_AR31
@@ -28,16 +28,16 @@ extern str_PRN0, str_PRN1, str_PRN2, str_ROK, str_S2, str_SavetimeOut, str_SD2, 
 extern str_SEA2, str_SEA3, str_Space2, str_spDDDD, str_TEA0, str_TEA1, str_TEA2, str_TXT
 extern str_VBAL, str_VERT, str_WES, str_WES0, str_Wt2, strcat_, strcmp_, strlen_
 extern PlayerCardScreen, PlayerRatingsScreen, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
-extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtKeyed, SetScreenTarget, FillRectColor, FindShape, TickDeadlinePassed, unk_112633
-extern unk_11263E, unk_11266B, UpdateProgressBox, word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900
+extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtKeyed, SetScreenTarget, FillRectColor, FindShape, TickDeadlinePassed, str_Punct_ExportTeamStats
+extern unk_11263E, str_Punct_DumpSaveTimes, UpdateProgressBox, word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900
 extern word_17E934, word_17E968, word_17E99C
 global unk_884BD, jpt_884F1, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
-global RunStatsMenu_1AD, PlayTeamMovie, GetTeamMovieText, unk_88767, unk_888E7, unk_88917, CompareTeamStatRows, AnimateTeamStatsButton
+global RunStatsMenu_1AD, PlayTeamMovie, GetTeamMovieText, str_U, unk_888E7, unk_88917, CompareTeamStatRows, AnimateTeamStatsButton
 global AnimateTeamStatsButtons, jpt_88DE1, jpt_88DF9, TeamStatsScreen, TeamStatsScreen_8FE, TeamStatsScreen_916, TeamStatsScreen_92E, TeamStatsScreen_946
 global TeamStatsScreen_957, TeamStatsScreen_96F, TeamStatsScreen_132A, TeamStatsScreen_134F, TeamStatsScreen_136C, TeamStatsScreen_1380, DrawTeamStatsTable, jpt_8A844
 global CopyTeamStatName, CopyTeamStatName_82, CopyTeamStatName_89, CopyTeamStatName_90, CopyTeamStatName_97, FindTeamStatRow, jpt_8A9A0, ExportTeamStats
 global ExportTeamStats_117, ExportTeamStats_11E, ExportTeamStats_125, ExportTeamStats_12C, BuildTeamStatTables, BuildTeamStatTables_265, BuildTeamStatTables_266, DumpSaveTimes
-global CheckExportName, unk_8B87F, unk_8BD9F, unk_8BF1F
+global CheckExportName, unk_8B87F, str_U_PlayerStatsScreen, unk_8BF1F
 unk_884BD:
         db 00h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,01h,00h,0FFh,0FFh,02h,00h,0FFh,0FFh
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,03h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
@@ -259,7 +259,7 @@ GetTeamMovieText:
         pop ecx
         pop ebx
         ret
-unk_88767:
+str_U:
         db 075h,00h,00h,00h,067h,00h,00h,00h,0F7h,00h,00h,00h,067h,00h,00h,00h
         db 0F7h,00h,00h,00h,082h,00h,00h,00h,075h,00h,00h,00h,082h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -633,7 +633,7 @@ TeamStatsScreen:
         mov dword [byte ebp+01Ah], 1Ah
         mov ecx, 60h
         lea edi, [dword ebp-062Eh]
-        mov esi, unk_88767
+        mov esi, str_U
         mov dword [byte ebp+016h], 1
         mov dword [byte ebp+012h], 3
         rep movsd
@@ -2730,7 +2730,7 @@ ExportTeamStats_12C:
         add ecx, byte 4
         cmp ecx, byte 40h
         jne short .10
-        push unk_112633
+        push str_Punct_ExportTeamStats
         push esi
         xor ecx, ecx
         call fprintf_
@@ -2933,7 +2933,7 @@ ExportTeamStats_12C:
         add dword [byte ebp-0Ch], byte 4
         cmp dword [byte ebp-08h], byte 0Ch
         jl near .20
-        push unk_112633
+        push str_Punct_ExportTeamStats
         push esi
         call fprintf_
         add esp, byte 8
@@ -2952,7 +2952,7 @@ ExportTeamStats_12C:
         add esp, byte 8
         cmp ebx, 0B8h
         jle short .31
-        push unk_112633
+        push str_Punct_ExportTeamStats
         push esi
         call fprintf_
         add esp, byte 8
@@ -3384,7 +3384,7 @@ DumpSaveTimes:
 .17:
         fld dword [byte ebp+076h]
         fld st0
-        fadd qword [qword_11266E]
+        fadd qword [F64_0p1]
         fstp st1
         fstp dword [byte ebp+076h]
 .18:
@@ -3473,7 +3473,7 @@ DumpSaveTimes:
 .26:
         fld dword [byte ebp+066h]
         fld st0
-        fadd qword [qword_11266E]
+        fadd qword [F64_0p1]
         fstp st1
         fstp dword [byte ebp+066h]
 .27:
@@ -3562,7 +3562,7 @@ DumpSaveTimes:
 .35:
         fld dword [byte ebp+062h]
         fld st0
-        fadd qword [qword_11266E]
+        fadd qword [F64_0p1]
         fstp st1
         fstp dword [byte ebp+062h]
 .36:
@@ -3652,7 +3652,7 @@ DumpSaveTimes:
 .44:
         fld dword [byte ebp+05Ah]
         fld st0
-        fadd qword [qword_11266E]
+        fadd qword [F64_0p1]
         fstp st1
         fstp dword [byte ebp+05Ah]
 .45:
@@ -3710,7 +3710,7 @@ DumpSaveTimes:
 .49:
         cmp ebx, dword [byte ebp-06h]
         jl short .48
-        push unk_11266B
+        push str_Punct_DumpSaveTimes
         push edx
         call fprintf_
         add esp, byte 8
@@ -3894,7 +3894,7 @@ unk_8B87F:
         db 04Ah,07h,04Eh,050h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 04Bh,0Bh,04Fh,051h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 04Ch,0Bh,050h,0Eh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_8BD9F:
+str_U_PlayerStatsScreen:
         db 075h,00h,00h,00h,067h,00h,00h,00h,0F7h,00h,00h,00h,067h,00h,00h,00h
         db 0F7h,00h,00h,00h,082h,00h,00h,00h,075h,00h,00h,00h,082h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

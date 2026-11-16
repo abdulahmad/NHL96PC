@@ -4,7 +4,7 @@ bits 32
 section s_AC9F0 progbits alloc exec nowrite align=1
 extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, byte_11F9D8, DebugBackColor
 extern byte_11F9DA, DebugMode, dword_11F9D0, DebugLineWidth, dword_11F9DC, fclose_, fopen_, DebugLog
-extern FindWildcardDigits, FormatDateStamp, bcopy, ZeroMem, unk_113444, vsprintf_
+extern FindWildcardDigits, FormatDateStamp, bcopy, ZeroMem, str_Wt, vsprintf_
 global DebugPrintf, DebugShowLines_D5, DebugShowLines_E6, DebugShowLines_124, DebugShowLines_140, DebugShowLines_149, DebugSetLine, DebugShowLines
 global DebugScrollUp, DebugClearScreen, DebugSetRow, DebugSetAttr, unk_ACABC
 ;-----------------------------------------------------------------------------
@@ -386,7 +386,7 @@ DebugSetAttr:
 .6:
         pop edi
         mov eax, esp
-        mov edx, unk_113444
+        mov edx, str_Wt
         call FindWildcardDigits
         mov eax, esp
         call fopen_

@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_1136C4 progbits alloc noexec write align=1
-global asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, asc_1137B0
-global asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR
-asc_1136C4:
+global str_InitmemmanDOSSUBMEMORYNOTALL, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, str_OpenblockhandleSNOHANDLESLEF, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, str_CdromcheckCDROMSTATUSNOTRETU
+global str_CdromreadREADGREATERTHANMAXR, str_CdromreadREADSTATUSERRORX, str_CdromseekSEEKSTATUSX, str_CdromdirectoryentryERROR
+str_InitmemmanDOSSUBMEMORYNOTALL:
         db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,020h,02Dh,020h,044h,04Fh,053h
         db 020h,053h,055h,042h,020h,04Dh,045h,04Dh,04Fh,052h,059h,020h,04Eh,04Fh,054h,020h
         db 041h,04Ch,04Ch,04Fh,043h,041h,054h,045h,044h,020h,025h,078h,020h,052h,045h,051h
@@ -16,7 +16,7 @@ str_InitmemmanDOSSUBMEMORYNO:
         db 052h,045h,04Ch,045h,041h,053h,045h,044h,0Ah,00h,00h,00h
 str_AAPLUT:
         db 041h,041h,050h,04Ch,055h,054h,00h,00h
-asc_113740:
+str_OpenblockhandleSNOHANDLESLEF:
         db 06Fh,070h,065h,06Eh,062h,06Ch,06Fh,063h,06Bh,068h,061h,06Eh,064h,06Ch,065h,020h
         db 02Dh,020h,025h,073h,020h,04Eh,04Fh,020h,048h,041h,04Eh,044h,04Ch,045h,053h,020h
         db 04Ch,045h,046h,054h,0Ah,00h,069h,06Eh
@@ -28,20 +28,20 @@ str_CDROMDATA:
         db 043h,044h,052h,04Fh,04Dh,020h,044h,041h,054h,041h,00h,04Fh
 str_CDROMBUFFER:
         db 043h,044h,052h,04Fh,04Dh,020h,042h,055h,046h,046h,045h,052h,00h,076h,06Fh,069h
-asc_1137B0:
+str_CdromcheckCDROMSTATUSNOTRETU:
         db 063h,064h,072h,06Fh,06Dh,063h,068h,065h,063h,06Bh,020h,02Dh,020h,043h,044h,052h
         db 04Fh,04Dh,020h,053h,054h,041h,054h,055h,053h,020h,04Eh,04Fh,054h,020h,052h,045h
         db 054h,055h,052h,04Eh,045h,044h,020h,0Ah,00h,069h,06Eh,074h
-asc_1137DC:
+str_CdromreadREADGREATERTHANMAXR:
         db 063h,064h,072h,06Fh,06Dh,072h,065h,061h,064h,020h,02Dh,020h,052h,045h,041h,044h
         db 020h,047h,052h,045h,041h,054h,045h,052h,020h,054h,048h,041h,04Eh,020h,04Dh,041h
         db 058h,052h,045h,041h,044h,053h,045h,043h,054h,04Fh,052h,053h,020h,025h,064h,0Ah
         db 00h,02Ah,06Dh,061h
-asc_113810:
+str_CdromreadREADSTATUSERRORX:
         db 063h,064h,072h,06Fh,06Dh,072h,065h,061h,064h,020h,02Dh,020h,052h,045h,041h,044h
         db 020h,053h,054h,041h,054h,055h,053h,020h,045h,052h,052h,04Fh,052h,03Dh,025h,078h
         db 0Ah,00h,063h,064h
-asc_113834:
+str_CdromseekSEEKSTATUSX:
         db 063h,064h,072h,06Fh,06Dh,073h,065h,065h,06Bh,020h,02Dh,020h,053h,045h,045h,04Bh
         db 020h,053h,054h,041h,054h,055h,053h,020h,03Dh,025h,078h,0Ah,00h,052h,04Fh,04Dh
 str_CdromdirectoryentryERROR:

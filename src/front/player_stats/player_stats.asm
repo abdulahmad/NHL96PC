@@ -29,7 +29,7 @@ extern dword_18210C, EditText, FadeOut, FadePalette, fclose_, FillBox, FillMusic
 extern fprintf_, FreeScrollBar, gameopts, GetLangText, GetTicks, HideProgressBox, InitHScrollBar, InitMenuItems
 extern InitVScrollBar, LinkSync, LinkSyncWithMessage, LoadExhibitionStats, LoadModemStats, LoadPlayoffStats, LoadSeasonStats, MessageBox
 extern ModemChat, MusicDone, LogoNames, off_11E6E0, OpenScreen, optflags, PlayMusic, PutBlock
-extern qsort_, qword_11281C, qword_112824, qword_11283C, qword_112844, RunMenu, ScrollBarDown, ScrollBarPageDown
+extern qsort_, F64_0p454545, F64_2p54, F64_2p54_ExportPlayerStats, F64_0p454545_ExportPlayerStats, RunMenu, ScrollBarDown, ScrollBarPageDown
 extern ScrollBarPageUp, ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScrollBarPos, SetTextColors, SetTickDeadline
 extern ShowProgressBox, SlideInBottomBar, SlideInSideBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_03d2, str_10003
 extern str_ALL0, str_AR003, str_AR013, str_AR103, str_AR113, str_AR202, str_AR212, str_AR302
@@ -42,8 +42,8 @@ extern str_SEA02, str_Shot, str_SLDH, str_SLDV, str_Space, str_StatDBPTRs, str_S
 extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRecord, StatsDb5Record
 extern StatsDb1Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, DrawArtKeyed, SetScreenTarget, FindShape, TextSetFont, TickDeadlinePassed
-extern unk_11282F, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
-extern unk_1802C0, unk_8B87F, unk_8BD9F, unk_8BF1F, UpdateProgressBox, word_114CE0, hmscore, word_181EB4
+extern str_Punct_ExportPlayerStats, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
+extern unk_1802C0, unk_8B87F, str_U_PlayerStatsScreen, unk_8BF1F, UpdateProgressBox, word_114CE0, hmscore, word_181EB4
 extern word_181EB6, word_181EB8, word_181EBA, word_181EBC, word_181EBE, word_181EC0, word_181EC2, word_181EC4
 extern word_181EC6, word_181EC8
 global AnimatePlayerStatsButton, AnimatePlayerStatsButtons, ComparePlayerNames, ComparePlayerStatRows, ShowPlayerStatsTitle, jpt_8C4AB, jpt_8C4BB, jpt_8C4CB
@@ -575,7 +575,7 @@ PlayerStatsScreen:
         rep movsd
         mov ecx, 60h
         lea edi, [dword ebp-046Eh]
-        mov esi, unk_8BD9F
+        mov esi, str_U_PlayerStatsScreen
         rep movsd
         mov dword [byte ebp+036h], 0FFFFFFFFh
         mov ecx, 8
@@ -3574,7 +3574,7 @@ DrawPlayerStatsTable:
         movzx ax, byte [eax]
         mov dword [byte ebp+06Eh], eax
         fild word [byte ebp+06Eh]
-        fmul qword [qword_112824]
+        fmul qword [F64_2p54]
         call __CHP
         fistp dword [byte ebp+026h]
         mov eax, dword [byte ebp+026h]
@@ -3616,7 +3616,7 @@ DrawPlayerStatsTable:
         movzx ax, byte [eax]
         mov dword [byte ebp+06Eh], eax
         fild word [byte ebp+06Eh]
-        fmul qword [qword_11281C]
+        fmul qword [F64_0p454545]
         call __CHP
         fistp dword [byte ebp+02Ah]
         push dword [byte ebp+02Ah]
@@ -3651,7 +3651,7 @@ DrawPlayerStatsTable:
         movzx ax, byte [eax]
         mov dword [byte ebp+06Eh], eax
         fild word [byte ebp+06Eh]
-        fmul qword [qword_112824]
+        fmul qword [F64_2p54]
         call __CHP
         fistp dword [byte ebp+02Eh]
         mov eax, dword [byte ebp+02Eh]
@@ -3673,7 +3673,7 @@ DrawPlayerStatsTable:
         movzx ax, byte [eax]
         mov dword [byte ebp+06Eh], eax
         fild word [byte ebp+06Eh]
-        fmul qword [qword_11281C]
+        fmul qword [F64_0p454545]
         call __CHP
         fistp dword [byte ebp+022h]
         push dword [byte ebp+022h]
@@ -3980,7 +3980,7 @@ ExportPlayerStats:
         push ebx
         call fprintf_
         add esp, byte 8
-        push unk_11282F
+        push str_Punct_ExportPlayerStats
         jmp short .2
 .1:
         cmp dword [byte ebp+014h], 3E8h
@@ -4149,7 +4149,7 @@ ExportPlayerStats_17F:
         cmp ebx, byte 30h
         jne short .18
 .21:
-        push unk_11282F
+        push str_Punct_ExportPlayerStats
         push ecx
         mov dword [byte ebp-010h], 0
         mov ebx, dword [byte ebp-054h]
@@ -4363,7 +4363,7 @@ ExportPlayerStats_17F:
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax
         fild word [byte ebp-04h]
-        fmul qword [qword_112844]
+        fmul qword [F64_0p454545_ExportPlayerStats]
         call __CHP
         fistp dword [byte ebp-024h]
         push dword [byte ebp-024h]
@@ -4399,7 +4399,7 @@ ExportPlayerStats_17F:
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax
         fild word [byte ebp-04h]
-        fmul qword [qword_11283C]
+        fmul qword [F64_2p54_ExportPlayerStats]
         call __CHP
         fistp dword [byte ebp-020h]
         mov eax, dword [byte ebp-020h]
@@ -4569,7 +4569,7 @@ ExportPlayerStats_17F:
         add edi, byte 4
         cmp dword [byte ebp-0Ch], byte 0Ah
         jl near .49
-        push unk_11282F
+        push str_Punct_ExportPlayerStats
         push ecx
         inc dword [byte ebp-010h]
         add ebx, byte 4

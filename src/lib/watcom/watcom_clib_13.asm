@@ -4,11 +4,11 @@ bits 32
 section s_C4EA1 progbits alloc exec nowrite align=1
 extern FatalError, InstallTimer, SetDrawBitmap, _IsTable, __CHK, __ExpandDGROUP_, __flush_, __int386x_
 extern __ioalloc_, __prtf_, __set_doserrno_, __set_errno_, _nfree_, _nmalloc_, _searchenv_, abs_
-extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, asc_113F2C, str_PressJoystickButtonWhenC, str_KEYBOARDON, asc_113F74, asc_113F7C, asc_113F88
-extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, asc_114030, str_LocatebigsFILENOTFOUNDS, asc_11407C, asc_1140A0, str_OriapplymorphObjectCanno, RemapTable
+extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, str_BelowToAllSquares, str_PressJoystickButtonWhenC, str_KEYBOARDON, str_PATH_InitSystem, str_DOS4GWEXE, str_CS_InitSystem
+extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, str_LocatebigFILEISNOTAUNITFILE, str_LocatebigsFILENOTFOUNDS, str_OriinitmorphObjectCannotMorp, str_OriapplymorphObjectCannotMor, str_OriapplymorphObjectCanno, RemapTable
 extern _Extender, _ExtenderSubtype, _osmajor, __HeapFlags, dword_11F5A0, MousePresent, dword_11F5C0, dword_11F5C4
 extern dword_11F5C8, HeapList, MemPoolBase, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw
-extern DrawDestBuffer, dword_1228FC, DosErrnoTable, __NHandles, __io_mode, dword_12417C, dword_1241A0, CMainEnv
+extern DrawDestBuffer, dword_1228FC, DosErrnoTable, __NHandles, __io_mode, dword_12417C, str_G_JoystickCalibrateScreen, CMainEnv
 extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, BlitToScreenWindow, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
@@ -785,7 +785,7 @@ JoystickCalibrateScreen:
         idiv ebx
         add esp, byte 8
         push eax
-        push asc_113F2C
+        push str_BelowToAllSquares
         call DrawTextCentredBoxed
         imul edx, dword [dword_11F5C4], dword 0B9h
         mov ebx, 0C8h
@@ -1001,7 +1001,7 @@ JoystickCalibrateScreen:
         sar edx, 1Fh
         idiv ebx
         mov ecx, dword [dword_11F5C4]
-        mov edx, dword [dword esi+dword_1241A0]
+        mov edx, dword [dword esi+str_G_JoystickCalibrateScreen]
         imul edx, ecx
         mov ebx, 0C8h
         push eax
@@ -1038,7 +1038,7 @@ JoystickCalibrateScreen:
         sar edx, 1Fh
         idiv ebx
         mov ecx, dword [dword_11F5C4]
-        mov edx, dword [nosplit edi*4+dword_1241A0]
+        mov edx, dword [nosplit edi*4+str_G_JoystickCalibrateScreen]
         imul edx, ecx
         mov ebx, 0C8h
         push eax
@@ -1269,16 +1269,16 @@ InitSystem:
         sub esp, 100h
         mov ebx, esp
         xor ah, ah
-        mov edx, asc_113F74
+        mov edx, str_PATH_InitSystem
         mov byte [esp], ah
-        mov eax, asc_113F7C
+        mov eax, str_DOS4GWEXE
         call _searchenv_
         mov dl, byte [esp]
         mov esi, 1
         test dl, dl
         jne short .1
-        push asc_113F7C
-        push asc_113F88
+        push str_DOS4GWEXE
+        push str_CS_InitSystem
         lea eax, [byte esp+08h]
         push eax
         call sprintf_
@@ -1846,7 +1846,7 @@ BigFileType:
 .3:
         test edx, edx
         je short .5
-        push asc_114030
+        push str_LocatebigFILEISNOTAUNITFILE
 .4:
         call FatalError
         add esp, byte 4
@@ -7568,7 +7568,7 @@ OriApplyMorph:
         mov esi, dword [byte edi+018h]
         test ah, 10h
         jne short .1
-        push asc_11407C
+        push str_OriinitmorphObjectCannotMorp
         call FatalError
         add esp, byte 4
 .1:
@@ -7613,7 +7613,7 @@ OriApplyMorph:
         mov edi, dword [byte edi+08h]
         test dl, 10h
         jne short .2
-        push asc_1140A0
+        push str_OriapplymorphObjectCannotMor
         call FatalError
         add esp, byte 4
 .2:

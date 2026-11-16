@@ -32,8 +32,8 @@ extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str
 extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, FreeZamboni
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, SetGameBackdrop, SaveGameFile, LoadModeStats
 extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, FreeColourLookup, SetAaPalLut, SetScreenTarget
-extern FindShape, ClearClipRect, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
-extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, exhstate, unk_17D3E8, unk_18440C
+extern FindShape, ClearClipRect, TextSetFont, unk_11D7A4, unk_11D7BC, str_Punct_InGameMenu, unk_11D7EC, str_N_InGameMenu
+extern str_F_InGameMenu, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, exhstate, unk_17D3E8, unk_18440C
 extern unk_184688, unk_184692, UpdateCamera, word_114CE0, word_114F14, word_11ED34, hmscore, awscore
 global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, jpt_A25B5
 global InGameMenu, InGameMenu_A9C, InGameMenu_ABD, InGameMenu_D17, InGameMenu_F31, InGameMenu_F42, InGameMenu_FA8
@@ -1115,7 +1115,7 @@ InGameMenu:
         call DrawRinkView
         test byte [byte_17CA5D], 20h
         je short .5
-        mov dword [dword_18467C], unk_11D7D4
+        mov dword [dword_18467C], str_Punct_InGameMenu
         mov dword [dword_184680], unk_11D7EC
         mov dword [dword_184670], unk_11D810
         mov ecx, 80h
@@ -1128,11 +1128,11 @@ InGameMenu:
 .5:
         mov dword [dword_18467C], unk_11D7A4
         mov dword [dword_184680], unk_11D7BC
-        mov dword [dword_184670], unk_11D804
+        mov dword [dword_184670], str_N_InGameMenu
         mov ecx, 80h
         mov esi, unk_11D81C
         mov edi, dword [dword_184408]
-        mov dword [dword_184674], unk_11D80A
+        mov dword [dword_184674], str_F_InGameMenu
         rep movsb
         mov dword [dword_184678], 3D70h
 .6:

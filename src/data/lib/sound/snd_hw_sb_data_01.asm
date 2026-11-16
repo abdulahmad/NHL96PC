@@ -9,7 +9,7 @@ global GusStreamVoiceStereo, GusStreamVoiceB, DmaLastHalf, GusEnvVarName, GusOpe
 global GusStreamHalfA, GusStreamBusyA, GusStreamSrcB, GusStreamHalfB, GusStreamBusyB, GusStreamActive, GusStreamBufSize, GusStreamHalfSize
 global GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusStreamCardA, GusStreamCardB, GusStreamCardEnd, GusStreamStartLo
 global dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC, dword_1513B8, dword_1513BC, dword_1513C0
-global dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, off_1513B0, GusStreamLoopLo, GusStreamLoopHi, GusStreamStartHi
+global dword_1513C4, dword_1513C8, dword_1513CC, str_UU, off_1513B0, GusStreamLoopLo, GusStreamLoopHi, GusStreamStartHi
 global GusStreamEndLo, GusStreamEndHi, GusBasePort, GusIrqStatusPort, GusIrqLatchPort, GusDmaLatchPort
 DmaPagePorts:
         db 087h,083h,081h,082h,08Fh,08Bh,089h,08Ah
@@ -110,7 +110,7 @@ dword_1513C8:
         db 00h,00h,00h,00h
 dword_1513CC:
         db 0FFh,0FFh,00h,00h,0AAh,0AAh,00h,00h
-dword_1513D4:
+str_UU:
         db 055h,055h,00h,00h
         dd str_Jan2
         dd str_Feb3

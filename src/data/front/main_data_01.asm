@@ -4,11 +4,11 @@ bits 32
 section s_1102EC progbits alloc noexec write align=1
 global str_NAMEINDEX, str_Temp3, str_Disp, str_BUT, str_BDREG, str_BDMEN, str_D14, str_LNPA
 global str_LNHL, str_LDON, str_LNEW, str_LSTA, str_LEAS, str_CLEARER, str_YouMustFirstUseTheSETUPP, str_HardwareBeforeRunningHOC
-global str_spPressESCToReturnToDOS, asc_1103D8, str_IhreHardwareZuKonfigurie, str_FhiL4, str_FhiR4, str_LOGOPACK, str_Lgo, str_SetasyncspeedSFILEISTOOS
+global str_spPressESCToReturnToDOS, str_Punct_StartUp, str_IhreHardwareZuKonfigurie, str_FhiL4, str_FhiR4, str_LOGOPACK, str_Lgo, str_SetasyncspeedSFILEISTOOS
 global str_SetasyncspeedSFILEISTOOS2, str_ASYNC, str_ASYNCFILE, str_AsyncreaderNOFILESPECIFI, str_AsyncreaderNOFILESPECIFI2, str_AsyncreaderNOFILESPECIFI3, str_GetasyncblockDNOASYNCBLO, str_CDSTREAM
 global str_SetstreamspeedSFILEISTOO, str_STREAM, str_DelstreamSTREAMNOTFOUND, str_SECCDSTREAM, str_StreamreaderILLEGALCHUNK, str_COPYBUFFER, str_ErrDiskFree2, str_07d
-global str_02d, str_backslash3, str_W, str_X, str_space4, str_02, str_KWKJSKxxxxxx, unk_110351
-global str_Dot, unk_110355, unk_11041A, unk_11048D, str_backslash4, str_dot2, unk_1106EC, str_backslash2
+global str_02d, str_backslash3, str_W, str_X, str_space4, str_02, str_KWKJSKxxxxxx, str_0_LoadTeamLogo
+global str_Dot, str_Punct_CheckGameDirs, unk_11041A, unk_11048D, str_backslash4, str_dot2, str_Punct_DeleteFiles, str_backslash2
 global str_D15, str_dot3, str_DB2, str_dbgL
 str_NAMEINDEX:
         db 04Eh,041h,04Dh,045h,049h,04Eh,044h,045h,058h,00h
@@ -50,11 +50,11 @@ str_LSTA:
         db 04Ch,053h,054h,041h,00h
 str_LEAS:
         db 04Ch,045h,041h,053h,00h
-unk_110351:
+str_0_LoadTeamLogo:
         db 030h,00h
 str_Dot:
         db 02Eh,00h
-unk_110355:
+str_Punct_CheckGameDirs:
         db 02Eh,02Eh,00h
 str_CLEARER:
         db 043h,04Ch,045h,041h,052h,045h,052h,00h
@@ -70,7 +70,7 @@ str_HardwareBeforeRunningHOC:
 str_spPressESCToReturnToDOS:
         db 0Ah,050h,072h,065h,073h,073h,020h,045h,053h,043h,020h,074h,06Fh,020h,072h,065h
         db 074h,075h,072h,06Eh,020h,074h,06Fh,020h,044h,04Fh,053h,02Eh,0Ah,0Ah,00h
-asc_1103D8:
+str_Punct_StartUp:
         db 0Ah,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
@@ -155,7 +155,7 @@ str_backslash4:
         db 05Ch,00h
 str_dot2:
         db 02Eh,00h
-unk_1106EC:
+str_Punct_DeleteFiles:
         db 02Ah,00h
 str_COPYBUFFER:
         db 043h,04Fh,050h,059h,042h,055h,046h,046h,045h,052h,00h

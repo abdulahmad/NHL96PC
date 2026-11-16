@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_584A0 progbits alloc exec nowrite align=1
-extern asc_111008, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
+extern str_LUT, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
 extern byte_1175AA, byte_1175AB, byte_1175AC, byte_157191, byte_1647E0, byte_1647FA, textline1, byte_1655E0
 extern byte_16561C, byte_165658, byte_165694, byte_176F96, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5
 extern byte_1770D7, byte_1796AC, byte_1796BF, byte_1796C0, byte_1796DC, byte_179700, byte_179701, byte_17970A
@@ -12,7 +12,7 @@ extern byte_179764, byte_1798A4, byte_179CB8, byte_179CB9, byte_179DC1, byte_179
 extern curperiod, dword_1176E5, dword_118E89, dword_119D04, playsuspended, dword_11A3F8, ReplayRemoteShape, dword_11B238
 extern dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294, dword_11B298
 extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC, dword_11B300
-extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, dword_11B324, dword_11B328
+extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328
 extern dword_11B32C, dword_11B330, dword_11B364, dword_11B374, dword_11B9F4, dword_11BB14, dword_11BB18, dword_11BB1C
 extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, ClipTopRow, ClipLeftCol, ClipRight
 extern ScreenHeight, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
@@ -46,7 +46,7 @@ extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTa
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, unk_111024, OverlayPanelQueue, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern exhstate, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
-extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, unk_58468, unk_5848C, vtoa
+extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
 extern HomeControlSlot, clockticks, bannermsg, word_119117, word_11911F, word_119127, word_11B274, ovlstep
 extern word_1515B5, word_1647A8, word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A
 extern word_16514C, word_1656DA, word_1656DC, hmscore, word_165704, hmtmap, awscore, awtmline
@@ -60,7 +60,7 @@ global DrawOverlayCaption_DC, DrawOverlayCaption_E1, ResetGameOverlays, DrawTime
 global DrawClockPanel, DrawTimeLeftPanel, jpt_5BD6D, GetPeriodText, GetPeriodText_1F, GetPeriodText_3C, GetPeriodText_59, GetPeriodText_86
 global jpt_5BE45, DrawScorePanel, DrawScorePanel_689, DrawScorePanel_690, DrawScorePanel_697, DrawScorePanel_69E, DrawEventPanel, DrawPlayerNamePanel
 global DrawPenaltyEventPanel, DrawGoalEventPanel, QueueOverlayPanel, DrawGameOverlays, DrawLineEnergyBar, DrawLineChangeBox, DrawLineChangeBoxes, unk_5D549
-global unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84, unk_5D639
+global unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84, str_D_SetGameViewSize
 global unk_5D65D, unk_5D681
 ;-----------------------------------------------------------------------------
 ; DrawScaledSprite                                584A0  96 PC, low confidence
@@ -454,7 +454,7 @@ AllocShadeLut:
         mov eax, dword [dword_1798F4]
         shl eax, 8
         push eax
-        push asc_111008
+        push str_LUT
         call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_1798F8], eax
@@ -865,7 +865,7 @@ InitGameView:
         mov byte [byte_16561C], 0
         call SetViewRect
         add esp, byte 10h
-        push dword [dword_11B324]
+        push dword [str_D_DrawGameFrame]
         push dword [dword_11B320]
         call MouseRead
         add esp, byte 8
@@ -2925,7 +2925,7 @@ DrawGameFrame:
         sub edx, dword [dword_11B320]
         imul edx, edx
         mov eax, dword [mousey]
-        sub eax, dword [dword_11B324]
+        sub eax, dword [str_D_DrawGameFrame]
         imul eax, eax
         add edx, eax
         test byte [byte_17CA5D], 20h
@@ -2947,10 +2947,10 @@ DrawGameFrame:
         sar eax, 2
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [mousey]
-        sub eax, dword [dword_11B324]
+        sub eax, dword [str_D_DrawGameFrame]
         sar eax, 2
         mov dword [byte ebp+076h], eax
-        mov ax, word [dword_11B324]
+        mov ax, word [str_D_DrawGameFrame]
         sub ax, word [mousey]
         movsx edx, ax
         mov ax, word [mousex]
@@ -3284,7 +3284,7 @@ OpenOverlayPanel:
         ret
 ;-----------------------------------------------------------------------------
 ; DrawOverlayCaption                              5AE47  96 PC, low confidence
-; With bannermsg set, draws its caption text (table unk_58468, text 0ADh)
+; With bannermsg set, draws its caption text (table str_T_DrawOverlayCaption, text 0ADh)
 ;-----------------------------------------------------------------------------
 DrawOverlayCaption:
         push ebx
@@ -3296,7 +3296,7 @@ DrawOverlayCaption:
         push edx
         mov ecx, 9
         lea edi, [byte ebp-02Ch]
-        mov esi, unk_58468
+        mov esi, str_T_DrawOverlayCaption
         rep movsd
         push dword [dword_179920]
         call TextSetFont
@@ -6376,7 +6376,7 @@ unk_5D591_84:
         mov al, byte [0B4000000h]
         db 00h,00h,00h,0C8h,00h,00h,00h,0DCh,00h,00h,00h,0F0h,00h,00h,00h,04h
         db 01h,00h,00h,018h,01h,00h,00h,02Ch,01h,00h,00h,040h,01h,00h,00h
-unk_5D639:
+str_D_SetGameViewSize:
         db 064h,00h,00h,00h,071h,00h,00h,00h,07Dh,00h,00h,00h,08Ah,00h,00h,00h
         db 096h,00h,00h,00h,0A3h,00h,00h,00h,0AFh,00h,00h,00h,0BCh,00h,00h,00h
         db 0C8h,00h,00h,00h

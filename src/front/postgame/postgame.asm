@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1456D progbits alloc exec nowrite align=1
-extern awtmstruct, byte_11FA2F, byte_17BDAE, byte_1820F1, dword_114DE8, dword_114DF0, dword_114DF4, dword_114DFC
+extern awtmstruct, byte_11FA2F, byte_17BDAE, byte_1820F1, dword_114DE8, dword_114DF0, str_Z_AnimateStarsScreen, dword_114DFC
 extern dword_114EB0, dword_114EB4, dword_114ED0, dword_114ED4, dword_114EE8, dword_114EEC, dword_114EF0, dword_114EF4
 extern seasondb, dword_11F5C0, dword_151AE4, dword_151AE8, dword_151AEC, dword_151B08, dword_151B4C, dword_151B50
 extern dword_151B64, dword_151B68, dword_151B6C, dword_151B70, dword_151B74, dword_151B78, dword_151B7C, dword_152F58
@@ -18,8 +18,8 @@ extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, I
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
 extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern ClearScreenColour, FreeBitmap, UnpackTo, DosFileInfo, LoadResourceDataShared, SetScreenTarget, FindShape, bcopy
-extern ClearClipRect, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
-extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8
+extern ClearClipRect, TextSetFont, unk_144BD, unk_144C3, unk_144C9, str_N, unk_144ED, word_114CE0
+extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, str_Punct_DrawGameStats, word_114DE4, word_114DE6, word_114EA8
 extern word_114EAC, word_114EF8, word_114EFA, word_114EFC, word_114EFE, word_114F00, word_1656DA, word_1656DC
 extern word_1656DE, word_1656E0, word_1656E2, word_1656E4, word_1656E6, hmscore, word_1656EA, word_1656EC
 extern word_1656F2, word_1656F4, word_1656F6, word_1656F8, word_1656FA, word_1656FC, word_1656FE, word_165700
@@ -97,7 +97,7 @@ DrawGameStats:
         jge near .2
         mov edx, 3
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         lea ebx, [byte edx+01h]
@@ -114,7 +114,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 0Ch
@@ -131,7 +131,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 0Ch
@@ -146,7 +146,7 @@ DrawGameStats:
         mov edx, 4
         sub edx, eax
         movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DDC]
+        movsx edx, word [str_Punct_DrawGameStats]
         sub eax, edx
         lea ebx, [byte eax+01h]
         mov eax, 20Eh
@@ -181,7 +181,7 @@ DrawGameStats:
         mov edx, 4
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         lea ebx, [byte edx+01h]
@@ -216,7 +216,7 @@ DrawGameStats:
         mov edx, 4
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         lea ebx, [byte edx+01h]
@@ -229,7 +229,7 @@ DrawGameStats:
         jge near .8
         mov edx, 5
         sub edx, eax
-        movsx ebx, word [word_114DDC]
+        movsx ebx, word [str_Punct_DrawGameStats]
         movsx eax, word [nosplit edx*2+word_114DD8]
         sub eax, ebx
         lea ebx, [byte eax+01h]
@@ -249,7 +249,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         sub edx, eax
         movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DDC]
+        movsx edx, word [str_Punct_DrawGameStats]
         sub eax, edx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
@@ -267,7 +267,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx ebx, word [word_114DDC]
+        movsx ebx, word [str_Punct_DrawGameStats]
         movsx eax, word [nosplit edx*2+word_114DD8]
         sub eax, ebx
         add esp, byte 10h
@@ -281,7 +281,7 @@ DrawGameStats:
         jge near .9
         mov edx, 6
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit edx*2+word_114DD8]
         movsx edx, word [word_114DD2]
         sub ebx, eax
@@ -300,7 +300,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx ebx, word [word_114DDC]
+        movsx ebx, word [str_Punct_DrawGameStats]
         movsx eax, word [nosplit edx*2+word_114DD8]
         sub eax, ebx
         add esp, byte 10h
@@ -320,7 +320,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         add esp, byte 10h
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit edx*2+word_114DD8]
         movsx edx, word [word_114DD6]
         sub ebx, eax
@@ -336,7 +336,7 @@ DrawGameStats:
         mov edx, 7
         sub edx, eax
         movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DDC]
+        movsx edx, word [str_Punct_DrawGameStats]
         sub eax, edx
         lea ebx, [byte eax+01h]
         mov eax, 211h
@@ -354,7 +354,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx ebx, word [word_114DDC]
+        movsx ebx, word [str_Punct_DrawGameStats]
         movsx eax, word [nosplit edx*2+word_114DD8]
         sub eax, ebx
         add esp, byte 10h
@@ -374,7 +374,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         add esp, byte 10h
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit edx*2+word_114DD8]
         movsx edx, word [word_114DD6]
         sub ebx, eax
@@ -389,7 +389,7 @@ DrawGameStats:
         jge near .11
         mov ebx, 8
         sub ebx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit ebx*2+word_114DD8]
         movsx edx, word [word_114DD2]
         sub ebx, eax
@@ -414,7 +414,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 10h
@@ -440,7 +440,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         add esp, byte 10h
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit edx*2+word_114DD8]
         movsx edx, word [word_114DD6]
         sub ebx, eax
@@ -455,7 +455,7 @@ DrawGameStats:
         jge near .12
         mov edx, 9
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         lea ebx, [byte edx+01h]
@@ -473,7 +473,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         add esp, byte 0Ch
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit edx*2+word_114DD8]
         movsx edx, word [word_114DD4]
         sub ebx, eax
@@ -489,7 +489,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 0Ch
@@ -505,7 +505,7 @@ DrawGameStats:
         jge near .13
         mov edx, 0Ah
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit edx*2+word_114DD8]
         movsx edx, word [word_114DD2]
         sub ebx, eax
@@ -524,7 +524,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx ebx, word [word_114DDC]
+        movsx ebx, word [str_Punct_DrawGameStats]
         movsx eax, word [nosplit edx*2+word_114DD8]
         sub eax, ebx
         add esp, byte 10h
@@ -544,7 +544,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         sub edx, eax
         movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DDC]
+        movsx edx, word [str_Punct_DrawGameStats]
         sub eax, edx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
@@ -559,7 +559,7 @@ DrawGameStats:
         jge near .14
         mov edx, 0Bh
         sub edx, eax
-        movsx ebx, word [word_114DDC]
+        movsx ebx, word [str_Punct_DrawGameStats]
         movsx eax, word [nosplit edx*2+word_114DD8]
         sub eax, ebx
         lea ebx, [byte eax+01h]
@@ -576,7 +576,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 0Ch
@@ -593,7 +593,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 0Ch
@@ -607,7 +607,7 @@ DrawGameStats:
         jle near .19
         mov edx, 0Ch
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         lea ebx, [byte edx+01h]
@@ -626,7 +626,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 10h
@@ -645,7 +645,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 10h
@@ -658,7 +658,7 @@ DrawGameStats:
         jle near .19
         mov edx, 0Dh
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         lea ebx, [byte edx+01h]
@@ -678,7 +678,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 10h
@@ -697,7 +697,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         add esp, byte 10h
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit edx*2+word_114DD8]
         movsx edx, word [word_114DD6]
         sub ebx, eax
@@ -709,7 +709,7 @@ DrawGameStats:
         jle near .19
         mov edx, 0Eh
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit edx*2+word_114DD8]
         movsx edx, word [word_114DD2]
         sub ebx, eax
@@ -726,7 +726,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         add esp, byte 0Ch
@@ -744,7 +744,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         add esp, byte 0Ch
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx ebx, word [nosplit edx*2+word_114DD8]
         movsx edx, word [word_114DD6]
         sub ebx, eax
@@ -757,7 +757,7 @@ DrawGameStats:
         mov edx, 0Fh
         sub edx, eax
         movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DDC]
+        movsx edx, word [str_Punct_DrawGameStats]
         sub eax, edx
         lea ebx, [byte eax+01h]
         mov eax, 219h
@@ -782,7 +782,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         sub edx, eax
         movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DDC]
+        movsx edx, word [str_Punct_DrawGameStats]
         sub eax, edx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
@@ -806,7 +806,7 @@ DrawGameStats:
         call sprintf_
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx ebx, word [word_114DDC]
+        movsx ebx, word [str_Punct_DrawGameStats]
         movsx eax, word [nosplit edx*2+word_114DD8]
         sub eax, ebx
         add esp, byte 10h
@@ -819,7 +819,7 @@ DrawGameStats:
         jne near .19
         mov edx, 10h
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         lea ebx, [byte edx+01h]
@@ -849,7 +849,7 @@ DrawGameStats:
         mov edx, 10h
         movsx eax, word [word_114DE6]
         sub edx, eax
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         movsx edx, word [nosplit edx*2+word_114DD8]
         sub edx, eax
         lea ebx, [byte edx+01h]
@@ -879,7 +879,7 @@ DrawGameStats:
         movsx eax, word [word_114DE6]
         sub edx, eax
         movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DDC]
+        movsx edx, word [str_Punct_DrawGameStats]
         sub eax, edx
         lea ebx, [byte eax+01h]
         movsx edx, word [word_114DD6]
@@ -887,7 +887,7 @@ DrawGameStats:
         call DrawColorTextCentred
 .19:
         call SetScreenTarget
-        movsx eax, word [word_114DDC]
+        movsx eax, word [str_Punct_DrawGameStats]
         dec eax
         push eax
         push byte 0
@@ -1086,7 +1086,7 @@ GameStatsScreen:
         movsx eax, word [word_114DE4]
         movzx edx, byte [byte_11FA2F]
         add eax, edx
-        movsx edx, word [word_114DDC]
+        movsx edx, word [str_Punct_DrawGameStats]
         inc eax
         inc eax
         sub eax, edx
@@ -1106,7 +1106,7 @@ GameStatsScreen:
         movsd
         movsb
         mov word [byte eax+0Ch], 0
-        mov dx, word [word_114DDC]
+        mov dx, word [str_Punct_DrawGameStats]
         dec edx
         mov word [byte eax+0Eh], dx
         mov dx, word [dword_11F5C0]
@@ -1116,7 +1116,7 @@ GameStatsScreen:
         mov dword [byte ebp+072h], eax
         movzx ax, byte [byte_11FA2F]
         add ax, word [word_114DE4]
-        mov si, word [word_114DDC]
+        mov si, word [str_Punct_DrawGameStats]
         inc eax
         inc eax
         mov edx, dword [byte ebp+06Ah]
@@ -1525,13 +1525,13 @@ AnimateStarsScreen_121:
         mov eax, dword [dword ebx+dword_114DE8]
         add eax, edx
         mov edx, dword [dword ebx+dword_114DFC]
-        sub edx, dword [dword ebx+dword_114DF4]
+        sub edx, dword [dword ebx+str_Z_AnimateStarsScreen]
         mov dword [dword_151AE4], eax
         lea esi, [byte edx+01h]
         call rand_
         cdq
         idiv esi
-        mov eax, dword [dword ebx+dword_114DF4]
+        mov eax, dword [dword ebx+str_Z_AnimateStarsScreen]
         add eax, edx
         mov dword [dword_151AE8], eax
         mov eax, dword [dword_151B4C]
@@ -1709,7 +1709,7 @@ ThreeStarsScreen:
         movsd
         movsd
         lea edi, [byte ebp-0Ah]
-        mov esi, unk_144D5
+        mov esi, str_N
         movsd
         movsd
         movsd

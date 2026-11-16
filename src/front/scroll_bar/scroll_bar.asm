@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_7CCB8 progbits alloc exec nowrite align=1
-extern __CHP, dword_1122F8, dword_1122FC, F32_14_InitScrollTable, dword_112304, dword_11D1A8, dword_11D1AC, PutBlock
+extern __CHP, F32_0p5, F32_0p5_InitHScrollBar, F32_14_InitScrollTable, F32_0p5_ScrollBarToMouse, dword_11D1A8, dword_11D1AC, PutBlock
 extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, DrawArt
 extern DrawArtHotspot, CreateBitmap, FreeBitmap, DrawArtOpaqueHotspot, SetScreenTarget
 global InitVScrollBar, InitVScrollBar_217, InitHScrollBar, InitHScrollBar_207, InitHScrollBar_337, ScrollBarRet, ScrollBarUp, ScrollBarDown
@@ -95,7 +95,7 @@ InitVScrollBar:
 .2:
         fld dword [byte esi+01Ch]
 .3:
-        fmul dword [dword_1122F8]
+        fmul dword [F32_0p5]
         fld1
         faddp
         fstp dword [byte esi+020h]
@@ -310,7 +310,7 @@ InitHScrollBar:
 .2:
         fld dword [byte esi+01Ch]
 .3:
-        fmul dword [dword_1122FC]
+        fmul dword [F32_0p5_InitHScrollBar]
         fld1
         faddp
         fstp dword [byte esi+020h]
@@ -699,7 +699,7 @@ ScrollBarToMouse:
         mov dword [byte ebp-04h], eax
         fild dword [byte ebp-04h]
         fld dword [byte edx+01Ch]
-        fmul dword [dword_112304]
+        fmul dword [F32_0p5_ScrollBarToMouse]
         faddp
         fdiv dword [byte edx+01Ch]
         call __CHP

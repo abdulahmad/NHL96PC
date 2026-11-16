@@ -4,9 +4,9 @@ bits 32
 section s_110101 progbits alloc noexec write align=1
 global str_GhiL, str_GhiR, str_FhiL2, str_FhiR2, str_PAL, str_ATZS760S1155, str_ATE1, str_ATQ0
 global str_ATX4, str_ATF1, str_ATH0, str_ATD, str_ATX3, str_ATS01, str_ATA, str_Punct2
-global str_ATM0, str_OK, str_0, unk_110124, str_CONNECT, str_1, str_fe1, str_RING
+global str_ATM0, str_OK, str_0, str_0_ModemResultCodeTable, str_CONNECT, str_1, str_fe1, str_RING
 global str_2, str_fe2, str_NOCARRIER, str_3, str_fe3, str_ERROR, str_4, str_fe4
-global str_CONNECT1200, str_5, str_fe5, str_NODIALTONE, str_6, unk_110185, str_NODIALTONE2, str_BUSY
+global str_CONNECT1200, str_5, str_fe5, str_NODIALTONE, str_6, str_6_ModemResultCodeTable, str_NODIALTONE2, str_BUSY
 global str_7, str_fe7, str_NOANSWER, str_8, str_fe8, str_CONNECT2400, str_10, str_102
 global str_CONNECT9600, str_13, str_132, str_CONNECT9600ARQ, str_17, str_172, str_CONNECT9600HST, str_23
 global str_232, str_CONNECT9600ARQHST, str_27, str_272, str_CONNECT14400, str_25, str_252, str_CONNECT14400ARQ
@@ -26,7 +26,7 @@ str_OK:
         db 05Fh,04Fh,04Bh,00h
 str_0:
         db 05Fh,030h,05Fh,00h
-unk_110124:
+str_0_ModemResultCodeTable:
         db 030h,00h
 str_CONNECT:
         db 05Fh,043h,04Fh,04Eh,04Eh,045h,043h,054h,00h
@@ -62,7 +62,7 @@ str_NODIALTONE:
         db 05Fh,04Eh,04Fh,020h,044h,049h,041h,04Ch,054h,04Fh,04Eh,045h,00h
 str_6:
         db 05Fh,036h,05Fh,00h
-unk_110185:
+str_6_ModemResultCodeTable:
         db 036h,00h
 str_NODIALTONE2:
         db 05Fh,04Eh,04Fh,020h,044h,049h,041h,04Ch,020h,054h,04Fh,04Eh,045h,00h

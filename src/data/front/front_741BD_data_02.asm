@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_11DFC8 progbits alloc noexec write align=1
-global asc_11DFC8, str_LFERROR, dword_11E278, LinkSetupSlots, dword_11E284, dword_11E288, dword_11E2A0, dword_11E2A4
+global str_GenericHayesCompatible, str_LFERROR, dword_11E278, LinkSetupSlots, dword_11E284, dword_11E288, dword_11E2A0, dword_11E2A4
 global dword_11E2A8, dword_11E2AC, TeamSelectDrawn, dword_11E2B4, PanelTeamNameShift, dword_11E2BC, LangTextHandle, LangTextLoaded
 global word_11E270, word_11E280
-asc_11DFC8:
+str_GenericHayesCompatible:
         db 047h,065h,06Eh,065h,072h,069h,063h,020h,048h,061h,079h,065h,073h,02Dh,043h,06Fh
         db 06Dh,070h,061h,074h,069h,062h,06Ch,065h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,041h,054h,020h,026h,046h,026h,04Bh,04Eh,030h,053h

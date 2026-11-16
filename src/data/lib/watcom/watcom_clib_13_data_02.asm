@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_124124 progbits alloc noexec write align=1
-global HotkeyScanTable, __NHandles, __io_mode, dword_12417C, dword_1241A0, __init_mode
+global HotkeyScanTable, __NHandles, __io_mode, dword_12417C, str_G_JoystickCalibrateScreen, __init_mode
 __NHandles:
         db 014h,00h,00h,00h
 __init_mode:
@@ -17,7 +17,7 @@ dword_12417C:
         db 086h,00h,00h,00h,086h,00h,00h,00h,0AEh,00h,00h,00h,0AEh,00h,00h,00h
         db 0AEh,00h,00h,00h,086h,00h,00h,00h,05Eh,00h,00h,00h,05Eh,00h,00h,00h
         db 05Eh,00h,00h,00h
-dword_1241A0:
+str_G_JoystickCalibrateScreen:
         db 067h,00h,00h,00h,049h,00h,00h,00h,049h,00h,00h,00h,067h,00h,00h,00h
         db 085h,00h,00h,00h,085h,00h,00h,00h,085h,00h,00h,00h,067h,00h,00h,00h
         db 049h,00h,00h,00h

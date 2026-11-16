@@ -4,8 +4,8 @@ bits 32
 section s_971E9 progbits alloc exec nowrite align=1
 extern __CHP, __STOSD, AutoSetLines, byte_11E844, byte_11E852, byte_17BDAE, byte_17CC36, byte_17CC37
 extern byte_17CC38, byte_17EBF0, byte_182296, byte_1843B8, DrawColorText, DrawColorTextRight, DrawFrameAt, DrawScrollBar
-extern dword_112CDA, dword_112CDE, dword_112CE2, dword_112CE6, dword_112CEA, dword_112CEE, dword_112CF2, dword_112CF6
-extern dword_112CFA, dword_112CFE, dword_112D02, dword_112D06, dword_112D0A, dword_112D0E, dword_112D12, dword_112D26
+extern F32_0p001, F32_0p0208333, F32_0p00333333, F32_390, F32_0p005, F32_100, F32_neg50, F32_0p002
+extern F32_0p0111111, F32_0p1, F32_0p0142857, F32_0p0333333, F32_58, F32_90, F32_0p01, F32_347
 extern dword_1174E4, dword_1174EC, statsplayoffs, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514
 extern dword_11E670, dword_11E678, dword_11E7E0, dword_11E85B, dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown
 extern dword_11E904, TeamStatsBitmap, str_Standings, PlayoffTreeData, dword_17D162, dword_17EEF0, dword_17FDF0, dword_17FDF4
@@ -14,7 +14,7 @@ extern dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, RosterBackFile, d
 extern EditText, FadeOut, FadePalette, FillBox, FillRect, FreeScrollBar, gameopts, GetLangText
 extern GetTeamNameArt, InitMenuItems, InitVScrollBar, LoadExhibitionStats, LoadModemStats, LoadPackedFile, LoadSeasonStats, LoadTeamLogo
 extern MakeDataPath, MakeDirPath, MakeSeasonDbPath, MessageBox, off_11E908, OpenScreen, optflags, PlayerRatingsScreen
-extern PutBlock, qsort_, qword_112D16, qword_112D1E, rand_, RunEditLines, RunMenu, ScrollBarDown
+extern PutBlock, qsort_, F64_0p9, F64_0p1_CreatePlayerRatings, rand_, RunEditLines, RunMenu, ScrollBarDown
 extern ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScrollBarPos, SetTextColors, SetTickDeadline, SlideInSideBar
 extern SlideInTitleBar, SortTeamPlayers, sprintf_, str_Arl1, str_Arl2, str_Arl3, str_Arr1, str_Arr2
 extern str_Arr3, str_Ball5, str_Bkgd19, str_C2dCS, str_Com1, str_Com2, str_Com3, str_Cre1
@@ -28,7 +28,7 @@ extern str_S4, str_S4dg, str_S4dw, str_S4ug, str_S4up, str_SD6, str_SGID, str_SS
 extern str_StatDBPTRs2, str_Tra12, str_Tra22, str_Tra32, str_TraD, strcat_, strcpy_, DrawArt
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr
 extern SaveFileBlock, DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TickDeadlinePassed, unk_152E36, unk_1821B4, unk_182224
-extern unk_182294, unk_96949, unk_96B89, unk_96C49, unk_96D09, unk_96DC9, unk_96FD9
+extern unk_182294, unk_96949, str_X_RosterScreen, unk_96C49, str_Punct_CreatePlayerScreen, unk_96DC9, unk_96FD9
 global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScreen, DrawRosterTeams, DrawRosterTeams_17B, FormatRosterLine, FormatRosterLine_26D
 global DrawRosterPlayerInfo, RosterSlotStatus, CountRosterSlots, FindRosterSlot, ListRosterPlayers, ValidateRoster, EditPlayerName, EditPlayerName_131
 global ConfirmTrade, ResetTeamLines, CycleLoadingArt, jpt_9ADF0, jpt_9AE04, CreatePlayerScreen, CreatePlayerScreen_6BE, CreatePlayerScreen_71A
@@ -223,7 +223,7 @@ RosterScreen:
         mov dword [byte ebp+0Ah], 0
         mov ecx, 30h
         lea edi, [dword ebp-017Eh]
-        mov esi, unk_96B89
+        mov esi, str_X_RosterScreen
         mov dword [byte ebp+06h], 0
         mov dword [byte ebp+02h], 0
         rep movsd
@@ -4344,7 +4344,7 @@ CreatePlayerScreen:
         sub ebp, 82h
         mov ecx, 30h
         lea edi, [dword ebp-02DEh]
-        mov esi, unk_96D09
+        mov esi, str_Punct_CreatePlayerScreen
         rep movsd
         mov ecx, 84h
         lea edi, [dword ebp-04EEh]
@@ -5918,7 +5918,7 @@ CreatePlayerRatings:
         idiv ecx
         mov dword [byte ebp-04h], edx
         fild dword [byte ebp-04h]
-        fmul dword [dword_112CDA]
+        fmul dword [F32_0p001]
         fld1
         fsubrp
         mov ecx, 15h
@@ -5929,7 +5929,7 @@ CreatePlayerRatings:
         add edx, byte 1Ch
         mov dword [byte ebp-03Ch], edx
         fild dword [byte ebp-03Ch]
-        fmul dword [dword_112CDE]
+        fmul dword [F32_0p0208333]
         fstp dword [byte ebp-08h]
         fld dword [byte ebp-014h]
         fld st0
@@ -5937,17 +5937,17 @@ CreatePlayerRatings:
         fxch
         fadd st1
         fadd dword [byte ebp-038h]
-        fmul dword [dword_112CE2]
-        fmul dword [dword_112CE6]
+        fmul dword [F32_0p00333333]
+        fmul dword [F32_390]
         fmul dword [byte ebp-08h]
         fmul dword [byte ebp-048h]
         call __CHP
         fistp dword [byte ebp-04h]
         fld st1
         fadd dword [byte ebp-024h]
-        fmul dword [dword_112CEA]
-        fmul dword [dword_112CEE]
-        fadd dword [dword_112CF2]
+        fmul dword [F32_0p005]
+        fmul dword [F32_100]
+        fadd dword [F32_neg50]
         fmul dword [byte ebp-08h]
         mov eax, dword [byte ebp-03Ch]
         fmul dword [byte ebp-048h]
@@ -5964,25 +5964,25 @@ CreatePlayerRatings:
         mov eax, dword [byte ebp-04h]
         faddp
         mov word [byte ebx+010h], ax
-        fmul dword [dword_112CF6]
+        fmul dword [F32_0p002]
         movsx eax, byte [byte esi+02h]
         fstp dword [byte ebp-020h]
         cmp eax, byte 44h
         je short .1
         fld dword [byte ebp-038h]
         fld st0
-        fmul dword [dword_112D02]
+        fmul dword [F32_0p0142857]
         fstp dword [byte ebp-01Ch]
-        fsubr dword [dword_112CEE]
-        fmul dword [dword_112D06]
+        fsubr dword [F32_100]
+        fmul dword [F32_0p0333333]
         jmp short .2
 .1:
         fld dword [byte ebp-038h]
         fld st0
-        fmul dword [dword_112CFA]
+        fmul dword [F32_0p0111111]
         fstp dword [byte ebp-01Ch]
-        fsubr dword [dword_112CEE]
-        fmul dword [dword_112CFE]
+        fsubr dword [F32_100]
+        fmul dword [F32_0p1]
 .2:
         fstp dword [byte ebp-018h]
         fld1
@@ -5991,7 +5991,7 @@ CreatePlayerRatings:
         sahf
         jbe short .3
         fld dword [byte ebp-01Ch]
-        fmul dword [dword_112D0A]
+        fmul dword [F32_58]
         call __CHP
         fistp dword [byte ebp-04h]
         mov eax, dword [byte ebp-04h]
@@ -6006,7 +6006,7 @@ CreatePlayerRatings:
         sahf
         jbe short .5
         fld dword [byte ebp-018h]
-        fmul dword [dword_112D0E]
+        fmul dword [F32_90]
         call __CHP
         fistp dword [byte ebp-04h]
         mov eax, dword [byte ebp-04h]
@@ -6018,13 +6018,13 @@ CreatePlayerRatings:
         fld dword [byte ebp-04Ch]
         fadd dword [byte ebp-02Ch]
         movzx eax, cx
-        fmul dword [dword_112CEA]
+        fmul dword [F32_0p005]
         mov dword [byte ebp-03Ch], eax
         fild dword [byte ebp-03Ch]
         fmulp
         movzx eax, dx
         fld dword [byte ebp-028h]
-        fmul dword [dword_112D12]
+        fmul dword [F32_0p01]
         mov dword [byte ebp-04h], eax
         fild dword [byte ebp-04h]
         fmulp
@@ -6097,15 +6097,15 @@ CreatePlayerRatings:
         mov word [byte ebx+0Ah], 0
 .9:
         fld dword [byte ebp-0Ch]
-        fmul qword [qword_112D16]
+        fmul qword [F64_0p9]
         fstp dword [byte ebp-0Ch]
         fld dword [byte ebp-010h]
-        fmul qword [qword_112D1E]
+        fmul qword [F64_0p1_CreatePlayerRatings]
         fstp dword [byte ebp-010h]
         fld dword [byte ebp-0Ch]
         fadd dword [byte ebp-010h]
-        fmul dword [dword_112D12]
-        fmul dword [dword_112D26]
+        fmul dword [F32_0p01]
+        fmul dword [F32_347]
         fmul dword [byte ebp-08h]
         fmul dword [byte ebp-048h]
         call __CHP

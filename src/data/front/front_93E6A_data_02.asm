@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_11E890 progbits alloc noexec write align=1
-extern unk_112A08, unk_112A0C, unk_112A10, unk_112A14, unk_112A18, unk_112A1C, unk_112A20, unk_112A24
-extern unk_112A28, unk_112B14, unk_112B18, unk_112B1C, unk_112B20, unk_112B24
+extern unk_112A08, str_45S, str_45P, str_34S, str_34P, str_CRS, str_CRP, unk_112A24
+extern str_PLA, unk_112B14, str_LFT, str_RHT, unk_112B20, unk_112B24
 global dword_11E890, dword_11E894, dword_11E898, dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC
-global dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown, dword_11E904, dword_11E91C, dword_11E948, dword_11E970
+global dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown, dword_11E904, dword_11E91C, dword_11E948, str_B_DrawLinesPanel
 global off_11E8B0, off_11E908
 dword_11E890:
         db 00h,00h,00h,00h
@@ -25,14 +25,14 @@ dword_11E8AC:
         db 00h,00h,00h,00h
 off_11E8B0:
         dd unk_112A08
-        dd unk_112A0C
-        dd unk_112A10
-        dd unk_112A14
-        dd unk_112A18
-        dd unk_112A1C
-        dd unk_112A20
+        dd str_45S
+        dd str_45P
+        dd str_34S
+        dd str_34P
+        dd str_CRS
+        dd str_CRP
         dd unk_112A24
-        dd unk_112A28
+        dd str_PLA
 dword_11E8D4:
         db 0EFh,01h,00h,00h,0F0h,01h,00h,00h,0F1h,01h,00h,00h,0F2h,01h,00h,00h
         db 0F3h,01h,00h,00h,0F4h,01h,00h,00h,0F5h,01h,00h,00h,0F6h,01h,00h,00h
@@ -47,8 +47,8 @@ dword_11E904:
         db 01h,00h,00h,00h
 off_11E908:
         dd unk_112B14
-        dd unk_112B18
-        dd unk_112B1C
+        dd str_LFT
+        dd str_RHT
         dd unk_112B20
         dd unk_112B24
 dword_11E91C:
@@ -59,7 +59,7 @@ dword_11E948:
         db 01h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h,04h,00h,00h,00h
         db 05h,00h,00h,00h,06h,00h,00h,00h,07h,00h,00h,00h,09h,00h,00h,00h
         db 0Ah,00h,00h,00h,0Bh,00h,00h,00h
-dword_11E970:
+str_B_DrawLinesPanel:
         db 042h,00h,00h,00h,07Dh,00h,00h,00h,0B8h,00h,00h,00h,042h,00h,00h,00h
         db 07Dh,00h,00h,00h,0B8h,00h,00h,00h,042h,00h,00h,00h,07Dh,00h,00h,00h
         db 0B8h,00h,00h,00h,042h,00h,00h,00h,07Dh,00h,00h,00h,0B8h,00h,00h,00h

@@ -4,7 +4,7 @@ bits 32
 section s_110B48 progbits alloc noexec write align=1
 global str_08d, str_LOCALNDX, str_Ulxn, str_Ulxh, str_Ulyn, str_Ulyh, str_Slid, str_Ball
 global str_Slu1, str_Slu2, str_Sld1, str_Sld2, str_BKGD2, str_TXTD, str_3d3d3d, str_3d3d
-global str_1000, str_00, str_FL00, str_FL01, asc_110BCE, asc_110C09, str_20s, str_sp3s
+global str_1000, str_00, str_FL00, str_FL01, str_Punct_ExportUserRecords, asc_110C09, str_20s, str_sp3s
 global asc_110C57, str_sp3d3d3d3d3d3d3d3d, str_sp3d3d2d2d2d, str_sp3s2, asc_110CAC, str_sp00, str_sp1000, str_sp3d1d
 global str_sp002, str_sp10002, str_sp3d1d2, str_spD, str_Uname, str_Urate, str_Upts, str_Ugf
 global str_Uga, str_Upp, str_Upk, str_Uso, str_Ustreak, str_Ulstreak, str_Uteam, str_Uopp
@@ -61,7 +61,7 @@ str_FL01:
         db 046h,04Ch,030h,031h,00h
 str_wt:
         db 077h,074h,00h
-asc_110BCE:
+str_Punct_ExportUserRecords:
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,020h,020h,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh

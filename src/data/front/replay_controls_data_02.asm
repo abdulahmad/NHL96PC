@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_11A410 progbits alloc noexec write align=1
 global dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, unk_11A430
-global unk_11A770, unk_11A9B0, unk_11AB30, unk_11AE70, unk_11B0B0, unk_11B230, word_11A410, word_11A414
+global unk_11A770, unk_11A9B0, unk_11AB30, unk_11AE70, str_Punct_ReplayScreen, str_0_SaveHighlight, word_11A410, word_11A414
 word_11A410:
         db 0BBh,00h,077h,01h
 word_11A414:
@@ -225,7 +225,7 @@ unk_11AE70:
         db 04Bh,00h,00h,00h,058h,01h,00h,00h,04Bh,00h,00h,00h,064h,01h,00h,00h
         db 029h,00h,00h,00h,069h,01h,00h,00h,0Ah,00h,00h,00h,063h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11B0B0:
+str_Punct_ReplayScreen:
         db 0Ah,00h,00h,00h,07Ah,00h,00h,00h,01Bh,00h,00h,00h,064h,00h,00h,00h
         db 026h,00h,00h,00h,064h,00h,00h,00h,026h,00h,00h,00h,09Ch,00h,00h,00h
         db 019h,00h,00h,00h,09Ch,00h,00h,00h,0Ah,00h,00h,00h,085h,00h,00h,00h
@@ -250,7 +250,7 @@ unk_11B0B0:
         db 045h,00h,00h,00h,073h,01h,00h,00h,032h,00h,00h,00h,081h,01h,00h,00h
         db 022h,00h,00h,00h,081h,01h,00h,00h,0Fh,00h,00h,00h,072h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11B230:
+str_0_SaveHighlight:
         db 030h,00h,041h,00h
 ReplayRemoteShape:
         db 00h,00h,00h,00h

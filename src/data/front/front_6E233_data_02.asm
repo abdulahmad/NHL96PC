@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_11D92C progbits alloc noexec write align=1
-global dword_11D930, dword_11D940, str_dbgO, dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70, dword_11DF74
-global dword_11DF78, dword_11DF7C, dword_11DF80, dword_11DF84, unk_11DE50, unk_11DE90, word_11D92C, word_11D92E
+global dword_11D930, dword_11D940, str_dbgO, dword_11D954, str_G, dword_11DED4, dword_11DF70, dword_11DF74
+global dword_11DF78, dword_11DF7C, dword_11DF80, str_Punct_ControlPicksScreen, str_Punct_ControllerScreen, unk_11DE90, word_11D92C, word_11D92E
 global str_feO, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 word_11D92C:
         db 00h,00h
@@ -106,7 +106,7 @@ word_11DA14:
         db 0B4h,01h,00h,00h,09h,02h,00h,00h,0B4h,01h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11DE50:
+str_Punct_ControllerScreen:
         db 07Eh,00h,00h,00h,0C4h,01h,00h,00h,08Ah,00h,00h,00h,0BEh,01h,00h,00h
         db 0FAh,00h,00h,00h,0BEh,01h,00h,00h,05h,01h,00h,00h,0C5h,01h,00h,00h
         db 05h,01h,00h,00h,0CFh,01h,00h,00h,0FAh,00h,00h,00h,0D4h,01h,00h,00h
@@ -116,7 +116,7 @@ unk_11DE90:
         db 0F7h,01h,00h,00h,0BDh,01h,00h,00h,03h,02h,00h,00h,0C5h,01h,00h,00h
         db 03h,02h,00h,00h,0CFh,01h,00h,00h,0F5h,01h,00h,00h,0D5h,01h,00h,00h
         db 088h,01h,00h,00h,0D5h,01h,00h,00h,07Eh,01h,00h,00h,0CDh,01h,00h,00h
-dword_11DED0:
+str_G:
         db 067h,00h,00h,00h
 dword_11DED4:
         db 011h,01h,00h,00h,0A5h,00h,00h,00h,011h,01h,00h,00h,043h,01h,00h,00h
@@ -139,7 +139,7 @@ dword_11DF7C:
         db 0CAh,01h,00h,00h
 dword_11DF80:
         db 0D3h,01h,00h,00h
-dword_11DF84:
+str_Punct_ControlPicksScreen:
         db 05Bh,00h,00h,00h,0CAh,01h,00h,00h,07Ah,00h,00h,00h,0C1h,01h,00h,00h
         db 09Ah,00h,00h,00h,0B8h,01h,00h,00h,0BAh,00h,00h,00h,0AFh,01h,00h,00h
         db 0DAh,00h,00h,00h,0A6h,01h,00h,00h,0FBh,00h,00h,00h,09Dh,01h,00h,00h

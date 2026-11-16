@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D14D1 progbits alloc exec nowrite align=1
-extern FatalError, asc_1141B4, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, RemapTable, ClipTopRow, ClipLeftCol
+extern FatalError, str_BuildtableminLinearmapfExcee, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, RemapTable, ClipTopRow, ClipLeftCol
 extern ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, TexSpanFill, EmuTrapExit, EaEax, EaEcx
 extern EaEdx, EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8
 extern EaEdxDisp8, EaEbxDisp8, EaEspDisp8, EaEbpDisp8, EaEsiDisp8, EaEdiDisp8, EaEaxDisp32, EaEcxDisp32
@@ -21,7 +21,7 @@ extern EmuFdivToSt, EmuFfree, EmuFstSt, EmuFucom, EmuFucomp, EmuFstpSt, EmuFaddp
 extern EmuFcompp, EmuFsubrp, EmuFsubp, EmuFdivrp, EmuFdivp, EmuDispatchDFReg
 global _DoINTR_, __int7, __int7_X32VM, __int7_pl3, EmuOpcodeJumpTable, EmuModRmJumpTable, IntrLoadRegs, BuildEdgeTableMin
 global BuildEdgeTableMax, BuildFixedTableMin, BuildFixedTableMax, MapPolySpans, MapPolySpansRemap, FillFlatPolyCore, IntrStubs, EmuZeroTbyte
-global unk_D2444, unk_D2448, EmuRegRing, unk_D244C, unk_D244E, EmuRegTagMasks, unk_D249C, unk_D24A0
+global unk_D2444, unk_D2448, EmuRegRing, str_F_EmuSignOpsJumpTable, unk_D244E, EmuRegTagMasks, unk_D249C, unk_D24A0
 global unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 ;-----------------------------------------------------------------------------
 ; _DoINTR_                                                      D14D1  library
@@ -203,7 +203,7 @@ BuildEdgeTableMin:
         cmp esi, 300h
         jle short .6
         push esi
-        push asc_1141B4
+        push str_BuildtableminLinearmapfExcee
         call FatalError
         add esp, byte 8
 .6:
@@ -1168,7 +1168,7 @@ unk_D2448:
         db 00h,00h
 EmuRegRing:
         db 0Ah,00h
-unk_D244C:
+str_F_EmuSignOpsJumpTable:
         db 046h,00h
 unk_D244E:
         db 00h,00h,00h,00h,00h,00h,014h,00h,00h,00h,00h,08h,01h,00h,00h,00h

@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_11388C progbits alloc noexec write align=1
-global str_UpsideDown, asc_11389C, str_OrisetmaterialcolorInval, asc_1138F4, str_OrisetmaterialdrawfnInva, str_ORIINST, asc_113960, asc_11396C
+global str_UpsideDown, str_OrisetmaterialrgbInvalidMate, str_OrisetmaterialcolorInval, str_OrisetmaterialtextureInvalid, str_OrisetmaterialdrawfnInva, str_ORIINST, str_INVMATRX, str_Ori
 global str_OriloadCouldNotLoadORIGA, str_OrigetpartitionDIsAnInva
 str_UpsideDown:
         db 075h,070h,073h,069h,064h,065h,020h,064h,06Fh,077h,06Eh,0Ah,00h,00h,00h,00h
-asc_11389C:
+str_OrisetmaterialrgbInvalidMate:
         db 06Fh,072h,069h,073h,065h,074h,06Dh,061h,074h,065h,072h,069h,061h,06Ch,072h,067h
         db 062h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,06Dh,061h,074h,065h,072h
         db 069h,061h,06Ch,020h,069h,064h,020h,025h,064h,00h,00h,078h
@@ -14,7 +14,7 @@ str_OrisetmaterialcolorInval:
         db 06Fh,072h,069h,073h,065h,074h,06Dh,061h,074h,065h,072h,069h,061h,06Ch,063h,06Fh
         db 06Ch,06Fh,072h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,06Dh,061h,074h
         db 065h,072h,069h,061h,06Ch,020h,069h,064h,020h,025h,064h,00h
-asc_1138F4:
+str_OrisetmaterialtextureInvalid:
         db 06Fh,072h,069h,073h,065h,074h,06Dh,061h,074h,065h,072h,069h,061h,06Ch,074h,065h
         db 078h,074h,075h,072h,065h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,06Dh
         db 061h,074h,065h,072h,069h,061h,06Ch,020h,069h,064h,020h,025h,064h,00h,00h,038h
@@ -24,9 +24,9 @@ str_OrisetmaterialdrawfnInva:
         db 074h,065h,072h,069h,061h,06Ch,020h,069h,064h,020h,025h,064h,00h,00h,00h,00h
 str_ORIINST:
         db 04Fh,052h,049h,05Fh,049h,04Eh,053h,054h,00h,00h,00h,00h
-asc_113960:
+str_INVMATRX:
         db 049h,04Eh,056h,04Dh,041h,054h,052h,058h,00h,00h,00h,090h
-asc_11396C:
+str_Ori:
         db 02Eh,06Fh,072h,069h,00h,0FFh,0FFh,03h
 str_OriloadCouldNotLoadORIGA:
         db 06Fh,072h,069h,06Ch,06Fh,061h,064h,03Ah,020h,043h,06Fh,075h,06Ch,064h,020h,06Eh

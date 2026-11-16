@@ -4,13 +4,13 @@ bits 32
 section s_77442 progbits alloc exec nowrite align=1
 extern __CHP, __STOSB, __STOSD, byte_11D74F, byte_11D754, byte_17BDAE, SeasonUserTeam, byte_17CC1D
 extern byte_17CC35, byte_17CC36, byte_17D13A, byte_17D6C8, DrawArtOpaque, DrawColorTextCentred, DrawFrameAt, dword_11D59C
-extern dword_11D744, dword_11E2D4, dword_11E2EC, dword_11E304, dword_11E320, MatchupLayer, TeamStatsBitmap, str_Standings
+extern dword_11D744, str_2_DrawSeasonTeams, dword_11E2EC, dword_11E304, dword_11E320, MatchupLayer, TeamStatsBitmap, str_Standings
 extern PlayoffTreeData, dword_17CC13, dword_17CC1B, SeasonRandomSeed, cddriveptr, dword_17D1E2, dword_17D267, dword_17D7C8
 extern dword_17D7D0, EditText, FadeOut, FadePalette, FileClose, FileCopy, FileOpenRead, FileOpenReadWrite
 extern FileReadAt, FileWriteAt, FillMusicStream, FreeStatsTables, gameopts, GetLangText, GetTicks, HideProgressBox
 extern InitMenuItems, itoa_, LoadPackedFile, LoadTeamLogo, MakeDatabasePath, MakeDataPath, MakeDirPath, MessageBox
 extern NameIndexAdd, NameIndexFirstId, NameIndexNew, NameIndexSave, off_11E370, OpenScreen, optblock_end, PutBlock
-extern qsort_, qword_112137, qword_11213F, rand_, RunMenu, SetDrawBitmap, SetScreenColors, SetTextColors
+extern qsort_, F64_143p964, F64_neg20, rand_, RunMenu, SetDrawBitmap, SetScreenColors, SetTextColors
 extern SetTickDeadline, ShowProgressBox, SlideInSideBar, SlideInTitleBar, SoundSecondsToBytes, sprintf_, srand_, str_05d2
 extern str_Bkgd9, str_Bt014, str_Bt024, str_Bt02d2, str_Bt103, str_Bt113, str_Bt192, str_Bt202
 extern str_Bt282, str_Bt292, str_Nothing, str_Pal14, str_Rul12, str_Rul22, str_Rul32, str_S05dCNZDB2
@@ -24,7 +24,7 @@ extern unk_11E354, str_WesternConference2, SeasonUserRecords, unk_17CC1F, unk_17
 global unk_77442, unk_7745A, CompareGrey, SortGreyColors, jpt_7761E, jpt_77632, NewSeasonScreen, NewSeasonScreen_5FB
 global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonScreen_7F2, NewSeasonScreen_8AF, NewSeasonScreen_8BB, NewSeasonScreen_8CB, NewSeasonScreen_8E0
 global NewSeasonScreen_9A9, NewSeasonScreen_9AA, SetGreyPalette, DrawSeasonTeams, CreateSeason, EditSeasonName, EditSeasonName_D3, EditSeasonName_E0
-global WriteSeasonBlock, WriteSeasonHeader, MakeSeasonDbPath, MakeSeasonDbPath_51, MakePlayoffDbPath, MakePlayoffDbPath_15F, ResetSeasonFiles, unk_792EB
+global WriteSeasonBlock, WriteSeasonHeader, MakeSeasonDbPath, MakeSeasonDbPath_51, MakePlayoffDbPath, MakePlayoffDbPath_15F, ResetSeasonFiles, str_Punct
 global unk_79303, unk_79483, unk_794C3, jpt_794CB, jpt_794EF
 unk_77442:
         db 05h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,03h,00h,00h,00h
@@ -925,7 +925,7 @@ DrawSeasonTeams:
         mov eax, 0C000h
         add esp, byte 4
         mov ecx, dword [dword esi+dword_11E2EC]
-        mov ebx, dword [dword esi+dword_11E2D4]
+        mov ebx, dword [dword esi+str_2_DrawSeasonTeams]
         mov edx, dword [byte edx+02Ch]
         call DrawFrameAt
         mov eax, 0FCh
@@ -939,13 +939,13 @@ DrawSeasonTeams:
         jne short .6
         add eax, unk_17CC1F
         mov ebx, dword [dword esi+dword_11E2EC]
-        mov edx, dword [dword esi+dword_11E2D4]
+        mov edx, dword [dword esi+str_2_DrawSeasonTeams]
         add ebx, byte 5Dh
         add edx, byte 5Ah
         call DrawColorTextCentred
 .6:
         mov edx, dword [byte ebp-0Ch]
-        mov eax, dword [nosplit edx*4+dword_11E2D4]
+        mov eax, dword [nosplit edx*4+str_2_DrawSeasonTeams]
         add eax, dword [byte ebp+014h]
         mov ebx, dword [byte ebp-018h]
         add eax, byte 12h
@@ -953,11 +953,11 @@ DrawSeasonTeams:
         mov eax, dword [nosplit edx*4+dword_11E2EC]
         add eax, dword [byte ebp+018h]
         mov dword [byte ebx+04h], eax
-        mov eax, dword [nosplit edx*4+dword_11E2D4]
+        mov eax, dword [nosplit edx*4+str_2_DrawSeasonTeams]
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
-        fadd qword [qword_112137]
+        fadd qword [F64_143p964]
         call __CHP
         fistp dword [byte ebp-044h]
         mov eax, dword [byte ebp-044h]
@@ -965,11 +965,11 @@ DrawSeasonTeams:
         mov eax, dword [nosplit edx*4+dword_11E2EC]
         add eax, dword [byte ebp+018h]
         mov dword [byte ebx+0Ch], eax
-        mov eax, dword [nosplit edx*4+dword_11E2D4]
+        mov eax, dword [nosplit edx*4+str_2_DrawSeasonTeams]
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
-        fadd qword [qword_112137]
+        fadd qword [F64_143p964]
         call __CHP
         fistp dword [byte ebp-044h]
         mov eax, dword [byte ebp-044h]
@@ -978,7 +978,7 @@ DrawSeasonTeams:
         add eax, dword [byte ebp+018h]
         add eax, byte 5Bh
         mov dword [byte ebx+014h], eax
-        mov eax, dword [nosplit edx*4+dword_11E2D4]
+        mov eax, dword [nosplit edx*4+str_2_DrawSeasonTeams]
         add eax, dword [byte ebp+014h]
         add eax, byte 12h
         mov dword [byte ebx+018h], eax
@@ -1148,8 +1148,8 @@ DrawSeasonTeams:
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
-        fadd qword [qword_112137]
-        fadd qword [qword_11213F]
+        fadd qword [F64_143p964]
+        fadd qword [F64_neg20]
         jmp short .23
 .22:
         mov eax, dword [byte ebp-010h]
@@ -1157,7 +1157,7 @@ DrawSeasonTeams:
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
-        fadd qword [qword_112137]
+        fadd qword [F64_143p964]
 .23:
         call __CHP
         fistp dword [byte ebp-044h]
@@ -1173,7 +1173,7 @@ DrawSeasonTeams:
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
-        fadd qword [qword_112137]
+        fadd qword [F64_143p964]
         call __CHP
         fistp dword [byte ebp-044h]
         mov eax, dword [byte ebp-044h]
@@ -2364,7 +2364,7 @@ ResetSeasonFiles:
         pop ecx
         pop ebx
         ret
-unk_792EB:
+str_Punct:
         db 09h,00h,00h,00h,03h,00h,00h,00h,05h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,00h,00h,00h,00h
 unk_79303:

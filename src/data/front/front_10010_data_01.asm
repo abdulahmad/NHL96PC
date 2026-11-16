@@ -5,7 +5,7 @@ section s_114B40 progbits alloc noexec write align=1
 global InputRecordCount, InputRecordHead, SlotButtons, str_GRIPGLL, str_GRIP, str_CGRIP, byte_114B48, byte_114B4C
 global byte_114C58, byte_114D96, dword_114B5C, dword_114B60, dword_114B64, dword_114B68, dword_114B78, dword_114B7C
 global dword_114B80, dword_114B88, dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114CB0, dword_114CB4
-global GripLinked, dword_114CD3, dword_114CD7, dword_114CD9, dword_114CE2, dword_114D0E, dword_114D12, dword_114D1A
+global GripLinked, dword_114CD3, dword_114CD7, dword_114CD9, dword_114CE2, dword_114D0E, str_Punct_ModemGameOpen, dword_114D1A
 global dword_114D1E, dword_114D36, dword_114D3A, dword_114D9A, dword_114D9E, dword_114DA2, dword_114DA6, dword_114DAA
 global dword_114DAE, dword_114DB2, str_Punct_ModemSettingsScreen, dword_114DBA, dword_114DCA, unk_114BA8, unk_114C00, unk_114CE6
 global unk_114D46, unk_114D6E, word_114B40, word_114B42, word_114B44, word_114CDB, word_114CE0, word_114CE4
@@ -103,7 +103,7 @@ unk_114CE6:
         db 00h,00h,00h,00h,00h,00h,00h,00h
 dword_114D0E:
         db 00h,00h,00h,00h
-dword_114D12:
+str_Punct_ModemGameOpen:
         db 09h,00h,00h,00h,00h,00h,00h,00h
 dword_114D1A:
         db 01h,00h,00h,00h

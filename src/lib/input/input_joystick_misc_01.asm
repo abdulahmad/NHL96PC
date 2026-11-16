@@ -8,7 +8,7 @@ extern JoyCalibrateTicks, JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAx
 extern JoyX1Min, JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen
 extern JoyY1Center, JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, SavedBreakOffset
 extern BreakCallFunc, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, exit_, joyenablemask, BiosKeyFunc
-extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, unk_AA7B0
+extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, str_Locateshape44sSHAPENOTFOUND
 extern JoyAxisValues, word_11F914, word_11F918, word_11F91C, SavedBreakSelector, BreakDataSelector
 global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, FindShapeQuiet_2, ClearClipRect_30
 global TicksSinceLast, WaitTicks, KbdGetKey, CallKbdIdleHook, KbdPeekKey, SetKbdIdleHook, FlushKeys, CalibrateJoystick
@@ -641,7 +641,7 @@ ExitProgram:
 ; found" when it is missing
 ;-----------------------------------------------------------------------------
 FindShape:
-        mov ebx, unk_AA7B0
+        mov ebx, str_Locateshape44sSHAPENOTFOUND
         jmp short FindShapeQuiet_2
 ;-----------------------------------------------------------------------------
 ; FindShapeQuiet                               E04E7  96 PC, medium confidence

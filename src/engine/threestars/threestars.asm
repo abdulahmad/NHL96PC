@@ -18,8 +18,8 @@ extern AnimateBenchSprite, CrowdReactToPlay, AddZone, DrawGameFrame, GetPeriodTe
 extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
-extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
-extern unk_119D4E, hmplstats, hmplattr, exhstate, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
+extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, unk_119D36
+extern str_V_DrawOverlayPanels, hmplstats, hmplattr, exhstate, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
 extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, RefStep, word_118E9F
 extern word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4, word_156E6E, hmglstats_w2, word_157AFC
 extern hmglstats_w8, hmglstats_w14, word_1647CA, hmscore, word_16570A, hmtmpdst, awscore, word_176BB8
@@ -598,11 +598,11 @@ DrawOverlayPanels:
         test byte [byte_17CA5D], 20h
         je short .1
         mov esi, unk_119D36
-        mov dword [byte ebp-04h], unk_119D4E
+        mov dword [byte ebp-04h], str_V_DrawOverlayPanels
         jmp short .2
 .1:
-        mov esi, unk_119D0A
-        mov dword [byte ebp-04h], unk_119D22
+        mov esi, str_C_DrawOverlayPanels
+        mov dword [byte ebp-04h], str_Punct_DrawOverlayPanels
 .2:
         push byte 0
         push byte 30h

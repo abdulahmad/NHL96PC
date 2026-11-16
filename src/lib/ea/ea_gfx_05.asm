@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_BA3D0 progbits alloc exec nowrite align=1
-extern FatalError, str_ORIINST, asc_113960, asc_11396C, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, str_Punct_DrawRinkSurface
+extern FatalError, str_ORIINST, str_INVMATRX, str_Ori, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, str_Punct_DrawRinkSurface
 extern dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, str_Punct_SetScreenScale, ScreenWidth, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, ViewCenterY, str_D_ProjectPointsPersp, dword_123ABC
 extern dword_123AC0, AtanTable, str_Punct_AngleOfVector, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_1956B0
@@ -3156,7 +3156,7 @@ OriFixupModel:
         push ebx
         shl eax, 2
         push eax
-        push asc_113960
+        push str_INVMATRX
         call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte esi+06Ch], eax
@@ -3296,7 +3296,7 @@ OriReadModel:
         cmp edx, ecx
         jb short .5
 .8:
-        mov esi, asc_11396C
+        mov esi, str_Ori
         mov edi, esp
         push edi
         LD sub, ecx, ecx

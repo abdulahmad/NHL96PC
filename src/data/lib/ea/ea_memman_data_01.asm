@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_11319C progbits alloc noexec write align=1
-global str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE, str_ResizememblockNOROOMTO
-global str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
+global str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, str_ReservememOUTOFMEMORYRequest, str_ReservememOUTOFMEMORYRequest_AllocMemBlockEx, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE, str_ResizememblockNOROOMTO
+global str_FindmemblockBLOCKNOTFOUND, str_PurgememblockNULLPointer, str_GetmemblockNOMEMORYBLOCKS, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
 global str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec
 str_ReservememMEMORYMANAGERN:
         db 072h,065h,073h,065h,072h,076h,065h,06Dh,065h,06Dh,020h,02Dh,020h,04Dh,045h,04Dh
@@ -23,12 +23,12 @@ str_ReservememMEMORYMANAGERB:
         db 075h,065h,073h,074h,065h,064h,03Ah,020h,025h,06Ch,064h,02Eh,020h,074h,079h,070h
         db 065h,020h,025h,078h,02Eh,020h,073h,068h,06Fh,075h,06Ch,064h,020h,062h,065h,020h
         db 025h,078h,0Ah,00h
-asc_113270:
+str_ReservememOUTOFMEMORYRequest:
         db 072h,065h,073h,065h,072h,076h,065h,06Dh,065h,06Dh,020h,02Dh,020h,04Fh,055h,054h
         db 020h,04Fh,046h,020h,04Dh,045h,04Dh,04Fh,052h,059h,0Ah,072h,065h,071h,075h,065h
         db 073h,074h,065h,064h,03Ah,020h,025h,06Ch,064h,020h,061h,076h,061h,069h,06Ch,061h
         db 062h,06Ch,065h,03Ah,020h,025h,06Ch,064h,0Ah,00h,05Ah,045h
-asc_1132AC:
+str_ReservememOUTOFMEMORYRequest_AllocMemBlockEx:
         db 072h,065h,073h,065h,072h,076h,065h,06Dh,065h,06Dh,020h,02Dh,020h,04Fh,055h,054h
         db 020h,04Fh,046h,020h,04Dh,045h,04Dh,04Fh,052h,059h,0Ah,072h,065h,071h,075h,065h
         db 073h,074h,065h,064h,03Ah,020h,025h,06Ch,064h,020h,061h,076h,061h,069h,06Ch,061h
@@ -53,7 +53,7 @@ str_FindmemblockBLOCKNOTFOUND:
         db 066h,069h,06Eh,064h,06Dh,065h,06Dh,062h,06Ch,06Fh,063h,06Bh,020h,02Dh,020h,042h
         db 04Ch,04Fh,043h,04Bh,020h,04Eh,04Fh,054h,020h,046h,04Fh,055h,04Eh,044h,020h,028h
         db 025h,070h,029h,0Ah,00h,046h,04Ch,041h
-asc_1133C0:
+str_PurgememblockNULLPointer:
         db 070h,075h,072h,067h,065h,06Dh,065h,06Dh,062h,06Ch,06Fh,063h,06Bh,020h,02Dh,020h
         db 04Eh,055h,04Ch,04Ch,020h,070h,06Fh,069h,06Eh,074h,065h,072h,0Ah,00h,020h,053h
 str_GetmemblockNOMEMORYBLOCKS:

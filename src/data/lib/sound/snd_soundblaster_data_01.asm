@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_1140E8 progbits alloc noexec write align=1
 global str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, str_NotEnoughMemoryTo
-global str_FloatingPointSupportNot, str_SaveText, asc_114194, str_Ptr0ptr1ptr2, asc_1141B4, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2
-global str_RATIONALDOS4G, str_RMHandler, unk_11418C, str_ULTRASND, unk_1142D0, str_Fs, str_Jan2, str_Feb3
+global str_FloatingPointSupportNot, str_SaveText, str_CUtilMouse, str_Ptr0ptr1ptr2, str_BuildtableminLinearmapfExcee, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2
+global str_RATIONALDOS4G, str_RMHandler, str_Mouse, str_ULTRASND, unk_1142D0, str_Fs, str_Jan2, str_Feb3
 global str_Mar2, str_Apr2, str_May2, str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2
 global str_Nov2, str_Dec2
 str_BLASTER:
@@ -31,13 +31,13 @@ str_FloatingPointSupportNot:
         db 064h,0Dh,0Ah,00h
 str_SaveText:
         db 053h,061h,076h,065h,020h,054h,065h,078h,074h,00h,00h,00h
-unk_11418C:
+str_Mouse:
         db 06Dh,06Fh,075h,073h,065h,00h,069h,064h
-asc_114194:
+str_CUtilMouse:
         db 063h,03Ah,05Ch,075h,074h,069h,06Ch,05Ch,06Dh,06Fh,075h,073h,065h,00h,075h,061h
 str_Ptr0ptr1ptr2:
         db 070h,074h,072h,030h,070h,074h,072h,031h,070h,074h,072h,032h,00h,00h,00h,00h
-asc_1141B4:
+str_BuildtableminLinearmapfExcee:
         db 062h,075h,069h,06Ch,064h,074h,061h,062h,06Ch,065h,06Dh,069h,06Eh,020h,028h,06Ch
         db 069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h,02Dh,020h,065h,078h,063h
         db 065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh,061h,078h,020h,068h,065h

@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_111008 progbits alloc noexec write align=1
-global asc_111008, str_Logo, str_Priority, str_B001, str_B000, str_DS, str_Goal0, str_Goal1
+global str_LUT, str_Logo, str_Priority, str_B001, str_B000, str_DS, str_Goal0, str_Goal1
 global str_2d02d2, str_2d01d, str_DDD2, str_DDD3, str_3s, str_2d, str_12s, str_SS2
-global str_Priority2, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
-global qword_1110BC, unk_111024, str_12, str_24, str_32, str_42, str_Anh, str_Ana
+global str_Priority2, F64_0p00277778, F64_65536_CamView236, F64_0p00277778_CamView236, qword_11109C, F64_0p00277778_CamView238, F64_65536_CamView238, F64_0p00277778_CamView239
+global F64_65536_CamView239, unk_111024, str_12, str_24, str_32, str_42, str_Anh, str_Ana
 global str_Bsh, str_Bsa, str_Bfh, str_Bfa, str_Cgh, str_Cga, str_Chh, str_Cha
 global str_Dlh, str_Dla, str_Dth, str_Dta, str_Edh, str_Eda, str_Flh, str_Fla
 global str_Hrh, str_Hra, str_Lah, str_Laa, str_Mth, str_Mta, str_Njh, str_Nja
@@ -13,7 +13,7 @@ global str_Ilh, str_Ila, str_Rgh, str_Rga, str_Oth, str_Ota, str_Phh, str_Pha
 global str_Pth, str_Pta, str_Quh, str_Qua, str_Slh, str_Sla, str_Sjh, str_Sja
 global str_Tbh, str_Tba, str_Trh, str_Tra, str_Vnh, str_Vna, str_Wsh, str_Wsa
 global str_Wnh, str_Wna, str_Asw, str_Ase
-asc_111008:
+str_LUT:
         db 04Ch,055h,054h,00h
 str_Logo:
         db 06Ch,06Fh,067h,06Fh,00h
@@ -55,21 +55,21 @@ str_32:
         db 033h,00h
 str_42:
         db 034h,00h,00h,00h,00h
-qword_111084:
+F64_0p00277778:
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-qword_11108C:
+F64_65536_CamView236:
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-qword_111094:
+F64_0p00277778_CamView236:
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
 qword_11109C:
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-qword_1110A4:
+F64_0p00277778_CamView238:
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-qword_1110AC:
+F64_65536_CamView238:
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-qword_1110B4:
+F64_0p00277778_CamView239:
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-qword_1110BC:
+F64_65536_CamView239:
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
 str_Priority2:
         db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h,00h,00h,00h

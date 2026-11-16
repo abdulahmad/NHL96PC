@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1175AD progbits alloc noexec write align=1
 global dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9, dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC
-global dword_1177F0, unk_1175BD, IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC
+global dword_1177F0, str_Punct_DrawIceSurface, IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC
 dword_1175AD:
         db 00h,00h,00h,00h
 dword_1175B1:
@@ -12,7 +12,7 @@ dword_1175B5:
         db 00h,00h,00h,00h
 dword_1175B9:
         db 00h,00h,00h,00h
-unk_1175BD:
+str_Punct_DrawIceSurface:
         db 02Eh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,036h,00h,00h,00h
         db 00h,00h,00h,00h,01Dh,00h,00h,00h,01Eh,00h,00h,00h,00h,00h,00h,00h
         db 039h,00h,00h,00h,0E2h,0FFh,0FFh,0FFh,00h,00h,00h,00h,039h,00h,00h,00h

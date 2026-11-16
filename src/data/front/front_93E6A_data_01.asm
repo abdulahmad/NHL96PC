@@ -6,8 +6,8 @@ global str_XTbl2, str_Bkgd18, str_Pal24, str_SD5, str_RAT02, str_HD012, str_HD02
 global str_S1, str_BALL4, str_S22, str_S32, str_S1up, str_S1ug, str_S1dw, str_S1dg
 global str_S2up, str_S2ug, str_S2dw, str_S2dg, str_TR00, str_TR01, str_TR02, str_S3up
 global str_S3ug, str_S3dw, str_S3dg, str_TR0D, str_DD9, str_DD10, str_NAV, str_003
-global str_FSH5, str_Plyr3, str_PROFILEFSH3, str_Card3, str_Ard3, str_DSS4, str_StatDBPTRs2, qword_112B02
-global qword_112B0A, str_D11, unk_112B14, unk_112B18, unk_112B1C, unk_112B20, unk_112B24
+global str_FSH5, str_Plyr3, str_PROFILEFSH3, str_Card3, str_Ard3, str_DSS4, str_StatDBPTRs2, F64_2p54_DrawRatingsName
+global F64_0p454545_DrawRatingsName, str_D11, unk_112B14, str_LFT, str_RHT, unk_112B20, unk_112B24
 str_XTbl2:
         db 058h,02Dh,074h,062h,06Ch,00h
 str_Bkgd18:
@@ -86,15 +86,15 @@ str_Ard3:
         db 021h,061h,072h,064h,00h
 str_DSS4:
         db 023h,025h,064h,020h,025h,073h,020h,025h,073h,00h
-qword_112B02:
+F64_2p54_DrawRatingsName:
         db 052h,0B8h,01Eh,085h,0EBh,051h,04h,040h
-qword_112B0A:
+F64_0p454545_DrawRatingsName:
         db 018h,05Dh,074h,0D1h,045h,017h,0DDh,03Fh,00h,00h
 unk_112B14:
         db 043h,045h,04Eh,00h
-unk_112B18:
+str_LFT:
         db 04Ch,046h,054h,00h
-unk_112B1C:
+str_RHT:
         db 052h,048h,054h,00h
 unk_112B20:
         db 044h,045h,046h,00h

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1B046 progbits alloc exec nowrite align=1
-extern _dos_gettime_, asc_1103D8, chdir_, DetectCPU, dword_114CD3, dword_1150D4, dword_1150D8, dword_1150DC
+extern _dos_gettime_, str_Punct_StartUp, chdir_, DetectCPU, dword_114CD3, dword_1150D4, dword_1150D8, dword_1150DC
 extern dword_11D19C, CpuType, dword_11F61C, bailout_vec, DebugMode, dword_152F44, dword_152F48, dword_152F4C
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, globalset, InitInputDevices, InstallTimer, LoadDataFile
 extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, LogoNames, optflags, PlayMenuGame, printf_
@@ -15,7 +15,7 @@ extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunContro
 extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMemBlock, FreeMemBlock, MemLargestFreeOfList, ClearScreenColour
 extern UnpackTo, TextSetColor, SetupMemoryPool, NumLockOff, InstallHotkeys, NearestColour, CreateAaPalLut, SetScreenTarget
 extern SetTextMode, SetPaletteEntries8, ReadPaletteEntries8, InitMouse, InstallKeyboardHandler, KbdGetKey, AddExitHandler, FindShape
-extern bcopy, InstallBreakHandler, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
+extern bcopy, InstallBreakHandler, TextSetFont, str_0_LoadTeamLogo, str_Punct_CheckGameDirs, unk_11041A, unk_11048D, DataDirPath
 extern unk_1210DC, unk_1213DC, str_WesternConference2, unk_18584C
 global jpt_1B046, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
 global LoadTeamLogo_ret, RunFrontEnd, ReturnTrue, CheckFreeMemory, CheckGameDirs, InitHardware, StartUp, ShutDown
@@ -86,7 +86,7 @@ LoadTeamLogo_6D:
         call strlen_
         cmp eax, byte 4
         jae short .5
-        mov edx, unk_110351
+        mov edx, str_0_LoadTeamLogo
         lea eax, [byte ebp-08h]
         jmp short LoadTeamLogo.1
 .5:
@@ -320,7 +320,7 @@ CheckGameDirs:
         call strcmp_
         test eax, eax
         je short .3
-        mov eax, unk_110355
+        mov eax, str_Punct_CheckGameDirs
         call chdir_
 .3:
         inc ebx
@@ -484,7 +484,7 @@ StartUp:
         push str_spPressESCToReturnToDOS
         call printf_
         add esp, byte 4
-        push asc_1103D8
+        push str_Punct_StartUp
         call printf_
         add esp, byte 4
         push unk_11041A

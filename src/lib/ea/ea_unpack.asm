@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_AEE40 progbits alloc exec nowrite align=1
-extern FatalError, asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, byte_11FA2C, byte_11FA2D, byte_11FA2E
+extern FatalError, str_Lzh, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, byte_11FA2C, byte_11FA2D, byte_11FA2E
 extern byte_11FA2F, byte_11FA30, byte_11FA31, str_ctl07, byte_11FB50, byte_11FC50, dword_11FA14, dword_11FA18
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr
@@ -797,7 +797,7 @@ UnpackLzh:
         mov ebp, edx
         push byte 0
         push dword 0F6C1h
-        push asc_1135A8
+        push str_Lzh
         call AllocMemBlock
         mov edx, eax
         add esp, byte 0Ch

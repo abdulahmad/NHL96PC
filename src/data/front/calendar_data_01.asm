@@ -2,24 +2,24 @@
 bits 32
 %include "hockey.inc"
 section s_1123AC progbits alloc noexec write align=1
-global str_Tttt, str_Llll, str_Wwww, asc_1123BB, str_DarD, asc_1123C6, str_05dCNZDB, str_S05dCNZDB
-global str_Pblank, str_Pgblank, str_Tmstats, str_Tmgstats, str_Tmdata, str_Aps, asc_112433, str_Tset
+global str_Tttt, str_Llll, str_Wwww, str_Punct_DrawCalendar, str_DarD, asc_1123C6, str_05dCNZDB, str_S05dCNZDB
+global str_Pblank, str_Pgblank, str_Tmstats, str_Tmgstats, str_Tmdata, str_Aps, str_Ags, str_Tset
 global str_GSUMMARYDB, str_H07d, str_FSH, str_Down, str_A07d, str_Home, str_PalFsh, str_Pal3
-global dword_1123CB, qword_11244E, qword_112456, qword_11245E, qword_112466, qword_11246E, qword_112476, qword_11247E
-global tag_agset, tag_apset, tag_gset, tag_pset, str_Pk, str_Ps, unk_112428, unk_11242B
+global F32_65536, F64_0p333333, F64_0p75, F64_0p0119048, F64_0p0166667, F64_0p8, F64_10, F64_1000
+global tag_agset, tag_apset, tag_gset, tag_pset, str_Pk, str_Ps, str_Gk, str_Gs
 str_Tttt:
         db 074h,074h,074h,074h,00h
 str_Llll:
         db 06Ch,06Ch,06Ch,06Ch,00h
 str_Wwww:
         db 077h,077h,077h,077h,00h
-asc_1123BB:
+str_Punct_DrawCalendar:
         db 03Ah,03Ah,03Ah,03Ah,00h
 str_DarD:
         db 064h,061h,072h,025h,064h,00h
 asc_1123C6:
         db 02Dh,02Dh,02Dh,02Dh,00h
-dword_1123CB:
+F32_65536:
         db 00h,00h,080h,047h,00h
 str_05dCNZDB:
         db 025h,030h,035h,064h,025h,063h,04Eh,05Ah,02Eh,044h,042h,00h
@@ -45,13 +45,13 @@ str_Aps:
         db 061h,070h,073h,00h
 tag_apset:
         db 061h,070h,073h,065h,074h,00h
-unk_112428:
+str_Gk:
         db 067h,06Bh,00h
-unk_11242B:
+str_Gs:
         db 067h,073h,00h
 tag_gset:
         db 067h,073h,065h,074h,00h
-asc_112433:
+str_Ags:
         db 061h,067h,073h,00h
 tag_agset:
         db 061h,067h,073h,065h,074h,00h
@@ -59,19 +59,19 @@ str_Tset:
         db 074h,073h,065h,074h,00h
 str_GSUMMARYDB:
         db 047h,053h,055h,04Dh,04Dh,041h,052h,059h,02Eh,044h,042h,00h
-qword_11244E:
+F64_0p333333:
         db 055h,055h,055h,055h,055h,055h,0D5h,03Fh
-qword_112456:
+F64_0p75:
         db 00h,00h,00h,00h,00h,00h,0E8h,03Fh
-qword_11245E:
+F64_0p0119048:
         db 018h,086h,061h,018h,086h,061h,088h,03Fh
-qword_112466:
+F64_0p0166667:
         db 011h,011h,011h,011h,011h,011h,091h,03Fh
-qword_11246E:
+F64_0p8:
         db 09Ah,099h,099h,099h,099h,099h,0E9h,03Fh
-qword_112476:
+F64_10:
         db 00h,00h,00h,00h,00h,00h,024h,040h
-qword_11247E:
+F64_1000:
         db 00h,00h,00h,00h,00h,040h,08Fh,040h,00h,00h
 str_H07d:
         db 048h,025h,030h,037h,064h,00h

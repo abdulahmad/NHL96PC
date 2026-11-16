@@ -6,8 +6,8 @@ global str_BT105, str_BT115, str_BT122, str_SLDR, str_BALL3, str_AR00, str_AR01,
 global str_AR11, str_S05dCsgDb3, str_S05dCnzDb5, str_S, str_MonthChoice, str_CalendarChoices, str_Regions, str_Monthregions
 global str_DK00, str_Bkgd12, str_Pal17, str_DK02d, str_LFDK, str_RTDK, str_LT02d, str_LFLT
 global str_RTLT, str_Sim1, str_Sim2, str_Sim3, str_Hmaw, str_WhtD, str_Rd, str_Bl
-global str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, dword_1122F8, dword_1122FC
-global F32_14_InitScrollTable, dword_112304
+global str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, F32_0p5, F32_0p5_InitHScrollBar
+global F32_14_InitScrollTable, F32_0p5_ScrollBarToMouse
 str_BT105:
         db 042h,054h,031h,030h,00h
 str_BT115:
@@ -32,13 +32,13 @@ str_S05dCnzDb5:
         db 025h,073h,025h,030h,035h,064h,025h,063h,06Eh,07Ah,02Eh,064h,062h,00h
 str_S:
         db 03Eh,025h,073h,00h,00h,00h,00h
-dword_1122F8:
+F32_0p5:
         db 00h,00h,00h,03Fh
-dword_1122FC:
+F32_0p5_InitHScrollBar:
         db 00h,00h,00h,03Fh
 F32_14_InitScrollTable:
         db 00h,00h,0F0h,041h
-dword_112304:
+F32_0p5_ScrollBarToMouse:
         db 00h,00h,00h,03Fh
 str_MonthChoice:
         db 04Dh,06Fh,06Eh,074h,068h,020h,043h,068h,06Fh,069h,063h,065h,00h

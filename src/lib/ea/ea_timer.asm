@@ -5,7 +5,7 @@ section s_AA5C4 progbits alloc exec nowrite align=1
 extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, TimerTickStep, ScreenWidth, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, oldint8off, oldint8sel
 extern RestoreDS, BlitShapeClipped, VesaSetBank, AddExitHandler, bcopy, tickcount, timercallbacks
-global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, DrawShapeCore, unk_AA7B0, TimerISR_tick
+global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, DrawShapeCore, str_Locateshape44sSHAPENOTFOUND, TimerISR_tick
 ;-----------------------------------------------------------------------------
 ; TimerISR                                     AA5C4  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -218,7 +218,7 @@ InstallTimer:
 .1:
         ret
         db 00h,00h
-unk_AA7B0:
+str_Locateshape44sSHAPENOTFOUND:
         db 06Ch,06Fh,063h,061h,074h,065h,073h,068h,061h,070h,065h,020h,02Dh,020h,027h,025h
         db 02Dh,034h,02Eh,034h,073h,027h,020h,053h,048h,041h,050h,045h,020h,04Eh,04Fh,054h
         db 020h,046h,04Fh,055h,04Eh,044h,0Dh,0Ah,00h,00h,00h,00h,00h,00h,00h,00h

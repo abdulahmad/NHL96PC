@@ -2,21 +2,21 @@
 bits 32
 %include "hockey.inc"
 section s_114DD2 progbits alloc noexec write align=1
-extern str_OK, str_0, unk_110124, str_CONNECT, str_1, str_fe1, str_RING, str_2
+extern str_OK, str_0, str_0_ModemResultCodeTable, str_CONNECT, str_1, str_fe1, str_RING, str_2
 extern str_fe2, str_NOCARRIER, str_3, str_fe3, str_ERROR, str_4, str_fe4, str_CONNECT1200
-extern str_5, str_fe5, str_NODIALTONE, str_6, unk_110185, str_NODIALTONE2, str_BUSY, str_7
+extern str_5, str_fe5, str_NODIALTONE, str_6, str_6_ModemResultCodeTable, str_NODIALTONE2, str_BUSY, str_7
 extern str_fe7, str_NOANSWER, str_8, str_fe8, str_CONNECT2400, str_10, str_102, str_CONNECT9600
 extern str_13, str_132, str_CONNECT9600ARQ, str_17, str_172, str_CONNECT9600HST, str_23, str_232
 extern str_CONNECT9600ARQHST, str_27, str_272, str_CONNECT14400, str_25, str_252, str_CONNECT14400ARQ, str_26
 extern str_262, str_CONNECT14400HST, str_35, str_352, str_CONNECT14400ARQHST, str_36, str_362
-global GameLoopActive, InputRecordBusy, InputRecordPhase, InputRecordTicks, PauseReplayPending, byte_115084, dword_114DE8, dword_114DF0
-global dword_114DF4, dword_114DFC, dword_114EB0, dword_114EB4, dword_114ED0, dword_114ED4, dword_114EE8, dword_114EEC
-global dword_114EF0, dword_114EF4, dword_114F16, ModemResultCount, ModemLastResult, dword_115008, dword_11500C, dword_115010
+global GameLoopActive, InputRecordBusy, InputRecordPhase, InputRecordTicks, PauseReplayPending, str_Punct_LinkTimerTick, dword_114DE8, dword_114DF0
+global str_Z_AnimateStarsScreen, dword_114DFC, dword_114EB0, dword_114EB4, dword_114ED0, dword_114ED4, dword_114EE8, dword_114EEC
+global dword_114EF0, dword_114EF4, dword_114F16, ModemResultCount, ModemLastResult, dword_115008, dword_11500C, str_Punct_LinkOpen
 global dword_115014, dword_115018, dword_11501C, dword_115020, dword_115024, dword_115028, dword_11502C, dword_115030
 global dword_115034, dword_115038, dword_11503C, dword_115040, dword_115044, dword_115048, dword_11504C, dword_115050
 global dword_115054, dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068, str_ctl06, str_22
-global dword_115074, str_newline, dword_11507C, dword_115080, ModemResultTextTable, ModemResultCodeTable, word_114DD2, word_114DD4
-global word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8, word_114EAC, word_114EF8
+global str_D_LinkCopyBytes, str_newline, dword_11507C, dword_115080, ModemResultTextTable, ModemResultCodeTable, word_114DD2, word_114DD4
+global word_114DD6, word_114DD8, str_Punct_DrawGameStats, word_114DE4, word_114DE6, word_114EA8, word_114EAC, word_114EF8
 global word_114EFA, word_114EFC, word_114EFE, word_114F00, word_114F14
 word_114DD2:
         db 03Ch,01h
@@ -26,7 +26,7 @@ word_114DD6:
         db 0FCh,01h
 word_114DD8:
         db 0A9h,00h,037h,01h
-word_114DDC:
+str_Punct_DrawGameStats:
         db 07Eh,00h,0ABh,00h,0D8h,00h,08h,01h
 word_114DE4:
         db 038h,01h
@@ -36,7 +36,7 @@ dword_114DE8:
         db 00h,00h,00h,00h,05Ah,00h,00h,00h
 dword_114DF0:
         db 040h,01h,00h,00h
-dword_114DF4:
+str_Z_AnimateStarsScreen:
         db 05Ah,00h,00h,00h,040h,01h,00h,00h
 dword_114DFC:
         db 0DAh,00h,00h,00h,00h,00h,00h,00h,0DBh,00h,00h,00h,00h,00h,00h,00h
@@ -100,7 +100,7 @@ ModemResultTextTable:
         dd str_OK
         dd str_0
 ModemResultCodeTable:
-        dd unk_110124
+        dd str_0_ModemResultCodeTable
         dd str_CONNECT
         dd str_1
         dd str_fe1
@@ -118,10 +118,10 @@ ModemResultCodeTable:
         dd str_fe5
         dd str_NODIALTONE
         dd str_6
-        dd unk_110185
+        dd str_6_ModemResultCodeTable
         dd str_NODIALTONE2
         dd str_6
-        dd unk_110185
+        dd str_6_ModemResultCodeTable
         dd str_BUSY
         dd str_7
         dd str_fe7
@@ -163,7 +163,7 @@ dword_115008:
         db 00h,00h,00h,00h
 dword_11500C:
         db 00h,00h,00h,00h
-dword_115010:
+str_Punct_LinkOpen:
         db 09h,00h,00h,00h
 dword_115014:
         db 00h,00h,00h,00h
@@ -213,7 +213,7 @@ str_ctl06:
         db 06h,00h,00h,00h
 str_22:
         db 032h,00h,00h,00h
-dword_115074:
+str_D_LinkCopyBytes:
         db 064h,00h,00h,00h
 str_newline:
         db 0Ah,00h,00h,00h
@@ -221,6 +221,6 @@ dword_11507C:
         db 00h,00h,00h,00h
 dword_115080:
         db 00h,00h,00h,00h
-byte_115084:
+str_Punct_LinkTimerTick:
         db 03Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h

@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_AA988 progbits alloc exec nowrite align=1
-extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dword_11F9B8, RowTable
+extern FatalError, str_InitmemmanadrINSUFFICIENTMEM, str_LOWMEM, str_HIGHMEM, str_GAP, str_UnlinkmemclassareaReleaseMem, dword_11F9B8, RowTable
 extern RowCopyFunc, dword_1210C8, MemPoolBase, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
-extern KeyedDraw, dword_1228FC, dword_122930, dword_123934, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
+extern KeyedDraw, dword_1228FC, dword_122930, str_F_PutBlock, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
 extern MemFreeBytes, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, BlitBlock, BlitBlockXor, BlitBlockAnd
 extern AndPixel, BlitBlockOr, OrPixel, bcopy, SaveDrawState, RestoreDrawState
@@ -307,7 +307,7 @@ PutBlock:
         jle near .14
         mov ebp, dword [byte esp+010h]
         mov eax, dword [byte esp+03Ch]
-        mov ebp, dword [nosplit ebp*4+dword_123934]
+        mov ebp, dword [nosplit ebp*4+str_F_PutBlock]
         mov edx, dword [byte esp+0Ch]
         sub ebp, eax
         cmp ebp, edx
@@ -910,7 +910,7 @@ DrawArtOr:
         mov dword [MemPoolBase], eax
         cmp esi, edx
         jle short .9
-        push asc_113110
+        push str_InitmemmanadrINSUFFICIENTMEM
         call FatalError
         add esp, byte 4
 .9:
@@ -1157,7 +1157,7 @@ AddHighMemRegion:
 .2:
         cmp esi, dword [byte edi+04h]
         jne short .3
-        push asc_11316C
+        push str_UnlinkmemclassareaReleaseMem
         call FatalError
         add esp, byte 4
 .3:

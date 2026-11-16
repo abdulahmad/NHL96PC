@@ -19,7 +19,7 @@ extern checkpuckcoll, chk4lcauto, CompPass, chk4shot, SetShotMode, ShotMode, Fin
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
 extern PuckInNet, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, PlaySfxOr
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_119D7C
-extern unk_119D9C, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
+extern str_Q, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
 extern fodir2, gmode2, HomeControlSlot, RefStep, word_1178FA, gsp, clockticks, dirtab
 extern dirtab_y, word_117AA2, lcblinktime, lcsel, lctimer, ovltimer, word_11910F, word_119DBC
 extern word_119DBE, word_119DE8, refsigdir, word_119E44, word_119EBA, puckcross2, puckcross6, word_16479E
@@ -70,7 +70,7 @@ assextra4:
         mov word [regd3], cx
         jmp short .3
 .2:
-        mov dword [byte ebp-08h], unk_119D9C
+        mov dword [byte ebp-08h], str_Q
         mov word [regd3], dx
 .3:
         mov cl, byte [byte ebx+044h]

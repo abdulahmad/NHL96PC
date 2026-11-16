@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_BF070 progbits alloc exec nowrite align=1
-extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, ScreenWidth, KeyedDraw, dword_1228FC
+extern FatalError, str_VESAMEM, str_GetvesainfoINVALIDDOSSEGMENT, str_VESA, str_GetvesainfoINVALIDVESAINFOVE, ScreenWidth, KeyedDraw, dword_1228FC
 extern dword_122930, VesaModeInfo, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
 extern AllocMemBlock, FreeMemBlock, VesaSetBank, BlitShapeFast, FindShape, FindShapeQuiet, bcopy, word_19B676
 global __STOSB, __STOSD, DrawArtFast, FindShapeListQuiet, FindShapeList, VesaGetInfo, VesaGetModeInfo
@@ -311,7 +311,7 @@ VesaGetInfo:
         push dword 200h
         push dword 400h
         xor edx, edx
-        push asc_1139D8
+        push str_VESAMEM
         mov dword [byte esp+050h], edx
         call AllocMemBlock
         mov esi, eax
@@ -324,7 +324,7 @@ VesaGetInfo:
         jge short .2
 .1:
         push esi
-        push asc_1139E4
+        push str_GetvesainfoINVALIDDOSSEGMENT
         call FatalError
         add esp, byte 8
 .2:
@@ -365,7 +365,7 @@ VesaGetInfo:
         call strncmp_
         test eax, eax
         je short .3
-        push asc_113A14
+        push str_GetvesainfoINVALIDVESAINFOVE
         call FatalError
         add esp, byte 4
 .3:
@@ -405,7 +405,7 @@ VesaGetModeInfo:
         push dword 200h
         push dword 400h
         xor edx, edx
-        push asc_1139D8
+        push str_VESAMEM
         mov edi, dword_19B654
         mov dword [byte esp+050h], edx
         call AllocMemBlock

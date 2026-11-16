@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_11D74F progbits alloc noexec write align=1
 global InGameMenuRequest, byte_11D74F, byte_11D754, byte_11D91C, byte_11D91D, dword_11D910, dword_11D914, dword_11D91F
-global dword_11D923, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
+global dword_11D923, unk_11D7A4, unk_11D7BC, str_Punct_InGameMenu, unk_11D7EC, str_N_InGameMenu, str_F_InGameMenu, unk_11D810
 global unk_11D816, unk_11D81C, unk_11D89C, word_11D927, word_11D929
 byte_11D74F:
         db 00h,07h,00h,00h,00h
@@ -21,15 +21,15 @@ unk_11D7A4:
 unk_11D7BC:
         db 02h,00h,016h,00h,02Ah,00h,02Ch,00h,03Ah,00h,049h,00h,060h,00h,0Fh,00h
         db 0A8h,00h,0ADh,00h,0AFh,00h,0C3h,00h
-unk_11D7D4:
+str_Punct_InGameMenu:
         db 09h,00h,038h,00h,066h,00h,06Dh,00h,010h,02h,019h,02h,048h,02h,076h,02h
         db 087h,00h,095h,00h,07Bh,01h,0F6h,01h
 unk_11D7EC:
         db 06h,00h,036h,00h,064h,00h,06Ah,00h,08Ah,00h,098h,00h,0C4h,00h,022h,00h
         db 093h,01h,09Dh,01h,0A1h,01h,0CEh,01h
-unk_11D804:
+str_N_InGameMenu:
         db 04Eh,00h,0A7h,00h,07Dh,00h
-unk_11D80A:
+str_F_InGameMenu:
         db 046h,00h,05Dh,00h,07Fh,00h
 unk_11D810:
         db 088h,00h,046h,01h,0EBh,00h

@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_14FAC0 progbits alloc noexec write align=1
-extern DrawArtKeyedRemap, unk_11418C
+extern DrawArtKeyedRemap, str_Mouse
 global str_StackOverflow, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6, byte_14FAC8
-global byte_14FAC9, byte_14FACB, byte_14FACC, AngleOctantTable, dword_14FAD8, off_14FAD0, DrawArtRemapFunc, SavedStackSegment
+global byte_14FAC9, byte_14FACB, str_KK, AngleOctantTable, dword_14FAD8, off_14FAD0, DrawArtRemapFunc, SavedStackSegment
 byte_14FAC0:
         db 039h
 byte_14FAC1:
@@ -23,10 +23,10 @@ byte_14FAC9:
         db 050h,050h
 byte_14FACB:
         db 04Fh
-byte_14FACC:
+str_KK:
         db 04Bh,04Bh,00h,00h
 off_14FAD0:
-        dd unk_11418C
+        dd str_Mouse
 DrawArtRemapFunc:
         dd DrawArtKeyedRemap
 dword_14FAD8:

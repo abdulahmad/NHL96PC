@@ -6,7 +6,7 @@ extern str_G5, str_feD, str_L, str_C6, str_R5, str_X2
 global dword_11B238, dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294
 global dword_11B298, dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC
 global dword_11B300, dword_11B304, dword_11B308, dword_11B310, dword_11B314, dword_11B318, dword_11B31C, dword_11B320
-global dword_11B324, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, off_11B278, OverlayPanelQueue, word_11B274
+global str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, off_11B278, OverlayPanelQueue, word_11B274
 global ovlstep
 dword_11B238:
         db 0FFh,0FFh,0FFh,0FFh
@@ -75,7 +75,7 @@ dword_11B31C:
         db 0C8h,00h,00h,00h
 dword_11B320:
         db 0A0h,00h,00h,00h
-dword_11B324:
+str_D_DrawGameFrame:
         db 064h,00h,00h,00h
 dword_11B328:
         db 00h,00h,00h,00h

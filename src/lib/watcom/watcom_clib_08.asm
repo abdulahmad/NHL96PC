@@ -5,7 +5,7 @@ section s_BF949 progbits alloc exec nowrite align=1
 extern FatalError, GetTicks, __set_errno_, _nmalloc_, addtimer, str_UnknownError, str_EnvironmentVariableNotSe, str_ErrorInEnvironmentVariab
 extern str_InvalidDriver, str_CardNotDetected, str_ErrorAllocatingMemory, str_ErrorInitializingCard, str_ErrorInitializingSoftwar, str_ErrorInDMAChannel, str_ErrorNotAnEACSFormatFile, str_ErrorInvalidChannel
 extern str_ErrorInvalidVolume, str_ErrorInvalidHandle, str_ErrorInvalidPan, str_ErrorUnsupportedAudioTyp, str_ErrorInvalidBend, str_ErrorCouldNotResolveSfxB, str_ErrorInvalidBankNumber, str_ErrorInvalidSfxNumber
-extern str_NoFreeChannelToPlayOn, asc_113E28, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, SpeechQueuePlaying, CrowdLoaded, CrowdPaused, VolumeCurve
+extern str_NoFreeChannelToPlayOn, str_TGV, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, SpeechQueuePlaying, CrowdLoaded, CrowdPaused, VolumeCurve
 extern SpeechQueueOpen, CrowdPlaying, SndMasterVolume, CrowdLayerPriority, CrowdLayerVolume, SndChannelType, SndChannelBendRange, SndChannelActive
 extern SndChannelSfx, SndChannelVolume, SndChannelGain, SndChannelPan, dword_11F5CC, dword_11F5D0, DebugMode, RowCopyFunc
 extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, SpeechQueue, SpeechQueueLead, SpeechQueueWrite
@@ -3501,7 +3501,7 @@ TgvDecodeDeltaFrame:
         push ebx
         shl eax, 3
         push eax
-        push asc_113E28
+        push str_TGV
         call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp+03Ch], eax
@@ -3515,7 +3515,7 @@ TgvDecodeDeltaFrame:
         push ecx
         shl eax, 2
         push eax
-        push asc_113E28
+        push str_TGV
         call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp+040h], eax
@@ -3552,7 +3552,7 @@ TgvDecodeDeltaFrame:
         push ecx
         shl eax, 4
         push eax
-        push asc_113E28
+        push str_TGV
         call AllocMemBlock
         mov dword [byte ebp+038h], eax
         add esp, byte 0Ch
@@ -3803,7 +3803,7 @@ TgvDecodeKeyFrame:
         push byte 0
         lea eax, [byte edi+010h]
         push eax
-        push asc_113E28
+        push str_TGV
         mov dword [byte esp+0Ch], eax
         call AllocMemBlock
         add esp, byte 0Ch
@@ -3811,7 +3811,7 @@ TgvDecodeKeyFrame:
         mov dword [byte esi+028h], eax
         mov eax, dword [byte esp+04h]
         push eax
-        push asc_113E28
+        push str_TGV
         call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte esi+02Ch], eax
@@ -3819,7 +3819,7 @@ TgvDecodeKeyFrame:
         push byte 0
         shl eax, 3
         push eax
-        push asc_113E28
+        push str_TGV
         mov dword [byte esp+014h], eax
         call AllocMemBlock
         mov edx, edi
@@ -3833,7 +3833,7 @@ TgvDecodeKeyFrame:
         push byte 0
         shl eax, 2
         push eax
-        push asc_113E28
+        push str_TGV
         call AllocMemBlock
         add esp, byte 0Ch
         mov ebx, dword [byte esi+028h]
@@ -3918,7 +3918,7 @@ TgvAllocDecoder:
         push edi
         push byte 0
         push dword 344h
-        push asc_113E28
+        push str_TGV
         call AllocMemBlock
         mov edi, eax
         add esp, byte 0Ch

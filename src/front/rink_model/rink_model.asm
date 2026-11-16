@@ -43,7 +43,7 @@ extern dword_15E8E0, dword_15E8E4, RinkSidesModel, dword_15E8EC, dword_15E8F0, d
 extern dword_15E900, dword_15EA04, dword_15EA08, dword_1770B7, dword_1770BB, dword_1770BF, dword_1770C3, dword_1770C7
 extern dword_1770CB, dword_1770CF, dword_1797FC, dword_179800, dword_1798E4, dword_1798E8, dword_17997C, dword_179AC8
 extern dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, TexturePageBase, TextureDetail, FatalError, gameopts
-extern GetTicks, LoadPackedFile, mousex, mousey, PBnum, PutBlock, qword_110786, qword_11078E
+extern GetTicks, LoadPackedFile, mousex, mousey, PBnum, PutBlock, F64_0p00138889, F64_65536
 extern randomd0, SetDrawBitmap, SortCords, sprintf_, str_B00, str_B0DD, str_B1DD, str_B2DD
 extern str_B3DD, str_B4DD, str_B5DD, str_B6DD, str_B7DD, str_B8DD, str_B9DD, str_Back
 extern str_Benchbk, str_Benchbot, str_Benchdiv, str_Benchx, str_Benchz0, str_Benchz1, str_Bkgd26, str_Boardback
@@ -72,7 +72,7 @@ extern DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, TransformVector, Pro
 extern SetScreenScale, ProjectModelPoints, DrawModelFlat, DrawModelSorted, DrawModelPolyList, DrawModelPolys, OriCreateInstance, OriSetObjectMatrix
 extern OriSetObjectPosition, OriLoadModel, MakeRotYMatrix, OriFindGroup, OriFindPartition, OriGetPartition, InitReciprocalTable, ClipPolyNearZ
 extern DrawMarkingPolys, SetPolyVertexArrays, FixedInverse, SetScreenTarget, SetRemapTable, GetRemapTable, SetColourRemap, SetBlitSource
-extern ScaleRowShadow, FindShape, bcopy, Random32, FillPolygon, RemapPolygon, SetNearClipZ, unk_1175BD
+extern ScaleRowShadow, FindShape, bcopy, Random32, FillPolygon, RemapPolygon, SetNearClipZ, str_Punct_DrawIceSurface
 extern IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
 extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
 extern unk_15903C, unk_159108, unk_159148, unk_159190, IceSurfacePolys, unk_159238, unk_159338, unk_159368
@@ -1839,7 +1839,7 @@ DrawIceSurface:
         add esp, byte 10h
         push unk_159190
         push FlashPolys
-        push unk_1175BD
+        push str_Punct_DrawIceSurface
         push byte 6
         call DrawFlatPoly
         add esp, byte 10h
@@ -5381,8 +5381,8 @@ MoveZamboni:
         sub eax, dword [dword_15E478]
         mov dword [byte ebp-04h], eax
         fild dword [byte ebp-04h]
-        fmul qword [qword_110786]
-        fmul qword [qword_11078E]
+        fmul qword [F64_0p00138889]
+        fmul qword [F64_65536]
         call __CHP
         fistp dword [byte ebp-04h]
         mov eax, dword [byte ebp-04h]

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_122A6 progbits alloc exec nowrite align=1
 extern addtimer, byte_114D96, byte_11FA2F, byte_1519A0, byte_151AD4, byte_151ADA, byte_151ADB, byte_17BDAE
-extern DebugPrintf, dword_114B9C, dword_114CE2, dword_114D0E, dword_114D12, dword_114D1A, dword_114D1E, dword_114D36
+extern DebugPrintf, dword_114B9C, dword_114CE2, dword_114D0E, str_Punct_ModemGameOpen, dword_114D1A, dword_114D1E, dword_114D36
 extern dword_114D3A, dword_114D9A, dword_114D9E, dword_114DA2, dword_114DA6, dword_114DAA, dword_114DAE, dword_114DB2
 extern str_Punct_ModemSettingsScreen, dword_114DBA, dword_114DCA, dword_115008, dword_1150D4, dword_11BCE4, dword_11F5C0, dword_11F5C4
 extern InputPlaybackOn, dword_1515BE, dword_1515C5, dword_1515CC, dword_15199C, dword_1519B4, dword_1519B8, dword_1519BC
@@ -22,7 +22,7 @@ extern word_114CE4, word_114DBE, word_114DC0, word_151AE0, word_151AE2, word_17C
 global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, jpt_1278E
 global LinkGameMessage_18, LinkExchangeValues, ModemGameConnect, ShowLinkWaitBox, HideLinkWaitBox, LinkSyncTimedOut, LinkSyncPoint, LinkSync
 global LinkSyncWithMessage, ModemGameClose, ModemGameQuit, LinkResyncInput, LinkExchangeInput, ModemChat, unk_144BD, unk_144C3
-global unk_144C9, unk_144D5, unk_144ED
+global unk_144C9, str_N, unk_144ED
 ;-----------------------------------------------------------------------------
 ; ModemGameOpen                                                   122A6  96 PC
 ; (answer, settings): copies the modem settings (port, speed, numbers, init
@@ -60,7 +60,7 @@ ModemGameOpen:
         cmp word [word_17C9B0], byte 0
         je short .2
         mov dword [dword_114D1E], 1
-        mov dword [dword_114D12], 9
+        mov dword [str_Punct_ModemGameOpen], 9
         jmp short .3
 .2:
         mov ecx, 0F0h
@@ -82,7 +82,7 @@ ModemGameOpen:
         mov edx, dword_17C9F4
         mov eax, unk_114D6E
         call strcpy_
-        mov dword [dword_114D12], 9
+        mov dword [str_Punct_ModemGameOpen], 9
         mov dword [dword_114D1E], 0
 .3:
         mov eax, dword [byte ebp-010h]
@@ -2887,7 +2887,7 @@ unk_144C3:
         db 0AEh,00h,095h,00h,07Bh,00h
 unk_144C9:
         db 070h,0FDh,00h,00h,0Ah,0D7h,00h,00h,0C2h,0B5h,00h,00h
-unk_144D5:
+str_N:
         db 04Eh,00h,00h,00h,08h,01h,00h,00h,074h,01h,00h,00h,04Fh,00h,00h,00h
         db 0B0h,01h,00h,00h,048h,01h,00h,00h
 unk_144ED:

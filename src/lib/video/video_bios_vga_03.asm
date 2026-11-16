@@ -4,7 +4,7 @@ bits 32
 section s_E19F0 progbits alloc exec nowrite align=1
 extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, KeyStateTable, HotkeyScanTable, HotkeyModTable, SavedTextMode
 extern SavedTextPage, SavedTextRows, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
-extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, AngleOctantTable, TimerTickStep, SinCosTable, SinTable
+extern byte_14FAC8, byte_14FAC9, byte_14FACB, str_KK, AngleOctantTable, TimerTickStep, SinCosTable, SinTable
 extern CosTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, str_BK, dword_123390, HotkeyNesting
 extern HotkeyFuncTable, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
 extern dword_14F098, str_28, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
@@ -1348,7 +1348,7 @@ ReadKeyPadBits:
         je short .9
         or al, 0Ah
 .9:
-        mov bl, byte [byte_14FACC]
+        mov bl, byte [str_KK]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .10
         or al, 8

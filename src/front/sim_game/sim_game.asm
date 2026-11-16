@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_81EEA progbits alloc exec nowrite align=1
-extern __CHP, asc_112433, awtmgoalie, byte_16580A, byte_16580B, byte_16580C, byte_165940, byte_17CC36
+extern __CHP, str_Ags, awtmgoalie, byte_16580A, byte_16580B, byte_16580C, byte_165940, byte_17CC36
 extern byte_17CFB1, byte_17D26F, byte_17DADF, byte_17DAE0, byte_17DB12, byte_17DB44, byte_17DB78, seasondb
 extern statsfromleague, statsplayoffs, dword_11E4B8, dword_11E4C4, dword_11E514, hmtmlines, dword_1657F6, dword_1657FA
 extern dword_1657FE, dword_17CB2F, dword_17CEC3, dword_17CED6, dword_17D1E2, dword_17D928, dword_17D930, dword_17D938
@@ -11,11 +11,11 @@ extern AwayShotTotals, dword_17DA54, dword_17DA58, dword_17DA5C, dword_17DA60, d
 extern dword_17DA74, dword_17DA78, dword_17DA80, dword_17DA84, dword_17DA88, dword_17DA90, dword_17DA98, dword_17DA9C
 extern dword_17DAA0, dword_17DAA4, dword_17DAA8, dword_17DAAC, dword_17DAB0, dword_17DAB4, dword_17DAB8, dword_17DABC
 extern dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dword_17DAD4, dword_17DAD8, dword_17DADC
-extern gameopts, hmtmgoalie, optflags, qword_11244E, qword_112456, qword_11245E, qword_112466, qword_11246E
-extern qword_112476, qword_11247E, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
+extern gameopts, hmtmgoalie, optflags, F64_0p333333, F64_0p75, F64_0p0119048, F64_0p0166667, F64_0p8
+extern F64_10, F64_1000, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
 extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, StatsDb5Record, StatsDb1Record
-extern AllocMemBlock, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, unk_112428
-extern unk_11242B, unk_81ED1, UpdateTeamDbs, word_1656DC, word_1656E2, hmscore, word_165812, awscore
+extern AllocMemBlock, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, str_Gk
+extern str_Gs, unk_81ED1, UpdateTeamDbs, word_1656DC, word_1656E2, hmscore, word_165812, awscore
 extern word_17DB76
 global SimulateGame, unk_849C1, unk_849C7, unk_849CB, unk_849D1
 ;-----------------------------------------------------------------------------
@@ -196,13 +196,13 @@ SimulateGame:
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
-        push unk_112428
+        push str_Gk
         mov dword [dword esi+dword_17DA40], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
-        push unk_11242B
+        push str_Gs
         mov dword [dword esi+dword_17DA88], eax
         call AllocMemBlock
         add esp, byte 0Ch
@@ -214,7 +214,7 @@ SimulateGame:
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
-        push asc_112433
+        push str_Ags
         mov dword [dword esi+dword_17DA58], eax
         call AllocMemBlock
         add esp, byte 0Ch
@@ -1346,12 +1346,12 @@ SimulateGame:
         mov edx, dword [dword_17DABC]
         imul edx, dword [byte ebp+02h]
         fild dword [byte ebp-07Ah]
-        fmul qword [qword_11244E]
+        fmul qword [F64_0p333333]
         sub edx, eax
         mov dword [dword_17DABC], edx
         fild dword [dword_17DABC]
         fdivrp
-        fcomp qword [qword_11247E]
+        fcomp qword [F64_1000]
         fnstsw ax
         sahf
         jbe near .92
@@ -1455,9 +1455,9 @@ SimulateGame:
         movzx eax, byte [dword eax+byte_17DB44]
         imul eax, dword 3E8h
         fild dword [byte ebp+06Ah]
-        fmul qword [qword_112456]
-        fmul qword [qword_11245E]
-        fmul qword [qword_112466]
+        fmul qword [F64_0p75]
+        fmul qword [F64_0p0119048]
+        fmul qword [F64_0p0166667]
         mov dword [byte ebp+06Ah], eax
         fild dword [byte ebp+06Ah]
         fsubp
@@ -1567,8 +1567,8 @@ SimulateGame:
         test eax, eax
         jle short .108
         fild dword [byte ebp+03Eh]
-        fmul qword [qword_11246E]
-        fmul qword [qword_112476]
+        fmul qword [F64_0p8]
+        fmul qword [F64_10]
         call __CHP
         fistp dword [dword_17DACC]
         jmp short .109

@@ -2,12 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_17675 progbits alloc exec nowrite align=1
-extern addtimer, str_Punct2, byte_115084, byte_151B87, byte_151B8E, byte_152157, byte_15280F, byte_152810
+extern addtimer, str_Punct2, str_Punct_LinkTimerTick, byte_151B87, byte_151B8E, byte_152157, byte_15280F, byte_152810
 extern byte_152920, byte_152921, byte_152922, byte_152923, byte_15292C, byte_15292D, byte_15292E, byte_15292F
-extern byte_15293A, byte_152A44, ModemResultCount, ModemLastResult, dword_115008, dword_11500C, dword_115010, dword_115014
+extern byte_15293A, byte_152A44, ModemResultCount, ModemLastResult, dword_115008, dword_11500C, str_Punct_LinkOpen, dword_115014
 extern dword_115018, dword_11501C, dword_115020, dword_115024, dword_115028, dword_11502C, dword_115030, dword_115034
 extern dword_115038, dword_11503C, dword_115040, dword_115044, dword_115048, dword_11504C, dword_115050, dword_115054
-extern dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068, dword_115074, dword_11507C, dword_115080
+extern dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068, str_D_LinkCopyBytes, dword_11507C, dword_115080
 extern dword_115098, dword_151D48, dword_151D4C, dword_151D50, dword_151D54, dword_152130, dword_152134, dword_152138
 extern dword_152148, dword_15214C, dword_152150, dword_15291C, ModemResultTextTable, ModemResultCodeTable, str_0123456789abcdefghijklmn, str_22
 extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01
@@ -589,7 +589,7 @@ LinkCopyBytes:
         pop ecx
         ret
         mov dword [str_22], ebx
-        mov dword [dword_115074], eax
+        mov dword [str_D_LinkCopyBytes], eax
         mov dword [str_newline], edx
         ret
 ;-----------------------------------------------------------------------------
@@ -990,7 +990,7 @@ LinkRxAckSeq:
 ;-----------------------------------------------------------------------------
 LinkDefaults:
         mov dword [dword_11500C], 0
-        mov dword [dword_115010], 9
+        mov dword [str_Punct_LinkOpen], 9
         mov dword [dword_115014], 0
         mov dword [dword_115018], 1
         mov dword [dword_11501C], 1
@@ -1196,7 +1196,7 @@ LinkTxRoom:
 ;-----------------------------------------------------------------------------
 ; LinkCheckTimeouts                            18186  96 PC, medium confidence
 ; Timer side of the protocol: resends data packets not acknowledged in time
-; (str_22 ticks), asks again for receive slots still missing (dword_115074),
+; (str_22 ticks), asks again for receive slots still missing (str_D_LinkCopyBytes),
 ; sends an ack when one is due
 ;-----------------------------------------------------------------------------
 LinkCheckTimeouts:
@@ -1238,7 +1238,7 @@ LinkCheckTimeouts:
         jne short .5
         inc dword [byte eax+08h]
         mov eax, dword [byte eax+08h]
-        cmp eax, dword [dword_115074]
+        cmp eax, dword [str_D_LinkCopyBytes]
         jle short .7
         mov edx, 74h
         mov eax, ebx
@@ -1288,7 +1288,7 @@ LinkTimerTick:
         mov eax, dword [dword_115008]
         inc dword [dword_115008]
         mov eax, dword [dword_115008]
-        mov byte [dword eax+byte_115084], 63h
+        mov byte [dword eax+str_Punct_LinkTimerTick], 63h
         cmp dword [dword_115020], byte 0
         je short .1
         call LinkCheckTimeouts
@@ -1299,7 +1299,7 @@ LinkTimerTick:
         cmp dword [dword_115068], byte 0
         je short .2
         mov eax, dword [dword_115008]
-        mov byte [dword eax+byte_115084], 0
+        mov byte [dword eax+str_Punct_LinkTimerTick], 0
         jmp short .8
 .2:
         cmp dword [dword_115020], byte 0
@@ -1328,7 +1328,7 @@ LinkTimerTick:
         mov dword [str_ctl06], eax
 .7:
         mov eax, dword [dword_115008]
-        mov byte [dword eax+byte_115084], 30h
+        mov byte [dword eax+str_Punct_LinkTimerTick], 30h
 .8:
         mov eax, dword [dword_115008]
         dec dword [dword_115008]
@@ -1410,7 +1410,7 @@ LinkOpen:
         mov eax, dword [byte ebx+028h]
         mov dword [dword_11500C], eax
         mov eax, dword [byte ebx+02Ch]
-        mov dword [dword_115010], eax
+        mov dword [str_Punct_LinkOpen], eax
         mov eax, dword [byte ebx+030h]
         mov dword [dword_115014], eax
         mov eax, dword [byte ebx+034h]
@@ -1461,7 +1461,7 @@ LinkOpen:
         push byte 3
         push byte 0
         push byte 0
-        push dword [dword_115010]
+        push dword [str_Punct_LinkOpen]
         push dword [dword_11500C]
         call SerialConfigure
         add esp, byte 14h
@@ -1737,7 +1737,7 @@ LinkRequestResend:
         shl eax, 4
         cmp dword [dword eax+dword_151D48], byte 2
         jne short .1
-        mov edx, dword [dword_115074]
+        mov edx, dword [str_D_LinkCopyBytes]
         sar edx, 1
         cmp edx, dword [dword eax+dword_151D50]
         jg near .2
@@ -2219,7 +2219,7 @@ LinkRequestMissing:
         cmp dword [dword eax+dword_151D48], byte 2
         jne short .2
         mov eax, dword [dword eax+dword_151D50]
-        cmp eax, dword [dword_115074]
+        cmp eax, dword [str_D_LinkCopyBytes]
         setg al
         jmp short .3
 .2:

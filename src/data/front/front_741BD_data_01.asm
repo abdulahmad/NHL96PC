@@ -6,7 +6,7 @@ global str_Swt1, str_Set0, str_Set1, str_Set2, str_Rul1, str_Rul2, str_Rul3, str
 global str_HaBck1, str_Rk22, str_SwtD, str_Ldat, str_Localize, str_Pal14, str_Bkgd9, str_Bt014
 global str_Bt024, str_Rul12, str_Rul22, str_Rul32, str_Set12, str_Set22, str_Set3, str_Bt02d2
 global str_Bt103, str_Bt113, str_Bt192, str_Bt202, str_Bt282, str_Bt292, str_SEASONNDX, str_Teams
-global str_Sched, str_Nothing, str_S05dCNZDB2, qword_112137, qword_11213F, str_Rb, str_KEY, str_CAR
+global str_Sched, str_Nothing, str_S05dCNZDB2, F64_143p964, F64_neg20, str_Rb, str_KEY, str_CAR
 global str_ATT2, str_CRT, str_TEM, str_SEA, str_SCH, str_SET, str_INC, str_TRD
 global str_PLY
 str_Swt1:
@@ -71,9 +71,9 @@ str_Bt282:
         db 062h,074h,032h,038h,00h
 str_Bt292:
         db 062h,074h,032h,039h,00h
-qword_112137:
+F64_143p964:
         db 02h,02Bh,087h,016h,0D9h,0FEh,061h,040h
-qword_11213F:
+F64_neg20:
         db 00h,00h,00h,00h,00h,00h,034h,0C0h
 str_SEASONNDX:
         db 053h,045h,041h,053h,04Fh,04Eh,02Eh,04Eh,044h,058h,00h

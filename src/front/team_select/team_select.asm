@@ -13,9 +13,9 @@ extern str_Bkgd24, str_HaBck0, str_HaBck1, str_Ldat, str_Pal10, str_Rk02d2, str_
 extern str_Rul2, str_Rul3, str_Set0, str_Set1, str_Set2, str_Swt02, str_Swt1, str_SwtD
 extern GameOptionsScreen, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
 extern SetScreenTarget, FindShape, str_WesternConference2, word_11E280
-global unk_76071, DrawHomeTeamPanel, DrawHomeTeamPanel_151, DrawHomeTeamPanel_15D, DrawAwayTeamPanel, jpt_764F4, TeamSelectScreen, TeamSelectScreen_863
+global str_H, DrawHomeTeamPanel, DrawHomeTeamPanel_151, DrawHomeTeamPanel_15D, DrawAwayTeamPanel, jpt_764F4, TeamSelectScreen, TeamSelectScreen_863
 global TeamSelectScreen_91E, TeamSelectScreen_9C0, TeamSelectScreen_A66, TeamSelectScreen_AFC, TeamSelectScreen_BAA, TeamSelectScreen_BB3, TeamSelectScreen_BD7, TeamSelectScreen_BE5
-unk_76071:
+str_H:
         db 068h,00h,00h,00h,02h,01h,00h,00h,07Ch,00h,00h,00h,0EEh,00h,00h,00h
         db 07Ch,00h,00h,00h,016h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -293,7 +293,7 @@ TeamSelectScreen:
         sub ebp, 82h
         mov ecx, 70h
         lea edi, [dword ebp-015Ah]
-        mov esi, unk_76071
+        mov esi, str_H
         mov eax, 4
         rep movsd
         xor edx, edx

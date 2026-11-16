@@ -9,7 +9,7 @@ extern RatingsGoalieShown, RatingsSkaterShown, TeamStatsBitmap, dword_17EEF0, dw
 extern dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_18210C, dword_182128, RatingsGoalieOrder, dword_182130
 extern dword_182134, dword_182138, dword_18213C, dword_182140, FadeOut, FadePalette, FillMusicStream, FillRect
 extern FreeScrollBar, GetLangText, GetTicks, InitMenuItems, InitVScrollBar, jpt_93E46, LoadPackedFile, off_11E8B0
-extern OpenScreen, optflags, PutBlock, qword_112B02, qword_112B0A, RatingBar, RunMenu, ScrollBarDown
+extern OpenScreen, optflags, PutBlock, F64_2p54_DrawRatingsName, F64_0p454545_DrawRatingsName, RatingBar, RunMenu, ScrollBarDown
 extern ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScrollBarPos, SetTextColors, SetTickDeadline, SlideCardLeft
 extern SlideCardRight, SlideInSideBar, SoundSecondsToBytes, sprintf_, str_003, str_Ard3, str_BALL4, str_Ban2
 extern str_Bkgd18, str_Card3, str_D11, str_DD10, str_DD9, str_DSS4, str_FSH5, str_HD012
@@ -25,7 +25,7 @@ global PlayerRatingsScreen_E71, unk_955D7, unk_95603, DrawRatingBars, DrawRating
 global DrawRatingBars_3B9, DrawRatingBars_3E5, DrawRatingBars_411, DrawRatingBars_43D, DrawRatingBars_469, DrawRatingBars_495, DrawRatingBars_4C1, DrawRatingBars_5E5
 global DrawRatingBars_620, DrawRatingBars_640, DrawRatingBars_660, DrawRatingBars_680, DrawRatingBars_6A6, DrawRatingBars_6CC, DrawRatingBars_6F2, DrawRatingBars_718
 global DrawRatingBars_73E, DrawRatingsTitle, DrawRatingsTitle_109, LoadRatingsPicture, SwitchRatingsCard, DrawRatingsList, DrawRatingsName, unk_96949
-global unk_96B89, unk_96C49, unk_96D09, unk_96DC9, unk_96FD9
+global str_X_RosterScreen, unk_96C49, str_Punct_CreatePlayerScreen, unk_96DC9, unk_96FD9
 ;-----------------------------------------------------------------------------
 ; PlayerRatingsScreen                          93E6A  96 PC, medium confidence
 ; The player ratings screen (X-tbl, RAT0, HD01 / HD02, ban2, BALL list): a
@@ -3174,7 +3174,7 @@ DrawRatingsName:
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax
         fild word [byte ebp-04h]
-        fmul qword [qword_112B02]
+        fmul qword [F64_2p54_DrawRatingsName]
         call __CHP
         fistp dword [byte ebp-0Ch]
         mov eax, dword [byte ebp-0Ch]
@@ -3213,7 +3213,7 @@ DrawRatingsName:
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax
         fild word [byte ebp-04h]
-        fmul qword [qword_112B0A]
+        fmul qword [F64_0p454545_DrawRatingsName]
         call __CHP
         fistp dword [byte ebp-08h]
         push dword [byte ebp-08h]
@@ -3284,7 +3284,7 @@ unk_96949:
         db 020h,02h,00h,00h,0BBh,01h,00h,00h,029h,02h,00h,00h,0C7h,01h,00h,00h
         db 01Fh,02h,00h,00h,0D0h,01h,00h,00h,0B0h,01h,00h,00h,0CFh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_96B89:
+str_X_RosterScreen:
         db 058h,00h,00h,00h,0C4h,01h,00h,00h,05Fh,00h,00h,00h,0BBh,01h,00h,00h
         db 0CEh,00h,00h,00h,0BBh,01h,00h,00h,0D5h,00h,00h,00h,0C5h,01h,00h,00h
         db 0D0h,00h,00h,00h,0D0h,01h,00h,00h,061h,00h,00h,00h,0D0h,01h,00h,00h
@@ -3310,7 +3310,7 @@ unk_96C49:
         db 023h,025h,016h,05h,024h,0Ah,00h,08h,013h,027h,03h,018h,026h,028h,04h,018h
         db 027h,029h,04h,018h,028h,02Ah,06h,018h,029h,02Bh,06h,01Ah,02Ah,02Ch,06h,01Ah
         db 02Bh,02Dh,06h,01Ah,02Ch,02Eh,06h,01Ah,02Dh,02Fh,08h,01Ah,02Eh,0Bh,08h,01h
-unk_96D09:
+str_Punct_CreatePlayerScreen:
         db 02Dh,00h,00h,00h,0ABh,00h,00h,00h,034h,00h,00h,00h,0A1h,00h,00h,00h
         db 0ACh,00h,00h,00h,0A1h,00h,00h,00h,0B6h,00h,00h,00h,0AEh,00h,00h,00h
         db 0ABh,00h,00h,00h,0B9h,00h,00h,00h,036h,00h,00h,00h,0B9h,00h,00h,00h

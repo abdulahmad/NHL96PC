@@ -5,7 +5,7 @@ section s_1EA14 progbits alloc exec nowrite align=1
 extern seasondb, dword_1174E4, statsfromleague, dword_1174EC, statsplayoffs, dword_1174F4, dword_1174F8, dword_1174FC
 extern dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510, dword_117514, dword_117518, dword_11751C
 extern LoadDataFile, MakeDataPath, strcat_, strcpy_, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, OpenArtArchiveErr
-extern FileSizeByName, unk_117522
+extern FileSizeByName, str_Punct_PlayerDbRecord
 global LoadSeasonStats, LoadSeasonStats_11A, LoadPlayoffStats, LoadExhibitionStats, LoadExhibitionStats_17E, LoadModemStats, FreeStatsTables, PlayerDbRecord
 global StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record
 ;-----------------------------------------------------------------------------
@@ -577,7 +577,7 @@ PlayerDbRecord:
         mov eax, edi
         mov byte [byte ebx+03h], 3
         call strcpy_
-        mov edx, unk_117522
+        mov edx, str_Punct_PlayerDbRecord
         mov eax, edi
         call strcat_
         lea edx, [byte esi+013h]
@@ -615,7 +615,7 @@ PlayerDbRecord:
         mov eax, edi
         mov byte [byte ebx+03h], 3
         call strcpy_
-        mov edx, unk_117522
+        mov edx, str_Punct_PlayerDbRecord
         mov eax, edi
         call strcat_
         lea edx, [byte esi+013h]

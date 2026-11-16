@@ -6,8 +6,8 @@ extern SetDrawBitmap, SetTickDeadline, TickDeadlinePassed, __CHP, str_MonthChoic
 extern str_DK00, str_Bkgd12, str_Pal17, str_DK02d, str_LFDK, str_RTDK, str_LT02d, str_LFLT
 extern str_RTLT, str_Sim1, str_Sim2, str_Sim3, str_Hmaw, str_WhtD, str_Rd, str_Bl
 extern str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, str_Tttt, str_Llll
-extern str_Wwww, asc_1123BB, str_DarD, asc_1123C6, byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9
-extern byte_17BDAE, byte_17CC36, byte_17CC37, byte_17CC38, byte_17CECB, dword_1123CB, statsfromleague, statsplayoffs
+extern str_Wwww, str_Punct_DrawCalendar, str_DarD, asc_1123C6, byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9
+extern byte_17BDAE, byte_17CC36, byte_17CC37, byte_17CC38, byte_17CECB, F32_65536, statsfromleague, statsplayoffs
 extern TeamStatsBitmap, str_Standings, optflags, PlayoffTreeData, dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3
 extern dword_17CEC7, dword_17D7D4, dword_17D804, dword_17D830, dword_17D834, dword_17D860, dword_17D864, dword_17D894
 extern dword_17D8C0, dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dword_17D900, dword_17D904, dword_17D908
@@ -2742,7 +2742,7 @@ DrawCalendar:
         add esp, byte 0Ch
         movzx eax, byte [byte esi+03h]
         fld dword [byte ebp+eax*4-036h]
-        fmul dword [dword_1123CB]
+        fmul dword [F32_65536]
         push str_Rd
         jmp short .19
 .16:
@@ -2761,7 +2761,7 @@ DrawCalendar:
         add esp, byte 0Ch
         movzx eax, byte [byte esi+02h]
         fld dword [byte ebp+eax*4-036h]
-        fmul dword [dword_1123CB]
+        fmul dword [F32_65536]
         push str_Bl
 .19:
         lea eax, [byte ebp+03Eh]
@@ -2958,7 +2958,7 @@ DrawCalendar:
         mov edx, eax
         mov eax, 0FAE1h
         call DrawFrameAt
-        push asc_1123BB
+        push str_Punct_DrawCalendar
         push dword [dword ebp-0342h]
         call FindShape
         mov ecx, 32h

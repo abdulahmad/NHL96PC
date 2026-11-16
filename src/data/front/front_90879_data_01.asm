@@ -7,14 +7,14 @@ global str_AR114, str_Pal23, str_HD022, str_HD00, str_RAT0, str_PRN02, str_PRN12
 global str_CMP0, str_CMP1, str_CMP2, str_PHT1, str_PHT2, str_CRD0, str_CRD1, str_CRD2
 global str_PLY0, str_SD4, str_9495, str_9394, str_DD6, str_002, str_DD7, str_FSH4
 global str_Card2, str_Ard2, str_Plyr2, str_PROFILEFSH2, str_DNRS, str_DSS2, str_DSS3, asc_1129CF
-global asc_1129E6, str_DD8, dword_1129FA, qword_1128CD, qword_1128D5, qword_1129AF, qword_1129B7, qword_1129FE
-global str_fmtpd, str_Wt4, unk_1129C2, unk_1129E4, str_S5, unk_1129F7, unk_112A08, unk_112A0C
-global unk_112A10, unk_112A14, unk_112A18, unk_112A1C, unk_112A20, unk_112A24, unk_112A28
+global str_S_ExportPlayerCard, str_DD8, F32_0p5_ScaleBlock, F64_0p1_SlideCardLeft, F64_0p1_SlideCardRight, F64_2p54_DrawPlayerCardName, F64_0p454545_DrawPlayerCardName, F64_0p1_ScaleBlock
+global str_fmtpd, str_Wt4, str_Punct_ExportPlayerCard, unk_1129E4, str_S5, unk_1129F7, unk_112A08, str_45S
+global str_45P, str_34S, str_34P, str_CRS, str_CRP, unk_112A24, str_PLA
 str_LG02d2:
         db 04Ch,047h,025h,030h,032h,064h,00h
-qword_1128CD:
+F64_0p1_SlideCardLeft:
         db 09Ah,099h,099h,099h,099h,099h,0B9h,03Fh
-qword_1128D5:
+F64_0p1_SlideCardRight:
         db 09Ah,099h,099h,099h,099h,099h,0B9h,03Fh
 str_XTbl:
         db 058h,054h,062h,06Ch,00h
@@ -92,13 +92,13 @@ str_DNRS:
         db 044h,04Eh,052h,053h,00h
 str_DSS2:
         db 023h,025h,064h,020h,025h,073h,020h,025h,073h,00h
-qword_1129AF:
+F64_2p54_DrawPlayerCardName:
         db 052h,0B8h,01Eh,085h,0EBh,051h,04h,040h
-qword_1129B7:
+F64_0p454545_DrawPlayerCardName:
         db 018h,05Dh,074h,0D1h,045h,017h,0DDh,03Fh
 str_Wt4:
         db 077h,074h,00h
-unk_1129C2:
+str_Punct_ExportPlayerCard:
         db 0Ah,00h
 str_DSS3:
         db 023h,025h,064h,020h,025h,073h,020h,025h,073h,0Ah,00h
@@ -107,7 +107,7 @@ asc_1129CF:
         db 020h,020h,020h,020h,00h
 unk_1129E4:
         db 020h,00h
-asc_1129E6:
+str_S_ExportPlayerCard:
         db 0Ah,025h,073h,00h
 str_S5:
         db 025h,073h,00h
@@ -115,25 +115,25 @@ str_DD8:
         db 025h,064h,02Eh,025h,064h,025h,025h,025h,025h,00h
 unk_1129F7:
         db 025h,025h,00h
-dword_1129FA:
+F32_0p5_ScaleBlock:
         db 00h,00h,00h,03Fh
-qword_1129FE:
+F64_0p1_ScaleBlock:
         db 09Ah,099h,099h,099h,099h,099h,0B9h,03Fh,00h,00h
 unk_112A08:
         db 052h,041h,054h,00h
-unk_112A0C:
+str_45S:
         db 034h,035h,053h,00h
-unk_112A10:
+str_45P:
         db 034h,035h,050h,00h
-unk_112A14:
+str_34S:
         db 033h,034h,053h,00h
-unk_112A18:
+str_34P:
         db 033h,034h,050h,00h
-unk_112A1C:
+str_CRS:
         db 043h,052h,053h,00h
-unk_112A20:
+str_CRP:
         db 043h,052h,050h,00h
 unk_112A24:
         db 053h,045h,041h,00h
-unk_112A28:
+str_PLA:
         db 050h,04Ch,041h,00h

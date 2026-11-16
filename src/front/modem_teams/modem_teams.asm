@@ -16,10 +16,10 @@ extern str_Swt12, str_SwtD2, GameOptionsScreen, RunPlayoffMenus_102, RunPlayoffM
 extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, str_WesternConference2, unk_17D272, word_114CE0
 extern word_11ED38
-global unk_A3851, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
+global str_B, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
-global RunModemGameSetup, unk_A49D1, unk_A4A69, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9, jpt_A4FB7
-unk_A3851:
+global RunModemGameSetup, unk_A49D1, str_Z, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9, jpt_A4FB7
+str_B:
         db 062h,00h,00h,00h,0E4h,00h,00h,00h,077h,00h,00h,00h,0CFh,00h,00h,00h
         db 077h,00h,00h,00h,0F9h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -296,7 +296,7 @@ ModemTeamSelectScreen:
         sub ebp, 82h
         mov ecx, 70h
         lea edi, [dword ebp-015Ah]
-        mov esi, unk_A3851
+        mov esi, str_B
         mov eax, 2
         xor edx, edx
         rep movsd
@@ -1074,7 +1074,7 @@ unk_A49D1:
         db 01Bh,00h,00h,09h,01Dh,01Eh,0Ah,01Dh,01Dh,01Fh,0Bh,01Eh,01Eh,020h,0Ch,01Fh
         db 01Fh,021h,0Dh,020h,020h,022h,0Eh,021h,021h,023h,0Fh,022h,022h,024h,010h,023h
         db 023h,01h,011h,024h,025h,012h,02h,0Ah
-unk_A4A69:
+str_Z:
         db 05Ah,00h,00h,00h,08Ah,00h,00h,00h,0C6h,00h,00h,00h,08Ah,00h,00h,00h
         db 0CAh,00h,00h,00h,0A2h,00h,00h,00h,05Ch,00h,00h,00h,0A2h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

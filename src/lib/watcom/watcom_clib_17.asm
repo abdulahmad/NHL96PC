@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D069B progbits alloc exec nowrite align=1
-extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, asc_114194, str_Ptr0ptr1ptr2, str_StackOverflow, byte_11FA2F, MousePresent
+extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, str_CUtilMouse, str_Ptr0ptr1ptr2, str_StackOverflow, byte_11FA2F, MousePresent
 extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
 extern dword_11FA18, TextOriginX, TextOriginY, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228FC
 extern BackBufferWidth, _STACKLOW, __amblksiz, dword_14FAD8, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4
@@ -1001,7 +1001,7 @@ InitPointer:
         mov dword [dword_1A10D8], eax
         test eax, eax
         jne short .3
-        push asc_114194
+        push str_CUtilMouse
         lea eax, [byte esp+04h]
         push eax
         call sprintf_

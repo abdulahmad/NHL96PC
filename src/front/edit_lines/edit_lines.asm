@@ -7,8 +7,8 @@ extern byte_1843B8, byte_1843B9, byte_1843BA, byte_1843C4, byte_1843C5, byte_184
 extern byte_1843CD, byte_1843CE, byte_1843D4, byte_1843D5, byte_1843D6, byte_1843D7, byte_1843DC, byte_1843DD
 extern byte_1843DE, byte_1843DF, byte_1843E0, byte_1843E1, byte_1843E6, byte_1843E7, byte_1843E8, byte_1843EC
 extern byte_1843ED, byte_1843EE, DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, dword_1174EC, statsplayoffs
-extern dword_11D1A8, dword_11D1AC, dword_11E670, dword_11E678, dword_11E91C, dword_11E948, dword_11E970, dword_11E9C0
-extern dword_11EA10, dword_11EA60, dword_11EAB0, dword_11EAFC, dword_11EB50, dword_11EB88, dword_11EBC0, dword_11EBF8
+extern dword_11D1A8, dword_11D1AC, dword_11E670, dword_11E678, dword_11E91C, dword_11E948, str_B_DrawLinesPanel, dword_11E9C0
+extern dword_11EA10, str_V_DrawLinesPanel, dword_11EAB0, dword_11EAFC, str_T_DrawLinesPanel, dword_11EB88, dword_11EBC0, dword_11EBF8
 extern dword_11ECE8, dword_11ECEC, dword_11ED2C, MenuCursorPixels, dword_152F58, hmtmlines, dword_1657FE, TeamStatsBitmap
 extern dword_17BC96, dword_17BCA2, dword_17BCA6, str_Standings, dword_17EEF0, dword_17FDEC, dword_17FDF0, dword_17FDF4
 extern dword_181EAC, dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_183028
@@ -3310,18 +3310,18 @@ DrawLinesPanel:
         mov dword [byte ebp-06h], eax
         xor eax, eax
 .2:
-        mov ebx, dword [dword edx+dword_11E970]
+        mov ebx, dword [dword edx+str_B_DrawLinesPanel]
         mov dword [dword eax+dword_183728], ebx
         mov ebx, dword [dword edx+dword_11E9C0]
         mov ecx, dword [dword edx+dword_11E9C0]
         mov dword [dword eax+dword_18372C], ebx
-        mov ebx, dword [dword edx+dword_11E970]
+        mov ebx, dword [dword edx+str_B_DrawLinesPanel]
         mov dword [dword eax+dword_183734], ecx
         add ebx, byte 32h
         mov dword [dword eax+dword_183730], ebx
         mov dword [dword eax+dword_183738], ebx
         lea ebx, [byte ecx+032h]
-        mov ecx, dword [dword edx+dword_11E970]
+        mov ecx, dword [dword edx+str_B_DrawLinesPanel]
         mov dword [dword eax+dword_18373C], ebx
         mov dword [dword eax+dword_183740], ecx
         mov ecx, dword [byte ebp-06h]
@@ -3371,7 +3371,7 @@ DrawLinesPanel:
         mov edx, dword [dword eax+dword_11E9C0]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+dword_11E970]
+        mov eax, dword [dword eax+str_B_DrawLinesPanel]
         call DrawLineJersey
         inc dword [byte ebp+036h]
         add dword [byte ebp+032h], byte 4
@@ -3415,7 +3415,7 @@ DrawLinesPanel:
         mov edx, dword [dword eax+dword_11E9C0]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+dword_11E970]
+        mov eax, dword [dword eax+str_B_DrawLinesPanel]
         call DrawLineJersey
         inc dword [byte ebp+042h]
         add dword [byte ebp+03Eh], byte 4
@@ -3455,7 +3455,7 @@ DrawLinesPanel:
         mov edx, dword [dword eax+dword_11E9C0]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+dword_11E970]
+        mov eax, dword [dword eax+str_B_DrawLinesPanel]
         call DrawLineJersey
         add dword [byte ebp+04Ah], byte 4
         inc dword [byte ebp+052h]
@@ -3479,19 +3479,19 @@ DrawLinesPanel:
         xor eax, eax
 .16:
         add eax, byte 40h
-        mov ebx, dword [dword edx+dword_11EA60]
+        mov ebx, dword [dword edx+str_V_DrawLinesPanel]
         mov dword [dword eax+dword_1836E8], ebx
         mov ebx, dword [dword edx+dword_11EAB0]
         mov ecx, dword [dword edx+dword_11EAB0]
         mov dword [dword eax+dword_1836EC], ebx
-        mov ebx, dword [dword edx+dword_11EA60]
+        mov ebx, dword [dword edx+str_V_DrawLinesPanel]
         mov dword [dword eax+dword_1836F4], ecx
         add ebx, byte 32h
         mov dword [dword eax+dword_1836F0], ebx
         mov dword [dword eax+dword_1836F8], ebx
         lea ebx, [byte ecx+032h]
         mov dword [dword eax+dword_1836FC], ebx
-        mov ecx, dword [dword edx+dword_11EA60]
+        mov ecx, dword [dword edx+str_V_DrawLinesPanel]
         mov dword [dword eax+dword_183704], ebx
         add edx, byte 4
         mov dword [dword eax+dword_183700], ecx
@@ -3532,7 +3532,7 @@ DrawLinesPanel:
         mov edx, dword [dword eax+dword_11EAB0]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+dword_11EA60]
+        mov eax, dword [dword eax+str_V_DrawLinesPanel]
         call DrawLineJersey
         inc dword [byte ebp+01Ah]
         add dword [byte ebp+016h], byte 4
@@ -3575,7 +3575,7 @@ DrawLinesPanel:
         mov edx, dword [dword eax+dword_11EAB0]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+dword_11EA60]
+        mov eax, dword [dword eax+str_V_DrawLinesPanel]
         call DrawLineJersey
         inc dword [byte ebp+026h]
         add dword [byte ebp+022h], byte 4
@@ -3612,7 +3612,7 @@ DrawLinesPanel:
         mov edx, dword [dword eax+dword_11EAB0]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+dword_11EA60]
+        mov eax, dword [dword eax+str_V_DrawLinesPanel]
         call DrawLineJersey
         add dword [byte ebp+02Eh], byte 4
         inc dword [byte ebp+05Ah]
@@ -3636,11 +3636,11 @@ DrawLinesPanel:
         xor eax, eax
         xor edx, edx
 .29:
-        mov ecx, dword [dword edx+dword_11EB50]
+        mov ecx, dword [dword edx+str_T_DrawLinesPanel]
         mov dword [dword eax+dword_183728], ecx
         mov ecx, dword [dword edx+dword_11EB88]
         mov dword [dword eax+dword_18372C], ecx
-        mov ecx, dword [dword edx+dword_11EB50]
+        mov ecx, dword [dword edx+str_T_DrawLinesPanel]
         add ecx, byte 32h
         mov dword [byte ebp-0Eh], ecx
         mov dword [dword eax+dword_183730], ecx
@@ -3653,7 +3653,7 @@ DrawLinesPanel:
         add eax, byte 40h
         mov dword [byte ebp-0Eh], ecx
         mov dword [dword eax+dword_1836FC], ecx
-        mov ecx, dword [dword edx+dword_11EB50]
+        mov ecx, dword [dword edx+str_T_DrawLinesPanel]
         mov dword [dword eax+dword_183700], ecx
         mov ecx, dword [byte ebp-0Eh]
         add ebx, byte 66h
@@ -3708,7 +3708,7 @@ DrawLinesPanel:
         mov edx, dword [dword eax+dword_11EB88]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+dword_11EB50]
+        mov eax, dword [dword eax+str_T_DrawLinesPanel]
         call DrawLineJersey
         inc dword [byte ebp+02h]
         add dword [byte ebp-02h], byte 4
@@ -3750,7 +3750,7 @@ DrawLinesPanel:
         mov edx, dword [dword eax+dword_11EB88]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+dword_11EB50]
+        mov eax, dword [dword eax+str_T_DrawLinesPanel]
         call DrawLineJersey
         inc dword [byte ebp+0Eh]
         add dword [byte ebp+0Ah], byte 4

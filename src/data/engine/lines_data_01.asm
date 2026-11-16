@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_11A310 progbits alloc noexec write align=1
 global DemoMode, dressbystatus, lineslotgroups, lineslotgroupstart, byte_11A3F9, byte_11A3FB, dword_11A3F2, dword_11A3F8
-global dword_11A3FC, dword_11A400, dword_11A404, dword_11A408, word_11A3EE, word_11A3F0, word_11A40C
+global dword_11A3FC, dword_11A400, dword_11A404, dword_11A408, word_11A3EE, word_11A3F0, str_Punct_DrawReplayCounter
 dressbystatus:
         db 00h,00h,02h,01h,01h,00h,00h,01h,00h
 lineslotgroups:
@@ -44,5 +44,5 @@ dword_11A404:
         db 00h,00h,00h,00h
 dword_11A408:
         db 00h,00h,00h,00h
-word_11A40C:
+str_Punct_DrawReplayCounter:
         db 03Fh,00h,07Eh,00h

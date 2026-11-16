@@ -8,7 +8,7 @@ extern dword_152F50, dword_152F54, dword_152F58, dword_152F5C, globalset, InitIn
 extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, off_11D3DC, optflags, PlayMenuGame, printf_
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
 extern str_HardwareBeforeRunningHOC, str_IhreHardwareZuKonfigurie, str_LDON, str_LEAS, str_Lgo, str_LNEW, str_LNHL, str_LNPA
-extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_, strlen_, sub_2090F
+extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_, strlen_, GripSetupScreen
 extern sub_2A52F, sub_2CB9D, sub_57F0A, sub_583B8, sub_625F7, sub_62ED9, sub_63076, sub_63955
 extern sub_63B0C, sub_63B6A, sub_63DC4, sub_64E54, sub_64E64, sub_66589, sub_689D1, sub_68C33
 extern sub_6941E, sub_699D0, sub_6A5EB, sub_6A675, sub_73BA5, sub_771F0, sub_77292, sub_77355
@@ -611,7 +611,7 @@ StartUp:
         mov dword [dword_152F5C], eax
         cmp dword [dword_114CD3], byte 0
         jle short .5
-        call sub_2090F
+        call GripSetupScreen
 .5:
         call sub_63076
         call sub_2A52F

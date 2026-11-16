@@ -194,19 +194,21 @@
   },
   {
    "start": 131533,
-   "end": 140578,
+   "end": 137604,
    "module": "front_201CD",
    "obj": 1,
-   "file": "front/front_201CD.asm",
+   "file": "front/pad_setup/pad_setup.asm",
    "note": "placeholder"
   },
   {
-   "start": 140578,
-   "end": 173714,
-   "module": "rink_model",
    "obj": 1,
+   "start": 137604,
+   "end": 173714,
+   "module": "front_rink_model",
    "file": "front/rink_model/rink_model.asm",
-   "note": "rink and stands model parts by name (zamboni, glass, boards, crowd)"
+   "desc": "3D rink: the ice and boards model, its textures and the software 3D renderer of the 96 rink view (96 PC; to be split as it gets named).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 173714,

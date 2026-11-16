@@ -186,6 +186,10 @@ address,name,auto_name,source,confidence,evidence,file
 1F300,EndGameCleanup,sub_1F300,new,medium,"after a game: sound off, GameOver, clears the game mode flag and the player slots, frees the game's buffers; the game loop is no longer running",src/front/game_teams/game_teams.asm
 1F362,LoadGameRosters,sub_1F362,new,medium,"loads both teams' rosters and lines for the game from the files of the game mode (exhibition, season, playoff, modem)",src/front/game_teams/game_teams.asm
 1F771,InitGameTeams,sub_1F771,new,medium,"(home, away): sets the teams and options of the game to play (period -1, game summary fields) and LoadGameRosters",src/front/game_teams/game_teams.asm
+201CD,DrawGripPads,sub_201CD,new,medium,draws the GrIP set-up panel: each connected pad with its live direction and buttons (byte_151778) and its A / B (shoot / pass) button assignment,src/front/pad_setup/pad_setup.asm
+2090F,GripSetupScreen,sub_2090F,new,high,"start-up screen when GrIP pads are connected (GRIPCON / RGRIPCON art): pick the buttons that shoot and pass on each pad (SetGripButtonMap / GetGripButtonMap, kept in byte_17CA54), Enter to go on",src/front/pad_setup/pad_setup.asm
+21478,UpdateJoystickTest,sub_21478,new,medium,"joystick test screen, each frame: lights the arrow of the direction the tested pad points (byte_151778) and blinks it",src/front/pad_setup/pad_setup.asm
+21596,JoystickTestScreen,sub_21596,new,medium,"joystick test screen (BKGD, arrows LT00-LT71, buttons BT00-BT02): shows the pad's direction lit up while it is moved, mouse or pad on the buttons",src/front/pad_setup/pad_setup.asm
 2E95C,StartPreGame,sub_2E95C,95PC,medium,"its call lines up with the NHL95PC call in SetupDemoGame, and its address keeps the NHL95PC module order",src/engine/threestars/threestars.asm
 2EA39,assintrostand,,95PC,medium,NHL95PC 4842A (sem): C:428; C:809,
 2EAEB,assintroline,sub_2EAEB,95PC,high,"asstab entry 38, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/threestars/threestars.asm

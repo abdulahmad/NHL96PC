@@ -1,0 +1,7 @@
+# NHL 96 PC front_201CD (201CD-21990): GrIP pad set-up and the joystick test screen. PC-only.
+sub_201CD DrawGripPads {confidence=medium} draws the GrIP set-up panel: each connected pad with its live direction and buttons (byte_151778) and its A / B (shoot / pass) button assignment
+sub_201CD_73B DrawGripPads_73B {no_record} shared epilogue
+sub_201CD_73C DrawGripPads_73C {no_record} shared epilogue
+sub_2090F GripSetupScreen {confidence=high} start-up screen when GrIP pads are connected (GRIPCON / RGRIPCON art): pick the buttons that shoot and pass on each pad (SetGripButtonMap / GetGripButtonMap, kept in byte_17CA54), Enter to go on
+sub_21478 UpdateJoystickTest {confidence=medium} joystick test screen, each frame: lights the arrow of the direction the tested pad points (byte_151778) and blinks it
+sub_21596 JoystickTestScreen {confidence=medium} joystick test screen (BKGD, arrows LT00-LT71, buttons BT00-BT02): shows the pad's direction lit up while it is moved, mouse or pad on the buttons

@@ -16,7 +16,7 @@ extern dword_18213C, dword_182140, jpt_93E46, off_11E8B0, qword_112B02, qword_11
 extern LoadPackedFile, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, OpenScreen, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems
 extern RunMenu, FillMusicStream, SoundSecondsToBytes, GetLangText, InitVScrollBar, ScrollBarUp, ScrollBarDown, FreeScrollBar
-extern SetScrollBarPos, DrawScrollBar, ScrollBarToMouse, sub_90879, sub_908FC, sub_909FE, sub_9C060, sub_AAA40
+extern SetScrollBarPos, DrawScrollBar, ScrollBarToMouse, DrawLeagueLogo, SlideCardLeft, SlideCardRight, sub_9C060, sub_AAA40
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC, sub_B0430, sub_B0494
 extern sub_B2C54, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0, str_D11, unk_93BE6, unk_93CA6
 extern unk_93D26
@@ -385,7 +385,7 @@ sub_93E6A:
         add esp, byte 4
         mov eax, dword [dword_11E8A0]
         xor ecx, ecx
-        call sub_909FE
+        call SlideCardRight
         push dword [dword_182130]
         call sub_DD908
         mov esi, dword [dword_181EAC]
@@ -399,7 +399,7 @@ sub_93E6A:
         mov ebx, dword [dword_18212C]
         mov eax, dword [dword_11E8A4]
         xor ecx, ecx
-        call sub_909FE
+        call SlideCardRight
         mov dword [dword_11E890], 0
         mov dword [dword_11E894], 0
         mov dword [dword_181EAC], esi
@@ -2697,7 +2697,7 @@ sub_961ED:
         mov ebx, dword [dword_182128]
         mov eax, dword [dword_11E8A0]
         xor ecx, ecx
-        call sub_908FC
+        call SlideCardLeft
         mov dword [dword_11E890], 2
         mov dword [dword_11E898], edi
         jmp short .3
@@ -2712,7 +2712,7 @@ sub_961ED:
         mov edi, dword [dword_11E8A0]
         mov edx, eax
         mov eax, edi
-        call sub_908FC
+        call SlideCardLeft
 .3:
         call sub_DD6C4
         push byte 68h
@@ -2741,7 +2741,7 @@ sub_961ED:
         mov ebx, dword [dword_182128]
         mov eax, dword [dword_11E8A0]
         xor ecx, ecx
-        call sub_909FE
+        call SlideCardRight
         mov dword [dword_11E890], 0
         mov dword [dword_11E898], edi
         jmp short .7
@@ -2750,7 +2750,7 @@ sub_961ED:
         mov ebx, dword [dword_182128]
         mov eax, dword [dword_11E8A0]
         xor ecx, ecx
-        call sub_909FE
+        call SlideCardRight
 .7:
         call sub_DD6C4
         push byte 68h
@@ -2783,7 +2783,7 @@ sub_961ED:
         mov ebx, dword [dword_18212C]
         mov eax, dword [dword_11E8A4]
         xor ecx, ecx
-        call sub_908FC
+        call SlideCardLeft
         mov dword [dword_11E894], 2
         mov dword [dword_11E89C], esi
         jmp short .11
@@ -2798,7 +2798,7 @@ sub_961ED:
         mov edi, dword [dword_11E8A4]
         mov edx, eax
         mov eax, edi
-        call sub_908FC
+        call SlideCardLeft
 .11:
         call sub_DD6C4
         push byte 68h
@@ -2827,7 +2827,7 @@ sub_961ED:
         mov ebx, dword [dword_18212C]
         mov eax, dword [dword_11E8A4]
         xor ecx, ecx
-        call sub_909FE
+        call SlideCardRight
         mov dword [dword_11E894], 0
         mov dword [dword_11E89C], esi
         jmp short .15
@@ -2836,7 +2836,7 @@ sub_961ED:
         mov ebx, dword [dword_18212C]
         mov eax, dword [dword_11E8A4]
         xor ecx, ecx
-        call sub_909FE
+        call SlideCardRight
 .15:
         call sub_DD6C4
         push byte 68h
@@ -2856,7 +2856,7 @@ sub_961ED:
         mov eax, dword [nosplit eax*4+dword_17EEF0]
         mov edx, dword [dword_182128]
         movsx eax, byte [eax]
-        call sub_90879
+        call DrawLeagueLogo
         call sub_DD6C4
         push byte 68h
         mov eax, dword [dword_182128]
@@ -2872,7 +2872,7 @@ sub_961ED:
         mov eax, dword [nosplit eax*4+dword_17EEF0]
         mov edx, dword [dword_18212C]
         movsx eax, byte [eax]
-        call sub_90879
+        call DrawLeagueLogo
         call sub_DD6C4
         push byte 68h
         mov eax, dword [dword_18212C]

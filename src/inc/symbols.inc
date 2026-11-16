@@ -664,10 +664,10 @@
 ;  8BD9F  unk_8BD9F                                front/stats_menu/stats_menu.asm              1
 ;  8BF1F  unk_8BF1F                                front/stats_menu/stats_menu.asm              1
 ;  8C51B  PlayerStatsScreen                        front/player_stats/player_stats.asm          3
-;  90879  sub_90879                                front/player_cards/player_cards.asm          1
-;  908FC  sub_908FC                                front/player_cards/player_cards.asm          1
-;  909FE  sub_909FE                                front/player_cards/player_cards.asm          1
-;  90AF8  sub_90AF8                                front/player_cards/player_cards.asm          2
+;  90879  DrawLeagueLogo                           front/player_cards/player_cards.asm          1
+;  908FC  SlideCardLeft                            front/player_cards/player_cards.asm          1
+;  909FE  SlideCardRight                           front/player_cards/player_cards.asm          1
+;  90AF8  PlayerCardScreen                         front/player_cards/player_cards.asm          2
 ;  93BE6  unk_93BE6                                front/player_cards/player_cards.asm          1
 ;  93CA6  unk_93CA6                                front/player_cards/player_cards.asm          1
 ;  93D26  unk_93D26                                front/player_cards/player_cards.asm          1

@@ -1,0 +1,97 @@
+# NHL 96 PC player card screen: player profiles with pictures and stats by season, league logos, text export. PC-only, source new.
+sub_905A1 ShowPlayerCardTitle {confidence=low} shows the player card title strip (bkgd) for a moment
+sub_9066F SwitchPlayerCard {confidence=low} the card change animation: title, slide out (SlideCardLeft / SlideCardRight), the new card's picture (LoadPlayerCardArt)
+sub_90879 DrawLeagueLogo {confidence=medium} (league): draws the league logo LG%02d
+sub_908FC SlideCardLeft {confidence=low} slides a card panel to the left (ScaleBlock steps)
+sub_909FE SlideCardRight {confidence=low} slides a card panel to the right
+sub_90AF8 PlayerCardScreen {confidence=high} the player card screen (XTbl, PHT0, HBAL, SLDH, AR00-AR11 arrows): a player's picture, profile and stats, picking players by team, export
+sub_91FC4 DrawPlayerCardStats {confidence=medium} the card's stats by season ('93-'94, '94-'95, this season), skater or goalie ('G')
+sub_92A6A LoadPlayerCardArt {confidence=medium} the player's picture (PROFILE.FSH, card, plyr, .FSH by team) and the team logo
+sub_92D6F DrawPlayerCardName {confidence=medium} the card's name line ("#%d %s %s") and profile texts
+sub_9311A ExportPlayerCard {confidence=medium} asks a file name and writes the player's card as text (fopen "wt", "#%d %s %s.")
+sub_93B25 ScaleBlock {confidence=low} draws a block scaled by a factor (floating point), for the card slides
+sub_90879_7D DrawLeagueLogo_7D {no_record}
+sub_91FC4_1C4 DrawPlayerCardStats_1C4 {no_record}
+sub_91FC4_1DE DrawPlayerCardStats_1DE {no_record}
+sub_91FC4_1E4 DrawPlayerCardStats_1E4 {no_record}
+sub_91FC4_217 DrawPlayerCardStats_217 {no_record}
+sub_91FC4_21D DrawPlayerCardStats_21D {no_record}
+sub_91FC4_223 DrawPlayerCardStats_223 {no_record}
+sub_91FC4_229 DrawPlayerCardStats_229 {no_record}
+sub_91FC4_22F DrawPlayerCardStats_22F {no_record}
+sub_91FC4_235 DrawPlayerCardStats_235 {no_record}
+sub_91FC4_23B DrawPlayerCardStats_23B {no_record}
+sub_91FC4_241 DrawPlayerCardStats_241 {no_record}
+sub_91FC4_3D9 DrawPlayerCardStats_3D9 {no_record}
+sub_91FC4_3F3 DrawPlayerCardStats_3F3 {no_record}
+sub_91FC4_3F9 DrawPlayerCardStats_3F9 {no_record}
+sub_91FC4_3FF DrawPlayerCardStats_3FF {no_record}
+sub_91FC4_405 DrawPlayerCardStats_405 {no_record}
+sub_91FC4_40B DrawPlayerCardStats_40B {no_record}
+sub_91FC4_411 DrawPlayerCardStats_411 {no_record}
+sub_91FC4_417 DrawPlayerCardStats_417 {no_record}
+sub_91FC4_41D DrawPlayerCardStats_41D {no_record}
+sub_91FC4_423 DrawPlayerCardStats_423 {no_record}
+sub_91FC4_5E6 DrawPlayerCardStats_5E6 {no_record}
+sub_91FC4_601 DrawPlayerCardStats_601 {no_record}
+sub_91FC4_607 DrawPlayerCardStats_607 {no_record}
+sub_91FC4_63A DrawPlayerCardStats_63A {no_record}
+sub_91FC4_640 DrawPlayerCardStats_640 {no_record}
+sub_91FC4_646 DrawPlayerCardStats_646 {no_record}
+sub_91FC4_64C DrawPlayerCardStats_64C {no_record}
+sub_91FC4_652 DrawPlayerCardStats_652 {no_record}
+sub_91FC4_658 DrawPlayerCardStats_658 {no_record}
+sub_91FC4_65E DrawPlayerCardStats_65E {no_record}
+sub_91FC4_664 DrawPlayerCardStats_664 {no_record}
+sub_91FC4_7FC DrawPlayerCardStats_7FC {no_record}
+sub_91FC4_817 DrawPlayerCardStats_817 {no_record}
+sub_91FC4_81D DrawPlayerCardStats_81D {no_record}
+sub_91FC4_823 DrawPlayerCardStats_823 {no_record}
+sub_91FC4_829 DrawPlayerCardStats_829 {no_record}
+sub_91FC4_82F DrawPlayerCardStats_82F {no_record}
+sub_91FC4_835 DrawPlayerCardStats_835 {no_record}
+sub_91FC4_83B DrawPlayerCardStats_83B {no_record}
+sub_91FC4_841 DrawPlayerCardStats_841 {no_record}
+sub_91FC4_847 DrawPlayerCardStats_847 {no_record}
+sub_9311A_2BF ExportPlayerCard_2BF {no_record}
+sub_9311A_2D9 ExportPlayerCard_2D9 {no_record}
+sub_9311A_2DF ExportPlayerCard_2DF {no_record}
+sub_9311A_312 ExportPlayerCard_312 {no_record}
+sub_9311A_318 ExportPlayerCard_318 {no_record}
+sub_9311A_31E ExportPlayerCard_31E {no_record}
+sub_9311A_324 ExportPlayerCard_324 {no_record}
+sub_9311A_32A ExportPlayerCard_32A {no_record}
+sub_9311A_330 ExportPlayerCard_330 {no_record}
+sub_9311A_336 ExportPlayerCard_336 {no_record}
+sub_9311A_33C ExportPlayerCard_33C {no_record}
+sub_9311A_438 ExportPlayerCard_438 {no_record}
+sub_9311A_453 ExportPlayerCard_453 {no_record}
+sub_9311A_459 ExportPlayerCard_459 {no_record}
+sub_9311A_48C ExportPlayerCard_48C {no_record}
+sub_9311A_492 ExportPlayerCard_492 {no_record}
+sub_9311A_498 ExportPlayerCard_498 {no_record}
+sub_9311A_49E ExportPlayerCard_49E {no_record}
+sub_9311A_4A4 ExportPlayerCard_4A4 {no_record}
+sub_9311A_4AA ExportPlayerCard_4AA {no_record}
+sub_9311A_4B0 ExportPlayerCard_4B0 {no_record}
+sub_9311A_4B6 ExportPlayerCard_4B6 {no_record}
+sub_9311A_703 ExportPlayerCard_703 {no_record}
+sub_9311A_71D ExportPlayerCard_71D {no_record}
+sub_9311A_723 ExportPlayerCard_723 {no_record}
+sub_9311A_729 ExportPlayerCard_729 {no_record}
+sub_9311A_72F ExportPlayerCard_72F {no_record}
+sub_9311A_735 ExportPlayerCard_735 {no_record}
+sub_9311A_73B ExportPlayerCard_73B {no_record}
+sub_9311A_741 ExportPlayerCard_741 {no_record}
+sub_9311A_747 ExportPlayerCard_747 {no_record}
+sub_9311A_74D ExportPlayerCard_74D {no_record}
+sub_9311A_860 ExportPlayerCard_860 {no_record}
+sub_9311A_87B ExportPlayerCard_87B {no_record}
+sub_9311A_881 ExportPlayerCard_881 {no_record}
+sub_9311A_887 ExportPlayerCard_887 {no_record}
+sub_9311A_88D ExportPlayerCard_88D {no_record}
+sub_9311A_893 ExportPlayerCard_893 {no_record}
+sub_9311A_899 ExportPlayerCard_899 {no_record}
+sub_9311A_89F ExportPlayerCard_89F {no_record}
+sub_9311A_8A5 ExportPlayerCard_8A5 {no_record}
+sub_9311A_8AB ExportPlayerCard_8AB {no_record}

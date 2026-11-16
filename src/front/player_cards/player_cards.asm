@@ -25,20 +25,20 @@ extern sub_93E6A_E44, sub_93E6A_E4D, sub_93E6A_E56, sub_93E6A_E5F, sub_93E6A_E68
 extern sub_AADA4, sub_AADC0, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0430, sub_B0494
 extern sub_B2C54, sub_B2C70, sub_C2600, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed
 extern unk_1129C2, unk_1129E4, unk_1129F7, unk_152C44, UpdateProgressBox
-global unk_903B5, unk_903F5, unk_90401, unk_90501, sub_905A1, sub_9066F, sub_90879, sub_90879_7D
-global sub_908FC, sub_909FE, sub_90AF8, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, sub_91FC4
-global sub_91FC4_1C4, sub_91FC4_1DE, sub_91FC4_1E4, sub_91FC4_217, sub_91FC4_21D, sub_91FC4_223, sub_91FC4_229, sub_91FC4_22F
-global sub_91FC4_235, sub_91FC4_23B, sub_91FC4_241, sub_91FC4_3D9, sub_91FC4_3F3, sub_91FC4_3F9, sub_91FC4_3FF, sub_91FC4_405
-global sub_91FC4_40B, sub_91FC4_411, sub_91FC4_417, sub_91FC4_41D, sub_91FC4_423, sub_91FC4_5E6, sub_91FC4_601, sub_91FC4_607
-global sub_91FC4_63A, sub_91FC4_640, sub_91FC4_646, sub_91FC4_64C, sub_91FC4_652, sub_91FC4_658, sub_91FC4_65E, sub_91FC4_664
-global sub_91FC4_7FC, sub_91FC4_817, sub_91FC4_81D, sub_91FC4_823, sub_91FC4_829, sub_91FC4_82F, sub_91FC4_835, sub_91FC4_83B
-global sub_91FC4_841, sub_91FC4_847, sub_92A6A, sub_92D6F, unk_93072, unk_9309E, unk_930CA, unk_930F2
-global sub_9311A, sub_9311A_2BF, sub_9311A_2D9, sub_9311A_2DF, sub_9311A_312, sub_9311A_318, sub_9311A_31E, sub_9311A_324
-global sub_9311A_32A, sub_9311A_330, sub_9311A_336, sub_9311A_33C, sub_9311A_438, sub_9311A_453, sub_9311A_459, sub_9311A_48C
-global sub_9311A_492, sub_9311A_498, sub_9311A_49E, sub_9311A_4A4, sub_9311A_4AA, sub_9311A_4B0, sub_9311A_4B6, sub_9311A_703
-global sub_9311A_71D, sub_9311A_723, sub_9311A_729, sub_9311A_72F, sub_9311A_735, sub_9311A_73B, sub_9311A_741, sub_9311A_747
-global sub_9311A_74D, sub_9311A_860, sub_9311A_87B, sub_9311A_881, sub_9311A_887, sub_9311A_88D, sub_9311A_893, sub_9311A_899
-global sub_9311A_89F, sub_9311A_8A5, sub_9311A_8AB, sub_93B25, unk_93BE6, unk_93CA6, unk_93D26, jpt_93E46
+global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
+global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
+global DrawPlayerCardStats_1C4, DrawPlayerCardStats_1DE, DrawPlayerCardStats_1E4, DrawPlayerCardStats_217, DrawPlayerCardStats_21D, DrawPlayerCardStats_223, DrawPlayerCardStats_229, DrawPlayerCardStats_22F
+global DrawPlayerCardStats_235, DrawPlayerCardStats_23B, DrawPlayerCardStats_241, DrawPlayerCardStats_3D9, DrawPlayerCardStats_3F3, DrawPlayerCardStats_3F9, DrawPlayerCardStats_3FF, DrawPlayerCardStats_405
+global DrawPlayerCardStats_40B, DrawPlayerCardStats_411, DrawPlayerCardStats_417, DrawPlayerCardStats_41D, DrawPlayerCardStats_423, DrawPlayerCardStats_5E6, DrawPlayerCardStats_601, DrawPlayerCardStats_607
+global DrawPlayerCardStats_63A, DrawPlayerCardStats_640, DrawPlayerCardStats_646, DrawPlayerCardStats_64C, DrawPlayerCardStats_652, DrawPlayerCardStats_658, DrawPlayerCardStats_65E, DrawPlayerCardStats_664
+global DrawPlayerCardStats_7FC, DrawPlayerCardStats_817, DrawPlayerCardStats_81D, DrawPlayerCardStats_823, DrawPlayerCardStats_829, DrawPlayerCardStats_82F, DrawPlayerCardStats_835, DrawPlayerCardStats_83B
+global DrawPlayerCardStats_841, DrawPlayerCardStats_847, LoadPlayerCardArt, DrawPlayerCardName, unk_93072, unk_9309E, unk_930CA, unk_930F2
+global ExportPlayerCard, ExportPlayerCard_2BF, ExportPlayerCard_2D9, ExportPlayerCard_2DF, ExportPlayerCard_312, ExportPlayerCard_318, ExportPlayerCard_31E, ExportPlayerCard_324
+global ExportPlayerCard_32A, ExportPlayerCard_330, ExportPlayerCard_336, ExportPlayerCard_33C, ExportPlayerCard_438, ExportPlayerCard_453, ExportPlayerCard_459, ExportPlayerCard_48C
+global ExportPlayerCard_492, ExportPlayerCard_498, ExportPlayerCard_49E, ExportPlayerCard_4A4, ExportPlayerCard_4AA, ExportPlayerCard_4B0, ExportPlayerCard_4B6, ExportPlayerCard_703
+global ExportPlayerCard_71D, ExportPlayerCard_723, ExportPlayerCard_729, ExportPlayerCard_72F, ExportPlayerCard_735, ExportPlayerCard_73B, ExportPlayerCard_741, ExportPlayerCard_747
+global ExportPlayerCard_74D, ExportPlayerCard_860, ExportPlayerCard_87B, ExportPlayerCard_881, ExportPlayerCard_887, ExportPlayerCard_88D, ExportPlayerCard_893, ExportPlayerCard_899
+global ExportPlayerCard_89F, ExportPlayerCard_8A5, ExportPlayerCard_8AB, ScaleBlock, unk_93BE6, unk_93CA6, unk_93D26, jpt_93E46
 unk_903B5:
         db 018h,01h,00h,00h,064h,00h,00h,00h,068h,01h,00h,00h,064h,00h,00h,00h
         db 068h,01h,00h,00h,0AAh,00h,00h,00h,018h,01h,00h,00h,0AAh,00h,00h,00h
@@ -77,9 +77,10 @@ unk_90501:
         db 04h,08h,03h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 09h,01h,07h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_905A1                                                       905A1  96 PC
+; ShowPlayerCardTitle                             905A1  96 PC, low confidence
+; Shows the player card title strip (bkgd) for a moment
 ;-----------------------------------------------------------------------------
-sub_905A1:
+ShowPlayerCardTitle:
         push ebx
         push ecx
         push edx
@@ -144,14 +145,16 @@ sub_905A1:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_9066F                                                       9066F  96 PC
+; SwitchPlayerCard                                9066F  96 PC, low confidence
+; The card change animation: title, slide out (SlideCardLeft /
+; SlideCardRight), the new card's picture (LoadPlayerCardArt)
 ;-----------------------------------------------------------------------------
-sub_9066F:
+SwitchPlayerCard:
         push ebx
         push ecx
         push edx
         push esi
-        call sub_905A1
+        call ShowPlayerCardTitle
         call GetTicks
         mov esi, eax
         cmp dword [dword_11E88B], byte 0
@@ -181,7 +184,7 @@ sub_9066F:
         mov edx, 0Ah
         mov ebx, dword [dword_182120]
         mov eax, dword [dword_182110]
-        call sub_908FC
+        call SlideCardLeft
         call GetTicks
         mov dword [dword_11E87F], 2
         mov dword [dword_182114], eax
@@ -197,7 +200,7 @@ sub_9066F:
         mov esi, dword [dword_182110]
         mov edx, eax
         mov eax, esi
-        call sub_908FC
+        call SlideCardLeft
         jmp near .8
 .5:
         mov eax, dword [dword_182114]
@@ -208,7 +211,7 @@ sub_9066F:
         mov ebx, dword [dword_182100]
         mov edx, dword [dword_182104]
         mov eax, dword [dword_181EAC]
-        call sub_92A6A
+        call LoadPlayerCardArt
         call GetTicks
         mov dword [dword_11E87F], 3
         mov dword [dword_182114], eax
@@ -220,7 +223,7 @@ sub_9066F:
         mov edx, 0Ah
         mov ebx, dword [dword_182120]
         mov eax, dword [dword_182110]
-        call sub_909FE
+        call SlideCardRight
         call GetTicks
         mov dword [dword_11E87F], 0
         mov dword [dword_182114], eax
@@ -230,7 +233,7 @@ sub_9066F:
         mov edx, 0Ah
         mov ebx, dword [dword_182120]
         mov eax, dword [dword_182110]
-        call sub_909FE
+        call SlideCardRight
 .8:
         call sub_DD6C4
         push byte 5Dh
@@ -252,7 +255,7 @@ sub_9066F:
         add esp, byte 0Ch
         mov edx, esi
         movsx eax, byte [eax]
-        call sub_90879
+        call DrawLeagueLogo
         push dword [dword_182120]
         call SetDrawBitmap
         add esp, byte 4
@@ -287,9 +290,10 @@ sub_9066F:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_90879                                                       90879  96 PC
+; DrawLeagueLogo                               90879  96 PC, medium confidence
+; (league): draws the league logo LG%02d
 ;-----------------------------------------------------------------------------
-sub_90879:
+DrawLeagueLogo:
         push ebx
         push ecx
         push esi
@@ -315,7 +319,7 @@ sub_90879:
         add esp, byte 4
 .1:
         cmp dword [byte ebp-04h], 0A0h
-        jge short sub_90879_7D
+        jge short DrawLeagueLogo_7D
         sub dword [byte ebp-08h], byte 0Ah
         mov edi, dword [byte ebp-08h]
 .2:
@@ -333,7 +337,7 @@ sub_90879:
         movsx eax, word [byte esi+04h]
         add dword [byte ebp-04h], eax
         jmp short .1
-sub_90879_7D:
+DrawLeagueLogo_7D:
         leave
         pop edi
         pop esi
@@ -341,9 +345,10 @@ sub_90879_7D:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_908FC                                                       908FC  96 PC
+; SlideCardLeft                                   908FC  96 PC, low confidence
+; Slides a card panel to the left (ScaleBlock steps)
 ;-----------------------------------------------------------------------------
-sub_908FC:
+SlideCardLeft:
         push esi
         push edi
         enter 0Ch, 0
@@ -363,7 +368,7 @@ sub_908FC:
         add esp, byte 0Ch
         mov edx, dword [byte ebp-0Ch]
         movsx eax, byte [eax]
-        call sub_90879
+        call DrawLeagueLogo
         push esi
         call SetDrawBitmap
         add esp, byte 4
@@ -391,7 +396,7 @@ sub_908FC:
         mov eax, dword [nosplit eax*4+dword_17EEF0]
         mov edx, ebx
         movsx eax, byte [eax]
-        call sub_90879
+        call DrawLeagueLogo
 .2:
         test edi, edi
         je short .7
@@ -427,16 +432,17 @@ sub_908FC:
         fsubrp
         mov eax, edi
         fstp dword [esp]
-        call sub_93B25
+        call ScaleBlock
 .7:
         leave
         pop edi
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_909FE                                                       909FE  96 PC
+; SlideCardRight                                  909FE  96 PC, low confidence
+; Slides a card panel to the right
 ;-----------------------------------------------------------------------------
-sub_909FE:
+SlideCardRight:
         push esi
         push edi
         enter 0Ch, 0
@@ -456,7 +462,7 @@ sub_909FE:
         add esp, byte 0Ch
         mov edx, dword [byte ebp-0Ch]
         movsx eax, byte [eax]
-        call sub_90879
+        call DrawLeagueLogo
         push esi
         call SetDrawBitmap
         add esp, byte 4
@@ -484,7 +490,7 @@ sub_909FE:
         mov eax, dword [nosplit eax*4+dword_17EEF0]
         mov edx, ebx
         movsx eax, byte [eax]
-        call sub_90879
+        call DrawLeagueLogo
 .2:
         test edi, edi
         je short .7
@@ -516,16 +522,18 @@ sub_909FE:
         sub esp, byte 4
         mov eax, edi
         fstp dword [esp]
-        call sub_93B25
+        call ScaleBlock
 .7:
         leave
         pop edi
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_90AF8                                                       90AF8  96 PC
+; PlayerCardScreen                                                90AF8  96 PC
+; The player card screen (XTbl, PHT0, HBAL, SLDH, AR00-AR11 arrows): a
+; player's picture, profile and stats, picking players by team, export
 ;-----------------------------------------------------------------------------
-sub_90AF8:
+PlayerCardScreen:
         push esi
         push edi
         enter 850h, 0
@@ -1148,12 +1156,12 @@ sub_90AF8:
         add esp, byte 4
         xor ecx, ecx
         mov eax, dword [eax]
-        call sub_92A6A
+        call LoadPlayerCardArt
         mov ecx, 1
         mov edx, 0Ah
         mov ebx, dword [dword_182120]
         mov eax, dword [dword_182110]
-        call sub_909FE
+        call SlideCardRight
         push dword [dword_1820FC]
         call sub_DD908
         add esp, byte 4
@@ -1171,7 +1179,7 @@ sub_90AF8:
         add esp, byte 0Ch
         mov edx, dword [eax]
         mov eax, dword [dword_18210C]
-        call sub_92D6F
+        call DrawPlayerCardName
         lea eax, [dword ebp-0454h]
         call DrawScrollBar
         mov eax, dword [dword ebp-0430h]
@@ -1183,7 +1191,7 @@ sub_90AF8:
         mov edx, dword [eax]
         mov eax, dword [byte ebp-024h]
         xor esi, esi
-        call sub_91FC4
+        call DrawPlayerCardStats
 .23:
         cmp dword [dword esi+ebp-0836h], byte 0
         je short .24
@@ -1246,7 +1254,7 @@ sub_90AF8:
         push byte 3
         lea eax, [byte ebp-028h]
         push byte 3
-        mov ecx, sub_9066F
+        mov ecx, SwitchPlayerCard
         mov ebx, 0FFFFFFFFh
         push eax
         lea edx, [dword ebp-0850h]
@@ -1367,7 +1375,7 @@ sub_90AF8:
         mov ebx, dword [dword_18210C]
         mov edx, dword [eax]
         mov eax, dword [byte ebp-024h]
-        call sub_91FC4
+        call DrawPlayerCardStats
         mov edx, dword [byte ebp-024h]
         mov eax, dword [byte ebp+edx*8-070h]
         mov dword [dword ebp-0836h], eax
@@ -1377,7 +1385,7 @@ sub_90AF8:
 .43:
         mov edx, dword [dword ebp-0860h]
         mov eax, dword [eax]
-        call sub_9311A
+        call ExportPlayerCard
         jmp near .64
 .44:
         mov edx, dword [dword ebp-0430h]
@@ -1427,7 +1435,7 @@ sub_90AF8:
         mov ebx, dword [byte ebp-030h]
         mov edx, dword [eax]
         mov eax, dword [dword_18210C]
-        call sub_92D6F
+        call DrawPlayerCardName
         lea eax, [dword ebp-0454h]
         mov edx, dword [byte ebp-024h]
         call DrawScrollBar
@@ -1443,7 +1451,7 @@ sub_90AF8:
         mov ebx, dword [dword_18210C]
         mov edx, dword [eax]
         mov eax, dword [byte ebp-024h]
-        call sub_91FC4
+        call DrawPlayerCardStats
         cmp dword [dword_11E87F], byte 0
         jne short .50
         mov dword [dword_11E87F], 1
@@ -1666,7 +1674,7 @@ sub_90AF8:
         mov ebx, dword [dword_18210C]
         mov edx, dword [eax]
         mov eax, dword [byte ebp-024h]
-        call sub_91FC4
+        call DrawPlayerCardStats
         jmp near .64
 .69:
         cmp dword [byte ebp-028h], byte 3
@@ -1821,55 +1829,57 @@ sub_90AF8:
         pop esi
         ret 4
 unk_91F1C:
-        dd sub_91FC4_1C4
-        dd sub_91FC4_1DE
-        dd sub_91FC4_1E4
-        dd sub_91FC4_217
-        dd sub_91FC4_21D
-        dd sub_91FC4_223
-        dd sub_91FC4_229
-        dd sub_91FC4_22F
-        dd sub_91FC4_235
-        dd sub_91FC4_23B
-        dd sub_91FC4_241
+        dd DrawPlayerCardStats_1C4
+        dd DrawPlayerCardStats_1DE
+        dd DrawPlayerCardStats_1E4
+        dd DrawPlayerCardStats_217
+        dd DrawPlayerCardStats_21D
+        dd DrawPlayerCardStats_223
+        dd DrawPlayerCardStats_229
+        dd DrawPlayerCardStats_22F
+        dd DrawPlayerCardStats_235
+        dd DrawPlayerCardStats_23B
+        dd DrawPlayerCardStats_241
 unk_91F48:
-        dd sub_91FC4_3D9
-        dd sub_91FC4_3F3
-        dd sub_91FC4_3F9
-        dd sub_91FC4_3FF
-        dd sub_91FC4_405
-        dd sub_91FC4_40B
-        dd sub_91FC4_411
-        dd sub_91FC4_417
-        dd sub_91FC4_41D
-        dd sub_91FC4_423
+        dd DrawPlayerCardStats_3D9
+        dd DrawPlayerCardStats_3F3
+        dd DrawPlayerCardStats_3F9
+        dd DrawPlayerCardStats_3FF
+        dd DrawPlayerCardStats_405
+        dd DrawPlayerCardStats_40B
+        dd DrawPlayerCardStats_411
+        dd DrawPlayerCardStats_417
+        dd DrawPlayerCardStats_41D
+        dd DrawPlayerCardStats_423
 unk_91F70:
-        dd sub_91FC4_5E6
-        dd sub_91FC4_601
-        dd sub_91FC4_607
-        dd sub_91FC4_63A
-        dd sub_91FC4_640
-        dd sub_91FC4_646
-        dd sub_91FC4_64C
-        dd sub_91FC4_652
-        dd sub_91FC4_658
-        dd sub_91FC4_65E
-        dd sub_91FC4_664
+        dd DrawPlayerCardStats_5E6
+        dd DrawPlayerCardStats_601
+        dd DrawPlayerCardStats_607
+        dd DrawPlayerCardStats_63A
+        dd DrawPlayerCardStats_640
+        dd DrawPlayerCardStats_646
+        dd DrawPlayerCardStats_64C
+        dd DrawPlayerCardStats_652
+        dd DrawPlayerCardStats_658
+        dd DrawPlayerCardStats_65E
+        dd DrawPlayerCardStats_664
 unk_91F9C:
-        dd sub_91FC4_7FC
-        dd sub_91FC4_817
-        dd sub_91FC4_81D
-        dd sub_91FC4_823
-        dd sub_91FC4_829
-        dd sub_91FC4_82F
-        dd sub_91FC4_835
-        dd sub_91FC4_83B
-        dd sub_91FC4_841
-        dd sub_91FC4_847
+        dd DrawPlayerCardStats_7FC
+        dd DrawPlayerCardStats_817
+        dd DrawPlayerCardStats_81D
+        dd DrawPlayerCardStats_823
+        dd DrawPlayerCardStats_829
+        dd DrawPlayerCardStats_82F
+        dd DrawPlayerCardStats_835
+        dd DrawPlayerCardStats_83B
+        dd DrawPlayerCardStats_841
+        dd DrawPlayerCardStats_847
 ;-----------------------------------------------------------------------------
-; sub_91FC4                                                       91FC4  96 PC
+; DrawPlayerCardStats                          91FC4  96 PC, medium confidence
+; The card's stats by season ('93-'94, '94-'95, this season), skater or
+; goalie ('G')
 ;-----------------------------------------------------------------------------
-sub_91FC4:
+DrawPlayerCardStats:
         push esi
         push edi
         enter 7Ch, 0
@@ -1915,17 +1925,17 @@ sub_91FC4:
         jb short .3
         jbe short .4
         cmp dword [byte ebp-02h], byte 2
-        je near sub_91FC4_423.41
-        jmp near sub_91FC4_847.96
+        je near DrawPlayerCardStats_423.41
+        jmp near DrawPlayerCardStats_847.96
 .3:
         cmp dword [byte ebp-02h], byte 0
-        je near sub_91FC4_847.78
-        jmp near sub_91FC4_847.96
+        je near DrawPlayerCardStats_847.78
+        jmp near DrawPlayerCardStats_847.96
 .4:
         mov eax, dword [byte ebp-06h]
         movsx eax, byte [dword eax+byte_17EBF0]
         cmp eax, byte 47h
-        jne near sub_91FC4_241.23
+        jne near DrawPlayerCardStats_241.23
         cmp dword [dword ebp+08Eh], 3E8h
         jge short .5
         mov edx, 50h
@@ -2000,9 +2010,9 @@ sub_91FC4:
         call GetLangText
         call DrawColorText
         cmp dword [byte ebp+06Ah], byte 0Ah
-        ja near sub_91FC4_241.18
+        ja near DrawPlayerCardStats_241.18
         jmp dword [dword cs:edi+unk_91F1C]
-sub_91FC4_1C4:
+DrawPlayerCardStats_1C4:
         movzx eax, word [esi]
 .15:
         push eax
@@ -2011,11 +2021,11 @@ sub_91FC4_1C4:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        jmp near sub_91FC4_241.20
-sub_91FC4_1DE:
+        jmp near DrawPlayerCardStats_241.20
+DrawPlayerCardStats_1DE:
         movzx eax, word [byte esi+0Ch]
-        jmp short sub_91FC4_1C4.15
-sub_91FC4_1E4:
+        jmp short DrawPlayerCardStats_1C4.15
+DrawPlayerCardStats_1E4:
         movzx ebx, word [byte esi+010h]
         mov eax, ebx
         mov dword [byte ebp+07Ah], 64h
@@ -2033,29 +2043,29 @@ sub_91FC4_1E4:
         push eax
         call sprintf_
         add esp, byte 10h
-        jmp near sub_91FC4_241.20
-sub_91FC4_217:
+        jmp near DrawPlayerCardStats_241.20
+DrawPlayerCardStats_217:
         movzx eax, word [byte esi+02h]
-        jmp short sub_91FC4_1C4.15
-sub_91FC4_21D:
+        jmp short DrawPlayerCardStats_1C4.15
+DrawPlayerCardStats_21D:
         movzx eax, word [byte esi+04h]
-        jmp short sub_91FC4_1C4.15
-sub_91FC4_223:
+        jmp short DrawPlayerCardStats_1C4.15
+DrawPlayerCardStats_223:
         movzx eax, word [byte esi+06h]
-        jmp short sub_91FC4_1C4.15
-sub_91FC4_229:
+        jmp short DrawPlayerCardStats_1C4.15
+DrawPlayerCardStats_229:
         movzx eax, word [byte esi+0Ah]
-        jmp short sub_91FC4_1C4.15
-sub_91FC4_22F:
+        jmp short DrawPlayerCardStats_1C4.15
+DrawPlayerCardStats_22F:
         movzx eax, word [byte esi+08h]
-        jmp short sub_91FC4_1C4.15
-sub_91FC4_235:
+        jmp short DrawPlayerCardStats_1C4.15
+DrawPlayerCardStats_235:
         movzx eax, word [byte esi+0Eh]
-        jmp short sub_91FC4_1C4.15
-sub_91FC4_23B:
+        jmp short DrawPlayerCardStats_1C4.15
+DrawPlayerCardStats_23B:
         movzx eax, word [byte esi+012h]
-        jmp short sub_91FC4_1C4.15
-sub_91FC4_241:
+        jmp short DrawPlayerCardStats_1C4.15
+DrawPlayerCardStats_241:
         cmp word [byte esi+012h], byte 0
         jne short .17
         push str_002
@@ -2073,7 +2083,7 @@ sub_91FC4_241:
         idiv ebx
         push eax
         push str_DD7
-        jmp short sub_91FC4_1E4.16
+        jmp short DrawPlayerCardStats_1E4.16
 .18:
         mov eax, 0C6h
         call GetLangText
@@ -2098,12 +2108,12 @@ sub_91FC4_241:
         add ecx, byte 14h
         add edi, byte 4
         cmp dword [byte ebp+06Ah], byte 0Bh
-        jl near sub_91FC4.14
+        jl near DrawPlayerCardStats.14
         inc dword [byte ebp+05Ah]
         add dword [byte ebp+052h], byte 46h
         cmp dword [byte ebp+05Ah], byte 3
-        jge near sub_91FC4_847.96
-        jmp near sub_91FC4.7
+        jge near DrawPlayerCardStats_847.96
+        jmp near DrawPlayerCardStats.7
 .23:
         cmp dword [dword ebp+08Eh], 3E8h
         jge short .24
@@ -2179,9 +2189,9 @@ sub_91FC4_241:
         call GetLangText
         call DrawColorText
         cmp dword [byte ebp+06Eh], byte 9
-        ja near sub_91FC4_423.36
+        ja near DrawPlayerCardStats_423.36
         jmp dword [dword cs:esi+unk_91F48]
-sub_91FC4_3D9:
+DrawPlayerCardStats_3D9:
         movzx eax, word [edi]
 .34:
         push eax
@@ -2190,32 +2200,32 @@ sub_91FC4_3D9:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        jmp near sub_91FC4_423.38
-sub_91FC4_3F3:
+        jmp near DrawPlayerCardStats_423.38
+DrawPlayerCardStats_3F3:
         movzx eax, word [byte edi+02h]
-        jmp short sub_91FC4_3D9.34
-sub_91FC4_3F9:
+        jmp short DrawPlayerCardStats_3D9.34
+DrawPlayerCardStats_3F9:
         movzx eax, word [byte edi+04h]
-        jmp short sub_91FC4_3D9.34
-sub_91FC4_3FF:
+        jmp short DrawPlayerCardStats_3D9.34
+DrawPlayerCardStats_3FF:
         movzx eax, word [byte edi+06h]
-        jmp short sub_91FC4_3D9.34
-sub_91FC4_405:
+        jmp short DrawPlayerCardStats_3D9.34
+DrawPlayerCardStats_405:
         movzx eax, word [byte edi+08h]
-        jmp short sub_91FC4_3D9.34
-sub_91FC4_40B:
+        jmp short DrawPlayerCardStats_3D9.34
+DrawPlayerCardStats_40B:
         movzx eax, word [byte edi+0Ah]
-        jmp short sub_91FC4_3D9.34
-sub_91FC4_411:
+        jmp short DrawPlayerCardStats_3D9.34
+DrawPlayerCardStats_411:
         movsx eax, word [byte edi+010h]
-        jmp short sub_91FC4_3D9.34
-sub_91FC4_417:
+        jmp short DrawPlayerCardStats_3D9.34
+DrawPlayerCardStats_417:
         movzx eax, word [byte edi+0Ch]
-        jmp short sub_91FC4_3D9.34
-sub_91FC4_41D:
+        jmp short DrawPlayerCardStats_3D9.34
+DrawPlayerCardStats_41D:
         movzx eax, word [byte edi+0Eh]
-        jmp short sub_91FC4_3D9.34
-sub_91FC4_423:
+        jmp short DrawPlayerCardStats_3D9.34
+DrawPlayerCardStats_423:
         cmp word [byte edi+0Eh], byte 0
         jne short .35
         push str_002
@@ -2265,17 +2275,17 @@ sub_91FC4_423:
         add ecx, byte 14h
         add esi, byte 4
         cmp dword [byte ebp+06Eh], byte 0Ah
-        jl near sub_91FC4_241.33
+        jl near DrawPlayerCardStats_241.33
         inc dword [byte ebp+05Eh]
         add dword [byte ebp+04Eh], byte 46h
         cmp dword [byte ebp+05Eh], byte 3
-        jge near sub_91FC4_847.96
-        jmp near sub_91FC4_241.26
+        jge near DrawPlayerCardStats_847.96
+        jmp near DrawPlayerCardStats_241.26
 .41:
         mov eax, dword [byte ebp-06h]
         movsx eax, byte [dword eax+byte_17EBF0]
         cmp eax, byte 47h
-        jne near sub_91FC4_664.60
+        jne near DrawPlayerCardStats_664.60
         cmp dword [dword ebp+08Eh], 3E8h
         jge short .42
         mov edx, 50h
@@ -2350,9 +2360,9 @@ sub_91FC4_423:
         call GetLangText
         call DrawColorText
         cmp dword [byte ebp+072h], byte 0Ah
-        ja near sub_91FC4_664.55
+        ja near DrawPlayerCardStats_664.55
         jmp dword [dword cs:edi+unk_91F70]
-sub_91FC4_5E6:
+DrawPlayerCardStats_5E6:
         movzx eax, word [byte esi+016h]
 .52:
         push eax
@@ -2361,11 +2371,11 @@ sub_91FC4_5E6:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        jmp near sub_91FC4_664.57
-sub_91FC4_601:
+        jmp near DrawPlayerCardStats_664.57
+DrawPlayerCardStats_601:
         movzx eax, word [byte esi+022h]
-        jmp short sub_91FC4_5E6.52
-sub_91FC4_607:
+        jmp short DrawPlayerCardStats_5E6.52
+DrawPlayerCardStats_607:
         movzx ebx, word [byte esi+026h]
         mov eax, ebx
         mov dword [byte ebp+07Ah], 64h
@@ -2383,29 +2393,29 @@ sub_91FC4_607:
         push eax
         call sprintf_
         add esp, byte 10h
-        jmp near sub_91FC4_664.57
-sub_91FC4_63A:
+        jmp near DrawPlayerCardStats_664.57
+DrawPlayerCardStats_63A:
         movzx eax, word [byte esi+018h]
-        jmp short sub_91FC4_5E6.52
-sub_91FC4_640:
+        jmp short DrawPlayerCardStats_5E6.52
+DrawPlayerCardStats_640:
         movzx eax, word [byte esi+01Ah]
-        jmp short sub_91FC4_5E6.52
-sub_91FC4_646:
+        jmp short DrawPlayerCardStats_5E6.52
+DrawPlayerCardStats_646:
         movzx eax, word [byte esi+01Ch]
-        jmp short sub_91FC4_5E6.52
-sub_91FC4_64C:
+        jmp short DrawPlayerCardStats_5E6.52
+DrawPlayerCardStats_64C:
         movzx eax, word [byte esi+020h]
-        jmp short sub_91FC4_5E6.52
-sub_91FC4_652:
+        jmp short DrawPlayerCardStats_5E6.52
+DrawPlayerCardStats_652:
         movzx eax, word [byte esi+01Eh]
-        jmp short sub_91FC4_5E6.52
-sub_91FC4_658:
+        jmp short DrawPlayerCardStats_5E6.52
+DrawPlayerCardStats_658:
         movzx eax, word [byte esi+024h]
-        jmp short sub_91FC4_5E6.52
-sub_91FC4_65E:
+        jmp short DrawPlayerCardStats_5E6.52
+DrawPlayerCardStats_65E:
         movzx eax, word [byte esi+028h]
-        jmp short sub_91FC4_5E6.52
-sub_91FC4_664:
+        jmp short DrawPlayerCardStats_5E6.52
+DrawPlayerCardStats_664:
         cmp word [byte esi+028h], byte 0
         jne short .54
         push str_002
@@ -2423,7 +2433,7 @@ sub_91FC4_664:
         idiv ebx
         push eax
         push str_DD7
-        jmp short sub_91FC4_607.53
+        jmp short DrawPlayerCardStats_607.53
 .55:
         mov eax, 0C6h
         call GetLangText
@@ -2448,12 +2458,12 @@ sub_91FC4_664:
         add ecx, byte 14h
         add edi, byte 4
         cmp dword [byte ebp+072h], byte 0Bh
-        jl near sub_91FC4_423.51
+        jl near DrawPlayerCardStats_423.51
         inc dword [byte ebp+062h]
         add dword [byte ebp+04Ah], byte 46h
         cmp dword [byte ebp+062h], byte 3
-        jge near sub_91FC4_847.96
-        jmp near sub_91FC4_423.44
+        jge near DrawPlayerCardStats_847.96
+        jmp near DrawPlayerCardStats_423.44
 .60:
         cmp dword [dword ebp+08Eh], 3E8h
         jge short .61
@@ -2529,9 +2539,9 @@ sub_91FC4_664:
         call GetLangText
         call DrawColorText
         cmp dword [byte ebp+076h], byte 9
-        ja near sub_91FC4_847.73
+        ja near DrawPlayerCardStats_847.73
         jmp dword [dword cs:ecx+unk_91F9C]
-sub_91FC4_7FC:
+DrawPlayerCardStats_7FC:
         movzx eax, word [byte edi+012h]
 .71:
         push eax
@@ -2540,32 +2550,32 @@ sub_91FC4_7FC:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        jmp near sub_91FC4_847.75
-sub_91FC4_817:
+        jmp near DrawPlayerCardStats_847.75
+DrawPlayerCardStats_817:
         movzx eax, word [byte edi+014h]
-        jmp short sub_91FC4_7FC.71
-sub_91FC4_81D:
+        jmp short DrawPlayerCardStats_7FC.71
+DrawPlayerCardStats_81D:
         movzx eax, word [byte edi+016h]
-        jmp short sub_91FC4_7FC.71
-sub_91FC4_823:
+        jmp short DrawPlayerCardStats_7FC.71
+DrawPlayerCardStats_823:
         movzx eax, word [byte edi+018h]
-        jmp short sub_91FC4_7FC.71
-sub_91FC4_829:
+        jmp short DrawPlayerCardStats_7FC.71
+DrawPlayerCardStats_829:
         movzx eax, word [byte edi+01Ah]
-        jmp short sub_91FC4_7FC.71
-sub_91FC4_82F:
+        jmp short DrawPlayerCardStats_7FC.71
+DrawPlayerCardStats_82F:
         movzx eax, word [byte edi+01Ch]
-        jmp short sub_91FC4_7FC.71
-sub_91FC4_835:
+        jmp short DrawPlayerCardStats_7FC.71
+DrawPlayerCardStats_835:
         movsx eax, word [byte edi+022h]
-        jmp short sub_91FC4_7FC.71
-sub_91FC4_83B:
+        jmp short DrawPlayerCardStats_7FC.71
+DrawPlayerCardStats_83B:
         movzx eax, word [byte edi+01Eh]
-        jmp short sub_91FC4_7FC.71
-sub_91FC4_841:
+        jmp short DrawPlayerCardStats_7FC.71
+DrawPlayerCardStats_841:
         movzx eax, word [byte edi+020h]
-        jmp short sub_91FC4_7FC.71
-sub_91FC4_847:
+        jmp short DrawPlayerCardStats_7FC.71
+DrawPlayerCardStats_847:
         cmp word [byte edi+020h], byte 0
         jne short .72
         push str_002
@@ -2615,12 +2625,12 @@ sub_91FC4_847:
         add esi, byte 14h
         add ecx, byte 4
         cmp dword [byte ebp+076h], byte 0Ah
-        jl near sub_91FC4_664.70
+        jl near DrawPlayerCardStats_664.70
         inc dword [byte ebp+066h]
         add dword [byte ebp+046h], byte 46h
         cmp dword [byte ebp+066h], byte 3
         jge near .96
-        jmp near sub_91FC4_664.63
+        jmp near DrawPlayerCardStats_664.63
 .78:
         mov edx, dword [byte ebp-06h]
         mov dword [byte ebp+056h], 0
@@ -2767,9 +2777,11 @@ sub_91FC4_847:
         pop esi
         ret 4
 ;-----------------------------------------------------------------------------
-; sub_92A6A                                                       92A6A  96 PC
+; LoadPlayerCardArt                            92A6A  96 PC, medium confidence
+; The player's picture (PROFILE.FSH, card, plyr, .FSH by team) and the team
+; logo
 ;-----------------------------------------------------------------------------
-sub_92A6A:
+LoadPlayerCardArt:
         push esi
         push edi
         enter 28h, 0
@@ -2990,9 +3002,10 @@ sub_92A6A:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_92D6F                                                       92D6F  96 PC
+; DrawPlayerCardName                           92D6F  96 PC, medium confidence
+; The card's name line ("#%d %s %s") and profile texts
 ;-----------------------------------------------------------------------------
-sub_92D6F:
+DrawPlayerCardName:
         push esi
         push edi
         enter 38h, 0
@@ -3247,55 +3260,57 @@ sub_92D6F:
         pop esi
         ret
 unk_93072:
-        dd sub_9311A_2BF
-        dd sub_9311A_2D9
-        dd sub_9311A_2DF
-        dd sub_9311A_312
-        dd sub_9311A_318
-        dd sub_9311A_31E
-        dd sub_9311A_324
-        dd sub_9311A_32A
-        dd sub_9311A_330
-        dd sub_9311A_336
-        dd sub_9311A_33C
+        dd ExportPlayerCard_2BF
+        dd ExportPlayerCard_2D9
+        dd ExportPlayerCard_2DF
+        dd ExportPlayerCard_312
+        dd ExportPlayerCard_318
+        dd ExportPlayerCard_31E
+        dd ExportPlayerCard_324
+        dd ExportPlayerCard_32A
+        dd ExportPlayerCard_330
+        dd ExportPlayerCard_336
+        dd ExportPlayerCard_33C
 unk_9309E:
-        dd sub_9311A_438
-        dd sub_9311A_453
-        dd sub_9311A_459
-        dd sub_9311A_48C
-        dd sub_9311A_492
-        dd sub_9311A_498
-        dd sub_9311A_49E
-        dd sub_9311A_4A4
-        dd sub_9311A_4AA
-        dd sub_9311A_4B0
-        dd sub_9311A_4B6
+        dd ExportPlayerCard_438
+        dd ExportPlayerCard_453
+        dd ExportPlayerCard_459
+        dd ExportPlayerCard_48C
+        dd ExportPlayerCard_492
+        dd ExportPlayerCard_498
+        dd ExportPlayerCard_49E
+        dd ExportPlayerCard_4A4
+        dd ExportPlayerCard_4AA
+        dd ExportPlayerCard_4B0
+        dd ExportPlayerCard_4B6
 unk_930CA:
-        dd sub_9311A_703
-        dd sub_9311A_71D
-        dd sub_9311A_723
-        dd sub_9311A_729
-        dd sub_9311A_72F
-        dd sub_9311A_735
-        dd sub_9311A_73B
-        dd sub_9311A_741
-        dd sub_9311A_747
-        dd sub_9311A_74D
+        dd ExportPlayerCard_703
+        dd ExportPlayerCard_71D
+        dd ExportPlayerCard_723
+        dd ExportPlayerCard_729
+        dd ExportPlayerCard_72F
+        dd ExportPlayerCard_735
+        dd ExportPlayerCard_73B
+        dd ExportPlayerCard_741
+        dd ExportPlayerCard_747
+        dd ExportPlayerCard_74D
 unk_930F2:
-        dd sub_9311A_860
-        dd sub_9311A_87B
-        dd sub_9311A_881
-        dd sub_9311A_887
-        dd sub_9311A_88D
-        dd sub_9311A_893
-        dd sub_9311A_899
-        dd sub_9311A_89F
-        dd sub_9311A_8A5
-        dd sub_9311A_8AB
+        dd ExportPlayerCard_860
+        dd ExportPlayerCard_87B
+        dd ExportPlayerCard_881
+        dd ExportPlayerCard_887
+        dd ExportPlayerCard_88D
+        dd ExportPlayerCard_893
+        dd ExportPlayerCard_899
+        dd ExportPlayerCard_89F
+        dd ExportPlayerCard_8A5
+        dd ExportPlayerCard_8AB
 ;-----------------------------------------------------------------------------
-; sub_9311A                                                       9311A  96 PC
+; ExportPlayerCard                             9311A  96 PC, medium confidence
+; Asks a file name and writes the player's card as text (fopen "wt", "#%d %s
+; %s.")
 ;-----------------------------------------------------------------------------
-sub_9311A:
+ExportPlayerCard:
         push ebx
         push ecx
         push esi
@@ -3319,15 +3334,15 @@ sub_9311A:
         xor eax, eax
         call EditText
         test eax, eax
-        je near sub_90879_7D
+        je near DrawLeagueLogo_7D
         lea eax, [byte ebp-030h]
         call strlen_
         test eax, eax
-        je near sub_90879_7D
+        je near DrawLeagueLogo_7D
         lea eax, [byte ebp-030h]
         call CheckExportName
         test eax, eax
-        jne near sub_90879_7D
+        jne near DrawLeagueLogo_7D
         mov edx, str_Wt4
         lea eax, [byte ebp-030h]
         mov ecx, 0F0h
@@ -3436,7 +3451,7 @@ sub_9311A:
         movsx edx, byte [dword edx+byte_17EBF0]
         shl eax, 2
         cmp edx, byte 47h
-        jne near sub_9311A_4B6.46
+        jne near ExportPlayerCard_4B6.46
         cmp dword [byte ebp-04Ch], 3E7h
         jle short .12
         mov edx, dword [dword_11E670]
@@ -3518,9 +3533,9 @@ sub_9311A:
         xor edi, edi
 .19:
         cmp dword [byte ebp-08h], byte 0Ah
-        ja near sub_9311A_33C.23
+        ja near ExportPlayerCard_33C.23
         jmp dword [dword cs:edi+unk_93072]
-sub_9311A_2BF:
+ExportPlayerCard_2BF:
         movzx eax, word [ebx]
 .20:
         push eax
@@ -3529,11 +3544,11 @@ sub_9311A_2BF:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        jmp near sub_9311A_33C.25
-sub_9311A_2D9:
+        jmp near ExportPlayerCard_33C.25
+ExportPlayerCard_2D9:
         movzx eax, word [byte ebx+0Ch]
-        jmp short sub_9311A_2BF.20
-sub_9311A_2DF:
+        jmp short ExportPlayerCard_2BF.20
+ExportPlayerCard_2DF:
         movzx ecx, word [byte ebx+010h]
         mov eax, ecx
         mov dword [byte ebp-04h], 64h
@@ -3551,29 +3566,29 @@ sub_9311A_2DF:
         push eax
         call sprintf_
         add esp, byte 10h
-        jmp near sub_9311A_33C.25
-sub_9311A_312:
+        jmp near ExportPlayerCard_33C.25
+ExportPlayerCard_312:
         movzx eax, word [byte ebx+02h]
-        jmp short sub_9311A_2BF.20
-sub_9311A_318:
+        jmp short ExportPlayerCard_2BF.20
+ExportPlayerCard_318:
         movzx eax, word [byte ebx+04h]
-        jmp short sub_9311A_2BF.20
-sub_9311A_31E:
+        jmp short ExportPlayerCard_2BF.20
+ExportPlayerCard_31E:
         movzx eax, word [byte ebx+06h]
-        jmp short sub_9311A_2BF.20
-sub_9311A_324:
+        jmp short ExportPlayerCard_2BF.20
+ExportPlayerCard_324:
         movzx eax, word [byte ebx+0Ah]
-        jmp short sub_9311A_2BF.20
-sub_9311A_32A:
+        jmp short ExportPlayerCard_2BF.20
+ExportPlayerCard_32A:
         movzx eax, word [byte ebx+08h]
-        jmp short sub_9311A_2BF.20
-sub_9311A_330:
+        jmp short ExportPlayerCard_2BF.20
+ExportPlayerCard_330:
         movzx eax, word [byte ebx+0Eh]
-        jmp short sub_9311A_2BF.20
-sub_9311A_336:
+        jmp short ExportPlayerCard_2BF.20
+ExportPlayerCard_336:
         movzx eax, word [byte ebx+012h]
-        jmp short sub_9311A_2BF.20
-sub_9311A_33C:
+        jmp short ExportPlayerCard_2BF.20
+ExportPlayerCard_33C:
         cmp word [byte ebx+012h], byte 0
         jne short .22
         push str_002
@@ -3591,7 +3606,7 @@ sub_9311A_33C:
         idiv ecx
         push eax
         push str_DD8
-        jmp short sub_9311A_2DF.21
+        jmp short ExportPlayerCard_2DF.21
 .23:
         mov eax, 0C6h
         call GetLangText
@@ -3623,7 +3638,7 @@ sub_9311A_33C:
         inc dword [byte ebp-08h]
         add edi, byte 4
         cmp dword [byte ebp-08h], byte 0Bh
-        jl near sub_9311A.19
+        jl near ExportPlayerCard.19
         mov eax, 1
         call UpdateProgressBox
         mov eax, 13Bh
@@ -3659,9 +3674,9 @@ sub_9311A_33C:
         xor edi, edi
 .30:
         cmp dword [byte ebp-0Ch], byte 0Ah
-        ja near sub_9311A_4B6.34
+        ja near ExportPlayerCard_4B6.34
         jmp dword [dword cs:edi+unk_9309E]
-sub_9311A_438:
+ExportPlayerCard_438:
         movzx eax, word [byte ebx+016h]
 .31:
         push eax
@@ -3670,11 +3685,11 @@ sub_9311A_438:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        jmp near sub_9311A_4B6.36
-sub_9311A_453:
+        jmp near ExportPlayerCard_4B6.36
+ExportPlayerCard_453:
         movzx eax, word [byte ebx+022h]
-        jmp short sub_9311A_438.31
-sub_9311A_459:
+        jmp short ExportPlayerCard_438.31
+ExportPlayerCard_459:
         movzx ecx, word [byte ebx+026h]
         mov eax, ecx
         mov dword [byte ebp-04h], 64h
@@ -3692,29 +3707,29 @@ sub_9311A_459:
         push eax
         call sprintf_
         add esp, byte 10h
-        jmp near sub_9311A_4B6.36
-sub_9311A_48C:
+        jmp near ExportPlayerCard_4B6.36
+ExportPlayerCard_48C:
         movzx eax, word [byte ebx+018h]
-        jmp short sub_9311A_438.31
-sub_9311A_492:
+        jmp short ExportPlayerCard_438.31
+ExportPlayerCard_492:
         movzx eax, word [byte ebx+01Ah]
-        jmp short sub_9311A_438.31
-sub_9311A_498:
+        jmp short ExportPlayerCard_438.31
+ExportPlayerCard_498:
         movzx eax, word [byte ebx+01Ch]
-        jmp short sub_9311A_438.31
-sub_9311A_49E:
+        jmp short ExportPlayerCard_438.31
+ExportPlayerCard_49E:
         movzx eax, word [byte ebx+020h]
-        jmp short sub_9311A_438.31
-sub_9311A_4A4:
+        jmp short ExportPlayerCard_438.31
+ExportPlayerCard_4A4:
         movzx eax, word [byte ebx+01Eh]
-        jmp short sub_9311A_438.31
-sub_9311A_4AA:
+        jmp short ExportPlayerCard_438.31
+ExportPlayerCard_4AA:
         movzx eax, word [byte ebx+024h]
-        jmp short sub_9311A_438.31
-sub_9311A_4B0:
+        jmp short ExportPlayerCard_438.31
+ExportPlayerCard_4B0:
         movzx eax, word [byte ebx+028h]
-        jmp short sub_9311A_438.31
-sub_9311A_4B6:
+        jmp short ExportPlayerCard_438.31
+ExportPlayerCard_4B6:
         cmp word [byte ebx+028h], byte 0
         jne short .33
         push str_002
@@ -3732,7 +3747,7 @@ sub_9311A_4B6:
         idiv ecx
         push eax
         push str_DD8
-        jmp short sub_9311A_459.32
+        jmp short ExportPlayerCard_459.32
 .34:
         mov eax, 0C6h
         call GetLangText
@@ -3764,7 +3779,7 @@ sub_9311A_4B6:
         inc dword [byte ebp-0Ch]
         add edi, byte 4
         cmp dword [byte ebp-0Ch], byte 0Bh
-        jl near sub_9311A_33C.30
+        jl near ExportPlayerCard_33C.30
         push unk_1129C2
         push esi
         xor ebx, ebx
@@ -3828,7 +3843,7 @@ sub_9311A_4B6:
         inc ebx
         add edx, byte 4
         cmp ebx, byte 9
-        jge near sub_9311A_8AB.77
+        jge near ExportPlayerCard_8AB.77
         jmp near .39
 .46:
         cmp dword [byte ebp-04Ch], 3E7h
@@ -3916,9 +3931,9 @@ sub_9311A_4B6:
         xor edi, edi
 .54:
         cmp ecx, byte 9
-        ja near sub_9311A_74D.57
+        ja near ExportPlayerCard_74D.57
         jmp dword [dword cs:edi+unk_930CA]
-sub_9311A_703:
+ExportPlayerCard_703:
         movzx eax, word [ebx]
 .55:
         push eax
@@ -3927,32 +3942,32 @@ sub_9311A_703:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        jmp near sub_9311A_74D.59
-sub_9311A_71D:
+        jmp near ExportPlayerCard_74D.59
+ExportPlayerCard_71D:
         movzx eax, word [byte ebx+02h]
-        jmp short sub_9311A_703.55
-sub_9311A_723:
+        jmp short ExportPlayerCard_703.55
+ExportPlayerCard_723:
         movzx eax, word [byte ebx+04h]
-        jmp short sub_9311A_703.55
-sub_9311A_729:
+        jmp short ExportPlayerCard_703.55
+ExportPlayerCard_729:
         movzx eax, word [byte ebx+06h]
-        jmp short sub_9311A_703.55
-sub_9311A_72F:
+        jmp short ExportPlayerCard_703.55
+ExportPlayerCard_72F:
         movzx eax, word [byte ebx+08h]
-        jmp short sub_9311A_703.55
-sub_9311A_735:
+        jmp short ExportPlayerCard_703.55
+ExportPlayerCard_735:
         movzx eax, word [byte ebx+0Ah]
-        jmp short sub_9311A_703.55
-sub_9311A_73B:
+        jmp short ExportPlayerCard_703.55
+ExportPlayerCard_73B:
         movsx eax, word [byte ebx+010h]
-        jmp short sub_9311A_703.55
-sub_9311A_741:
+        jmp short ExportPlayerCard_703.55
+ExportPlayerCard_741:
         movzx eax, word [byte ebx+0Ch]
-        jmp short sub_9311A_703.55
-sub_9311A_747:
+        jmp short ExportPlayerCard_703.55
+ExportPlayerCard_747:
         movzx eax, word [byte ebx+0Eh]
-        jmp short sub_9311A_703.55
-sub_9311A_74D:
+        jmp short ExportPlayerCard_703.55
+ExportPlayerCard_74D:
         cmp word [byte ebx+0Eh], byte 0
         jne short .56
         push str_002
@@ -4011,7 +4026,7 @@ sub_9311A_74D:
         inc ecx
         add edi, byte 4
         cmp ecx, byte 0Ah
-        jl near sub_9311A_4B6.54
+        jl near ExportPlayerCard_4B6.54
         mov eax, 1
         call UpdateProgressBox
         mov eax, 13Bh
@@ -4047,9 +4062,9 @@ sub_9311A_74D:
         xor edi, edi
 .64:
         cmp ecx, byte 9
-        ja near sub_9311A_8AB.67
+        ja near ExportPlayerCard_8AB.67
         jmp dword [dword cs:edi+unk_930F2]
-sub_9311A_860:
+ExportPlayerCard_860:
         movzx eax, word [byte ebx+012h]
 .65:
         push eax
@@ -4058,32 +4073,32 @@ sub_9311A_860:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        jmp near sub_9311A_8AB.69
-sub_9311A_87B:
+        jmp near ExportPlayerCard_8AB.69
+ExportPlayerCard_87B:
         movzx eax, word [byte ebx+014h]
-        jmp short sub_9311A_860.65
-sub_9311A_881:
+        jmp short ExportPlayerCard_860.65
+ExportPlayerCard_881:
         movzx eax, word [byte ebx+016h]
-        jmp short sub_9311A_860.65
-sub_9311A_887:
+        jmp short ExportPlayerCard_860.65
+ExportPlayerCard_887:
         movzx eax, word [byte ebx+018h]
-        jmp short sub_9311A_860.65
-sub_9311A_88D:
+        jmp short ExportPlayerCard_860.65
+ExportPlayerCard_88D:
         movzx eax, word [byte ebx+01Ah]
-        jmp short sub_9311A_860.65
-sub_9311A_893:
+        jmp short ExportPlayerCard_860.65
+ExportPlayerCard_893:
         movzx eax, word [byte ebx+01Ch]
-        jmp short sub_9311A_860.65
-sub_9311A_899:
+        jmp short ExportPlayerCard_860.65
+ExportPlayerCard_899:
         movsx eax, word [byte ebx+022h]
-        jmp short sub_9311A_860.65
-sub_9311A_89F:
+        jmp short ExportPlayerCard_860.65
+ExportPlayerCard_89F:
         movzx eax, word [byte ebx+01Eh]
-        jmp short sub_9311A_860.65
-sub_9311A_8A5:
+        jmp short ExportPlayerCard_860.65
+ExportPlayerCard_8A5:
         movzx eax, word [byte ebx+020h]
-        jmp short sub_9311A_860.65
-sub_9311A_8AB:
+        jmp short ExportPlayerCard_860.65
+ExportPlayerCard_8AB:
         cmp word [byte ebx+020h], byte 0
         jne short .66
         push str_002
@@ -4142,7 +4157,7 @@ sub_9311A_8AB:
         inc ecx
         add edi, byte 4
         cmp ecx, byte 0Ah
-        jl near sub_9311A_74D.64
+        jl near ExportPlayerCard_74D.64
         push unk_1129C2
         push esi
         xor ebx, ebx
@@ -4205,11 +4220,12 @@ sub_9311A_8AB:
         call HideProgressBox
         mov eax, esi
         call fclose_
-        jmp near sub_90879_7D
+        jmp near DrawLeagueLogo_7D
 ;-----------------------------------------------------------------------------
-; sub_93B25                                                       93B25  96 PC
+; ScaleBlock                                      93B25  96 PC, low confidence
+; Draws a block scaled by a factor (floating point), for the card slides
 ;-----------------------------------------------------------------------------
-sub_93B25:
+ScaleBlock:
         push ebx
         push ecx
         push esi

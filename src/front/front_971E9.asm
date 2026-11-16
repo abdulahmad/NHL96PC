@@ -28,7 +28,7 @@ extern strcpy_, EditText, MessageBox, LoadTeamLogo, MakeDataPath, MakeDirPath, L
 extern LoadExhibitionStats, LoadModemStats, GetTeamNameArt, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette
 extern FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, FillBox, DrawFrameAt, InitMenuItems, RunMenu
 extern GetLangText, MakeSeasonDbPath, InitVScrollBar, ScrollBarUp, ScrollBarDown, FreeScrollBar, SetScrollBarPos, DrawScrollBar
-extern ScrollBarToMouse, sub_90AF8, sub_93E6A, sub_9CFE3, sub_A0355, sub_A0480, sub_AAA40, PutBlock
+extern ScrollBarToMouse, PlayerCardScreen, sub_93E6A, sub_9CFE3, sub_A0355, sub_A0480, sub_AAA40, PutBlock
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, FillRect, sub_ADBEC, sub_B0430, sub_B178B
 extern sub_B20D0, sub_B22B0, sub_B2C54, sub_DD6C4, sub_E04E0, str_D12, unk_152E36, unk_1821B4
 extern unk_182224, unk_182294, unk_96949, unk_96B89, unk_96C49, unk_96D09, unk_96DC9, unk_96FD9
@@ -6918,7 +6918,7 @@ sub_9CDDA:
         mov edx, dword_181EAC
         mov ebx, dword [dword_1843A8]
         mov eax, dword [dword_11E678]
-        call sub_90AF8
+        call PlayerCardScreen
         mov edi, 1
         push dword [dword_11E678]
         mov dword [byte ebp-04h], 0

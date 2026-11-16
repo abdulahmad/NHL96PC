@@ -816,6 +816,17 @@ address,name,auto_name,source,confidence,evidence,file
 8F539,FindPlayerStatRow,sub_8F539,new,low,finds a player's row and scrolls to it (SetScrollBarPos),src/front/player_stats/player_stats.asm
 8F5B3,ExportPlayerStats,sub_8F5B3,new,medium,"asks a file name and writes the player stats as text (fopen ""wt"", fprintf)",src/front/player_stats/player_stats.asm
 8FD8F,BuildPlayerStatRows,sub_8FD8F,new,low,"builds the player stat rows of a team from its roster (word_181EB4, 136h per team)",src/front/player_stats/player_stats.asm
+905A1,ShowPlayerCardTitle,sub_905A1,new,low,shows the player card title strip (bkgd) for a moment,src/front/player_cards/player_cards.asm
+9066F,SwitchPlayerCard,sub_9066F,new,low,"the card change animation: title, slide out (SlideCardLeft / SlideCardRight), the new card's picture (LoadPlayerCardArt)",src/front/player_cards/player_cards.asm
+90879,DrawLeagueLogo,sub_90879,new,medium,(league): draws the league logo LG%02d,src/front/player_cards/player_cards.asm
+908FC,SlideCardLeft,sub_908FC,new,low,slides a card panel to the left (ScaleBlock steps),src/front/player_cards/player_cards.asm
+909FE,SlideCardRight,sub_909FE,new,low,slides a card panel to the right,src/front/player_cards/player_cards.asm
+90AF8,PlayerCardScreen,sub_90AF8,new,high,"the player card screen (XTbl, PHT0, HBAL, SLDH, AR00-AR11 arrows): a player's picture, profile and stats, picking players by team, export",src/front/player_cards/player_cards.asm
+91FC4,DrawPlayerCardStats,sub_91FC4,new,medium,"the card's stats by season ('93-'94, '94-'95, this season), skater or goalie ('G')",src/front/player_cards/player_cards.asm
+92A6A,LoadPlayerCardArt,sub_92A6A,new,medium,"the player's picture (PROFILE.FSH, card, plyr, .FSH by team) and the team logo",src/front/player_cards/player_cards.asm
+92D6F,DrawPlayerCardName,sub_92D6F,new,medium,"the card's name line (""#%d %s %s"") and profile texts",src/front/player_cards/player_cards.asm
+9311A,ExportPlayerCard,sub_9311A,new,medium,"asks a file name and writes the player's card as text (fopen ""wt"", ""#%d %s %s."")",src/front/player_cards/player_cards.asm
+93B25,ScaleBlock,sub_93B25,new,low,"draws a block scaled by a factor (floating point), for the card slides",src/front/player_cards/player_cards.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

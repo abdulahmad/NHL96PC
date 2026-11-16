@@ -27,7 +27,7 @@ extern str_LGR2, str_Menupicks, str_NOR, str_PAC, str_Pal20, str_PLR, str_PLY2, 
 extern str_PRN0, str_PRN1, str_PRN2, str_ROK, str_S2, str_SavetimeOut, str_SD2, str_SEA0
 extern str_SEA2, str_SEA3, str_Space2, str_spDDDD, str_TEA0, str_TEA1, str_TEA2, str_TXT
 extern str_VBAL, str_VERT, str_WES, str_WES0, str_Wt2, strcat_, strcmp_, strlen_
-extern sub_90AF8, sub_93E6A, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
+extern PlayerCardScreen, sub_93E6A, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
 extern sub_B0430, sub_B2C54, sub_C2500, sub_DD6C4, sub_DD724, sub_E04E0, TickDeadlinePassed, unk_112633
 extern unk_11263E, unk_11266B, UpdateProgressBox, word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900
 extern word_17E934, word_17E968, word_17E99C
@@ -145,7 +145,7 @@ RunStatsMenu_13E:
         mov edx, dword_181EAC
         mov ebx, dword [dword_181EB0]
         mov eax, dword [dword_11E678]
-        call sub_90AF8
+        call PlayerCardScreen
         cmp eax, 0A413h
         je short RunStatsMenu_104.5
         cmp eax, 0A415h

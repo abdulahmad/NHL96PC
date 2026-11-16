@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1B046 progbits alloc exec nowrite align=1
 extern _dos_gettime_, str_Punct_StartUp, chdir_, DetectCPU, GripLibHandle, dword_1150D4, dword_1150D8, dword_1150DC
-extern dword_11D19C, CpuType, dword_11F61C, bailout_vec, DebugMode, dword_152F44, dword_152F48, dword_152F4C
+extern StartupPalette, CpuType, dword_11F61C, bailout_vec, DebugMode, dword_152F44, dword_152F48, dword_152F4C
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, globalset, InitInputDevices, InstallTimer, LoadDataFile
 extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, LogoNames, optflags, PlayMenuGame, printf_
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
@@ -585,7 +585,7 @@ StartUp:
         mov eax, str_WesternConference2
         call CreateAaPalLut
         mov ebx, 20h
-        mov edx, dword_11D19C
+        mov edx, StartupPalette
         mov eax, str_WesternConference2
         call CreateAaPalLut
         mov edx, dword [globalset]

@@ -6,7 +6,7 @@ extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstr
 extern PenaltyAnnounced, PenCountdownOptTab, PenShotCountdownOpt, PenCountdownTab, PenShotCountdown, pendelaytab, PenShotDelay, LinePickOrderFrom1
 extern hmrosterpos, textline5, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
 extern PenaltyTimes, PenBuf, PenBuf_pl, crowdlevel, HomeEbenPlayer, AwayEbenPlayer, penshotfox, penshotteam
-extern AwayGoalsPeriod, HomeGoalsPeriod, PenaltyTypes, dword_11B310, lineslotmark, dword_176C44, fox, foy
+extern AwayGoalsPeriod, HomeGoalsPeriod, PenaltyTypes, LastEventPlayer, lineslotmark, dword_176C44, fox, foy
 extern gameclock, gameopts, gmode, hmtmstruct, puckvy, puckc, PtrPuckFlags, PtrPuckObject
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
@@ -445,7 +445,7 @@ InProgress:
         mov byte [dword eax+PenBuf], dl
         jmp near SortPlayersByDistance_E0
 .10:
-        cmp dword [dword_11B310], byte 0FFFFFFFFh
+        cmp dword [LastEventPlayer], byte 0FFFFFFFFh
         jne near SortPlayersByDistance_E0
         movsx dx, byte [dword eax+PenBuf]
         mov dword [byte ebp-010h], edx

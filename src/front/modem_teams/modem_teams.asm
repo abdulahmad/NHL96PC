@@ -1,10 +1,11 @@
 ; The modem / link game set-up from the main menu: team select and the steps to the game (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 section s_A3851 progbits alloc exec nowrite align=1
 extern BlackPalette, byte_17D275, byte_17D283, ComputeTeamRanks, CopyBitmap, DrawFrameAt, dword_11ED3C, dword_11ED40
 extern dword_11ED58, dword_11ED5C, dword_11ED60, dword_11ED64, dword_11ED68, dword_11ED6C, dword_11ED70, dword_11ED74
-extern MatchupLayer, TeamStatsBitmap, dword_17BCE2, str_Standings, dword_17D273, dword_1846F0, dword_1846F4, dword_1846F8
+extern MatchupLayer, TeamStatsBitmap, MenuBoxStyle, dword_17D273, dword_1846F0, dword_1846F4, dword_1846F8
 extern FadeOut, FadePalette, FillMusicStream, gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LinkSetupScreen
 extern LoadModemStats, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey, MusicDone, OpenScreen
 extern PlayMusic, PutBlock, RunControllerScreen, RunMenu, RunModemSetup, SetDrawBitmap, SetMenuMouse, SetScreenColors
@@ -534,7 +535,7 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-02AEh], 6
         mov ecx, 66h
         lea edi, [dword ebp-028Ch]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-02ADh], 7
         mov byte [dword ebp-02AFh], 6
         rep movsb
@@ -542,7 +543,7 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-0248h], 6
         mov ecx, 66h
         lea edi, [dword ebp-0226h]
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         mov byte [dword ebp-0247h], 7
         mov byte [dword ebp-0249h], 7
         rep movsb

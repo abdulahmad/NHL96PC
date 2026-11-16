@@ -2,307 +2,244 @@
 bits 32
 %include "hockey.inc"
 section s_179CBC nobits alloc noexec write align=1
-global byte_179D7C, byte_179DC1, byte_179E06, byte_179E47, byte_17BB64, byte_17BCBE, byte_17BCBF, byte_17BCC0
-global byte_17BCC1, byte_17BD24, byte_17BD25, byte_17BD26, byte_17BD27, byte_17BD8A, byte_17BD8B, byte_17BD8C
-global byte_17BD8D, byte_17BDAE, byte_17BDAF, byte_17BDB0, dword_179CBC, dword_179CC0, dword_179CC4, dword_179CC8
-global dword_179D44, dword_179D48, dword_179D50, dword_179D54, dword_179D58, dword_179D5C, dword_179D60, dword_179D64
-global dword_179D68, dword_179D6C, dword_179D70, dword_179D74, dword_179D78, dword_179D7D, dword_179DBD, dword_179DC2
-global dword_179DC6, dword_179DCA, dword_179DCE, dword_179DD2, dword_179DD6, dword_179E0B, dword_179E0F, dword_179E13
-global dword_179E17, dword_179E1B, dword_179E1F, dword_179E23, dword_179E27, dword_179E2B, dword_179E2F, dword_179E33
-global dword_179E37, dword_179E3B, dword_179E3F, dword_179E43, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34
-global dword_17BA38, dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54
-global dword_17BA7C, dword_17BAB0, dword_17BAB4, dword_17BAE8, dword_17BAEC, dword_17BB20, dword_17BC64, dword_17BC68
-global dword_17BC6C, dword_17BC70, dword_17BC74, MatchupLayer, TeamStatsBitmap, dword_17BC8C, dword_17BC90, dword_17BC96
-global dword_17BC9A, dword_17BCA2, dword_17BCA6, dword_17BCAE, dword_17BCB6, dword_17BCBA, dword_17BCE2, dword_17BCF2
-global dword_17BCF6, dword_17BCFC, dword_17BD00, dword_17BD08, dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20
-global str_Standings, dword_17BD58, dword_17BD5C, dword_17BD62, dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A
-global dword_17BD82, dword_17BD86, dword_17BDD4, dword_17BDD8, dword_17BDDC, dword_17C3E4, dword_17C3E8, dword_17C3EC
-global dword_17C3F0, dword_17C3F4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
-global unk_179E48, unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unk_17BB24
-global unk_17BDB4, IntroPalette, fadepalbuf, word_179DC8, word_179DCC, word_179E0D, word_179E11
-dword_179CBC:
+global CamShotMode, CamViewFlags, CamShotPhase, ScreenColorMap
+
+global TitleTextStyle, CamTargetObj, CamLeadX, CamLeadY, CamLeadOn
+global CamShotTime, CamPathPos, CamAimX, CamAimShift, CamAimY, CamShotTimer, CamShakeStart, CamShakeCount
+global CamShotId, CamShotObj, CamInjuredObj, CamNearNet, CameraShotState, CamShotKeys, CamShotSaved
+global CamPosX, CamPosY, CamPosZ, CamDistance, CamMatrix, CamAngle, CamPitch, CamPathState
+global CamZoom, CamPathActive, CamPathDerivs
+global SpriteCacheLinks, SpriteCache, SpriteCachePtr, SpriteCacheFree
+global SpriteCacheUsed, SpriteCacheBlock, SpriteCacheSize, PlayerSpriteFile, PlayerSpriteCount, RinkSpriteFile, NetSpriteFile, MarkerSpriteFile
+global FrontEndBarShapes, SideBarBmp, BottomBarBmp
+global ScreenPaletteBuf, TitleBarBmp, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, SideBarArt
+global MenuBoxStyle, BottomBarArt
+
+global TitleBarArt
+global SlideImageBmp, SlideImageIndex, SlideEventPtr, MenuLastMouseX, MenuLastMouseY, MenuLastButtons
+global MenuButtons, MenuViewTop, CameraPathPoints, CamPathTarget
+global SpriteCacheHead, JerseyColorMap, RinkColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, SpriteColorRanges, FrontEndArtFiles
+global SlideImageNames, IntroPalette, fadepalbuf
+CamTargetObj:
         resb 4
-dword_179CC0:
+CamLeadX:
         resb 4
-dword_179CC4:
+CamLeadY:
         resb 4
-dword_179CC8:
+CamLeadOn:
         resb 4
-unk_179CCC:
+CameraPathPoints:
         resb 24
-unk_179CE4:
         resb 24
-unk_179CFC:
         resb 24
-unk_179D14:
         resb 24
-unk_179D2C:
         resb 24
-dword_179D44:
+CamShotTime:
         resb 4
-dword_179D48:
+CamPathPos:
         resb 8
-dword_179D50:
+CamAimX:
         resb 4
-dword_179D54:
+CamAimShift:
         resb 4
-dword_179D58:
+CamAimY:
         resb 4
-dword_179D5C:
+CamShotTimer:
         resb 4
-dword_179D60:
+CamShakeStart:
         resb 4
-dword_179D64:
+CamShakeCount:
         resb 4
-dword_179D68:
+CamShotId:
         resb 4
-dword_179D6C:
+CamShotObj:
         resb 4
-dword_179D70:
+CamInjuredObj:
         resb 4
-dword_179D74:
+CamNearNet:
         resb 4
-dword_179D78:
+CameraShotState:
         resb 4
-byte_179D7C:
         resb 1
-dword_179D7D:
         resb 64
-dword_179DBD:
+CamShotKeys:
         resb 4
-byte_179DC1:
+CamShotMode:
         resb 1
-dword_179DC2:
+CamShotSaved:
         resb 4
-dword_179DC6:
+CamPosX:
         resb 2
-word_179DC8:
         resb 2
-dword_179DCA:
+CamPosY:
         resb 2
-word_179DCC:
         resb 2
-dword_179DCE:
+CamPosZ:
         resb 4
-dword_179DD2:
+CamDistance:
         resb 4
-dword_179DD6:
+CamMatrix:
         resb 44
-unk_179E02:
+CamPathTarget:
         resb 4
-byte_179E06:
+CamViewFlags:
         resb 5
-dword_179E0B:
+CamAngle:
         resb 2
-word_179E0D:
         resb 2
-dword_179E0F:
+CamPitch:
         resb 2
-word_179E11:
         resb 2
-dword_179E13:
+CamPathState:
         resb 4
-dword_179E17:
+CamZoom:
         resb 4
-dword_179E1B:
+CamPathActive:
         resb 4
-dword_179E1F:
+CamPathDerivs:
         resb 4
-dword_179E23:
         resb 4
-dword_179E27:
         resb 4
-dword_179E2B:
         resb 4
-dword_179E2F:
         resb 4
-dword_179E33:
         resb 4
-dword_179E37:
         resb 4
-dword_179E3B:
         resb 4
-dword_179E3F:
         resb 4
-dword_179E43:
         resb 4
-byte_179E47:
+CamShotPhase:
         resb 1
-unk_179E48:
+SpriteCacheHead:
         resb 4
-dword_179E4C:
+SpriteCacheLinks:
         resb 4
-dword_179E50:
+SpriteCache:
         resb 5112
-unk_17B248:
+JerseyColorMap:
         resb 576
-unk_17B488:
+RinkColorMap:
         resb 144
-unk_17B518:
+TeamPaletteSave:
         resb 792
-unk_17B830:
+HomeJerseyPal:
         resb 256
-unk_17B930:
+AwayJerseyPal:
         resb 256
-dword_17BA30:
+SpriteCachePtr:
         resb 4
-dword_17BA34:
+SpriteCacheFree:
         resb 4
-dword_17BA38:
+SpriteCacheUsed:
         resb 4
-dword_17BA3C:
+SpriteCacheBlock:
         resb 4
-dword_17BA40:
+SpriteCacheSize:
         resb 4
-dword_17BA44:
+PlayerSpriteFile:
         resb 4
-dword_17BA48:
+PlayerSpriteCount:
         resb 4
-dword_17BA4C:
+RinkSpriteFile:
         resb 4
-dword_17BA50:
+NetSpriteFile:
         resb 4
-dword_17BA54:
+MarkerSpriteFile:
         resb 4
-unk_17BA58:
+SpriteColorRanges:
         resb 36
-dword_17BA7C:
+FrontEndBarShapes:
         resb 52
-dword_17BAB0:
         resb 4
-dword_17BAB4:
         resb 52
-dword_17BAE8:
         resb 4
-dword_17BAEC:
         resb 52
-dword_17BB20:
         resb 4
-unk_17BB24:
+FrontEndArtFiles:
         resb 64
-byte_17BB64:
+ScreenColorMap:
         resb 256
-dword_17BC64:
+SideBarBmp:
         resb 4
-dword_17BC68:
+BottomBarBmp:
         resb 4
-dword_17BC6C:
+ScreenPaletteBuf:
         resb 4
-dword_17BC70:
+TitleBarBmp:
         resb 4
-dword_17BC74:
+FrontEndScreenBmp:
         resb 4
 MatchupLayer:
         resb 4
 TeamStatsBitmap:
         resb 16
-dword_17BC8C:
+SideBarArt:
         resb 4
-dword_17BC90:
         resb 6
-dword_17BC96:
         resb 4
-dword_17BC9A:
         resb 8
-dword_17BCA2:
         resb 4
-dword_17BCA6:
         resb 8
-dword_17BCAE:
         resb 8
-dword_17BCB6:
         resb 4
-dword_17BCBA:
         resb 4
-byte_17BCBE:
         resb 1
-byte_17BCBF:
         resb 1
-byte_17BCC0:
         resb 1
-byte_17BCC1:
         resb 33
-dword_17BCE2:
+MenuBoxStyle:
         resb 16
-dword_17BCF2:
+BottomBarArt:
         resb 4
-dword_17BCF6:
         resb 6
-dword_17BCFC:
         resb 4
-dword_17BD00:
         resb 8
-dword_17BD08:
         resb 4
-dword_17BD0C:
         resb 8
-dword_17BD14:
         resb 8
-dword_17BD1C:
         resb 4
-dword_17BD20:
         resb 4
-byte_17BD24:
         resb 1
-byte_17BD25:
         resb 1
-byte_17BD26:
         resb 1
-byte_17BD27:
         resb 33
-str_Standings:
         resb 16
-dword_17BD58:
+TitleBarArt:
         resb 4
-dword_17BD5C:
         resb 6
-dword_17BD62:
         resb 4
-dword_17BD66:
         resb 8
-dword_17BD6E:
         resb 4
-dword_17BD72:
         resb 8
-dword_17BD7A:
         resb 8
-dword_17BD82:
         resb 4
-dword_17BD86:
         resb 4
-byte_17BD8A:
         resb 1
-byte_17BD8B:
         resb 1
-byte_17BD8C:
         resb 1
-byte_17BD8D:
         resb 33
-byte_17BDAE:
+TitleTextStyle:
         resb 1
-byte_17BDAF:
         resb 1
-byte_17BDB0:
         resb 4
-unk_17BDB4:
+SlideImageNames:
         resb 32
-dword_17BDD4:
+SlideImageBmp:
         resb 4
-dword_17BDD8:
+SlideImageIndex:
         resb 4
-dword_17BDDC:
+SlideEventPtr:
         resb 4
 IntroPalette:
         resb 768
 fadepalbuf:
         resb 772
-dword_17C3E4:
+MenuLastMouseX:
         resb 4
-dword_17C3E8:
+MenuLastMouseY:
         resb 4
-dword_17C3EC:
+MenuLastButtons:
         resb 4
-dword_17C3F0:
+MenuButtons:
         resb 4
-dword_17C3F4:
+MenuViewTop:
         resb 4

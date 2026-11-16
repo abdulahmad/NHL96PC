@@ -22,9 +22,9 @@ extern byte_177AE5, byte_177AE6, byte_177B4A, byte_177B4B, byte_177B4C, byte_177
 extern byte_177C15, byte_177C16, byte_177C7A, byte_177C7C, byte_177DAC, byte_177DAD, byte_177DAF, byte_177E12
 extern byte_178247, byte_178288, crowdlevel, curperiod, dword_1150D4, dword_1150D8, dword_1175B5
 extern dword_1175B9, dword_1176E1, PreGameSkateOn, InReplay, ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd
-extern dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, dword_11B294
-extern dword_11B314, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330
-extern dword_11B374, dword_11B9F4, dword_11BC24, ModeLinear, dword_11D1A8, dword_11D1AC, dword_11F5C0, dword_11F5C4
+extern dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, SpinPuckFrame
+extern ViewTop, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap, ViewPixels, ViewSizeStep
+extern CamViewBits, CameraViewSlots, LastPaletteMode, ModeLinear, MenuMouseX, MenuMouseY, dword_11F5C0, dword_11F5C4
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, dword_152FEC, dword_15E4B0, dword_15E4B4, dword_15E4B8
 extern dword_15E4BC, dword_15E4C4, dword_15E8D8, dword_15E8E0, HomeNetObject, dword_164F20, dword_164F24, AwayNetObject
 extern dword_164FC0, dword_164FC4, ReplayBufferTop, ReplayFrameCount, dword_17709E, dword_1770B7, dword_1770BB, dword_1770BF
@@ -44,10 +44,10 @@ extern dword_177C62, dword_177C72, dword_177C76, dword_177D7A, dword_177D7E, dwo
 extern dword_177D90, dword_177D94, dword_177DA4, dword_177DA8, dword_177DDC, dword_177DE0, dword_177DE4, dword_177DEA
 extern dword_177DEE, dword_177DF2, dword_177DF6, dword_177DFA, dword_177E0A, dword_177E0E, dword_1781CC, dword_1781D0
 extern dword_1781D4, dword_1781D8, dword_1781DC, dword_1781E0, dword_1781F0, ReplayMenuResult, dword_1781F8, dword_178243
-extern dword_178248, dword_17824C, dword_178250, dword_178254, dword_1797F4, dword_1797F8, dword_1797FC, dword_179800
-extern dword_179908, dword_179914, dword_179918, dword_179934, dword_179978, dword_17997C, dword_179A7C, dword_179AC8
-extern dword_179DBD, dword_179E0B, dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA54, optflags
-extern optblock, GsOptions, gameclock, gameopts, gmode, hmroster, replaystart, off_11BA08
+extern dword_178248, dword_17824C, dword_178250, dword_178254, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY
+extern ClockFont, ClockPanelBmp, NameFont, ViewObjects, ShowShadows, ShowMarkers, SpriteDepth, SpriteFrameIds
+extern CamShotKeys, CamAngle, CamPitch, CamPathState, CamZoom, CamPathActive, MarkerSpriteFile, optflags
+extern optblock, GsOptions, gameclock, gameopts, gmode, hmroster, replaystart, ReplayCameraView
 extern rand_, sflags, sprintf_, strcat_, strcpy_, strlen_, LinkSendBlock, LinkReceiveBlock
 extern LinkSync, ModemChat, NameIndexNew, NameIndexLoad, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText
 extern MessageBox, BlankForFadeIn, FileCreate, FileClose, FileWriteAt, MakeDirPath, LoadPackedFile, FreeStatsTables
@@ -67,7 +67,7 @@ extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, Make
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, ClearClipRect, SetViewScreenOrigin
 extern SetViewFov, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, str_Punct_ReplayScreen, str_0_SaveHighlight, unk_122344, unk_1774C4, unk_177510, unk_1778C4
-extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
+extern unk_177908, unk_1781E4, unk_1781FE, DrawList, DrawListCount, CamPathTarget, optblock_end, unk_17D32C
 extern SlotsTwoPlayer, ControllerScreenMode, GoalNetFrames, str_Punct_DrawReplayCounter, word_11A410, word_11A414, regd0, regd1
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
 extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
@@ -116,7 +116,7 @@ StartReplay:
 .2:
         call LoadPackedFile
         mov dword [dword_1781D0], eax
-        mov eax, dword [dword_179918]
+        mov eax, dword [NameFont]
         push unk_1774C4
         mov dword [dword_1778FC], eax
         call SaveTextState
@@ -129,17 +129,17 @@ StartReplay:
         movzx eax, al
         mov dword [InReplay], 80000004h
         mov dword [dword_1781E0], eax
-        cmp dword [dword_11B374], byte 0
+        cmp dword [CamViewBits], byte 0
         je short .3
         mov dword [InReplay], 80000204h
 .3:
         mov dword [ReplayMenuResult], 0FFFFFFFFh
         mov word [word_1781FC], 0
         mov ecx, 45h
-        mov eax, dword [dword_11B374]
+        mov eax, dword [CamViewBits]
         mov edi, unk_1781FE
-        mov esi, dword_179DBD
-        mov dword [dword_11B374], 0
+        mov esi, CamShotKeys
+        mov dword [CamViewBits], 0
         mov dword [dword_177900], eax
         call ReplayBufferStart
         mov dword [dword_1781CC], 0
@@ -147,54 +147,54 @@ StartReplay:
         mov dword [dword_1781F0], 0Eh
         mov dword [dword_1781F8], 0
         mov dword [ReplayFrameCount], eax
-        mov eax, dword [dword_11B330]
+        mov eax, dword [ViewSizeStep]
         rep movsb
         mov dword [dword_177904], eax
         cmp dword [dword_1781E0], byte 0
         je short .4
-        mov dword [dword_11B328], 2Ch
-        mov dword [dword_11B32C], 1Eh
-        mov dword [dword_11B318], 114h
-        mov dword [dword_11B31C], 0AAh
+        mov dword [ViewBitmap], 2Ch
+        mov dword [ViewPixels], 1Eh
+        mov dword [ViewWidth], 114h
+        mov dword [ViewHeight], 0AAh
         jmp short .5
 .4:
-        mov dword [dword_11B328], 57h
-        mov dword [dword_11B32C], 47h
-        mov dword [dword_11B318], 229h
-        mov dword [dword_11B31C], 199h
+        mov dword [ViewBitmap], 57h
+        mov dword [ViewPixels], 47h
+        mov dword [ViewWidth], 229h
+        mov dword [ViewHeight], 199h
 .5:
-        mov eax, dword [dword_11B318]
-        mov edx, dword [dword_11B328]
-        push dword [dword_11B31C]
+        mov eax, dword [ViewWidth]
+        mov edx, dword [ViewBitmap]
+        push dword [ViewHeight]
         sar eax, 1
-        push dword [dword_11B318]
+        push dword [ViewWidth]
         add eax, edx
-        mov edx, dword [dword_11B31C]
-        mov dword [dword_11B320], eax
-        mov eax, dword [dword_11B32C]
+        mov edx, dword [ViewHeight]
+        mov dword [ViewLeft], eax
+        mov eax, dword [ViewPixels]
         sar edx, 1
         push byte 0
         add eax, edx
-        push dword [dword_11B314]
+        push dword [ViewTop]
         mov dword [str_D_DrawGameFrame], eax
         call SetViewFov
         add esp, byte 10h
         call BuildPerspTable
-        push dword [dword_11B32C]
-        push dword [dword_11B328]
+        push dword [ViewPixels]
+        push dword [ViewBitmap]
         call SetViewScreenOrigin
         add esp, byte 8
         push dword [ReplayRemoteShape]
         call SetDrawBitmap
-        mov eax, dword [dword_11B32C]
+        mov eax, dword [ViewPixels]
         add esp, byte 4
-        add eax, dword [dword_11B31C]
+        add eax, dword [ViewHeight]
         push eax
-        mov eax, dword [dword_11B328]
-        push dword [dword_11B32C]
-        add eax, dword [dword_11B318]
+        mov eax, dword [ViewBitmap]
+        push dword [ViewPixels]
+        add eax, dword [ViewWidth]
         push eax
-        push dword [dword_11B328]
+        push dword [ViewBitmap]
         call SetClipWindow
         add esp, byte 10h
         call SetRinkClipWindow
@@ -261,14 +261,14 @@ EndReplay:
         mov eax, 1
         call ClosePenaltyBoxDoor
 .7:
-        mov eax, dword [dword_11B294]
+        mov eax, dword [SpinPuckFrame]
         neg eax
         add eax, eax
         push eax
         lea eax, [byte ebp-030h]
         push eax
         call MakeRotXMatrix
-        mov eax, dword [dword_11B294]
+        mov eax, dword [SpinPuckFrame]
         add esp, byte 8
         neg eax
         push eax
@@ -294,10 +294,10 @@ EndReplay:
         push dword [dword_15E8D8]
         call OriSetObjectMatrix
         mov eax, dword [dword_177900]
-        mov dword [dword_11B374], eax
+        mov dword [CamViewBits], eax
         mov eax, dword [dword_177904]
         add esp, byte 8
-        mov dword [dword_11B330], eax
+        mov dword [ViewSizeStep], eax
         call SetGameViewSize
         mov eax, unk_1781FE
         call SetCameraShot
@@ -794,7 +794,7 @@ StepReplay:
         mov ecx, 45h
         shl eax, 4
         mov edi, dword_178243
-        mov esi, dword [dword eax+dword_11B9F4]
+        mov esi, dword [dword eax+CameraViewSlots]
         mov eax, dword_178243
         rep movsb
         call SetCameraShot
@@ -864,10 +864,10 @@ DrawReplayObjects:
         push edi
         enter 0B0h, 0
         sub ebp, 82h
-        mov eax, dword [dword_17BA54]
+        mov eax, dword [MarkerSpriteFile]
         call SetAaPalLut
         xor esi, esi
-        mov dword [dword_11BC24], 0FFFFFFFFh
+        mov dword [LastPaletteMode], 0FFFFFFFFh
 .1:
         movsx edx, byte [byte_1770A6]
         mov eax, esi
@@ -879,11 +879,11 @@ DrawReplayObjects:
         jl near .5
         movsx esi, byte [byte_1770A6]
         imul eax, esi, byte 0Ch
-        cmp dword [dword eax+dword_179AC8], byte 50h
+        cmp dword [dword eax+SpriteFrameIds], byte 50h
         jle near .5
         cmp byte [dword esi+byte_176FA7], 0
         je near .5
-        push dword [dword eax+dword_179AC8]
+        push dword [dword eax+SpriteFrameIds]
         call SpriteScale
         add esp, byte 4
         mov edx, 33333h
@@ -906,8 +906,8 @@ DrawReplayObjects:
         cmp eax, 10000h
         jge short .4
         movsx esi, byte [byte_1770A6]
-        mov ecx, dword [nosplit esi*8+dword_179800]
-        mov ebx, dword [nosplit esi*8+dword_1797FC]
+        mov ecx, dword [nosplit esi*8+SpriteScreenY]
+        mov ebx, dword [nosplit esi*8+SpriteScreenX]
         movsx esi, word [GoalNetFrames]
         sar ecx, 10h
         sar ebx, 10h
@@ -916,10 +916,10 @@ DrawReplayObjects:
         jmp short .5
 .4:
         movsx esi, byte [byte_1770A6]
-        mov edx, dword [nosplit esi*8+dword_179800]
+        mov edx, dword [nosplit esi*8+SpriteScreenY]
         sar edx, 10h
         push edx
-        mov edx, dword [nosplit esi*8+dword_1797FC]
+        mov edx, dword [nosplit esi*8+SpriteScreenX]
         sar edx, 10h
         movsx esi, word [GoalNetFrames]
         push edx
@@ -954,12 +954,12 @@ DrawReplayObjects:
         cmp esi, dword [ReplayMenuResult]
         jne short .10
 .7:
-        cmp dword [dword_179978], byte 0
+        cmp dword [ShowShadows], byte 0
         je short .9
-        mov eax, dword [dword edi+dword_179800]
+        mov eax, dword [dword edi+SpriteScreenY]
         sar eax, 10h
         movsx edx, ax
-        mov eax, dword [dword edi+dword_1797FC]
+        mov eax, dword [dword edi+SpriteScreenX]
         sar eax, 10h
         mov dword [byte ebp+076h], eax
         mov eax, dword [byte ebp+076h]
@@ -972,21 +972,21 @@ DrawReplayObjects:
 .9:
         movsx eax, byte [dword esi+byte_177090]
         push eax
-        mov eax, dword [dword edi+dword_179800]
+        mov eax, dword [dword edi+SpriteScreenY]
         sar eax, 10h
         movsx edx, ax
-        mov eax, dword [dword edi+dword_1797FC]
+        mov eax, dword [dword edi+SpriteScreenX]
         sar eax, 10h
         jmp short .12
 .10:
         cmp dword [PreGameSkateOn], byte 0
         je short .13
-        cmp dword [dword_179978], byte 0
+        cmp dword [ShowShadows], byte 0
         je short .11
-        mov eax, dword [dword edi+dword_179800]
+        mov eax, dword [dword edi+SpriteScreenY]
         sar eax, 10h
         movsx edx, ax
-        mov eax, dword [dword edi+dword_1797FC]
+        mov eax, dword [dword edi+SpriteScreenX]
         sar eax, 10h
         mov dword [byte ebp+076h], eax
         movsx ebx, si
@@ -995,10 +995,10 @@ DrawReplayObjects:
         cwde
         jmp short .8
 .11:
-        mov eax, dword [dword edi+dword_179800]
+        mov eax, dword [dword edi+SpriteScreenY]
         sar eax, 10h
         movsx edx, ax
-        mov eax, dword [dword edi+dword_1797FC]
+        mov eax, dword [dword edi+SpriteScreenX]
         sar eax, 10h
         push byte 0FFFFFFFFh
 .12:
@@ -1017,9 +1017,9 @@ DrawReplayObjects:
         mov dword [byte ebp+07Eh], 0
 .14:
         mov esi, dword [byte ebp+07Eh]
-        mov esi, dword [dword esi+dword_179A7C]
+        mov esi, dword [dword esi+SpriteDepth]
         imul eax, esi, byte 0Ch
-        cmp dword [dword eax+dword_179AC8], byte 50h
+        cmp dword [dword eax+SpriteFrameIds], byte 50h
         jle near .23
         cmp esi, byte 0Ch
         je short .15
@@ -1077,7 +1077,7 @@ DrawReplayObjects:
         mov eax, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp+072h], eax
         imul eax, esi, byte 0Ch
-        push dword [dword eax+dword_179AC8]
+        push dword [dword eax+SpriteFrameIds]
         call SpriteScale
         add esp, byte 4
         mov ecx, eax
@@ -1090,9 +1090,9 @@ DrawReplayObjects:
         push byte 1
         push esi
         movsx eax, byte [dword esi+byte_17701E]
-        mov ebx, dword [nosplit esi*8+dword_179800]
+        mov ebx, dword [nosplit esi*8+SpriteScreenY]
         push eax
-        mov edx, dword [nosplit esi*8+dword_1797FC]
+        mov edx, dword [nosplit esi*8+SpriteScreenX]
         mov eax, dword [byte ebp+072h]
         call DrawRinkSprite
 .23:
@@ -1118,9 +1118,9 @@ DrawReplayShadows:
         call BeginShadowDraw
         xor edi, edi
 .1:
-        mov esi, dword [dword edi+dword_179A7C]
+        mov esi, dword [dword edi+SpriteDepth]
         imul edx, esi, byte 0Ch
-        cmp dword [dword edx+dword_179AC8], byte 50h
+        cmp dword [dword edx+SpriteFrameIds], byte 50h
         jle near .7
         movsx eax, word [nosplit esi*2+word_176FFC]
         cmp eax, byte 0FFFFFFFFh
@@ -1155,7 +1155,7 @@ DrawReplayShadows:
         call PlayerSpriteFrame
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [nosplit eax*4+dword_152FEC]
-        push dword [dword edx+dword_179AC8]
+        push dword [dword edx+SpriteFrameIds]
         mov dword [byte ebp+07Ah], eax
         call SpriteScale
         add esp, byte 4
@@ -1167,9 +1167,9 @@ DrawReplayShadows:
         sar ecx, 1
 .6:
         movsx eax, byte [dword esi+byte_17701E]
-        mov ebx, dword [nosplit esi*8+dword_179800]
+        mov ebx, dword [nosplit esi*8+SpriteScreenY]
         push eax
-        mov edx, dword [nosplit esi*8+dword_1797FC]
+        mov edx, dword [nosplit esi*8+SpriteScreenX]
         mov eax, dword [byte ebp+07Ah]
         call DrawSpriteShadow
 .7:
@@ -1191,9 +1191,9 @@ DrawReplayPlayers:
         sub ebp, 82h
         mov edi, 40h
 .1:
-        mov esi, dword [dword edi+dword_179A7C]
+        mov esi, dword [dword edi+SpriteDepth]
         imul edx, esi, byte 0Ch
-        cmp dword [dword edx+dword_179AC8], byte 50h
+        cmp dword [dword edx+SpriteFrameIds], byte 50h
         jle near .7
         movsx eax, word [nosplit esi*2+word_176FFC]
         cmp eax, byte 0FFFFFFFFh
@@ -1228,7 +1228,7 @@ DrawReplayPlayers:
         call PlayerSpriteFrame
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [nosplit eax*4+dword_152FEC]
-        push dword [dword edx+dword_179AC8]
+        push dword [dword edx+SpriteFrameIds]
         mov dword [byte ebp+07Ah], eax
         call SpriteScale
         add esp, byte 4
@@ -1242,9 +1242,9 @@ DrawReplayPlayers:
         push byte 1
         push esi
         movsx eax, byte [dword esi+byte_17701E]
-        mov ebx, dword [nosplit esi*8+dword_179800]
+        mov ebx, dword [nosplit esi*8+SpriteScreenY]
         push eax
-        mov edx, dword [nosplit esi*8+dword_1797FC]
+        mov edx, dword [nosplit esi*8+SpriteScreenX]
         mov eax, dword [byte ebp+07Ah]
         call DrawPlayerSprite
 .7:
@@ -1504,7 +1504,7 @@ DrawReplayClock:
 .7:
         mov eax, 3
 .8:
-        push dword [dword_179914]
+        push dword [ClockPanelBmp]
         mov dword [byte ebp-010h], eax
         call TextSetFont
         add esp, byte 4
@@ -1514,7 +1514,7 @@ DrawReplayClock:
         add esp, byte 8
         push dword [byte ebp-04h]
         push dword [byte ebp-08h]
-        push dword [dword_179908]
+        push dword [ClockFont]
         call DrawArt
         add esp, byte 0Ch
         test esi, esi
@@ -1553,12 +1553,12 @@ DrawReplayView:
         push esi
         push edi
         enter 60h, 0
-        push dword [dword_179E0F]
+        push dword [CamPitch]
         lea eax, [byte ebp-03Ch]
         push eax
         call MakeRotXMatrix
         add esp, byte 8
-        push dword [dword_179E0B]
+        push dword [CamAngle]
         lea eax, [byte ebp-060h]
         push eax
         call MakeRotYMatrix
@@ -1610,12 +1610,12 @@ DrawReplayView:
         mov dword [byte ebp-010h], eax
         lea eax, [byte ebp-018h]
         call PlacePuckModels
-        mov eax, dword [dword_179E13]
+        mov eax, dword [CamPathState]
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_179E17]
+        mov eax, dword [CamZoom]
         mov dword [byte ebp-08h], eax
-        mov eax, dword [dword_179E1B]
-        push unk_179980
+        mov eax, dword [CamPathActive]
+        push DrawList
         mov dword [byte ebp-04h], eax
         lea eax, [byte ebp-0Ch]
         push eax
@@ -1626,34 +1626,34 @@ DrawReplayView:
         neg dword [byte ebp-04h]
         call DrawPolyOutline
         add esp, byte 10h
-        push unk_179AC0
+        push DrawListCount
         push unk_1778C4
-        push unk_179980
+        push DrawList
         push byte 11h
         call DrawFlatPoly
         add esp, byte 10h
-        push dword_1797FC
-        push unk_179AC0
+        push SpriteScreenX
+        push DrawListCount
         push byte 11h
         call ProjectPointList
         mov eax, 60h
         add esp, byte 0Ch
 .4:
         add eax, byte 8
-        sar dword [dword eax+dword_1797F4], 10h
-        sar dword [dword eax+dword_1797F8], 10h
+        sar dword [dword eax+ViewScrollX], 10h
+        sar dword [dword eax+ViewScrollY], 10h
         cmp eax, byte 70h
         jne short .4
         xor eax, eax
         xor ebx, ebx
 .5:
-        mov ecx, dword [dword ebx+dword_179AC8]
+        mov ecx, dword [dword ebx+SpriteFrameIds]
         cmp ecx, byte 50h
         jg short .6
-        mov dword [dword eax+dword_179934], 0FFFFFC18h
+        mov dword [dword eax+ViewObjects], 0FFFFFC18h
         jmp short .7
 .6:
-        mov dword [dword eax+dword_179934], ecx
+        mov dword [dword eax+ViewObjects], ecx
 .7:
         add eax, byte 4
         add ebx, byte 0Ch
@@ -1662,28 +1662,28 @@ DrawReplayView:
         xor ebx, ebx
         xor eax, eax
 .8:
-        mov dword [dword eax+dword_179A7C], ebx
+        mov dword [dword eax+SpriteDepth], ebx
         inc ebx
         add eax, byte 4
         cmp ebx, byte 11h
         jl short .8
-        push dword_179A7C
-        push dword_179934
+        push SpriteDepth
+        push ViewObjects
         push byte 11h
         call SortIndices
-        mov eax, dword [dword_11B32C]
+        mov eax, dword [ViewPixels]
         add esp, byte 0Ch
-        add eax, dword [dword_11B31C]
+        add eax, dword [ViewHeight]
         push eax
-        mov eax, dword [dword_11B328]
-        push dword [dword_11B32C]
-        add eax, dword [dword_11B318]
+        mov eax, dword [ViewBitmap]
+        push dword [ViewPixels]
+        add eax, dword [ViewWidth]
         push eax
-        push dword [dword_11B328]
+        push dword [ViewBitmap]
         call SetClipWindow
         add esp, byte 10h
         mov edx, unk_1778C4
-        mov eax, dword_179E13
+        mov eax, CamPathState
         call SetViewCamera
         call DrawRinkModels
         cmp byte [byte_1770A9], 0
@@ -1711,7 +1711,7 @@ DrawReplayView:
         je short .13
         call DrawReplayPlayers
 .13:
-        cmp dword [dword_17997C], byte 0
+        cmp dword [ShowMarkers], byte 0
         je short .14
         call DrawReplayShadows
 .14:
@@ -1741,14 +1741,14 @@ SetReplayCamera:
         cmp eax, byte 9
         jne short .2
         mov ecx, 45h
-        mov esi, dword [off_11BA08]
+        mov esi, dword [ReplayCameraView]
         mov edi, dword_178243
         jmp short .3
 .2:
         mov ecx, 45h
         shl eax, 4
         mov edi, dword_178243
-        mov esi, dword [dword eax+dword_11B9F4]
+        mov esi, dword [dword eax+CameraViewSlots]
 .3:
         rep movsb
 .4:
@@ -1836,7 +1836,7 @@ ReplayFreeCamera:
         enter 78h, 0
         push eax
         mov eax, dword [dword_1781D8]
-        sub eax, dword [dword_11B320]
+        sub eax, dword [ViewLeft]
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [str_D_DrawGameFrame]
         sub eax, dword [dword_1781D4]
@@ -1857,7 +1857,7 @@ ReplayFreeCamera:
         lea ebx, [byte ebp-0Ch]
         add esp, byte 0Ch
         lea edx, [byte ebp-030h]
-        mov eax, dword_179E13
+        mov eax, CamPathState
         call ClipLineAtFloor
         test eax, eax
         je near DrawReplayCounter_231
@@ -1885,7 +1885,7 @@ ReplayFreeCamera:
         movsd
         mov ecx, 45h
         mov edi, dword_178243
-        mov esi, unk_179E02
+        mov esi, CamPathTarget
         rep movsb
         mov esi, dword_178243
         lea ebx, [byte esi+011h]
@@ -1979,13 +1979,13 @@ FindPlayerAtMouse:
         enter 0Ch, 0
         push eax
         push edx
-        mov eax, dword [dword_11B32C]
-        add eax, dword [dword_11B31C]
+        mov eax, dword [ViewPixels]
+        add eax, dword [ViewHeight]
         mov esi, 0FFFFFFFFh
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_11B328]
+        mov eax, dword [ViewBitmap]
         mov dword [byte ebp-04h], 2710h
-        add eax, dword [dword_11B318]
+        add eax, dword [ViewWidth]
         xor ebx, ebx
         mov dword [byte ebp-08h], eax
         xor eax, eax
@@ -1995,13 +1995,13 @@ FindPlayerAtMouse:
         cmp ebx, byte 0Fh
         jle short .3
 .2:
-        mov ecx, dword [dword eax+dword_1797FC]
-        mov edx, dword [dword eax+dword_179800]
+        mov ecx, dword [dword eax+SpriteScreenX]
+        mov edx, dword [dword eax+SpriteScreenY]
         sar ecx, 10h
         sar edx, 10h
-        cmp ecx, dword [dword_11B328]
+        cmp ecx, dword [ViewBitmap]
         jle short .3
-        cmp edx, dword [dword_11B32C]
+        cmp edx, dword [ViewPixels]
         jle short .3
         cmp ecx, dword [byte ebp-08h]
         jge short .3
@@ -2167,7 +2167,7 @@ ReplayCameraAim:
 .7:
         mov ecx, 45h
         mov edi, dword_178243
-        mov esi, unk_179E02
+        mov esi, CamPathTarget
         mov dword [byte ebp+07Eh], dword_178243
         rep movsb
         cmp dword [dword_11A418], byte 0
@@ -2484,14 +2484,14 @@ ReplayFrame:
 ;-----------------------------------------------------------------------------
 PickReplayPlayer:
         push edx
-        mov edx, dword [dword_11D1AC]
-        mov eax, dword [dword_11D1A8]
+        mov edx, dword [MenuMouseY]
+        mov eax, dword [MenuMouseX]
         call FindPlayerAtMouse
         mov dword [ReplayMenuResult], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
-        mov edx, dword [nosplit eax*8+dword_179800]
-        mov eax, dword [nosplit eax*8+dword_1797FC]
+        mov edx, dword [nosplit eax*8+SpriteScreenY]
+        mov eax, dword [nosplit eax*8+SpriteScreenX]
         sar edx, 10h
         sar eax, 10h
         call SetMenuMouse
@@ -3094,14 +3094,14 @@ ReplayScreen:
         add esi, byte 66h
         cmp dword [byte ebp-010h], byte 16h
         jl near .11
-        mov eax, dword [dword_11B328]
+        mov eax, dword [ViewBitmap]
         mov dword [byte ebp-038h], eax
-        mov eax, dword [dword_11B32C]
+        mov eax, dword [ViewPixels]
         mov dword [byte ebp-034h], eax
-        mov eax, dword [dword_11B318]
+        mov eax, dword [ViewWidth]
         add eax, dword [byte ebp-038h]
         mov dword [byte ebp-030h], eax
-        mov eax, dword [dword_11B31C]
+        mov eax, dword [ViewHeight]
         push str_Rtrg
         add eax, dword [byte ebp-034h]
         push dword [dword_1781D0]
@@ -3136,13 +3136,13 @@ ReplayScreen:
         call SetCameraShot
         push dword [ReplayRemoteShape]
         call SetDrawBitmap
-        mov eax, dword [dword_11B31C]
+        mov eax, dword [ViewHeight]
         add esp, byte 4
-        add eax, dword [dword_11B32C]
+        add eax, dword [ViewPixels]
         push eax
-        mov eax, dword [dword_11B318]
+        mov eax, dword [ViewWidth]
         push byte 0
-        add eax, dword [dword_11B328]
+        add eax, dword [ViewBitmap]
         push eax
         push byte 0
         call SetClipWindow
@@ -3466,7 +3466,7 @@ ReplayScreen_1110:
         cwde
         test eax, eax
         je short .38
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         mov ecx, 30h
@@ -3793,7 +3793,7 @@ ReplayScreen_161B:
         call SetViewRect
         add esp, byte 10h
         push dword [str_D_DrawGameFrame]
-        push dword [dword_11B320]
+        push dword [ViewLeft]
         call MouseRead
         add esp, byte 8
         jmp near DrawReplayCounter_231
@@ -3808,7 +3808,7 @@ RunReplay:
         push edx
         push esi
         call FreeSpriteCache
-        cmp dword [dword_11B330], byte 8
+        cmp dword [ViewSizeStep], byte 8
         jge short .1
         call SetScreenTarget
         push dword [dword_11F5C4]
@@ -3832,7 +3832,7 @@ RunReplay:
         add esp, byte 4
 .1:
         call ReplayScreen
-        cmp dword [dword_11B330], byte 8
+        cmp dword [ViewSizeStep], byte 8
         jge short .2
         push dword [ReplayRemoteShape]
         call SetDrawBitmap

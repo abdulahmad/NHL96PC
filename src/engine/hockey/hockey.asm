@@ -13,11 +13,11 @@ extern awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode, AwRosterMap, Li
 extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, curperiod, hmslotcount
 extern awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, onetimerflag, penshotteam, AwayGoalsPeriod
 extern HomeGoalsPeriod, PassTargetLocked, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn, playsuspended, SeriesDecided
-extern InReplay, dword_11B23C, dword_11D3A6, dword_11D674
+extern InReplay, ScorePanelState, dword_11D3A6, dword_11D674
 extern dword_165166, dword_16516A, dword_165240, dword_165244, CrowdExciteTotal, hmtmnear, hmtmcoachenergy, hmtmlines
 extern hmtmplattr, hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmnear
 extern awtmcoachenergy, awtmlines, awtmplattr, awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec
-extern awtmsort, ReplayBufferTop, GameVarsClear, dword_176BD8, dword_1797B4, dword_179910, dword_179D6C, dword_179E0B
+extern awtmsort, ReplayBufferTop, GameVarsClear, dword_176BD8, LineBoxChoice, GoalFrameCount, CamShotObj, CamAngle
 extern optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts, gmode
 extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon, lcline
 extern replaystart, puckvy, puckc, PtrPuckFlags, PtrRefObject, PtrPuckObject, PtrHomeNet, PtrAwayNet
@@ -552,7 +552,7 @@ CompLine:
         cmp ebx, hmtmstruct
         setne al
         movzx eax, al
-        mov dword [nosplit eax*4+dword_1797B4], 1
+        mov dword [nosplit eax*4+LineBoxChoice], 1
         jmp near .34
 .6:
         mov al, byte [dword ebx+0D6h]
@@ -704,7 +704,7 @@ CompLine:
         cmp ebx, hmtmstruct
         setne al
         movzx eax, al
-        mov dword [nosplit eax*4+dword_1797B4], 1
+        mov dword [nosplit eax*4+LineBoxChoice], 1
         movsx eax, byte [dword ebx+0D7h]
         cmp eax, byte 1
         jne short .24
@@ -1850,7 +1850,7 @@ Goal_1FC:
         mov word [VisTeam], ax
 .18:
         movsx eax, word [VisTeam]
-        mov dword [dword_179D6C], eax
+        mov dword [CamShotObj], eax
         cmp word [VisTeam], byte 0
         jl short .19
         cmp eax, byte 5
@@ -1883,7 +1883,7 @@ Goal_1FC:
         cmp edx, dword [byte ebp-020h]
         jne short .22
         movsx eax, word [dword eax+086h]
-        mov dword [dword_179D6C], eax
+        mov dword [CamShotObj], eax
         jmp short .24
 .22:
         inc dword [byte ebp-08h]
@@ -1897,10 +1897,10 @@ Goal_1FC:
         cmp eax, byte 6
         jl short .25
         mov eax, dword [byte ebp-01Ch]
-        mov dword [dword_179D6C], eax
+        mov dword [CamShotObj], eax
 .25:
         mov eax, 1
-        mov dword [dword_11B23C], 0FFFFFFFEh
+        mov dword [ScorePanelState], 0FFFFFFFEh
         call ChkShotStat
         mov ax, word [camx]
         mov word [xc1], ax
@@ -2166,7 +2166,7 @@ Goal_1FC:
         mov eax, ecx
         or byte [byte ecx+044h], 4
         call assreplace
-        mov dword [dword_179910], 0
+        mov dword [GoalFrameCount], 0
         cmp word [byte ecx+06h], byte 0
         setle al
         xor edx, edx
@@ -3865,7 +3865,7 @@ BenchSpriteFrame:
         pop ebx
         ret
 .3:
-        mov eax, dword [dword_179E0B]
+        mov eax, dword [CamAngle]
         neg eax
         mov cx, word [byte ebx+016h]
         test eax, eax
@@ -3875,7 +3875,7 @@ BenchSpriteFrame:
 .4:
         mov eax, 0FFFFF000h
 .5:
-        sub eax, dword [dword_179E0B]
+        sub eax, dword [CamAngle]
         cdq
         shl edx, 0Dh
         LD sbb, eax, edx
@@ -3889,7 +3889,7 @@ BenchSpriteFrame:
         jmp short .10
 .6:
         mov cx, word [byte eax+016h]
-        mov eax, dword [dword_179E0B]
+        mov eax, dword [CamAngle]
         neg eax
         test eax, eax
         jle short .7
@@ -3898,7 +3898,7 @@ BenchSpriteFrame:
 .7:
         mov eax, 0FFFFF000h
 .8:
-        sub eax, dword [dword_179E0B]
+        sub eax, dword [CamAngle]
         cdq
         shl edx, 0Dh
         LD sbb, eax, edx
@@ -6486,7 +6486,7 @@ PlayerSpriteFrame:
 .2:
         cmp dword [InReplay], byte 0
         je short .6
-        mov eax, dword [dword_179E0B]
+        mov eax, dword [CamAngle]
         neg eax
         mov cx, word [byte ebx+036h]
         test eax, eax
@@ -6496,7 +6496,7 @@ PlayerSpriteFrame:
 .3:
         mov eax, 0FFFFF000h
 .4:
-        sub eax, dword [dword_179E0B]
+        sub eax, dword [CamAngle]
         cdq
         shl edx, 0Dh
         LD sbb, eax, edx
@@ -6537,7 +6537,7 @@ PlayerSpriteFrame:
         mov di, word [byte ebx+03Ah]
         add ecx, eax
 .8:
-        mov eax, dword [dword_179E0B]
+        mov eax, dword [CamAngle]
         neg eax
         mov si, word [byte ebx+036h]
         test eax, eax
@@ -6547,7 +6547,7 @@ PlayerSpriteFrame:
 .9:
         mov eax, 0FFFFF000h
 .10:
-        sub eax, dword [dword_179E0B]
+        sub eax, dword [CamAngle]
         cdq
         shl edx, 0Dh
         LD sbb, eax, edx

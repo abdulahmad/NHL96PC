@@ -7,9 +7,9 @@ section s_2D9D9 progbits alloc exec nowrite align=1
 extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin
 extern textline1, textline2, textline3, textline4, textline5, CloseTextOverlay
 extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, InputRecordIndex
-extern GameLoopFrames, gameresult, PreGameSkateOn, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4
+extern GameLoopFrames, gameresult, PreGameSkateOn, ZonesDirty, LastEventPlayer, dword_11F5C0, dword_11F5C4
 extern dword_152F4C, gwgteam, gwgplayer, DrawFrameCount
-extern dword_179918, dword_179920, dword_179924, dword_179DBD, energywarn, exitgame, fadeinpending, forcepldata
+extern NameFont, NamePanelBmp, OverlayBmp, CamShotKeys, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
 extern hmtmstruct, InGameMenuRequest, InputRecordCount, InputRecordRing, IsCupClinched, lasttouch, lcblink, lineuptime
 extern PtrPuckFlags, PtrPuckObject, off_11D44C, off_11D4BC, off_11D52C, optblock, puckc, qsort_
@@ -43,7 +43,7 @@ RunPreGameSkate:
         mov eax, dword [gameopts]
         mov dword [byte ebp-04h], 23Ah
         mov eax, dword [byte eax+01h]
-        mov dword [dword_11B310], 0FFFFFFFFh
+        mov dword [LastEventPlayer], 0FFFFFFFFh
         mov byte [textline5], 0
         mov byte [textline4], 0
         mov byte [textline2], 0
@@ -904,7 +904,7 @@ DrawOverlayPanels:
         mov eax, 8000h
 .23:
         call DrawArtAaScaledInt
-        push dword [dword_179924]
+        push dword [OverlayBmp]
         call TextSetFont
         mov eax, dword [gameopts]
         add esp, byte 4
@@ -1047,7 +1047,7 @@ DrawOverlayPanels:
         mov eax, dword [nosplit eax*4+off_11D44C]
 .46:
         call DrawColorTextRight
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         mov eax, dword [gameopts]
         add esp, byte 4
@@ -1153,7 +1153,7 @@ DrawOverlayPanels:
 .65:
         call DrawColorTextRight
 .66:
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         cmp dword [byte ebp-05Ch], byte 0
@@ -1219,7 +1219,7 @@ StartPreGame:
         push byte 0
         call SetPaletteEntries
         add esp, byte 0Ch
-        mov eax, dword_179DBD
+        mov eax, CamShotKeys
         call SetCameraShot
         xor eax, eax
         pop ecx

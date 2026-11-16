@@ -8,7 +8,7 @@ extern CompLine, Endfaceoff, PBnum, SetupPenaltyShot, ShotLaneOpen, SortCords, a
 extern awtmstruct, sflags3, apl, InputState
 extern hmtmgoaliehi, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, crowdlevel
 extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, onetimerflag, penshotteam, pspathdir
-extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, GoalieDepthTab, dword_11B2A8, dword_15E4C4, PtrPuckZone
+extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, GoalieDepthTab, GoalReplayPending, dword_15E4C4, PtrPuckZone
 extern dword_176BD0, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
 extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, lcfound
 extern puckvy, puckc, PtrPuckFlags, PtrRefObject, PtrPuckObject, PtrHomeNet, PtrAwayNet, passplayer
@@ -1425,7 +1425,7 @@ puckfaceoff2:
         jne short .5
         cmp dword [dword_15E4C4], byte 0
         jne short .5
-        cmp dword [dword_11B2A8], byte 0
+        cmp dword [GoalReplayPending], byte 0
         je short .6
 .5:
         mov dword [fadeinpending], 2
@@ -1534,10 +1534,10 @@ puckfaceoff2:
         mov eax, dword [PtrAwayNet]
         mov word [byte eax+06h], 0FE9Ch
         call ResetBrokenGlass
-        cmp dword [dword_11B2A8], byte 0
+        cmp dword [GoalReplayPending], byte 0
         je short .19
         call PlaceGoalNets
-        mov dword [dword_11B2A8], 0
+        mov dword [GoalReplayPending], 0
 .19:
         mov ax, word [foy]
         mov word [LastPlayerTouch], ax

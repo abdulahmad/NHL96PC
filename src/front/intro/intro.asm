@@ -2,14 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_62FD8 progbits alloc exec nowrite align=1
-extern __STOSD, byte_11FA2F, CloseMusic, DrawColorText, dword_17BDD4, dword_17BDD8, dword_17BDDC, FadeOut
+extern __STOSD, byte_11FA2F, CloseMusic, DrawColorText, SlideImageBmp, SlideImageIndex, SlideEventPtr, FadeOut
 extern FadeOutMusic, FadePalette, FillMusicStream, FillRect, TextStringWidth, GetPressedDevice, GetTicks, LoadPackedFile
-extern MakeDataPath, off_11BDA8, OpenMusicStream, PaEvent, PlayMovie, PlayMusic, PutBlock, QueueMusic
+extern MakeDataPath, SlideEventFuncs, OpenMusicStream, PaEvent, PlayMovie, PlayMusic, PutBlock, QueueMusic
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
 extern str_Scr1, str_Scr2, RunAttractMode, GetLangText, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern FreeBitmap, SaveTextState, SetDrawTarget, DrawArtFast, FindShapeList, SetScreenTarget, SetPaletteEntries, KbdGetKey
-extern FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
+extern FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, CreditsText, word_11D1D0
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
 global RunSlideShow_A3, RunSlideShow_C7, RunSlideShow_E2, RunSlideShow_118, RunSlideShow_127, RunSlideShow_145, RunSlideShow_180, RunSlideShow_1A1
 global RunSlideShow_1B2, RunSlideShow_1D3, RunSlideShow_206, RunSlideShow_215, RunSlideShow_248, RunSlideShow_27C, RunSlideShow_2C3, RunSlideShow_2E0
@@ -406,11 +406,11 @@ LoadSlideImage:
         push edx
         push esi
         mov esi, eax
-        cmp eax, dword [dword_17BDD8]
+        cmp eax, dword [SlideImageIndex]
         je short .2
-        cmp dword [dword_17BDD4], byte 0
+        cmp dword [SlideImageBmp], byte 0
         je short .1
-        push dword [dword_17BDD4]
+        push dword [SlideImageBmp]
         call FreeMemBlock
         add esp, byte 4
 .1:
@@ -420,10 +420,10 @@ LoadSlideImage:
         xor edx, edx
         mov eax, esi
         call LoadPackedFile
-        mov dword [dword_17BDD4], eax
-        mov dword [dword_17BDD8], esi
+        mov dword [SlideImageBmp], eax
+        mov dword [SlideImageIndex], esi
 .2:
-        mov eax, dword [dword_17BDD4]
+        mov eax, dword [SlideImageBmp]
         pop esi
         pop edx
         pop ecx
@@ -431,14 +431,14 @@ LoadSlideImage:
         ret
 ;-----------------------------------------------------------------------------
 ; RunSlideEvents                                  634A4  96 PC, low confidence
-; Runs the slide show's timed events (handler table off_11BDA8)
+; Runs the slide show's timed events (handler table SlideEventFuncs)
 ;-----------------------------------------------------------------------------
 RunSlideEvents:
         push ebx
         push ecx
         push edx
         push esi
-        mov esi, dword [dword_17BDDC]
+        mov esi, dword [SlideEventPtr]
         test esi, esi
         je short .2
         call GetTicks
@@ -451,7 +451,7 @@ RunSlideEvents:
         push dword [byte esi+04h]
         mov eax, dword [esi]
         push dword [edx+ebx*4]
-        call dword [nosplit eax*4+off_11BDA8]
+        call dword [nosplit eax*4+SlideEventFuncs]
         inc dword [byte esi+0Ch]
         mov eax, dword [byte esi+0Ch]
         add esp, byte 0Ch
@@ -499,7 +499,7 @@ RunSlideShow:
         enter 5Ch, 0
         mov esi, eax
         mov ecx, 1
-        mov eax, dword_17BDDC
+        mov eax, SlideEventPtr
         mov dword [byte ebp-010h], 0
         xor edx, edx
         mov dword [byte ebp-08h], 0
@@ -507,8 +507,8 @@ RunSlideShow:
         lea eax, [byte ebp-05Ch]
         mov dword [byte ebp-04h], 0
         push eax
-        mov dword [dword_17BDD8], 0FFFFFFFFh
-        mov dword [dword_17BDD4], 0
+        mov dword [SlideImageIndex], 0FFFFFFFFh
+        mov dword [SlideImageBmp], 0
         call SaveTextState
         add esp, byte 4
 .1:
@@ -539,7 +539,7 @@ RunSlideShow_78:
 RunSlideShow_A3:
         mov eax, dword [byte esi+04h]
         call LoadSlideImage
-        mov dword [dword_17BDD4], eax
+        mov dword [SlideImageBmp], eax
         push dword [byte esi+08h]
         push eax
         call FindShape
@@ -562,7 +562,7 @@ RunSlideShow_E2:
         call LoadSlideImage
         push str_Pal9
         push eax
-        mov dword [dword_17BDD4], eax
+        mov dword [SlideImageBmp], eax
         call FindShape
         lea edx, [byte eax+010h]
         add esp, byte 8
@@ -654,7 +654,7 @@ RunSlideShow_215:
         mov edi, dword [byte esi+08h]
         mov eax, dword [byte edi+0Ch]
         call LoadSlideImage
-        mov dword [dword_17BDD4], eax
+        mov dword [SlideImageBmp], eax
         push dword [byte edi+010h]
         push eax
         call FindShape
@@ -664,7 +664,7 @@ RunSlideShow_215:
         push dword [byte edi+04h]
         mov eax, dword [edi]
         push edx
-        call dword [nosplit eax*4+off_11BDA8]
+        call dword [nosplit eax*4+SlideEventFuncs]
         jmp near RunSlideShow_C7.3
 RunSlideShow_248:
         mov eax, dword [byte esi+04h]
@@ -689,7 +689,7 @@ RunSlideShow_27C:
         jge near RunSlideShow_2E0.12
         mov eax, dword [byte esi+04h]
         mov edi, dword [byte esi+08h]
-        mov dword [nosplit eax*4+dword_17BDDC], edi
+        mov dword [nosplit eax*4+SlideEventPtr], edi
         mov dword [byte edi+0Ch], 0
         call GetTicks
         mov edx, dword [byte edi+018h]
@@ -707,13 +707,13 @@ RunSlideShow_2C3:
         cmp dword [byte esi+04h], byte 1
         jge near RunSlideShow_2E0.12
         mov eax, dword [byte esi+04h]
-        mov dword [nosplit eax*4+dword_17BDDC], 0
+        mov dword [nosplit eax*4+SlideEventPtr], 0
         jmp near RunSlideShow_2E0.12
 RunSlideShow_2E0:
         mov edi, dword [byte esi+08h]
         mov eax, dword [byte edi+0Ch]
         call LoadSlideImage
-        mov dword [dword_17BDD4], eax
+        mov dword [SlideImageBmp], eax
         push dword [byte edi+010h]
         push eax
         call FindShape
@@ -742,7 +742,7 @@ RunSlideShow_2E0:
         push dword [byte edi+04h]
         mov eax, dword [edi]
         push dword [byte ebp-01Ch]
-        call dword [nosplit eax*4+off_11BDA8]
+        call dword [nosplit eax*4+SlideEventFuncs]
         add esp, byte 0Ch
         mov eax, dword [byte esi+04h]
         call WaitOrSkip
@@ -783,9 +783,9 @@ RunSlideShow_2E0:
         push eax
         call SetDrawTarget
         add esp, byte 4
-        cmp dword [dword_17BDD4], byte 0
+        cmp dword [SlideImageBmp], byte 0
         je short .14
-        push dword [dword_17BDD4]
+        push dword [SlideImageBmp]
         call FreeMemBlock
         add esp, byte 4
 .14:
@@ -814,11 +814,11 @@ RunSlideShow_2E0:
         ret
 ;-----------------------------------------------------------------------------
 ; RunCredits                                      63955  96 PC, low confidence
-; From ShutDown: waits for no device pressed, then the slide show unk_11BFA4
+; From ShutDown: waits for no device pressed, then the slide show CreditsText
 ;-----------------------------------------------------------------------------
 RunCredits:
         call GetPressedDevice
         test eax, eax
         jne short RunCredits
-        mov eax, unk_11BFA4
+        mov eax, CreditsText
         jmp near RunSlideShow

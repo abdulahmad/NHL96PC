@@ -2,16 +2,16 @@
 bits 32
 %include "hockey.inc"
 section s_17C3F8 nobits alloc noexec write align=1
-global dword_17C3F8, dword_17C3FC, dword_17C400, MenuRemoteItem, MenuRemoteLayer, MenuLocalCursorY, MenuLocalCursorX, MenuItemLeaveFunc
-global MenuLocalLayer, dword_17C41C, MenuSavedRemoteArt, MenuLocalItem, MenuRemoteCursorY, MenuRemoteCursorX, dword_17C430, dword_17C434
-global MenuItemEnterFunc, dword_17C43C, dword_17C440, dword_17C444, dword_17C448, dword_17C44C, dword_17C450, dword_17C454
-global dword_17C458, MenuCursorArt, dword_17C460, dword_17C4A0, dword_17C4A4, unk_17C474, word_17C464, MenuViewSaved
-global word_17C468, word_17C46A, word_17C46C, word_17C46E, word_17C470, word_17C49C, word_17C49E
-dword_17C3F8:
+global MenuViewBottom, MenuViewLeft, MenuViewRight, MenuRemoteItem, MenuRemoteLayer, MenuLocalCursorY, MenuLocalCursorX, MenuItemLeaveFunc
+global MenuLocalLayer, MenuCurrentItem, MenuSavedRemoteArt, MenuLocalItem, MenuRemoteCursorY, MenuRemoteCursorX, MenuSavedCursorArt, MenuViewCallback
+global MenuItemEnterFunc, MenuItemHoverFunc, MenuItemExitFunc, MenuRepeatTick, MenuBackdropBmp, MenuBackdropPixels, MenuSavedViewWidth, MenuSavedViewHeight
+global MenuLinkKey, MenuCursorArt, MenuBitmapReady, ArenaClipName, MenuStarted, MenuViewSaved
+global MenuCursorX, MenuCursorY, MenuCursorShown, MenuMouseMode, MenuStartSelection, SpeechClipQueue
+MenuViewBottom:
         resb 4
-dword_17C3FC:
+MenuViewLeft:
         resb 4
-dword_17C400:
+MenuViewRight:
         resb 4
 MenuRemoteItem:
         resb 4
@@ -25,7 +25,7 @@ MenuItemLeaveFunc:
         resb 4
 MenuLocalLayer:
         resb 4
-dword_17C41C:
+MenuCurrentItem:
         resb 4
 MenuSavedRemoteArt:
         resb 4
@@ -35,53 +35,50 @@ MenuRemoteCursorY:
         resb 4
 MenuRemoteCursorX:
         resb 4
-dword_17C430:
+MenuSavedCursorArt:
         resb 4
-dword_17C434:
+MenuViewCallback:
         resb 4
 MenuItemEnterFunc:
         resb 4
-dword_17C43C:
+MenuItemHoverFunc:
         resb 4
-dword_17C440:
+MenuItemExitFunc:
         resb 4
-dword_17C444:
+MenuRepeatTick:
         resb 4
-dword_17C448:
+MenuBackdropBmp:
         resb 4
-dword_17C44C:
+MenuBackdropPixels:
         resb 4
-dword_17C450:
+MenuSavedViewWidth:
         resb 4
-dword_17C454:
+MenuSavedViewHeight:
         resb 4
-dword_17C458:
+MenuLinkKey:
         resb 4
 MenuCursorArt:
         resb 4
-dword_17C460:
+MenuBitmapReady:
         resb 4
-word_17C464:
+MenuStarted:
         resb 2
 MenuViewSaved:
         resb 2
-word_17C468:
+MenuCursorX:
         resb 2
-word_17C46A:
+MenuCursorY:
         resb 2
-word_17C46C:
+MenuCursorShown:
         resb 2
-word_17C46E:
+MenuMouseMode:
         resb 2
-word_17C470:
+MenuStartSelection:
         resb 4
-unk_17C474:
+ArenaClipName:
         resb 40
-word_17C49C:
+SpeechClipQueue:
         resb 2
-word_17C49E:
         resb 2
-dword_17C4A0:
         resb 4
-dword_17C4A4:
         resb 280

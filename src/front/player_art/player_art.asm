@@ -3,20 +3,20 @@ bits 32
 %include "hockey.inc"
 extern TeamRosterPtrs
 section s_61AD1 progbits alloc exec nowrite align=1
-extern byte_11BC28, dword_11BB38, dword_11BB3C, dword_11BB40, dword_11BB44, dword_11BCD1, dword_11BCD5, dword_11BCD9
-extern NearClipZ, dword_123AC0, dword_152FEC, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34, dword_17BA38
-extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54, gameopts
-extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
+extern JerseyDigitWidths, PlayerSpritesLoaded, SpriteFileHandles, FightSpritesLoaded, SpriteMemBlock, SpritesLoaded, SpriteCacheOn, SpriteCacheMem
+extern NearClipZ, dword_123AC0, dword_152FEC, SpriteCacheLinks, SpriteCache, SpriteCachePtr, SpriteCacheFree, SpriteCacheUsed
+extern SpriteCacheBlock, SpriteCacheSize, PlayerSpriteFile, PlayerSpriteCount, RinkSpriteFile, NetSpriteFile, MarkerSpriteFile, gameopts
+extern GameSpriteNames, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, LoadShadowRemap, AllocMemBlock, FreeMemBlock
 extern MemLargestFreeLocked, UnpackTo, UnpackedSize, OpenArtArchiveErr, CreateAaPalLut, BuildPaletteShadeTable, LoadPackedAlloc, FlipArtHorizontal
-extern ShapeBankCount, ShapeBankEntry, FindShape, bcopy, FillMem, TeamPaletteBuf, unk_179E48
-extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
+extern ShapeBankCount, ShapeBankEntry, FindShape, bcopy, FillMem, TeamPaletteBuf, SpriteCacheHead
+extern JerseyColorMap, RinkColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, SpriteColorRanges, unpack
 global PutJerseyDigit, MakeJerseyNumber, SetTeamJerseyColors, SetTeamJerseyColors_A3, SaveTeamPalette, SetPlayerSpriteColors, SetRinkSpriteColors, IndexSpriteFrames
 global LoadTeamPalette, LoadPlayerSprites, LoadPlayerSprites_131, LoadGameSprites, FreeGameSprites, FreeFightSprites, LoadFightSprites, LoadFightSprites_3F
 global LoadFightSprites_4C, FreeTotalSprites, LoadTotalSprites, LoadCupSprites, FreeSpriteCache, GetSpriteFrame, SpriteScale
 ;-----------------------------------------------------------------------------
 ; PutJerseyDigit                               61AD1  96 PC, medium confidence
-; (dest, digit): copies a 3x5 digit (byte_11BC28) into a jersey number image
+; (dest, digit): copies a 3x5 digit (JerseyDigitWidths) into a jersey number image
 ;-----------------------------------------------------------------------------
 PutJerseyDigit:
         push ebx
@@ -28,7 +28,7 @@ PutJerseyDigit:
         xor ecx, ecx
         imul esi, edx, byte 0Fh
 .1:
-        mov al, byte [dword esi+byte_11BC28]
+        mov al, byte [dword esi+JerseyDigitWidths]
         mov byte [ebx], al
         mov eax, ecx
         cdq
@@ -107,7 +107,7 @@ MakeJerseyNumber:
         ret
 ;-----------------------------------------------------------------------------
 ; SetTeamJerseyColors                             61B6F  96 PC, low confidence
-; (palette, team): the team's jersey colour ranges (unk_17B248, 120h per
+; (palette, team): the team's jersey colour ranges (JerseyColorMap, 120h per
 ; team)
 ;-----------------------------------------------------------------------------
 SetTeamJerseyColors:
@@ -117,22 +117,22 @@ SetTeamJerseyColors:
         push edi
         enter 18h, 0
         imul edi, edx, dword 120h
-        add edi, unk_17B248
+        add edi, JerseyColorMap
         lea ebx, [dword edi+090h]
         mov dword [byte ebp-018h], eax
         mov dword [byte ebp-014h], ebx
         test edx, edx
         je short .1
-        mov eax, unk_17B930
+        mov eax, AwayJerseyPal
         jmp short .2
 .1:
-        mov eax, unk_17B830
+        mov eax, HomeJerseyPal
 .2:
         mov dword [byte ebp-0Ch], eax
         imul eax, edx, byte 48h
         mov ebx, 0A0h
         mov ecx, 5
-        add eax, unk_17B488
+        add eax, RinkColorMap
         mov dword [byte ebp-04h], edi
         lea edx, [byte eax+024h]
         xor esi, esi
@@ -190,7 +190,7 @@ SaveTeamPalette:
         push edi
         enter 0Ch, 0
         imul edx, dword 120h
-        mov ecx, unk_17B518
+        mov ecx, TeamPaletteSave
         mov edi, 0A0h
         mov ebx, 5
         add ecx, edx
@@ -237,7 +237,7 @@ SetPlayerSpriteColors:
         enter 8, 0
         push ebx
         push ecx
-        mov ebx, unk_17BA58
+        mov ebx, SpriteColorRanges
         mov edi, 0A0h
         mov dword [byte ebp-08h], eax
         mov ecx, edx
@@ -262,7 +262,7 @@ SetPlayerSpriteColors:
         cmp esi, byte 24h
         jl short .1
         mov edx, dword [byte ebp-0Ch]
-        mov eax, unk_17BA58
+        mov eax, SpriteColorRanges
         mov ecx, 0B6h
         call MakeJerseyNumber
         cmp dword [byte ebp-010h], byte 0
@@ -318,9 +318,9 @@ SetRinkSpriteColors:
         mov esi, ecx
         imul eax, edx, byte 48h
         imul edx, ecx, byte 24h
-        mov ebx, unk_17BA58
+        mov ebx, SpriteColorRanges
         mov edi, 0A0h
-        add eax, unk_17B488
+        add eax, RinkColorMap
         mov dword [byte ebp-08h], 0
         add eax, edx
         mov ecx, dword [byte ebp-010h]
@@ -344,7 +344,7 @@ SetRinkSpriteColors:
         cmp dword [byte ebp-08h], byte 24h
         jl short .1
         mov edx, dword [byte ebp-014h]
-        mov eax, unk_17BA58
+        mov eax, SpriteColorRanges
         call MakeJerseyNumber
         add ecx, 0B6h
         test esi, esi
@@ -385,7 +385,7 @@ SetRinkSpriteColors:
         ret
 ;-----------------------------------------------------------------------------
 ; IndexSpriteFrames                               61DDF  96 PC, low confidence
-; (bank): reads the frame table of a sprite bank (dword_11BB3C) into
+; (bank): reads the frame table of a sprite bank (SpriteFileHandles) into
 ; dword_152FEC and the largest frame
 ;-----------------------------------------------------------------------------
 IndexSpriteFrames:
@@ -397,7 +397,7 @@ IndexSpriteFrames:
         push edx
         mov esi, eax
         shl esi, 2
-        push dword [dword esi+dword_11BB3C]
+        push dword [dword esi+SpriteFileHandles]
         xor edi, edi
         call ShapeBankCount
         mov dword [byte ebp-08h], esi
@@ -409,7 +409,7 @@ IndexSpriteFrames:
 .1:
         mov eax, dword [byte ebp-08h]
         push edi
-        push dword [dword eax+dword_11BB3C]
+        push dword [dword eax+SpriteFileHandles]
         call ShapeBankEntry
         add esp, byte 8
         mov dword [dword esi+dword_152FEC], eax
@@ -420,9 +420,9 @@ IndexSpriteFrames:
         call UnpackedSize
         add eax, byte 10h
         add esp, byte 4
-        cmp eax, dword [dword_17BA48]
+        cmp eax, dword [PlayerSpriteCount]
         jle short .2
-        mov dword [dword_17BA48], eax
+        mov dword [PlayerSpriteCount], eax
 .2:
         inc edi
 .3:
@@ -461,7 +461,7 @@ LoadTeamPalette:
         mov esi, edx
         rep movsb
         mov ecx, 100h
-        mov edi, unk_17B830
+        mov edi, HomeJerseyPal
         lea esi, [edx+ebx]
         rep movsb
         mov eax, dword [byte ebp-08h]
@@ -479,7 +479,7 @@ LoadTeamPalette:
         mov esi, edx
         rep movsb
         mov ecx, 100h
-        mov edi, unk_17B930
+        mov edi, AwayJerseyPal
         lea esi, [edx+ebx]
         rep movsb
         mov eax, dword [byte ebp-04h]
@@ -487,7 +487,7 @@ LoadTeamPalette:
         cdq
         idiv ecx
         mov ecx, eax
-        mov eax, unk_17B930
+        mov eax, AwayJerseyPal
         lea esi, [dword eax+0FFh]
 .1:
         movzx edx, byte [eax]
@@ -521,7 +521,7 @@ LoadPlayerSprites:
         push esi
         push edi
         mov edi, eax
-        cmp dword [dword_11BB38], byte 0
+        cmp dword [PlayerSpritesLoaded], byte 0
         jne near LoadPlayerSprites_131
         mov eax, 0FFFFFFFFh
         call SelectDataLibrary
@@ -531,12 +531,12 @@ LoadPlayerSprites:
         add esp, byte 8
         push byte 0
         push str_TotalRef
-        mov dword [dword_11BB40], eax
+        mov dword [FightSpritesLoaded], eax
         call OpenArtArchiveErr
         add esp, byte 8
         push byte 0
         push str_OldshpQfs
-        mov dword [dword_11BB3C], eax
+        mov dword [SpriteFileHandles], eax
         call OpenArtArchiveErr
         add esp, byte 8
         push byte 20h
@@ -551,7 +551,7 @@ LoadPlayerSprites:
         push byte 0
         push eax
         push esi
-        mov dword [dword_11BB44], eax
+        mov dword [SpriteMemBlock], eax
         call unpack
         add esp, byte 0Ch
         push esi
@@ -559,7 +559,7 @@ LoadPlayerSprites:
         add esp, byte 4
         xor edx, edx
         xor eax, eax
-        mov dword [dword_17BA48], 0
+        mov dword [PlayerSpriteCount], 0
         call IndexSpriteFrames
         mov esi, eax
         mov edx, eax
@@ -570,13 +570,13 @@ LoadPlayerSprites:
         add edx, 298h
         call IndexSpriteFrames
         push byte 20h
-        push dword [dword_17BA48]
+        push dword [PlayerSpriteCount]
         push str_Unpacked
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push str_RinkpalQfs
-        mov dword [dword_17BA44], eax
+        mov dword [PlayerSpriteFile], eax
         call LoadPackedAlloc
         mov esi, eax
         add esp, byte 8
@@ -585,7 +585,7 @@ LoadPlayerSprites:
         call FindShape
         mov ebx, 20h
         add esp, byte 8
-        mov edx, dword_17BA54
+        mov edx, MarkerSpriteFile
         add eax, byte 10h
         call CreateAaPalLut
         push esi
@@ -595,9 +595,9 @@ LoadPlayerSprites:
         call SelectDataLibrary
         test edi, edi
         je short .1
-        mov dword [dword_11BCD1], 1
+        mov dword [SpritesLoaded], 1
 .1:
-        mov dword [dword_11BB38], 1
+        mov dword [PlayerSpritesLoaded], 1
 LoadPlayerSprites_131:
         pop edi
         pop esi
@@ -650,20 +650,20 @@ LoadGameSprites:
         add esp, byte 8
         mov edi, eax
         mov eax, dword [byte ebp-04h]
-        push dword [nosplit eax*4+off_11BB4C]
+        push dword [nosplit eax*4+GameSpriteNames]
         push edi
         call FindShape
         mov ebx, 20h
         add esp, byte 8
-        mov edx, dword_17BA50
+        mov edx, NetSpriteFile
         add eax, byte 10h
         call CreateAaPalLut
-        push dword [nosplit esi*4+off_11BB4C]
+        push dword [nosplit esi*4+GameSpriteNames]
         push edi
         call FindShape
         mov ebx, 20h
         add esp, byte 8
-        mov edx, dword_17BA4C
+        mov edx, RinkSpriteFile
         add eax, byte 10h
         call CreateAaPalLut
         push edi
@@ -672,11 +672,11 @@ LoadGameSprites:
         mov eax, dword [byte ebp-04h]
         mov edx, esi
         call LoadTeamPalette
-        mov eax, dword [dword_17BA50]
+        mov eax, dword [NetSpriteFile]
         xor edx, edx
         call SetTeamJerseyColors
         mov edx, 1
-        mov eax, dword [dword_17BA4C]
+        mov eax, dword [RinkSpriteFile]
         call SetTeamJerseyColors
         xor eax, eax
         call SelectDataLibrary
@@ -695,32 +695,32 @@ FreeGameSprites:
         push ecx
         push edx
         push esi
-        cmp dword [dword_11BCD1], byte 0
+        cmp dword [SpritesLoaded], byte 0
         jne short .3
         xor esi, esi
 .1:
-        cmp dword [dword esi+dword_11BB3C], byte 0
+        cmp dword [dword esi+SpriteFileHandles], byte 0
         je short .2
-        push dword [dword esi+dword_11BB3C]
+        push dword [dword esi+SpriteFileHandles]
         call FreeMemBlock
         add esp, byte 4
-        mov dword [dword esi+dword_11BB3C], 0
+        mov dword [dword esi+SpriteFileHandles], 0
 .2:
         add esi, byte 4
         cmp esi, byte 0Ch
         jne short .1
-        push dword [dword_17BA44]
+        push dword [PlayerSpriteFile]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_17BA54]
+        push dword [MarkerSpriteFile]
         call FreeMemBlock
-        mov dword [dword_11BB38], 0
+        mov dword [PlayerSpritesLoaded], 0
         add esp, byte 4
 .3:
-        push dword [dword_17BA50]
+        push dword [NetSpriteFile]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_17BA4C]
+        push dword [RinkSpriteFile]
         call FreeMemBlock
         add esp, byte 4
         pop esi
@@ -730,39 +730,39 @@ FreeGameSprites:
         ret
 ;-----------------------------------------------------------------------------
 ; FreeFightSprites                             621D9  96 PC, medium confidence
-; Frees the fight sprite bank (dword_11BB40)
+; Frees the fight sprite bank (FightSpritesLoaded)
 ;-----------------------------------------------------------------------------
 FreeFightSprites:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11BB40], byte 0
+        cmp dword [FightSpritesLoaded], byte 0
         je short .1
-        push dword [dword_11BB40]
+        push dword [FightSpritesLoaded]
         call FreeMemBlock
         add esp, byte 4
 .1:
-        mov dword [dword_11BB40], 0
+        mov dword [FightSpritesLoaded], 0
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
 ; LoadFightSprites                             62201  96 PC, medium confidence
-; Loads fight.ref into dword_11BB40
+; Loads fight.ref into FightSpritesLoaded
 ;-----------------------------------------------------------------------------
 LoadFightSprites:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11BB40], byte 0
+        cmp dword [FightSpritesLoaded], byte 0
         je short .1
-        push dword [dword_11BB40]
+        push dword [FightSpritesLoaded]
         call FreeMemBlock
         add esp, byte 4
 .1:
         mov eax, 0FFFFFFFFh
-        mov dword [dword_11BB40], 0
+        mov dword [FightSpritesLoaded], 0
         call SelectDataLibrary
         push byte 0
         push str_FightRef
@@ -770,7 +770,7 @@ LoadFightSprites:
         mov edx, 0B0Dh
 LoadFightSprites_3F:
         add esp, byte 8
-        mov dword [dword_11BB40], eax
+        mov dword [FightSpritesLoaded], eax
         mov eax, 1
 LoadFightSprites_4C:
         call IndexSpriteFrames
@@ -782,64 +782,64 @@ LoadFightSprites_4C:
         ret
 ;-----------------------------------------------------------------------------
 ; FreeTotalSprites                             6225D  96 PC, medium confidence
-; Frees total.ref (dword_11BB3C)
+; Frees total.ref (SpriteFileHandles)
 ;-----------------------------------------------------------------------------
 FreeTotalSprites:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11BB3C], byte 0
+        cmp dword [SpriteFileHandles], byte 0
         je short .1
-        push dword [dword_11BB3C]
+        push dword [SpriteFileHandles]
         call FreeMemBlock
         add esp, byte 4
 .1:
-        mov dword [dword_11BB3C], 0
+        mov dword [SpriteFileHandles], 0
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
 ; LoadTotalSprites                             62285  96 PC, medium confidence
-; Loads total.ref into dword_11BB3C
+; Loads total.ref into SpriteFileHandles
 ;-----------------------------------------------------------------------------
 LoadTotalSprites:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11BB3C], byte 0
+        cmp dword [SpriteFileHandles], byte 0
         je short .1
-        push dword [dword_11BB3C]
+        push dword [SpriteFileHandles]
         call FreeMemBlock
         add esp, byte 4
 .1:
         mov eax, 0FFFFFFFFh
-        mov dword [dword_11BB3C], 0
+        mov dword [SpriteFileHandles], 0
         call SelectDataLibrary
         push byte 0
         push str_TotalRef
         call OpenArtArchiveErr
         add esp, byte 8
-        mov dword [dword_11BB3C], eax
+        mov dword [SpriteFileHandles], eax
         xor edx, edx
         xor eax, eax
         jmp short LoadFightSprites_4C
 ;-----------------------------------------------------------------------------
 ; LoadCupSprites                               622CD  96 PC, medium confidence
-; Loads cup.ref (the cup presentation) into the dword_11BB40 slot
+; Loads cup.ref (the cup presentation) into the FightSpritesLoaded slot
 ;-----------------------------------------------------------------------------
 LoadCupSprites:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11BB40], byte 0
+        cmp dword [FightSpritesLoaded], byte 0
         je short .1
-        push dword [dword_11BB40]
+        push dword [FightSpritesLoaded]
         call FreeMemBlock
         add esp, byte 4
 .1:
         mov eax, 0FFFFFFFFh
-        mov dword [dword_11BB40], 0
+        mov dword [FightSpritesLoaded], 0
         call SelectDataLibrary
         push byte 0
         push str_CupRef
@@ -854,14 +854,14 @@ FreeSpriteCache:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11BCD9], byte 0
+        cmp dword [SpriteCacheMem], byte 0
         je short .1
-        push dword [dword_11BCD9]
+        push dword [SpriteCacheMem]
         call FreeMemBlock
-        mov dword [dword_11BCD9], 0
+        mov dword [SpriteCacheMem], 0
         add esp, byte 4
 .1:
-        mov dword [dword_17BA3C], 0
+        mov dword [SpriteCacheBlock], 0
         pop edx
         pop ecx
         pop ebx
@@ -879,7 +879,7 @@ GetSpriteFrame:
         enter 4, 0
         mov edi, eax
         mov dword [byte ebp-04h], edx
-        cmp dword [dword_17BA3C], byte 0
+        cmp dword [SpriteCacheBlock], byte 0
         jne near .4
         call MemLargestFreeLocked
         sub eax, 6000h
@@ -890,40 +890,40 @@ GetSpriteFrame:
         jle short .1
         mov eax, 100h
 .1:
-        mov dword [dword_17BA40], eax
+        mov dword [SpriteCacheSize], eax
         imul eax, dword 2010h
         push byte 0
         push eax
         push str_UNPACK
         xor esi, esi
         call AllocMemBlock
-        mov ebx, unk_179E48
+        mov ebx, SpriteCacheHead
         add esp, byte 0Ch
-        mov dword [dword_11BCD9], eax
+        mov dword [SpriteCacheMem], eax
         xor edx, edx
         jmp short .3
 .2:
         imul eax, esi, byte 14h
-        mov ecx, dword [dword_11BCD9]
+        mov ecx, dword [SpriteCacheMem]
         add ecx, edx
         add ebx, byte 14h
         add edx, 2010h
-        mov dword [dword eax+dword_179E50], ebx
+        mov dword [dword eax+SpriteCache], ebx
         inc esi
-        mov dword [dword eax+dword_179E4C], ecx
+        mov dword [dword eax+SpriteCacheLinks], ecx
 .3:
-        cmp esi, dword [dword_17BA40]
+        cmp esi, dword [SpriteCacheSize]
         jl short .2
-        mov eax, dword [dword_17BA40]
+        mov eax, dword [SpriteCacheSize]
         dec eax
         imul eax, byte 14h
-        mov dword [dword_17BA38], 0
-        mov dword [dword_17BA34], 0
-        mov dword [dword_17BA30], unk_179E48
-        mov dword [dword_17BA3C], 1
-        mov dword [dword eax+dword_179E50], 0
+        mov dword [SpriteCacheUsed], 0
+        mov dword [SpriteCacheFree], 0
+        mov dword [SpriteCachePtr], SpriteCacheHead
+        mov dword [SpriteCacheBlock], 1
+        mov dword [dword eax+SpriteCache], 0
 .4:
-        cmp dword [dword_11BCD5], byte 0
+        cmp dword [SpriteCacheOn], byte 0
         je short .5
         movsx eax, word [byte edi+04h]
         movsx edx, word [byte edi+06h]
@@ -932,29 +932,29 @@ GetSpriteFrame:
         jle short .7
 .5:
         push byte 10h
-        push dword [dword_17BA44]
+        push dword [PlayerSpriteFile]
         push edi
         call bcopy
-        mov eax, dword [dword_17BA44]
+        mov eax, dword [PlayerSpriteFile]
         add esp, byte 0Ch
         add eax, byte 10h
         push eax
         add edi, byte 10h
         push edi
         call UnpackTo
-        mov eax, dword [dword_17BA44]
+        mov eax, dword [PlayerSpriteFile]
         add esp, byte 8
         and dword [eax], 0FFh
         cmp dword [byte ebp-04h], byte 0
         je short .6
-        push dword [dword_17BA44]
+        push dword [PlayerSpriteFile]
         call FlipArtHorizontal
         add esp, byte 4
 .6:
-        mov eax, dword [dword_17BA44]
+        mov eax, dword [PlayerSpriteFile]
         jmp near SetTeamJerseyColors_A3
 .7:
-        mov eax, dword [dword_17BA34]
+        mov eax, dword [SpriteCacheFree]
 .8:
         test eax, eax
         je near .15
@@ -963,12 +963,12 @@ GetSpriteFrame:
         mov edx, dword [byte eax+010h]
         cmp edx, dword [byte ebp-04h]
         jne short .14
-        cmp eax, dword [dword_17BA34]
+        cmp eax, dword [SpriteCacheFree]
         je short .13
-        cmp eax, dword [dword_17BA38]
+        cmp eax, dword [SpriteCacheUsed]
         jne short .9
         mov edx, dword [byte eax+0Ch]
-        mov dword [dword_17BA38], edx
+        mov dword [SpriteCacheUsed], edx
         mov dword [byte edx+08h], 0
         jmp short .10
 .9:
@@ -979,17 +979,17 @@ GetSpriteFrame:
         mov ebx, dword [byte eax+08h]
         mov dword [byte edx+08h], ebx
 .10:
-        mov edx, dword [dword_17BA34]
+        mov edx, dword [SpriteCacheFree]
         mov dword [byte eax+08h], edx
         test edx, edx
         je short .11
         mov dword [byte edx+0Ch], eax
         jmp short .12
 .11:
-        mov dword [dword_17BA38], eax
+        mov dword [SpriteCacheUsed], eax
 .12:
         mov dword [byte eax+0Ch], 0
-        mov dword [dword_17BA34], eax
+        mov dword [SpriteCacheFree], eax
 .13:
         mov eax, dword [byte eax+04h]
         jmp near SetTeamJerseyColors_A3
@@ -997,41 +997,41 @@ GetSpriteFrame:
         mov eax, dword [byte eax+08h]
         jmp short .8
 .15:
-        cmp dword [dword_17BA30], byte 0
+        cmp dword [SpriteCachePtr], byte 0
         je short .16
-        mov esi, dword [dword_17BA30]
+        mov esi, dword [SpriteCachePtr]
         mov eax, dword [byte esi+08h]
-        mov dword [dword_17BA30], eax
+        mov dword [SpriteCachePtr], eax
         jmp short .18
 .16:
-        mov esi, dword [dword_17BA38]
+        mov esi, dword [SpriteCacheUsed]
         cmp esi, esi
         jne short .17
         mov eax, dword [byte esi+0Ch]
-        mov dword [dword_17BA38], eax
+        mov dword [SpriteCacheUsed], eax
         mov dword [byte eax+08h], 0
         jmp short .18
 .17:
         mov eax, dword [byte esi+08h]
         mov edx, dword [byte esi+0Ch]
         mov dword [byte eax+0Ch], edx
-        mov eax, dword [dword_17BA38]
+        mov eax, dword [SpriteCacheUsed]
         mov edx, dword [byte eax+0Ch]
         mov eax, dword [byte eax+08h]
         mov dword [byte edx+08h], eax
 .18:
-        mov eax, dword [dword_17BA34]
+        mov eax, dword [SpriteCacheFree]
         mov dword [byte esi+08h], eax
         test eax, eax
         je short .19
         mov dword [byte eax+0Ch], esi
         jmp short .20
 .19:
-        mov dword [dword_17BA38], esi
+        mov dword [SpriteCacheUsed], esi
 .20:
         mov dword [byte esi+0Ch], 0
         push byte 10h
-        mov dword [dword_17BA34], esi
+        mov dword [SpriteCacheFree], esi
         mov eax, dword [byte ebp-04h]
         push dword [byte esi+04h]
         mov dword [esi], edi

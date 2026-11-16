@@ -1,12 +1,13 @@
 ; Post-game screens: the three stars and the game statistics (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 section s_1456D progbits alloc exec nowrite align=1
-extern awtmstruct, byte_11FA2F, byte_17BDAE, byte_1820F1, StarsSlideFrom, StarsSlideTo, StarsSlideTarget, StarsSpritePath
+extern awtmstruct, byte_11FA2F, TitleTextStyle, byte_1820F1, StarsSlideFrom, StarsSlideTo, StarsSlideTarget, StarsSpritePath
 extern StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsTimerA, StarsTimerFace, StarsTimerName, StarsTimerCard
 extern seasondb, dword_11F5C0, StarsBgBmp, StarsSaveBmp, StarsFaceBmps, StarsCardBmps, StarsPanelBmp, StarsNameBmps
 extern StarsTitleBmp, StarsAnimStep, StarsCardBmp, StarsShapeFile, StarsSlideX, StarsSlideY, StarsSlideStep, dword_152F58
-extern dword_1571B3, dword_17BC74, MatchupLayer, dword_17BCE2, str_Standings, gameopts, GetTicks, hmtmstruct
+extern dword_1571B3, FrontEndScreenBmp, MatchupLayer, MenuBoxStyle, gameopts, GetTicks, hmtmstruct
 extern LinkSync, ModemChat, mousex, mousey, PutBlock, rand_, SetDrawBitmap, sprintf_
 extern str_004, str_04d, str_AR005, str_AR015, str_AR105, str_AR115, str_Ard5, str_BALL7
 extern str_BANNER, str_BKGD28, str_BT006, str_BT0110, str_BT028, str_BT108, str_BT118, str_BT124
@@ -1232,7 +1233,7 @@ GameStatsScreen:
         movsx eax, word [byte eax+04h]
         mov edx, dword [dword ebp-0136h]
         sar eax, 1
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         add edx, eax
         mov eax, dword [dword ebp-0142h]
         mov dword [dword ebp-0122h], edx
@@ -1258,7 +1259,7 @@ GameStatsScreen:
         je short .1
         mov ecx, 66h
         lea edi, [dword ebp-090h]
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         rep movsb
         mov byte [byte ebp-04Eh], 3
         mov byte [byte ebp-04Ch], 3
@@ -1882,7 +1883,7 @@ ThreeStarsScreen:
         mov eax, 0FCh
         xor edi, edi
         call SetTextColors
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         xor esi, esi
         call TextSetFont
         add esp, byte 4
@@ -2193,7 +2194,7 @@ ThreeStarsScreen:
         mov dword [dword ebp-01D6h], eax
         mov eax, dword [dword ebp-01E2h]
         lea edi, [dword ebp-0196h]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         movsx eax, word [byte eax+0Eh]
         mov ecx, 66h
         mov dword [dword ebp-01D2h], eax
@@ -2221,7 +2222,7 @@ ThreeStarsScreen:
         je short .10
         mov ecx, 66h
         lea edi, [dword ebp-0130h]
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         rep movsb
         mov byte [dword ebp-0EEh], 3
         mov byte [dword ebp-0ECh], 3
@@ -2297,7 +2298,7 @@ ThreeStarsScreen_8CF:
         push byte 3
         push byte 0
         push dword 0F0h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push dword 140h
         lea ebx, [byte ebp+036h]
         mov dword [byte ebp+036h], eax

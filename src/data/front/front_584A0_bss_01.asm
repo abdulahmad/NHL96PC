@@ -2,190 +2,160 @@
 bits 32
 %include "hockey.inc"
 section s_17828C nobits alloc noexec write align=1
-global byte_1796AC, byte_1796BF, byte_1796C0, byte_1796DC, byte_179700, byte_179701, byte_17970A, byte_17970B
-global byte_17970D, byte_179712, byte_179713, byte_179715, byte_17971B, byte_17971C, byte_179722, byte_179723
-global byte_17972D, byte_179733, byte_179743, byte_17974B, byte_179759, byte_17975A, byte_179763, byte_179764
-global byte_1798A4, byte_179CB8, byte_179CB9, dword_17828C, dword_178290, dword_178294, dword_178298, dword_17829C
-global dword_1782A0, dword_1782A4, dword_1782A8, dword_178EA8, dword_178EAC, dword_1792AC, dword_1797AC, dword_1797B0
-global dword_1797B4, dword_1797B8, dword_1797BC, dword_1797DC, dword_1797F4, dword_1797F8, dword_1797FC, dword_179800
-global dword_1798A8, dword_1798AC, dword_1798B0, dword_1798B4, dword_1798B8, dword_1798BC, dword_1798E4, dword_1798E8
-global dword_1798EC, dword_1798F0, dword_1798F4, dword_1798F8, dword_1798FC, dword_179900, dword_179904, dword_179908
-global dword_17990C, dword_179910, dword_179914, dword_179918, dword_179920, dword_179924, dword_179928, dword_17992C
-global dword_179930, dword_179934, dword_179978, dword_17997C, dword_179A7C, dword_179AC8, dword_179C88, dword_179C8C
-global dword_179C90, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
-dword_17828C:
+global PalUsedFlags
+
+
+global OverlayPanelId, OverlayQueueLen, OverlayQueue, GameViewPanelIds
+global ShadeMatchFrom1, ShadeMatch, ShadeLutPtrs, LineBoxOpen, dword_1797B0
+global LineBoxChoice, dword_1797B8, LineBoxBmps, LineEnergyBmps, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY
+global OverlayPanelOn, EventPanelLines, ClockDrawnTime, ClockDrawnPeriod, ClockBmp, ViewDirty, RubberFaceBmp, RubberSideBmp
+global ViewBrightness, IceLogoBmp, ShadeLutCount, ShadeLutBlock, PanelBaseY, PenaltyClockWidth, GameViewBlock, ClockFont
+global LineBoxDrawn, GoalFrameCount, ClockPanelBmp, NameFont, NamePanelBmp, OverlayBmp, LineBoxBmp, PanelWidth
+global PanelHeight, ViewObjects, ShowShadows, ShowMarkers, SpriteDepth, SpriteFrameIds, ZoneRectCount, ZoneRectIndex
+global ZoneRectList, HomeSpriteShades, AwaySpriteShades, RefSpriteShades, PuckModelPoints, DrawList, DrawListCount, ZoneRects
+GameViewPanelIds:
         resb 4
-dword_178290:
         resb 4
-dword_178294:
         resb 4
-dword_178298:
         resb 4
-dword_17829C:
         resb 4
-dword_1782A0:
         resb 4
-dword_1782A4:
         resb 4
-dword_1782A8:
         resb 4
-unk_1782AC:
+HomeSpriteShades:
         resb 1024
-unk_1786AC:
+AwaySpriteShades:
         resb 1024
-unk_178AAC:
+RefSpriteShades:
         resb 1020
-dword_178EA8:
+ShadeMatchFrom1:
         resb 4
-dword_178EAC:
+ShadeMatch:
         resb 1024
-dword_1792AC:
+ShadeLutPtrs:
         resb 1024
-byte_1796AC:
+PalUsedFlags:
         resb 19
-byte_1796BF:
         resb 1
-byte_1796C0:
         resb 28
-byte_1796DC:
         resb 36
-byte_179700:
         resb 1
-byte_179701:
         resb 9
-byte_17970A:
         resb 1
-byte_17970B:
         resb 2
-byte_17970D:
         resb 5
-byte_179712:
         resb 1
-byte_179713:
         resb 2
-byte_179715:
         resb 6
-byte_17971B:
         resb 1
-byte_17971C:
         resb 6
-byte_179722:
         resb 1
-byte_179723:
         resb 10
-byte_17972D:
         resb 6
-byte_179733:
         resb 16
-byte_179743:
         resb 8
-byte_17974B:
         resb 14
-byte_179759:
         resb 1
-byte_17975A:
         resb 9
-byte_179763:
         resb 1
-byte_179764:
         resb 72
-dword_1797AC:
+LineBoxOpen:
         resb 4
 dword_1797B0:
         resb 4
-dword_1797B4:
+LineBoxChoice:
         resb 4
 dword_1797B8:
         resb 4
-dword_1797BC:
+LineBoxBmps:
         resb 32
-dword_1797DC:
+LineEnergyBmps:
         resb 24
-dword_1797F4:
+ViewScrollX:
         resb 4
-dword_1797F8:
+ViewScrollY:
         resb 4
-dword_1797FC:
+SpriteScreenX:
         resb 4
-dword_179800:
+SpriteScreenY:
         resb 164
-byte_1798A4:
+OverlayPanelId:
         resb 4
-dword_1798A8:
+OverlayPanelOn:
         resb 4
-dword_1798AC:
+EventPanelLines:
         resb 4
-dword_1798B0:
+ClockDrawnTime:
         resb 4
-dword_1798B4:
+ClockDrawnPeriod:
         resb 4
-dword_1798B8:
+ClockBmp:
         resb 4
-dword_1798BC:
+ViewDirty:
         resb 4
-unk_1798C0:
+PuckModelPoints:
         resb 36
-dword_1798E4:
+RubberFaceBmp:
         resb 4
-dword_1798E8:
+RubberSideBmp:
         resb 4
-dword_1798EC:
+ViewBrightness:
         resb 4
-dword_1798F0:
+IceLogoBmp:
         resb 4
-dword_1798F4:
+ShadeLutCount:
         resb 4
-dword_1798F8:
+ShadeLutBlock:
         resb 4
-dword_1798FC:
+PanelBaseY:
         resb 4
-dword_179900:
+PenaltyClockWidth:
         resb 4
-dword_179904:
+GameViewBlock:
         resb 4
-dword_179908:
+ClockFont:
         resb 4
-dword_17990C:
+LineBoxDrawn:
         resb 4
-dword_179910:
+GoalFrameCount:
         resb 4
-dword_179914:
+ClockPanelBmp:
         resb 4
-dword_179918:
+NameFont:
         resb 8
-dword_179920:
+NamePanelBmp:
         resb 4
-dword_179924:
+OverlayBmp:
         resb 4
-dword_179928:
+LineBoxBmp:
         resb 4
-dword_17992C:
+PanelWidth:
         resb 4
-dword_179930:
+PanelHeight:
         resb 4
-dword_179934:
+ViewObjects:
         resb 68
-dword_179978:
+ShowShadows:
         resb 4
-dword_17997C:
+ShowMarkers:
         resb 4
-unk_179980:
+DrawList:
         resb 252
-dword_179A7C:
+SpriteDepth:
         resb 68
-unk_179AC0:
+DrawListCount:
         resb 8
-dword_179AC8:
+SpriteFrameIds:
         resb 244
-unk_179BBC:
+ZoneRects:
         resb 204
-dword_179C88:
+ZoneRectCount:
         resb 4
-dword_179C8C:
+ZoneRectIndex:
         resb 4
-dword_179C90:
+ZoneRectList:
         resb 40
-byte_179CB8:
+OverlayQueueLen:
         resb 1
-byte_179CB9:
+OverlayQueue:
         resb 3

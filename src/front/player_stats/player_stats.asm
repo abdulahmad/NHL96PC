@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_8BF56 progbits alloc exec nowrite align=1
-extern __CHP, asc_112831, asc_112837, byte_11E700, HmGoalieSwapped, HmStarterGoalieMarks, byte_17BDAE, SeasonUserTeam
+extern __CHP, asc_112831, asc_112837, byte_11E700, HmGoalieSwapped, HmStarterGoalieMarks, TitleTextStyle, SeasonUserTeam
 extern byte_17D13A, byte_17EBF0, byte_17FAEF, byte_17FAF0, byte_17FFD5, byte_180302, byte_1820F0, byte_1820F1
 extern CheckExportName, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague, dword_1174EC, statsplayoffs, dword_11E4B8
 extern dword_11E670, dword_11E674, dword_11E678, dword_11E67C, dword_11E6AC, dword_11E75A, dword_11E75E, hmtmplstats
-extern hmtmglstats, hmtmroster, MatchupLayer, TeamStatsBitmap, dword_17BCE2, PlayoffTreeData, dword_17D162, dword_17D267
+extern hmtmglstats, hmtmroster, MatchupLayer, TeamStatsBitmap, MenuBoxStyle, PlayoffTreeData, dword_17D162, dword_17D267
 extern dword_17E9D0, dword_17E9D4, dword_17E9D8, dword_17E9DC, dword_17EA50, dword_17EA54, dword_17EA58, dword_17EA5C
 extern dword_17EA60, dword_17EA64, dword_17EA68, dword_17EA6C, dword_17EA70, dword_17EA74, dword_17EA78, dword_17EA7C
 extern dword_17EA80, dword_17EA84, dword_17EA88, dword_17EA8C, dword_17EA90, dword_17EA94, dword_17EA98, dword_17EA9C
@@ -1447,7 +1447,7 @@ PlayerStatsScreen:
         je short .45
         mov ecx, 66h
         mov edi, unk_17FE5E
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         rep movsb
         jmp near .46
 .45:
@@ -3942,7 +3942,7 @@ ExportPlayerStats:
         lea eax, [byte ebp-050h]
         push eax
         push dword 0F0h
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         push dword 140h
         mov eax, 0D3h
         mov ecx, 8
@@ -3964,7 +3964,7 @@ ExportPlayerStats:
         mov eax, 34h
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowProgressBox
         mov edx, str_Wt3
@@ -4594,7 +4594,7 @@ ExportPlayerStats_17F:
         push byte 1
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-028h]
         push eax
         mov eax, 22Eh

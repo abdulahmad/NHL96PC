@@ -1,10 +1,11 @@
 ; The exhibition team select screen: home and away team panels (logo, name, rank) (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 section s_76071 progbits alloc exec nowrite align=1
 extern BlackPalette, GsPanelSlots, CopyBitmap, DrawFrameAt, dword_11E284, dword_11E288, dword_11E2A0
 extern dword_11E2A4, dword_11E2A8, dword_11E2AC, TeamSelectDrawn, dword_11E2B4, PanelTeamNameShift, dword_11E2BC, TeamStatsBitmap
-extern str_Standings, GsTeamSelect, dword_17D688, dword_17D68C, dword_17D690, FadeOut, FadePalette, FillMusicStream
+extern GsTeamSelect, dword_17D688, dword_17D68C, dword_17D690, FadeOut, FadePalette, FillMusicStream
 extern gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LoadPackedFile, LoadTeamLogo, mousex, mousey
 extern OpenScreen, optblock_end, PutBlock, RunMenu, SetDrawBitmap, SetMenuMouse, SetScreenColors, SlideInSideBar
 extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Aal02, str_Aal12, str_Aal22, str_Aar02
@@ -559,7 +560,7 @@ TeamSelectScreen:
         mov byte [dword ebp-01E4h], 7
         mov ecx, 66h
         lea edi, [dword ebp-01C2h]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-01E3h], 5
         mov byte [dword ebp-01E5h], 7
         rep movsb

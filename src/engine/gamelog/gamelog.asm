@@ -9,9 +9,9 @@ extern GameLoopActive, str_SSS, str_CSS, str_SS, str_CS, str_CSCS, str_CS2, str_
 extern str_D, str_2d02d, awtmstruct, byte_115114, byte_115116, byte_157191, byte_157193
 extern textline1, textline2, textline3, textline4, textline5, HmStarterGoalieMarks, HmBackupGoalieMarks, AwStarterGoalieMarks
 extern curevent, byte_176B91, byte_176B92, curevent_b2, curevent_b5, byte_176B95, curevent_b6, curevent_b7
-extern curevent_b8, byte_176B99, curevent_b9, goalevent, byte_179DC1, crowdlevel, curperiod
-extern penshotfox, penshotteam, EventLineTextIds, dword_11B310, dword_1571B3, hmtmlines, dword_1798AC
-extern dword_179918, dword_179920, optflags, TextStringWidth, gameclock, gameopts, gmode, hmroster
+extern curevent_b8, byte_176B99, curevent_b9, goalevent, CamShotMode, crowdlevel, curperiod
+extern penshotfox, penshotteam, EventLineTextIds, LastEventPlayer, dword_1571B3, hmtmlines, EventPanelLines
+extern NameFont, NamePanelBmp, optflags, TextStringWidth, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
 extern str_FmtParenD, strcat_, strcpy_, strlen_, QueueOverlayPanel, CloseTextOverlay, EndCameraShot, PaEvent
 extern GetLangText, TextSetFont, str_GoneForTheGame, str_S8, hmplstats, gsp, PenaltyEventCodes, hmscore
@@ -37,7 +37,7 @@ FormatPlayerName:
 .1:
         mov dword [byte ebp-08h], 96h
 .2:
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         add esp, byte 4
         push dword [byte ebp+014h]
@@ -150,7 +150,7 @@ FormatScorerName:
 .1:
         mov dword [byte ebp-0Ch], 96h
 .2:
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         add esp, byte 4
         push dword [byte ebp-08h]
@@ -251,7 +251,7 @@ FormatAssistNames:
         push textline2
         call sprintf_
         add esp, byte 18h
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         push textline2
@@ -294,7 +294,7 @@ BuildEventLines:
         push esi
         push edi
         enter 10h, 0
-        mov dword [dword_11B310], 0FFFFFFFFh
+        mov dword [LastEventPlayer], 0FFFFFFFFh
         mov byte [textline5], 0
         mov byte [textline4], 0
         mov byte [textline2], 0
@@ -306,7 +306,7 @@ BuildEventLines:
         movzx esi, byte [byte_176B91]
         movzx eax, byte [byte_176B95]
         movzx edx, byte [byte_176B92]
-        mov dword [dword_1798AC], esi
+        mov dword [EventPanelLines], esi
         test al, 2
         je short .2
         mov eax, 1Eh
@@ -447,7 +447,7 @@ BuildEventLines:
         test esi, esi
         sete al
         movzx eax, al
-        mov dword [dword_1798AC], eax
+        mov dword [EventPanelLines], eax
         jmp near .14
 .10:
         movzx eax, byte [curevent_b7]
@@ -500,7 +500,7 @@ BuildEventLines:
         mov edx, eax
         mov eax, textline2
         call strcat_
-        mov dword [dword_1798AC], esi
+        mov dword [EventPanelLines], esi
         jmp near .14
 .13:
         cmp eax, byte 3
@@ -510,7 +510,7 @@ BuildEventLines:
         movzx edi, byte [byte_176B92]
         mov dword [byte ebp-04h], eax
         mov eax, 25h
-        mov dword [dword_1798AC], esi
+        mov dword [EventPanelLines], esi
         call GetLangText
         mov edx, eax
         mov eax, textline3
@@ -542,7 +542,7 @@ BuildEventLines:
         mov eax, 3
         call QueueOverlayPanel
 .14:
-        mov dword [dword_11B310], 1F4h
+        mov dword [LastEventPlayer], 1F4h
 .15:
         leave
         pop edi
@@ -774,7 +774,7 @@ PostPenaltyEvent:
         call BuildEventLines
         cmp ebx, byte 17h
         jne short .1
-        movzx eax, byte [byte_179DC1]
+        movzx eax, byte [CamShotMode]
         cmp eax, byte 12h
         jne short .1
         mov eax, 7

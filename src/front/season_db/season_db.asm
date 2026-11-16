@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_7FF7F progbits alloc exec nowrite align=1
-extern BlackPalette, HmGoalieSwapped, HmStarterGoalieMarks, AwGoalieSwapped, byte_17BDAE, SeasonUserSim, SeasonUserSlot, byte_17CFB1
+extern BlackPalette, HmGoalieSwapped, HmStarterGoalieMarks, AwGoalieSwapped, TitleTextStyle, SeasonUserSim, SeasonUserSlot, byte_17CFB1
 extern byte_17D262, byte_17D26F, byte_17D270, byte_17D271, CompareTeamPoints, seasondb, dword_1174EC, statsplayoffs
 extern dword_117500, dword_117510, dword_11E4B8, hmtmlines, hmtmplstats, hmtmglstats, hmtmroster, SeasonGameOpts
 extern PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonDay, SeasonRandomSeed, dword_17CED6, dword_17D162, dword_17D1E2
@@ -1393,7 +1393,7 @@ SimSeasonGames:
         mov ebx, 140h
         push eax
         mov eax, 4Fh
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowProgressBox
 .4:
@@ -1525,7 +1525,7 @@ SimSeasonGames:
         mov eax, 50h
         mov ecx, 0C8h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowMessage
         cmp dword [SeasonType], byte 2

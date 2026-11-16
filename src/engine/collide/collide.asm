@@ -7,7 +7,7 @@ extern QuickShotChk, RemoveFromLines, ShotLaneOpen, SortCords, a2touchpuck, assi
 extern byte_115115, byte_115117, byte_1175A7, sflags3, byte_16514E, byte_16514F, OffsideCalled, PenBuf
 extern PenBuf_pl, iflags, byte_176BA5, byte_176BA7, collflag, crowdlevel, hmslotcount, awslotcount
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn
-extern FallDownsOff, nethit, dword_15E844, dword_16516E, dword_165172, dword_179D70, optflags, fox
+extern FallDownsOff, nethit, dword_15E844, dword_16516E, dword_165172, CamInjuredObj, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, puckvy, puckc
 extern PtrPuckFlags, PtrHomeNet, PtrAwayNet, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
@@ -4873,7 +4873,7 @@ setInjuryType:
         mov word [injurystop], ax
         movsx eax, word [dword esi+086h]
         movsx ebx, word [PerTimeTotal]
-        mov dword [dword_179D70], eax
+        mov dword [CamInjuredObj], eax
         movsx eax, word [gameclock]
         sub ebx, eax
         cmp eax, byte 3Ch

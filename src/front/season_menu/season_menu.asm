@@ -1,13 +1,14 @@
 ; The season menus: the season menu, standings, picking a season or record from a name index (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 extern SeasonUsers
 section s_794FF progbits alloc exec nowrite align=1
-extern __STOSB, BlackPalette, byte_11D74B, byte_17BDAE, SeasonUserTeam, SeasonUserSim, SeasonUserFlag, SeasonUserSlot
+extern __STOSB, BlackPalette, byte_11D74B, TitleTextStyle, SeasonUserTeam, SeasonUserSim, SeasonUserFlag, SeasonUserSlot
 extern SeasonGameHome, SeasonGameAway, byte_17CECD, byte_17CECE, byte_17CFB1, byte_17D262
 extern byte_17D26F, byte_17D270, byte_17D271, byte_184B28, DrawArtOpaque, DrawColorText, DrawColorTextCentred, DrawScrollBar
 extern DrawSeasonTeams, dword_1150D8, gameresult, seasondb, statsfromleague, statsplayoffs, dword_117500, dword_117510
-extern dword_11D59C, dword_11D674, dword_11D744, dword_11E39C, MatchupLayer, TeamStatsBitmap, str_Standings, SeasonGameOpts
+extern dword_11D59C, dword_11D674, dword_11D744, dword_11E39C, MatchupLayer, TeamStatsBitmap, SeasonGameOpts
 extern PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonOver, SeasonDay, SeasonGamePending, SeasonRandomSeed, dword_17CED6
 extern dword_17D1E2, dword_17D202, statsbgshapes, dword_17D7D0, FadeOut, FadePalette, FileClose, FileOpenRead
 extern FillBox, FillMusicStream, FreeScrollBar, FreeStatsTables, gameopts, GetLangText, HideMessage, HideProgressBox
@@ -118,7 +119,7 @@ SeasonMenuScreen:
         rep movsb
         mov ecx, 66h
         lea edi, [dword ebp-0B5Ch]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-0B7Dh], 4
         rep movsb
         mov dword [byte ebp+07Eh], 0FFFFFFFFh
@@ -511,7 +512,7 @@ SeasonMenuScreen_7AC:
         push dword 140h
         mov eax, 29h
 .15:
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push byte 0
         lea ebx, [byte ebp+062h]
 .16:
@@ -785,7 +786,7 @@ SeasonMenuScreen_AF7:
         push byte 2
         push byte 0
         push dword 0F0h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push dword 140h
         lea ebx, [byte ebp+062h]
         mov dword [byte ebp+062h], eax
@@ -1030,7 +1031,7 @@ StandingsScreen:
         lea edi, [dword ebp-0106h]
         call TextSetFont
         add esp, byte 4
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov ecx, 66h
         push str_1WST
         rep movsb
@@ -2126,7 +2127,7 @@ SimulateRestOfSeason:
         mov eax, 34h
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowMessage
         mov eax, dword [PlayoffTreeData]
@@ -2165,7 +2166,7 @@ SimulateRestOfSeason:
         push dword 0F0h
         mov eax, 36h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+036h]
         push byte 0
         mov edx, 1
@@ -2182,7 +2183,7 @@ SimulateRestOfSeason:
         push dword 0F0h
         mov eax, 37h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+036h]
         push byte 0
         mov edx, edi
@@ -2195,7 +2196,7 @@ SimulateRestOfSeason:
         add eax, byte 64h
         push eax
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+026h]
         push byte 0
         mov edx, 2
@@ -2226,7 +2227,7 @@ SimulateRestOfSeason:
         mov edi, eax
         push dword [byte ebp+04Eh]
         mov eax, 39h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowProgressBox
         mov edx, 4
@@ -3033,7 +3034,7 @@ RunSeasonMenus_25A:
         mov ecx, 0C8h
         add esp, byte 0Ch
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowMessage
         imul ecx, dword [SeasonDay], dword 31Bh
@@ -3171,7 +3172,7 @@ PickIndexEntryScreen:
         mov byte [dword ebp-0B73h], 0
         mov ecx, 66h
         lea edi, [dword ebp-0B50h]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-0B74h], 0
         push str_BT003
         rep movsb
@@ -3489,7 +3490,7 @@ PickIndexEntryScreen:
         push byte 0
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+052h]
         push byte 0
         mov eax, 3Fh
@@ -3558,7 +3559,7 @@ PickIndexEntryScreen:
         push dword 0F0h
         push dword 140h
         mov eax, 40h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push byte 0
         lea ebx, [byte ebp+052h]
         jmp near .25
@@ -3633,7 +3634,7 @@ PickIndexEntryScreen:
         push byte 0
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+04Eh]
         push byte 0
         mov edx, 2

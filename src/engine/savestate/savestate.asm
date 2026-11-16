@@ -8,7 +8,7 @@ section s_4DED8 progbits alloc exec nowrite align=1
 extern awtmstruct, sflags3, awroster, byte_15864E, byte_15864F, byte_158650, pad2dev, pad1dev
 extern PenBuf, iflags, curevent, collflag, curperiod, GameLoopFrames, dword_1150D8
 extern PreGameSkateOn, onetimerflag, penshotfox, penshotteam, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
-extern sopathend, sopathpoint, pspathside, pspathdir, dword_11B364, GameFrameCount, hmtmlines, hmtmplattr
+extern sopathend, sopathpoint, pspathside, pspathdir, CamFollowObj, GameFrameCount, hmtmlines, hmtmplattr
 extern hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmlines, awtmplattr
 extern awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec, awtmsort, ReplayBufferTop, SeasonGameOpts
 extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, dword_17D162, dword_17D267, energywarn, exitgame, fadeinpending
@@ -26,7 +26,7 @@ extern passspeed, xc1, ltx, HomeControlSlot, AwayControlSlot, HomeSecondControlS
 extern refsignal, RefStep, StoppageReason, Penaltytimer, clockticks, SortPending, energywarn_aw, lcblink_aw
 extern lcblinktime, lcblinktime_aw, lcsel, lcsel_aw, lcline_aw, lctimer, lctimer_aw, lcboxon_aw
 extern ObjInitFrame, ObjInitAttr, ovltimer, injurystop, bannermsg, bannertimer, lldispodd, ltack
-extern SavedGameMode, word_11B274, ovlstep, lastsfx, PuckCrossSave, puckcross
+extern SavedGameMode, SavedViewMode, ovlstep, lastsfx, PuckCrossSave, puckcross
 extern PeriodEventCount, GameEventFlags, AwBackupGoalieMarks, fofdata2, SavedPlayerWords, word_176B7C, PerTimeTotal
 extern LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, yc1
 global SaveGameState, SaveGameState_7DD, LoadGameState, ReadSeasonDbHeader, ReadSeasonDbHeader_C2, ReadSeasonDbHeader_C4, ReadSeasonDbHeader_C8, ReadPlayoffDbHeader
@@ -544,7 +544,7 @@ SaveGameState:
         inc eax
         mov dx, word [pspathdir]
         mov word [eax], dx
-        mov ebx, dword [dword_11B364]
+        mov ebx, dword [CamFollowObj]
         inc eax
         inc eax
 .11:
@@ -1251,7 +1251,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_11B274], dx
+        mov word [SavedViewMode], dx
         mov ax, word [eax]
         mov word [ovlstep], ax
 .11:

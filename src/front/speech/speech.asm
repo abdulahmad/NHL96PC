@@ -4,12 +4,12 @@ bits 32
 section s_67000 progbits alloc exec nowrite align=1
 extern _dos_gettime_, AsyncCancelRequest, AsyncClose, AsyncInit, asyncreader, AsyncRequestDone, AsyncRequestOpen, AsyncRequestSection
 extern byte_17C60C, str_Z_OpenSpeechBanks, dword_11D242, str_Punct_OpenSpeechBanks, speechq, dword_11D37E, dword_11D38A
-extern speechinit, dword_17C4A0, dword_17C4A4, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
+extern speechinit, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
 extern dword_17C5D0, dword_17C5FC, dword_17C600, GetTicks, globalset, MakeDataPath, optflags, rand_
 extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, OpenSpeechQueue, SetSpeechQueueVolume
 extern AddSpeechQueueClip, SpeechQueueBusy, StartSpeechQueue, FlushSpeechQueue, CloseSpeechQueue, DosOpenReadOnly, DosCloseFile, DosReadFile
-extern DosSeekFile, word_11D23A, word_11D356, word_11D382, word_11D384, word_11D386, word_11D388, word_17C49C
-extern word_17C49E, word_17C63E, word_17C640
+extern DosSeekFile, word_11D23A, word_11D356, word_11D382, word_11D384, word_11D386, word_11D388, SpeechClipQueue
+extern word_17C63E, word_17C640
 global FindClipIndex, FindClipIndex_55, FindClipIndex_56, FindTeamPairClip, FindTeamPairClip_85, ResetSpeechChannels, OpenSpeechBanks, InitSpeech
 global ShutdownSpeech, FreeSpeechBuffer, RestoreSpeechBuffer, RestoreSpeechBuffer_32, SetSpeechVolume, SpeechBusy, QueueSpeechClip, CountRecordGame
 global RecordPctClip, RecordStreakClips, unk_67981, jpt_6799B, unk_679D3, jpt_679E7, jpt_67A13, jpt_67A43
@@ -208,7 +208,7 @@ OpenSpeechBanks:
         add esp, byte 4
 .1:
         mov ecx, 120h
-        mov edi, word_17C49C
+        mov edi, SpeechClipQueue
         xor eax, eax
         rep stosb
         mov word [word_11D386], 0
@@ -339,7 +339,7 @@ InitSpeech:
         lea ebx, [byte eax+028h]
         mov ecx, 120h
         mov eax, 0Eh
-        mov edi, word_17C49C
+        mov edi, SpeechClipQueue
         call OpenSpeechQueue
         mov dword [dword_11D37E], 0FFFFFFFFh
         mov byte [byte_17C60C], 0
@@ -543,15 +543,15 @@ QueueSpeechClip:
 .1:
         movsx eax, word [word_11D384]
         imul eax, byte 0Ch
-        mov word [dword eax+word_17C49C], bx
+        mov word [dword eax+SpeechClipQueue], bx
         mov edx, dword [nosplit ebx*4+dword_17C600]
-        mov word [dword eax+word_17C49E], cx
+        mov word [dword eax+SpeechClipQueue+2], cx
         mov ebx, dword [edx+ecx*4]
-        mov dword [dword eax+dword_17C4A0], ebx
+        mov dword [dword eax+SpeechClipQueue+4], ebx
         mov edx, dword [byte edx+ecx*4+04h]
         sub edx, ebx
         inc word [word_11D386]
-        mov dword [dword eax+dword_17C4A4], edx
+        mov dword [dword eax+SpeechClipQueue+8], edx
         pop esi
         pop ecx
         pop ebx
@@ -2117,7 +2117,7 @@ StopSpeech:
         call FlushSpeechQueue
 .3:
         mov ecx, 120h
-        mov edi, word_17C49C
+        mov edi, SpeechClipQueue
         xor eax, eax
         rep stosb
         xor esi, esi
@@ -2248,17 +2248,17 @@ StopSpeech_207:
         mov word [word_11D382], dx
         movsx edx, si
         imul esi, edx, byte 14h
-        movsx edi, word [dword eax+word_17C49C]
+        movsx edi, word [dword eax+SpeechClipQueue]
         mov dword [dword esi+dword_17C5C0], edi
         imul edi, edx, dword 1CE4Eh
         mov edx, dword [speechq]
         add edx, edi
         mov dword [dword esi+dword_17C5C8], edx
-        mov edx, dword [dword eax+dword_17C4A4]
+        mov edx, dword [dword eax+SpeechClipQueue+8]
         push edx
         push dword [dword esi+dword_17C5C8]
         mov dword [dword esi+dword_17C5D0], 0FFFFFFFFh
-        push dword [dword eax+dword_17C4A0]
+        push dword [dword eax+SpeechClipQueue+4]
         mov dword [dword esi+dword_17C5CC], edx
         call AsyncRequestSection
         mov dword [dword esi+dword_17C5C4], eax

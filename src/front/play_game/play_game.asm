@@ -5,9 +5,9 @@ extern TeamRosterPtrs
 extern GsOptions
 section s_168DA progbits alloc exec nowrite align=1
 extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, textline2, textline3, textline4, textline5
-extern byte_17BDAE, SeasonGameHome, SeasonGameAway, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
+extern TitleTextStyle, SeasonGameHome, SeasonGameAway, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
 extern DrawGameStats_DD0, SimSlotButtons, InputRecordIndex, GameLoopFrames, dword_1150D4
-extern gameresult, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5C0, dword_11F5C4, SlotInput
+extern gameresult, LastEventPlayer, dword_11D3A6, dword_11D91F, dword_11F5C0, dword_11F5C4, SlotInput
 extern GameFrameCount, MenuRemoteCursorArt, MenuCursorPixels
 extern dword_152F58, MenuBitmapPixels, dword_157AF4, PlayoffTreeData, dword_17D162, dword_17D267, exitgame, fadeinpending
 extern GameLoopActive, gameopts, gameover, GetTicks, gmode, InGameMenuRequest, InitSlotTable, InputRecordBusy
@@ -248,7 +248,7 @@ PlayMenuGame_280:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-0Ch]
         push byte 0
         mov eax, 3Fh
@@ -543,12 +543,12 @@ RunSimFrames:
         mov word [bannertimer], 0
         mov word [bannermsg], 0FFFFh
 .6:
-        cmp dword [dword_11B310], byte 0FFFFFFFFh
+        cmp dword [LastEventPlayer], byte 0FFFFFFFFh
         je short .7
-        dec dword [dword_11B310]
-        cmp dword [dword_11B310], byte 0
+        dec dword [LastEventPlayer]
+        cmp dword [LastEventPlayer], byte 0
         jge short .7
-        mov dword [dword_11B310], 0FFFFFFFFh
+        mov dword [LastEventPlayer], 0FFFFFFFFh
         mov byte [textline5], 0
         mov byte [textline4], 0
         mov byte [textline2], 0

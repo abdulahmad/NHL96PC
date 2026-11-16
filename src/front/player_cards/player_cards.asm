@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_903B5 progbits alloc exec nowrite align=1
-extern __CHP, asc_1129CF, str_S_ExportPlayerCard, byte_11E844, byte_11E852, byte_17BDAE, SeasonUserTeam, byte_17D13A
+extern __CHP, asc_1129CF, str_S_ExportPlayerCard, byte_11E844, byte_11E852, TitleTextStyle, SeasonUserTeam, byte_17D13A
 extern byte_17EBF0, byte_182124, CheckExportName, DrawColorText, DrawColorTextCentred, DrawFrameAt, DrawScrollBar, F32_0p5_ScaleBlock
 extern dword_11E670, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B, dword_11E87F, dword_11E883, dword_11E887
 extern dword_11E88B, TeamStatsBitmap, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820A0, dword_1820A4
@@ -1653,7 +1653,7 @@ PlayerCardScreen:
         push byte 2
         push byte 0
         push dword 0F0h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         mov dword [byte ebp-03Ch], eax
         push dword 1E0h
         mov eax, dword [dword ebp-0858h]
@@ -3325,7 +3325,7 @@ ExportPlayerCard:
         lea eax, [byte ebp-030h]
         push eax
         push dword 0F0h
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         push dword 140h
         mov eax, 0D3h
         mov ecx, 8
@@ -3352,7 +3352,7 @@ ExportPlayerCard:
         mov edi, eax
         mov esi, eax
         mov eax, 34h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowProgressBox
         cmp dword [byte ebp-04Ch], 3E7h

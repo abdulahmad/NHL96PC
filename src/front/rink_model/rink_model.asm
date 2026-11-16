@@ -41,7 +41,7 @@ extern CameraFlashOn, dword_15E880, BenchSideIndex, NeutralSpotModel, CenterSpot
 extern BenchLineModel, dword_15E8C4, dword_15E8C8, dword_15E8CC, dword_15E8D0, dword_15E8D4, dword_15E8D8, dword_15E8DC
 extern dword_15E8E0, dword_15E8E4, RinkSidesModel, dword_15E8EC, dword_15E8F0, dword_15E8F4, dword_15E8F8, dword_15E8FC
 extern dword_15E900, dword_15EA04, dword_15EA08, dword_1770B7, dword_1770BB, dword_1770BF, dword_1770C3, dword_1770C7
-extern dword_1770CB, dword_1770CF, dword_1797FC, dword_179800, dword_1798E4, dword_1798E8, dword_17997C, dword_179AC8
+extern dword_1770CB, dword_1770CF, SpriteScreenX, SpriteScreenY, RubberFaceBmp, RubberSideBmp, ShowMarkers, SpriteFrameIds
 extern dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, TexturePageBase, TextureDetail, FatalError, gameopts
 extern GetTicks, LoadPackedFile, mousex, mousey, PBnum, PutBlock, F64_0p00138889, F64_65536
 extern randomd0, SetDrawBitmap, SortCords, sprintf_, str_B00, str_B0DD, str_B1DD, str_B2DD
@@ -1260,7 +1260,7 @@ DrawStandsQuad:
 RubberSideFace:
         push ebx
         push ecx
-        push dword [dword_1798E8]
+        push dword [RubberSideBmp]
 RubberSideFace_8:
         mov ebx, dword [edx]
         mov ecx, dword [byte edx+04h]
@@ -1279,7 +1279,7 @@ RubberSideFace_8:
 RubberFace:
         push ebx
         push ecx
-        push dword [dword_1798E4]
+        push dword [RubberFaceBmp]
         jmp short RubberSideFace_8
 ;-----------------------------------------------------------------------------
 ; DrawStandsSideQuad                              224DB  96 PC, low confidence
@@ -8323,7 +8323,7 @@ DrawRinkPlayers:
         mov eax, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp+076h], eax
         mov eax, dword [byte ebp+06Eh]
-        push dword [dword eax+dword_179AC8]
+        push dword [dword eax+SpriteFrameIds]
         call SpriteScale
         add esp, byte 4
         mov edx, dword [byte ebp+07Eh]
@@ -8357,7 +8357,7 @@ DrawRinkPlayers:
         mov eax, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp+07Ah], eax
         mov eax, dword [byte ebp+06Eh]
-        push dword [dword eax+dword_179AC8]
+        push dword [dword eax+SpriteFrameIds]
         call SpriteScale
         add esp, byte 4
         push byte 1
@@ -8376,8 +8376,8 @@ DrawRinkPlayers:
         mov edx, dword [byte ebp+072h]
         mov eax, dword [byte ebp+07Ah]
 .5:
-        mov ebx, dword [dword ebx+dword_179800]
-        mov edx, dword [dword edx+dword_1797FC]
+        mov ebx, dword [dword ebx+SpriteScreenY]
+        mov edx, dword [dword edx+SpriteScreenX]
         call DrawRinkSprite
 .6:
         add dword [byte ebp+072h], byte 8
@@ -8407,8 +8407,8 @@ DrawBenchPlayers:
         cmp byte [byte_1175AB], 0
         je near DrawBenchPlayers_F6
         imul esi, eax, byte 1Ch
-        mov edx, dword [dword_17997C]
-        mov dword [dword_17997C], 0
+        mov edx, dword [ShowMarkers]
+        mov dword [ShowMarkers], 0
         mov dword [byte ebp-018h], edx
         add esi, dword_15D0A8
         cmp dword [byte ebp-048h], byte 0
@@ -8473,7 +8473,7 @@ DrawBenchPlayers:
         jne near .2
         mov eax, dword [byte ebp-018h]
 DrawBenchPlayers_F1:
-        mov dword [dword_17997C], eax
+        mov dword [ShowMarkers], eax
 DrawBenchPlayers_F6:
         leave
         pop edi
@@ -8665,8 +8665,8 @@ DrawPenaltyBoxPlayers:
         push edi
         enter 44h, 0
         push edx
-        mov edx, dword [dword_17997C]
-        mov dword [dword_17997C], 0
+        mov edx, dword [ShowMarkers]
+        mov dword [ShowMarkers], 0
         mov dword [byte ebp-08h], edx
         cmp dword [InReplay], byte 0
         je short .1

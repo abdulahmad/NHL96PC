@@ -1,10 +1,11 @@
 ; The new season: its set-up screen, creating the season files, the season and playoff database paths (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 section s_77442 progbits alloc exec nowrite align=1
-extern __CHP, __STOSB, __STOSD, byte_11D74F, byte_11D754, byte_17BDAE, SeasonUserTeam, SeasonUsers
+extern __CHP, __STOSB, __STOSD, byte_11D74F, byte_11D754, TitleTextStyle, SeasonUserTeam, SeasonUsers
 extern SeasonUserFlag, SeasonUserSlot, byte_17D13A, byte_17D6C8, DrawArtOpaque, DrawColorTextCentred, DrawFrameAt, dword_11D59C
-extern dword_11D744, str_2_DrawSeasonTeams, dword_11E2EC, dword_11E304, dword_11E320, MatchupLayer, TeamStatsBitmap, str_Standings
+extern dword_11D744, str_2_DrawSeasonTeams, dword_11E2EC, dword_11E304, dword_11E320, MatchupLayer, TeamStatsBitmap
 extern PlayoffTreeData, SeasonType, SeasonOver, SeasonRandomSeed, cddriveptr, dword_17D1E2, dword_17D267, dword_17D7C8
 extern dword_17D7D0, EditText, FadeOut, FadePalette, FileClose, FileCopy, FileOpenRead, FileOpenReadWrite
 extern FileReadAt, FileWriteAt, FillMusicStream, FreeStatsTables, gameopts, GetLangText, GetTicks, HideProgressBox
@@ -407,7 +408,7 @@ NewSeasonScreen:
         mov byte [dword ebp-0992h], 3
         mov ecx, 66h
         lea edi, [dword ebp-096Eh]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-0991h], 3
         add esp, byte 8
         rep movsb
@@ -455,7 +456,7 @@ NewSeasonScreen:
         mov eax, 48h
         push dword 140h
         mov ecx, 1Eh
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         call GetLangText
         mov edx, eax
         xor eax, eax
@@ -484,7 +485,7 @@ NewSeasonScreen:
         push byte 0
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         mov eax, 4Ah
         push byte 0
         lea ebx, [byte ebp-02h]
@@ -495,7 +496,7 @@ NewSeasonScreen:
         push byte 0
         push dword 0F0h
         mov dword [byte ebp+07Eh], 1
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push dword 140h
         lea ebx, [byte ebp+0Ah]
         mov dword [SeasonType], eax
@@ -768,7 +769,7 @@ NewSeasonScreen_8E0:
         push dword 0F0h
         push dword 140h
         mov eax, 4Ch
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push byte 0
         lea ebx, [byte ebp+01Ah]
         mov edx, 1
@@ -1346,7 +1347,7 @@ CreateSeason:
         push byte 0Ah
         mov eax, 4Dh
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         mov dword [PlayoffTreeData], esi
         call GetLangText
         call ShowProgressBox
@@ -1813,7 +1814,7 @@ CreateSeason:
         push dword 0F0h
         push dword 140h
         mov eax, 267h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push byte 0
         lea ebx, [byte ebp+052h]
         mov edx, 1
@@ -1858,7 +1859,7 @@ EditSeasonName:
         mov ecx, 0Bh
         push dword 140h
         mov eax, 4Eh
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         call GetLangText
         mov edx, eax
         xor eax, eax
@@ -2059,7 +2060,7 @@ MakePlayoffDbPath:
         mov eax, 3Ah
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowProgressBox
         push byte 0FFFFFFFFh
@@ -2158,7 +2159,7 @@ ResetSeasonFiles:
         mov eax, 3Bh
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowProgressBox
         xor ecx, ecx
@@ -2232,7 +2233,7 @@ ResetSeasonFiles:
         push dword 0C8h
         push dword 140h
         mov eax, 3Ch
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push ebx
         mov edx, 2
         lea ebx, [byte ebp-01Ch]
@@ -2246,7 +2247,7 @@ ResetSeasonFiles:
         mov eax, 3Dh
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowProgressBox
         push byte 0FFFFFFFFh

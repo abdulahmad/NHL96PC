@@ -1,15 +1,16 @@
 ; The roster screens: trades, free agents, creating players, team ranks (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 extern SeasonUsers
 section s_971E9 progbits alloc exec nowrite align=1
-extern __CHP, __STOSD, AutoSetLines, byte_11E844, byte_11E852, byte_17BDAE, SeasonUserSlot
+extern __CHP, __STOSD, AutoSetLines, byte_11E844, byte_11E852, TitleTextStyle, SeasonUserSlot
 extern byte_17EBF0, byte_182296, byte_1843B8, DrawColorText, DrawColorTextRight, DrawFrameAt, DrawScrollBar
 extern F32_0p001, F32_0p0208333, F32_0p00333333, F32_390, F32_0p005, F32_100, F32_neg50, F32_0p002
 extern F32_0p0111111, F32_0p1, F32_0p0142857, F32_0p0333333, F32_58, F32_90, F32_0p01, F32_347
 extern dword_1174E4, dword_1174EC, statsplayoffs, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514
 extern dword_11E670, dword_11E678, dword_11E7E0, dword_11E85B, dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown
-extern dword_11E904, TeamStatsBitmap, str_Standings, PlayoffTreeData, dword_17D162, dword_17EEF0, dword_17FDF0, dword_17FDF4
+extern dword_11E904, TeamStatsBitmap, PlayoffTreeData, dword_17D162, dword_17EEF0, dword_17FDF0, dword_17FDF4
 extern dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_182140, dword_182144, dword_1822B8
 extern dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, RosterBackFile, dword_183024, dword_1843B0, dword_1843B4
 extern EditText, FadeOut, FadePalette, FillBox, FillRect, FreeScrollBar, gameopts, GetLangText
@@ -571,7 +572,7 @@ RosterScreen:
         rep movsb
         mov ecx, 66h
         lea edi, [dword ebp-03654h]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         rep movsb
         cmp dword [dword ebp-036CAh], byte 0
         jne near .23
@@ -1564,7 +1565,7 @@ RosterScreen:
         push byte 1
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-02Ah]
         push byte 0
         mov eax, 1FDh
@@ -2832,7 +2833,7 @@ RosterScreen:
         push byte 1
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-02Ah]
         push byte 0
         mov eax, 1FEh
@@ -4177,7 +4178,7 @@ EditPlayerName:
         push eax
         push dword 0F0h
         mov ecx, 3
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         push dword 140h
         lea edx, [byte ebp-022h]
         xor eax, eax
@@ -4221,7 +4222,7 @@ ConfirmTrade:
         push byte 0
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         mov edx, 1
         push byte 0
         lea ebx, [byte ebp-04h]
@@ -4536,7 +4537,7 @@ CreatePlayerScreen:
         add esp, byte 0Ch
         mov ecx, 66h
         lea edi, [dword ebp-01ECCh]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov dword [byte ebp+03Eh], eax
         push str_NME0
         rep movsb
@@ -4756,7 +4757,7 @@ CreatePlayerScreen_6BE:
         push byte 2
         push byte 1
         push dword 0F0h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push dword 140h
         lea ebx, [byte ebp+022h]
         mov dword [byte ebp+026h], eax
@@ -4795,7 +4796,7 @@ CreatePlayerScreen_71A:
         push dword 140h
         mov eax, 201h
 .15:
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push byte 0
         lea ebx, [byte ebp+022h]
         mov edx, 1
@@ -4853,7 +4854,7 @@ CreatePlayerScreen_71A:
         push byte 0
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+022h]
         push byte 0
         mov edx, 2
@@ -4868,7 +4869,7 @@ CreatePlayerScreen_71A:
         push byte 0
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+022h]
         push byte 0
         mov edx, 2
@@ -5013,7 +5014,7 @@ CreatePlayerScreen_8F5:
         push dword 0F0h
         push dword 140h
         mov eax, 203h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push byte 0
         lea ebx, [byte ebp+022h]
         mov edx, 2
@@ -5120,7 +5121,7 @@ CreatePlayerScreen_BD2:
         mov ecx, 0Ch
         push dword 140h
         mov eax, 204h
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         call GetLangText
         mov edx, eax
         xor eax, eax
@@ -5131,7 +5132,7 @@ CreatePlayerScreen_BD2:
         mov ecx, 0Ch
         push dword 140h
         mov eax, 205h
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         call GetLangText
         mov edx, eax
         xor eax, eax
@@ -5214,7 +5215,7 @@ CreatePlayerScreen_CF7:
         mov ecx, 3
         push dword 140h
         mov eax, 206h
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         call GetLangText
         mov edx, eax
         xor eax, eax

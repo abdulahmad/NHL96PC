@@ -1,10 +1,11 @@
 ; User records: LOCAL.NDX of user names, the user record files, picking users for the controllers, the user records screen (96 PC).
 bits 32
 %include "hockey.inc"
+extern SideBarArt
 section s_2A3D6 progbits alloc exec nowrite align=1
 extern str_Punct_ExportUserRecords, str_ExportDashes, str_ExportSpacesWide, str_ExportSpaces, UserNameBuf
 
-extern byte_17BDAE, DeleteFiles
+extern TitleTextStyle, DeleteFiles
 extern UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J, str_V, dword_11F5C0, dword_11F5C4, UserMenuBoxes
 extern UserRecordList
 extern UserStreakField, UserOpponentColumn, UserPowerPlayField, UserShutoutField, UserGoalsAgainstField, UserLongStreakField, UserGoalsForField, UserRatingColumn
@@ -14,8 +15,8 @@ extern UserShutoutColumn, UserNameIndex, UserStreakColumn, UserNameField, UserLo
 
 
 
-extern dword_17BC74, TeamStatsBitmap, dword_17BC96, dword_17BCA2
-extern dword_17BCA6, EditText, fclose_, FileClose, FileCreate, FileOpenRead, FileOpenReadWrite, FileReadAt
+extern FrontEndScreenBmp, TeamStatsBitmap
+extern EditText, fclose_, FileClose, FileCreate, FileOpenRead, FileOpenReadWrite, FileReadAt
 extern FileWriteAt, fopen_, fprintf_, TextStringWidth, gameopts, GetPressedDevice, HideMessage, LoadPackedFile
 extern MakeDirPath, MessageBox, MouseRead, NameIndexAdd, NameIndexFirstId, NameIndexFree, NameIndexId, NameIndexLoad
 extern NameIndexNew, NameIndexPath, NameIndexRemove, NameIndexSave, LogoNames, optflags, PutBlock, qsort_
@@ -291,7 +292,7 @@ DeleteUser:
         push byte 1
         push dword 0C8h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-0Ch]
         push byte 0
         mov edx, 2
@@ -352,7 +353,7 @@ DeleteUser:
         mov edx, eax
         lea eax, [byte ebp-05Ch]
         call strcpy_
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         lea eax, [byte ebp-05Ch]
         mov ecx, dword [dword_11F5C4]
         mov ebx, dword [dword_11F5C0]
@@ -395,7 +396,7 @@ NewUser:
         mov ecx, 1Eh
         push dword 140h
         mov eax, 6Ah
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         call GetLangText
         mov edx, eax
         xor eax, eax
@@ -432,7 +433,7 @@ NewUser:
         mov edx, eax
         lea eax, [byte ebp-068h]
         call strcpy_
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         lea eax, [byte ebp-068h]
         mov ecx, dword [dword_11F5C4]
         mov ebx, dword [dword_11F5C0]
@@ -465,7 +466,7 @@ NewUser:
         mov edx, eax
         lea eax, [byte ebp-068h]
         call strcpy_
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         lea eax, [byte ebp-068h]
         mov ecx, dword [dword_11F5C4]
         mov ebx, dword [dword_11F5C0]
@@ -749,7 +750,7 @@ PickUsersScreen:
         push eax
         call SaveTextState
         add esp, byte 4
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
         lea edx, [dword ebp-0CB8h]
@@ -1091,7 +1092,7 @@ PickUsersScreen:
         push eax
         call SetDrawTarget
         mov eax, 71h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         mov ecx, dword [dword_11F5C4]
         mov ebx, dword [dword_11F5C0]
         add esp, byte 4
@@ -1099,7 +1100,7 @@ PickUsersScreen:
         sar ebx, 1
         call GetLangText
         call ShowMessage
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
 .15:
@@ -1204,7 +1205,7 @@ PickUsersScreen:
         test eax, eax
         sete al
         movzx eax, al
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         mov dword [byte ebp-020h], eax
         mov dword [byte ebp-018h], eax
         call TextSetFont
@@ -1228,7 +1229,7 @@ PickUsersScreen:
         push eax
         call SetDrawTarget
         mov eax, 70h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         mov ecx, dword [dword_11F5C4]
         mov ebx, dword [dword_11F5C0]
         add esp, byte 4
@@ -1236,7 +1237,7 @@ PickUsersScreen:
         sar ebx, 1
         call GetLangText
         call ShowMessage
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
 .27:
@@ -2546,9 +2547,9 @@ DrawUserRecords_3F0:
         dec eax
         cmp eax, dword [byte ebp-02Ch]
         jg near DrawUserRecords.6
-        push dword [dword_17BCA6]
-        push dword [dword_17BCA2]
-        push dword [dword_17BC96]
+        push dword [SideBarArt+1Ah]
+        push dword [SideBarArt+16h]
+        push dword [SideBarArt+0Ah]
         call PutBlock
         add esp, byte 0Ch
         test edi, edi
@@ -2877,7 +2878,7 @@ ExportUserRecords:
         mov ecx, 9
         push dword 140h
         mov eax, 0D3h
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         call GetLangText
         mov edx, eax
         xor eax, eax
@@ -2900,7 +2901,7 @@ ExportUserRecords:
         test eax, eax
         jne short .3
         mov eax, 6Ch
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         mov ecx, dword [dword_11F5C4]
         mov ebx, dword [dword_11F5C0]
         sar ecx, 1
@@ -3464,7 +3465,7 @@ UserRecordsScreen:
         push eax
         call SaveTextState
         add esp, byte 4
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
         mov eax, 133h
@@ -4020,7 +4021,7 @@ UserRecordsScreen_AD5:
 .27:
         mov dword [byte ebp+02Eh], 0
 .28:
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         mov ecx, dword [byte ebp+03Eh]
         mov edx, dword [byte ebp+03Ah]
@@ -4035,7 +4036,7 @@ UserRecordsScreen_B4F:
         add esp, byte 4
         call ExportUserRecords
 .29:
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
         jmp near UserRecordsScreen_CC6.42

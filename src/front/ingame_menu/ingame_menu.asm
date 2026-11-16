@@ -8,9 +8,9 @@ extern byte_11D91C, byte_11D91D, byte_11FA2F, byte_1820F1, byte_1843CC, byte_184
 extern byte_1844B4, byte_1844B6, byte_18451B, byte_184580, byte_184581, byte_184583, byte_1845E6, byte_1845E7
 extern byte_1845E8, byte_18464C, byte_18464E, byte_18464F, byte_1846C4, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdFadeOut, CrowdNoiseReset, CrowdReaction, curperiod, DrawArtOpaque, DrawBox, DrawColorTextCentred
-extern DrawFrameAt, DrawGameFrame, DrawRinkView, dword_1150D4, gameresult, ReplayRemoteShape, dword_11B330, dword_11BC24
+extern DrawFrameAt, DrawGameFrame, DrawRinkView, dword_1150D4, gameresult, ReplayRemoteShape, ViewSizeStep, LastPaletteMode
 extern dword_11D3A6, dword_11D91F, dword_11ED30, dword_11F5C0, dword_11F5C4, dword_152F4C, MenuRemoteCursorArt, MenuCursorPixels
-extern dword_152F58, MenuBitmapPixels, dword_179918, dword_179920, GsOptions, SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs
+extern dword_152F58, MenuBitmapPixels, NameFont, NamePanelBmp, GsOptions, SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs
 extern dword_17CED6, dword_17CF92, dword_17D162, FrontShapeFile, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0
 extern dword_1843D0, dword_1843E4, dword_1843F8, dword_1843FC, dword_184400, dword_184404, dword_184408, dword_18441C
 extern dword_184420, dword_184426, dword_18442A, dword_18442E, dword_184432, dword_184436, dword_184446, dword_18444A
@@ -81,7 +81,7 @@ DrawInGameMenuFrame:
         call SetAaPalLut
         movzx edx, byte [byte_11D91D]
         movzx eax, byte [byte_11D91C]
-        mov dword [dword_11BC24], 0FFFFFFFFh
+        mov dword [LastPaletteMode], 0FFFFFFFFh
         call SetTextColors
         push byte 0
         push byte 0
@@ -146,7 +146,7 @@ DrawInGameMenuFrame:
         push unk_184692
         call sprintf_
         add esp, byte 0Ch
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         add esp, byte 4
         test byte [GsOptions+1], 20h
@@ -175,7 +175,7 @@ DrawInGameMenuFrame:
         push edx
         movsx edx, word [esi]
         call DrawBox
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         movzx edx, byte [byte_11D91D]
         add esp, byte 4
@@ -275,7 +275,7 @@ DrawInGameMenuFrame:
         push unk_184692
         call sprintf_
         add esp, byte 0Ch
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         add esp, byte 4
         test byte [GsOptions+1], 20h
@@ -304,7 +304,7 @@ DrawInGameMenuFrame:
         push edx
         movsx edx, word [byte esi+0Ah]
         call DrawBox
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         movzx edx, byte [byte_11D91D]
         add esp, byte 4
@@ -357,7 +357,7 @@ DrawInGameMenuFrame:
         movsx edx, word [byte eax+010h]
         mov eax, unk_17D3E8
         call DrawBox
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         movzx edx, byte [byte_11D91D]
         add esp, byte 4
@@ -917,7 +917,7 @@ InGameReturnMenu:
         cmp dword [byte ebp+07Eh], byte 3
         jl near .1
         call SetScreenTarget
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         push byte 0
@@ -1087,8 +1087,8 @@ InGameMenu:
         movsx ax, byte [byte_1175A7]
         mov byte [byte_1175A7], 1
         mov word [byte ebp-026h], ax
-        mov ax, word [dword_11B330]
-        mov dword [dword_11B330], 8
+        mov ax, word [ViewSizeStep]
+        mov dword [ViewSizeStep], 8
         mov word [byte ebp-024h], ax
         call SetGameViewSize
         push byte 20h
@@ -1780,7 +1780,7 @@ InGameMenu_ABD:
         mov byte [byte_1175A7], al
         movsx eax, word [byte ebp-024h]
         mov dword [dword_11D91F], 0
-        mov dword [dword_11B330], eax
+        mov dword [ViewSizeStep], eax
         call SetGameViewSize
         cmp dword [byte ebp-08h], byte 0
         je near .53
@@ -1829,7 +1829,7 @@ InGameMenu_D17:
         test eax, eax
         je short .54
         call RedrawInGameMenu
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         mov ecx, 30h

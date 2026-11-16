@@ -1,16 +1,18 @@
 ; The edit lines screen and the automatic lines (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
+extern SideBarArt
 section s_9CB19 progbits alloc exec nowrite align=1
-extern byte_157191, HmGoalieSwapped, byte_17BDAE, byte_17EBF0, byte_183098, byte_183099, byte_18309A, byte_183D0A
+extern byte_157191, HmGoalieSwapped, TitleTextStyle, byte_17EBF0, byte_183098, byte_183099, byte_18309A, byte_183D0A
 extern byte_1843B8, byte_1843B9, byte_1843BA, byte_1843C4, byte_1843C5, byte_1843CA, byte_1843CB, byte_1843CC
 extern byte_1843CD, byte_1843CE, byte_1843D4, byte_1843D5, byte_1843D6, byte_1843D7, byte_1843DC, byte_1843DD
 extern byte_1843DE, byte_1843DF, byte_1843E0, byte_1843E1, byte_1843E6, byte_1843E7, byte_1843E8, byte_1843EC
 extern byte_1843ED, byte_1843EE, DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, dword_1174EC, statsplayoffs
-extern dword_11D1A8, dword_11D1AC, dword_11E670, dword_11E678, dword_11E91C, dword_11E948, str_B_DrawLinesPanel, dword_11E9C0
+extern MenuMouseX, MenuMouseY, dword_11E670, dword_11E678, dword_11E91C, dword_11E948, str_B_DrawLinesPanel, dword_11E9C0
 extern dword_11EA10, str_V_DrawLinesPanel, dword_11EAB0, dword_11EAFC, str_T_DrawLinesPanel, dword_11EB88, dword_11EBC0, dword_11EBF8
 extern dword_11ECE8, dword_11ECEC, dword_11ED2C, MenuCursorPixels, dword_152F58, hmtmlines, hmtmroster, TeamStatsBitmap
-extern dword_17BC96, dword_17BCA2, dword_17BCA6, str_Standings, dword_17EEF0, dword_17FDEC, dword_17FDF0, dword_17FDF4
+extern dword_17EEF0, dword_17FDEC, dword_17FDF0, dword_17FDF4
 extern dword_181EAC, dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_183028
 extern dword_1836E8, dword_1836EC, dword_1836F0, dword_1836F4, dword_1836F8, dword_1836FC, dword_183700, dword_183704
 extern dword_183728, dword_18372C, dword_183730, dword_183734, dword_183738, dword_18373C, dword_183740, dword_183744
@@ -28,7 +30,7 @@ extern str_LName3, str_Nhl1, str_Nhl2, str_Nhl3, str_Pal28, str_Player3, str_Pro
 extern str_Scr22, str_Scr3, str_Sld12, str_Sldw, str_Slid2, str_Slu12, str_Slup, str_Sta13
 extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, StatsDb2Record
 extern DrawArt, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DrawArtOpaqueAtOwnPos, SetScreenTarget
-extern FindShape, ClearClipRect, TickDeadlinePassed, hmglattr, hmplattr, hmteamrec, unk_183D08, word_11D1B4
+extern FindShape, ClearClipRect, TickDeadlinePassed, hmglattr, hmplattr, hmteamrec, unk_183D08, MenuViewStored
 extern hmscore, awscore
 global unk_9CB19, CompareRosterOrder, ComparePlayerPos, PositionOrder, EditLinesHoverPanel, RunEditLines, EditLinesScreen, LinesValid
 global CountLineSlots, CountLineSlots_4DD, HasDuplicateInLine, HasDuplicateInLine_45, DrawLinesPanel, DrawLineJersey, DrawLineJersey_104, DrawLinesPlayerList
@@ -215,16 +217,16 @@ PositionOrder:
 ; Picks the edit lines panel under the mouse pointer
 ;-----------------------------------------------------------------------------
 EditLinesHoverPanel:
-        cmp dword [dword_11D1A8], 19Ah
+        cmp dword [MenuMouseX], 19Ah
         jge short .1
-        cmp dword [dword_11D1AC], byte 7Ah
+        cmp dword [MenuMouseY], byte 7Ah
         jle short .1
-        cmp dword [dword_11D1AC], 1BFh
+        cmp dword [MenuMouseY], 1BFh
         jge short .1
         cmp dword [dword_11ED2C], byte 0
         je short .1
         mov eax, dword [LinesIntroTeam]
-        mov word [word_11D1B4], 1
+        mov word [MenuViewStored], 1
         mov eax, dword [byte eax+02Ch]
         mov dword [dword_152F58], eax
         mov word [byte eax+08h], 19h
@@ -237,7 +239,7 @@ EditLinesHoverPanel:
         mov eax, dword [dword_18439C]
         mov dword [dword_152F58], eax
         mov eax, dword [LinesTeamText]
-        mov word [word_11D1B4], 0
+        mov word [MenuViewStored], 0
 .2:
         mov dword [MenuCursorPixels], eax
         ret
@@ -1190,7 +1192,7 @@ EditLinesScreen:
         mov byte [dword ebp-0F4Dh], 15h
         mov ecx, 66h
         lea edi, [dword ebp-0F2Ah]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-0F4Ch], 15h
         mov byte [dword ebp-0F4Bh], 1
         rep movsb
@@ -1951,7 +1953,7 @@ EditLinesScreen:
         mov dword [dword_11ED2C], 1
         jmp near .120
 .72:
-        mov word [word_11D1B4], 0
+        mov word [MenuViewStored], 0
         mov dword [dword_11ED2C], 0
         jmp near .120
 .73:
@@ -2077,7 +2079,7 @@ EditLinesScreen:
         push byte 3
         push byte 0
         push dword 0C8h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+01Eh]
         push dword 140h
         mov dword [dword_11ED2C], 0
@@ -2143,7 +2145,7 @@ EditLinesScreen:
         push byte 0
         push dword 0C8h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+01Eh]
         push byte 0
         mov edx, 2
@@ -2172,7 +2174,7 @@ EditLinesScreen:
         push byte 0
         push dword 0C8h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+01Eh]
         push byte 0
         mov edx, 2
@@ -2520,7 +2522,7 @@ EditLinesScreen:
         mov dword [dword_11ED2C], 1
         jmp short .118
 .117:
-        mov word [word_11D1B4], 0
+        mov word [MenuViewStored], 0
         mov dword [dword_11ED2C], 0
 .118:
         cmp dword [dword_1843B0], byte 3
@@ -2547,11 +2549,11 @@ EditLinesScreen:
 .121:
         cmp dword [byte ebp+056h], byte 0
         jge near .39
-        cmp dword [dword_11D1A8], 19Ah
+        cmp dword [MenuMouseX], 19Ah
         jge short .122
-        cmp dword [dword_11D1AC], byte 7Ah
+        cmp dword [MenuMouseY], byte 7Ah
         jle short .122
-        cmp dword [dword_11D1AC], 1BFh
+        cmp dword [MenuMouseY], 1BFh
         jge short .122
         cmp dword [dword_11ED2C], byte 0
         jne short .123
@@ -2559,7 +2561,7 @@ EditLinesScreen:
         mov eax, dword [dword_18439C]
         mov dword [dword_152F58], eax
         mov eax, dword [LinesTeamText]
-        mov word [word_11D1B4], 0
+        mov word [MenuViewStored], 0
         mov dword [MenuCursorPixels], eax
 .123:
         push byte 3
@@ -2571,7 +2573,7 @@ EditLinesScreen:
         lea edx, [dword ebp-017EEh]
         mov eax, 2Dh
         call RunMenu
-        cmp word [word_11D1B4], byte 0
+        cmp word [MenuViewStored], byte 0
         jne short .121
         mov eax, dword [dword_18439C]
         mov dword [dword_152F58], eax
@@ -2617,7 +2619,7 @@ EditLinesScreen:
         call FreeBitmap
         add esp, byte 4
         mov eax, 3
-        mov word [word_11D1B4], 0
+        mov word [MenuViewStored], 0
         call FadeOut
         mov eax, dword [dword_18439C]
         mov dword [dword_152F58], eax
@@ -3776,11 +3778,11 @@ DrawLinesPanel:
         mov dword [byte edx-028h], ebx
         cmp eax, 500h
         jne short .40
-        mov eax, dword [dword_17BCA6]
+        mov eax, dword [SideBarArt+1Ah]
         sub eax, byte 7Ah
         push eax
-        push dword [dword_17BCA2]
-        push dword [dword_17BC96]
+        push dword [SideBarArt+16h]
+        push dword [SideBarArt+0Ah]
         call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget

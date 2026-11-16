@@ -1,11 +1,12 @@
 ; The controller screen before a game: which controller plays for which team, with the users' names (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 section s_6CF0D progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, dword_1150D8
 extern dword_11D910, dword_11D914, dword_11D930, dword_11D940, dword_11D954, str_G, dword_11DED4, dword_11DF70
-extern dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5C0, dword_11F5C4, dword_17BC74, MatchupLayer, TeamStatsBitmap
-extern dword_17BCE2, str_Standings, PlayoffTreeData, dword_17D162, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
+extern dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5C0, dword_11F5C4, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap
+extern MenuBoxStyle, PlayoffTreeData, dword_17D162, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
 extern dword_17D57C, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut
 extern FadePalette, FillMusicStream, TextStringWidth, gameopts, GetInputDevices, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LinkSyncWithMessage, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey
@@ -1946,7 +1947,7 @@ DrawControllerColumns:
         mov esi, dword [byte ebp-028h]
         dec esi
         imul esi, byte 66h
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
         push str_Usri
@@ -2401,7 +2402,7 @@ DrawControllerColumns:
         mov esi, dword [byte ebp-028h]
         inc esi
         imul esi, byte 66h
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
         push str_Usri
@@ -2937,7 +2938,7 @@ ControllerScreen:
         cmp word [ControllerScreenMode], byte 0
         jne near .10
 .9:
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
         push str_Usri
@@ -3218,7 +3219,7 @@ ControllerScreen:
         cmp word [ControllerScreenMode], byte 0
         jne near .23
 .22:
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
         push str_Usri
@@ -3504,7 +3505,7 @@ ControllerScreen:
         mov esi, dword [dword_17D580]
         mov ecx, 66h
         lea edi, [dword esi+092Ah]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         rep movsb
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -3513,7 +3514,7 @@ ControllerScreen:
         mov esi, dword [dword_17D580]
         mov ecx, 66h
         lea edi, [dword esi+0990h]
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         rep movsb
 .34:
         mov edi, 4
@@ -3767,7 +3768,7 @@ ControllerScreen_11AB:
         mov edx, 0FEh
         mov eax, 0FDh
         call SetTextColors
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
         cmp dword [dword esi+dword_11D940], byte 0

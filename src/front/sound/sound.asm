@@ -13,7 +13,7 @@ extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadDa
 extern MemLargestFreeLocked, MemLargestFreeOfList, DriveLetterIndex, IsCdDrive, AllocCdBuffer, SpeechQueueBusy, FadeChannelVolume, SetChannelVolume
 extern StopSoundChannel, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamPosition, RegisterSfxBank, UnregisterSfxBank, PlaySfxVolume
 extern PauseCrowdChannels, ResumeCrowdChannels, TriggerCrowdEvent, SetCrowdIntensity, CloseCrowdSound, LoadCrowdBank, SetCrowdVolume, StartCrowdSound
-extern StopCrowdChannels, DetectSoundDriver, SetSoundMixMode, SndCloseDriver, TicksSinceLast, unk_17C474, WaitTickDeadline, word_11D1D0
+extern StopCrowdChannels, DetectSoundDriver, SetSoundMixMode, SndCloseDriver, TicksSinceLast, ArenaClipName, WaitTickDeadline, word_11D1D0
 extern word_11D23A, word_11D23C, word_11D386, lastsfx, word_11D3A4, word_11D3B6, word_17C640
 global StopAllSfx, StopAllSfx_8D, StopAllSfx_BA, StopAllSfx_BF, StopAllSfx_F7, PlaySfxOr, PlaySfx, Crowd_Noise
 global CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdPause, CrowdResume, CrowdFadeOut, sfx, sfx_3B
@@ -471,10 +471,10 @@ PlayArenaClip:
 .5:
         test ebx, ebx
         je short .6
-        mov eax, unk_17C474
+        mov eax, ArenaClipName
         mov dword [dword_11D3B2], edx
         call MakeDataPath
-        push unk_17C474
+        push ArenaClipName
         push dword [dword_11D1D6]
         call CdStreamQueue
         add esp, byte 8

@@ -7,7 +7,7 @@ extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons,
 extern lchoicetab, assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, LineChangeFlags, byte_16507A, InputState
 extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
-extern InputRepeatState, PtrPuckZone, dword_1797B4, gameclock, gameopts, gmode
+extern InputRepeatState, PtrPuckZone, LineBoxChoice, gameclock, gameopts, gmode
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, puckvy, puckc, PtrPuckFlags
 extern PtrHomeNet, PtrAwayNet, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetLCmode
@@ -938,7 +938,7 @@ lcselect:
         test ebx, ebx
         setne bl
         movzx ebx, bl
-        mov dword [nosplit ebx*4+dword_1797B4], 1
+        mov dword [nosplit ebx*4+LineBoxChoice], 1
         cmp edx, byte 4
         jge short .7
         inc word [byte eax+02Eh]
@@ -2130,7 +2130,7 @@ lcfound:
         test ebx, ebx
         setne al
         movzx ebx, al
-        mov dword [nosplit ebx*4+dword_1797B4], 1
+        mov dword [nosplit ebx*4+LineBoxChoice], 1
         movsx ebx, word [regd0]
         cmp ebx, byte 4
         jge short .1

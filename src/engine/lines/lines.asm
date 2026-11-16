@@ -4,14 +4,14 @@ bits 32
 section s_51F18 progbits alloc exec nowrite align=1
 extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str_GloL, str_GloR
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
-extern lineslotgroups, lineslotgroupstart, byte_11BB20, hmrosterpos, byte_176B83, defsort_d, dressflags
+extern lineslotgroups, lineslotgroupstart, CamLastSort, hmrosterpos, byte_176B83, defsort_d, dressflags
 extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, crowdlevel, dword_1150D4
-extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, dword_11B294
-extern dword_11B330, dword_11B364, dword_11D91F, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
+extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, SpinPuckFrame
+extern ViewSizeStep, CamFollowObj, dword_11D91F, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
 extern MenuBitmapPixels, dword_157AF4, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
 extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, ReplayBufferTop, lineslotmark
 extern AttractOptTeams, SpriteSortDelay, ZoneBufFront, ZoneBufBack, ZoneBufCount, ZoneMarksFront, ZoneMarksBack, ZonePrevList
-extern ZonePrevCount, ZoneCurList, ZoneWorkBuf, ZoneCurCount, ZoneCapacity, ZoneMemBlock, DrawFrameCount, dword_1798BC
+extern ZonePrevCount, ZoneCurList, ZoneWorkBuf, ZoneCurCount, ZoneCapacity, ZoneMemBlock, DrawFrameCount, ViewDirty
 extern optflags, GsOptions, gameclock, gameopts, gmode, hmroster, replaystart, puckvy
 extern puckc, PtrPuckFlags, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern LoadPackedFile, InitGameTeams, PuckInNet, PickForwardLines, PickDefencePairs, PickSpecialLines, LoadFrontEndArt, FreeFrontEndArt
@@ -2148,14 +2148,14 @@ SortSpritesForDraw:
 .3:
         mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
-        mov edx, dword [dword_11B364]
+        mov edx, dword [CamFollowObj]
         mov dword [ReplayBufferTop], ebx
         mov dl, byte [byte edx+0Ch]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [byte_11BB20]
+        mov dl, byte [CamLastSort]
         xor ebx, ebx
         mov byte [eax], dl
         mov eax, SortCords
@@ -2300,7 +2300,7 @@ SortSpritesForDraw:
         mov dl, byte [edx]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
-        mov edx, dword [dword_11B294]
+        mov edx, dword [SpinPuckFrame]
         mov dword [eax], edx
         add dword [ReplayBufferTop], byte 4
         mov eax, dword [ReplayBufferTop]
@@ -3226,13 +3226,13 @@ DrawDirtyZones:
         push edi
         enter 4, 0
         call SetScreenTarget
-        cmp dword [dword_11B330], byte 8
+        cmp dword [ViewSizeStep], byte 8
         jge near .5
         cmp dword [dword_11D91F], byte 0
         jne near .5
         cmp dword [ZonesDirty], byte 0
         jne near .5
-        cmp dword [dword_1798BC], byte 0
+        cmp dword [ViewDirty], byte 0
         jne near .5
         call ResolveZones
         mov dword [byte ebp-04h], 0
@@ -3296,7 +3296,7 @@ DrawDirtyZones:
         jne short .6
         cmp dword [ZonesDirty], byte 0
         jne short .6
-        cmp dword [dword_1798BC], byte 0
+        cmp dword [ViewDirty], byte 0
         je short .7
 .6:
         push dword [dword_11F5C4]
@@ -3400,7 +3400,7 @@ CopyZonesToScreen:
         jne short .1
         cmp dword [ZonesDirty], byte 0
         jne short .1
-        cmp dword [dword_1798BC], byte 0
+        cmp dword [ViewDirty], byte 0
         je short .2
 .1:
         push dword [dword_11F5C4]

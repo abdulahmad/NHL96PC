@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_63968 progbits alloc exec nowrite align=1
-extern ClearChain4, textcolor, textshadow, ModeLinear, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4
+extern ClearChain4, textcolor, textshadow, ModeLinear, GraphicsFixOn, StartupPalette, NearestColorCount, NearestColorLimit
 extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, BackBufferWidth
 extern ModeSetCount, FatalError, TextStringWidth, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, ClearScreenColour
@@ -273,14 +273,14 @@ InitGraphicsFix:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11D198], byte 0
+        cmp dword [GraphicsFixOn], byte 0
         jne short .1
         push dword 200h
         push dword 400h
         push str_LIBBUGFIX
         call AllocMemLocked
         add esp, byte 0Ch
-        mov dword [dword_11D198], eax
+        mov dword [GraphicsFixOn], eax
         test eax, eax
         jne short .1
         push unk_121FC8
@@ -313,7 +313,7 @@ SetGraphicsMode:
         add eax, byte 28h
         mov dword [byte ebp-04h], eax
         call WaitRetrace
-        cmp dword [dword_11D198], byte 0
+        cmp dword [GraphicsFixOn], byte 0
         jne short .1
         push unk_121FC8
         push dword 100h
@@ -324,9 +324,9 @@ SetGraphicsMode:
         call FatalError
         jmp short .2
 .1:
-        push dword [dword_11D198]
+        push dword [GraphicsFixOn]
         call FreeMemBlock
-        mov dword [dword_11D198], 0
+        mov dword [GraphicsFixOn], 0
 .2:
         add esp, byte 4
         mov ecx, 300h
@@ -969,19 +969,19 @@ SetScreenPalette:
         mov dword [dword_1219A4], eax
         mov eax, esi
         call BuildPaletteShadeTable
-        cmp dword [dword_11D19C], byte 0
+        cmp dword [StartupPalette], byte 0
         jne short .1
         mov ebx, 20h
-        mov edx, dword_11D19C
+        mov edx, StartupPalette
         mov eax, esi
         call CreateAaPalLut
         jmp short .2
 .1:
-        mov edx, dword [dword_11D19C]
+        mov edx, dword [StartupPalette]
         mov eax, esi
         call BuildAaPalLut
 .2:
-        mov eax, dword [dword_11D19C]
+        mov eax, dword [StartupPalette]
         call SetAaPalLut
         pop esi
         pop edx
@@ -1107,22 +1107,22 @@ NearestColor:
         add eax, byte 3
         cmp eax, dword [byte ebp-014h]
         jne short .1
-        cmp ecx, dword [dword_11D1A4]
+        cmp ecx, dword [NearestColorLimit]
         jle short .3
-        mov eax, dword [dword_11D1A0]
+        mov eax, dword [NearestColorCount]
         cmp eax, dword [byte ebp-01Ch]
         jge short .3
         lea eax, [eax+eax*2]
         mov bl, byte [byte ebp-04h]
         mov byte [edx+eax], bl
-        imul eax, dword [dword_11D1A0], byte 3
+        imul eax, dword [NearestColorCount], byte 3
         mov bl, byte [byte ebp-0Ch]
         mov byte [byte edx+eax+01h], bl
-        imul eax, dword [dword_11D1A0], byte 3
+        imul eax, dword [NearestColorCount], byte 3
         add edx, eax
         mov al, byte [byte ebp-08h]
         mov byte [byte edx+02h], al
-        inc dword [dword_11D1A0]
+        inc dword [NearestColorCount]
 .3:
         leave
         pop edi
@@ -1220,7 +1220,7 @@ RemapScreenColors:
         mov eax, dword [dword ebp+092h]
         lea edi, [dword ebp+09Ah]
         mov edx, dword [dword ebp+096h]
-        mov dword [dword_11D1A4], eax
+        mov dword [NearestColorLimit], eax
         shl edx, 3
         xor eax, eax
         jmp short .2
@@ -1254,7 +1254,7 @@ RemapScreenColors:
         mov eax, dword [byte ebp+052h]
         mov ecx, dword [byte ebp+05Ah]
         mov edi, dword [byte ebp+04Eh]
-        mov dword [dword_11D1A0], eax
+        mov dword [NearestColorCount], eax
         xor eax, eax
         rep stosb
         push byte 20h
@@ -1372,14 +1372,14 @@ RemapScreenColors:
 .16:
         push dword [byte ebp+032h]
         call FreeMemBlock
-        mov eax, dword [dword_11D1A0]
+        mov eax, dword [NearestColorCount]
         add esp, byte 4
         cmp eax, dword [dword ebp+08Eh]
         jle short .17
         call SoundIdle
-        add dword [dword_11D1A4], byte 2
+        add dword [NearestColorLimit], byte 2
 .17:
-        mov eax, dword [dword_11D1A0]
+        mov eax, dword [NearestColorCount]
         cmp eax, dword [dword ebp+08Eh]
         jg near .3
         mov dword [byte ebp+062h], 0

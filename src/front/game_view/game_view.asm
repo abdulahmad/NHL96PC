@@ -6,30 +6,30 @@ section s_584A0 progbits alloc exec nowrite align=1
 extern str_LUT, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
 extern byte_1175AA, byte_1175AB, byte_1175AC, byte_157191, textline1, textline2
 extern textline3, textline4, textline5, byte_176F96, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5
-extern byte_1770D7, byte_1796AC, byte_1796BF, byte_1796C0, byte_1796DC, byte_179700, byte_179701, byte_17970A
-extern byte_17970B, byte_17970D, byte_179712, byte_179713, byte_179715, byte_17971B, byte_17971C, byte_179722
-extern byte_179723, byte_17972D, byte_179733, byte_179743, byte_17974B, byte_179759, byte_17975A, byte_179763
-extern byte_179764, byte_1798A4, byte_179CB8, byte_179CB9, byte_179DC1, byte_179E06, CloseTextOverlay
-extern curperiod, dword_1176E5, PreGameSkateOn, ZonesDirty, playsuspended, InReplay, ReplayRemoteShape, dword_11B238
-extern dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294, dword_11B298
-extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC, dword_11B300
-extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328
-extern dword_11B32C, dword_11B330, dword_11B364, dword_11B374, dword_11B9F4, dword_11BB14, dword_11BB18, dword_11BB1C
-extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
+extern byte_1770D7, PalUsedFlags
+
+
+extern OverlayPanelId, OverlayQueueLen, OverlayQueue, CamShotMode, CamViewFlags, CloseTextOverlay
+extern curperiod, dword_1176E5, PreGameSkateOn, ZonesDirty, playsuspended, InReplay, ReplayRemoteShape, ClockPanelState
+extern ScorePanelState, TimeLeftPanelState, TimedPanelState, RinkSpriteMode, GameFrameShapes, ViewDimmed, SpinPuckFrame, GoalNetShapeIds
+extern GoalReplayPending, PanelOpenTime, PanelCloseTime, TimedPanelTimer, PlayerPctPanelTimer, ClockPanelTimer, TimeLeftPanelTimer, ScorePanelTimer
+extern PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap
+extern ViewPixels, ViewSizeStep, CamFollowObj, CamViewBits, CameraViewSlots, ShadowToggle, MarkerToggle, NameToggle
+extern LastPaletteMode, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
 extern DrawClipBottom, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC
 extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, DrawFrameCount
-extern dword_17828C, dword_178290, dword_178294, dword_178298, dword_17829C, dword_1782A0, dword_1782A4, dword_1782A8
-extern dword_178EA8, dword_178EAC, dword_1792AC, dword_1797AC, dword_1797B0, dword_1797B4, dword_1797B8, dword_1797BC
-extern dword_1797DC, dword_1797F4, dword_1797F8, dword_1797FC, dword_179800, dword_1798A8, dword_1798AC, dword_1798B0
-extern dword_1798B4, dword_1798B8, dword_1798BC, dword_1798E4, dword_1798E8, dword_1798EC, dword_1798F0, dword_1798F4
-extern dword_1798F8, dword_1798FC, dword_179900, dword_179904, dword_179908, dword_17990C, dword_179910, dword_179914
-extern dword_179918, dword_179920, dword_179924, dword_179928, dword_17992C, dword_179930, dword_179934, dword_179978
-extern dword_17997C, dword_179A7C, dword_179AC8, dword_179C88, dword_179C8C, dword_179C90, dword_179DCE, dword_179E0B
-extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA4C, dword_17BA50, dword_17BA54, GsOptions
+extern GameViewPanelIds
+extern ShadeMatchFrom1, ShadeMatch, ShadeLutPtrs, LineBoxOpen, dword_1797B0, LineBoxChoice, dword_1797B8, LineBoxBmps
+extern LineEnergyBmps, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY, OverlayPanelOn, EventPanelLines, ClockDrawnTime
+extern ClockDrawnPeriod, ClockBmp, ViewDirty, RubberFaceBmp, RubberSideBmp, ViewBrightness, IceLogoBmp, ShadeLutCount
+extern ShadeLutBlock, PanelBaseY, PenaltyClockWidth, GameViewBlock, ClockFont, LineBoxDrawn, GoalFrameCount, ClockPanelBmp
+extern NameFont, NamePanelBmp, OverlayBmp, LineBoxBmp, PanelWidth, PanelHeight, ViewObjects, ShowShadows
+extern ShowMarkers, SpriteDepth, SpriteFrameIds, ZoneRectCount, ZoneRectIndex, ZoneRectList, CamPosZ, CamAngle
+extern CamPitch, CamPathState, CamZoom, CamPathActive, RinkSpriteFile, NetSpriteFile, MarkerSpriteFile, GsOptions
 extern FrontShapeFile, FillRect, FormatPlayerName, TextStringWidth, gameclock, gameopts, GetLowestPen, GetSpecialTeamsRanks
 extern gmode, gmode2, gsp, hmroster, hmtmstruct, lcboxon, lcline, lineuptime
-extern LoadPackedFile, LoadTeamLogo, MouseRead, mousex, mousey, PtrPuckFlags, off_11B278, optflags
+extern LoadPackedFile, LoadTeamLogo, MouseRead, mousex, mousey, PtrPuckFlags, RosterNumberShapes, optflags
 extern puckc, puckz, rand_, SetClipWindow, SetViewRect, SortCords, SortIndices, sprintf_
 extern str_12, str_12s, str_24, str_2d, str_2d01d, str_2d02d2, str_32, str_3s
 extern str_42, str_B000, str_B001, str_DDD2, str_DDD3, str_DS, str_Goal0, str_Goal1
@@ -45,10 +45,10 @@ extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawF
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
 extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTarget, SetRemapTable, SetColourRemap, SetBlitSource
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
-extern TextSetFont, unk_111024, OverlayPanelQueue, unk_122320, hmteamrec, unk_157FF8, awteamrec, unk_158313
-extern unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
-extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
-extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, word_11B274, ovlstep
+extern TextSetFont, str_Empty, OverlayPanelQueue, unk_122320, hmteamrec, unk_157FF8, awteamrec, unk_158313
+extern HomeSpriteShades, AwaySpriteShades, RefSpriteShades, PuckModelPoints, DrawList, DrawListCount, ZoneRects
+extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
+extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, SavedViewMode, ovlstep
 extern SlotDevice, word_1650A6, word_165144, word_165146, word_165148, word_16514A
 extern word_16514C, hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
 extern awtmap, word_17709C
@@ -234,7 +234,7 @@ DrawScaledSprite_1E2:
         pop edi
         pop esi
         ret 0Ch
-        mov byte [dword eax+byte_1796AC], 1
+        mov byte [dword eax+PalUsedFlags], 1
         ret
 ;-----------------------------------------------------------------------------
 ; BuildShadeMatch                                 58690  96 PC, low confidence
@@ -249,7 +249,7 @@ BuildShadeMatch:
         enter 28h, 0
         push eax
         push edx
-        mov dword [dword_1798F4], 0
+        mov dword [ShadeLutCount], 0
         mov eax, edx
         xor ecx, ecx
         xor ebx, ebx
@@ -268,7 +268,7 @@ BuildShadeMatch:
         shl dword [byte ebp-010h], 2
         jmp short .4
 .2:
-        mov edx, dword [dword esi+dword_178EAC]
+        mov edx, dword [dword esi+ShadeMatch]
         lea edx, [edx+edx*2]
         add edx, dword [byte ebp-030h]
         movzx edi, byte [edx]
@@ -307,35 +307,35 @@ BuildShadeMatch:
         add esi, byte 4
 .4:
         mov edx, dword [byte ebp-08h]
-        cmp edx, dword [dword_1798F4]
+        cmp edx, dword [ShadeLutCount]
         jl short .2
         mov edx, dword [byte ebp-04h]
         cmp edx, dword [byte ebp-02Ch]
         jle short .5
-        mov edx, dword [dword_1798F4]
-        mov dword [dword ebx+dword_1792AC], edx
+        mov edx, dword [ShadeLutCount]
+        mov dword [dword ebx+ShadeLutPtrs], edx
         lea esi, [byte edx+01h]
-        mov dword [nosplit edx*4+dword_178EAC], ecx
-        mov dword [dword_1798F4], esi
+        mov dword [nosplit edx*4+ShadeMatch], ecx
+        mov dword [ShadeLutCount], esi
         jmp short .6
 .5:
         mov edx, dword [byte ebp-020h]
-        mov dword [dword ebx+dword_1792AC], edx
+        mov dword [dword ebx+ShadeLutPtrs], edx
 .6:
         add eax, byte 3
         inc ecx
         add ebx, byte 4
         cmp ecx, 0FFh
         jl near .1
-        mov edx, dword [dword_1798F4]
-        mov dword [nosplit ecx*4+dword_1792AC], edx
+        mov edx, dword [ShadeLutCount]
+        mov dword [nosplit ecx*4+ShadeLutPtrs], edx
         inc edx
-        mov dword [nosplit edx*4+dword_178EA8], ecx
-        mov dword [dword_1798F4], edx
+        mov dword [nosplit edx*4+ShadeMatchFrom1], ecx
+        mov dword [ShadeLutCount], edx
         jmp near DrawOverlayCaption_E1
 ;-----------------------------------------------------------------------------
 ; BuildShadeLut                                   587B7  96 PC, low confidence
-; (level, palette): fills the shading LUT (dword_1798F8) for the palette at a
+; (level, palette): fills the shading LUT (ShadeLutBlock) for the palette at a
 ; brightness level
 ;-----------------------------------------------------------------------------
 BuildShadeLut:
@@ -348,11 +348,11 @@ BuildShadeLut:
         mov dword [byte ebp-014h], edx
         mov dword [byte ebp-04h], 0
         mov dword [byte ebp-010h], 0
-        mov ebx, dword [dword_1798F8]
+        mov ebx, dword [ShadeLutBlock]
         jmp near .5
 .1:
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_178EAC]
+        mov eax, dword [dword eax+ShadeMatch]
         mov ecx, dword [byte ebp-014h]
         lea eax, [eax+eax*2]
         add ecx, eax
@@ -368,7 +368,7 @@ BuildShadeLut:
         xor ecx, ecx
         shl dword [byte ebp-08h], 2
 .2:
-        cmp byte [dword ecx+byte_1796AC], 0
+        cmp byte [dword ecx+PalUsedFlags], 0
         je near .3
         movzx eax, byte [esi]
         mov edx, dword [byte ebp-028h]
@@ -431,7 +431,7 @@ BuildShadeLut:
         add dword [byte ebp-010h], byte 4
         inc dword [byte ebp-04h]
 .5:
-        mov eax, dword [dword_1798F4]
+        mov eax, dword [ShadeLutCount]
         dec eax
         cmp eax, dword [byte ebp-04h]
         jg near .1
@@ -445,20 +445,20 @@ BuildShadeLut:
         jmp near DrawOverlayCaption_E1
 ;-----------------------------------------------------------------------------
 ; AllocShadeLut                                588F7  96 PC, medium confidence
-; Allocates the LUT block (dword_1798F4 x 100h bytes)
+; Allocates the LUT block (ShadeLutCount x 100h bytes)
 ;-----------------------------------------------------------------------------
 AllocShadeLut:
         push ebx
         push ecx
         push edx
         push eax
-        mov eax, dword [dword_1798F4]
+        mov eax, dword [ShadeLutCount]
         shl eax, 8
         push eax
         push str_LUT
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_1798F8], eax
+        mov dword [ShadeLutBlock], eax
         pop edx
         pop ecx
         pop ebx
@@ -470,8 +470,8 @@ AllocShadeLut:
         lea ecx, [dword eax+0400h]
 .1:
         movzx ebx, byte [edx]
-        mov ebx, dword [nosplit ebx*4+dword_1792AC]
-        mov esi, dword [dword_1798F8]
+        mov ebx, dword [nosplit ebx*4+ShadeLutPtrs]
+        mov esi, dword [ShadeLutBlock]
         shl ebx, 8
         add ebx, esi
         mov dword [eax], ebx
@@ -486,7 +486,7 @@ AllocShadeLut:
         push ebx
         push ecx
         push edx
-        push dword [dword_1798F8]
+        push dword [ShadeLutBlock]
 AllocShadeLut_5A:
         call FreeMemBlock
         add esp, byte 4
@@ -543,7 +543,7 @@ LoadIceLogo:
         call LoadPackedFile
         push str_Logo
         push eax
-        mov dword [dword_1798F0], eax
+        mov dword [IceLogoBmp], eax
         call FindShape
         add esp, byte 8
         call SetIceLogoTexture
@@ -554,7 +554,7 @@ LoadIceLogo:
         push ebx
         push ecx
         push edx
-        push dword [dword_1798F0]
+        push dword [IceLogoBmp]
         jmp near AllocShadeLut_5A
 ;-----------------------------------------------------------------------------
 ; FullViewClip                                                    589E4  96 PC
@@ -576,7 +576,7 @@ FullViewClip:
         ret
 ;-----------------------------------------------------------------------------
 ; DimGameView                                     58A03  96 PC, low confidence
-; In a replay (gmode 1) lowers the view brightness (dword_1798EC) by 28Fh
+; In a replay (gmode 1) lowers the view brightness (ViewBrightness) by 28Fh
 ; every other frame down to F5Ch and rebuilds the LUT
 ;-----------------------------------------------------------------------------
 DimGameView:
@@ -586,19 +586,19 @@ DimGameView:
         movsx eax, al
         test eax, eax
         je short .1
-        cmp dword [dword_1798EC], 0F5Ch
+        cmp dword [ViewBrightness], 0F5Ch
         jle short .1
-        cmp dword [dword_11B270], byte 1
+        cmp dword [ViewDimmed], byte 1
         jne short .2
-        sub dword [dword_1798EC], 28Fh
+        sub dword [ViewBrightness], 28Fh
         mov edx, TeamRosterPtrs+320h
-        mov eax, dword [dword_1798EC]
+        mov eax, dword [ViewBrightness]
         call BuildShadeLut
-        mov dword [dword_11B270], 0
+        mov dword [ViewDimmed], 0
         pop edx
         ret
 .1:
-        mov dword [dword_11B270], 1
+        mov dword [ViewDimmed], 1
 .2:
         pop edx
         ret
@@ -624,39 +624,39 @@ InitGameView:
         mov dword [dword_1219A4], eax
         mov eax, 64h
         call BuildShadeMatch
-        mov byte [byte_17972D], 1
-        mov byte [byte_179759], 1
-        mov byte [byte_17975A], 1
-        mov byte [byte_179763], 1
-        mov byte [byte_179764], 1
-        mov byte [byte_1796DC], 1
-        mov byte [byte_179733], 1
-        mov byte [byte_179723], 1
-        mov byte [byte_17971B], 1
-        mov byte [byte_17971C], 1
-        mov byte [byte_179712], 1
-        mov byte [byte_179715], 1
-        mov byte [byte_179722], 1
-        mov byte [byte_1796BF], 1
-        mov byte [byte_1796C0], 1
-        mov byte [byte_179713], 1
-        mov byte [byte_179701], 1
-        mov byte [byte_17970B], 1
-        mov byte [byte_17974B], 1
-        mov byte [byte_17970D], 1
-        mov byte [byte_17970A], 1
-        mov byte [byte_179700], 1
-        mov byte [byte_179743], 1
+        mov byte [PalUsedFlags+81h], 1
+        mov byte [PalUsedFlags+0ADh], 1
+        mov byte [PalUsedFlags+0AEh], 1
+        mov byte [PalUsedFlags+0B7h], 1
+        mov byte [PalUsedFlags+0B8h], 1
+        mov byte [PalUsedFlags+30h], 1
+        mov byte [PalUsedFlags+87h], 1
+        mov byte [PalUsedFlags+77h], 1
+        mov byte [PalUsedFlags+6Fh], 1
+        mov byte [PalUsedFlags+70h], 1
+        mov byte [PalUsedFlags+66h], 1
+        mov byte [PalUsedFlags+69h], 1
+        mov byte [PalUsedFlags+76h], 1
+        mov byte [PalUsedFlags+13h], 1
+        mov byte [PalUsedFlags+14h], 1
+        mov byte [PalUsedFlags+67h], 1
+        mov byte [PalUsedFlags+55h], 1
+        mov byte [PalUsedFlags+5Fh], 1
+        mov byte [PalUsedFlags+9Fh], 1
+        mov byte [PalUsedFlags+61h], 1
+        mov byte [PalUsedFlags+5Eh], 1
+        mov byte [PalUsedFlags+54h], 1
+        mov byte [PalUsedFlags+97h], 1
         call InitReciprocalTable
         test byte [GsOptions+1], 20h
         setne al
         movzx eax, al
-        mov dword [dword_11B248], eax
+        mov dword [RinkSpriteMode], eax
         mov eax, 20h
         mov edx, TeamRosterPtrs+320h
         call AllocShadeLut
         mov eax, 4000h
-        mov dword [dword_1798EC], 4000h
+        mov dword [ViewBrightness], 4000h
         call BuildShadeLut
         xor eax, eax
 .1:
@@ -664,13 +664,13 @@ InitGameView:
         inc eax
         cmp eax, 100h
         jl short .1
-        mov eax, unk_1786AC
+        mov eax, AwaySpriteShades
         lea edx, [dword ebp-0100h]
         lea esi, [dword eax+0400h]
 .2:
         movzx ebx, byte [edx]
-        mov ebx, dword [nosplit ebx*4+dword_1792AC]
-        mov ecx, dword [dword_1798F8]
+        mov ebx, dword [nosplit ebx*4+ShadeLutPtrs]
+        mov ecx, dword [ShadeLutBlock]
         shl ebx, 8
         add ebx, ecx
         mov dword [eax], ebx
@@ -678,13 +678,13 @@ InitGameView:
         inc edx
         cmp eax, esi
         jne short .2
-        mov eax, unk_178AAC
-        mov edx, unk_17B830
+        mov eax, RefSpriteShades
+        mov edx, HomeJerseyPal
         lea esi, [dword eax+0400h]
 .3:
         movzx ebx, byte [edx]
-        mov ebx, dword [nosplit ebx*4+dword_1792AC]
-        mov ecx, dword [dword_1798F8]
+        mov ebx, dword [nosplit ebx*4+ShadeLutPtrs]
+        mov ecx, dword [ShadeLutBlock]
         shl ebx, 8
         add ebx, ecx
         mov dword [eax], ebx
@@ -692,13 +692,13 @@ InitGameView:
         inc edx
         cmp eax, esi
         jne short .3
-        mov eax, unk_1782AC
-        mov edx, unk_17B930
+        mov eax, HomeSpriteShades
+        mov edx, AwayJerseyPal
         lea esi, [dword eax+0400h]
 .4:
         movzx ebx, byte [edx]
-        mov ebx, dword [nosplit ebx*4+dword_1792AC]
-        mov ecx, dword [dword_1798F8]
+        mov ebx, dword [nosplit ebx*4+ShadeLutPtrs]
+        mov ecx, dword [ShadeLutBlock]
         shl ebx, 8
         add ebx, ecx
         mov dword [eax], ebx
@@ -706,11 +706,11 @@ InitGameView:
         inc edx
         cmp eax, esi
         jne short .4
-        mov eax, unk_178AAC
+        mov eax, RefSpriteShades
         xor edx, edx
         call SaveTeamPalette
         mov edx, 1
-        mov eax, unk_1782AC
+        mov eax, HomeSpriteShades
         call SaveTeamPalette
         test byte [GsOptions+1], 20h
         je short .5
@@ -745,34 +745,34 @@ InitGameView:
         shl eax, 0Eh
         add esp, byte 4
         shr eax, 1Ch
-        mov dword [dword_11B374], 0
-        mov dword [dword_11B330], eax
+        mov dword [CamViewBits], 0
+        mov dword [ViewSizeStep], eax
         call SetGameViewSize
         mov eax, dword [GsOptions]
         shl eax, 13h
         shr eax, 1Ch
         shl eax, 4
-        mov edi, dword_179DCE
-        mov eax, dword [dword eax+dword_11B9F4]
-        mov esi, dword_179E13
+        mov edi, CamPosZ
+        mov eax, dword [dword eax+CameraViewSlots]
+        mov esi, CamPathState
         call SetCameraShot
-        mov dword [dword_179E13], 0
-        mov dword [dword_179E17], 0BB8h
-        mov dword [dword_179E1B], 0FFFFF060h
-        mov dword [dword_179E0B], 0
-        mov dword [dword_179E0F], 0FFFFE38Fh
-        mov dword [dword_11BB14], 0
-        mov dword [dword_11BB18], 0
-        push dword [dword_11B32C]
-        mov dword [dword_11BB1C], 0
-        push dword [dword_11B328]
+        mov dword [CamPathState], 0
+        mov dword [CamZoom], 0BB8h
+        mov dword [CamPathActive], 0FFFFF060h
+        mov dword [CamAngle], 0
+        mov dword [CamPitch], 0FFFFE38Fh
+        mov dword [ShadowToggle], 0
+        mov dword [MarkerToggle], 0
+        push dword [ViewPixels]
+        mov dword [NameToggle], 0
+        push dword [ViewBitmap]
         movsd
         movsd
         movsd
         call SetViewScreenOrigin
         add esp, byte 8
         mov edx, unk_122320
-        mov eax, dword_179E13
+        mov eax, CamPathState
         call SetViewCamera
         mov eax, TeamRosterPtrs+320h
         mov ecx, TeamRosterPtrs+320h
@@ -787,11 +787,11 @@ InitGameView:
         push byte 20h
         mov ecx, TeamRosterPtrs+320h
         mov ebx, 50h
-        mov dword [dword_1798E8], eax
+        mov dword [RubberSideBmp], eax
         mov edx, ebx
         mov eax, ebx
         call BuildAntiAliasTable
-        mov dword [dword_1798E4], eax
+        mov dword [RubberFaceBmp], eax
         mov eax, dword [GsOptions]
         shl eax, 1Bh
         shr eax, 1Fh
@@ -824,38 +824,38 @@ InitGameView:
         mov byte [byte_1175AA], 0
         shr eax, 1Fh
         push byte 20h
-        mov dword [dword_179978], eax
+        mov dword [ShowShadows], eax
         mov eax, dword [GsOptions]
         push byte 11h
         shl eax, 18h
         push str_Priority
         shr eax, 1Fh
         mov byte [byte_1175AC], 0
-        mov dword [dword_17997C], eax
+        mov dword [ShowMarkers], eax
         call AllocMemBlock
-        mov dword [dword_11B364], eax
+        mov dword [CamFollowObj], eax
         mov dword [eax], 0
-        mov eax, dword [dword_11B364]
-        mov dl, byte [byte_179E06]
+        mov eax, dword [CamFollowObj]
+        mov dl, byte [CamViewFlags]
         mov byte [byte eax+0Ch], dl
-        mov eax, dword [dword_11B364]
+        mov eax, dword [CamFollowObj]
         mov dword [byte eax+04h], 10h
-        mov eax, dword [dword_11B364]
+        mov eax, dword [CamFollowObj]
         mov dword [byte eax+08h], 63h
-        mov eax, dword [dword_11B364]
+        mov eax, dword [CamFollowObj]
         mov dword [byte eax+0Dh], 0
         add esp, byte 0Ch
-        cmp word [word_11B274], byte 0
+        cmp word [SavedViewMode], byte 0
         jl short .7
         movsx edx, word [ovlstep]
-        movsx eax, word [word_11B274]
+        movsx eax, word [SavedViewMode]
         call CloseTextOverlay
         mov word [ovlstep], 0FFFFh
-        mov word [word_11B274], 0FFFFh
+        mov word [SavedViewMode], 0FFFFh
 .7:
         call ResetCameraShake
         push dword [dword_11F5C4]
-        mov dword [dword_11B310], 0FFFFFFFFh
+        mov dword [LastEventPlayer], 0FFFFFFFFh
         push dword [dword_11F5C0]
         mov byte [textline5], 0
         push byte 0
@@ -867,7 +867,7 @@ InitGameView:
         call SetViewRect
         add esp, byte 10h
         push dword [str_D_DrawGameFrame]
-        push dword [dword_11B320]
+        push dword [ViewLeft]
         call MouseRead
         add esp, byte 8
         call ResetGameOverlays
@@ -880,7 +880,7 @@ InitGameView:
         and edx, 3E0000h
         cmp edx, 340000h
         jae short .8
-        mov ebx, dword_17828C
+        mov ebx, GameViewPanelIds
         mov edx, dword [optflags]
         mov eax, dword [byte eax+01h]
         shl edx, 19h
@@ -889,7 +889,7 @@ InitGameView:
         shr eax, 1Bh
         call GetSpecialTeamsRanks
         mov eax, dword [gameopts]
-        mov ebx, dword_17829C
+        mov ebx, GameViewPanelIds+10h
         mov edx, dword [optflags]
         mov eax, dword [byte eax+01h]
         shl edx, 19h
@@ -899,69 +899,69 @@ InitGameView:
         call GetSpecialTeamsRanks
         jmp short .9
 .8:
-        mov dword [dword_1782A8], 0FFFFFFFFh
-        mov dword [dword_1782A4], 0FFFFFFFFh
-        mov dword [dword_1782A0], 0FFFFFFFFh
-        mov dword [dword_17829C], 0FFFFFFFFh
-        mov dword [dword_178290], 0FFFFFFFFh
-        mov dword [dword_178294], 0FFFFFFFFh
-        mov dword [dword_17828C], 0FFFFFFFFh
-        mov dword [dword_178290], 0FFFFFFFFh
+        mov dword [GameViewPanelIds+1Ch], 0FFFFFFFFh
+        mov dword [GameViewPanelIds+18h], 0FFFFFFFFh
+        mov dword [GameViewPanelIds+14h], 0FFFFFFFFh
+        mov dword [GameViewPanelIds+10h], 0FFFFFFFFh
+        mov dword [GameViewPanelIds+4], 0FFFFFFFFh
+        mov dword [GameViewPanelIds+8], 0FFFFFFFFh
+        mov dword [GameViewPanelIds], 0FFFFFFFFh
+        mov dword [GameViewPanelIds+4], 0FFFFFFFFh
 .9:
         mov edx, 20h
         mov eax, 107h
         call LoadPackedFile
-        mov dword [dword_179904], eax
+        mov dword [GameViewBlock], eax
         test byte [GsOptions+1], 20h
         je short .10
         mov edx, 20h
         mov eax, 28h
         call LoadPackedFile
         mov edx, 20h
-        mov dword [dword_179918], eax
+        mov dword [NameFont], eax
         mov eax, 29h
-        mov dword [dword_1798FC], 0Fh
+        mov dword [PanelBaseY], 0Fh
         call LoadPackedFile
         mov edx, 20h
-        mov dword [dword_179920], eax
+        mov dword [NamePanelBmp], eax
         mov eax, 2Eh
-        mov dword [dword_17992C], 1Ah
+        mov dword [PanelWidth], 1Ah
         call LoadPackedFile
         mov edx, 20h
-        mov dword [dword_179924], eax
+        mov dword [OverlayBmp], eax
         mov eax, 2Ah
-        mov dword [dword_179930], 2Dh
+        mov dword [PanelHeight], 2Dh
         call LoadPackedFile
         push str_B001
-        mov dword [dword_179900], 1Dh
+        mov dword [PenaltyClockWidth], 1Dh
         jmp short .11
 .10:
         mov edx, 20h
         mov eax, 63h
         call LoadPackedFile
         mov edx, 20h
-        mov dword [dword_179918], eax
+        mov dword [NameFont], eax
         mov eax, 2Bh
-        mov dword [dword_1798FC], 8
+        mov dword [PanelBaseY], 8
         call LoadPackedFile
         mov edx, 20h
-        mov dword [dword_179920], eax
+        mov dword [NamePanelBmp], eax
         mov eax, 2Fh
-        mov dword [dword_17992C], 0Dh
+        mov dword [PanelWidth], 0Dh
         call LoadPackedFile
         mov edx, 20h
-        mov dword [dword_179924], eax
+        mov dword [OverlayBmp], eax
         mov eax, 2Ch
-        mov dword [dword_179930], 16h
+        mov dword [PanelHeight], 16h
         call LoadPackedFile
         push str_B000
-        mov dword [dword_179900], 0Dh
+        mov dword [PenaltyClockWidth], 0Dh
 .11:
-        push dword [dword_179904]
-        mov dword [dword_179914], eax
+        push dword [GameViewBlock]
+        mov dword [ClockPanelBmp], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_179908], eax
+        mov dword [ClockFont], eax
         call LoadIceLogo
         push unk_17D3E8
         push TeamRosterPtrs+320h
@@ -980,10 +980,10 @@ InitGameView:
         call LoadPackedFile
         mov dword [FrontShapeFile], eax
         mov dword [dword_1797B8], 0
-        mov dword [dword_1797B4], 0
+        mov dword [LineBoxChoice], 0
         mov dword [dword_1797B0], 0FFFFFFFFh
         mov eax, 14h
-        mov dword [dword_1797AC], 0FFFFFFFFh
+        mov dword [LineBoxOpen], 0FFFFFFFFh
         call InitZoneManager
 InitGameView_709:
         leave
@@ -998,7 +998,7 @@ InitGameView_70A:
         push ecx
         push edx
         push esi
-        mov eax, dword [dword_11B364]
+        mov eax, dword [CamFollowObj]
 .14:
         push eax
         mov esi, dword [byte eax+0Dh]
@@ -1022,24 +1022,24 @@ FreeGameView:
         push ecx
         push edx
         push esi
-        push dword [dword_1798F0]
+        push dword [IceLogoBmp]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_179904]
+        push dword [GameViewBlock]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_179914]
+        push dword [ClockPanelBmp]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_179924]
+        push dword [OverlayBmp]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_179918]
+        push dword [NameFont]
         call FreeMemBlock
-        mov eax, dword [dword_11B364]
+        mov eax, dword [CamFollowObj]
         add esp, byte 4
 .1:
         push eax
@@ -1052,16 +1052,16 @@ FreeGameView:
         call FreeStandsArt
         call FreeRinkModel
         call FreeColourLookup
-        push dword [dword_1798E8]
+        push dword [RubberSideBmp]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_1798E4]
+        push dword [RubberFaceBmp]
         call FreeMemBlock
         add esp, byte 4
         push dword [ReplayRemoteShape]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_1798F8]
+        push dword [ShadeLutBlock]
         call FreeMemBlock
         add esp, byte 4
         call FreeZoneManager
@@ -1086,7 +1086,7 @@ DrawRosterName:
         mov esi, edx
         mov dword [byte ebp-04h], ebx
         mov edi, ecx
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         push dword 0FFh
@@ -1126,7 +1126,7 @@ DrawRosterNumber:
         mov esi, edx
         mov edi, ebx
         mov dword [byte ebp-04h], ecx
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         push dword 0FFh
@@ -1136,11 +1136,11 @@ DrawRosterNumber:
         add esp, byte 8
         cmp word [byte ebp+010h], byte 0
         jge short .1
-        mov eax, unk_111024
+        mov eax, str_Empty
         jmp short .2
 .1:
         movsx eax, word [byte ebp+010h]
-        mov eax, dword [nosplit eax*4+off_11B278]
+        mov eax, dword [nosplit eax*4+RosterNumberShapes]
 .2:
         push eax
         movsx eax, di
@@ -1231,17 +1231,17 @@ DrawRinkSprite:
         mov eax, dword [byte ebp-0Ch]
         call GetSpriteFrame
         mov dword [byte ebp-04h], eax
-        cmp dword [dword_11B248], byte 0
+        cmp dword [RinkSpriteMode], byte 0
         jne near .14
         cmp esi, 10000h
         jge near .14
         cmp edi, byte 2
         jne short .8
-        mov eax, dword [dword_17BA54]
+        mov eax, dword [MarkerSpriteFile]
         jmp short .12
 .8:
         imul eax, edi, dword 120h
-        mov edx, unk_17B248
+        mov edx, JerseyColorMap
         add edx, eax
         mov ecx, dword [byte ebp+010h]
         mov dword [byte ebp-08h], edx
@@ -1249,18 +1249,18 @@ DrawRinkSprite:
         add edx, dword [byte ebp-08h]
         test edi, edi
         je short .9
-        mov eax, dword [dword_17BA4C]
+        mov eax, dword [RinkSpriteFile]
         jmp short .10
 .9:
-        mov eax, dword [dword_17BA50]
+        mov eax, dword [NetSpriteFile]
 .10:
         call SetPlayerSpriteColors
         test edi, edi
         je short .11
-        mov eax, dword [dword_17BA4C]
+        mov eax, dword [RinkSpriteFile]
         jmp short .12
 .11:
-        mov eax, dword [dword_17BA50]
+        mov eax, dword [NetSpriteFile]
 .12:
         call SetAaPalLut
         cmp dword [byte ebp+018h], byte 0
@@ -1297,18 +1297,18 @@ DrawRinkSprite:
         mov edx, edi
         test edi, edi
         je short .17
-        mov eax, unk_17B930
+        mov eax, AwayJerseyPal
         jmp short .18
 .17:
-        mov eax, unk_17B830
+        mov eax, HomeJerseyPal
 .18:
         call SetRinkSpriteColors
         test edi, edi
         je short .19
-        mov eax, unk_17B930
+        mov eax, AwayJerseyPal
         jmp short .20
 .19:
-        mov eax, unk_17B830
+        mov eax, HomeJerseyPal
 .20:
         push eax
         call SetColourRemap
@@ -1343,7 +1343,7 @@ DrawPlayerSprite:
         mov esi, ecx
         cmp edx, byte 0Fh
         jl short .2
-        mov dword [byte ebp-04h], unk_1786AC
+        mov dword [byte ebp-04h], AwaySpriteShades
         jmp near .7
 .2:
         mov al, byte [gmode]
@@ -1368,13 +1368,13 @@ DrawPlayerSprite:
 .4:
         test ecx, ecx
         je short .5
-        mov eax, unk_1782AC
+        mov eax, HomeSpriteShades
         jmp short .6
 .5:
-        mov eax, unk_178AAC
+        mov eax, RefSpriteShades
 .6:
         imul ecx, dword 120h
-        mov edx, unk_17B518
+        mov edx, TeamPaletteSave
         add edx, ecx
         mov dword [byte ebp-0Ch], edx
         imul edx, dword [byte ebp+010h], dword 90h
@@ -1486,7 +1486,7 @@ DrawControlMarker_41:
 .3:
         jne near DrawOverlayCaption_E1
         imul eax, esi, byte 0Ch
-        cmp dword [dword eax+dword_179AC8], byte 50h
+        cmp dword [dword eax+SpriteFrameIds], byte 50h
         jg short .4
         push byte 2
         call JoyButtonMap
@@ -1494,10 +1494,10 @@ DrawControlMarker_41:
         shl edx, 4
         movsx eax, word [dword edx+eax*2+GoalNetFrames]
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_11B32C]
+        mov eax, dword [ViewPixels]
         mov dword [byte ebp-04h], 2
-        add eax, dword [dword_11B31C]
-        mov edi, dword [dword_11B320]
+        add eax, dword [ViewHeight]
+        mov edi, dword [ViewLeft]
         dec eax
         add esp, byte 4
         mov dword [byte ebp-08h], eax
@@ -1515,19 +1515,19 @@ DrawControlMarker_41:
         movsx eax, word [nosplit eax*2+ControlMarkerFrames]
 .6:
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [nosplit esi*8+dword_179800]
-        mov edi, dword [nosplit esi*8+dword_1797FC]
+        mov eax, dword [nosplit esi*8+SpriteScreenY]
+        mov edi, dword [nosplit esi*8+SpriteScreenX]
         sar eax, 10h
         sar edi, 10h
         mov dword [byte ebp-08h], eax
-        cmp eax, dword [dword_11B32C]
+        cmp eax, dword [ViewPixels]
         jge short .7
-        mov eax, dword [dword_11B32C]
+        mov eax, dword [ViewPixels]
         mov dword [byte ebp-04h], 1
         jmp short .8
 .7:
-        mov eax, dword [dword_11B32C]
-        add eax, dword [dword_11B31C]
+        mov eax, dword [ViewPixels]
+        add eax, dword [ViewHeight]
         cmp eax, dword [byte ebp-08h]
         jg short .9
         dec eax
@@ -1535,8 +1535,8 @@ DrawControlMarker_41:
 .8:
         mov dword [byte ebp-08h], eax
 .9:
-        mov eax, dword [dword_11B328]
-        add eax, dword [dword_11B318]
+        mov eax, dword [ViewBitmap]
+        add eax, dword [ViewWidth]
         cmp dword [byte ebp-04h], byte 0
         je short .11
         cmp edi, eax
@@ -1545,9 +1545,9 @@ DrawControlMarker_41:
         lea edi, [byte eax-0Dh]
         jmp short .13
 .10:
-        cmp edi, dword [dword_11B328]
+        cmp edi, dword [ViewBitmap]
         jge short .13
-        mov edi, dword [dword_11B328]
+        mov edi, dword [ViewBitmap]
         or byte [byte ebp-04h], 8
         add edi, byte 0Ch
         jmp short .13
@@ -1558,10 +1558,10 @@ DrawControlMarker_41:
         lea edi, [byte eax-01h]
         jmp short .13
 .12:
-        cmp edi, dword [dword_11B328]
+        cmp edi, dword [ViewBitmap]
         jge short .13
         mov dword [byte ebp-04h], 8
-        mov edi, dword [dword_11B328]
+        mov edi, dword [ViewBitmap]
 .13:
         cmp dword [byte ebp-04h], byte 0
         je near .16
@@ -1614,7 +1614,7 @@ DrawControlMarker_41:
         jmp near .23
 .19:
         imul esi, byte 0Ch
-        push dword [dword esi+dword_179AC8]
+        push dword [dword esi+SpriteFrameIds]
         call SpriteScale
         add esp, byte 4
         mov edx, 33333h
@@ -1698,7 +1698,7 @@ DrawPuckSprite:
         ret
 ;-----------------------------------------------------------------------------
 ; SpinPuckModel                                   5993B  96 PC, low confidence
-; Turns the puck model (dword_11B294) while the puck moves
+; Turns the puck model (SpinPuckFrame) while the puck moves
 ;-----------------------------------------------------------------------------
 SpinPuckModel:
         push ebx
@@ -1718,19 +1718,19 @@ SpinPuckModel:
         mov eax, dword [PtrPuckFlags]
         movsx eax, word [byte eax+03Ch]
         shl eax, 0Ch
-        add dword [dword_11B294], eax
-        cmp dword [dword_11B294], 8000h
+        add dword [SpinPuckFrame], eax
+        cmp dword [SpinPuckFrame], 8000h
         jl short .1
-        sub dword [dword_11B294], 10000h
+        sub dword [SpinPuckFrame], 10000h
 .1:
-        mov eax, dword [dword_11B294]
+        mov eax, dword [SpinPuckFrame]
         neg eax
         add eax, eax
         push eax
         lea eax, [byte ebp-024h]
         push eax
         call MakeRotXMatrix
-        mov eax, dword [dword_11B294]
+        mov eax, dword [SpinPuckFrame]
         add esp, byte 8
         neg eax
         push eax
@@ -1738,30 +1738,30 @@ SpinPuckModel:
         push eax
         call MakeRotZMatrix
         add esp, byte 8
-        push unk_1798C0
+        push PuckModelPoints
         lea eax, [byte ebp-024h]
         push eax
         lea eax, [byte ebp-048h]
         push eax
         call MultiplyMatrix
         add esp, byte 0Ch
-        push unk_1798C0
+        push PuckModelPoints
         push dword [dword_15E8E0]
         jmp short .3
 .2:
-        cmp dword [dword_11B294], byte 0
+        cmp dword [SpinPuckFrame], byte 0
         je near InitGameView_709
-        mov dword [dword_11B294], 0
+        mov dword [SpinPuckFrame], 0
         mov ecx, 9
-        push unk_1798C0
-        mov edi, unk_1798C0
+        push PuckModelPoints
+        mov edi, PuckModelPoints
         mov esi, unk_122320
         push dword [dword_15E8E0]
         rep movsd
 .3:
         call OriSetObjectMatrix
         add esp, byte 8
-        push unk_1798C0
+        push PuckModelPoints
         push dword [dword_15E8D8]
         call OriSetObjectMatrix
         add esp, byte 8
@@ -1812,8 +1812,8 @@ PlaceGoalNets_71:
         jge short .1
         mov edx, dword [puckc]
         movsx edx, byte [edx]
-        mov ecx, dword [nosplit edx*8+dword_179800]
-        mov ebx, dword [nosplit edx*8+dword_1797FC]
+        mov ecx, dword [nosplit edx*8+SpriteScreenY]
+        mov ebx, dword [nosplit edx*8+SpriteScreenX]
         movsx edx, word [GoalNetFrames]
         sar ecx, 10h
         sar ebx, 10h
@@ -1823,9 +1823,9 @@ PlaceGoalNets_71:
 .1:
         mov edx, dword [puckc]
         movsx edx, byte [edx]
-        mov ebx, dword [nosplit edx*8+dword_179800]
+        mov ebx, dword [nosplit edx*8+SpriteScreenY]
         sar ebx, 10h
-        mov edx, dword [nosplit edx*8+dword_1797FC]
+        mov edx, dword [nosplit edx*8+SpriteScreenX]
         push ebx
         sar edx, 10h
         push edx
@@ -1855,13 +1855,13 @@ PlaceGoalNets_E0:
         cmp dword [byte edi+07Ah], byte 0
         jl short .6
 .3:
-        cmp dword [dword_179978], byte 0
+        cmp dword [ShowShadows], byte 0
         je short .5
         movsx ecx, byte [byte eax+047h]
-        mov eax, dword [dword esi+dword_179800]
+        mov eax, dword [dword esi+SpriteScreenY]
         sar eax, 10h
         movsx edx, ax
-        mov eax, dword [dword esi+dword_1797FC]
+        mov eax, dword [dword esi+SpriteScreenX]
         sar eax, 10h
         mov dword [byte ebp-018h], eax
         mov eax, dword [byte ebp-018h]
@@ -1873,11 +1873,11 @@ PlaceGoalNets_E0:
 .5:
         movsx edx, word [byte eax+01Ah]
         movsx ecx, byte [byte eax+047h]
-        mov eax, dword [dword esi+dword_179800]
+        mov eax, dword [dword esi+SpriteScreenY]
         sar eax, 10h
         push edx
         movsx edx, ax
-        mov eax, dword [dword esi+dword_1797FC]
+        mov eax, dword [dword esi+SpriteScreenX]
         sar eax, 10h
         mov dword [byte ebp-018h], eax
         mov eax, dword [byte ebp-018h]
@@ -1892,12 +1892,12 @@ PlaceGoalNets_E0:
         movsx eax, al
         test eax, eax
         jne short .9
-        cmp dword [dword_179978], byte 0
+        cmp dword [ShowShadows], byte 0
         je short .7
-        mov eax, dword [dword esi+dword_179800]
+        mov eax, dword [dword esi+SpriteScreenY]
         sar eax, 10h
         movsx edx, ax
-        mov eax, dword [dword esi+dword_1797FC]
+        mov eax, dword [dword esi+SpriteScreenX]
         sar eax, 10h
         mov dword [byte ebp-018h], eax
         movsx ebx, word [byte ebp-01Ch]
@@ -1905,10 +1905,10 @@ PlaceGoalNets_E0:
         movsx ecx, byte [byte edi+047h]
         jmp short .4
 .7:
-        mov eax, dword [dword esi+dword_179800]
+        mov eax, dword [dword esi+SpriteScreenY]
         sar eax, 10h
         movsx edx, ax
-        mov eax, dword [dword esi+dword_1797FC]
+        mov eax, dword [dword esi+SpriteScreenX]
         sar eax, 10h
         push byte 0FFFFFFFFh
         mov dword [byte ebp-018h], eax
@@ -1935,19 +1935,19 @@ PlaceGoalNets_20B:
         test dword [byte ebp-04h], eax
         je short .11
         imul eax, edi, byte 0Ch
-        cmp dword [dword eax+dword_179AC8], byte 50h
+        cmp dword [dword eax+SpriteFrameIds], byte 50h
         jle short .11
-        mov edx, dword [dword esi+dword_11B298]
+        mov edx, dword [dword esi+GoalNetShapeIds]
         mov edx, dword [nosplit edx*4+dword_152FEC]
-        push dword [dword eax+dword_179AC8]
+        push dword [dword eax+SpriteFrameIds]
         mov dword [byte ebp-024h], edx
         call SpriteScale
         add esp, byte 4
         push byte 1
         mov ecx, eax
-        mov ebx, dword [nosplit edi*8+dword_179800]
+        mov ebx, dword [nosplit edi*8+SpriteScreenY]
         push byte 11h
-        mov edx, dword [nosplit edi*8+dword_1797FC]
+        mov edx, dword [nosplit edi*8+SpriteScreenX]
         mov eax, dword [byte ebp-024h]
         push byte 0
         sar ecx, 1
@@ -1962,10 +1962,10 @@ PlaceGoalNets_20B:
         mov dword [byte ebp-014h], 0
 .13:
         mov eax, dword [byte ebp-014h]
-        mov eax, dword [dword eax+dword_179A7C]
+        mov eax, dword [dword eax+SpriteDepth]
         mov dword [byte ebp-01Ch], eax
         imul eax, byte 0Ch
-        cmp dword [dword eax+dword_179AC8], byte 50h
+        cmp dword [dword eax+SpriteFrameIds], byte 50h
         jle near .27
         imul esi, dword [byte ebp-01Ch], dword 0A0h
         add esi, SortCords
@@ -2026,7 +2026,7 @@ PlaceGoalNets_20B:
         jl near .27
 .19:
         imul eax, dword [byte ebp-01Ch], byte 0Ch
-        push dword [dword eax+dword_179AC8]
+        push dword [dword eax+SpriteFrameIds]
         call SpriteScale
         add esp, byte 4
         mov edi, eax
@@ -2042,14 +2042,14 @@ PlaceGoalNets_20B:
         jge near .25
         movsx eax, word [byte esi+014h]
         imul edx, eax, dword 0A0h
-        mov ecx, dword [nosplit eax*8+dword_1797FC]
+        mov ecx, dword [nosplit eax*8+SpriteScreenX]
         mov ebx, dword [byte ebp-01Ch]
         mov dword [byte ebp-018h], ecx
-        mov ecx, dword [nosplit ebx*8+dword_1797FC]
+        mov ecx, dword [nosplit ebx*8+SpriteScreenX]
         add dword [byte ebp-018h], ecx
         mov ecx, dword [byte ebp-018h]
-        mov eax, dword [nosplit eax*8+dword_179800]
-        add eax, dword [nosplit ebx*8+dword_179800]
+        mov eax, dword [nosplit eax*8+SpriteScreenY]
+        add eax, dword [nosplit ebx*8+SpriteScreenY]
         add edx, SortCords
         sar eax, 1
         sar ecx, 1
@@ -2088,9 +2088,9 @@ PlaceGoalNets_20B:
         mov edx, 0FFFFFFF6h
 .23:
         mov eax, dword [byte ebp-01Ch]
-        mov ebx, dword [nosplit eax*8+dword_1797FC]
+        mov ebx, dword [nosplit eax*8+SpriteScreenX]
         sub ebx, edx
-        mov eax, dword [nosplit eax*8+dword_179800]
+        mov eax, dword [nosplit eax*8+SpriteScreenY]
         mov dword [byte ebp-08h], ebx
         mov dword [byte ebp-0Ch], eax
 .24:
@@ -2123,8 +2123,8 @@ PlaceGoalNets_20B:
         push eax
         mov eax, dword [byte ebp-01Ch]
         mov ecx, edi
-        mov ebx, dword [nosplit eax*8+dword_179800]
-        mov edx, dword [nosplit eax*8+dword_1797FC]
+        mov ebx, dword [nosplit eax*8+SpriteScreenY]
+        mov edx, dword [nosplit eax*8+SpriteScreenX]
 .26:
         mov eax, dword [byte ebp-010h]
         call DrawRinkSprite
@@ -2147,8 +2147,8 @@ PlaceGoalNets_20B:
         push eax
         mov eax, dword [byte ebp-01Ch]
         mov ecx, edi
-        mov ebx, dword [nosplit eax*8+dword_179800]
-        mov edx, dword [nosplit eax*8+dword_1797FC]
+        mov ebx, dword [nosplit eax*8+SpriteScreenY]
+        mov edx, dword [nosplit eax*8+SpriteScreenX]
         mov eax, dword [byte ebp-018h]
         call DrawRinkSprite
 .27:
@@ -2171,10 +2171,10 @@ DrawPlayerShadows:
         mov dword [byte ebp-0Ch], 0
 .1:
         mov eax, dword [byte ebp-0Ch]
-        mov eax, dword [dword eax+dword_179A7C]
+        mov eax, dword [dword eax+SpriteDepth]
         mov dword [byte ebp-08h], eax
         imul eax, byte 0Ch
-        cmp dword [dword eax+dword_179AC8], byte 50h
+        cmp dword [dword eax+SpriteFrameIds], byte 50h
         jle near .12
         imul esi, dword [byte ebp-08h], dword 0A0h
         add esi, SortCords
@@ -2204,7 +2204,7 @@ DrawPlayerShadows:
         jl near .12
 .4:
         imul eax, dword [byte ebp-08h], byte 0Ch
-        push dword [dword eax+dword_179AC8]
+        push dword [dword eax+SpriteFrameIds]
         call SpriteScale
         add esp, byte 4
         mov edi, eax
@@ -2220,14 +2220,14 @@ DrawPlayerShadows:
         jge near .10
         movsx eax, word [byte esi+014h]
         imul ebx, eax, dword 0A0h
-        mov ecx, dword [nosplit eax*8+dword_1797FC]
+        mov ecx, dword [nosplit eax*8+SpriteScreenX]
         mov edx, dword [byte ebp-08h]
         mov dword [byte ebp-04h], ecx
-        mov ecx, dword [nosplit edx*8+dword_1797FC]
+        mov ecx, dword [nosplit edx*8+SpriteScreenX]
         add dword [byte ebp-04h], ecx
         mov ecx, dword [byte ebp-04h]
-        mov eax, dword [nosplit eax*8+dword_179800]
-        add eax, dword [nosplit edx*8+dword_179800]
+        mov eax, dword [nosplit eax*8+SpriteScreenY]
+        add eax, dword [nosplit edx*8+SpriteScreenY]
         add ebx, SortCords
         sar eax, 1
         sar ecx, 1
@@ -2263,9 +2263,9 @@ DrawPlayerShadows:
         mov edx, 0FFFFFFF6h
 .8:
         mov eax, dword [byte ebp-08h]
-        mov ebx, dword [nosplit eax*8+dword_1797FC]
+        mov ebx, dword [nosplit eax*8+SpriteScreenX]
         sub ebx, edx
-        mov eax, dword [nosplit eax*8+dword_179800]
+        mov eax, dword [nosplit eax*8+SpriteScreenY]
         mov dword [byte ebp-018h], ebx
         mov dword [byte ebp-01Ch], eax
 .9:
@@ -2292,8 +2292,8 @@ DrawPlayerShadows:
         push eax
         mov eax, dword [byte ebp-08h]
         mov ecx, edi
-        mov ebx, dword [nosplit eax*8+dword_179800]
-        mov edx, dword [nosplit eax*8+dword_1797FC]
+        mov ebx, dword [nosplit eax*8+SpriteScreenY]
+        mov edx, dword [nosplit eax*8+SpriteScreenX]
 .11:
         mov eax, dword [byte ebp-010h]
         call DrawSpriteShadow
@@ -2314,8 +2314,8 @@ DrawPlayerShadows:
         push eax
         mov eax, dword [byte ebp-08h]
         mov ecx, edi
-        mov ebx, dword [nosplit eax*8+dword_179800]
-        mov edx, dword [nosplit eax*8+dword_1797FC]
+        mov ebx, dword [nosplit eax*8+SpriteScreenY]
+        mov edx, dword [nosplit eax*8+SpriteScreenX]
         mov eax, dword [byte ebp-04h]
         call DrawSpriteShadow
 .12:
@@ -2338,10 +2338,10 @@ DrawPlayers:
         mov dword [byte ebp-08h], 40h
 .1:
         mov eax, dword [byte ebp-08h]
-        mov eax, dword [dword eax+dword_179A7C]
+        mov eax, dword [dword eax+SpriteDepth]
         mov dword [byte ebp-018h], eax
         imul eax, byte 0Ch
-        cmp dword [dword eax+dword_179AC8], byte 50h
+        cmp dword [dword eax+SpriteFrameIds], byte 50h
         jle near .12
         imul esi, dword [byte ebp-018h], dword 0A0h
         add esi, SortCords
@@ -2373,7 +2373,7 @@ DrawPlayers:
         jl near .12
 .4:
         imul eax, dword [byte ebp-018h], byte 0Ch
-        push dword [dword eax+dword_179AC8]
+        push dword [dword eax+SpriteFrameIds]
         call SpriteScale
         add esp, byte 4
         mov edi, eax
@@ -2390,14 +2390,14 @@ DrawPlayers:
         jge near .10
         movsx eax, word [byte esi+014h]
         imul edx, eax, dword 0A0h
-        mov ecx, dword [nosplit eax*8+dword_1797FC]
+        mov ecx, dword [nosplit eax*8+SpriteScreenX]
         mov ebx, dword [byte ebp-018h]
         mov dword [byte ebp-04h], ecx
-        mov ecx, dword [nosplit ebx*8+dword_1797FC]
+        mov ecx, dword [nosplit ebx*8+SpriteScreenX]
         add dword [byte ebp-04h], ecx
         mov ecx, dword [byte ebp-04h]
-        mov eax, dword [nosplit eax*8+dword_179800]
-        add eax, dword [nosplit ebx*8+dword_179800]
+        mov eax, dword [nosplit eax*8+SpriteScreenY]
+        add eax, dword [nosplit ebx*8+SpriteScreenY]
         add edx, SortCords
         sar eax, 1
         sar ecx, 1
@@ -2436,9 +2436,9 @@ DrawPlayers:
         mov eax, 0FFFFFFF6h
 .8:
         mov edx, dword [byte ebp-018h]
-        mov ebx, dword [nosplit edx*8+dword_1797FC]
+        mov ebx, dword [nosplit edx*8+SpriteScreenX]
         sub ebx, eax
-        mov eax, dword [nosplit edx*8+dword_179800]
+        mov eax, dword [nosplit edx*8+SpriteScreenY]
         mov dword [byte ebp-01Ch], ebx
         mov dword [byte ebp-020h], eax
 .9:
@@ -2471,8 +2471,8 @@ DrawPlayers:
         push eax
         mov eax, dword [byte ebp-018h]
         mov ecx, edi
-        mov ebx, dword [nosplit eax*8+dword_179800]
-        mov edx, dword [nosplit eax*8+dword_1797FC]
+        mov ebx, dword [nosplit eax*8+SpriteScreenY]
+        mov edx, dword [nosplit eax*8+SpriteScreenX]
 .11:
         mov eax, dword [byte ebp-014h]
         call DrawPlayerSprite
@@ -2495,8 +2495,8 @@ DrawPlayers:
         push eax
         mov eax, dword [byte ebp-018h]
         mov ecx, edi
-        mov ebx, dword [nosplit eax*8+dword_179800]
-        mov edx, dword [nosplit eax*8+dword_1797FC]
+        mov ebx, dword [nosplit eax*8+SpriteScreenY]
+        mov edx, dword [nosplit eax*8+SpriteScreenX]
         mov eax, dword [byte ebp-04h]
         call DrawPlayerSprite
 .12:
@@ -2508,7 +2508,7 @@ DrawPlayers:
         je short .13
         call DrawPlayers
 .13:
-        cmp dword [dword_17997C], byte 0
+        cmp dword [ShowMarkers], byte 0
         je short DrawPlayerMarkers
         call DrawPlayerShadows
 ;-----------------------------------------------------------------------------
@@ -2524,10 +2524,10 @@ DrawPlayerMarkers:
         enter 24h, 0
         cmp dword [dword_11D91F], byte 0
         jne near PlaceGoalNets_20B
-        mov eax, dword [dword_17BA54]
+        mov eax, dword [MarkerSpriteFile]
         mov dword [byte ebp-01Ch], 0
         call SetAaPalLut
-        mov dword [dword_11BC24], 0FFFFFFFFh
+        mov dword [LastPaletteMode], 0FFFFFFFFh
 .1:
         mov eax, dword [puckc]
         movsx edx, byte [eax]
@@ -2541,12 +2541,12 @@ DrawPlayerMarkers:
         jl near PlaceGoalNets_E0
         movsx edx, byte [eax]
         imul eax, edx, byte 0Ch
-        cmp dword [dword eax+dword_179AC8], byte 50h
+        cmp dword [dword eax+SpriteFrameIds], byte 50h
         jle near PlaceGoalNets_E0
         imul edx, dword 0A0h
         cmp dword [dword edx+SortCords+7Ah], byte 0FFFFFFFFh
         jne near PlaceGoalNets_E0
-        push dword [dword eax+dword_179AC8]
+        push dword [dword eax+SpriteFrameIds]
         call SpriteScale
         add esp, byte 4
         mov edx, 33333h
@@ -2570,12 +2570,12 @@ DrawRinkView:
         push ecx
         push edx
         enter 6Ch, 0
-        push dword [dword_179E0F]
+        push dword [CamPitch]
         lea edx, [byte ebp-024h]
         push edx
         call MakeRotXMatrix
         add esp, byte 8
-        push dword [dword_179E0B]
+        push dword [CamAngle]
         lea edx, [byte ebp-048h]
         push edx
         call MakeRotYMatrix
@@ -2595,7 +2595,7 @@ DrawRinkView:
         call SetClipWindow
         add esp, byte 10h
         lea edx, [byte ebp-06Ch]
-        mov eax, dword_179E13
+        mov eax, CamPathState
         call SetViewCamera
         call DrawRinkModels
         call DrawWholeRink
@@ -2619,12 +2619,12 @@ DrawGameFrame:
         enter 90h, 0
         sub ebp, 82h
         mov edi, eax
-        push dword [dword_179E0F]
+        push dword [CamPitch]
         lea eax, [byte ebp+016h]
         push eax
         call MakeRotXMatrix
         add esp, byte 8
-        push dword [dword_179E0B]
+        push dword [CamAngle]
         lea eax, [byte ebp-0Eh]
         push eax
         call MakeRotYMatrix
@@ -2638,7 +2638,7 @@ DrawGameFrame:
         mov dword [byte ebp+07Ah], 0FFFFFFF4h
         xor esi, esi
         call MultiplyMatrix
-        mov ecx, unk_179BBC
+        mov ecx, ZoneRects
         add esp, byte 0Ch
         xor ebx, ebx
 .1:
@@ -2664,7 +2664,7 @@ DrawGameFrame:
         mov eax, dword [byte ebp+07Ah]
         mov edx, ecx
         call PlaceGoalNet
-        mov dword [dword_11B2A8], 1
+        mov dword [GoalReplayPending], 1
 .4:
         inc dword [byte ebp+07Ah]
         add ebx, 0A0h
@@ -2684,12 +2684,12 @@ DrawGameFrame:
         mov dword [byte ebp+072h], eax
         lea eax, [byte ebp+06Ah]
         call PlacePuckModels
-        mov eax, dword [dword_179E13]
+        mov eax, dword [CamPathState]
         mov dword [byte ebp+05Eh], eax
-        mov eax, dword [dword_179E17]
+        mov eax, dword [CamZoom]
         mov esi, 11h
         mov dword [byte ebp+062h], eax
-        mov eax, dword [dword_179E1B]
+        mov eax, dword [CamPathActive]
         neg dword [byte ebp+05Eh]
         mov dword [byte ebp+066h], eax
         neg dword [byte ebp+062h]
@@ -2699,18 +2699,18 @@ DrawGameFrame:
         mov dx, word [word_165144]
         xor dh, dh
         and dl, 1
-        mov eax, dword_179C88
+        mov eax, ZoneRectCount
         movsx edx, dx
         mov esi, 15h
         test edx, edx
         je short .5
         movsx edx, word [word_16514A]
         shl edx, 2
-        mov dword [dword_179C88], edx
+        mov dword [ZoneRectCount], edx
         movsx edx, word [word_16514C]
         shl edx, 2
-        mov dword [dword_179C8C], 0
-        mov dword [dword_179C90], edx
+        mov dword [ZoneRectIndex], 0
+        mov dword [ZoneRectList], edx
 .5:
         mov dx, word [word_165144]
         xor dh, dh
@@ -2757,42 +2757,42 @@ DrawGameFrame:
         mov dword [byte eax+04h], 0
         mov dword [byte eax+08h], ebx
 .8:
-        push unk_179980
+        push DrawList
         lea eax, [byte ebp+05Eh]
         push eax
-        push unk_179BBC
+        push ZoneRects
         push esi
         call DrawPolyOutline
         add esp, byte 10h
-        push unk_179AC0
+        push DrawListCount
         lea eax, [byte ebp+03Ah]
         push eax
-        push unk_179980
+        push DrawList
         push esi
         call DrawFlatPoly
         add esp, byte 10h
-        push dword_1797FC
-        push unk_179AC0
+        push SpriteScreenX
+        push DrawListCount
         push esi
         call ProjectPointList
         mov eax, 60h
         add esp, byte 0Ch
 .9:
         add eax, byte 8
-        sar dword [dword eax+dword_1797F4], 10h
-        sar dword [dword eax+dword_1797F8], 10h
+        sar dword [dword eax+ViewScrollX], 10h
+        sar dword [dword eax+ViewScrollY], 10h
         cmp eax, byte 70h
         jne short .9
         xor eax, eax
         xor ebx, ebx
 .10:
-        mov edx, dword [dword ebx+dword_179AC8]
+        mov edx, dword [dword ebx+SpriteFrameIds]
         cmp edx, byte 50h
         jg short .11
-        mov dword [dword eax+dword_179934], 0FFFFFC18h
+        mov dword [dword eax+ViewObjects], 0FFFFFC18h
         jmp short .12
 .11:
-        mov dword [dword eax+dword_179934], edx
+        mov dword [dword eax+ViewObjects], edx
 .12:
         add eax, byte 4
         add ebx, byte 0Ch
@@ -2801,13 +2801,13 @@ DrawGameFrame:
         xor ebx, ebx
         xor eax, eax
 .13:
-        mov dword [dword eax+dword_179A7C], ebx
+        mov dword [dword eax+SpriteDepth], ebx
         inc ebx
         add eax, byte 4
         cmp ebx, byte 11h
         jl short .13
-        push dword_179A7C
-        push dword_179934
+        push SpriteDepth
+        push ViewObjects
         push byte 11h
         call SortIndices
         movsx ebx, word [gameclock]
@@ -2815,21 +2815,21 @@ DrawGameFrame:
         mov ecx, 3Ch
         cdq
         idiv ecx
-        mov dword [dword_1798B8], eax
+        mov dword [ClockBmp], eax
         mov eax, ebx
         cdq
         idiv ecx
         movsx eax, word [clockticks]
         imul eax, byte 0Ah
         mov ebx, 18h
-        mov dword [dword_1798B0], edx
+        mov dword [ClockDrawnTime], edx
         cdq
         idiv ebx
         add esp, byte 0Ch
-        mov dword [dword_1798B4], eax
-        cmp dword [dword_1798B8], byte 0
+        mov dword [ClockDrawnPeriod], eax
+        cmp dword [ClockBmp], byte 0
         jne short .14
-        cmp dword [dword_1798B0], byte 0
+        cmp dword [ClockDrawnTime], byte 0
         jne short .14
         test eax, eax
         jne short .14
@@ -2841,35 +2841,35 @@ DrawGameFrame:
         test eax, eax
         setne al
         movzx eax, al
-        mov dword [dword_1798BC], eax
+        mov dword [ViewDirty], eax
         call CopyZonesToScreen
         call DimGameView
-        mov eax, dword [dword_11B32C]
-        mov ecx, dword [dword_11B32C]
-        mov ebx, dword [dword_11B328]
-        mov edx, dword [dword_11B328]
-        add eax, dword [dword_11B31C]
+        mov eax, dword [ViewPixels]
+        mov ecx, dword [ViewPixels]
+        mov ebx, dword [ViewBitmap]
+        mov edx, dword [ViewBitmap]
+        add eax, dword [ViewHeight]
         inc dword [DrawFrameCount]
         push eax
-        add ebx, dword [dword_11B318]
+        add ebx, dword [ViewWidth]
         mov eax, dword [DrawFrameCount]
         call AddZone
-        mov eax, dword [dword_11B32C]
-        add eax, dword [dword_11B31C]
+        mov eax, dword [ViewPixels]
+        add eax, dword [ViewHeight]
         push eax
-        mov eax, dword [dword_11B328]
-        push dword [dword_11B32C]
-        add eax, dword [dword_11B318]
+        mov eax, dword [ViewBitmap]
+        push dword [ViewPixels]
+        add eax, dword [ViewWidth]
         push eax
-        push dword [dword_11B328]
+        push dword [ViewBitmap]
         call SetClipWindow
         add esp, byte 10h
         lea edx, [byte ebp+03Ah]
-        mov eax, dword_179E13
+        mov eax, CamPathState
         call SetViewCamera
         call DrawRinkModels
-        add dword [dword_179910], edi
-        mov eax, dword [dword_179910]
+        add dword [GoalFrameCount], edi
+        mov eax, dword [GoalFrameCount]
         call UpdateGoalLight
         add dword [dword_15E4BC], edi
         mov eax, dword [dword_15E4BC]
@@ -2889,7 +2889,7 @@ DrawGameFrame:
         je short .17
         call DrawPlayers
 .17:
-        cmp dword [dword_17997C], byte 0
+        cmp dword [ShowMarkers], byte 0
         je short .18
         call DrawPlayerShadows
 .18:
@@ -2923,7 +2923,7 @@ DrawGameFrame:
         cmp dword [curperiod], byte 0FFFFFFFFh
         je near .31
         mov edx, dword [mousex]
-        sub edx, dword [dword_11B320]
+        sub edx, dword [ViewLeft]
         imul edx, edx
         mov eax, dword [mousey]
         sub eax, dword [str_D_DrawGameFrame]
@@ -2944,7 +2944,7 @@ DrawGameFrame:
         jmp short .27
 .26:
         mov eax, dword [mousex]
-        sub eax, dword [dword_11B320]
+        sub eax, dword [ViewLeft]
         sar eax, 2
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [mousey]
@@ -2955,28 +2955,28 @@ DrawGameFrame:
         sub ax, word [mousey]
         movsx edx, ax
         mov ax, word [mousex]
-        sub ax, word [dword_11B320]
+        sub ax, word [ViewLeft]
         cwde
         call vtoa
         cwde
 .27:
         imul ecx, ebx, byte 0Ch
-        cmp dword [dword ecx+dword_179AC8], byte 50h
+        cmp dword [dword ecx+SpriteFrameIds], byte 50h
         jge short .28
-        mov edx, dword [dword_11B318]
+        mov edx, dword [ViewWidth]
         sar edx, 1
         add dword [byte ebp+07Eh], edx
-        mov edx, dword [dword_11B31C]
+        mov edx, dword [ViewHeight]
         jmp short .29
 .28:
-        mov edx, dword [nosplit ebx*8+dword_1797FC]
+        mov edx, dword [nosplit ebx*8+SpriteScreenX]
         sar edx, 10h
         add dword [byte ebp+07Eh], edx
-        mov edx, dword [nosplit ebx*8+dword_179800]
+        mov edx, dword [nosplit ebx*8+SpriteScreenY]
         sar edx, 10h
 .29:
         add dword [byte ebp+076h], edx
-        mov esi, dword [nosplit eax*4+dword_11B24C]
+        mov esi, dword [nosplit eax*4+GameFrameShapes]
         cmp eax, byte 4
         jle short .30
         cmp eax, byte 8
@@ -3018,7 +3018,7 @@ DrawGameFrame:
         call DrawOverlayPanels
         jmp short .36
 .34:
-        cmp dword [dword_1798BC], byte 0
+        cmp dword [ViewDirty], byte 0
         je short .35
         mov al, byte [gmode]
         and al, 80h
@@ -3045,7 +3045,7 @@ DrawGameFrame:
 ;-----------------------------------------------------------------------------
 ; DrawPanelLogo                                   5AB8A  96 PC, low confidence
 ; Draws a team logo model into an overlay panel (scale by hi-res
-; dword_1798A8)
+; OverlayPanelOn)
 ;-----------------------------------------------------------------------------
 DrawPanelLogo:
         push esi
@@ -3056,7 +3056,7 @@ DrawPanelLogo:
         mov dword [byte ebp-08h], ebx
         test ecx, ecx
         je short .2
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .1
         mov eax, 9999h
         jmp short .4
@@ -3064,7 +3064,7 @@ DrawPanelLogo:
         mov eax, 3851h
         jmp short .4
 .2:
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .3
         mov eax, 0CCCCh
         jmp short .4
@@ -3078,7 +3078,7 @@ DrawPanelLogo:
         mov ebx, edi
         mov edx, esi
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_11BC24], 0FFFFFFFFh
+        mov dword [LastPaletteMode], 0FFFFFFFFh
         call DrawArtAaScaledInt
         movsx eax, word [byte esi+08h]
         imul eax, dword [byte ebp-04h]
@@ -3109,7 +3109,7 @@ DrawPanelLogo:
 ;-----------------------------------------------------------------------------
 ; OpenOverlayPanel                                5AC3E  96 PC, low confidence
 ; The box of an overlay panel (logo, fill), drawn again only when the panel
-; changes (byte_179CB8 / 179CB9)
+; changes (OverlayQueueLen / 179CB9)
 ;-----------------------------------------------------------------------------
 OpenOverlayPanel:
         push ecx
@@ -3117,13 +3117,13 @@ OpenOverlayPanel:
         push edi
         enter 10h, 0
         push eax
-        cmp byte [byte_179CB8], 0
+        cmp byte [OverlayQueueLen], 0
         je short .1
-        movsx eax, byte [byte_179CB9]
+        movsx eax, byte [OverlayQueue]
         cmp eax, ebx
         je short .1
-        dec byte [byte_179CB8]
-        cmp byte [byte_179CB8], 0
+        dec byte [OverlayQueueLen]
+        cmp byte [OverlayQueueLen], 0
         jle short .1
         xor eax, eax
         leave
@@ -3133,17 +3133,17 @@ OpenOverlayPanel:
         ret
 .1:
         mov eax, 1F4h
-        mov cl, byte [byte_1798A4]
-        mov byte [byte_179CB8], 0Ah
+        mov cl, byte [OverlayPanelId]
+        mov byte [OverlayQueueLen], 0Ah
         sar eax, cl
         mov edi, 46h
         mov dword [byte ebp-04h], eax
         mov eax, 24h
-        mov byte [byte_179CB9], bl
+        mov byte [OverlayQueue], bl
         sar eax, cl
         sar edi, cl
         mov dword [byte ebp-08h], eax
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .2
         mov eax, 1E0h
         jmp short .3
@@ -3151,9 +3151,9 @@ OpenOverlayPanel:
         mov eax, 0C8h
 .3:
         mov ebx, edx
-        imul edx, dword [dword_1798FC]
+        imul edx, dword [PanelBaseY]
         shl ebx, 2
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         add ebx, byte 4
         sar ebx, cl
         add ebx, edx
@@ -3163,8 +3163,8 @@ OpenOverlayPanel:
         sub esi, edx
         mov edx, eax
         sub esi, ebx
-        mov eax, dword [dword_1798FC]
-        sub esi, dword [dword_1798FC]
+        mov eax, dword [PanelBaseY]
+        sub esi, dword [PanelBaseY]
         sar eax, 1
         sub edx, esi
         sub edx, eax
@@ -3180,7 +3180,7 @@ OpenOverlayPanel:
         mov eax, unk_17D3E8
         call FillBox
         mov eax, 2
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         mov edx, dword [byte ebp-08h]
         shl eax, cl
         push dword 0ADh
@@ -3196,7 +3196,7 @@ OpenOverlayPanel:
         mov edx, 4
         add esp, byte 14h
         mov ebx, dword [byte ebp-04h]
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         push byte 4
         shl edx, cl
         shl eax, cl
@@ -3212,7 +3212,7 @@ OpenOverlayPanel:
         call FillRect
         mov eax, 2
         mov edx, dword [byte ebp-08h]
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         add esp, byte 14h
         shl eax, cl
         push byte 4
@@ -3228,7 +3228,7 @@ OpenOverlayPanel:
         add esp, byte 14h
         cmp dword [byte ebp-014h], byte 0
         jl short .6
-        mov dword [dword_11B2EC], 0FFFFFFFFh
+        mov dword [PanelCloseTime], 0FFFFFFFFh
         je short .4
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
@@ -3242,22 +3242,22 @@ OpenOverlayPanel:
         shr eax, 1Bh
         jmp short .8
 .6:
-        cmp dword [dword_11B2EC], byte 0
+        cmp dword [PanelCloseTime], byte 0
         jge short .7
         call rand_
         mov ebx, 6
         cdq
         idiv ebx
-        mov dword [dword_11B2EC], edx
+        mov dword [PanelCloseTime], edx
 .7:
-        mov eax, dword [dword_11B2EC]
+        mov eax, dword [PanelCloseTime]
         add eax, byte 1Ch
 .8:
         call LoadTeamLogo
         mov edx, 1Eh
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sar edx, cl
-        mov ecx, dword [byte_1798A4]
+        mov ecx, dword [OverlayPanelId]
         movsx ebx, word [byte eax+0Ah]
         inc ecx
         sar ebx, cl
@@ -3265,7 +3265,7 @@ OpenOverlayPanel:
         add ebx, esi
         xor ecx, ecx
         call DrawPanelLogo
-        mov dword [dword_11B238], 1770h
+        mov dword [ClockPanelState], 1770h
         mov eax, dword [byte ebp-0Ch]
         mov ebx, dword [byte ebp-04h]
         inc dword [DrawFrameCount]
@@ -3275,7 +3275,7 @@ OpenOverlayPanel:
         add ebx, edi
         push eax
         mov eax, dword [DrawFrameCount]
-        mov dword [dword_11B2E8], 0
+        mov dword [PanelOpenTime], 0
         call AddZone
         mov eax, 1
         leave
@@ -3299,7 +3299,7 @@ DrawOverlayCaption:
         lea edi, [byte ebp-02Ch]
         mov esi, str_T_DrawOverlayCaption
         rep movsd
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         mov edx, 6
         add esp, byte 4
@@ -3310,15 +3310,15 @@ DrawOverlayCaption:
         mov esi, 14h
         and edi, 0FFFFh
         mov eax, dword [byte ebp+eax*4-02Ch]
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         call GetLangText
         push eax
         sar esi, cl
         call TextStringWidth
         add edi, esi
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         add eax, byte 6
-        mov edx, dword [dword_17992C]
+        mov edx, dword [PanelWidth]
         mov dword [byte ebp-04h], eax
         mov eax, 6
         add esp, byte 4
@@ -3335,7 +3335,7 @@ DrawOverlayCaption:
         mov edx, esi
         mov eax, unk_17D3E8
         call FillBox
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .1
         mov ebx, 5
         jmp short .2
@@ -3377,19 +3377,19 @@ DrawOverlayCaption_E1:
 ;-----------------------------------------------------------------------------
 ResetGameOverlays:
         push edx
-        mov dword [dword_11B238], 1770h
+        mov dword [ClockPanelState], 1770h
         mov eax, dword [GsOptions]
-        mov dword [dword_11B2E8], 0
+        mov dword [PanelOpenTime], 0
         shl eax, 12h
-        mov dword [dword_11B23C], 1F40h
+        mov dword [ScorePanelState], 1F40h
         shr eax, 1Fh
-        mov dword [dword_11B240], 0FFFFFFFFh
-        mov dword [dword_1798A8], eax
+        mov dword [TimeLeftPanelState], 0FFFFFFFFh
+        mov dword [OverlayPanelOn], eax
         test eax, eax
         sete al
         movzx eax, al
         xor edx, edx
-        mov dword [byte_1798A4], eax
+        mov dword [OverlayPanelId], eax
         mov eax, OverlayPanelQueue
 .1:
         inc edx
@@ -3397,13 +3397,13 @@ ResetGameOverlays:
         add eax, byte 14h
         cmp edx, byte 3
         jl short .1
-        mov byte [byte_179CB8], 0
-        mov byte [byte_179CB9], 0
+        mov byte [OverlayQueueLen], 0
+        mov byte [OverlayQueue], 0
         pop edx
         ret
 ;-----------------------------------------------------------------------------
 ; DrawTimedPanel                                  5AFAE  96 PC, low confidence
-; (ticks): shows the panel dword_11B244 for 12Ch ticks
+; (ticks): shows the panel TimedPanelState for 12Ch ticks
 ;-----------------------------------------------------------------------------
 DrawTimedPanel:
         push ebx
@@ -3412,30 +3412,30 @@ DrawTimedPanel:
         push edi
         enter 10h, 0
         push edx
-        cmp dword [dword_11B244], byte 0
+        cmp dword [TimedPanelState], byte 0
         jl short .1
-        cmp dword [dword_11B2F0], byte 0FFFFFFFFh
+        cmp dword [TimedPanelTimer], byte 0FFFFFFFFh
         jne short .1
-        mov dword [dword_11B2F0], 12Ch
+        mov dword [TimedPanelTimer], 12Ch
 .1:
-        cmp dword [dword_11B2F0], byte 0
+        cmp dword [TimedPanelTimer], byte 0
         jl near DrawOverlayCaption_E1
-        sub dword [dword_11B2F0], eax
-        cmp dword [dword_11B2F0], byte 0
+        sub dword [TimedPanelTimer], eax
+        cmp dword [TimedPanelTimer], byte 0
         jge short .2
-        mov dword [dword_11B2F0], 0FFFFFFFFh
-        mov dword [dword_11B244], 0FFFFFFFFh
+        mov dword [TimedPanelTimer], 0FFFFFFFFh
+        mov dword [TimedPanelState], 0FFFFFFFFh
         jmp near DrawOverlayCaption_E1
 .2:
-        mov esi, dword [dword_11B364]
+        mov esi, dword [CamFollowObj]
         movzx eax, byte [byte esi+0Ch]
-        mov esi, dword [dword_11B244]
+        mov esi, dword [TimedPanelState]
         shl eax, 4
-        mov esi, dword [dword eax+esi*4+dword_11B9F4]
+        mov esi, dword [dword eax+esi*4+CameraViewSlots]
         mov eax, dword [esi]
         mov edi, 266h
         call GetLangText
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         mov dword [byte ebp-010h], eax
         mov dword [byte ebp-0Ch], eax
         call TextSetFont
@@ -3444,11 +3444,11 @@ DrawTimedPanel:
         mov eax, 0ADh
         mov esi, 14h
         call SetTextColors
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         push dword [byte ebp-010h]
         sar edi, cl
         call TextStringWidth
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub edi, eax
         mov eax, dword [byte ebp-014h]
         add esp, byte 4
@@ -3458,9 +3458,9 @@ DrawTimedPanel:
         push dword [byte ebp-010h]
         add esi, eax
         call TextStringWidth
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         add eax, byte 6
-        mov edx, dword [dword_17992C]
+        mov edx, dword [PanelWidth]
         mov dword [byte ebp-08h], eax
         mov eax, 6
         add esp, byte 4
@@ -3477,7 +3477,7 @@ DrawTimedPanel:
         mov edx, edi
         mov eax, unk_17D3E8
         call FillBox
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .3
         mov ebx, 5
         jmp short .4
@@ -3509,7 +3509,7 @@ DrawGameClock:
         enter 14h, 0
         mov edi, eax
         mov esi, edx
-        push dword [dword_179914]
+        push dword [ClockPanelBmp]
         call TextSetFont
         add esp, byte 4
         push dword 0FFh
@@ -3518,18 +3518,18 @@ DrawGameClock:
         add esp, byte 8
         push esi
         push edi
-        push dword [dword_179908]
+        push dword [ClockFont]
         call DrawArt
         add esp, byte 0Ch
-        cmp dword [dword_1798B8], byte 0
+        cmp dword [ClockBmp], byte 0
         je short .1
-        push dword [dword_1798B0]
-        push dword [dword_1798B8]
+        push dword [ClockDrawnTime]
+        push dword [ClockBmp]
         push str_2d02d2
         jmp short .2
 .1:
-        push dword [dword_1798B4]
-        push dword [dword_1798B0]
+        push dword [ClockDrawnPeriod]
+        push dword [ClockDrawnTime]
         push str_2d01d
 .2:
         lea eax, [byte ebp-014h]
@@ -3537,7 +3537,7 @@ DrawGameClock:
         call sprintf_
         add esp, byte 10h
         mov eax, 4
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov edx, 9
         sar eax, cl
         sar edx, cl
@@ -3546,7 +3546,7 @@ DrawGameClock:
         lea ebx, [esi+eax]
         lea eax, [byte ebp-014h]
         call DrawText
-        mov eax, dword [dword_179908]
+        mov eax, dword [ClockFont]
         mov ecx, esi
         movsx edx, word [byte eax+06h]
         movsx ebx, word [byte eax+04h]
@@ -3578,7 +3578,7 @@ DrawPenaltyClock:
         cdq
         idiv ecx
         mov dword [byte ebp-014h], edx
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .1
         mov esi, 1B8h
         jmp short .2
@@ -3591,10 +3591,10 @@ DrawPenaltyClock:
 .3:
         mov ebx, 0A0h
 .4:
-        imul eax, dword [dword_1798FC], byte 3
+        imul eax, dword [PanelBaseY], byte 3
         mov edi, 64h
-        mov cl, byte [dword_1798A8]
-        mov edx, dword [dword_179900]
+        mov cl, byte [OverlayPanelOn]
+        mov edx, dword [PenaltyClockWidth]
         shl edi, cl
         add edx, eax
         lea ecx, [esi+edi]
@@ -3607,7 +3607,7 @@ DrawPenaltyClock:
         mov eax, unk_17D3E8
         mov dword [byte ebp-04h], ebx
         call FillBox
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .5
         mov dword [byte ebp-08h], 1Bh
         jmp short .6
@@ -3615,7 +3615,7 @@ DrawPenaltyClock:
         mov dword [byte ebp-08h], 0Ch
 .6:
         mov eax, 2
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         mov edx, dword [byte ebp-08h]
         shl eax, cl
         push dword 0ADh
@@ -3630,7 +3630,7 @@ DrawPenaltyClock:
         mov eax, 2
         mov edx, 4
         add esp, byte 14h
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         mov ebx, edi
         push byte 4
         shl edx, cl
@@ -3647,7 +3647,7 @@ DrawPenaltyClock:
         call FillRect
         mov eax, 2
         mov edx, dword [byte ebp-08h]
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         add esp, byte 14h
         shl eax, cl
         push byte 4
@@ -3694,18 +3694,18 @@ DrawPenaltyClock:
 .8:
         shr eax, 1Bh
         call LoadTeamLogo
-        mov ecx, dword [byte_1798A4]
+        mov ecx, dword [OverlayPanelId]
         movsx edx, word [byte eax+08h]
         inc ecx
         inc ecx
         mov ebx, 280h
         sar edx, cl
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sar ebx, cl
         mov ecx, ebx
         sub ecx, edx
         mov edx, ecx
-        mov ecx, dword [byte_1798A4]
+        mov ecx, dword [OverlayPanelId]
         movsx ebx, word [byte eax+0Ah]
         inc ecx
         sar ebx, cl
@@ -3714,13 +3714,13 @@ DrawPenaltyClock:
         add ebx, ecx
         mov ecx, 1
         call DrawPanelLogo
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .9
         mov eax, 4
         jmp short .10
@@ -3729,24 +3729,24 @@ DrawPenaltyClock:
 .10:
         mov edx, 6
         mov ebx, dword [byte edi+08h]
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         add ebx, eax
         sar edx, cl
         mov eax, 7Dh
         add edx, dword [edi]
         call GetLangText
         call DrawColorText
-        push dword [dword_179914]
+        push dword [ClockPanelBmp]
         call TextSetFont
         add esp, byte 4
         push dword 0FFh
         push byte 41h
         call TextSetColor
         mov eax, 0Ah
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sar eax, cl
         add esi, eax
-        mov eax, dword [dword_179908]
+        mov eax, dword [ClockFont]
         mov ebx, dword [byte edi+0Ch]
         movsx edx, word [byte eax+06h]
         mov edi, 4
@@ -3769,7 +3769,7 @@ DrawPenaltyClock:
         mov edx, 9
         call sprintf_
         mov eax, 4
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         add esp, byte 10h
         sar eax, cl
         sar edx, cl
@@ -3846,7 +3846,7 @@ DrawPlayerPctPanel:
         jl short .3
 .2:
         mov dword [esi], 0FFFFFFFFh
-        mov dword [dword_11B2F4], 0FFFFFFFFh
+        mov dword [PlayerPctPanelTimer], 0FFFFFFFFh
         jmp near DrawOverlayCaption_E1
 .3:
         mov edi, 1
@@ -3857,17 +3857,17 @@ DrawPlayerPctPanel:
         movsx eax, word [dword eax+hmtmPwrPlays]
         mov dword [byte esi+08h], eax
 .5:
-        cmp dword [dword_11B2F4], byte 0
+        cmp dword [PlayerPctPanelTimer], byte 0
         jl short .6
-        sub dword [dword_11B2F4], edx
-        cmp dword [dword_11B2F4], byte 0
+        sub dword [PlayerPctPanelTimer], edx
+        cmp dword [PlayerPctPanelTimer], byte 0
         jl short .2
 .6:
         cmp dword [byte esi+08h], byte 0
         jle near .10
-        cmp dword [dword_11B2F4], byte 0FFFFFFFFh
+        cmp dword [PlayerPctPanelTimer], byte 0FFFFFFFFh
         jne short .7
-        mov dword [dword_11B2F4], 1F4h
+        mov dword [PlayerPctPanelTimer], 1F4h
 .7:
         mov ebx, 1
         mov eax, edi
@@ -3877,14 +3877,14 @@ DrawPlayerPctPanel:
         je near DrawOverlayCaption_E1
         mov eax, dword [DrawFrameCount]
         call ZoneRect
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         mov dword [byte ebp-04h], eax
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .8
         mov ebx, 5
         jmp short .9
@@ -3893,7 +3893,7 @@ DrawPlayerPctPanel:
 .9:
         imul edi, dword 136h
         mov edx, 28h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, dword [byte ebp-04h]
         sar edx, cl
         add ebx, dword [byte eax+08h]
@@ -3903,7 +3903,7 @@ DrawPlayerPctPanel:
         mov eax, 7Eh
         call GetLangText
         call DrawColorTextRight
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         mov edx, 6
@@ -3920,11 +3920,11 @@ DrawPlayerPctPanel:
         call sprintf_
         mov eax, dword [byte ebp-04h]
         mov ebx, 8
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, dword [byte eax+0Ch]
         sar ebx, cl
-        sub eax, dword [dword_1798FC]
-        mov edx, dword [dword_11B320]
+        sub eax, dword [PanelBaseY]
+        mov edx, dword [ViewLeft]
         sub eax, ebx
         add esp, byte 10h
         jmp near .20
@@ -3938,17 +3938,17 @@ DrawPlayerPctPanel:
         and eax, 3E0000h
         cmp eax, 340000h
         jae near DrawOverlayCaption_E1
-        cmp dword [dword_11B2F4], byte 0FFFFFFFFh
+        cmp dword [PlayerPctPanelTimer], byte 0FFFFFFFFh
         jne short .11
-        mov dword [dword_11B2F4], 44Ch
+        mov dword [PlayerPctPanelTimer], 44Ch
 .11:
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        cmp dword [dword_11B2F4], 1F4h
+        cmp dword [PlayerPctPanelTimer], 1F4h
         jg short .12
         mov eax, edi
         mov ebx, 2
@@ -3956,7 +3956,7 @@ DrawPlayerPctPanel:
         mov edx, ebx
         jmp short .13
 .12:
-        cmp dword [dword_11B2F4], 258h
+        cmp dword [PlayerPctPanelTimer], 258h
         jle near DrawOverlayCaption_E1
         mov ebx, 3
         mov edx, 2
@@ -3968,7 +3968,7 @@ DrawPlayerPctPanel:
         mov eax, dword [DrawFrameCount]
         call ZoneRect
         mov esi, eax
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .14
         mov ebx, 5
         jmp short .15
@@ -3976,7 +3976,7 @@ DrawPlayerPctPanel:
         xor ebx, ebx
 .15:
         mov edx, 28h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, dword [byte esi+04h]
         sar edx, cl
         sub eax, edx
@@ -3985,13 +3985,13 @@ DrawPlayerPctPanel:
         add ebx, dword [byte esi+08h]
         call GetLangText
         call DrawColorTextRight
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         mov edx, 6
         mov eax, 0ADh
         call SetTextColors
-        cmp dword [dword_11B2F4], 1F4h
+        cmp dword [PlayerPctPanelTimer], 1F4h
         jge short .16
         mov eax, edi
         xor al, 1
@@ -4014,28 +4014,28 @@ DrawPlayerPctPanel:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        mov ebx, dword [dword_1798FC]
+        mov ebx, dword [PanelBaseY]
         mov eax, dword [byte esi+0Ch]
         add ebx, ebx
         sub eax, ebx
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov ebx, eax
         mov eax, 8
         sar eax, cl
-        mov edx, dword [dword_11B320]
+        mov edx, dword [ViewLeft]
         sub ebx, eax
         lea eax, [byte ebp-054h]
         call DrawColorTextCentred
-        cmp dword [dword_11B2F4], 1F4h
+        cmp dword [PlayerPctPanelTimer], 1F4h
         jge short .18
         xor di, byte 1
         shl edi, 4
-        mov eax, dword [dword edi+dword_178298]
+        mov eax, dword [dword edi+GameViewPanelIds+0Ch]
         mov ebx, 0Ah
         cdq
         idiv ebx
-        push dword [dword edi+dword_178294]
-        mov eax, dword [dword edi+dword_178298]
+        push dword [dword edi+GameViewPanelIds+8]
+        mov eax, dword [dword edi+GameViewPanelIds+0Ch]
         push edx
         cdq
         idiv ebx
@@ -4044,12 +4044,12 @@ DrawPlayerPctPanel:
         jmp short .19
 .18:
         shl edi, 4
-        mov eax, dword [dword edi+dword_178290]
+        mov eax, dword [dword edi+GameViewPanelIds+4]
         mov ebx, 0Ah
         cdq
         idiv ebx
-        push dword [dword edi+dword_17828C]
-        mov eax, dword [dword edi+dword_178290]
+        push dword [dword edi+GameViewPanelIds]
+        mov eax, dword [dword edi+GameViewPanelIds+4]
         push edx
         cdq
         idiv ebx
@@ -4062,11 +4062,11 @@ DrawPlayerPctPanel:
         add esp, byte 14h
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         sub eax, ebx
-        mov edx, dword [dword_11B320]
+        mov edx, dword [ViewLeft]
 .20:
         mov ebx, eax
         lea eax, [byte ebp-054h]
@@ -4086,59 +4086,59 @@ DrawClockPanel:
         pop edx
         ret
 .1:
-        cmp dword [dword_1798B8], byte 0
+        cmp dword [ClockBmp], byte 0
         jne short .2
-        mov dword [dword_11B238], eax
+        mov dword [ClockPanelState], eax
 .2:
-        cmp dword [dword_11B238], byte 0
+        cmp dword [ClockPanelState], byte 0
         jl short .3
-        cmp dword [dword_11B23C], byte 0
+        cmp dword [ScorePanelState], byte 0
         jg short .4
 .3:
-        mov dword [dword_11B238], 1770h
+        mov dword [ClockPanelState], 1770h
         xor eax, eax
         pop edx
         ret
 .4:
-        cmp dword [dword_11B238], byte 0
+        cmp dword [ClockPanelState], byte 0
         jle short .6
         mov al, byte [gmode]
         and al, 1
         movsx eax, al
         test eax, eax
         jne near .15
-        cmp dword [dword_11B2E8], byte 0
+        cmp dword [PanelOpenTime], byte 0
         je short .5
-        cmp dword [dword_11B238], 1F4h
+        cmp dword [ClockPanelState], 1F4h
         jge near .15
-        mov dword [dword_11B238], 1F4h
+        mov dword [ClockPanelState], 1F4h
         xor eax, eax
         pop edx
         ret
 .5:
-        sub dword [dword_11B238], edx
-        cmp dword [dword_11B238], byte 0
+        sub dword [ClockPanelState], edx
+        cmp dword [ClockPanelState], byte 0
         jge near .16
-        mov dword [dword_11B238], eax
+        mov dword [ClockPanelState], eax
 .6:
-        cmp dword [dword_11B2F8], byte 0
+        cmp dword [ClockPanelTimer], byte 0
         jge short .7
-        mov dword [dword_11B2F8], 1F4h
+        mov dword [ClockPanelTimer], 1F4h
 .7:
-        cmp dword [dword_11B2F8], byte 0
+        cmp dword [ClockPanelTimer], byte 0
         jge short .8
-        cmp dword [dword_1798B8], byte 0
+        cmp dword [ClockBmp], byte 0
         jne near .15
 .8:
-        cmp dword [dword_1798B8], byte 0
+        cmp dword [ClockBmp], byte 0
         je short .10
-        sub dword [dword_11B2F8], edx
-        cmp dword [dword_11B2F8], byte 0
+        sub dword [ClockPanelTimer], edx
+        cmp dword [ClockPanelTimer], byte 0
         jge short .10
-        mov dword [dword_11B2F8], 0FFFFFFFFh
+        mov dword [ClockPanelTimer], 0FFFFFFFFh
 .9:
-        mov dword [dword_11B238], 1770h
-        mov dword [dword_11B2E8], 0
+        mov dword [ClockPanelState], 1770h
+        mov dword [PanelOpenTime], 0
         xor eax, eax
         pop edx
         ret
@@ -4148,7 +4148,7 @@ DrawClockPanel:
         movsx eax, al
         test eax, eax
         jne short .9
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .11
         mov eax, 20Ch
         jmp short .12
@@ -4162,7 +4162,7 @@ DrawClockPanel:
         mov edx, 0AFh
 .14:
         call DrawGameClock
-        mov dword [dword_11B2E8], 1
+        mov dword [PanelOpenTime], 1
 .15:
         xor eax, eax
 .16:
@@ -4180,63 +4180,63 @@ DrawTimeLeftPanel:
         push esi
         push edi
         enter 60h, 0
-        cmp dword [dword_11B238], byte 0
+        cmp dword [ClockPanelState], byte 0
         je short .2
-        cmp dword [dword_11B240], byte 0
+        cmp dword [TimeLeftPanelState], byte 0
         jge near .7
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         and eax, 600h
         cmp eax, 400h
         jne short .3
-        cmp dword [dword_1798B8], byte 7
+        cmp dword [ClockBmp], byte 7
         je short .1
-        cmp dword [dword_1798B8], byte 0Eh
+        cmp dword [ClockBmp], byte 0Eh
         jne short .2
 .1:
-        cmp dword [dword_11B240], byte 0FFFFFFFFh
+        cmp dword [TimeLeftPanelState], byte 0FFFFFFFFh
         jne near .6
         jmp short .5
 .2:
-        mov dword [dword_11B240], 0FFFFFFFFh
+        mov dword [TimeLeftPanelState], 0FFFFFFFFh
         jmp near .6
 .3:
         cmp eax, 200h
         jne short .4
-        cmp dword [dword_1798B8], byte 5
+        cmp dword [ClockBmp], byte 5
         jne near .6
         jmp short .1
 .4:
-        cmp dword [dword_1798B8], byte 2
+        cmp dword [ClockBmp], byte 2
         jne near .6
-        cmp dword [dword_11B240], byte 0FFFFFFFFh
+        cmp dword [TimeLeftPanelState], byte 0FFFFFFFFh
         jne near .6
 .5:
-        mov dword [dword_11B240], 0BB8h
+        mov dword [TimeLeftPanelState], 0BB8h
 .6:
         xor eax, eax
         jmp near InitGameView_709
 .7:
         jle short .8
-        sub dword [dword_11B240], eax
-        cmp dword [dword_11B240], byte 0
+        sub dword [TimeLeftPanelState], eax
+        cmp dword [TimeLeftPanelState], byte 0
         jge short .6
-        mov dword [dword_11B240], 0
+        mov dword [TimeLeftPanelState], 0
 .8:
-        cmp dword [dword_11B2FC], byte 0
+        cmp dword [TimeLeftPanelTimer], byte 0
         jge short .9
-        mov dword [dword_11B2FC], 1F4h
+        mov dword [TimeLeftPanelTimer], 1F4h
 .9:
-        cmp dword [dword_11B2FC], byte 0
+        cmp dword [TimeLeftPanelTimer], byte 0
         jl short .6
-        sub dword [dword_11B2FC], eax
-        cmp dword [dword_11B2FC], byte 0
+        sub dword [TimeLeftPanelTimer], eax
+        cmp dword [TimeLeftPanelTimer], byte 0
         jge short .10
-        mov dword [dword_11B2FC], 0FFFFFFFFh
-        mov dword [dword_11B240], 0FFFFFF9Dh
+        mov dword [TimeLeftPanelTimer], 0FFFFFFFFh
+        mov dword [TimeLeftPanelState], 0FFFFFF9Dh
         jmp short .6
 .10:
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
@@ -4250,17 +4250,17 @@ DrawTimeLeftPanel:
         mov edi, 266h
         call strcpy_
         lea eax, [byte ebp-060h]
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         push eax
         sar esi, cl
         call TextStringWidth
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         add esp, byte 4
         add eax, esi
         sar edi, cl
         mov dword [byte ebp-04h], eax
         sub edi, eax
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .11
         mov eax, 1E0h
         jmp short .12
@@ -4268,20 +4268,20 @@ DrawTimeLeftPanel:
         mov eax, 0C8h
 .12:
         mov edx, 24h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov ebx, eax
         sar edx, cl
         sub ebx, edx
-        mov esi, dword [dword_1798FC]
+        mov esi, dword [PanelBaseY]
         mov edx, ebx
         mov ebx, 0Ch
         add esi, esi
         sar ebx, cl
-        sub edx, dword [dword_1798FC]
+        sub edx, dword [PanelBaseY]
         add esi, ebx
         sub edx, esi
         sub eax, edx
-        sub eax, dword [dword_1798FC]
+        sub eax, dword [PanelBaseY]
         mov esi, edx
         add edx, eax
         mov dword [byte ebp-0Ch], edx
@@ -4296,9 +4296,9 @@ DrawTimeLeftPanel:
         mov eax, unk_17D3E8
         call FillBox
         mov eax, 24h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sar eax, cl
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         mov dword [byte ebp-010h], eax
         mov eax, 2
         mov edx, dword [byte ebp-010h]
@@ -4316,7 +4316,7 @@ DrawTimeLeftPanel:
         mov edx, 4
         add esp, byte 14h
         mov ebx, dword [byte ebp-04h]
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         push byte 4
         shl edx, cl
         shl eax, cl
@@ -4332,7 +4332,7 @@ DrawTimeLeftPanel:
         call FillRect
         mov eax, 2
         mov edx, dword [byte ebp-010h]
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         add esp, byte 14h
         shl eax, cl
         push byte 4
@@ -4356,7 +4356,7 @@ DrawTimeLeftPanel:
         mov eax, dword [DrawFrameCount]
         call ZoneRect
         mov esi, eax
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .13
         mov eax, 5
         jmp short .14
@@ -4365,13 +4365,13 @@ DrawTimeLeftPanel:
 .14:
         mov edx, 6
         mov ebx, dword [byte esi+08h]
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         add ebx, eax
         sar edx, cl
         lea eax, [byte ebp-060h]
         add edx, dword [esi]
         call DrawColorText
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         mov edx, 6
@@ -4389,10 +4389,10 @@ DrawTimeLeftPanel:
         push eax
         mov edx, 6
         call sprintf_
-        mov ebx, dword [dword_1798FC]
+        mov ebx, dword [PanelBaseY]
         mov eax, dword [byte esi+0Ch]
         add ebx, ebx
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub eax, ebx
         add esp, byte 0Ch
         mov ebx, eax
@@ -4406,8 +4406,8 @@ DrawTimeLeftPanel:
         mov ebx, 7
         mov edx, 6
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         sar edx, cl
         sub eax, ebx
@@ -4429,10 +4429,10 @@ DrawTimeLeftPanel:
         push eax
         mov ebx, 0Bh
         call sprintf_
-        mov eax, dword [dword_1798FC]
+        mov eax, dword [PanelBaseY]
         mov edx, dword [byte esi+0Ch]
         add eax, eax
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub edx, eax
         sar ebx, cl
         mov eax, edx
@@ -4448,8 +4448,8 @@ DrawTimeLeftPanel:
         call DrawColorTextRight
         mov ebx, 7
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         mov edx, 6
         sub eax, ebx
@@ -4481,7 +4481,7 @@ GetPeriodText:
         movzx eax, ax
         jmp dword [nosplit cs:eax*4+jpt_5BD6D]
 GetPeriodText_1F:
-        cmp dword [dword_1798BC], byte 0
+        cmp dword [ViewDirty], byte 0
         je short .1
         mov eax, 84h
         jmp near GetPeriodText_86.8
@@ -4489,7 +4489,7 @@ GetPeriodText_1F:
         mov eax, 85h
         jmp near GetPeriodText_86.8
 GetPeriodText_3C:
-        cmp dword [dword_1798BC], byte 0
+        cmp dword [ViewDirty], byte 0
         je short .2
         mov eax, 86h
         jmp near GetPeriodText_86.8
@@ -4497,7 +4497,7 @@ GetPeriodText_3C:
         mov eax, 87h
         jmp near GetPeriodText_86.8
 GetPeriodText_59:
-        cmp dword [dword_1798BC], byte 0
+        cmp dword [ViewDirty], byte 0
         je short .5
         mov ax, word [hmscore]
         cmp ax, word [awscore]
@@ -4515,7 +4515,7 @@ GetPeriodText_86:
         mov ax, word [hmscore]
         cmp ax, word [awscore]
         jne short .6
-        cmp dword [dword_1798BC], byte 0
+        cmp dword [ViewDirty], byte 0
         je short GetPeriodText_59.3
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -4560,44 +4560,44 @@ DrawScorePanel:
         movsx edx, dl
         test edx, edx
         jne short .1
-        cmp dword [dword_11B23C], byte 0FFFFFFFFh
+        cmp dword [ScorePanelState], byte 0FFFFFFFFh
         jne near .11
-        cmp dword [dword_11B300], byte 0
+        cmp dword [ScorePanelTimer], byte 0
         jl near .11
 .1:
-        cmp dword [dword_11B23C], byte 0
+        cmp dword [ScorePanelState], byte 0
         je short .2
-        cmp dword [dword_11B300], byte 0FFFFFFFEh
+        cmp dword [ScorePanelTimer], byte 0FFFFFFFEh
         jne short .3
 .2:
-        mov dword [dword_11B2E8], 0
-        mov dword [dword_11B23C], 1F40h
+        mov dword [PanelOpenTime], 0
+        mov dword [ScorePanelState], 1F40h
         jmp near InitGameView_709
 .3:
-        cmp dword [dword_11B23C], byte 0
+        cmp dword [ScorePanelState], byte 0
         jle short .4
-        cmp dword [dword_11B23C], 3E8h
+        cmp dword [ScorePanelState], 3E8h
         jle short .5
 .4:
-        cmp dword [dword_1798B8], byte 0
+        cmp dword [ClockBmp], byte 0
         jne short .6
-        cmp dword [dword_11B23C], byte 0FFFFFFFEh
+        cmp dword [ScorePanelState], byte 0FFFFFFFEh
         je short .6
 .5:
-        mov dword [dword_11B23C], 0FFFFFFFFh
+        mov dword [ScorePanelState], 0FFFFFFFFh
 .6:
-        cmp dword [dword_11B23C], byte 0FFFFFFFFh
+        cmp dword [ScorePanelState], byte 0FFFFFFFFh
         jne near InitGameView_709
-        cmp dword [dword_11B300], byte 0FFFFFFFFh
+        cmp dword [ScorePanelTimer], byte 0FFFFFFFFh
         jne short .7
-        mov dword [dword_11B300], 1F4h
+        mov dword [ScorePanelTimer], 1F4h
 .7:
-        cmp dword [dword_11B300], byte 0
+        cmp dword [ScorePanelTimer], byte 0
         jl short .8
-        sub dword [dword_11B300], eax
-        cmp dword [dword_11B300], byte 0
+        sub dword [ScorePanelTimer], eax
+        cmp dword [ScorePanelTimer], byte 0
         jge short .8
-        mov dword [dword_11B300], 0FFFFFFFEh
+        mov dword [ScorePanelTimer], 0FFFFFFFEh
         jmp near InitGameView_709
 .8:
         mov ebx, 4
@@ -4608,7 +4608,7 @@ DrawScorePanel:
         je near InitGameView_709
         mov eax, dword [DrawFrameCount]
         call ZoneRect
-        push dword [dword_179918]
+        push dword [NameFont]
         mov esi, eax
         mov edi, eax
         call TextSetFont
@@ -4628,10 +4628,10 @@ DrawScorePanel:
         push eax
         mov ebx, 0Ch
         call sprintf_
-        mov eax, dword [dword_1798FC]
+        mov eax, dword [PanelBaseY]
         mov edx, dword [byte esi+0Ch]
         add eax, eax
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub edx, eax
         sar ebx, cl
         mov eax, edx
@@ -4646,8 +4646,8 @@ DrawScorePanel:
         mov ebx, 8
         mov edx, 72h
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         sar edx, cl
         sub eax, ebx
@@ -4669,10 +4669,10 @@ DrawScorePanel:
         push eax
         mov edx, 13Ch
         call sprintf_
-        mov ebx, dword [dword_1798FC]
+        mov ebx, dword [PanelBaseY]
         mov eax, dword [byte esi+0Ch]
         add ebx, ebx
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub eax, ebx
         add esp, byte 0Ch
         mov ebx, eax
@@ -4686,8 +4686,8 @@ DrawScorePanel:
         mov ebx, 8
         mov edx, 13Ch
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         sar edx, cl
         sub eax, ebx
@@ -4697,13 +4697,13 @@ DrawScorePanel:
         call DrawColorTextRight
         lea eax, [byte ebp-060h]
         call GetPeriodText
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .9
         mov ebx, 5
         jmp short .10
@@ -4711,7 +4711,7 @@ DrawScorePanel:
         xor ebx, ebx
 .10:
         mov edx, 28h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, dword [byte edi+04h]
         sar edx, cl
         sub eax, edx
@@ -4722,7 +4722,7 @@ DrawScorePanel:
         movsx eax, word [gsp]
         cmp eax, byte 4
         je near InitGameView_709
-        mov eax, dword [dword_179908]
+        mov eax, dword [ClockFont]
         mov ebx, dword [byte edi+0Ch]
         movsx edx, word [byte eax+06h]
         sub ebx, edx
@@ -4730,7 +4730,7 @@ DrawScorePanel:
         movsx ebx, word [byte eax+04h]
         mov eax, dword [byte edi+04h]
         sub eax, ebx
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov ebx, eax
         mov eax, 4
         sar eax, cl
@@ -4739,51 +4739,51 @@ DrawScorePanel:
         call DrawGameClock
         jmp near InitGameView_709
 .11:
-        cmp dword [dword_11B23C], byte 0
+        cmp dword [ScorePanelState], byte 0
         jl short .12
-        cmp dword [dword_11B300], byte 0FFFFFFFEh
+        cmp dword [ScorePanelTimer], byte 0FFFFFFFEh
         jne short .13
 .12:
-        mov dword [dword_11B23C], 1F40h
-        mov dword [dword_11B300], 0FFFFFFFFh
+        mov dword [ScorePanelState], 1F40h
+        mov dword [ScorePanelTimer], 0FFFFFFFFh
         jmp near InitGameView_709
 .13:
-        cmp dword [dword_11B23C], byte 0
+        cmp dword [ScorePanelState], byte 0
         jle short .15
-        cmp dword [dword_11B2E8], byte 0
+        cmp dword [PanelOpenTime], byte 0
         je short .14
-        cmp dword [dword_11B23C], 1F4h
+        cmp dword [ScorePanelState], 1F4h
         jge near InitGameView_709
-        mov dword [dword_11B23C], 1F4h
+        mov dword [ScorePanelState], 1F4h
         jmp near InitGameView_709
 .14:
-        sub dword [dword_11B23C], eax
-        cmp dword [dword_11B23C], byte 0
+        sub dword [ScorePanelState], eax
+        cmp dword [ScorePanelState], byte 0
         jge near InitGameView_709
-        mov dword [dword_11B23C], 0
+        mov dword [ScorePanelState], 0
 .15:
-        cmp dword [dword_11B300], byte 0
+        cmp dword [ScorePanelTimer], byte 0
         jge short .16
-        mov dword [dword_11B300], 1F4h
+        mov dword [ScorePanelTimer], 1F4h
 .16:
-        cmp dword [dword_11B300], byte 0
+        cmp dword [ScorePanelTimer], byte 0
         jl near InitGameView_709
-        sub dword [dword_11B300], eax
-        cmp dword [dword_11B300], byte 0
+        sub dword [ScorePanelTimer], eax
+        cmp dword [ScorePanelTimer], byte 0
         jge short .17
-        mov dword [dword_11B300], 0FFFFFFFFh
-        mov dword [dword_11B23C], 0FFFFFFFFh
-        mov dword [dword_11B2E8], 0
+        mov dword [ScorePanelTimer], 0FFFFFFFFh
+        mov dword [ScorePanelState], 0FFFFFFFFh
+        mov dword [PanelOpenTime], 0
         jmp near InitGameView_709
 .17:
-        mov eax, dword [dword_179908]
-        mov cl, byte [byte_1798A4]
+        mov eax, dword [ClockFont]
+        mov cl, byte [OverlayPanelId]
         movsx edx, word [byte eax+04h]
         mov eax, 6Ah
         sar eax, cl
         add edx, eax
         mov dword [byte ebp-04h], edx
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .18
         mov edi, 280h
         sub edi, edx
@@ -4794,15 +4794,15 @@ DrawScorePanel:
         sub edi, edx
         sub edi, byte 0Ah
 .19:
-        mov eax, dword [dword_179908]
+        mov eax, dword [ClockFont]
         movsx edx, word [byte eax+06h]
-        mov eax, dword [dword_1798FC]
+        mov eax, dword [PanelBaseY]
         add eax, eax
         add edx, eax
-        mov eax, dword [dword_17992C]
+        mov eax, dword [PanelWidth]
         sar eax, 1
         add eax, edx
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .20
         mov esi, 1E0h
         sub esi, eax
@@ -4826,9 +4826,9 @@ DrawScorePanel:
         mov eax, unk_17D3E8
         call FillBox
         mov eax, 24h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sar eax, cl
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         mov dword [byte ebp-010h], eax
         mov eax, 2
         mov edx, dword [byte ebp-010h]
@@ -4846,7 +4846,7 @@ DrawScorePanel:
         mov edx, 4
         add esp, byte 14h
         mov ebx, dword [byte ebp-04h]
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         push byte 4
         shl edx, cl
         shl eax, cl
@@ -4862,7 +4862,7 @@ DrawScorePanel:
         call FillRect
         mov eax, 2
         mov edx, dword [byte ebp-010h]
-        mov cl, byte [dword_1798A8]
+        mov cl, byte [OverlayPanelOn]
         add esp, byte 14h
         shl eax, cl
         push byte 4
@@ -4887,10 +4887,10 @@ DrawScorePanel:
         call ZoneRect
         mov esi, eax
         mov edi, eax
-        mov eax, dword [dword_179908]
+        mov eax, dword [ClockFont]
         mov edx, dword [byte esi+0Ch]
         movsx eax, word [byte eax+06h]
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub edx, eax
         mov eax, 4
         sar eax, cl
@@ -4898,7 +4898,7 @@ DrawScorePanel:
         dec edx
         add eax, dword [esi]
         call DrawGameClock
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         mov edx, 6
@@ -4915,11 +4915,11 @@ DrawScorePanel:
         lea eax, [byte ebp-038h]
         push eax
         call sprintf_
-        mov eax, dword [dword_179908]
+        mov eax, dword [ClockFont]
         mov edx, dword [byte esi+0Ch]
         movsx ebx, word [byte eax+06h]
         sub edx, ebx
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         lea ebx, [byte edx-01h]
         movsx eax, word [byte eax+04h]
         mov edx, 8
@@ -4929,14 +4929,14 @@ DrawScorePanel:
         add edx, eax
         lea eax, [byte ebp-060h]
         call DrawColorText
-        mov eax, dword [dword_179908]
+        mov eax, dword [ClockFont]
         mov ebx, dword [byte esi+0Ch]
         movsx edx, word [byte eax+06h]
         sub ebx, edx
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov edx, ebx
-        mov ebx, dword [dword_1798FC]
-        add edx, dword [dword_1798FC]
+        mov ebx, dword [PanelBaseY]
+        add edx, dword [PanelBaseY]
         sar ebx, 1
         movsx eax, word [byte eax+04h]
         add ebx, edx
@@ -4960,8 +4960,8 @@ DrawScorePanel:
         lea eax, [byte ebp-038h]
         push eax
         call sprintf_
-        mov eax, dword [dword_179908]
-        mov cl, byte [byte_1798A4]
+        mov eax, dword [ClockFont]
+        mov cl, byte [OverlayPanelId]
         add esp, byte 0Ch
         mov ebx, dword [byte esi+0Ch]
         movsx edx, word [byte eax+06h]
@@ -4974,16 +4974,16 @@ DrawScorePanel:
         add edx, eax
         lea eax, [byte ebp-060h]
         call DrawColorText
-        mov eax, dword [dword_179908]
+        mov eax, dword [ClockFont]
         mov ebx, dword [byte esi+0Ch]
         movsx edx, word [byte eax+06h]
         sub ebx, edx
         mov edx, ebx
-        mov ebx, dword [dword_1798FC]
-        add edx, dword [dword_1798FC]
+        mov ebx, dword [PanelBaseY]
+        add edx, dword [PanelBaseY]
         sar ebx, 1
         add edx, ebx
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         lea ebx, [byte edx-01h]
         movsx eax, word [byte eax+04h]
         mov edx, 34h
@@ -5014,13 +5014,13 @@ DrawScorePanel_69E:
         lea eax, [byte ebp-060h]
         call strcpy_
 .23:
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .24
         mov ebx, 5
         jmp short .25
@@ -5028,13 +5028,13 @@ DrawScorePanel_69E:
         xor ebx, ebx
 .25:
         mov edx, 4
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         lea eax, [byte ebp-060h]
         sar edx, cl
         add ebx, dword [byte edi+08h]
         add edx, dword [edi]
         call DrawColorText
-        mov dword [dword_11B2E8], 1
+        mov dword [PanelOpenTime], 1
         jmp near InitGameView_709
 ;-----------------------------------------------------------------------------
 ; DrawEventPanel                                  5C55F  96 PC, low confidence
@@ -5049,20 +5049,20 @@ DrawEventPanel:
         je near .5
         mov ebx, 5
         mov edx, 1
-        mov eax, dword [dword_1798AC]
+        mov eax, dword [EventPanelLines]
         call OpenOverlayPanel
         test eax, eax
         je near .5
         mov eax, dword [DrawFrameCount]
         call ZoneRect
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         mov esi, eax
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .1
         mov ebx, 5
         jmp short .2
@@ -5070,10 +5070,10 @@ DrawEventPanel:
         xor ebx, ebx
 .2:
         mov eax, textline3
-        mov edx, dword [dword_11B320]
+        mov edx, dword [ViewLeft]
         add ebx, dword [byte esi+08h]
         call DrawColorTextCentred
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .3
         mov ebx, 5
         jmp short .4
@@ -5081,7 +5081,7 @@ DrawEventPanel:
         xor ebx, ebx
 .4:
         mov edx, 28h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, dword [byte esi+04h]
         sar edx, cl
         sub eax, edx
@@ -5089,7 +5089,7 @@ DrawEventPanel:
         mov edx, eax
         mov eax, textline2
         call DrawColorTextRight
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         mov edx, 6
         add esp, byte 4
@@ -5097,17 +5097,17 @@ DrawEventPanel:
         mov ebx, 8
         call SetTextColors
         mov esi, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub esi, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub esi, dword [PanelBaseY]
         sar ebx, cl
         mov eax, textline1
         sub esi, ebx
-        mov edx, dword [dword_11B320]
+        mov edx, dword [ViewLeft]
         mov ebx, esi
         call DrawColorTextCentred
-        mov dword [dword_11B238], 1770h
-        mov dword [dword_11B2E8], 0
-        mov dword [dword_11B23C], 1F40h
+        mov dword [ClockPanelState], 1770h
+        mov dword [PanelOpenTime], 0
+        mov dword [ScorePanelState], 1F40h
 .5:
         pop esi
         pop edx
@@ -5125,17 +5125,17 @@ DrawPlayerNamePanel:
         push edi
         enter 28h, 0
         mov esi, eax
-        cmp dword [dword_11B304], byte 0FFFFFFFFh
+        cmp dword [PlayerNamePanelTimer], byte 0FFFFFFFFh
         jne short .1
-        mov dword [dword_11B304], 1F4h
+        mov dword [PlayerNamePanelTimer], 1F4h
 .1:
-        cmp dword [dword_11B304], byte 0
+        cmp dword [PlayerNamePanelTimer], byte 0
         jl short .2
-        sub dword [dword_11B304], edx
-        cmp dword [dword_11B304], byte 0
+        sub dword [PlayerNamePanelTimer], edx
+        cmp dword [PlayerNamePanelTimer], byte 0
         jge short .2
         mov dword [esi], 0FFFFFFFFh
-        mov dword [dword_11B304], 0FFFFFFFFh
+        mov dword [PlayerNamePanelTimer], 0FFFFFFFFh
         jmp near DrawOverlayCaption_E1
 .2:
         mov ebx, 6
@@ -5152,21 +5152,21 @@ DrawPlayerNamePanel:
         mov eax, hmroster
         add eax, ebx
         add eax, edx
-        push unk_111024
+        push str_Empty
         lea ecx, [byte eax+017h]
         movzx ebx, byte [dword edx+ebx+byte_157191]
         push ecx
         lea ecx, [byte eax+07h]
-        mov edx, unk_111024
+        mov edx, str_Empty
         lea eax, [byte ebp-028h]
         call FormatPlayerName
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .3
         mov ebx, 5
         jmp short .4
@@ -5174,7 +5174,7 @@ DrawPlayerNamePanel:
         xor ebx, ebx
 .4:
         mov edx, 28h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, dword [byte edi+04h]
         sar edx, cl
         sub eax, edx
@@ -5193,7 +5193,7 @@ DrawPlayerNamePanel:
         mov edx, eax
         lea eax, [byte ebp-028h]
         call strcpy_
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         mov edx, 6
         add esp, byte 4
@@ -5203,15 +5203,15 @@ DrawPlayerNamePanel:
         mov edx, 0A4h
         lea eax, [byte ebp-028h]
         mov esi, dword [byte edi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub esi, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub esi, dword [PanelBaseY]
         sar ebx, cl
         sar edx, cl
         sub esi, ebx
         add edx, dword [edi]
         mov ebx, esi
         call DrawColorText
-        mov dword [dword_11B23C], 1F40h
+        mov dword [ScorePanelState], 1F40h
         jmp near DrawOverlayCaption_E1
 ;-----------------------------------------------------------------------------
 ; DrawPenaltyEventPanel                           5C7E2  96 PC, low confidence
@@ -5233,20 +5233,20 @@ DrawPenaltyEventPanel:
         jne near .5
         mov ebx, 7
         mov edx, 1
-        mov eax, dword [dword_1798AC]
+        mov eax, dword [EventPanelLines]
         call OpenOverlayPanel
         test eax, eax
         je near .9
         mov eax, dword [DrawFrameCount]
         call ZoneRect
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         mov esi, eax
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .1
         mov eax, 5
         jmp short .2
@@ -5254,11 +5254,11 @@ DrawPenaltyEventPanel:
         xor eax, eax
 .2:
         mov ebx, dword [byte esi+08h]
-        mov edx, dword [dword_11B320]
+        mov edx, dword [ViewLeft]
         add ebx, eax
         mov eax, textline2
         call DrawColorTextCentred
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .3
         mov ebx, 5
         jmp short .4
@@ -5266,7 +5266,7 @@ DrawPenaltyEventPanel:
         xor ebx, ebx
 .4:
         mov edx, 28h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, dword [byte esi+04h]
         sar edx, cl
         sub eax, edx
@@ -5274,7 +5274,7 @@ DrawPenaltyEventPanel:
         mov edx, eax
         mov eax, textline5
         call DrawColorTextRight
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         mov edx, 6
         add esp, byte 4
@@ -5283,8 +5283,8 @@ DrawPenaltyEventPanel:
         call SetTextColors
         mov edx, 72h
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         sar edx, cl
         sub eax, ebx
@@ -5294,25 +5294,25 @@ DrawPenaltyEventPanel:
         call DrawColorText
         jmp near .8
 .5:
-        cmp dword [dword_11B310], byte 0FFFFFFFFh
+        cmp dword [LastEventPlayer], byte 0FFFFFFFFh
         je near .8
         mov edx, 2
-        mov ebx, dword [dword_1798AC]
-        mov eax, dword [dword_1798AC]
+        mov ebx, dword [EventPanelLines]
+        mov eax, dword [EventPanelLines]
         add ebx, byte 8
         call OpenOverlayPanel
         test eax, eax
         je near .9
         mov eax, dword [DrawFrameCount]
         call ZoneRect
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         mov esi, eax
         call TextSetFont
         add esp, byte 4
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .6
         mov eax, 5
         jmp short .7
@@ -5321,7 +5321,7 @@ DrawPenaltyEventPanel:
 .7:
         mov edx, 28h
         mov ebx, dword [byte esi+08h]
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         add ebx, eax
         sar edx, cl
         mov eax, dword [byte esi+04h]
@@ -5329,17 +5329,17 @@ DrawPenaltyEventPanel:
         mov edx, eax
         mov eax, textline1
         call DrawColorTextRight
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         mov edx, 6
         add esp, byte 4
         mov eax, 0ADh
         mov ebx, 0Ch
         call SetTextColors
-        mov eax, dword [dword_1798FC]
+        mov eax, dword [PanelBaseY]
         mov edx, dword [byte esi+0Ch]
         add eax, eax
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub edx, eax
         sar ebx, cl
         mov eax, edx
@@ -5353,8 +5353,8 @@ DrawPenaltyEventPanel:
         mov ebx, 8
         mov edx, 72h
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         sar edx, cl
         sub eax, ebx
@@ -5364,8 +5364,8 @@ DrawPenaltyEventPanel:
         call DrawColorText
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         mov edx, 28h
         sub eax, ebx
@@ -5377,9 +5377,9 @@ DrawPenaltyEventPanel:
         mov eax, textline5
         call DrawColorTextRight
 .8:
-        mov dword [dword_11B238], 1770h
-        mov dword [dword_11B2E8], 0
-        mov dword [dword_11B23C], 1F40h
+        mov dword [ClockPanelState], 1770h
+        mov dword [PanelOpenTime], 0
+        mov dword [ScorePanelState], 1F40h
 .9:
         pop esi
         pop edx
@@ -5407,13 +5407,13 @@ DrawGoalEventPanel:
         mov ebx, 9
         mov edx, 2
 .2:
-        mov eax, dword [dword_1798AC]
+        mov eax, dword [EventPanelLines]
         call OpenOverlayPanel
         test eax, eax
         je near .7
         mov eax, dword [DrawFrameCount]
         call ZoneRect
-        push dword [dword_179920]
+        push dword [NamePanelBmp]
         mov esi, eax
         call TextSetFont
         add esp, byte 4
@@ -5427,7 +5427,7 @@ DrawGoalEventPanel:
         push eax
         call sprintf_
         add esp, byte 10h
-        cmp dword [dword_1798A8], byte 0
+        cmp dword [OverlayPanelOn], byte 0
         je short .3
         mov ebx, 5
         jmp short .4
@@ -5435,7 +5435,7 @@ DrawGoalEventPanel:
         xor ebx, ebx
 .4:
         mov edx, 28h
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, dword [byte esi+04h]
         sar edx, cl
         sub eax, edx
@@ -5443,7 +5443,7 @@ DrawGoalEventPanel:
         mov edx, eax
         lea eax, [byte ebp-050h]
         call DrawColorTextRight
-        push dword [dword_179918]
+        push dword [NameFont]
         call TextSetFont
         add esp, byte 4
         mov edx, 6
@@ -5453,43 +5453,43 @@ DrawGoalEventPanel:
         jne short .5
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         sub eax, ebx
-        mov edx, dword [dword_11B320]
+        mov edx, dword [ViewLeft]
         mov ebx, eax
         mov eax, textline2
         jmp short .6
 .5:
         mov ebx, 0Ch
-        mov eax, dword [dword_1798FC]
+        mov eax, dword [PanelBaseY]
         mov edx, dword [byte esi+0Ch]
         add eax, eax
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub edx, eax
         sar ebx, cl
         mov eax, edx
         sub eax, ebx
-        mov edx, dword [dword_11B320]
+        mov edx, dword [ViewLeft]
         mov ebx, eax
         mov eax, textline2
         call DrawColorTextCentred
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         sub eax, ebx
-        mov edx, dword [dword_11B320]
+        mov edx, dword [ViewLeft]
         mov ebx, eax
         mov eax, textline5
 .6:
         call DrawColorTextCentred
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub eax, dword [PanelBaseY]
         sar ebx, cl
         mov edx, 28h
         sub eax, ebx
@@ -5500,9 +5500,9 @@ DrawGoalEventPanel:
         mov edx, eax
         mov eax, textline4
         call DrawColorTextRight
-        mov dword [dword_11B238], 1770h
-        mov dword [dword_11B2E8], 0
-        mov dword [dword_11B23C], 0FFFFFFFFh
+        mov dword [ClockPanelState], 1770h
+        mov dword [PanelOpenTime], 0
+        mov dword [ScorePanelState], 0FFFFFFFFh
 .7:
         leave
         pop esi
@@ -5555,7 +5555,7 @@ QueueOverlayPanel:
         ret
 ;-----------------------------------------------------------------------------
 ; DrawGameOverlays                             5CC62  96 PC, medium confidence
-; (ticks): per frame draws the overlay for the view state (byte_179DC1 9,
+; (ticks): per frame draws the overlay for the view state (CamShotMode 9,
 ; 0Dh, 11h), the queued panels, the clock, time-left and score panels
 ;-----------------------------------------------------------------------------
 DrawGameOverlays:
@@ -5563,7 +5563,7 @@ DrawGameOverlays:
         push ecx
         mov ebx, eax
         mov ecx, edx
-        movzx eax, byte [byte_179DC1]
+        movzx eax, byte [CamShotMode]
         cmp eax, byte 12h
         je near .12
         movsx eax, word [bannermsg]
@@ -5574,7 +5574,7 @@ DrawGameOverlays:
         mov edx, ecx
         mov eax, ebx
         call DrawTimedPanel
-        mov al, byte [byte_179DC1]
+        mov al, byte [CamShotMode]
         cmp al, 0Dh
         jb short .2
         jbe short .3
@@ -5696,10 +5696,10 @@ DrawLineEnergyBar:
         movsd
         test edx, edx
         je short .1
-        mov eax, dword [dword eax+dword_1797DC]
+        mov eax, dword [dword eax+LineEnergyBmps]
         jmp short .2
 .1:
-        mov eax, dword [dword eax+dword_1797BC]
+        mov eax, dword [dword eax+LineBoxBmps]
 .2:
         mov ebx, 32h
         cdq
@@ -5725,7 +5725,7 @@ DrawLineEnergyBar:
 .5:
         mov eax, 50h
 .6:
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sar eax, cl
         add dword [byte ebp+010h], eax
         mov ebx, dword [byte ebp+014h]
@@ -5734,8 +5734,8 @@ DrawLineEnergyBar:
         call DrawColorText
         mov eax, dword [byte ebp+014h]
         mov edx, 1Ah
-        mov cl, byte [byte_1798A4]
-        add eax, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        add eax, dword [PanelBaseY]
         sar edx, cl
         push eax
         mov eax, 50h
@@ -5746,8 +5746,8 @@ DrawLineEnergyBar:
         mov eax, unk_17D3E8
         call FillBox
         push edi
-        mov cl, byte [byte_1798A4]
-        push dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        push dword [PanelBaseY]
         sar esi, cl
         mov eax, 1Ah
         push esi
@@ -5776,10 +5776,10 @@ DrawLineChangeBox:
         mov edi, eax
         test eax, eax
         je short .1
-        mov eax, dword [dword_179928]
+        mov eax, dword [LineBoxBmp]
         jmp short .2
 .1:
-        mov eax, dword [dword_17990C]
+        mov eax, dword [LineBoxDrawn]
 .2:
         mov dword [byte ebp-04h], eax
         test byte [GsOptions+1], 20h
@@ -5789,15 +5789,15 @@ DrawLineChangeBox:
         test eax, eax
         sete al
         movzx eax, al
-        mov dword [byte_1798A4], eax
+        mov dword [OverlayPanelId], eax
         mov eax, dword [byte ebp-04h]
         shl eax, 2
         test edi, edi
         je short .3
-        mov eax, dword [dword eax+dword_1797DC]
+        mov eax, dword [dword eax+LineEnergyBmps]
         jmp short .4
 .3:
-        mov eax, dword [dword eax+dword_1797BC]
+        mov eax, dword [dword eax+LineBoxBmps]
 .4:
         mov ebx, 32h
         cdq
@@ -5807,7 +5807,7 @@ DrawLineChangeBox:
         jne short .5
         mov eax, edi
         shl eax, 2
-        cmp dword [dword eax+dword_1797B4], byte 0
+        cmp dword [dword eax+LineBoxChoice], byte 0
         jne short .5
         cmp edx, ebx
         jge near .41
@@ -5820,33 +5820,33 @@ DrawLineChangeBox:
 .6:
         mov eax, edi
         shl eax, 2
-        cmp dword [dword eax+dword_1797B4], byte 0
+        cmp dword [dword eax+LineBoxChoice], byte 0
         je near .11
-        cmp dword [dword eax+dword_1797AC], byte 0
+        cmp dword [dword eax+LineBoxOpen], byte 0
         jge short .7
-        mov dword [dword eax+dword_1797AC], 32h
+        mov dword [dword eax+LineBoxOpen], 32h
         jmp short .8
 .7:
-        dec dword [dword eax+dword_1797AC]
-        cmp dword [dword eax+dword_1797AC], byte 0
+        dec dword [dword eax+LineBoxOpen]
+        cmp dword [dword eax+LineBoxOpen], byte 0
         jge short .8
-        mov dword [dword eax+dword_11B308], 0
-        mov dword [dword eax+dword_1797B4], 0
+        mov dword [dword eax+LineBoxStates], 0
+        mov dword [dword eax+LineBoxChoice], 0
         jmp near .42
 .8:
-        mov eax, dword [nosplit edi*4+dword_1797AC]
+        mov eax, dword [nosplit edi*4+LineBoxOpen]
         mov ebx, 6
         cdq
         idiv ebx
-        cmp dword [nosplit edi*4+dword_1797AC], byte 26h
+        cmp dword [nosplit edi*4+LineBoxOpen], byte 26h
         jle short .9
         cmp edx, byte 3
         jge short .10
 .9:
-        cmp dword [nosplit edi*4+dword_1797AC], byte 32h
+        cmp dword [nosplit edi*4+LineBoxOpen], byte 32h
         jne short .11
 .10:
-        mov eax, dword [nosplit edi*4+dword_11B308]
+        mov eax, dword [nosplit edi*4+LineBoxStates]
         jmp near InitGameView_709
 .11:
         cmp dword [byte ebp-04h], byte 4
@@ -5859,7 +5859,7 @@ DrawLineChangeBox:
         jbe short .16
         jmp near .18
 .12:
-        cmp dword [dword eax+dword_1797B4], byte 0
+        cmp dword [dword eax+LineBoxChoice], byte 0
         je short .13
         mov eax, dword [byte ebp-04h]
         sub eax, byte 3
@@ -5882,17 +5882,17 @@ DrawLineChangeBox:
         call sprintf_
         add esp, byte 8
 .15:
-        cmp dword [nosplit edi*4+dword_1797B4], byte 0
+        cmp dword [nosplit edi*4+LineBoxChoice], byte 0
         jne near .21
         mov eax, 6
-        mov cl, byte [byte_1798A4]
-        mov edx, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        mov edx, dword [PanelBaseY]
         sar eax, cl
         add edx, edx
         add eax, edx
         jmp near .23
 .16:
-        cmp dword [dword eax+dword_1797B4], byte 0
+        cmp dword [dword eax+LineBoxChoice], byte 0
         je short .17
         mov eax, dword [byte ebp-04h]
         sub eax, byte 5
@@ -5909,7 +5909,7 @@ DrawLineChangeBox:
         mov eax, 96h
         jmp short .14
 .18:
-        cmp dword [nosplit edi*4+dword_1797B4], byte 0
+        cmp dword [nosplit edi*4+LineBoxChoice], byte 0
         je short .19
         mov eax, dword [byte ebp-04h]
         inc eax
@@ -5931,15 +5931,15 @@ DrawLineChangeBox:
         call sprintf_
         add esp, byte 8
 .20:
-        cmp dword [nosplit edi*4+dword_1797B4], byte 0
+        cmp dword [nosplit edi*4+LineBoxChoice], byte 0
         je short .22
 .21:
         xor eax, eax
         jmp short .23
 .22:
         mov eax, 0Ah
-        mov edx, dword [dword_1798FC]
-        mov cl, byte [byte_1798A4]
+        mov edx, dword [PanelBaseY]
+        mov cl, byte [OverlayPanelId]
         shl edx, 2
         sar eax, cl
         add eax, edx
@@ -5959,7 +5959,7 @@ DrawLineChangeBox:
         mov eax, 64h
         shl esi, cl
         shl eax, cl
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov dword [byte ebp-014h], eax
         mov eax, 19h
         sar eax, cl
@@ -5979,7 +5979,7 @@ DrawLineChangeBox:
         call FillBox
         push dword [byte ebp-024h]
         mov eax, 2
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         push esi
         sar eax, cl
         push dword [byte ebp-028h]
@@ -6071,7 +6071,7 @@ DrawLineChangeBox:
 .29:
         shr eax, 1Bh
         call LoadTeamLogo
-        mov ecx, dword [byte_1798A4]
+        mov ecx, dword [OverlayPanelId]
         mov dword [byte ebp-01Ch], eax
         inc ecx
         inc ecx
@@ -6080,7 +6080,7 @@ DrawLineChangeBox:
         movsx eax, word [byte eax+08h]
         mov edx, 280h
         sar eax, cl
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sar edx, cl
         sub edx, eax
         jmp short .31
@@ -6088,7 +6088,7 @@ DrawLineChangeBox:
         movsx edx, word [byte eax+08h]
         sar edx, cl
 .31:
-        mov ecx, dword [byte_1798A4]
+        mov ecx, dword [OverlayPanelId]
         mov ebx, dword [byte ebp-01Ch]
         inc ecx
         movsx ebx, word [byte ebx+0Ah]
@@ -6098,7 +6098,7 @@ DrawLineChangeBox:
         call DrawPanelLogo
         mov eax, dword [DrawFrameCount]
         call ZoneRect
-        push dword [dword_179918]
+        push dword [NameFont]
         mov dword [byte ebp-020h], eax
         call TextSetFont
         add esp, byte 4
@@ -6106,7 +6106,7 @@ DrawLineChangeBox:
         mov eax, 7Ah
         call SetTextColors
         mov edx, 6
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, 4
         sar edx, cl
         sar eax, cl
@@ -6127,15 +6127,15 @@ DrawLineChangeBox:
         lea eax, [byte ebp-050h]
         call DrawColorTextRight
 .33:
-        cmp dword [nosplit edi*4+dword_1797B4], byte 0
+        cmp dword [nosplit edi*4+LineBoxChoice], byte 0
         jne near .39
         cmp dword [byte ebp-04h], byte 4
         jb near .37
         mov eax, 4
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sar eax, cl
         mov ecx, eax
-        mov eax, dword [dword_1798FC]
+        mov eax, dword [PanelBaseY]
         add eax, eax
         cmp dword [byte ebp-04h], byte 5
         jbe short .34
@@ -6158,8 +6158,8 @@ DrawLineChangeBox:
         call DrawLineEnergyBar
         mov eax, 2
         mov edx, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub edx, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub edx, dword [PanelBaseY]
         sar eax, cl
         sub edx, eax
         push edx
@@ -6188,8 +6188,8 @@ DrawLineChangeBox:
         call DrawLineEnergyBar
         mov eax, 2
         mov edx, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub edx, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub edx, dword [PanelBaseY]
         sar eax, cl
         sub edx, eax
         push edx
@@ -6198,10 +6198,10 @@ DrawLineChangeBox:
         cmp dword [byte ebp-04h], byte 7
         jmp short .35
 .37:
-        mov eax, dword [dword_1798FC]
+        mov eax, dword [PanelBaseY]
         mov edx, dword [byte esi+0Ch]
         shl eax, 2
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub edx, eax
         mov eax, 8
         sar eax, cl
@@ -6215,9 +6215,9 @@ DrawLineChangeBox:
         movzx ecx, al
         mov eax, str_12
         call DrawLineEnergyBar
-        imul eax, dword [dword_1798FC], byte 3
+        imul eax, dword [PanelBaseY], byte 3
         mov edx, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         sub edx, eax
         mov eax, 6
         sar eax, cl
@@ -6231,11 +6231,11 @@ DrawLineChangeBox:
         movzx ecx, al
         mov eax, str_24
         call DrawLineEnergyBar
-        mov eax, dword [dword_1798FC]
+        mov eax, dword [PanelBaseY]
         mov edx, dword [byte esi+0Ch]
         add eax, eax
         sub edx, eax
-        mov cl, byte [byte_1798A4]
+        mov cl, byte [OverlayPanelId]
         mov eax, edx
         mov edx, 4
         sar edx, cl
@@ -6251,8 +6251,8 @@ DrawLineChangeBox:
         call DrawLineEnergyBar
         mov eax, 2
         mov edx, dword [byte esi+0Ch]
-        mov cl, byte [byte_1798A4]
-        sub edx, dword [dword_1798FC]
+        mov cl, byte [OverlayPanelId]
+        sub edx, dword [PanelBaseY]
         sar eax, cl
         sub edx, eax
         push edx
@@ -6268,7 +6268,7 @@ DrawLineChangeBox:
 .39:
         mov eax, edi
         shl eax, 2
-        cmp dword [dword eax+dword_11B308], byte 0
+        cmp dword [dword eax+LineBoxStates], byte 0
         jne near .10
         mov ebx, dword [byte ebp-020h]
         mov edx, dword [byte esi+0Ch]
@@ -6276,12 +6276,12 @@ DrawLineChangeBox:
         jg short .40
         mov edx, dword [byte ebx+0Ch]
 .40:
-        mov dword [dword eax+dword_11B308], edx
+        mov dword [dword eax+LineBoxStates], edx
         jmp near .10
 .41:
-        mov dword [dword eax+dword_11B308], 0
+        mov dword [dword eax+LineBoxStates], 0
 .42:
-        mov eax, dword [dword eax+dword_11B308]
+        mov eax, dword [dword eax+LineBoxStates]
         jmp near InitGameView_709
 ;-----------------------------------------------------------------------------
 ; DrawLineChangeBoxes                          5D4B4  96 PC, medium confidence
@@ -6293,7 +6293,7 @@ DrawLineChangeBoxes:
         push ecx
         push edx
         push esi
-        movzx eax, byte [byte_179DC1]
+        movzx eax, byte [CamShotMode]
         cmp eax, byte 0Fh
         jne short .1
         xor eax, eax
@@ -6303,13 +6303,13 @@ DrawLineChangeBoxes:
         pop ebx
         ret
 .1:
-        mov ebx, dword_1797BC
+        mov ebx, LineBoxBmps
         movsx eax, word [hmtmline]
         xor esi, esi
-        mov dword [dword_17990C], eax
+        mov dword [LineBoxDrawn], eax
         movsx eax, word [awtmline]
         xor ecx, ecx
-        mov dword [dword_179928], eax
+        mov dword [LineBoxBmp], eax
 .2:
         movsx edx, cx
         movsx eax, si
@@ -6322,7 +6322,7 @@ DrawLineChangeBoxes:
         cmp ecx, byte 8
         jl short .2
         mov esi, 1
-        mov ebx, dword_1797DC
+        mov ebx, LineEnergyBmps
         xor ecx, ecx
 .3:
         movsx edx, cx
@@ -6390,21 +6390,21 @@ unk_5D681:
         db 068h,01h,00h,00h,086h,01h,00h,00h,0A4h,01h,00h,00h,0C2h,01h,00h,00h
         db 0E0h,01h,00h,00h,053h,051h,056h,0C8h,048h,00h,00h
         mov esi, eax
-        mov eax, dword [dword_179E13]
+        mov eax, dword [CamPathState]
         mov dword [edx], eax
         neg dword [edx]
-        mov eax, dword [dword_179E17]
+        mov eax, dword [CamZoom]
         mov dword [byte edx+04h], eax
         neg dword [byte edx+04h]
-        mov eax, dword [dword_179E1B]
+        mov eax, dword [CamPathActive]
         mov dword [byte edx+08h], eax
         neg dword [byte edx+08h]
-        push dword [dword_179E0F]
+        push dword [CamPitch]
         lea eax, [byte ebp-024h]
         push eax
         call MakeRotXMatrix
         add esp, byte 8
-        push dword [dword_179E0B]
+        push dword [CamAngle]
         lea eax, [byte ebp-048h]
         push eax
         call MakeRotYMatrix

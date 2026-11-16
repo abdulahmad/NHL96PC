@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_7CCB8 progbits alloc exec nowrite align=1
-extern __CHP, F32_0p5, F32_0p5_InitHScrollBar, F32_14_InitScrollTable, F32_0p5_ScrollBarToMouse, dword_11D1A8, dword_11D1AC, PutBlock
+extern __CHP, F32_0p5, F32_0p5_InitHScrollBar, F32_14_InitScrollTable, F32_0p5_ScrollBarToMouse, MenuMouseX, MenuMouseY, PutBlock
 extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, DrawArt
 extern DrawArtHotspot, CreateBitmap, FreeBitmap, DrawArtOpaqueHotspot, SetScreenTarget
 global InitVScrollBar, InitVScrollBar_217, InitHScrollBar, InitHScrollBar_207, InitHScrollBar_337, ScrollBarRet, ScrollBarUp, ScrollBarDown
@@ -676,7 +676,7 @@ DrawScrollBar:
         jmp near InitHScrollBar_337
 ;-----------------------------------------------------------------------------
 ; ScrollBarToMouse                             7D49C  96 PC, medium confidence
-; Moves the thumb to the mouse (dword_11D1A8 / 11D1AC)
+; Moves the thumb to the mouse (MenuMouseX / 11D1AC)
 ;-----------------------------------------------------------------------------
 ScrollBarToMouse:
         push edx
@@ -687,12 +687,12 @@ ScrollBarToMouse:
         jle short .3
         cmp dword [edx], byte 1
         jne short .1
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         sub eax, byte 1Eh
         sub eax, dword [byte edx+08h]
         jmp short .2
 .1:
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         sub eax, byte 1Eh
         sub eax, dword [byte edx+04h]
 .2:

@@ -1,10 +1,11 @@
 ; The pre-game screens between the controller screen and the game: matchup, teams, player cards (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 section s_849D5 progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, byte_17CFB1, byte_17D262, byte_17DB78, byte_17DC14, byte_17DC15, byte_17DC16
 extern byte_17DC17, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, dword_1174E4, statsplayoffs
-extern dword_1174F8, dword_117518, dword_11D674, dword_17BC74, MatchupLayer, TeamStatsBitmap, dword_17BCE2, str_Standings
+extern dword_1174F8, dword_117518, dword_11D674, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, MenuBoxStyle
 extern PlayoffTreeData, SeasonType, SeasonDay, SeasonGamePending, dword_17CED6, cddriveptr, dword_17CF92, dword_17CF96
 extern dword_17D1E2, dword_17D26B, dword_17DB7C, dword_17DBC0, dword_17DBC4, dword_17DC0C, dword_17DC10, FadeOut
 extern FadePalette, FileClose, FileOpenRead, FillMusicStream, gameopts, GetLangText, GetTeamNameArt, GetTicks
@@ -205,7 +206,7 @@ PreGameMatchupScreen:
         mov byte [dword ebp-0AEh], 0
         mov ecx, 66h
         lea edi, [dword ebp-08Ch]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-0ADh], 1
         mov byte [dword ebp-0AFh], 0
         rep movsb
@@ -221,7 +222,7 @@ PreGameMatchupScreen:
         je short .3
         mov ecx, 66h
         lea edi, [byte ebp-026h]
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         rep movsb
         mov byte [byte ebp+01Ch], 2
         mov byte [byte ebp+01Eh], 0
@@ -793,7 +794,7 @@ PreGameTeamsScreen:
         mov byte [dword ebp-010Eh], 0
         mov ecx, 66h
         lea edi, [dword ebp-0ECh]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-010Dh], 1
         mov byte [dword ebp-010Fh], 0
         rep movsb
@@ -809,7 +810,7 @@ PreGameTeamsScreen:
         je short .15
         mov ecx, 66h
         lea edi, [dword ebp-086h]
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         rep movsb
         mov byte [byte ebp-044h], 2
         mov byte [byte ebp-042h], 0
@@ -1966,7 +1967,7 @@ PreGameCardsA:
         mov byte [dword ebp-0E2h], 0
         mov ecx, 66h
         lea edi, [dword ebp-0C0h]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-0E1h], 1
         mov byte [dword ebp-0E3h], 0
         rep movsb
@@ -1982,7 +1983,7 @@ PreGameCardsA:
         je short .33
         mov ecx, 66h
         lea edi, [byte ebp-05Ah]
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         rep movsb
         mov byte [byte ebp-018h], 2
         mov byte [byte ebp-016h], 0
@@ -2446,7 +2447,7 @@ PreGameCardsB:
         call SaveTextState
         add esp, byte 4
         xor edi, edi
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         xor esi, esi
         call TextSetFont
         add esp, byte 4
@@ -2519,7 +2520,7 @@ PreGameCardsB:
         mov byte [dword ebp-0152h], 0
         mov ecx, 66h
         lea edi, [dword ebp-0130h]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-0151h], 1
         mov byte [dword ebp-0153h], 0
         rep movsb
@@ -2535,7 +2536,7 @@ PreGameCardsB:
         je short .6
         mov ecx, 66h
         lea edi, [dword ebp-0CAh]
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         rep movsb
         mov byte [dword ebp-088h], 2
         mov byte [dword ebp-086h], 0
@@ -2979,7 +2980,7 @@ PreGameCardsC:
         call SaveTextState
         add esp, byte 4
         xor edi, edi
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         xor esi, esi
         call TextSetFont
         add esp, byte 4
@@ -3053,7 +3054,7 @@ PreGameCardsC:
         mov byte [dword ebp-013Ah], 0
         mov ecx, 66h
         lea edi, [dword ebp-0118h]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-0139h], 1
         mov byte [dword ebp-013Bh], 0
         rep movsb
@@ -3069,7 +3070,7 @@ PreGameCardsC:
         je short .6
         mov ecx, 66h
         lea edi, [dword ebp-0B2h]
-        mov esi, dword_17BCE2
+        mov esi, MenuBoxStyle
         rep movsb
         mov byte [byte ebp-070h], 2
         mov byte [byte ebp-06Eh], 0

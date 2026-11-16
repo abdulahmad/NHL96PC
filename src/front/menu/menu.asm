@@ -1,15 +1,16 @@
 ; Menus: the menu items, the menu input (mouse, pads, joysticks, keys) and its sounds, the menu loop (96 PC; still to be named).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 extern globalset
 section s_64721 progbits alloc exec nowrite align=1
-extern abs_, BlackPalette, byte_17BDAE, CopyBitmap, dword_11D1A8, dword_11D1AC, dword_11D1B0
-extern dword_11D1BC, dword_11D1C0, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels
-extern TeamStatsBitmap, str_Standings, dword_17C3E4, dword_17C3E8, dword_17C3EC, dword_17C3F0, dword_17C3F4, dword_17C3F8
-extern dword_17C3FC, dword_17C400, MenuRemoteItem, MenuRemoteLayer, MenuLocalCursorY, MenuLocalCursorX, MenuItemLeaveFunc, MenuLocalLayer
-extern dword_17C41C, MenuSavedRemoteArt, MenuLocalItem, MenuRemoteCursorY, MenuRemoteCursorX, dword_17C430, dword_17C434, MenuItemEnterFunc
-extern dword_17C43C, dword_17C440, dword_17C444, dword_17C448, dword_17C44C, dword_17C450, dword_17C454, dword_17C458
-extern MenuCursorArt, dword_17C460, FadeOut, FadeOutMusic, FadePalette, FillMusicStream, GetInputDevices, GetTicks
+extern abs_, BlackPalette, TitleTextStyle, CopyBitmap, MenuMouseX, MenuMouseY, MenuMouseButtons
+extern MenuMoveSfx, MenuSelectSfx, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels
+extern TeamStatsBitmap, MenuLastMouseX, MenuLastMouseY, MenuLastButtons, MenuButtons, MenuViewTop, MenuViewBottom
+extern MenuViewLeft, MenuViewRight, MenuRemoteItem, MenuRemoteLayer, MenuLocalCursorY, MenuLocalCursorX, MenuItemLeaveFunc, MenuLocalLayer
+extern MenuCurrentItem, MenuSavedRemoteArt, MenuLocalItem, MenuRemoteCursorY, MenuRemoteCursorX, MenuSavedCursorArt, MenuViewCallback, MenuItemEnterFunc
+extern MenuItemHoverFunc, MenuItemExitFunc, MenuRepeatTick, MenuBackdropBmp, MenuBackdropPixels, MenuSavedViewWidth, MenuSavedViewHeight, MenuLinkKey
+extern MenuCursorArt, MenuBitmapReady, FadeOut, FadeOutMusic, FadePalette, FillMusicStream, GetInputDevices, GetTicks
 extern GripReadSlots, LinkExchangeValues, LoadPackedFile, MakeDirPath, MessageBox, mousemaxx, mousemaxy, mouseminx
 extern mouseminy, mousepollfn, MouseRead, mousex, mousey, MusicDone, NameIndexFree, NameIndexLoad
 extern OpenScreen, optflags, PlayMusic, PlaySfx, PutBlock, ReadJoystickBits, SetDrawBitmap, SetScreenColors
@@ -20,8 +21,8 @@ extern str_Hig2, str_Hig3, str_HILITESNDX, str_LOCALNDX2, str_Opt1, str_Opt2, st
 extern str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, GetLangText, DrawShapeCore
 extern DrawArt, PutBlockAtOwnPos, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SumRingRange, SetScreenTarget
 extern KeyIsDown, FindShape, ClearClipRect, vecdist, WaitRetrace, WaitRetraceEdges, SlotsTwoPlayer, ControllerScreenMode
-extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, MenuViewSaved, word_17C468
-extern word_17C46A, word_17C46C, word_17C46E, word_17C470
+extern MenuViewStored, MenuLinkActive, MenuClipActive, MenuInputPaused, MenuInputReady, MenuStarted, MenuViewSaved, MenuCursorX
+extern MenuCursorY, MenuCursorShown, MenuMouseMode, MenuStartSelection
 global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, SetGameBackdrop, GetSavedViewSize, RunMenu, SetMenuMouse
 global unk_663B9, jpt_66539, jpt_66549, jpt_66569, jpt_66579, MainMenuScreen, MainMenuScreen_B4, MainMenuScreen_C9
 global MainMenuScreen_DE, MainMenuScreen_F3, MainMenuScreen_621, MainMenuScreen_671, MainMenuScreen_6FC, MainMenuScreen_724, MainMenuScreen_74C, MainMenuScreen_774
@@ -79,16 +80,16 @@ PollMenuInput:
         push eax
         push edx
         mov esi, ebx
-        mov dword [dword_11D1B0], 0
+        mov dword [MenuMouseButtons], 0
         call GetInputDevices
         test al, 1
         je short .1
         call dword [mousepollfn]
-        mov dword [dword_11D1B0], eax
+        mov dword [MenuMouseButtons], eax
         mov eax, dword [mousex]
-        mov dword [dword_11D1A8], eax
+        mov dword [MenuMouseX], eax
         mov eax, dword [mousey]
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
 .1:
         call GripReadSlots
         call ReadJoystickBits
@@ -98,44 +99,44 @@ PollMenuInput:
         add esp, byte 4
         test eax, eax
         je short .2
-        mov dword [dword_11D1B0], 1
+        mov dword [MenuMouseButtons], 1
 .2:
         push byte 1
         call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .3
-        mov word [word_11D1C4], 1
+        mov word [MenuInputReady], 1
         jmp short .6
 .3:
-        cmp word [word_11D1C4], byte 0
+        cmp word [MenuInputReady], byte 0
         je short .5
         test esi, esi
         jl short .4
         imul eax, esi, byte 66h
         add eax, dword [byte ebp-01Ch]
         mov edx, dword [byte eax+03Ah]
-        mov dword [dword_11D1A8], edx
+        mov dword [MenuMouseX], edx
         mov eax, dword [byte eax+03Eh]
         push eax
         push edx
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
         call MouseRead
-        mov dword [dword_11D1B0], 1
+        mov dword [MenuMouseButtons], 1
         add esp, byte 8
 .4:
         mov dword [byte ebp-04h], 0
-        mov dword [dword_17C444], 0
-        mov dword [dword_17C458], 0
+        mov dword [MenuRepeatTick], 0
+        mov dword [MenuLinkKey], 0
 .5:
-        mov word [word_11D1C4], 0
+        mov word [MenuInputReady], 0
 .6:
         push byte 1Dh
         call KeyIsDown
         add esp, byte 4
         test eax, eax
         je near .24
-        cmp word [word_11D1BA], byte 0
+        cmp word [MenuInputPaused], byte 0
         je near .24
         push byte 4Bh
         call KeyIsDown
@@ -167,92 +168,92 @@ PollMenuInput:
 .10:
         cmp dword [byte ebp-04h], byte 0
         je near .22
-        mov eax, dword [dword_17C458]
+        mov eax, dword [MenuLinkKey]
         inc eax
-        cmp dword [dword_17C458], byte 0
+        cmp dword [MenuLinkKey], byte 0
         jne short .11
-        mov dword [dword_17C458], eax
-        cmp dword [dword_17C444], byte 0Eh
+        mov dword [MenuLinkKey], eax
+        cmp dword [MenuRepeatTick], byte 0Eh
         jge short .13
-        inc dword [dword_17C444]
+        inc dword [MenuRepeatTick]
         jmp short .13
 .11:
-        cmp dword [dword_17C458], byte 3
+        cmp dword [MenuLinkKey], byte 3
         jge short .12
-        mov dword [dword_17C458], eax
+        mov dword [MenuLinkKey], eax
         jmp short .13
 .12:
-        mov dword [dword_17C458], 0
+        mov dword [MenuLinkKey], 0
 .13:
         test byte [byte ebp-04h], 4
         je short .14
-        mov eax, dword [dword_17C444]
-        add dword [dword_11D1A8], eax
+        mov eax, dword [MenuRepeatTick]
+        add dword [MenuMouseX], eax
 .14:
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         cmp eax, dword [mousemaxx]
         jl short .15
         mov eax, dword [mousemaxx]
         dec eax
-        mov dword [dword_11D1A8], eax
+        mov dword [MenuMouseX], eax
 .15:
         test byte [byte ebp-04h], 8
         je short .16
-        mov eax, dword [dword_17C444]
-        sub dword [dword_11D1A8], eax
+        mov eax, dword [MenuRepeatTick]
+        sub dword [MenuMouseX], eax
 .16:
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         cmp eax, dword [mouseminx]
         jge short .17
         mov eax, dword [mouseminx]
-        mov dword [dword_11D1A8], eax
+        mov dword [MenuMouseX], eax
 .17:
         test byte [byte ebp-04h], 1
         je short .18
-        mov eax, dword [dword_17C444]
-        sub dword [dword_11D1AC], eax
+        mov eax, dword [MenuRepeatTick]
+        sub dword [MenuMouseY], eax
 .18:
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         cmp eax, dword [mousemaxy]
         jl short .19
         mov eax, dword [mousemaxy]
         dec eax
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
 .19:
         test byte [byte ebp-04h], 2
         je short .20
-        mov eax, dword [dword_17C444]
-        add dword [dword_11D1AC], eax
+        mov eax, dword [MenuRepeatTick]
+        add dword [MenuMouseY], eax
 .20:
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         cmp eax, dword [mouseminy]
         jge short .21
         mov eax, dword [mouseminy]
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
 .21:
-        push dword [dword_11D1AC]
-        push dword [dword_11D1A8]
+        push dword [MenuMouseY]
+        push dword [MenuMouseX]
         call MouseRead
         add esp, byte 8
         jmp short .23
 .22:
-        mov dword [dword_17C458], 0
-        mov dword [dword_17C444], 0
+        mov dword [MenuLinkKey], 0
+        mov dword [MenuRepeatTick], 0
 .23:
         mov dword [byte ebp-04h], 0
         jmp near .37
 .24:
-        cmp dword [dword_11D1B0], byte 0
+        cmp dword [MenuMouseButtons], byte 0
         jne near .36
         push byte 4Bh
-        mov dword [dword_17C458], 0
-        mov dword [dword_17C444], 0
+        mov dword [MenuLinkKey], 0
+        mov dword [MenuRepeatTick], 0
         call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .25
         call GetTicks
-        cmp eax, dword [dword_17C3E4]
+        cmp eax, dword [MenuLastMouseX]
         jle short .27
         call GetTicks
         add eax, byte 12h
@@ -262,7 +263,7 @@ PollMenuInput:
         call GetTicks
         dec eax
 .26:
-        mov dword [dword_17C3E4], eax
+        mov dword [MenuLastMouseX], eax
 .27:
         push byte 4Dh
         call KeyIsDown
@@ -270,7 +271,7 @@ PollMenuInput:
         test eax, eax
         je short .28
         call GetTicks
-        cmp eax, dword [dword_17C3E8]
+        cmp eax, dword [MenuLastMouseY]
         jle short .30
         call GetTicks
         add eax, byte 12h
@@ -280,7 +281,7 @@ PollMenuInput:
         call GetTicks
         dec eax
 .29:
-        mov dword [dword_17C3E8], eax
+        mov dword [MenuLastMouseY], eax
 .30:
         push byte 48h
         call KeyIsDown
@@ -288,7 +289,7 @@ PollMenuInput:
         test eax, eax
         je short .31
         call GetTicks
-        cmp eax, dword [dword_17C3EC]
+        cmp eax, dword [MenuLastButtons]
         jle short .33
         call GetTicks
         add eax, byte 12h
@@ -298,7 +299,7 @@ PollMenuInput:
         call GetTicks
         dec eax
 .32:
-        mov dword [dword_17C3EC], eax
+        mov dword [MenuLastButtons], eax
 .33:
         push byte 50h
         call KeyIsDown
@@ -306,21 +307,21 @@ PollMenuInput:
         test eax, eax
         je short .35
         call GetTicks
-        cmp eax, dword [dword_17C3F0]
+        cmp eax, dword [MenuButtons]
         jle short .37
         call GetTicks
         add eax, byte 12h
         or byte [byte ebp-04h], 2
 .34:
-        mov dword [dword_17C3F0], eax
+        mov dword [MenuButtons], eax
         jmp short .37
 .35:
         call GetTicks
         dec eax
         jmp short .34
 .36:
-        mov dword [dword_17C444], 0
-        mov dword [dword_17C458], 0
+        mov dword [MenuRepeatTick], 0
+        mov dword [MenuLinkKey], 0
 .37:
         cmp dword [byte ebp-04h], byte 0
         je near .66
@@ -341,8 +342,8 @@ PollMenuInput:
         jle short .39
         push dword [byte edi+014h]
         push dword [byte edi+010h]
-        push dword [dword_11D1AC]
-        push dword [dword_11D1A8]
+        push dword [MenuMouseY]
+        push dword [MenuMouseX]
         call SumRingRange
         add esp, byte 10h
         test eax, eax
@@ -374,13 +375,13 @@ PollMenuInput:
         imul edx, byte 66h
         add edx, dword [byte ebp-01Ch]
         mov edx, dword [byte edx+03Ah]
-        mov dword [dword_11D1A8], edx
+        mov dword [MenuMouseX], edx
         movzx edx, byte [esi]
         sub edx, eax
         imul eax, edx, byte 66h
         add eax, dword [byte ebp-01Ch]
         mov eax, dword [byte eax+03Eh]
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
         movzx eax, byte [esi]
         jmp near .46
 .43:
@@ -391,13 +392,13 @@ PollMenuInput:
         imul edx, byte 66h
         add edx, dword [byte ebp-01Ch]
         mov edx, dword [byte edx+03Ah]
-        mov dword [dword_11D1A8], edx
+        mov dword [MenuMouseX], edx
         movzx edx, byte [byte esi+01h]
         sub edx, eax
         imul eax, edx, byte 66h
         add eax, dword [byte ebp-01Ch]
         mov eax, dword [byte eax+03Eh]
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
         movzx eax, byte [byte esi+01h]
         jmp short .46
 .44:
@@ -408,13 +409,13 @@ PollMenuInput:
         imul edx, byte 66h
         add edx, dword [byte ebp-01Ch]
         mov edx, dword [byte edx+03Ah]
-        mov dword [dword_11D1A8], edx
+        mov dword [MenuMouseX], edx
         movzx edx, byte [byte esi+02h]
         sub edx, eax
         imul eax, edx, byte 66h
         add eax, dword [byte ebp-01Ch]
         mov eax, dword [byte eax+03Eh]
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
         movzx eax, byte [byte esi+02h]
         jmp short .46
 .45:
@@ -425,19 +426,19 @@ PollMenuInput:
         imul edx, byte 66h
         add edx, dword [byte ebp-01Ch]
         mov edx, dword [byte edx+03Ah]
-        mov dword [dword_11D1A8], edx
+        mov dword [MenuMouseX], edx
         movzx edx, byte [byte esi+03h]
         sub edx, eax
         imul eax, edx, byte 66h
         add eax, dword [byte ebp-01Ch]
         mov eax, dword [byte eax+03Eh]
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
         movzx eax, byte [byte esi+03h]
 .46:
         mov dword [byte ebp-08h], eax
 .47:
-        push dword [dword_11D1AC]
-        push dword [dword_11D1A8]
+        push dword [MenuMouseY]
+        push dword [MenuMouseX]
         call MouseRead
         add esp, byte 8
         test byte [globalset+2], 10h
@@ -450,9 +451,9 @@ PollMenuInput:
         mov eax, dword [byte edi+02Eh]
         jmp short .49
 .48:
-        cmp dword [dword_11D1BC], byte 0
+        cmp dword [MenuMoveSfx], byte 0
         jl near .66
-        mov eax, dword [dword_11D1BC]
+        mov eax, dword [MenuMoveSfx]
 .49:
         call PlaySfx
         leave
@@ -483,21 +484,21 @@ PollMenuInput:
         test byte [byte ebp-04h], 1
         je short .56
         mov eax, dword [byte esi+03Eh]
-        cmp eax, dword [dword_11D1AC]
+        cmp eax, dword [MenuMouseY]
         jge short .54
 .53:
         mov eax, dword [byte esi+03Ah]
-        sub eax, dword [dword_11D1A8]
+        sub eax, dword [MenuMouseX]
         call abs_
         mov ebx, eax
         mov eax, dword [byte esi+03Eh]
-        sub eax, dword [dword_11D1AC]
+        sub eax, dword [MenuMouseY]
         call abs_
         cmp ebx, eax
         jge short .54
         mov edx, 1
 .54:
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         sub eax, dword [byte esi+03Ah]
 .55:
         call abs_
@@ -509,47 +510,47 @@ PollMenuInput:
         test byte [byte ebp-04h], 2
         je short .57
         mov eax, dword [byte esi+03Eh]
-        cmp eax, dword [dword_11D1AC]
+        cmp eax, dword [MenuMouseY]
         jle short .54
         jmp short .53
 .57:
         test byte [byte ebp-04h], 4
         je short .59
         mov eax, dword [byte esi+03Ah]
-        cmp eax, dword [dword_11D1A8]
+        cmp eax, dword [MenuMouseX]
         jle short .58
         mov eax, dword [byte esi+03Eh]
-        sub eax, dword [dword_11D1AC]
+        sub eax, dword [MenuMouseY]
         call abs_
         mov ebx, eax
         mov eax, dword [byte esi+03Ah]
-        sub eax, dword [dword_11D1A8]
+        sub eax, dword [MenuMouseX]
         call abs_
         cmp ebx, eax
         jge short .58
         mov edx, 1
 .58:
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         sub eax, dword [byte esi+03Eh]
         jmp short .55
 .59:
         test byte [byte ebp-04h], 8
         je short .62
         mov eax, dword [byte esi+03Ah]
-        cmp eax, dword [dword_11D1A8]
+        cmp eax, dword [MenuMouseX]
         jge short .60
         mov eax, dword [byte esi+03Eh]
-        sub eax, dword [dword_11D1AC]
+        sub eax, dword [MenuMouseY]
         call abs_
         mov ebx, eax
         mov eax, dword [byte esi+03Ah]
-        sub eax, dword [dword_11D1A8]
+        sub eax, dword [MenuMouseX]
         call abs_
         cmp ebx, eax
         jge short .60
         mov edx, 1
 .60:
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         sub eax, dword [byte esi+03Eh]
         call abs_
         mov dword [byte ebp-08h], eax
@@ -561,10 +562,10 @@ PollMenuInput:
 .62:
         test edx, edx
         je short .63
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         sub eax, dword [byte esi+03Eh]
         push eax
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         sub eax, dword [byte esi+03Ah]
         push eax
         call vecdist
@@ -587,12 +588,12 @@ PollMenuInput:
         je short .65
         mov eax, dword [byte ebp-0Ch]
         mov eax, dword [byte eax+03Ah]
-        mov dword [dword_11D1A8], eax
+        mov dword [MenuMouseX], eax
         mov eax, dword [byte ebp-0Ch]
         mov eax, dword [byte eax+03Eh]
         push eax
-        push dword [dword_11D1A8]
-        mov dword [dword_11D1AC], eax
+        push dword [MenuMouseX]
+        mov dword [MenuMouseY], eax
         call MouseRead
         add esp, byte 8
         test byte [globalset+2], 10h
@@ -604,9 +605,9 @@ PollMenuInput:
         jmp near .49
 .65:
         mov eax, dword [mousex]
-        mov dword [dword_11D1A8], eax
+        mov dword [MenuMouseX], eax
         mov eax, dword [mousey]
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
 .66:
         leave
         pop edi
@@ -622,7 +623,7 @@ SetMenuMoveSfx:
         jl short .1
         cmp eax, byte 49h
         jge short .1
-        mov dword [dword_11D1BC], eax
+        mov dword [MenuMoveSfx], eax
 .1:
         ret
 ;-----------------------------------------------------------------------------
@@ -634,7 +635,7 @@ SetMenuSelectSfx:
         jl short .1
         cmp eax, byte 49h
         jge short .1
-        mov dword [dword_11D1C0], eax
+        mov dword [MenuSelectSfx], eax
 .1:
         ret
 ;-----------------------------------------------------------------------------
@@ -653,28 +654,28 @@ SetGameBackdrop:
         mov eax, dword [byte ebp+02Ch]
         cmp dword [byte ebp-04h], byte 0
         jne short .3
-        cmp dword [dword_17C460], byte 0
+        cmp dword [MenuBitmapReady], byte 0
         je short .1
-        push dword [dword_17C44C]
+        push dword [MenuBackdropPixels]
         call FreeMemBlock
         add esp, byte 4
 .1:
         cmp dword [MenuCursorArt], byte 0
         je short .2
-        push dword [dword_17C448]
+        push dword [MenuBackdropBmp]
         call FreeMemBlock
         add esp, byte 4
 .2:
-        mov word [word_11D1B8], 0
-        mov word [word_11D1BA], 0
+        mov word [MenuClipActive], 0
+        mov word [MenuInputPaused], 0
         jmp short .8
 .3:
         lea esi, [byte ebp+01Ch]
-        mov edi, dword_17C3FC
+        mov edi, MenuViewLeft
         movsd
         movsd
         lea esi, [byte ebp+024h]
-        mov edi, dword_17C3F4
+        mov edi, MenuViewTop
         movsd
         movsd
         test eax, eax
@@ -682,8 +683,8 @@ SetGameBackdrop:
         mov edx, 20h
         mov dword [MenuCursorArt], eax
         call CopyBitmap
-        mov word [word_11D1BA], 1
-        mov dword [dword_17C448], eax
+        mov word [MenuInputPaused], 1
+        mov dword [MenuBackdropBmp], eax
         jmp short .5
 .4:
         mov dword [MenuCursorArt], eax
@@ -692,17 +693,17 @@ SetGameBackdrop:
         je short .6
         mov eax, dword [byte ebp+030h]
         mov edx, 20h
-        mov dword [dword_17C460], eax
+        mov dword [MenuBitmapReady], eax
         call CopyBitmap
-        mov dword [dword_17C44C], eax
+        mov dword [MenuBackdropPixels], eax
         jmp short .7
 .6:
-        mov dword [dword_17C460], 0
+        mov dword [MenuBitmapReady], 0
 .7:
-        mov word [word_11D1B8], 1
+        mov word [MenuClipActive], 1
 .8:
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_17C434], eax
+        mov dword [MenuViewCallback], eax
         leave
         pop edi
         pop esi
@@ -716,9 +717,9 @@ SetGameBackdrop:
 ;-----------------------------------------------------------------------------
 GetSavedViewSize:
         push ebx
-        mov ebx, dword [dword_17C450]
+        mov ebx, dword [MenuSavedViewWidth]
         mov dword [eax], ebx
-        mov eax, dword [dword_17C454]
+        mov eax, dword [MenuSavedViewHeight]
         mov dword [edx], eax
         pop ebx
         ret
@@ -742,7 +743,7 @@ RunMenu:
         mov dword [byte ebp+032h], 0
         mov dword [byte ebp+05Ah], 0
         mov dword [byte ebp+056h], 0
-        cmp word [word_11D1B4], byte 0
+        cmp word [MenuViewStored], byte 0
         je short .1
         mov eax, dword [dword_152F58]
         movsx ebx, word [byte eax+06h]
@@ -772,7 +773,7 @@ RunMenu:
         push byte 0
         call SetViewRect
         add esp, byte 10h
-        movsx eax, word [word_11D1B4]
+        movsx eax, word [MenuViewStored]
         mov dword [byte ebp-06h], eax
         cmp dword [byte ebp-01Eh], byte 0
         je short .3
@@ -786,32 +787,32 @@ RunMenu:
 .4:
         test byte [dword ebp+08Eh], 2
         jne short .5
-        mov dword [dword_11D1A8], 0
-        mov dword [dword_11D1AC], 0
+        mov dword [MenuMouseX], 0
+        mov dword [MenuMouseY], 0
         jmp short .6
 .5:
         mov eax, dword [mousex]
-        mov dword [dword_11D1A8], eax
+        mov dword [MenuMouseX], eax
         mov eax, dword [mousey]
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
 .6:
         mov dword [byte ebp-0Eh], 0
         mov dword [byte ebp-012h], 0
         mov dword [byte ebp-016h], 0
         call GetTicks
         xor edi, edi
-        mov word [word_17C46C], 1
+        mov word [MenuCursorShown], 1
         mov dword [byte ebp-0Ah], eax
         mov dword [byte ebp+072h], edi
-        mov dword [dword_17C41C], edi
-        cmp dword [dword_17C434], byte 0
+        mov dword [MenuCurrentItem], edi
+        cmp dword [MenuViewCallback], byte 0
         je short .7
-        mov eax, dword_17C41C
-        call dword [dword_17C434]
+        mov eax, MenuCurrentItem
+        call dword [MenuViewCallback]
 .7:
-        cmp dword [dword_17C41C], byte 0
+        cmp dword [MenuCurrentItem], byte 0
         je short .8
-        push dword [dword_17C41C]
+        push dword [MenuCurrentItem]
         call SetDrawBitmap
         add esp, byte 4
         jmp short .9
@@ -905,26 +906,26 @@ RunMenu:
 .23:
         cmp dword [byte ebp+066h], byte 0FFFFFFFFh
         jne near .173
-        cmp dword [dword_17C41C], byte 0
+        cmp dword [MenuCurrentItem], byte 0
         je short .24
         call SetScreenTarget
         push byte 0
-        mov eax, dword [dword_17C41C]
+        mov eax, dword [MenuCurrentItem]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
 .24:
-        cmp word [word_17C46C], byte 0
+        cmp word [MenuCursorShown], byte 0
         jne short .25
-        mov dword [dword_17C41C], 0
-        cmp dword [dword_17C434], byte 0
+        mov dword [MenuCurrentItem], 0
+        cmp dword [MenuViewCallback], byte 0
         je short .26
-        mov eax, dword_17C41C
-        call dword [dword_17C434]
+        mov eax, MenuCurrentItem
+        call dword [MenuViewCallback]
         jmp short .26
 .25:
-        mov word [word_17C46C], 0
+        mov word [MenuCursorShown], 0
 .26:
         mov eax, dword [byte ebp+042h]
         mov dword [byte ebp+02h], eax
@@ -944,9 +945,9 @@ RunMenu:
         call PollMenuInput
         jmp short .29
 .28:
-        mov dword [dword_11D1B0], 0
+        mov dword [MenuMouseButtons], 0
 .29:
-        mov eax, dword [dword_11D1B0]
+        mov eax, dword [MenuMouseButtons]
         mov dword [byte ebp+042h], eax
         mov ax, word [SlotsTwoPlayer]
         xor ah, ah
@@ -967,19 +968,19 @@ RunMenu:
         lea ecx, [byte ebp-0Eh]
         push eax
         lea eax, [byte ebp-012h]
-        mov ebx, dword [dword_11D1B0]
+        mov ebx, dword [MenuMouseButtons]
         push eax
-        mov edx, dword [dword_11D1AC]
-        mov eax, dword [dword_11D1A8]
+        mov edx, dword [MenuMouseY]
+        mov eax, dword [MenuMouseX]
         call LinkExchangeValues
         call GetTicks
         add eax, byte 3
         mov dword [byte ebp-02h], eax
 .32:
-        mov ax, word [dword_11D1A8]
-        mov word [word_17C468], ax
-        mov ax, word [dword_11D1AC]
-        mov word [word_17C46A], ax
+        mov ax, word [MenuMouseX]
+        mov word [MenuCursorX], ax
+        mov ax, word [MenuMouseY]
+        mov word [MenuCursorY], ax
         cmp dword [byte ebp+042h], byte 0
         je short .33
         mov dword [byte ebp+016h], 1
@@ -988,10 +989,10 @@ RunMenu:
         je short .34
         mov dword [byte ebp+032h], 1
 .34:
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         cmp eax, dword [byte ebp+01Ah]
         jne short .35
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         cmp eax, dword [byte ebp+01Eh]
         jne short .35
         mov eax, dword [byte ebp+02h]
@@ -1021,13 +1022,13 @@ RunMenu:
         jne short .38
         cmp esi, dword [byte ebp-016h]
         jne short .38
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         cmp eax, dword [byte ebp+01Ah]
         jne short .38
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         cmp eax, dword [byte ebp+01Eh]
         jne short .38
-        cmp dword [dword_17C41C], byte 0
+        cmp dword [MenuCurrentItem], byte 0
         jne short .38
         mov eax, dword [byte ebp+02h]
         cmp eax, dword [byte ebp+042h]
@@ -1046,7 +1047,7 @@ RunMenu:
         cmp dword [byte ebp+056h], byte 0
         je near .48
 .39:
-        cmp dword [dword_17C41C], byte 0
+        cmp dword [MenuCurrentItem], byte 0
         jne near .46
         call WaitRetraceEdges
         mov ax, word [SlotsTwoPlayer]
@@ -1063,7 +1064,7 @@ RunMenu:
         je short .40
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
-        push dword [dword_17C44C]
+        push dword [MenuBackdropPixels]
         jmp short .41
 .40:
         push dword [byte ebp+052h]
@@ -1085,11 +1086,11 @@ RunMenu:
         test byte [dword ebp+08Eh], 2
         je short .48
 .43:
-        cmp word [word_17C464], byte 0
+        cmp word [MenuStarted], byte 0
         je short .44
         push dword [byte ebp+062h]
         push dword [byte ebp+05Eh]
-        push dword [dword_17C448]
+        push dword [MenuBackdropBmp]
         jmp short .45
 .44:
         push dword [byte ebp+062h]
@@ -1107,11 +1108,11 @@ RunMenu:
         cmp dword [byte ebp-026h], byte 0
         je near .51
         call dword [byte ebp-026h]
-        movsx eax, word [word_11D1B4]
+        movsx eax, word [MenuViewStored]
         cmp eax, dword [byte ebp-06h]
         je short .51
         mov dword [byte ebp-06h], eax
-        cmp word [word_11D1B4], byte 0
+        cmp word [MenuViewStored], byte 0
         je short .49
         mov eax, dword [dword_152F58]
         movsx ebx, word [byte eax+06h]
@@ -1143,10 +1144,10 @@ RunMenu:
         call SetViewRect
         add esp, byte 10h
 .51:
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         cmp eax, dword [byte ebp+01Ah]
         jne short .53
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         cmp eax, dword [byte ebp+01Eh]
         jne short .53
         mov eax, dword [byte ebp+02h]
@@ -1158,7 +1159,7 @@ RunMenu:
         mov eax, dword [byte ebp-012h]
         cmp eax, dword [byte ebp+0Eh]
         jne short .53
-        cmp dword [dword_17C41C], byte 0
+        cmp dword [MenuCurrentItem], byte 0
         jne short .53
         cmp esi, dword [byte ebp-016h]
         jne short .53
@@ -1171,14 +1172,14 @@ RunMenu:
         cmp dword [byte ebp-026h], byte 0
         je near .24
 .53:
-        cmp dword [dword_11D1A8], byte 0
+        cmp dword [MenuMouseX], byte 0
         jl short .54
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         mov dword [byte ebp+01Ah], eax
 .54:
-        cmp dword [dword_11D1AC], byte 0
+        cmp dword [MenuMouseY], byte 0
         jl short .55
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         mov dword [byte ebp+01Eh], eax
 .55:
         cmp dword [byte ebp-0Eh], byte 0
@@ -1191,9 +1192,9 @@ RunMenu:
         mov eax, dword [byte ebp-012h]
         mov dword [byte ebp+0Eh], eax
 .57:
-        cmp dword [dword_17C41C], byte 0
+        cmp dword [MenuCurrentItem], byte 0
         je short .58
-        push dword [dword_17C41C]
+        push dword [MenuCurrentItem]
         call SetDrawBitmap
         add esp, byte 4
 .58:
@@ -1202,7 +1203,7 @@ RunMenu:
         cmp dword [byte ebp+056h], byte 0
         je near .66
 .59:
-        cmp dword [dword_17C41C], byte 0
+        cmp dword [MenuCurrentItem], byte 0
         jne near .66
         call WaitRetraceEdges
         mov ax, word [SlotsTwoPlayer]
@@ -1219,7 +1220,7 @@ RunMenu:
         je short .60
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
-        push dword [dword_17C44C]
+        push dword [MenuBackdropPixels]
         jmp short .61
 .60:
         push dword [byte ebp+052h]
@@ -1241,11 +1242,11 @@ RunMenu:
         test byte [dword ebp+08Eh], 2
         je short .66
 .63:
-        cmp word [word_17C464], byte 0
+        cmp word [MenuStarted], byte 0
         je short .64
         push dword [byte ebp+062h]
         push dword [byte ebp+05Eh]
-        push dword [dword_17C448]
+        push dword [MenuBackdropBmp]
         jmp short .65
 .64:
         push dword [byte ebp+062h]
@@ -1277,7 +1278,7 @@ RunMenu:
 .69:
         mov dword [byte eax+04h], 0
 .70:
-        cmp dword [dword_17C41C], byte 0
+        cmp dword [MenuCurrentItem], byte 0
         je short .71
         mov dword [byte eax+0Ch], 1
 .71:
@@ -1301,8 +1302,8 @@ RunMenu:
         je near .93
         push dword [byte esi+014h]
         push dword [byte esi+010h]
-        push dword [dword_11D1AC]
-        push dword [dword_11D1A8]
+        push dword [MenuMouseY]
+        push dword [MenuMouseX]
         call SumRingRange
         add esp, byte 10h
         test eax, eax
@@ -1338,21 +1339,21 @@ RunMenu:
 .77:
         mov dword [byte ebp+06Eh], eax
         call GetTicks
-        mov dword [dword_17C3F0], eax
-        mov dword [dword_17C3EC], eax
-        mov dword [dword_17C3E8], eax
-        mov dword [dword_17C3E4], eax
+        mov dword [MenuButtons], eax
+        mov dword [MenuLastButtons], eax
+        mov dword [MenuLastMouseY], eax
+        mov dword [MenuLastMouseX], eax
         jmp near .93
 .78:
         test byte [byte esi+046h], 2
         je near .86
         mov eax, dword [byte esi+05Ah]
         mov edi, esi
-        mov dword [dword_17C440], eax
+        mov dword [MenuItemExitFunc], eax
         test eax, eax
         je short .79
         mov eax, esi
-        call dword [dword_17C440]
+        call dword [MenuItemExitFunc]
 .79:
         cmp dword [byte edi+022h], byte 0
         jne short .81
@@ -1371,7 +1372,7 @@ RunMenu:
         mov dword [MenuLocalItem], eax
 .83:
         mov eax, dword [dword_152F58]
-        mov edx, dword [dword_11D1A8]
+        mov edx, dword [MenuMouseX]
         movsx eax, word [byte eax+04h]
         sub edx, dword [byte edi+026h]
         add edx, eax
@@ -1383,7 +1384,7 @@ RunMenu:
         mov dword [MenuLocalCursorX], eax
 .84:
         mov eax, dword [dword_152F58]
-        mov edx, dword [dword_11D1AC]
+        mov edx, dword [MenuMouseY]
         movsx eax, word [byte eax+06h]
         sub edx, dword [byte edi+02Ah]
         add edx, eax
@@ -1425,11 +1426,11 @@ RunMenu:
         push byte 0
         push dword [MenuLocalItem]
         call DrawArt
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         add esp, byte 0Ch
         sub eax, dword [byte edi+02Ah]
         push eax
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         sub eax, dword [byte edi+026h]
         push eax
         push dword [dword_152F58]
@@ -1443,22 +1444,22 @@ RunMenu:
         mov dword [dword_152F58], eax
         mov eax, dword [MenuCursorPixels]
         mov edx, 20h
-        mov dword [dword_17C430], eax
+        mov dword [MenuSavedCursorArt], eax
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov dword [MenuCursorPixels], eax
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         sub eax, dword [byte edi+026h]
         mov dword [MenuLocalCursorX], eax
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         sub eax, dword [byte edi+02Ah]
         mov dword [MenuLocalCursorY], eax
         mov eax, dword [byte edi+02Ah]
-        mov dword [dword_11D1AC], eax
+        mov dword [MenuMouseY], eax
         push eax
         mov eax, dword [byte edi+026h]
         push eax
-        mov dword [dword_11D1A8], eax
+        mov dword [MenuMouseX], eax
         call MouseRead
         mov eax, dword [byte ebp+02Ah]
         add esp, byte 8
@@ -1516,18 +1517,18 @@ RunMenu:
         push dword [MenuCursorPixels]
         mov dword [dword_152F58], eax
         call FreeMemBlock
-        mov eax, dword [dword_17C430]
+        mov eax, dword [MenuSavedCursorArt]
         mov dword [MenuCursorPixels], eax
         mov eax, dword [MenuLocalCursorY]
         add esp, byte 4
-        add dword [dword_11D1AC], eax
+        add dword [MenuMouseY], eax
         mov eax, dword [MenuLocalCursorX]
-        push dword [dword_11D1AC]
-        add dword [dword_11D1A8], eax
-        push dword [dword_11D1A8]
+        push dword [MenuMouseY]
+        add dword [MenuMouseX], eax
+        push dword [MenuMouseX]
         call MouseRead
         add esp, byte 8
-        cmp word [word_11D1B4], byte 0
+        cmp word [MenuViewStored], byte 0
         je short .96
         mov eax, dword [dword_152F58]
         movsx ebx, word [byte eax+06h]
@@ -1572,8 +1573,8 @@ RunMenu:
         je short .99
         push dword [byte esi+014h]
         push dword [byte esi+010h]
-        push dword [dword_11D1AC]
-        push dword [dword_11D1A8]
+        push dword [MenuMouseY]
+        push dword [MenuMouseX]
         call SumRingRange
         add esp, byte 10h
         test eax, eax
@@ -1605,11 +1606,11 @@ RunMenu:
         jmp short .105
 .104:
         mov eax, dword [byte edi+05Eh]
-        mov dword [dword_17C43C], eax
+        mov dword [MenuItemHoverFunc], eax
         test eax, eax
         je short .105
         mov eax, edi
-        call dword [dword_17C43C]
+        call dword [MenuItemHoverFunc]
 .105:
         test byte [dword ebp+08Eh], 1
         je near .133
@@ -1667,11 +1668,11 @@ RunMenu:
         je near .118
         mov eax, dword [byte esi+05Ah]
         mov dword [byte ebp+072h], esi
-        mov dword [dword_17C440], eax
+        mov dword [MenuItemExitFunc], eax
         test eax, eax
         je short .111
         mov eax, esi
-        call dword [dword_17C440]
+        call dword [MenuItemExitFunc]
 .111:
         mov eax, dword [byte ebp+072h]
         cmp dword [byte eax+022h], byte 0
@@ -1876,11 +1877,11 @@ RunMenu:
 .132:
         mov eax, dword [byte ebp+072h]
         mov eax, dword [byte eax+05Eh]
-        mov dword [dword_17C43C], eax
+        mov dword [MenuItemHoverFunc], eax
         test eax, eax
         je short .133
         mov eax, dword [byte ebp+072h]
-        call dword [dword_17C43C]
+        call dword [MenuItemHoverFunc]
 .133:
         cmp dword [byte ebp+06Ah], byte 0
         jl short .135
@@ -2026,24 +2027,24 @@ RunMenu:
         mov eax, dword [byte eax+032h]
         jmp short .159
 .158:
-        cmp dword [dword_11D1C0], byte 0
+        cmp dword [MenuSelectSfx], byte 0
         jl short .160
-        mov eax, dword [dword_11D1C0]
+        mov eax, dword [MenuSelectSfx]
 .159:
         call PlaySfx
 .160:
         cmp dword [byte ebp+066h], byte 0FFFFFFFFh
         jne near .172
-        cmp word [word_11D1B6], byte 0
+        cmp word [MenuLinkActive], byte 0
         je short .161
-        movsx eax, word [word_17C470]
-        mov dword [dword_11D1A8], eax
-        movsx eax, word [word_17C46E]
+        movsx eax, word [MenuStartSelection]
+        mov dword [MenuMouseX], eax
+        movsx eax, word [MenuMouseMode]
         push eax
-        push dword [dword_11D1A8]
-        mov dword [dword_11D1AC], eax
+        push dword [MenuMouseX]
+        mov dword [MenuMouseY], eax
         call MouseRead
-        mov word [word_11D1B6], 0
+        mov word [MenuLinkActive], 0
         add esp, byte 8
 .161:
         cmp dword [byte ebp+042h], byte 0
@@ -2051,7 +2052,7 @@ RunMenu:
         cmp dword [byte ebp+016h], byte 0
         je short .162
         mov dword [byte ebp+016h], 0
-        cmp word [word_11D1B8], byte 0
+        cmp word [MenuClipActive], byte 0
         je short .162
         mov dword [byte ebp+06Eh], 0FFFFFFFEh
         mov dword [byte ebp+066h], 0FFFFFFFEh
@@ -2061,7 +2062,7 @@ RunMenu:
         cmp dword [byte ebp+032h], byte 0
         je short .163
         mov dword [byte ebp+032h], 0
-        cmp word [word_11D1B8], byte 0
+        cmp word [MenuClipActive], byte 0
         je short .163
         mov dword [byte ebp+06Ah], 0FFFFFFFEh
         mov dword [byte ebp+066h], 0FFFFFFFEh
@@ -2077,29 +2078,29 @@ RunMenu:
         test byte [dword ebp+08Eh], 2
         je near .169
 .164:
-        cmp word [word_11D1B8], byte 0
+        cmp word [MenuClipActive], byte 0
         je near .165
-        mov eax, dword [dword_11D1A8]
-        cmp eax, dword [dword_17C3FC]
+        mov eax, dword [MenuMouseX]
+        cmp eax, dword [MenuViewLeft]
         jl near .165
-        cmp eax, dword [dword_17C3F4]
+        cmp eax, dword [MenuViewTop]
         jg short .165
-        mov eax, dword [dword_11D1AC]
-        cmp eax, dword [dword_17C400]
+        mov eax, dword [MenuMouseY]
+        cmp eax, dword [MenuViewRight]
         jl short .165
-        cmp eax, dword [dword_17C3F8]
+        cmp eax, dword [MenuViewBottom]
         jg short .165
         mov eax, dword [MenuCursorArt]
-        mov ebx, dword [dword_11D1A8]
+        mov ebx, dword [MenuMouseX]
         movsx edx, word [byte eax+08h]
         movsx eax, word [byte eax+0Ah]
         sub ebx, edx
-        mov edx, dword [dword_11D1AC]
+        mov edx, dword [MenuMouseY]
         sub edx, eax
         push edx
         push ebx
         mov dword [byte ebp+05Eh], ebx
-        push dword [dword_17C448]
+        push dword [MenuBackdropBmp]
         mov dword [byte ebp+062h], edx
         call DrawShapeCore
         add esp, byte 0Ch
@@ -2108,25 +2109,25 @@ RunMenu:
         push dword [MenuCursorArt]
         mov dword [byte ebp+05Ah], 1
         call DrawArt
-        mov word [word_17C464], 1
+        mov word [MenuStarted], 1
         jmp short .168
 .165:
-        cmp word [word_11D1B4], byte 0
+        cmp word [MenuViewStored], byte 0
         je short .166
         mov eax, dword [dword_152F58]
-        mov ebx, dword [dword_11D1A8]
+        mov ebx, dword [MenuMouseX]
         movsx edx, word [byte eax+08h]
         movsx eax, word [byte eax+0Ah]
         sub ebx, edx
-        mov edx, dword [dword_11D1AC]
+        mov edx, dword [MenuMouseY]
         sub edx, eax
         mov dword [byte ebp+05Eh], ebx
         mov dword [byte ebp+062h], edx
         jmp short .167
 .166:
-        mov eax, dword [dword_11D1A8]
+        mov eax, dword [MenuMouseX]
         mov dword [byte ebp+05Eh], eax
-        mov eax, dword [dword_11D1AC]
+        mov eax, dword [MenuMouseY]
         mov dword [byte ebp+062h], eax
 .167:
         push dword [byte ebp+062h]
@@ -2139,7 +2140,7 @@ RunMenu:
         push dword [dword_152F58]
         mov dword [byte ebp+05Ah], 1
         call DrawArt
-        mov word [word_17C464], 0
+        mov word [MenuStarted], 0
 .168:
         add esp, byte 0Ch
 .169:
@@ -2151,19 +2152,19 @@ RunMenu:
         je near .172
         test byte [dword ebp+08Eh], 1
         je near .172
-        cmp word [word_11D1B8], byte 0
+        cmp word [MenuClipActive], byte 0
         je near .170
         mov eax, dword [byte ebp-0Eh]
-        cmp eax, dword [dword_17C3FC]
+        cmp eax, dword [MenuViewLeft]
         jl short .170
-        cmp eax, dword [dword_17C3F4]
+        cmp eax, dword [MenuViewTop]
         jg short .170
         mov eax, dword [byte ebp-012h]
-        cmp eax, dword [dword_17C400]
+        cmp eax, dword [MenuViewRight]
         jl short .170
-        cmp eax, dword [dword_17C3F8]
+        cmp eax, dword [MenuViewBottom]
         jg short .170
-        mov eax, dword [dword_17C460]
+        mov eax, dword [MenuBitmapReady]
         mov ebx, dword [byte ebp-0Eh]
         movsx edx, word [byte eax+08h]
         movsx eax, word [byte eax+0Ah]
@@ -2173,13 +2174,13 @@ RunMenu:
         push edx
         push ebx
         mov dword [byte ebp+04Eh], ebx
-        push dword [dword_17C44C]
+        push dword [MenuBackdropPixels]
         mov dword [byte ebp+052h], edx
         call DrawShapeCore
         add esp, byte 0Ch
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
-        push dword [dword_17C460]
+        push dword [MenuBitmapReady]
         mov dword [byte ebp+056h], 1
         call DrawArt
         mov word [MenuViewSaved], 1
@@ -2229,7 +2230,7 @@ RunMenu:
         je short .175
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
-        push dword [dword_17C44C]
+        push dword [MenuBackdropPixels]
         jmp short .176
 .175:
         push dword [byte ebp+052h]
@@ -2250,11 +2251,11 @@ RunMenu:
         test byte [dword ebp+08Eh], 2
         je short .181
 .178:
-        cmp word [word_17C464], byte 0
+        cmp word [MenuStarted], byte 0
         je short .179
         push dword [byte ebp+062h]
         push dword [byte ebp+05Eh]
-        push dword [dword_17C448]
+        push dword [MenuBackdropBmp]
         jmp short .180
 .179:
         push dword [byte ebp+062h]
@@ -2269,19 +2270,19 @@ RunMenu:
         mov dword [edx], eax
         cmp eax, dword [byte ebp+06Eh]
         jne short .182
-        movsx eax, word [word_17C468]
-        mov dword [dword_17C450], eax
-        movsx eax, word [word_17C46A]
-        mov dword [dword_17C454], eax
+        movsx eax, word [MenuCursorX]
+        mov dword [MenuSavedViewWidth], eax
+        movsx eax, word [MenuCursorY]
+        mov dword [MenuSavedViewHeight], eax
         mov eax, 1
         jmp short .184
 .182:
         cmp eax, dword [byte ebp+06Ah]
         jne short .183
         mov eax, dword [byte ebp-0Eh]
-        mov dword [dword_17C450], eax
+        mov dword [MenuSavedViewWidth], eax
         mov eax, dword [byte ebp-012h]
-        mov dword [dword_17C454], eax
+        mov dword [MenuSavedViewHeight], eax
         mov eax, 2
         jmp short .184
 .183:
@@ -2306,17 +2307,17 @@ SetMenuMouse:
         movsx ebx, bx
         test ebx, ebx
         je short .1
-        mov word [word_11D1B6], 1
-        mov word [word_17C470], ax
-        mov word [word_17C46E], dx
+        mov word [MenuLinkActive], 1
+        mov word [MenuStartSelection], ax
+        mov word [MenuMouseMode], dx
         pop ecx
         pop ebx
         ret
 .1:
         push edx
         push eax
-        mov dword [dword_11D1A8], eax
-        mov dword [dword_11D1AC], edx
+        mov dword [MenuMouseX], eax
+        mov dword [MenuMouseY], edx
         call MouseRead
         add esp, byte 8
         pop ecx
@@ -2654,7 +2655,7 @@ MainMenuScreen_F3:
         mov byte [dword ebp-01E2h], 6
         mov ecx, 66h
         lea edi, [dword ebp-01C0h]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-01E1h], 7
         mov byte [dword ebp-01E3h], 6
         rep movsb
@@ -2921,7 +2922,7 @@ MainMenuScreen_8B5:
         push byte 2
         push byte 0
         push dword 122h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push dword 140h
         lea ebx, [byte ebp+05Ah]
         mov dword [byte ebp+05Ah], eax
@@ -2960,7 +2961,7 @@ MainMenuScreen_939:
         push byte 2
         push byte 0
         push dword 122h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push dword 140h
         lea ebx, [byte ebp+05Ah]
         mov dword [byte ebp+05Ah], eax
@@ -2977,7 +2978,7 @@ MainMenuScreen_996:
         push byte 2
         push byte 1
         push dword 12Ch
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         push dword 140h
         lea ebx, [byte ebp+05Ah]
         mov dword [byte ebp+05Eh], eax

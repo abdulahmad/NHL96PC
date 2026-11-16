@@ -2,19 +2,19 @@
 bits 32
 %include "hockey.inc"
 section s_625F7 progbits alloc exec nowrite align=1
-extern byte_17BB64, byte_17BCBE, byte_17BCBF, byte_17BCC0, byte_17BCC1, byte_17BD24, byte_17BD25, byte_17BD26
-extern byte_17BD27, byte_17BD8A, byte_17BD8B, byte_17BD8C, byte_17BD8D, byte_17BDAE, byte_17BDAF, byte_17BDB0
-extern CopyBitmap, DrawFrameAt, dword_11BCE0, dword_11BCE4, dword_17BA7C, dword_17BAB0, dword_17BAB4, dword_17BAE8
-extern dword_17BAEC, dword_17BB20, dword_17BC64, dword_17BC68, dword_17BC6C, dword_17BC70, dword_17BC74, MatchupLayer
-extern TeamStatsBitmap, dword_17BC8C, dword_17BC90, dword_17BC96, dword_17BC9A, dword_17BCA2, dword_17BCA6, dword_17BCAE
-extern dword_17BCB6, dword_17BCBA, dword_17BCE2, dword_17BCF2, dword_17BCF6, dword_17BCFC, dword_17BD00, dword_17BD08
-extern dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20, str_Standings, dword_17BD58, dword_17BD5C, dword_17BD62
-extern dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A, dword_17BD82, dword_17BD86, GetTicks, InitMenuItems
+extern ScreenColorMap
+extern TitleTextStyle
+extern CopyBitmap, DrawFrameAt, TeamNameArt, WaitBoxArt, FrontEndBarShapes
+extern SideBarBmp, BottomBarBmp, ScreenPaletteBuf, TitleBarBmp, FrontEndScreenBmp, MatchupLayer
+extern TeamStatsBitmap, SideBarArt
+extern MenuBoxStyle, BottomBarArt
+extern TitleBarArt
+extern GetTicks, InitMenuItems
 extern LoadPackedFile, PutBlock, SetDrawBitmap, SetScreenPalette, SoundIdle, sprintf_, str_CHECK, str_M03d
 extern str_Mhil, str_MODEM, str_Pal7, str_TN02d, str_X03d, str_XBUT, str_Xhil, str_Y03d
 extern str_Yhil, DrawShapeCore, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect, FreeBitmap, SaveTextState
-extern SetDrawTarget, SetScreenTarget, KbdGetKey, FindShape, TextSetFont, unk_11BCE8, unk_11BD28, unk_11BD68
-extern unk_17BB24
+extern SetDrawTarget, SetScreenTarget, KbdGetKey, FindShape, TextSetFont, BottomBarDef, TitleBarDef, SideBarDef
+extern FrontEndArtFiles
 global LoadFrontEndArt, LoadFrontEndArt_412, GetTeamNameArt, CopyArtRows, OpenScreen, SlideInTitleBar, SlideInTitleBar_62, SlideInTitleBar_6A
 global SlideInTitleBar_6D, SlideInSideBar, SlideInBottomBar, FreeFrontEndArt, SetScreenColors
 ;-----------------------------------------------------------------------------
@@ -37,32 +37,32 @@ LoadFrontEndArt:
         mov eax, 0Bh
         call LoadPackedFile
         mov edx, 20h
-        mov dword [dword_17BC74], eax
+        mov dword [FrontEndScreenBmp], eax
         mov eax, 0B0h
         call LoadPackedFile
         mov edx, 20h
-        mov dword [dword_11BCE0], eax
+        mov dword [TeamNameArt], eax
         mov eax, 0Ch
         call LoadPackedFile
         push str_Pal7
         push eax
-        mov dword [dword_11BCE4], eax
+        mov dword [WaitBoxArt], eax
         call FindShape
         add esp, byte 8
         push byte 20h
-        mov byte [byte_17BDAF], 0FEh
+        mov byte [TitleTextStyle+1], 0FEh
         push dword 842Eh
-        mov byte [byte_17BDAE], 0FCh
+        mov byte [TitleTextStyle], 0FCh
         add eax, byte 10h
         push str_CHECK
-        mov byte [byte_17BDB0], 0FDh
-        mov dword [dword_17BC6C], eax
+        mov byte [TitleTextStyle+2], 0FDh
+        mov dword [ScreenPaletteBuf], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push dword 842Eh
         push str_XBUT
-        mov dword [dword_17BC70], eax
+        mov dword [TitleBarBmp], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
@@ -71,10 +71,10 @@ LoadFrontEndArt:
         mov dword [byte ebp-020h], 0
         push str_MODEM
         mov dword [byte ebp-014h], 0
-        mov dword [dword_17BC64], eax
+        mov dword [SideBarBmp], eax
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_17BC68], eax
+        mov dword [BottomBarBmp], eax
 .1:
         push dword [byte ebp-0Ch]
         push str_Y03d
@@ -85,13 +85,13 @@ LoadFrontEndArt:
         lea eax, [byte ebp-02Ch]
         push eax
         mov esi, dword [byte ebp-014h]
-        push dword [dword_11BCE4]
+        push dword [WaitBoxArt]
         add dword [byte ebp-014h], byte 4
         call FindShape
         mov ecx, 971h
-        mov edi, dword [dword_17BC70]
+        mov edi, dword [TitleBarBmp]
         add esp, byte 8
-        mov dword [dword esi+dword_17BAEC], eax
+        mov dword [dword esi+FrontEndBarShapes+70h], eax
         mov esi, eax
         add edi, dword [byte ebp-020h]
         inc dword [byte ebp-0Ch]
@@ -102,15 +102,15 @@ LoadFrontEndArt:
         push str_Yhil
         mov dword [byte ebp-04h], 0
         mov dword [byte ebp-024h], 0
-        push dword [dword_11BCE4]
+        push dword [WaitBoxArt]
         mov dword [byte ebp-010h], 0
         call FindShape
         mov ecx, 971h
-        mov edi, dword [dword_17BC70]
+        mov edi, dword [TitleBarBmp]
         add esp, byte 8
         mov esi, eax
         add edi, 7ABDh
-        mov dword [dword_17BB20], eax
+        mov dword [FrontEndBarShapes+0A4h], eax
         rep movsb
 .2:
         push dword [byte ebp-04h]
@@ -122,13 +122,13 @@ LoadFrontEndArt:
         lea eax, [byte ebp-02Ch]
         push eax
         mov esi, dword [byte ebp-010h]
-        push dword [dword_11BCE4]
+        push dword [WaitBoxArt]
         add dword [byte ebp-010h], byte 4
         call FindShape
         mov ecx, 971h
-        mov edi, dword [dword_17BC64]
+        mov edi, dword [SideBarBmp]
         add esp, byte 8
-        mov dword [dword esi+dword_17BA7C], eax
+        mov dword [dword esi+FrontEndBarShapes], eax
         mov esi, eax
         add edi, dword [byte ebp-024h]
         inc dword [byte ebp-04h]
@@ -139,15 +139,15 @@ LoadFrontEndArt:
         push str_Xhil
         mov dword [byte ebp-08h], 0
         mov dword [byte ebp-01Ch], 0
-        push dword [dword_11BCE4]
+        push dword [WaitBoxArt]
         mov dword [byte ebp-018h], 0
         call FindShape
         mov ecx, 971h
-        mov edi, dword [dword_17BC64]
+        mov edi, dword [SideBarBmp]
         add esp, byte 8
         mov esi, eax
         add edi, 7ABDh
-        mov dword [dword_17BAB0], eax
+        mov dword [FrontEndBarShapes+34h], eax
         rep movsb
 .3:
         push dword [byte ebp-08h]
@@ -159,13 +159,13 @@ LoadFrontEndArt:
         lea eax, [byte ebp-02Ch]
         push eax
         mov esi, dword [byte ebp-018h]
-        push dword [dword_11BCE4]
+        push dword [WaitBoxArt]
         add dword [byte ebp-018h], byte 4
         call FindShape
         mov ecx, 971h
-        mov edi, dword [dword_17BC68]
+        mov edi, dword [BottomBarBmp]
         add esp, byte 8
-        mov dword [dword esi+dword_17BAB4], eax
+        mov dword [dword esi+FrontEndBarShapes+38h], eax
         mov esi, eax
         add edi, dword [byte ebp-01Ch]
         inc dword [byte ebp-08h]
@@ -174,67 +174,67 @@ LoadFrontEndArt:
         cmp dword [byte ebp-08h], byte 0Dh
         jl short .3
         push str_Mhil
-        push dword [dword_11BCE4]
+        push dword [WaitBoxArt]
         call FindShape
         mov ecx, 971h
-        mov edx, str_Standings
-        mov edi, dword [dword_17BC68]
+        mov edx, BottomBarArt+56h
+        mov edi, dword [BottomBarBmp]
         add esp, byte 8
         mov esi, eax
         add edi, 7ABDh
-        mov dword [dword_17BAE8], eax
+        mov dword [FrontEndBarShapes+6Ch], eax
         rep movsb
         mov eax, 1
         call InitMenuItems
-        mov dword [str_Standings], 0FFFFFFFFh
-        mov dword [dword_17BD58], 8
-        mov dword [dword_17BD5C], unk_11BD28
-        mov dword [dword_17BD6E], 23Dh
-        mov dword [dword_17BD72], 1A4h
-        mov dword [dword_17BD82], 255h
-        mov eax, dword [dword_17BC70]
-        mov dword [dword_17BD86], 1C0h
-        mov dword [dword_17BD62], eax
+        mov dword [BottomBarArt+56h], 0FFFFFFFFh
+        mov dword [TitleBarArt], 8
+        mov dword [TitleBarArt+4], TitleBarDef
+        mov dword [TitleBarArt+16h], 23Dh
+        mov dword [TitleBarArt+1Ah], 1A4h
+        mov dword [TitleBarArt+2Ah], 255h
+        mov eax, dword [TitleBarBmp]
+        mov dword [TitleBarArt+2Eh], 1C0h
+        mov dword [TitleBarArt+0Ah], eax
         add eax, 7ABDh
         mov edx, TeamStatsBitmap
-        mov dword [dword_17BD66], eax
+        mov dword [TitleBarArt+0Eh], eax
         mov eax, 1
-        mov dword [dword_17BD7A], 33h
+        mov dword [TitleBarArt+22h], 33h
         call InitMenuItems
         mov dword [TeamStatsBitmap], 0FFFFFFFFh
-        mov dword [dword_17BC8C], 8
-        mov dword [dword_17BC90], unk_11BD68
-        mov dword [dword_17BCA2], 11h
-        mov dword [dword_17BCA6], 1A4h
-        mov dword [dword_17BCB6], 2Ch
-        mov eax, dword [dword_17BC64]
-        mov dword [dword_17BCBA], 1C0h
-        mov dword [dword_17BC96], eax
+        mov dword [SideBarArt], 8
+        mov dword [SideBarArt+4], SideBarDef
+        mov dword [SideBarArt+16h], 11h
+        mov dword [SideBarArt+1Ah], 1A4h
+        mov dword [SideBarArt+2Ah], 2Ch
+        mov eax, dword [SideBarBmp]
+        mov dword [SideBarArt+2Eh], 1C0h
+        mov dword [SideBarArt+0Ah], eax
         add eax, 7ABDh
-        mov edx, dword_17BCE2
-        mov dword [dword_17BC9A], eax
+        mov edx, MenuBoxStyle
+        mov dword [SideBarArt+0Eh], eax
         mov eax, 1
-        mov dword [dword_17BCAE], 33h
+        mov dword [SideBarArt+22h], 33h
         call InitMenuItems
-        mov dword [dword_17BCE2], 0FFFFFFFFh
-        mov dword [dword_17BCF2], 8
-        mov dword [dword_17BCF6], unk_11BCE8
-        mov dword [dword_17BD08], 244h
-        mov dword [dword_17BD0C], 1Bh
-        mov dword [dword_17BD1C], 264h
-        mov dword [dword_17BD20], 3Ch
-        mov eax, dword [dword_17BC68]
-        push unk_17BB24
-        mov dword [dword_17BCFC], eax
+        mov dword [MenuBoxStyle], 0FFFFFFFFh
+        mov dword [BottomBarArt], 8
+        mov dword [BottomBarArt+4], BottomBarDef
+        mov dword [BottomBarArt+16h], 244h
+        mov dword [BottomBarArt+1Ah], 1Bh
+        mov dword [BottomBarArt+2Ah], 264h
+        mov dword [BottomBarArt+2Eh], 3Ch
+        mov eax, dword [BottomBarBmp]
+        push FrontEndArtFiles
+        mov dword [BottomBarArt+0Ah], eax
         add eax, 7ABDh
-        mov dword [dword_17BD14], 33h
-        mov dword [dword_17BD00], eax
+        mov dword [BottomBarArt+22h], 33h
+        mov dword [BottomBarArt+0Eh], eax
         call SaveTextState
         add esp, byte 4
         push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
-        mov eax, dword [dword_17BC6C]
+        mov eax, dword [ScreenPaletteBuf]
         call SetScreenPalette
 LoadFrontEndArt_412:
         leave
@@ -248,7 +248,7 @@ GetTeamNameArt:
         push ecx
         push edx
         enter 8, 0
-        cmp dword [dword_11BCE0], byte 0
+        cmp dword [TeamNameArt], byte 0
         je short .1
         push eax
         push str_TN02d
@@ -258,7 +258,7 @@ GetTeamNameArt:
         add esp, byte 0Ch
         lea eax, [byte ebp-08h]
         push eax
-        push dword [dword_11BCE0]
+        push dword [TeamNameArt]
         call FindShape
         add esp, byte 8
         leave
@@ -324,7 +324,7 @@ CopyArtRows:
         cmp ecx, 0FFh
         je short .3
         movzx edi, byte [ebx]
-        mov cl, byte [dword edi+byte_17BB64]
+        mov cl, byte [dword edi+ScreenColorMap]
         mov byte [ebx], cl
 .3:
         inc dword [byte ebp-08h]
@@ -360,28 +360,28 @@ OpenScreen:
         push eax
         call SetScreenTarget
         mov edx, 20h
-        mov eax, dword [dword_17BAEC]
+        mov eax, dword [FrontEndBarShapes+70h]
         call CopyBitmap
-        push dword [dword_17BD72]
-        push dword [dword_17BD6E]
+        push dword [TitleBarArt+1Ah]
+        push dword [TitleBarArt+16h]
         push eax
         mov dword [byte ebp-010h], eax
         call DrawShapeCore
         add esp, byte 0Ch
         mov edx, 20h
-        mov eax, dword [dword_17BA7C]
+        mov eax, dword [FrontEndBarShapes]
         call CopyBitmap
-        push dword [dword_17BCA6]
-        push dword [dword_17BCA2]
+        push dword [SideBarArt+1Ah]
+        push dword [SideBarArt+16h]
         push eax
         mov dword [byte ebp-018h], eax
         call DrawShapeCore
         add esp, byte 0Ch
         mov edx, 20h
-        mov eax, dword [dword_17BAB4]
+        mov eax, dword [FrontEndBarShapes+38h]
         call CopyBitmap
-        push dword [dword_17BD0C]
-        push dword [dword_17BD08]
+        push dword [BottomBarArt+1Ah]
+        push dword [BottomBarArt+16h]
         push eax
         mov dword [byte ebp-014h], eax
         call DrawShapeCore
@@ -405,17 +405,17 @@ OpenScreen:
         mov edx, dword [byte ebp-04h]
         mov eax, dword [byte ebp-08h]
         add esp, byte 0Ch
-        mov edx, dword [dword edx+dword_17BAEC]
+        mov edx, dword [dword edx+FrontEndBarShapes+70h]
         xor ecx, ecx
         call CopyArtRows
         mov edx, dword [byte ebp-04h]
         xor ebx, ebx
         mov eax, 0FAE1h
-        mov edx, dword [dword edx+dword_17BAEC]
+        mov edx, dword [dword edx+FrontEndBarShapes+70h]
         mov esi, dword [byte ebp-08h]
         call DrawFrameAt
         mov ecx, 961h
-        mov edi, dword [dword_17BC70]
+        mov edi, dword [TitleBarBmp]
         mov esi, dword [byte esi+02Ch]
         add edi, dword [byte ebp-0Ch]
         add esi, byte 10h
@@ -428,17 +428,17 @@ OpenScreen:
         mov edx, dword [byte ebp-04h]
         mov eax, dword [byte ebp-08h]
         add esp, byte 0Ch
-        mov edx, dword [dword edx+dword_17BA7C]
+        mov edx, dword [dword edx+FrontEndBarShapes]
         xor ecx, ecx
         call CopyArtRows
         mov edx, dword [byte ebp-04h]
         xor ebx, ebx
         mov eax, 0FAE1h
-        mov edx, dword [dword edx+dword_17BA7C]
+        mov edx, dword [dword edx+FrontEndBarShapes]
         mov esi, dword [byte ebp-08h]
         call DrawFrameAt
         mov ecx, 961h
-        mov edi, dword [dword_17BC64]
+        mov edi, dword [SideBarBmp]
         mov esi, dword [byte esi+02Ch]
         add edi, dword [byte ebp-0Ch]
         add esi, byte 10h
@@ -452,17 +452,17 @@ OpenScreen:
         mov edx, dword [byte ebp-04h]
         mov eax, dword [byte ebp-08h]
         add esp, byte 0Ch
-        mov edx, dword [dword edx+dword_17BAB4]
+        mov edx, dword [dword edx+FrontEndBarShapes+38h]
         xor ecx, ecx
         call CopyArtRows
         mov edx, dword [byte ebp-04h]
         xor ebx, ebx
         mov eax, 0FAE1h
-        mov edx, dword [dword edx+dword_17BAB4]
+        mov edx, dword [dword edx+FrontEndBarShapes+38h]
         add dword [byte ebp-04h], byte 4
         call DrawFrameAt
         mov ecx, 961h
-        mov edi, dword [dword_17BC68]
+        mov edi, dword [BottomBarBmp]
         mov esi, dword [byte esi+02Ch]
         add edi, dword [byte ebp-0Ch]
         add esi, byte 10h
@@ -474,25 +474,25 @@ OpenScreen:
         call SetScreenTarget
         test byte [byte ebp-01Ch], 2
         je short .2
-        push dword [dword_17BD72]
-        push dword [dword_17BD6E]
-        push dword [dword_17BD62]
+        push dword [TitleBarArt+1Ah]
+        push dword [TitleBarArt+16h]
+        push dword [TitleBarArt+0Ah]
         call PutBlock
         add esp, byte 0Ch
 .2:
         test byte [byte ebp-01Ch], 4
         je short .3
-        push dword [dword_17BCA6]
-        push dword [dword_17BCA2]
-        push dword [dword_17BC96]
+        push dword [SideBarArt+1Ah]
+        push dword [SideBarArt+16h]
+        push dword [SideBarArt+0Ah]
         call PutBlock
         add esp, byte 0Ch
 .3:
         test byte [byte ebp-01Ch], 1
         je short .4
-        push dword [dword_17BD0C]
-        push dword [dword_17BD08]
-        push dword [dword_17BCFC]
+        push dword [BottomBarArt+1Ah]
+        push dword [BottomBarArt+16h]
+        push dword [BottomBarArt+0Ah]
         call PutBlock
         add esp, byte 0Ch
 .4:
@@ -507,18 +507,18 @@ OpenScreen:
         add esp, byte 4
         push dword [byte ebp-014h]
         call FreeMemBlock
-        mov byte [byte_17BD8A], 0
-        mov byte [byte_17BD8B], 0
-        mov byte [byte_17BD8C], 0
-        mov byte [byte_17BD8D], 0
-        mov byte [byte_17BCBE], 0
-        mov byte [byte_17BCBF], 0
-        mov byte [byte_17BCC0], 0
-        mov byte [byte_17BCC1], 0
-        mov byte [byte_17BD24], 0
-        mov byte [byte_17BD25], 0
-        mov byte [byte_17BD26], 0
-        mov byte [byte_17BD27], 0
+        mov byte [TitleBarArt+32h], 0
+        mov byte [TitleBarArt+33h], 0
+        mov byte [TitleBarArt+34h], 0
+        mov byte [TitleBarArt+35h], 0
+        mov byte [SideBarArt+32h], 0
+        mov byte [SideBarArt+33h], 0
+        mov byte [SideBarArt+34h], 0
+        mov byte [SideBarArt+35h], 0
+        mov byte [BottomBarArt+32h], 0
+        mov byte [BottomBarArt+33h], 0
+        mov byte [BottomBarArt+34h], 0
+        mov byte [BottomBarArt+35h], 0
         add esp, byte 4
         jmp near LoadFrontEndArt_412
 ;-----------------------------------------------------------------------------
@@ -534,9 +534,9 @@ SlideInTitleBar:
         call SetScreenTarget
         mov esi, 971h
 .1:
-        push dword [dword_17BD72]
-        mov eax, dword [dword_17BC70]
-        push dword [dword_17BD6E]
+        push dword [TitleBarArt+1Ah]
+        mov eax, dword [TitleBarBmp]
+        push dword [TitleBarArt+16h]
         add eax, esi
         push eax
         call PutBlock
@@ -553,9 +553,9 @@ SlideInTitleBar:
         add esi, 971h
         cmp esi, 7ABDh
         jne short .1
-        push dword [dword_17BD72]
-        mov eax, dword [dword_17BC70]
-        push dword [dword_17BD6E]
+        push dword [TitleBarArt+1Ah]
+        mov eax, dword [TitleBarBmp]
+        push dword [TitleBarArt+16h]
 SlideInTitleBar_62:
         add eax, esi
         push eax
@@ -571,7 +571,7 @@ SlideInTitleBar_6D:
         ret
 ;-----------------------------------------------------------------------------
 ; SlideInSideBar                                  62E0E  96 PC, low confidence
-; The same for the second bar (dword_17BC64)
+; The same for the second bar (SideBarBmp)
 ;-----------------------------------------------------------------------------
 SlideInSideBar:
         push ebx
@@ -582,9 +582,9 @@ SlideInSideBar:
         call SetScreenTarget
         mov esi, 971h
 .1:
-        push dword [dword_17BCA6]
-        mov eax, dword [dword_17BC64]
-        push dword [dword_17BCA2]
+        push dword [SideBarArt+1Ah]
+        mov eax, dword [SideBarBmp]
+        push dword [SideBarArt+16h]
         add eax, esi
         push eax
         call PutBlock
@@ -601,13 +601,13 @@ SlideInSideBar:
         add esi, 971h
         cmp esi, 7ABDh
         jne short .1
-        push dword [dword_17BCA6]
-        mov eax, dword [dword_17BC64]
-        push dword [dword_17BCA2]
+        push dword [SideBarArt+1Ah]
+        mov eax, dword [SideBarBmp]
+        push dword [SideBarArt+16h]
         jmp short SlideInTitleBar_62
 ;-----------------------------------------------------------------------------
 ; SlideInBottomBar                                62E72  96 PC, low confidence
-; The same for the third bar (dword_17BC68)
+; The same for the third bar (BottomBarBmp)
 ;-----------------------------------------------------------------------------
 SlideInBottomBar:
         push ebx
@@ -618,9 +618,9 @@ SlideInBottomBar:
         call SetScreenTarget
         mov esi, 971h
 .1:
-        push dword [dword_17BD0C]
-        mov eax, dword [dword_17BC68]
-        push dword [dword_17BD08]
+        push dword [BottomBarArt+1Ah]
+        mov eax, dword [BottomBarBmp]
+        push dword [BottomBarArt+16h]
         add eax, esi
         push eax
         call PutBlock
@@ -637,9 +637,9 @@ SlideInBottomBar:
         add esi, 971h
         cmp esi, 7ABDh
         jne short .1
-        push dword [dword_17BD0C]
-        mov eax, dword [dword_17BC68]
-        push dword [dword_17BD08]
+        push dword [BottomBarArt+1Ah]
+        mov eax, dword [BottomBarBmp]
+        push dword [BottomBarArt+16h]
         jmp near SlideInTitleBar_62
 ;-----------------------------------------------------------------------------
 ; FreeFrontEndArt                              62ED9  96 PC, medium confidence
@@ -649,39 +649,39 @@ FreeFrontEndArt:
         push ebx
         push ecx
         push edx
-        mov edx, str_Standings
+        mov edx, BottomBarArt+56h
         mov eax, 1
         call InitMenuItems
         mov edx, TeamStatsBitmap
         mov eax, 1
         call InitMenuItems
-        mov edx, dword_17BCE2
+        mov edx, MenuBoxStyle
         mov eax, 1
         call InitMenuItems
-        push dword [dword_11BCE0]
+        push dword [TeamNameArt]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_11BCE4]
-        mov dword [dword_11BCE0], 0
+        push dword [WaitBoxArt]
+        mov dword [TeamNameArt], 0
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_17BC70]
-        mov dword [dword_11BCE4], 0
+        push dword [TitleBarBmp]
+        mov dword [WaitBoxArt], 0
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_17BC64]
+        push dword [SideBarBmp]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_17BC68]
+        push dword [BottomBarBmp]
         call FreeMemBlock
         add esp, byte 4
         push dword [MatchupLayer]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_17BC74]
+        push dword [FrontEndScreenBmp]
         call FreeMemBlock
         add esp, byte 4
-        push unk_17BB24
+        push FrontEndArtFiles
         call SetDrawTarget
         add esp, byte 4
         pop edx
@@ -700,13 +700,13 @@ SetScreenColors:
         push edi
         mov edx, eax
         mov ecx, 4Bh
-        mov esi, dword [dword_17BC6C]
+        mov esi, dword [ScreenPaletteBuf]
         lea edi, [dword eax+02B2h]
         add esi, 2B2h
         rep movsb
         mov eax, edx
         call SetScreenPalette
-        push byte_17BB64
+        push ScreenColorMap
         push edx
         push dword 0AE14h
         call TintRect

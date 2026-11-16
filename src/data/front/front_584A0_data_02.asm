@@ -3,32 +3,32 @@ bits 32
 %include "hockey.inc"
 section s_11B238 progbits alloc noexec write align=1
 extern str_G5, str_feD, str_L, str_C6, str_R5, str_X2
-global dword_11B238, dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294
-global dword_11B298, dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC
-global dword_11B300, dword_11B304, dword_11B308, dword_11B310, dword_11B314, dword_11B318, dword_11B31C, dword_11B320
-global str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, off_11B278, OverlayPanelQueue, word_11B274
+global ClockPanelState, ScorePanelState, TimeLeftPanelState, TimedPanelState, RinkSpriteMode, GameFrameShapes, ViewDimmed, SpinPuckFrame
+global GoalNetShapeIds, GoalReplayPending, PanelOpenTime, PanelCloseTime, TimedPanelTimer, PlayerPctPanelTimer, ClockPanelTimer, TimeLeftPanelTimer
+global ScorePanelTimer, PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewTop, ViewWidth, ViewHeight, ViewLeft
+global str_D_DrawGameFrame, ViewBitmap, ViewPixels, ViewSizeStep, CameraShotOn, RosterNumberShapes, OverlayPanelQueue, SavedViewMode
 global ovlstep
-dword_11B238:
+ClockPanelState:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B23C:
+ScorePanelState:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B240:
+TimeLeftPanelState:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B244:
+TimedPanelState:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B248:
+RinkSpriteMode:
         db 00h,00h,00h,00h
-dword_11B24C:
+GameFrameShapes:
         db 0F7h,0Eh,00h,00h,0F8h,0Eh,00h,00h,0F9h,0Eh,00h,00h,0FAh,0Eh,00h,00h
         db 0FBh,0Eh,00h,00h,0FAh,0Eh,00h,00h,0F9h,0Eh,00h,00h,0F8h,0Eh,00h,00h
         db 0F6h,0Eh,00h,00h
-dword_11B270:
+ViewDimmed:
         db 00h,00h,00h,00h
-word_11B274:
+SavedViewMode:
         db 0FFh,0FFh
 ovlstep:
         db 0FFh,0FFh
-off_11B278:
+RosterNumberShapes:
         dd str_G5
         dd str_feD
         dd str_feD
@@ -36,52 +36,52 @@ off_11B278:
         dd str_C6
         dd str_R5
         dd str_X2
-dword_11B294:
+SpinPuckFrame:
         db 00h,00h,00h,00h
-dword_11B298:
+GoalNetShapeIds:
         db 061h,0Bh,00h,00h,062h,0Bh,00h,00h,05Fh,0Bh,00h,00h,060h,0Bh,00h,00h
-dword_11B2A8:
+GoalReplayPending:
         db 00h,00h,00h,00h
 OverlayPanelQueue:
         db 0FFh,0FFh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_11B2E8:
+PanelOpenTime:
         db 00h,00h,00h,00h
-dword_11B2EC:
+PanelCloseTime:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B2F0:
+TimedPanelTimer:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B2F4:
+PlayerPctPanelTimer:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B2F8:
+ClockPanelTimer:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B2FC:
+TimeLeftPanelTimer:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B300:
+ScorePanelTimer:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B304:
+PlayerNamePanelTimer:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B308:
+LineBoxStates:
         db 00h,00h,00h,00h,00h,00h,00h,00h
-dword_11B310:
+LastEventPlayer:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11B314:
+ViewTop:
         db 018h,00h,00h,00h
-dword_11B318:
+ViewWidth:
         db 040h,01h,00h,00h
-dword_11B31C:
+ViewHeight:
         db 0C8h,00h,00h,00h
-dword_11B320:
+ViewLeft:
         db 0A0h,00h,00h,00h
 str_D_DrawGameFrame:
         db 064h,00h,00h,00h
-dword_11B328:
+ViewBitmap:
         db 00h,00h,00h,00h
-dword_11B32C:
+ViewPixels:
         db 00h,00h,00h,00h
-dword_11B330:
+ViewSizeStep:
         db 08h,00h,00h,00h
-dword_11B334:
+CameraShotOn:
         db 00h,00h,00h,00h

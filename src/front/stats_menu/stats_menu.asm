@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_884BD progbits alloc exec nowrite align=1
-extern abs_, byte_17BDAE, SeasonUserTeam, byte_17D13A, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague
+extern abs_, TitleTextStyle, SeasonUserTeam, byte_17D13A, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague
 extern statsplayoffs, dword_11D59C, dword_11D674, dword_11E624, dword_11E664, StatsMenuItems, dword_11E66C, dword_11E670
 extern dword_11E678, TeamStatsBitmap, dword_17DC74, dword_17DC78, dword_17DC7C, dword_17DC80, dword_17DD34, dword_17DD38
 extern dword_17DD3C, dword_17DD40, dword_17DD44, dword_17DD48, dword_17DD4C, dword_17DD50, dword_17DD54, dword_17DD58
@@ -2586,7 +2586,7 @@ ExportTeamStats:
         lea eax, [byte ebp-038h]
         push eax
         push dword 0F0h
-        mov ebx, byte_17BDAE
+        mov ebx, TitleTextStyle
         push dword 140h
         mov eax, 0D3h
         mov ecx, 8
@@ -2613,7 +2613,7 @@ ExportTeamStats:
         mov edi, eax
         mov esi, eax
         mov eax, 34h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         call GetLangText
         call ShowProgressBox
         mov eax, 0D4h
@@ -2977,7 +2977,7 @@ ExportTeamStats_12C:
         push byte 1
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-010h]
         push eax
         mov eax, 22Eh
@@ -3798,7 +3798,7 @@ CheckExportName:
         push byte 1
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-08h]
         push byte 0
         mov edx, 2

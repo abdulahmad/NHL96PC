@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_122A6 progbits alloc exec nowrite align=1
-extern addtimer, LinkFlags, byte_11FA2F, ChatLine, LinkBlockHeader, LinkBlockAck, byte_17BDAE
+extern addtimer, LinkFlags, byte_11FA2F, ChatLine, LinkBlockHeader, LinkBlockAck, TitleTextStyle
 extern DebugPrintf, InputRecordIndex, LinkSyncInput, LinkCfgPort, LinkCfgMode, LinkCfgAnswer, LinkCfgDirect, LinkCfgBaud
 extern LinkCfgOption, LinkInputFrame, LinkSyncTarget, LinkSyncTimeout, LinkSyncCount, LinkInputDelay, LinkRxBlockCount, LinkRxBlockTicks
-extern str_Punct_ModemSettingsScreen, LinkBlockPtr, ModemReplyBuf, LinkTickCount, dword_1150D4, dword_11BCE4, dword_11F5C0, dword_11F5C4
+extern str_Punct_ModemSettingsScreen, LinkBlockPtr, ModemReplyBuf, LinkTickCount, dword_1150D4, WaitBoxArt, dword_11F5C0, dword_11F5C4
 extern SlotInput, ChatActive, LinkSyncValue, LinkBlockLen, LinkBlockPos
 extern LinkInputHead, LinkInputTail, LinkMsgHead, LinkValueHead, LinkMsgTail, LinkRemoteHead, LinkValueTail, LinkRemoteTail
 extern LinkWaitBoxBmp, LinkAbortCheck, GsModemDial, FillRect, TextStringWidth
@@ -65,7 +65,7 @@ ModemGameOpen:
 .2:
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         mov eax, 55h
         call GetLangText
         call ShowMessage
@@ -151,7 +151,7 @@ ModemGameOpen:
         push dword 0F0h
         push dword 140h
         push byte 0
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-08h]
         mov edx, 1
         mov eax, 129h
@@ -664,7 +664,7 @@ ModemGameConnect:
         je short .3
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         mov eax, 56h
         call GetLangText
         call ShowMessage
@@ -672,7 +672,7 @@ ModemGameConnect:
 .3:
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         mov eax, 57h
         call GetLangText
         call ShowMessage
@@ -738,7 +738,7 @@ ModemGameConnect:
         push dword 0F0h
         push dword 140h
         push byte 0
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-0Ch]
         mov edx, 1
         mov eax, 58h
@@ -757,7 +757,7 @@ ModemGameConnect:
         call HideMessage
         mov dword [byte ebp-020h], 0F0h
         mov dword [byte ebp-01Ch], 140h
-        mov eax, byte_17BDAE
+        mov eax, TitleTextStyle
         mov dword [byte ebp-018h], eax
         cmp word [GsDirectLink], byte 0
         je short .9
@@ -810,7 +810,7 @@ ModemGameConnect:
         push dword 0F0h
         push dword 140h
         push byte 0
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp-0Ch]
         mov edx, 1
         mov eax, dword [byte ebp-08h]
@@ -827,7 +827,7 @@ ModemGameConnect:
         or byte [SlotsTwoPlayer], 1
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         mov eax, 59h
         call GetLangText
         call ShowMessage
@@ -913,7 +913,7 @@ ShowLinkWaitBox:
         jne near .5
         cmp dword [dword_11F5C0], 140h
         jle short .3
-        cmp dword [dword_11BCE4], byte 0
+        cmp dword [WaitBoxArt], byte 0
         jne short .1
         mov eax, str_HGwt
         push eax
@@ -1287,7 +1287,7 @@ LinkSyncWithMessage:
         mov dword [LinkSyncTimeout], eax
         mov ecx, 0F0h
         mov ebx, 140h
-        mov edx, byte_17BDAE
+        mov edx, TitleTextStyle
         mov eax, dword [byte ebp-08h]
         call ShowMessage
 .1:

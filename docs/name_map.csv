@@ -2944,6 +2944,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 111011,str_Priority,asc_111011,new,high,string 'priority',src/data/front/front_584A0_data_01.asm
 11101A,str_B001,asc_11101A,new,high,string 'b001',src/data/front/front_584A0_data_01.asm
 11101F,str_B000,asc_11101F,new,high,string 'b000',src/data/front/front_584A0_data_01.asm
+111024,str_Empty,unk_111024,new,low,Empty string,src/data/front/front_584A0_data_01.asm
 111025,str_DS,asc_111025,new,high,string '%d %s',src/data/front/front_584A0_data_01.asm
 11102B,str_Goal0,asc_11102B,new,high,string 'goal0',src/data/front/front_584A0_data_01.asm
 111031,str_Goal1,asc_111031,new,high,string 'goal1',src/data/front/front_584A0_data_01.asm
@@ -2962,6 +2963,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 111084,F64_0p00277778,qword_111084,new,high,double constant 0.002777777778,src/data/front/front_584A0_data_01.asm
 11108C,F64_65536_CamView236,qword_11108C,new,high,double constant 65536,src/data/front/front_584A0_data_01.asm
 111094,F64_0p00277778_CamView236,qword_111094,new,high,double constant 0.002777777778,src/data/front/front_584A0_data_01.asm
+11109C,CamViewScale,qword_11109C,new,low,Camera view scale (double),src/data/front/front_584A0_data_01.asm
 1110A4,F64_0p00277778_CamView238,qword_1110A4,new,high,double constant 0.002777777778,src/data/front/front_584A0_data_01.asm
 1110AC,F64_65536_CamView238,qword_1110AC,new,high,double constant 65536,src/data/front/front_584A0_data_01.asm
 1110B4,F64_0p00277778_CamView239,qword_1110B4,new,high,double constant 0.002777777778,src/data/front/front_584A0_data_01.asm
@@ -4828,14 +4830,94 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11B0B0,str_Punct_ReplayScreen,unk_11B0B0,new,high,"string ""\n""",src/data/front/replay_controls_data_02.asm
 11B230,str_0_SaveHighlight,unk_11B230,new,high,"string ""0""",src/data/front/replay_controls_data_02.asm
 11B234,ReplayRemoteShape,dword_11B234,new,low,replay remote shape,src/data/front/replay_controls_data_02.asm
+11B238,ClockPanelState,dword_11B238,new,low,"Clock panel state, -1 when closed",src/data/front/front_584A0_data_02.asm
+11B23C,ScorePanelState,dword_11B23C,new,low,Score panel state (1F40h after a goal),src/data/front/front_584A0_data_02.asm
+11B240,TimeLeftPanelState,dword_11B240,new,low,Time left panel state,src/data/front/front_584A0_data_02.asm
+11B244,TimedPanelState,dword_11B244,new,low,Timed panel state,src/data/front/front_584A0_data_02.asm
+11B248,RinkSpriteMode,dword_11B248,new,low,Rink sprite drawing mode,src/data/front/front_584A0_data_02.asm
+11B24C,GameFrameShapes,dword_11B24C,new,low,Game frame shape ids,src/data/front/front_584A0_data_02.asm
+11B270,ViewDimmed,dword_11B270,new,low,Game view dimmed,src/data/front/front_584A0_data_02.asm
+11B274,SavedViewMode,word_11B274,new,low,Game view mode saved with the game state,src/data/front/front_584A0_data_02.asm
 11B276,ovlstep,word_11B276,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_584A0_data_02.asm
+11B278,RosterNumberShapes,off_11B278,new,low,Roster number shape names,src/data/front/front_584A0_data_02.asm
+11B294,SpinPuckFrame,dword_11B294,new,low,Spinning puck frame,src/data/front/front_584A0_data_02.asm
+11B298,GoalNetShapeIds,dword_11B298,new,low,Goal net shape ids,src/data/front/front_584A0_data_02.asm
+11B2A8,GoalReplayPending,dword_11B2A8,new,low,Goal replay pending,src/data/front/front_584A0_data_02.asm
 11B2AC,OverlayPanelQueue,unk_11B2AC,new,low,queued overlay panels,src/data/front/front_584A0_data_02.asm
+11B2E8,PanelOpenTime,dword_11B2E8,new,low,Overlay panel open time,src/data/front/front_584A0_data_02.asm
+11B2EC,PanelCloseTime,dword_11B2EC,new,low,Overlay panel close time,src/data/front/front_584A0_data_02.asm
+11B2F0,TimedPanelTimer,dword_11B2F0,new,low,Timed panel timer,src/data/front/front_584A0_data_02.asm
+11B2F4,PlayerPctPanelTimer,dword_11B2F4,new,low,Player percentage panel timer,src/data/front/front_584A0_data_02.asm
+11B2F8,ClockPanelTimer,dword_11B2F8,new,low,Clock panel timer,src/data/front/front_584A0_data_02.asm
+11B2FC,TimeLeftPanelTimer,dword_11B2FC,new,low,Time left panel timer,src/data/front/front_584A0_data_02.asm
+11B300,ScorePanelTimer,dword_11B300,new,low,Score panel timer,src/data/front/front_584A0_data_02.asm
+11B304,PlayerNamePanelTimer,dword_11B304,new,low,Player name panel timer,src/data/front/front_584A0_data_02.asm
+11B308,LineBoxStates,dword_11B308,new,low,Line change box states,src/data/front/front_584A0_data_02.asm
+11B310,LastEventPlayer,dword_11B310,new,low,"Last event player, -1 for none",src/data/front/front_584A0_data_02.asm
+11B314,ViewTop,dword_11B314,new,low,Game view top,src/data/front/front_584A0_data_02.asm
+11B318,ViewWidth,dword_11B318,new,low,Game view width,src/data/front/front_584A0_data_02.asm
+11B31C,ViewHeight,dword_11B31C,new,low,Game view height,src/data/front/front_584A0_data_02.asm
+11B320,ViewLeft,dword_11B320,new,low,Game view left,src/data/front/front_584A0_data_02.asm
 11B324,str_D_DrawGameFrame,dword_11B324,new,high,"string ""d""",src/data/front/front_584A0_data_02.asm
+11B328,ViewBitmap,dword_11B328,new,low,Game view bitmap,src/data/front/front_584A0_data_02.asm
+11B32C,ViewPixels,dword_11B32C,new,low,Game view pixels,src/data/front/front_584A0_data_02.asm
+11B330,ViewSizeStep,dword_11B330,new,low,Game view size step (8 full),src/data/front/front_584A0_data_02.asm
+11B334,CameraShotOn,dword_11B334,new,low,Camera shot running,src/data/front/front_584A0_data_02.asm
 11B338,str_C_CloseTextOverlay,dword_11B338,new,high,"string ""c""",src/data/front/front_5D993_data_02.asm
+11B364,CamFollowObj,dword_11B364,new,low,Camera: object followed by the shot,src/data/front/front_5D993_data_02.asm
+11B368,CamLeadDist,dword_11B368,new,low,Camera: lead distance,src/data/front/front_5D993_data_02.asm
+11B370,CamAimDist,dword_11B370,new,low,Camera: aim distance,src/data/front/front_5D993_data_02.asm
+11B374,CamViewBits,dword_11B374,new,low,Camera: view bits,src/data/front/front_5D993_data_02.asm
+11B37C,CameraViewTable,dword_11B37C,new,low,"Camera views and shots, 45h bytes each (text id, kind, routine, settings)",src/data/front/front_5D993_data_02.asm
+11B9F4,CameraViewSlots,dword_11B9F4,new,low,Camera view per slot,src/data/front/front_5D993_data_02.asm
+11BA08,ReplayCameraView,off_11BA08,new,low,Replay camera view,src/data/front/front_5D993_data_02.asm
+11BAD4,CamFocusObj,dword_11BAD4,new,low,Camera: focus object,src/data/front/front_5D993_data_02.asm
+11BAD8,CamFixedObj,dword_11BAD8,new,low,"Camera: fixed view object, -1 for none",src/data/front/front_5D993_data_02.asm
+11BADC,CamShotFromObj,dword_11BADC,new,low,Camera shot: from object,src/data/front/front_5D993_data_02.asm
+11BAE0,CamShotToObj,dword_11BAE0,new,low,Camera shot: to object,src/data/front/front_5D993_data_02.asm
+11BAE4,CamShotNearObj,dword_11BAE4,new,low,Camera shot: near object,src/data/front/front_5D993_data_02.asm
+11BAE8,HotKeyStates,dword_11BAE8,new,low,Hot key states,src/data/front/front_5D993_data_02.asm
+11BB14,ShadowToggle,dword_11BB14,new,low,Shadow hot key toggle,src/data/front/front_5D993_data_02.asm
+11BB18,MarkerToggle,dword_11BB18,new,low,Marker hot key toggle,src/data/front/front_5D993_data_02.asm
+11BB1C,NameToggle,dword_11BB1C,new,low,Name hot key toggle,src/data/front/front_5D993_data_02.asm
+11BB20,CamLastSort,byte_11BB20,new,low,Camera: last sort,src/data/front/front_5D993_data_02.asm
+11BB24,CamFirstFrame,byte_11BB24,new,low,Camera: first frame,src/data/front/front_5D993_data_02.asm
 11BB28,HexDigits,byte_11BB28,new,low,hex digit characters,src/data/front/front_5D993_data_02.asm
+11BB38,PlayerSpritesLoaded,dword_11BB38,new,low,Player sprites loaded,src/data/front/front_5D993_data_02.asm
+11BB3C,SpriteFileHandles,dword_11BB3C,new,low,Sprite file handles,src/data/front/front_5D993_data_02.asm
+11BB40,FightSpritesLoaded,dword_11BB40,new,low,Fight sprites loaded,src/data/front/front_5D993_data_02.asm
+11BB44,SpriteMemBlock,dword_11BB44,new,low,Sprite memory block,src/data/front/front_5D993_data_02.asm
+11BB4C,GameSpriteNames,off_11BB4C,new,low,Game sprite file names,src/data/front/front_5D993_data_02.asm
+11BC24,LastPaletteMode,dword_11BC24,new,low,"Last palette mode, -1 for none",src/data/front/front_5D993_data_02.asm
+11BC28,JerseyDigitWidths,byte_11BC28,new,low,Jersey digit widths,src/data/front/front_5D993_data_02.asm
+11BCD1,SpritesLoaded,dword_11BCD1,new,low,Sprites loaded,src/data/front/front_5D993_data_02.asm
+11BCD5,SpriteCacheOn,dword_11BCD5,new,low,Sprite cache on,src/data/front/front_5D993_data_02.asm
+11BCD9,SpriteCacheMem,dword_11BCD9,new,low,Sprite cache memory,src/data/front/front_5D993_data_02.asm
+11BCE0,TeamNameArt,dword_11BCE0,new,low,Team name art,src/data/front/front_5D993_data_02.asm
+11BCE4,WaitBoxArt,dword_11BCE4,new,low,Wait box art,src/data/front/front_5D993_data_02.asm
+11BCE8,BottomBarDef,unk_11BCE8,new,low,Bottom bar definition,src/data/front/front_5D993_data_02.asm
+11BD28,TitleBarDef,unk_11BD28,new,low,Title bar definition,src/data/front/front_5D993_data_02.asm
+11BD68,SideBarDef,unk_11BD68,new,low,Side bar definition,src/data/front/front_5D993_data_02.asm
+11BDA8,SlideEventFuncs,off_11BDA8,new,low,Slide show event routines,src/data/front/front_5D993_data_02.asm
+11BDB0,SlideEvents,unk_11BDB0,new,low,Slide show events,src/data/front/front_5D993_data_02.asm
+11BFA4,CreditsText,unk_11BFA4,new,low,Credits text,src/data/front/front_5D993_data_02.asm
 11D18C,textcolor,dword_11D18C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_data_02.asm
 11D190,textshadow,dword_11D190,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_data_02.asm
 11D194,ModeLinear,dword_11D194,new,low,set when the graphics mode has a linear frame buffer,src/data/front/front_5D993_data_02.asm
+11D198,GraphicsFixOn,dword_11D198,new,low,Graphics fix on,src/data/front/front_5D993_data_02.asm
+11D19C,StartupPalette,dword_11D19C,new,low,Start-up palette,src/data/front/front_5D993_data_02.asm
+11D1A0,NearestColorCount,dword_11D1A0,new,low,Colours searched by NearestColor,src/data/front/front_5D993_data_02.asm
+11D1A4,NearestColorLimit,dword_11D1A4,new,low,Nearest colour limit (14h),src/data/front/front_5D993_data_02.asm
+11D1A8,MenuMouseX,dword_11D1A8,new,low,Menu mouse x,src/data/front/front_5D993_data_02.asm
+11D1AC,MenuMouseY,dword_11D1AC,new,low,Menu mouse y,src/data/front/front_5D993_data_02.asm
+11D1B0,MenuMouseButtons,dword_11D1B0,new,low,Menu mouse buttons,src/data/front/front_5D993_data_02.asm
+11D1B4,MenuViewStored,word_11D1B4,new,low,Set while the menu view is saved,src/data/front/front_5D993_data_02.asm
+11D1B6,MenuLinkActive,word_11D1B6,new,low,Set when the menu is driven over a link,src/data/front/front_5D993_data_02.asm
+11D1B8,MenuClipActive,word_11D1B8,new,low,Set while the menu clip rectangle is used,src/data/front/front_5D993_data_02.asm
+11D1BA,MenuInputPaused,word_11D1BA,new,low,Menu input paused,src/data/front/front_5D993_data_02.asm
+11D1BC,MenuMoveSfx,dword_11D1BC,new,low,"Menu move sound, -1 for none",src/data/front/front_5D993_data_02.asm
+11D1C0,MenuSelectSfx,dword_11D1C0,new,low,"Menu select sound, -1 for none",src/data/front/front_5D993_data_02.asm
+11D1C4,MenuInputReady,word_11D1C4,new,low,Menu input ready,src/data/front/front_5D993_data_02.asm
 11D1DA,sndcard,dword_11D1DA,new,medium,the sound driver StartSoundCard started (-1: none),src/data/front/front_67000_data_01.asm
 11D1E2,SpeechStreamFile,dword_11D1E2,new,low,speech stream file,src/data/front/front_67000_data_01.asm
 11D1E6,SpeechStreamTimer,dword_11D1E6,new,low,speech stream timer handle (-1 none),src/data/front/front_67000_data_01.asm
@@ -5767,24 +5849,179 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 17710C,HighlightBuffer,byte_17710C,new,low,"Saved highlights, 1DCh bytes each",src/data/engine/lines_bss_02.asm
 177998,ReplayMenuItems,dword_177998,new,low,replay menu items,src/data/front/replay_controls_bss_03.asm
 1781F4,ReplayMenuResult,dword_1781F4,new,low,replay menu result,src/data/front/replay_controls_bss_03.asm
+17828C,GameViewPanelIds,dword_17828C,new,low,"Game view: cached panel ids, -1 when not drawn",src/data/front/front_584A0_bss_01.asm
+1782AC,HomeSpriteShades,unk_1782AC,new,low,Game view: home team sprite shade table,src/data/front/front_584A0_bss_01.asm
+1786AC,AwaySpriteShades,unk_1786AC,new,low,Game view: away team sprite shade table,src/data/front/front_584A0_bss_01.asm
+178AAC,RefSpriteShades,unk_178AAC,new,low,Game view: referee and goalie sprite shade table,src/data/front/front_584A0_bss_01.asm
+178EA8,ShadeMatchFrom1,dword_178EA8,new,low,"Shade match table, indexed from 1 (BuildShadeMatch)",src/data/front/front_584A0_bss_01.asm
+178EAC,ShadeMatch,dword_178EAC,new,low,Shade match table,src/data/front/front_584A0_bss_01.asm
+1792AC,ShadeLutPtrs,dword_1792AC,new,low,Shade lookup table pointers,src/data/front/front_584A0_bss_01.asm
+1796AC,PalUsedFlags,byte_1796AC,new,low,Palette entries used by the game view sprites (InitGameView marks them),src/data/front/front_584A0_bss_01.asm
+1797AC,LineBoxOpen,dword_1797AC,new,low,"Line change box open, per team",src/data/front/front_584A0_bss_01.asm
+1797B4,LineBoxChoice,dword_1797B4,new,low,"Line change box choice, per team",src/data/front/front_584A0_bss_01.asm
+1797BC,LineBoxBmps,dword_1797BC,new,low,Line change box bitmaps,src/data/front/front_584A0_bss_01.asm
+1797DC,LineEnergyBmps,dword_1797DC,new,low,Line change energy bar bitmaps,src/data/front/front_584A0_bss_01.asm
+1797F4,ViewScrollX,dword_1797F4,new,low,Game view scroll x (16.16),src/data/front/front_584A0_bss_01.asm
+1797F8,ViewScrollY,dword_1797F8,new,low,Game view scroll y (16.16),src/data/front/front_584A0_bss_01.asm
+1797FC,SpriteScreenX,dword_1797FC,new,low,"Sprite screen x, 8 bytes per sprite",src/data/front/front_584A0_bss_01.asm
+179800,SpriteScreenY,dword_179800,new,low,"Sprite screen y, 8 bytes per sprite",src/data/front/front_584A0_bss_01.asm
+1798A4,OverlayPanelId,byte_1798A4,new,low,Overlay panel being shown,src/data/front/front_584A0_bss_01.asm
+1798A8,OverlayPanelOn,dword_1798A8,new,low,Overlay panel open,src/data/front/front_584A0_bss_01.asm
+1798AC,EventPanelLines,dword_1798AC,new,low,Event panel text lines,src/data/front/front_584A0_bss_01.asm
+1798B0,ClockDrawnTime,dword_1798B0,new,low,Game clock: time last drawn,src/data/front/front_584A0_bss_01.asm
+1798B4,ClockDrawnPeriod,dword_1798B4,new,low,Game clock: period last drawn,src/data/front/front_584A0_bss_01.asm
+1798B8,ClockBmp,dword_1798B8,new,low,Game clock bitmap,src/data/front/front_584A0_bss_01.asm
+1798BC,ViewDirty,dword_1798BC,new,low,Game view needs a full redraw,src/data/front/front_584A0_bss_01.asm
+1798C0,PuckModelPoints,unk_1798C0,new,low,Spinning puck model points,src/data/front/front_584A0_bss_01.asm
+1798E4,RubberFaceBmp,dword_1798E4,new,low,Puck face bitmap,src/data/front/front_584A0_bss_01.asm
+1798E8,RubberSideBmp,dword_1798E8,new,low,Puck side bitmap,src/data/front/front_584A0_bss_01.asm
+1798EC,ViewBrightness,dword_1798EC,new,low,Game view brightness (4000h full),src/data/front/front_584A0_bss_01.asm
+1798F0,IceLogoBmp,dword_1798F0,new,low,Centre ice logo bitmap,src/data/front/front_584A0_bss_01.asm
+1798F4,ShadeLutCount,dword_1798F4,new,low,Shade lookup tables in use,src/data/front/front_584A0_bss_01.asm
+1798F8,ShadeLutBlock,dword_1798F8,new,low,Shade lookup table memory block,src/data/front/front_584A0_bss_01.asm
+1798FC,PanelBaseY,dword_1798FC,new,low,Overlay panel base y,src/data/front/front_584A0_bss_01.asm
+179900,PenaltyClockWidth,dword_179900,new,low,Penalty clock panel width,src/data/front/front_584A0_bss_01.asm
+179904,GameViewBlock,dword_179904,new,low,Game view memory block,src/data/front/front_584A0_bss_01.asm
+179908,ClockFont,dword_179908,new,low,Game clock font,src/data/front/front_584A0_bss_01.asm
+17990C,LineBoxDrawn,dword_17990C,new,low,Line change box drawn,src/data/front/front_584A0_bss_01.asm
+179910,GoalFrameCount,dword_179910,new,low,Frames since the goal,src/data/front/front_584A0_bss_01.asm
+179914,ClockPanelBmp,dword_179914,new,low,Clock panel bitmap,src/data/front/front_584A0_bss_01.asm
+179918,NameFont,dword_179918,new,low,Overlay name font,src/data/front/front_584A0_bss_01.asm
+179920,NamePanelBmp,dword_179920,new,low,Overlay name panel bitmap,src/data/front/front_584A0_bss_01.asm
+179924,OverlayBmp,dword_179924,new,low,Overlay panel bitmap,src/data/front/front_584A0_bss_01.asm
+179928,LineBoxBmp,dword_179928,new,low,Line change box bitmap,src/data/front/front_584A0_bss_01.asm
+17992C,PanelWidth,dword_17992C,new,low,Overlay panel width,src/data/front/front_584A0_bss_01.asm
+179930,PanelHeight,dword_179930,new,low,Overlay panel height,src/data/front/front_584A0_bss_01.asm
+179934,ViewObjects,dword_179934,new,low,Game view object list,src/data/front/front_584A0_bss_01.asm
+179978,ShowShadows,dword_179978,new,low,Player shadows on,src/data/front/front_584A0_bss_01.asm
+17997C,ShowMarkers,dword_17997C,new,low,Player markers on,src/data/front/front_584A0_bss_01.asm
+179980,DrawList,unk_179980,new,low,Game view draw list,src/data/front/front_584A0_bss_01.asm
+179A7C,SpriteDepth,dword_179A7C,new,low,Sprite depth per object,src/data/front/front_584A0_bss_01.asm
+179AC0,DrawListCount,unk_179AC0,new,low,Draw list counts,src/data/front/front_584A0_bss_01.asm
+179AC8,SpriteFrameIds,dword_179AC8,new,low,Sprite frame per object,src/data/front/front_584A0_bss_01.asm
+179BBC,ZoneRects,unk_179BBC,new,low,Game frame: dirty zone rectangles,src/data/front/front_584A0_bss_01.asm
+179C88,ZoneRectCount,dword_179C88,new,low,Game frame: dirty zone rectangle count,src/data/front/front_584A0_bss_01.asm
+179C8C,ZoneRectIndex,dword_179C8C,new,low,Game frame: dirty zone index,src/data/front/front_584A0_bss_01.asm
+179C90,ZoneRectList,dword_179C90,new,low,Game frame: dirty zone list,src/data/front/front_584A0_bss_01.asm
+179CB8,OverlayQueueLen,byte_179CB8,new,low,Overlay panel queue length,src/data/front/front_584A0_bss_01.asm
+179CB9,OverlayQueue,byte_179CB9,new,low,Overlay panel queue,src/data/front/front_584A0_bss_01.asm
+179CBC,CamTargetObj,dword_179CBC,new,low,Camera: object followed,src/data/front/front_5D993_bss_01.asm
+179CC0,CamLeadX,dword_179CC0,new,low,Camera: lead x,src/data/front/front_5D993_bss_01.asm
+179CC4,CamLeadY,dword_179CC4,new,low,Camera: lead y,src/data/front/front_5D993_bss_01.asm
+179CC8,CamLeadOn,dword_179CC8,new,low,Camera: lead on,src/data/front/front_5D993_bss_01.asm
+179CCC,CameraPathPoints,unk_179CCC,new,low,"Camera path points, 24 bytes each",src/data/front/front_5D993_bss_01.asm
+179D44,CamShotTime,dword_179D44,new,low,Camera shot time,src/data/front/front_5D993_bss_01.asm
+179D48,CamPathPos,dword_179D48,new,low,Camera path position,src/data/front/front_5D993_bss_01.asm
+179D50,CamAimX,dword_179D50,new,low,Camera aim x,src/data/front/front_5D993_bss_01.asm
+179D54,CamAimShift,dword_179D54,new,low,Camera aim shift,src/data/front/front_5D993_bss_01.asm
+179D58,CamAimY,dword_179D58,new,low,Camera aim y,src/data/front/front_5D993_bss_01.asm
+179D5C,CamShotTimer,dword_179D5C,new,low,Camera shot timer,src/data/front/front_5D993_bss_01.asm
+179D60,CamShakeStart,dword_179D60,new,low,Camera shake start,src/data/front/front_5D993_bss_01.asm
+179D64,CamShakeCount,dword_179D64,new,low,Camera shake count,src/data/front/front_5D993_bss_01.asm
+179D68,CamShotId,dword_179D68,new,low,"Camera shot id, -1 for none",src/data/front/front_5D993_bss_01.asm
+179D6C,CamShotObj,dword_179D6C,new,low,Camera shot object,src/data/front/front_5D993_bss_01.asm
+179D70,CamInjuredObj,dword_179D70,new,low,Camera: injured player object,src/data/front/front_5D993_bss_01.asm
+179D74,CamNearNet,dword_179D74,new,low,Camera near the net,src/data/front/front_5D993_bss_01.asm
+179D78,CameraShotState,dword_179D78,new,low,Camera shot state block,src/data/front/front_5D993_bss_01.asm
+179DBD,CamShotKeys,dword_179DBD,new,low,Camera shot keys,src/data/front/front_5D993_bss_01.asm
+179DC1,CamShotMode,byte_179DC1,new,low,Camera shot mode,src/data/front/front_5D993_bss_01.asm
+179DC2,CamShotSaved,dword_179DC2,new,low,Camera shot saved state,src/data/front/front_5D993_bss_01.asm
+179DC6,CamPosX,dword_179DC6,new,low,Camera position x (16.16),src/data/front/front_5D993_bss_01.asm
+179DCA,CamPosY,dword_179DCA,new,low,Camera position y (16.16),src/data/front/front_5D993_bss_01.asm
+179DCE,CamPosZ,dword_179DCE,new,low,Camera position z,src/data/front/front_5D993_bss_01.asm
+179DD2,CamDistance,dword_179DD2,new,low,Camera distance,src/data/front/front_5D993_bss_01.asm
+179DD6,CamMatrix,dword_179DD6,new,low,Camera matrix,src/data/front/front_5D993_bss_01.asm
+179E02,CamPathTarget,unk_179E02,new,low,Camera path target,src/data/front/front_5D993_bss_01.asm
+179E06,CamViewFlags,byte_179E06,new,low,Camera view flags,src/data/front/front_5D993_bss_01.asm
+179E0B,CamAngle,dword_179E0B,new,low,Camera angle (16.16),src/data/front/front_5D993_bss_01.asm
+179E0F,CamPitch,dword_179E0F,new,low,Camera pitch (16.16),src/data/front/front_5D993_bss_01.asm
+179E13,CamPathState,dword_179E13,new,low,Camera path state,src/data/front/front_5D993_bss_01.asm
+179E17,CamZoom,dword_179E17,new,low,Camera zoom,src/data/front/front_5D993_bss_01.asm
+179E1B,CamPathActive,dword_179E1B,new,low,Camera path active,src/data/front/front_5D993_bss_01.asm
+179E1F,CamPathDerivs,dword_179E1F,new,low,Camera path derivatives,src/data/front/front_5D993_bss_01.asm
+179E47,CamShotPhase,byte_179E47,new,low,Camera shot phase,src/data/front/front_5D993_bss_01.asm
+179E48,SpriteCacheHead,unk_179E48,new,low,Sprite cache head,src/data/front/front_5D993_bss_01.asm
+179E4C,SpriteCacheLinks,dword_179E4C,new,low,Sprite cache links,src/data/front/front_5D993_bss_01.asm
+179E50,SpriteCache,dword_179E50,new,low,Sprite cache entries,src/data/front/front_5D993_bss_01.asm
+17B248,JerseyColorMap,unk_17B248,new,low,Jersey colour map,src/data/front/front_5D993_bss_01.asm
+17B488,RinkColorMap,unk_17B488,new,low,Rink sprite colour map,src/data/front/front_5D993_bss_01.asm
+17B518,TeamPaletteSave,unk_17B518,new,low,Saved team palettes,src/data/front/front_5D993_bss_01.asm
+17B830,HomeJerseyPal,unk_17B830,new,low,Home jersey palette,src/data/front/front_5D993_bss_01.asm
+17B930,AwayJerseyPal,unk_17B930,new,low,Away jersey palette,src/data/front/front_5D993_bss_01.asm
+17BA30,SpriteCachePtr,dword_17BA30,new,low,Sprite cache pointer,src/data/front/front_5D993_bss_01.asm
+17BA34,SpriteCacheFree,dword_17BA34,new,low,Sprite cache free list,src/data/front/front_5D993_bss_01.asm
+17BA38,SpriteCacheUsed,dword_17BA38,new,low,Sprite cache used,src/data/front/front_5D993_bss_01.asm
+17BA3C,SpriteCacheBlock,dword_17BA3C,new,low,Sprite cache memory block,src/data/front/front_5D993_bss_01.asm
+17BA40,SpriteCacheSize,dword_17BA40,new,low,Sprite cache size,src/data/front/front_5D993_bss_01.asm
+17BA44,PlayerSpriteFile,dword_17BA44,new,low,Player sprite file,src/data/front/front_5D993_bss_01.asm
+17BA48,PlayerSpriteCount,dword_17BA48,new,low,Player sprites,src/data/front/front_5D993_bss_01.asm
+17BA4C,RinkSpriteFile,dword_17BA4C,new,low,Rink sprite file,src/data/front/front_5D993_bss_01.asm
+17BA50,NetSpriteFile,dword_17BA50,new,low,Net sprite file,src/data/front/front_5D993_bss_01.asm
+17BA54,MarkerSpriteFile,dword_17BA54,new,low,Player marker sprite file,src/data/front/front_5D993_bss_01.asm
+17BA58,SpriteColorRanges,unk_17BA58,new,low,"Sprite colour ranges (SetPlayerSpriteColors, SetRinkSpriteColors)",src/data/front/front_5D993_bss_01.asm
+17BA7C,FrontEndBarShapes,dword_17BA7C,new,low,"Front end bar shapes: side, bottom and title (34h bytes each with a count)",src/data/front/front_5D993_bss_01.asm
+17BB24,FrontEndArtFiles,unk_17BB24,new,low,Front end art files,src/data/front/front_5D993_bss_01.asm
+17BB64,ScreenColorMap,byte_17BB64,new,low,Front end screen colour map,src/data/front/front_5D993_bss_01.asm
+17BC64,SideBarBmp,dword_17BC64,new,low,Front end side bar bitmap,src/data/front/front_5D993_bss_01.asm
+17BC68,BottomBarBmp,dword_17BC68,new,low,Front end bottom bar bitmap,src/data/front/front_5D993_bss_01.asm
+17BC6C,ScreenPaletteBuf,dword_17BC6C,new,low,Front end screen palette,src/data/front/front_5D993_bss_01.asm
+17BC70,TitleBarBmp,dword_17BC70,new,low,Front end title bar bitmap,src/data/front/front_5D993_bss_01.asm
+17BC74,FrontEndScreenBmp,dword_17BC74,new,low,Front end screen bitmap,src/data/front/front_5D993_bss_01.asm
 17BC78,MatchupLayer,dword_17BC78,new,low,matchup draw layer,src/data/front/front_5D993_bss_01.asm
 17BC7C,TeamStatsBitmap,dword_17BC7C,new,medium,team stats bitmap,src/data/front/front_5D993_bss_01.asm
+17BC8C,SideBarArt,dword_17BC8C,new,low,Front end side bar art record,src/data/front/front_5D993_bss_01.asm
+17BCE2,MenuBoxStyle,dword_17BCE2,new,low,Front end menu box style,src/data/front/front_5D993_bss_01.asm
+17BCF2,BottomBarArt,dword_17BCF2,new,low,Front end bottom bar art record,src/data/front/front_5D993_bss_01.asm
 17BD48,str_Standings,dword_17BD48,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_bss_01.asm
+17BD58,TitleBarArt,dword_17BD58,new,low,Front end title bar art record,src/data/front/front_5D993_bss_01.asm
+17BDAE,TitleTextStyle,byte_17BDAE,new,low,Front end title text style,src/data/front/front_5D993_bss_01.asm
+17BDB4,SlideImageNames,unk_17BDB4,new,low,Slide show image names,src/data/front/front_5D993_bss_01.asm
+17BDD4,SlideImageBmp,dword_17BDD4,new,low,Slide show image bitmap,src/data/front/front_5D993_bss_01.asm
+17BDD8,SlideImageIndex,dword_17BDD8,new,low,Slide show image shown,src/data/front/front_5D993_bss_01.asm
+17BDDC,SlideEventPtr,dword_17BDDC,new,low,Slide show event pointer,src/data/front/front_5D993_bss_01.asm
 17BDE0,IntroPalette,unk_17BDE0,new,low,intro palette,src/data/front/front_5D993_bss_01.asm
 17C0E0,fadepalbuf,unk_17C0E0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_bss_01.asm
+17C3E4,MenuLastMouseX,dword_17C3E4,new,low,Menu mouse x last frame,src/data/front/front_5D993_bss_01.asm
+17C3E8,MenuLastMouseY,dword_17C3E8,new,low,Menu mouse y last frame,src/data/front/front_5D993_bss_01.asm
+17C3EC,MenuLastButtons,dword_17C3EC,new,low,Menu mouse buttons last frame,src/data/front/front_5D993_bss_01.asm
+17C3F0,MenuButtons,dword_17C3F0,new,low,Menu mouse buttons this frame,src/data/front/front_5D993_bss_01.asm
+17C3F4,MenuViewTop,dword_17C3F4,new,low,Menu view top,src/data/front/front_5D993_bss_01.asm
+17C3F8,MenuViewBottom,dword_17C3F8,new,low,Menu view bottom,src/data/front/front_64F59_bss_01.asm
+17C3FC,MenuViewLeft,dword_17C3FC,new,low,Menu view left,src/data/front/front_64F59_bss_01.asm
+17C400,MenuViewRight,dword_17C400,new,low,Menu view right,src/data/front/front_64F59_bss_01.asm
 17C404,MenuRemoteItem,dword_17C404,new,low,menu item under the remote cursor,src/data/front/front_64F59_bss_01.asm
 17C408,MenuRemoteLayer,dword_17C408,new,low,remote cursor draw layer,src/data/front/front_64F59_bss_01.asm
 17C40C,MenuLocalCursorY,dword_17C40C,new,low,local cursor y,src/data/front/front_64F59_bss_01.asm
 17C410,MenuLocalCursorX,dword_17C410,new,low,local cursor x,src/data/front/front_64F59_bss_01.asm
 17C414,MenuItemLeaveFunc,dword_17C414,new,low,menu item leave routine,src/data/front/front_64F59_bss_01.asm
 17C418,MenuLocalLayer,dword_17C418,new,low,local cursor draw layer,src/data/front/front_64F59_bss_01.asm
+17C41C,MenuCurrentItem,dword_17C41C,new,low,Menu item under the cursor,src/data/front/front_64F59_bss_01.asm
 17C420,MenuSavedRemoteArt,dword_17C420,new,low,saved remote cursor art,src/data/front/front_64F59_bss_01.asm
 17C424,MenuLocalItem,dword_17C424,new,low,menu item under the local cursor,src/data/front/front_64F59_bss_01.asm
 17C428,MenuRemoteCursorY,dword_17C428,new,low,remote cursor y,src/data/front/front_64F59_bss_01.asm
 17C42C,MenuRemoteCursorX,dword_17C42C,new,low,remote cursor x,src/data/front/front_64F59_bss_01.asm
+17C430,MenuSavedCursorArt,dword_17C430,new,low,Saved cursor art,src/data/front/front_64F59_bss_01.asm
+17C434,MenuViewCallback,dword_17C434,new,low,Routine called when the menu view is restored,src/data/front/front_64F59_bss_01.asm
 17C438,MenuItemEnterFunc,dword_17C438,new,low,menu item enter routine,src/data/front/front_64F59_bss_01.asm
+17C43C,MenuItemHoverFunc,dword_17C43C,new,low,Menu item hover routine,src/data/front/front_64F59_bss_01.asm
+17C440,MenuItemExitFunc,dword_17C440,new,low,Menu item leave routine,src/data/front/front_64F59_bss_01.asm
+17C444,MenuRepeatTick,dword_17C444,new,low,Tick of the next menu key repeat,src/data/front/front_64F59_bss_01.asm
+17C448,MenuBackdropBmp,dword_17C448,new,low,Menu backdrop bitmap,src/data/front/front_64F59_bss_01.asm
+17C44C,MenuBackdropPixels,dword_17C44C,new,low,Menu backdrop pixels,src/data/front/front_64F59_bss_01.asm
+17C450,MenuSavedViewWidth,dword_17C450,new,low,Saved menu view width,src/data/front/front_64F59_bss_01.asm
+17C454,MenuSavedViewHeight,dword_17C454,new,low,Saved menu view height,src/data/front/front_64F59_bss_01.asm
+17C458,MenuLinkKey,dword_17C458,new,low,Menu key sent over the link,src/data/front/front_64F59_bss_01.asm
 17C45C,MenuCursorArt,dword_17C45C,new,low,local cursor art,src/data/front/front_64F59_bss_01.asm
+17C460,MenuBitmapReady,dword_17C460,new,low,Set once the menu bitmaps exist,src/data/front/front_64F59_bss_01.asm
+17C464,MenuStarted,word_17C464,new,low,Set once the menu has started,src/data/front/front_64F59_bss_01.asm
 17C466,MenuViewSaved,word_17C466,new,low,set while the menu view is saved,src/data/front/front_64F59_bss_01.asm
+17C468,MenuCursorX,word_17C468,new,low,Local cursor x,src/data/front/front_64F59_bss_01.asm
+17C46A,MenuCursorY,word_17C46A,new,low,Local cursor y,src/data/front/front_64F59_bss_01.asm
+17C46C,MenuCursorShown,word_17C46C,new,low,Cursor shown,src/data/front/front_64F59_bss_01.asm
+17C46E,MenuMouseMode,word_17C46E,new,low,Menu mouse mode,src/data/front/front_64F59_bss_01.asm
+17C470,MenuStartSelection,word_17C470,new,low,Selection the next menu starts on,src/data/front/front_64F59_bss_01.asm
+17C474,ArenaClipName,unk_17C474,new,low,Arena clip file name,src/data/front/front_64F59_bss_01.asm
+17C49C,SpeechClipQueue,word_17C49C,new,low,Speech clip queue entries,src/data/front/front_64F59_bss_01.asm
 17C96C,tgvpalpending,dword_17C96C,new,medium,the TGV player has a palette chunk for this frame,src/data/front/front_67000_bss_01.asm
 17C9A0,gameopts,,95PC,medium,NHL95PC C53FF (refset): referenced by the same 7 matched functions,
 17C9A4,GlobalSetData,dword_17C9A4,new,low,GLOBAL.SET settings,src/data/front/front_67000_bss_01.asm

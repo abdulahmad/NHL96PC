@@ -1,14 +1,15 @@
 ; GrIP pad set-up screen and the joystick test screen (96 PC).
 bits 32
 %include "hockey.inc"
+extern BottomBarArt
 section s_201CD progbits alloc exec nowrite align=1
 extern GripPassMap
 extern GripShootMap
 extern GripSlotIds
 extern byte_11FA2E, byte_11FA2F, Joy1State, GripSlotPresent, JoyPadBits, GripSetupSlots
-extern byte_17BDAE, GsJoy1Calib, GsJoy2Calib, GsGripButtons, Joy1NeedsCalib, Joy2NeedsCalib, dword_117588
+extern TitleTextStyle, GsJoy1Calib, GsJoy2Calib, GsGripButtons, Joy1NeedsCalib, Joy2NeedsCalib, dword_117588
 extern dword_11F5C0, JoyTestBmps, JoyTestDotX, JoyTestDotY, JoyTestArt, GripSetupLastBits
-extern JoyTestLastTick, JoyTestFrame, GripSetupTick, GripSetupCursor, MatchupLayer, TeamStatsBitmap, str_Standings, FillRect
+extern JoyTestLastTick, JoyTestFrame, GripSetupTick, GripSetupCursor, MatchupLayer, TeamStatsBitmap, FillRect
 extern TextStringWidth, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
 extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_BKGD, str_BT00
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
@@ -1335,7 +1336,7 @@ GripSetupScreen:
         mov esi, dword [GripSetupCursor]
         mov ecx, 66h
         lea edi, [dword esi+0FF0h]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         rep movsb
         cmp dword [byte ebp-024h], byte 0
         jge short .20
@@ -1712,7 +1713,7 @@ JoystickTestScreen:
         mov byte [dword ebp-0A0h], 1
         mov ecx, 66h
         lea edi, [byte ebp-07Eh]
-        mov esi, str_Standings
+        mov esi, BottomBarArt+56h
         mov byte [dword ebp-09Fh], 0
         mov byte [dword ebp-0A1h], 1
         rep movsb
@@ -1790,7 +1791,7 @@ JoystickTestScreen:
         push byte 0
         push dword 0F0h
         push dword 140h
-        mov ecx, byte_17BDAE
+        mov ecx, TitleTextStyle
         lea ebx, [byte ebp+05Ah]
         push byte 0
         mov edx, 1

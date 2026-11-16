@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_121B38 progbits alloc noexec write align=1
 global str_Viv, CdSectorSize, CdFileMode, CdFileHandle, CdFileStart, CdFileSize, CdFilePos, CdFileBuffer
-global CdDriveCount, SinCosTable, CdStreamSpeed, CdFileTable, unk_121FC8
+global CdDriveCount, SinCosTable, CdStreamSpeed, CdFileTable, DefaultVgaPalette
 CdSectorSize:
         db 00h,08h,00h,00h
 CdFileTable:
@@ -96,7 +96,7 @@ CdStreamSpeed:
         db 00h,00h,00h,00h
 str_Viv:
         db 02Eh,076h,069h,076h,00h,00h,00h,00h
-unk_121FC8:
+DefaultVgaPalette:
         db 00h,00h,00h,00h,00h,02Ah,00h,02Ah,00h,00h,02Ah,02Ah,02Ah,00h,00h,02Ah
         db 00h,02Ah,02Ah,015h,00h,02Ah,02Ah,02Ah,015h,015h,015h,015h,015h,03Fh,015h,03Fh
         db 015h,015h,03Fh,03Fh,03Fh,015h,015h,03Fh,015h,03Fh,03Fh,03Fh,015h,03Fh,03Fh,03Fh

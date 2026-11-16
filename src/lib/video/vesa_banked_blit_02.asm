@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_DE084 progbits alloc exec nowrite align=1
-extern RemapTable, VesaBankShift, TextColourTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228F0
-extern KeyedDraw, DrawDestBuffer, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
+extern RemapTable, VesaBankShift, TextColourTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawRowBytes
+extern KeyedDraw, DrawDestBuffer, DrawVideoBase, ScreenRowTable, VesaBank, VesaBankFunc
 global VesaSetBankJumpTable, FillRectJumpTable, XorRectJumpTable, FillRectSpansJumpTable, PlotPixel_8, PlotPixelClipped_C, BlitShapeClipped_3A, jpt_DE3F8_27
 global BlitBlock_32, BlitBlockXor_32, BlitBlockAnd_32, AndPixel_C, BlitBlockOr_32, OrPixel_C, OrPixel_AA, FillRectCore_4
 global jpt_DEC90_DA, XorRectCore_4, BlitArtOpaque_32, BlitShapeFast_3A, BlitBlockShadow_32, CopyRowShadowFast_34, SetClipRect, PlotPixel
@@ -22,7 +22,7 @@ SetClipRect:
         push esi
         mov esi, dword [byte ebp+08h]
         mov eax, dword [byte esi+02Ch]
-        cmp dword [dword_1228FC], eax
+        cmp dword [DrawVideoBase], eax
         je short .1
         mov eax, dword [byte ebp+0Ch]
         mov edx, dword [byte ebp+010h]
@@ -77,7 +77,7 @@ PlotPixel_8:
         jne short .2
         mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
-        add eax, dword [dword_1228FC]
+        add eax, dword [DrawVideoBase]
         movzx eax, byte [eax]
         ret
 .1:
@@ -85,9 +85,9 @@ PlotPixel_8:
         movzx eax, byte [edx]
         ret
 .2:
-        add eax, dword [nosplit edx*4+dword_122930]
+        add eax, dword [nosplit edx*4+ScreenRowTable]
         movzx edx, ax
-        add edx, dword [dword_1228FC]
+        add edx, dword [DrawVideoBase]
         shr eax, 10h
         cmp al, byte [VesaBankShift]
         jne short .1
@@ -126,7 +126,7 @@ PlotPixelClipped_C:
         jne short .2
         mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
-        add eax, dword [dword_1228FC]
+        add eax, dword [DrawVideoBase]
         mov byte [eax], bl
         ret
         db 090h
@@ -135,9 +135,9 @@ PlotPixelClipped_C:
         mov byte [edx], bl
         ret
 .2:
-        add eax, dword [nosplit edx*4+dword_122930]
+        add eax, dword [nosplit edx*4+ScreenRowTable]
         movzx edx, ax
-        add edx, dword [dword_1228FC]
+        add edx, dword [DrawVideoBase]
         shr eax, 10h
         cmp al, byte [VesaBankShift]
         jne short .1
@@ -148,7 +148,7 @@ PlotPixelClipped_C:
         push ecx
         mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
-        add eax, dword [dword_1228FC]
+        add eax, dword [DrawVideoBase]
         mov byte [eax], bl
         pop ecx
         ret
@@ -158,9 +158,9 @@ PlotPixelClipped_C:
         mov byte [edx], bl
         ret
 .4:
-        add eax, dword [nosplit edx*4+dword_122930]
+        add eax, dword [nosplit edx*4+ScreenRowTable]
         movzx edx, ax
-        add edx, dword [dword_1228FC]
+        add edx, dword [DrawVideoBase]
         shr eax, 10h
         cmp al, byte [VesaBankShift]
         jne short .3
@@ -292,11 +292,11 @@ BlitShapeClipped_3A:
         shl ebx, 2
         add ebx, dword [DrawDestBuffer]
         mov esi, dword [ebx]
-        add esi, dword [dword_1228FC]
+        add esi, dword [DrawVideoBase]
         add esi, dword [byte ebp-04h]
         mov edi, dword [byte ebp-018h]
         mov edx, dword [byte ebp-014h]
-        mov ebx, dword [dword_1228F0]
+        mov ebx, dword [DrawRowBytes]
         sub ebx, dword [byte ebp-0Ch]
         cmp dword [byte ebp-010h], byte 0
         je short .11
@@ -597,10 +597,10 @@ BlitBlock_32:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov esi, dword [byte ebp-018h]
         mov edx, dword [byte ebp-014h]
-        mov ebx, dword [dword_1228F0]
+        mov ebx, dword [DrawRowBytes]
         sub ebx, dword [byte ebp-0Ch]
         mov eax, dword [byte ebp-0Ch]
         shr eax, 1
@@ -770,10 +770,10 @@ BlitBlockXor_32:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov esi, dword [byte ebp-018h]
         mov edx, dword [byte ebp-014h]
-        mov ebx, dword [dword_1228F0]
+        mov ebx, dword [DrawRowBytes]
         sub ebx, dword [byte ebp-0Ch]
         mov eax, dword [byte ebp-0Ch]
         shr eax, 1
@@ -957,10 +957,10 @@ BlitBlockAnd_32:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov esi, dword [byte ebp-018h]
         mov edx, dword [byte ebp-014h]
-        mov ebx, dword [dword_1228F0]
+        mov ebx, dword [DrawRowBytes]
         sub ebx, dword [byte ebp-0Ch]
         mov eax, dword [byte ebp-0Ch]
         shr eax, 1
@@ -1049,7 +1049,7 @@ AndPixel_C:
         jne short .2
         mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
-        add eax, dword [dword_1228FC]
+        add eax, dword [DrawVideoBase]
         and byte [eax], bl
         ret
         db 090h
@@ -1058,9 +1058,9 @@ AndPixel_C:
         and byte [edx], bl
         ret
 .2:
-        add eax, dword [nosplit edx*4+dword_122930]
+        add eax, dword [nosplit edx*4+ScreenRowTable]
         movzx edx, ax
-        add edx, dword [dword_1228FC]
+        add edx, dword [DrawVideoBase]
         shr eax, 10h
         cmp al, byte [VesaBankShift]
         jne short .1
@@ -1189,10 +1189,10 @@ BlitBlockOr_32:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov esi, dword [byte ebp-018h]
         mov edx, dword [byte ebp-014h]
-        mov ebx, dword [dword_1228F0]
+        mov ebx, dword [DrawRowBytes]
         sub ebx, dword [byte ebp-0Ch]
         mov eax, dword [byte ebp-0Ch]
         shr eax, 1
@@ -1281,7 +1281,7 @@ OrPixel_C:
         jne short .2
         mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
-        add eax, dword [dword_1228FC]
+        add eax, dword [DrawVideoBase]
         or byte [eax], bl
         ret
         db 090h
@@ -1290,9 +1290,9 @@ OrPixel_C:
         or byte [edx], bl
         ret
 .2:
-        add eax, dword [nosplit edx*4+dword_122930]
+        add eax, dword [nosplit edx*4+ScreenRowTable]
         movzx edx, ax
-        add edx, dword [dword_1228FC]
+        add edx, dword [DrawVideoBase]
         shr eax, 10h
         cmp al, byte [VesaBankShift]
         jne short .1
@@ -1361,9 +1361,9 @@ FillRectCore_4:
         mov edx, dword [byte ebp+0Ch]
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp+08h]
-        mov edx, dword [dword_1228F0]
+        mov edx, dword [DrawRowBytes]
         LD sub, edx, ecx
         shr dword [byte ebp+010h], 2
         and ecx, byte 3
@@ -1508,9 +1508,9 @@ XorRectCore_4:
         mov edx, dword [byte ebp+0Ch]
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp+08h]
-        mov edx, dword [dword_1228F0]
+        mov edx, dword [DrawRowBytes]
         LD sub, edx, ecx
         shr dword [byte ebp+010h], 2
         and ecx, byte 3
@@ -1709,13 +1709,13 @@ BlitArtOpaque_32:
         shl ebx, 2
         add ebx, dword [DrawDestBuffer]
         mov edi, dword [ebx]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp-04h]
         cld
         movsx edx, word [byte esi+06h]
         LD or, edx, edx
         je short .2
-        mov ebx, dword [dword_1228F0]
+        mov ebx, dword [DrawRowBytes]
         movsx eax, word [byte esi+04h]
         LD sub, ebx, eax
         add esi, byte 10h
@@ -1848,7 +1848,7 @@ BlitShapeFast_3A:
         cld
 .1:
         mov esi, dword [ebx]
-        add esi, dword [dword_1228FC]
+        add esi, dword [DrawVideoBase]
         add esi, dword [byte ebp-04h]
         mov ecx, dword [byte ebp-0Ch]
 .2:
@@ -1909,7 +1909,7 @@ FillRectSpansJumpTable:
 .1:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp-08h]
         mov byte [edi], al
         pop edi
@@ -1919,7 +1919,7 @@ FillRectSpansJumpTable:
 .2:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp-08h]
         test ecx, 3
         jne short .3
@@ -1944,12 +1944,12 @@ FillRectSpansJumpTable:
         leave
         ret
 .4:
-        mov ebx, dword [dword_1228F0]
+        mov ebx, dword [DrawRowBytes]
 .5:
         mov edx, dword [byte esi+0Ch]
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp-08h]
         shr ecx, 1
         jae short .6
@@ -1971,21 +1971,21 @@ FillRectSpansJumpTable:
         leave
         ret
 .9:
-        mov ebx, dword [dword_1228F0]
+        mov ebx, dword [DrawRowBytes]
         inc ebx
         jmp short .5
 .10:
-        mov ebx, dword [dword_1228F0]
+        mov ebx, dword [DrawRowBytes]
         dec ebx
         jmp short .5
 .11:
         mov edx, dword [byte esi+0Ch]
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp-08h]
         mov edx, dword [byte esi+030h]
-        mov esi, dword [dword_1228F0]
+        mov esi, dword [DrawRowBytes]
         mov ebx, dword [byte ebp-04h]
 .12:
         mov byte [edi], al
@@ -2001,10 +2001,10 @@ FillRectSpansJumpTable:
         mov edx, dword [byte esi+0Ch]
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp-08h]
         mov edx, dword [byte esi+030h]
-        mov esi, dword [dword_1228F0]
+        mov esi, dword [DrawRowBytes]
         neg esi
         mov ebx, dword [byte ebp-04h]
 .14:
@@ -2020,10 +2020,10 @@ FillRectSpansJumpTable:
 .15:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp-08h]
         mov edx, dword [byte esi+030h]
-        mov esi, dword [dword_1228F0]
+        mov esi, dword [DrawRowBytes]
         mov ebx, dword [byte ebp-0Ch]
 .16:
         mov byte [edi], al
@@ -2045,10 +2045,10 @@ FillRectSpansJumpTable:
 .19:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp-08h]
         mov edx, dword [byte esi+030h]
-        mov esi, dword [dword_1228F0]
+        mov esi, dword [DrawRowBytes]
         mov ebx, dword [byte ebp-0Ch]
 .20:
         mov byte [edi], al
@@ -2104,7 +2104,7 @@ FillSpansSet:
         LD sub, ecx, edi
         jl short .2
         add edi, dword [esi]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         inc ecx
         shr ecx, 1
         jb short .5
@@ -2185,7 +2185,7 @@ FillSpansXor:
         LD sub, ecx, edi
         jl short .2
         add edi, dword [esi]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         inc ecx
         shr ecx, 1
         jb short .7
@@ -2282,7 +2282,7 @@ FillSpansAnd:
         LD sub, ecx, edi
         jl short .2
         add edi, dword [esi]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         inc ecx
         shr ecx, 1
         jb short .7
@@ -2379,7 +2379,7 @@ FillSpansOr:
         LD sub, ecx, edi
         jl short .2
         add edi, dword [esi]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         inc ecx
         shr ecx, 1
         jb short .7
@@ -2461,7 +2461,7 @@ RemapSpans:
         jle short .3
         mov edi, dword [ebx]
         LD add, edi, esi
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
 .2:
         mov al, byte [edi]
         mov al, byte [dword eax+RemapTable]
@@ -2770,10 +2770,10 @@ BlitBlockShadow_32:
         mov ebx, dword [byte ebp-08h]
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add edi, dword [byte ebp-04h]
         mov esi, dword [byte ebp-018h]
-        mov edx, dword [dword_1228F0]
+        mov edx, dword [DrawRowBytes]
         sub edx, dword [byte ebp-0Ch]
         LD xor, eax, eax
 .7:
@@ -2862,8 +2862,8 @@ CopyRowShadowFast_34:
         add ebx, dword [DrawDestBuffer]
         mov edi, dword [ebx]
         add edi, dword [byte ebp-04h]
-        add edi, dword [dword_1228FC]
-        mov edx, dword [dword_1228F0]
+        add edi, dword [DrawVideoBase]
+        mov edx, dword [DrawRowBytes]
         movsx eax, word [byte esi+04h]
         mov dword [byte ebp-0Ch], eax
         LD sub, edx, eax

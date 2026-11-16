@@ -2,38 +2,38 @@
 bits 32
 %include "hockey.inc"
 section s_185C4C nobits alloc noexec write align=1
-global ResourceArchiveData, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
-global dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, CdBufferSelector, CdBufferAllocated
-global CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, CdRegs, CdDirEntryBuf, CdRegEbx
-global CdRegEdi, CdRegEax, CdRegEdx, unk_18704C, CdBufferSegment, CdRequestSelector, word_18B0BC, CdRegEs
+global ResourceArchiveData, AaColumnCodes, AaColumnSums, AaPalLut, AaStepY, AaDestX, AaDestY, AaSrcPtr
+global AaSrcWidthFixed, AaStepX, AaDestHeight, AaDestWidth, AaSrcHeightFixed, AaSrcWidth, CdBufferSelector, CdBufferAllocated
+global CdDriveLetter, CdRequestCount, CdRequestSegment, CdBufferAddr, CdRequestSector, CdRegs, CdDirEntryBuf, CdRegEbx
+global CdRegEdi, CdRegEax, CdRegEdx, PaletteShadeTable, CdBufferSegment, CdRequestSelector, CdRegFlags, CdRegEs
 global CdRegSegs
-dword_185C4C:
+AaColumnCodes:
         resb 2560
-dword_18664C:
+AaColumnSums:
         resb 2560
-unk_18704C:
+PaletteShadeTable:
         resb 16384
-dword_18B04C:
+AaPalLut:
         resb 4
-dword_18B050:
+AaStepY:
         resb 4
-dword_18B054:
+AaDestX:
         resb 4
-dword_18B058:
+AaDestY:
         resb 4
-dword_18B05C:
+AaSrcPtr:
         resb 4
-dword_18B060:
+AaSrcWidthFixed:
         resb 4
-dword_18B064:
+AaStepX:
         resb 4
-dword_18B068:
+AaDestHeight:
         resb 4
-dword_18B06C:
+AaDestWidth:
         resb 4
-dword_18B070:
+AaSrcHeightFixed:
         resb 4
-dword_18B074:
+AaSrcWidth:
         resb 4
 CdBufferSegment:
         resb 4
@@ -43,13 +43,13 @@ CdBufferAllocated:
         resb 4
 CdDriveLetter:
         resb 4
-dword_18B088:
+CdRequestCount:
         resb 4
 CdRequestSegment:
         resb 4
 CdBufferAddr:
         resb 4
-dword_18B094:
+CdRequestSector:
         resb 4
 CdRequestSelector:
         resb 4
@@ -65,7 +65,7 @@ CdRegEax:
         resb 4
 CdRegEdx:
         resb 4
-word_18B0BC:
+CdRegFlags:
         resb 2
 CdRegEs:
         resb 2

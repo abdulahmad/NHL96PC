@@ -4,7 +4,7 @@ bits 32
 section s_B75A0 progbits alloc exec nowrite align=1
 extern DebugPrintf, FatalError, __STOSD, _os_handle_0, _os_handle_1, str_UpsideDown, str_OrisetmaterialrgbInvalidMate, str_OrisetmaterialcolorInval
 extern str_OrisetmaterialtextureInvalid, str_OrisetmaterialdrawfnInva, NearClipZ, FloorPlaneOn, MatrixScale, SinTable
-extern NearPlaneZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228FC, ViewCentreX
+extern NearPlaneZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawVideoBase, ViewCentreX
 extern ViewCentreY, SortBuffer, TextureTileSize, TexturePageBase, TextureDetail, TexPolyLeft
 
 extern TexPolyRight
@@ -2267,7 +2267,7 @@ TexPolyFill:
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
         imul eax, ebx
-        mov edx, dword [dword_1228FC]
+        mov edx, dword [DrawVideoBase]
         add edx, byte 10h
         add edx, eax
         mov eax, dword [byte esp+020h]
@@ -2477,7 +2477,7 @@ TexPolyFillClipped:
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
         imul eax, ebx
-        mov edx, dword [dword_1228FC]
+        mov edx, dword [DrawVideoBase]
         add edx, byte 10h
         add edx, eax
         mov eax, dword [byte esp+020h]
@@ -2687,7 +2687,7 @@ TexPolyFillMirrored:
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
         imul eax, ebx
-        mov edx, dword [dword_1228FC]
+        mov edx, dword [DrawVideoBase]
         add edx, byte 10h
         add edx, eax
         mov eax, dword [byte esp+020h]
@@ -2890,7 +2890,7 @@ TexPolyFillMirroredClipped:
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
         imul eax, ebx
-        mov edx, dword [dword_1228FC]
+        mov edx, dword [DrawVideoBase]
         add edx, byte 10h
         add edx, eax
         mov eax, dword [byte esp+020h]

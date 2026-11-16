@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_B2B30 progbits alloc exec nowrite align=1
-extern RowCopyFunc, ScreenWidth, KeyedDraw, dword_1228FC, dword_122930, VesaSetBank, BlitArtOpaque
+extern RowCopyFunc, ScreenWidth, KeyedDraw, DrawVideoBase, ScreenRowTable, VesaSetBank, BlitArtOpaque
 global DrawArtOpaque, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot
 ;-----------------------------------------------------------------------------
 ; DrawArtOpaque                                B2B30  95 PC, medium confidence
@@ -26,13 +26,13 @@ DrawArtOpaque:
 .1:
         lea esi, [byte eax+010h]
         mov ebp, dword [byte eax+04h]
-        mov ecx, dword [nosplit edi*4+dword_122930]
+        mov ecx, dword [nosplit edi*4+ScreenRowTable]
         mov eax, dword [byte eax+02h]
         sar ebp, 10h
         sar eax, 10h
         add edx, ecx
         mov dword [byte esp+0Ch], eax
-        mov eax, dword [dword_1228FC]
+        mov eax, dword [DrawVideoBase]
         mov edi, dword [byte esp+0Ch]
         mov dword [byte esp+04h], eax
         mov eax, dword [ScreenWidth]

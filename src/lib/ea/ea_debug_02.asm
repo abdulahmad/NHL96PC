@@ -12,11 +12,11 @@ extern str_ThereAreNoShapes, str_44s05x, str_Bad, str_CxCy3d3d, str_NotDrawn, st
 extern str_Unpacked_ShapeInfo, str_3d3d3d3dS, str_Type02xNext05x, str_ShapeIsInvalidDraw, str_MEMSHPTXT, str_ErrorDumpingShapesList, str_ShapeFileName0, str_ShapeFileSizeLd
 extern str_NumberOfShapesD, str_44s66ld, str_Bytes3dRows3d2, str_XY3d3d, str_033d022X, str_R022d, str_G022d, str_B022d
 extern str_02d_PaletteViewerLabel, str_SCREEN2, str_Tga, str_02d3s02d_FormatDateTime, str_2d02d02d, DebugRow, GraphicsReady
-extern ViewScreenWidth, ViewScreenHeight, MemPoolBase, dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC
-extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, str_UU, memlist1
+extern ViewScreenWidth, ViewScreenHeight, MemPoolBase, MemViewBlack, MemViewWhite, MemViewYellow, MemViewGreen, MemViewRed
+extern MemViewShowDetail, MemViewLastMode, MemViewCursor, MemViewSavedTop, MemViewSavedRow, PaletteCursorColours, MonthNameTable, memlist1
 extern MemBlockGuards, MemFreeStart, MemFreeBytes, MemPoolSize, MemViewTop, MemViewCount, MemViewSel, MemViewTitle
 extern MemViewRow, MemViewList, MemViewKey, MemViewFlags, MemViewMode, MemViewPrevSel, fclose_, fopen_
-extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, PutBlockAtOwnPos, PushMemDescriptorLocked
+extern fprintf_, min_, MemMapRulePtr, sprintf_, strncpy_, PutBlock, PutBlockAtOwnPos, PushMemDescriptorLocked
 extern MarkBlockPurgeable, CompactDownLocked, CompactUpLocked, DebugSetLine, DebugClearScreen, DebugSetRow, DebugSetAttr, FillRect
 extern DrawRectOutline, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, NearestColour, ShapeBankCount, ShapeBankEntry
 extern ShapeBankEntryId, initgraphics, ShowMessageBox, PrintBoxedText, ToUpperChar, ReturnFalse, ResetClipWindow, DrawTextCentredBoxed
@@ -70,7 +70,7 @@ MemViewer:
         call initgraphics
         add esp, byte 0Ch
 .1:
-        mov eax, dword [dword_1513BC]
+        mov eax, dword [MemViewLastMode]
         LD mov, eax, eax
 .2:
         push ebx
@@ -80,7 +80,7 @@ MemViewer:
         push edi
         push ebp
         sub esp, 0CCh
-        mov esi, dword [dword_1513C0]
+        mov esi, dword [MemViewCursor]
         mov dword [dword esp+0B0h], eax
         mov eax, esp
         push eax
@@ -107,24 +107,24 @@ MemViewer:
         call NearestColour
         add esp, byte 4
         push dword 0FFFFFFh
-        mov dword [dword_15139C], eax
+        mov dword [MemViewBlack], eax
         call NearestColour
         add esp, byte 4
         push dword 0FFFF54h
-        mov dword [dword_1513A0], eax
+        mov dword [MemViewWhite], eax
         call NearestColour
         add esp, byte 4
         push dword 0D4A8h
-        mov dword [dword_1513A4], eax
+        mov dword [MemViewYellow], eax
         call NearestColour
         add esp, byte 4
         push dword 0A80000h
-        mov dword [dword_1513A8], eax
+        mov dword [MemViewGreen], eax
         call NearestColour
-        mov ebp, dword [dword_1513C8]
+        mov ebp, dword [MemViewSavedRow]
         add esp, byte 4
-        mov dword [dword_1513AC], eax
-        mov eax, dword [dword_1513C4]
+        mov dword [MemViewRed], eax
+        mov eax, dword [MemViewSavedTop]
         mov ecx, dword [dword esp+0B0h]
         mov dword [dword esp+0B4h], eax
         test ecx, ecx
@@ -139,13 +139,13 @@ MemViewer:
 ;-----------------------------------------------------------------------------
 MemViewerKeys:
         mov ebx, dword [dword esp+0B0h]
-        cmp ebx, dword [dword_1513BC]
+        cmp ebx, dword [MemViewLastMode]
         je short .4
         mov eax, dword [dword esp+0B4h]
         mov ecx, dword [dword esp+0BCh]
-        mov dword [dword_1513C8], ebp
-        mov dword [dword_1513BC], ebx
-        mov dword [dword_1513C4], eax
+        mov dword [MemViewSavedRow], ebp
+        mov dword [MemViewLastMode], ebx
+        mov dword [MemViewSavedTop], eax
         test ecx, ecx
         jne short .4
         test ebx, ebx
@@ -184,7 +184,7 @@ MemViewerKeys:
         mov edi, eax
         test eax, eax
         je short .7
-        mov esi, dword [dword_1513C0]
+        mov esi, dword [MemViewCursor]
         cmp eax, 4900h
         jne short .9
         mov ebx, dword [dword esp+0B4h]
@@ -212,7 +212,7 @@ MemViewerKeys:
 MemViewerOpenAlt:
         mov edx, 1
         mov eax, edx
-        mov dword [dword_1513BC], edx
+        mov dword [MemViewLastMode], edx
         jmp near MemViewer.2
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
@@ -223,7 +223,7 @@ MemViewerListHead:
         push ebx
         push edx
         mov ebx, eax
-        mov edx, dword [dword_1513C0]
+        mov edx, dword [MemViewCursor]
         lea eax, [nosplit edx*4+00h]
         add eax, edx
         shl eax, 2
@@ -305,7 +305,7 @@ MemViewerLoop:
         jne short .8
         mov dword [dword esp+0B8h], 1
 .8:
-        mov dword [dword_1513C0], esi
+        mov dword [MemViewCursor], esi
         cmp edi, byte 0Dh
         jne short .9
         mov ebx, dword [dword esp+0B0h]
@@ -316,13 +316,13 @@ MemViewerLoop:
         cmp edi, byte 43h
         jne short .10
         call SetScreenTarget
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         push eax
         call ClearClipRect
         add esp, byte 4
         call ReturnFalse
 .10:
-        mov esi, dword [dword_1513C0]
+        mov esi, dword [MemViewCursor]
         cmp edi, byte 46h
         jne short .11
         xor edx, edx
@@ -330,9 +330,9 @@ MemViewerLoop:
 .11:
         cmp edi, byte 44h
         jne short .12
-        xor byte [dword_1513B8], 1
+        xor byte [MemViewShowDetail], 1
 .12:
-        mov dword [dword_1513C0], esi
+        mov dword [MemViewCursor], esi
         cmp edi, byte 42h
         jne short .13
         mov ebx, dword [dword esp+0B0h]
@@ -379,14 +379,14 @@ MemViewerLoop:
         call ShapeViewer
         jmp short .22
 .20:
-        mov esi, dword [dword_1513C0]
+        mov esi, dword [MemViewCursor]
 .21:
         inc esi
         and esi, byte 7
         imul eax, esi, byte 14h
         cmp dword [dword eax+memlist1], byte 0
         je short .21
-        mov dword [dword_1513C0], esi
+        mov dword [MemViewCursor], esi
         xor ecx, ecx
         xor ebp, ebp
         mov dword [dword esp+0B4h], ecx
@@ -406,7 +406,7 @@ MemViewerLoop:
         mov eax, dword [MemViewSel]
         call MemViewerShowArt
 .25:
-        mov esi, dword [dword_1513C0]
+        mov esi, dword [MemViewCursor]
         cmp edi, byte 41h
         jne short .26
         xor byte [dword esp+0B0h], 1
@@ -415,7 +415,7 @@ MemViewerLoop:
         jne short .27
         xor byte [dword esp+0B0h], 1
 .27:
-        mov dword [dword_1513C0], esi
+        mov dword [MemViewCursor], esi
         cmp edi, 5300h
         jne short .28
         test byte [MemViewFlags+1], 80h
@@ -442,7 +442,7 @@ MemViewerLoop:
 .29:
         mov eax, dword [dword esp+0B4h]
         mov ebx, dword [dword esp+0C0h]
-        mov esi, dword [dword_1513C0]
+        mov esi, dword [MemViewCursor]
         cmp eax, ebx
         jle short .30
         sub eax, byte 15h
@@ -462,17 +462,17 @@ MemViewerLoop:
         mov ebp, edx
 .32:
         mov eax, dword [dword esp+0B8h]
-        mov dword [dword_1513C0], esi
+        mov dword [MemViewCursor], esi
         test eax, eax
         je near MemViewerKeys
         mov eax, dword [dword esp+0B4h]
-        mov dword [dword_1513C8], ebp
-        mov dword [dword_1513C4], eax
+        mov dword [MemViewSavedRow], ebp
+        mov dword [MemViewSavedTop], eax
         call FlushKeys
         cmp dword [dword esp+0BCh], byte 0
         je short .33
         call SetScreenTarget
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         push eax
         call ClearClipRect
         add esp, byte 4
@@ -490,7 +490,7 @@ MemViewerLoop:
         mov eax, esp
         push eax
         call RestoreDrawState
-        mov esi, dword [dword_1513C0]
+        mov esi, dword [MemViewCursor]
         add esp, byte 4
         add esp, 0CCh
         pop ebp
@@ -503,7 +503,7 @@ MemViewerLoop:
         db 08Dh,040h,00h
         push ebx
         push edx
-        mov ebx, dword [dword_1513C0]
+        mov ebx, dword [MemViewCursor]
         lea eax, [nosplit ebx*4+00h]
         add eax, ebx
         mov ebx, dword [nosplit eax*4+memlist1]
@@ -541,7 +541,7 @@ MemViewerSelectRow:
 .2:
         cmp eax, ecx
         jne short .3
-        mov eax, dword [dword_1513A0]
+        mov eax, dword [MemViewWhite]
         mov dword [MemViewRow], eax
         mov eax, dword [byte esp+04h]
         mov dword [MemViewSel], eax
@@ -556,7 +556,7 @@ MemViewerSelectRow:
         xor eax, eax
         ret 10h
 .3:
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         mov edx, 7
         mov dword [MemViewRow], eax
         mov dword [MemViewTop], edx
@@ -651,7 +651,7 @@ MemViewerDrawList:
         push eax
         mov esi, dword [byte ebp+05Eh]
         push esi
-        mov eax, dword [dword_1513B8]
+        mov eax, dword [MemViewShowDetail]
         push ecx
         test eax, eax
         je short .1
@@ -670,7 +670,7 @@ MemViewerDrawList:
         mov ebx, dword [byte ebp+062h]
         push ebx
         mov ecx, dword [byte ebp+066h]
-        mov esi, dword [dword_1513B8]
+        mov esi, dword [MemViewShowDetail]
         push ecx
         test esi, esi
         je short .3
@@ -693,13 +693,13 @@ MemViewerDrawList:
         rep movsd
         movsb
         call SetScreenTarget
-        mov edi, dword [dword_15139C]
+        mov edi, dword [MemViewBlack]
         push edi
-        mov eax, dword [dword_1513A4]
+        mov eax, dword [MemViewYellow]
         push eax
         call TextSetColor
         add esp, byte 8
-        mov edx, dword [dword_15139C]
+        mov edx, dword [MemViewBlack]
         push edx
         push byte 0
         mov ebx, dword [ViewScreenWidth]
@@ -715,7 +715,7 @@ MemViewerDrawList:
         call DrawTextBoxedAt
         add esp, byte 0Ch
         call ReturnFalse
-        mov ecx, dword [dword_15139C]
+        mov ecx, dword [MemViewBlack]
         push ecx
         push byte 1
         mov esi, dword [ViewScreenWidth]
@@ -731,7 +731,7 @@ MemViewerDrawList:
         call DrawTextBoxedAt
         add esp, byte 0Ch
         call ReturnFalse
-        mov edi, dword [dword_15139C]
+        mov edi, dword [MemViewBlack]
         push edi
         push byte 1
         mov eax, dword [ViewScreenWidth]
@@ -747,7 +747,7 @@ MemViewerDrawList:
         call DrawTextBoxedAt
         add esp, byte 0Ch
         call ReturnFalse
-        mov edx, dword [dword_15139C]
+        mov edx, dword [MemViewBlack]
         push edx
         push byte 2
         mov ebx, dword [ViewScreenWidth]
@@ -876,7 +876,7 @@ MemViewerDrawList:
         push edx
         lea edx, [byte ebp+032h]
         push edx
-        mov ebx, dword [dword_1513B8]
+        mov ebx, dword [MemViewShowDetail]
         push eax
         test ebx, ebx
         je short .9
@@ -890,7 +890,7 @@ MemViewerDrawList:
         push eax
         call sprintf_
         add esp, byte 14h
-        mov ecx, dword [dword_1513AC]
+        mov ecx, dword [MemViewRed]
         push ecx
         mov eax, dword [MemViewRow]
         push eax
@@ -914,7 +914,7 @@ MemViewerDrawList:
         push edx
         lea edx, [byte ebp+032h]
         push edx
-        mov ecx, dword [dword_1513B8]
+        mov ecx, dword [MemViewShowDetail]
         push eax
         test ecx, ecx
         je short .12
@@ -998,7 +998,7 @@ MemViewerDrawList:
         mov ebx, dword [byte ebp+04Ah]
         push ebx
         mov ecx, dword [byte ebp+052h]
-        mov eax, dword [dword_1513B8]
+        mov eax, dword [MemViewShowDetail]
         push ecx
         test eax, eax
         je short .18
@@ -1014,7 +1014,7 @@ MemViewerDrawList:
         add esp, byte 18h
         mov edx, dword [MemViewRow]
         push edx
-        mov ebx, dword [dword_1513A8]
+        mov ebx, dword [MemViewGreen]
         push ebx
         call TextSetColor
         mov ecx, dword [byte ebp+07Ah]
@@ -1042,7 +1042,7 @@ MemViewerDrawList:
         push edx
         mov ebx, dword [byte ebp+052h]
         push ebx
-        mov ecx, dword [dword_1513B8]
+        mov ecx, dword [MemViewShowDetail]
         push edi
         test ecx, ecx
         je short .21
@@ -1125,7 +1125,7 @@ MemViewerDrawList:
 .27:
         call SetClipWindow
         add esp, byte 10h
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         push eax
         call ClearClipRect
         add esp, byte 4
@@ -1178,7 +1178,7 @@ MemPoolTotals:
         mov ebp, eax
         mov esi, edx
         mov edi, ebx
-        mov edx, dword [dword_1513C0]
+        mov edx, dword [MemViewCursor]
         lea eax, [nosplit edx*4+00h]
         add eax, edx
         mov eax, dword [nosplit eax*4+memlist1]
@@ -1230,7 +1230,7 @@ MemViewerDrawTitle:
         sub esp, byte 4
         mov esi, dword [MemViewTitle]
         mov edi, eax
-        mov eax, dword [dword_1513C0]
+        mov eax, dword [MemViewCursor]
         mov dword [esp], eax
         mov ebp, dword [esp]
         shl eax, 2
@@ -1320,7 +1320,7 @@ MemViewerBlockInfo:
         mov dword [byte esp+04h], edx
         mov dword [esp], ebx
         call SetScreenTarget
-        mov edx, dword [dword_1513A0]
+        mov edx, dword [MemViewWhite]
         push edx
         push dword 0A4h
         push dword 111h
@@ -1328,7 +1328,7 @@ MemViewerBlockInfo:
         push byte 2Eh
         call DrawRectOutline
         add esp, byte 14h
-        mov ebx, dword [dword_1513AC]
+        mov ebx, dword [MemViewRed]
         push ebx
         push dword 0A3h
         push dword 110h
@@ -1336,7 +1336,7 @@ MemViewerBlockInfo:
         push byte 2Fh
         call DrawRectOutline
         add esp, byte 14h
-        mov ecx, dword [dword_15139C]
+        mov ecx, dword [MemViewBlack]
         push ecx
         push byte 6Ah
         push dword 0E0h
@@ -1344,9 +1344,9 @@ MemViewerBlockInfo:
         push byte 30h
         call FillRect
         add esp, byte 14h
-        mov esi, dword [dword_15139C]
+        mov esi, dword [MemViewBlack]
         push esi
-        mov edi, dword [dword_1513A4]
+        mov edi, dword [MemViewYellow]
         push edi
         call TextSetColor
         add esp, byte 8
@@ -1384,9 +1384,9 @@ MemViewerBlockInfo:
         inc esi
         cmp esi, byte 10h
         jl short .1
-        mov eax, dword [dword_1513AC]
+        mov eax, dword [MemViewRed]
         push eax
-        mov edx, dword [dword_15139C]
+        mov edx, dword [MemViewBlack]
         push edx
         call TextSetColor
         add esp, byte 8
@@ -1395,7 +1395,7 @@ MemViewerBlockInfo:
         mov esi, 4Dh
         test ah, 80h
         je short .4
-        mov ebx, dword [dword_1513AC]
+        mov ebx, dword [MemViewRed]
         push ebx
         push byte 4Ch
         push dword 8Fh
@@ -1413,7 +1413,7 @@ MemViewerBlockInfo:
 .4:
         test byte [byte esp+09h], 20h
         je short .5
-        mov ecx, dword [dword_1513AC]
+        mov ecx, dword [MemViewRed]
         push ecx
         lea eax, [byte esi-01h]
         push eax
@@ -1435,9 +1435,9 @@ MemViewerBlockInfo:
         je short .6
         add esi, byte 8
 .6:
-        mov ebp, dword [dword_15139C]
+        mov ebp, dword [MemViewBlack]
         push ebp
-        mov eax, dword [dword_1513A0]
+        mov eax, dword [MemViewWhite]
         push eax
         call TextSetColor
         add esp, byte 8
@@ -1991,7 +1991,7 @@ WriteMemMap:
         mov dword [MemViewList], edx
         lea edx, [byte esp+014h]
         call FormatDateTime
-        mov edx, dword [off_1513B0]
+        mov edx, dword [MemMapRulePtr]
         push edx
         push str_S9
         mov ebx, dword [MemViewList]
@@ -2019,13 +2019,13 @@ WriteMemMap:
         push ebp
         call fprintf_
         add esp, byte 0Ch
-        mov eax, dword [off_1513B0]
+        mov eax, dword [MemMapRulePtr]
         push eax
         push str_S9
         mov edx, dword [MemViewList]
         push edx
         call fprintf_
-        mov ebx, dword [dword_1513B8]
+        mov ebx, dword [MemViewShowDetail]
         add esp, byte 0Ch
         test ebx, ebx
         je short .1
@@ -2177,14 +2177,14 @@ ShapeViewer:
         jge short .3
 .1:
         call SetScreenTarget
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         push eax
         call ClearClipRect
         add esp, byte 4
         call ReturnFalse
-        mov esi, dword [dword_15139C]
+        mov esi, dword [MemViewBlack]
         push esi
-        mov edi, dword [dword_1513A4]
+        mov edi, dword [MemViewYellow]
         push edi
         call TextSetColor
         add esp, byte 8
@@ -2307,9 +2307,9 @@ ShapeViewer:
         push str_44s05x
         call DebugPrintf
         add esp, byte 0Ch
-        mov ecx, dword [dword_15139C]
+        mov ecx, dword [MemViewBlack]
         push ecx
-        mov eax, dword [dword_1513A4]
+        mov eax, dword [MemViewYellow]
         push eax
         call TextSetColor
         add esp, byte 8
@@ -2372,7 +2372,7 @@ ShapeViewer:
         push str_Bad
         call DebugPrintf
         add esp, byte 4
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         push eax
         call ClearClipRect
         add esp, byte 4
@@ -2458,7 +2458,7 @@ ShapeViewer:
         cmp ebp, byte 43h
         jne short .31
         call SetScreenTarget
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         push eax
         call ClearClipRect
         add esp, byte 4
@@ -2663,14 +2663,14 @@ ShapeInfo:
         jle short .8
 .5:
         call SetScreenTarget
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         push eax
         call ClearClipRect
         add esp, byte 4
         call ReturnFalse
-        mov esi, dword [dword_15139C]
+        mov esi, dword [MemViewBlack]
         push esi
-        mov edi, dword [dword_1513A0]
+        mov edi, dword [MemViewWhite]
         push edi
         call TextSetColor
         add esp, byte 8
@@ -2763,7 +2763,7 @@ DumpShapesList:
         lea eax, [byte esp+040h]
         mov dword [MemFreeBytes], esi
         call FormatDateTime
-        mov edx, dword [off_1513B0]
+        mov edx, dword [MemMapRulePtr]
         push edx
         push str_S9
         mov ebx, dword [MemViewList]
@@ -2791,7 +2791,7 @@ DumpShapesList:
         push edi
         call fprintf_
         add esp, byte 0Ch
-        mov ebp, dword [off_1513B0]
+        mov ebp, dword [MemMapRulePtr]
         push ebp
         push str_S9
         mov eax, dword [MemViewList]
@@ -2937,7 +2937,7 @@ PaletteViewer:
         call GetPaletteRange
         add esp, byte 0Ch
         call SetScreenTarget
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         push eax
         call ClearClipRect
         add esp, byte 4
@@ -2981,7 +2981,7 @@ PaletteViewer:
         cmp edi, 100h
         jne short .1
         call ReturnFalse
-        mov ecx, dword [dword_1513CC]
+        mov ecx, dword [PaletteCursorColours]
         push ecx
         push byte 21h
         push byte 26h
@@ -3217,7 +3217,7 @@ PaletteViewer:
         add eax, byte 17h
         mov dword [dword esp+030Ch], eax
         mov eax, dword [dword esp+031Ch]
-        mov edx, dword [nosplit eax*4+dword_1513CC]
+        mov edx, dword [nosplit eax*4+PaletteCursorColours]
         mov eax, dword [dword esp+0304h]
         push edx
         add eax, byte 0Ah
@@ -3239,7 +3239,7 @@ PaletteViewer:
         xor eax, eax
 .37:
         mov dword [dword esp+031Ch], eax
-        mov ebx, dword [nosplit eax*4+dword_1513CC]
+        mov ebx, dword [nosplit eax*4+PaletteCursorColours]
         mov eax, dword [dword esp+030Ch]
         push ebx
         add eax, byte 0Ah
@@ -3266,9 +3266,9 @@ PaletteViewer:
         mov dl, byte [byte esp+eax+01h]
         mov dword [dword esp+0328h], edx
         mov al, byte [byte esp+eax+02h]
-        mov edx, dword [dword_15139C]
+        mov edx, dword [MemViewBlack]
         push edx
-        mov ebx, dword [dword_1513A4]
+        mov ebx, dword [MemViewYellow]
         and eax, 0FFh
         push ebx
         mov dword [dword esp+032Ch], eax
@@ -3283,7 +3283,7 @@ PaletteViewer:
         call PrintBoxedText
         add esp, byte 14h
         call ReturnFalse
-        mov edx, dword [dword_15139C]
+        mov edx, dword [MemViewBlack]
         push edx
         push byte 4
         call TextSetColor
@@ -3296,7 +3296,7 @@ PaletteViewer:
         call PrintBoxedText
         add esp, byte 10h
         call ReturnFalse
-        mov ecx, dword [dword_15139C]
+        mov ecx, dword [MemViewBlack]
         push ecx
         push byte 2
         call TextSetColor
@@ -3309,7 +3309,7 @@ PaletteViewer:
         call PrintBoxedText
         add esp, byte 10h
         call ReturnFalse
-        mov edx, dword [dword_15139C]
+        mov edx, dword [MemViewBlack]
         push edx
         push byte 1
         call TextSetColor
@@ -3346,9 +3346,9 @@ PaletteViewerLabel:
         push edi
         push ebp
         mov edi, eax
-        mov edx, dword [dword_15139C]
+        mov edx, dword [MemViewBlack]
         push edx
-        mov ebx, dword [dword_1513A4]
+        mov ebx, dword [MemViewYellow]
         mov ebp, 19h
         push ebx
         mov esi, ebp
@@ -3447,7 +3447,7 @@ MemViewerShowArt:
         push esi
         call DebugClearScreen
         call SetScreenTarget
-        mov eax, dword [dword_15139C]
+        mov eax, dword [MemViewBlack]
         push eax
         call ClearClipRect
         add esp, byte 4
@@ -3540,7 +3540,7 @@ FormatDateTime:
         xor eax, eax
         mov al, byte [byte esp+01h]
         push edx
-        mov edx, dword [nosplit eax*4+str_UU]
+        mov edx, dword [nosplit eax*4+MonthNameTable]
         xor eax, eax
         push edx
         mov al, byte [byte esp+08h]

@@ -3,12 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_63968 progbits alloc exec nowrite align=1
 extern ClearChain4, textcolor, textshadow, ModeLinear, GraphicsFixOn, StartupPalette, NearestColorCount, NearestColorLimit
-extern GraphicsReady, ViewScreenWidth, ViewScreenHeight, TextColour, TextBgColour, ColourLookup, dword_1228FC, BackBufferWidth
+extern GraphicsReady, ViewScreenWidth, ViewScreenHeight, TextColour, TextBgColour, ColourLookup, DrawVideoBase, BackBufferWidth
 extern ModeSetCount, FatalError, TextStringWidth, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, ClearScreenColour
 extern DrawRectOutline, TextSetColor, FreeColourLookup, CreateColourLookup, TextPrintAt, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
 extern SetAaPalLut, DrawArtAaScaledInt, TranslatePixels, SetScreenTarget, GetPaletteRange, SetPaletteEntries, WriteSequencerReg, SetModeX
-extern SetClipRect, bcopy, FillMem, unk_121FC8, IntroPalette, fadepalbuf, WaitRetrace, WaitRetraceEdges
+extern SetClipRect, bcopy, FillMem, DefaultVgaPalette, IntroPalette, fadepalbuf, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
 global SetGraphicsMode_204, SetScreenMode, DrawText, DrawTextRight, DrawTextRight_17, DrawTextCentred, FindTextColors, SetTextColors
 global SetTextColorsRgb, DrawColorText, DrawColorTextRight, DrawColorTextRight_29, DrawColorTextRight_72, DrawColorTextCentred, FillBox, DrawBox
@@ -283,7 +283,7 @@ InitGraphicsFix:
         mov dword [GraphicsFixOn], eax
         test eax, eax
         jne short .1
-        push unk_121FC8
+        push DefaultVgaPalette
         push dword 100h
         push eax
         call SetPaletteEntries
@@ -315,7 +315,7 @@ SetGraphicsMode:
         call WaitRetrace
         cmp dword [GraphicsFixOn], byte 0
         jne short .1
-        push unk_121FC8
+        push DefaultVgaPalette
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -811,7 +811,7 @@ DrawColorTextCentred:
         jmp near DrawColorTextRight_29
 ;-----------------------------------------------------------------------------
 ; FillBox                                      64103  96 PC, medium confidence
-; Fills a rectangle clipped to the draw bitmap (dword_1228FC)
+; Fills a rectangle clipped to the draw bitmap (DrawVideoBase)
 ;-----------------------------------------------------------------------------
 FillBox:
         push esi
@@ -819,7 +819,7 @@ FillBox:
         enter 0Ch, 0
         push eax
         mov esi, ebx
-        mov eax, dword [dword_1228FC]
+        mov eax, dword [DrawVideoBase]
         movsx ebx, word [byte eax+04h]
         cmp edx, ebx
         jg near .7

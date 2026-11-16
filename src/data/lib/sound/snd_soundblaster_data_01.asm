@@ -4,7 +4,7 @@ bits 32
 section s_1140E8 progbits alloc noexec write align=1
 global str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, str_NotEnoughMemoryTo
 global str_FloatingPointSupportNot, str_SaveText, str_CUtilMouse, str_Ptr0ptr1ptr2, str_BuildtableminLinearmapfExcee, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2
-global str_RATIONALDOS4G, str_RMHandler, str_Mouse, str_ULTRASND, unk_1142D0, str_Fs, str_Jan2, str_Feb3
+global str_RATIONALDOS4G, str_RMHandler, str_Mouse, str_ULTRASND, str_StarRule, str_Fs, str_Jan2, str_Feb3
 global str_Mar2, str_Apr2, str_May2, str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2
 global str_Nov2, str_Dec2
 str_BLASTER:
@@ -63,7 +63,7 @@ str_RMHandler:
         db 052h,04Dh,048h,061h,06Eh,064h,06Ch,065h,072h,00h,00h,00h
 str_ULTRASND:
         db 055h,04Ch,054h,052h,041h,053h,04Eh,044h,00h,00h,00h,00h
-unk_1142D0:
+str_StarRule:
         db 02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah
         db 02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah
         db 02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,00h,064h,065h,064h

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_123A94 progbits alloc noexec write align=1
-extern unk_19A650
+extern SortBufferData
 global ViewHalfWidth, ViewHalfHeight, ViewOriginX, ViewOriginY, ViewCentreX, ViewCentreY, FovScaleX, FovScaleY
 global ViewFovX, ViewFovY, ProjectFlags, SortBuffer, RetraceTimeout, TgaBytesPerPixel, VideoModeWidths, VideoModeHeights
 global VesaModeInfo, SpeechQueue, SpeechQueueLead
@@ -29,7 +29,7 @@ ViewFovY:
 ProjectFlags:
         db 00h,00h,00h,00h
 SortBuffer:
-        dd unk_19A650
+        dd SortBufferData
 RetraceTimeout:
         db 0A0h,086h,01h,00h
 TgaBytesPerPixel:

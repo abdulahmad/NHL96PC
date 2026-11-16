@@ -2,71 +2,70 @@
 bits 32
 %include "hockey.inc"
 section s_1983E0 nobits alloc noexec write align=1
-global dword_19869C, dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4
-global dword_19A5F8, dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614
-global dword_19A618, dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638
-global dword_19A63C, dword_19A640, dword_19A644, dword_19A648, dword_19A64C, dword_19B650, unk_1983E0, unk_19A650
-unk_1983E0:
+global ReciprocalTable, ShadeTableWidth, ShadeRowPtr, ShadeLeftX, ShadeLeftXStep, ShadeLeftFracStep, ShadeLeftFracLimit
+global ShadeLeftFrac, ShadeLeftTopY, ShadeLeftRows, ShadeLeftShade, ShadeLeftShadeV, ShadeLeftShadeStep, ShadeLeftShadeVStep, ShadeTexture
+global ShadeRightX, ShadeRightXStep, ShadeRightFracStep, ShadeRightFracLimit, ShadeRightFrac, ShadeRightRows, ShadeRightShade, ShadeRightShadeV
+global ShadeRightShadeStep, ShadeRightShadeVStep, PolyScreenPoints, PolyProjPoints, PolyColour, ScreenWidthPtr, ShadeEdgeList, SortBufferData
+ShadeEdgeList:
         resb 700
-dword_19869C:
         resb 4
-dword_1986A0:
+ReciprocalTable:
         resb 8000
-dword_19A5E0:
+ShadeTableWidth:
         resb 4
-dword_19A5E4:
+ShadeRowPtr:
         resb 4
-dword_19A5E8:
+ShadeLeftX:
         resb 4
-dword_19A5EC:
+ShadeLeftXStep:
         resb 4
-dword_19A5F0:
+ShadeLeftFracStep:
         resb 4
-dword_19A5F4:
+ShadeLeftFracLimit:
         resb 4
-dword_19A5F8:
+ShadeLeftFrac:
         resb 4
-dword_19A5FC:
+ShadeLeftTopY:
         resb 4
-dword_19A600:
+ShadeLeftRows:
         resb 4
-dword_19A604:
+ShadeLeftShade:
         resb 4
-dword_19A608:
+ShadeLeftShadeV:
         resb 4
-dword_19A60C:
+ShadeLeftShadeStep:
         resb 4
-dword_19A610:
+ShadeLeftShadeVStep:
         resb 4
-dword_19A614:
+ShadeTexture:
         resb 4
-dword_19A618:
+ShadeRightX:
         resb 4
-dword_19A61C:
+ShadeRightXStep:
         resb 4
-dword_19A620:
+ShadeRightFracStep:
         resb 4
-dword_19A624:
+ShadeRightFracLimit:
         resb 4
-dword_19A628:
+ShadeRightFrac:
         resb 8
-dword_19A630:
+ShadeRightRows:
         resb 4
-dword_19A634:
+ShadeRightShade:
         resb 4
-dword_19A638:
+ShadeRightShadeV:
         resb 4
-dword_19A63C:
+ShadeRightShadeStep:
         resb 4
-dword_19A640:
+ShadeRightShadeVStep:
         resb 4
-dword_19A644:
+PolyScreenPoints:
         resb 4
-dword_19A648:
+PolyProjPoints:
         resb 4
-dword_19A64C:
+PolyColour:
         resb 4
-unk_19A650:
+SortBufferData:
         resb 4096
-dword_19B650:
+ScreenWidthPtr:
         resb 4

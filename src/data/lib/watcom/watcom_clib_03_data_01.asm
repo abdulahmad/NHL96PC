@@ -3,23 +3,20 @@ bits 32
 %include "hockey.inc"
 section s_11FD54 progbits alloc noexec write align=1
 extern SerialIsrCom2, SerialIsrCom3, SerialIsrCom4, SerialIsrCom1, bcopy
-global RowCopyFunc, dword_1210C8, MemPoolBase, SerialPortTable, off_11FD5C, off_11FD60, RandSeed, SerialPorts
-global unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, SerialIrqMask
-global SerialBaudDivisors, word_120EC0
+global RowCopyFunc, MemPoolTop, MemPoolBase, SerialPortTable, RandSeed, SerialPortCom1
+global SerialPortCom2, SerialPortCom3, SerialPortCom4, SerialIrqMask
+global SerialBaudDivisors, Crc16Table
 RandSeed:
         db 01h,00h,00h,00h
 SerialPortTable:
-        dd SerialPorts
-off_11FD5C:
-        dd unk_1201B6
-off_11FD60:
-        dd unk_120602
-        dd unk_120A4E
+        dd SerialPortCom1
+        dd SerialPortCom2
+        dd SerialPortCom3
+        dd SerialPortCom4
 SerialIrqMask:
         db 00h,00h
-SerialPorts:
+SerialPortCom1:
         db 02h,00h,00h,03h,0Ch,00h,010h,00h,0F8h,03h
-unk_11FD74:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         dd SerialIsrCom1
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -90,9 +87,8 @@ unk_11FD74:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-unk_1201B6:
+SerialPortCom2:
         db 02h,00h,00h,03h,0Bh,00h,08h,00h,0F8h,02h
-unk_1201C0:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         dd SerialIsrCom2
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -163,9 +159,8 @@ unk_1201C0:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-unk_120602:
+SerialPortCom3:
         db 02h,00h,00h,03h,0Ch,00h,010h,00h,0E8h,03h
-unk_12060C:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         dd SerialIsrCom3
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -236,9 +231,8 @@ unk_12060C:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-unk_120A4E:
+SerialPortCom4:
         db 02h,00h,00h,03h,0Bh,00h,08h,00h,0E8h,02h
-unk_120A58:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         dd SerialIsrCom4
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -313,7 +307,7 @@ SerialBaudDivisors:
         db 080h,01h,0C0h,00h,060h,00h,040h,00h,03Ah,00h,030h,00h,020h,00h,018h,00h
         db 010h,00h,0Ch,00h,08h,00h,06h,00h,04h,00h,02h,00h,01h,00h,043h,04Fh
         db 04Dh,04Dh,00h,00h,00h,00h
-word_120EC0:
+Crc16Table:
         db 00h,00h,0C1h,0C0h,081h,0C1h,040h,01h,01h,0C3h,0C0h,03h,080h,02h,041h,0C2h
         db 01h,0C6h,0C0h,06h,080h,07h,041h,0C7h,00h,05h,0C1h,0C5h,081h,0C4h,040h,04h
         db 01h,0CCh,0C0h,0Ch,080h,0Dh,041h,0CDh,00h,0Fh,0C1h,0CFh,081h,0CEh,040h,0Eh
@@ -349,7 +343,7 @@ word_120EC0:
 RowCopyFunc:
         dd bcopy
         db 00h,00h,00h,00h
-dword_1210C8:
+MemPoolTop:
         db 00h,00h,00h,00h
 MemPoolBase:
         db 00h,00h,00h,00h

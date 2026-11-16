@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_C27F8 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, bailout_vec, BackBufferWidth, joycalactive, mousepollfn, off_11F5F4
-extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, CreateBitmap, FillRect, DrawRectOutline, FreeBitmap
+extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, bailout_vec, BackBufferWidth, joycalactive, mousepollfn, HidePointerKeepHook
+extern HidePointerHook, ShowPointerHook, ModalBeginHook, ModalEndHook, CreateBitmap, FillRect, DrawRectOutline, FreeBitmap
 extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, NearestColour, DrawArtFast, ReturnFalse
 extern PrintCentredBoxed, ResetClipRect, SetScreenTarget, SetClipRect, KbdGetKey, SaveDrawState, RestoreDrawState, DebugLineCount
 extern DefaultFont
@@ -23,7 +23,7 @@ ShowPromptBox:
         mov dword [dword esp+0B8h], ebx
         mov dword [dword esp+0B0h], ecx
         mov dword [joycalactive], 1
-        call dword [off_14F074]
+        call dword [ModalBeginHook]
         push byte 0FFFFFFFFh
         call ReturnFalse
         add esp, byte 4
@@ -66,7 +66,7 @@ ShowPromptBox:
         mov dword [dword esp+0C0h], eax
         call SetClipRect
         add esp, byte 14h
-        call dword [off_11F5F8]
+        call dword [HidePointerHook]
         push esi
         call SetDrawBitmap
         add esp, byte 4
@@ -125,7 +125,7 @@ ShowPromptBox:
         push ebx
         call PrintCentredBoxed
         add esp, byte 8
-        call dword [off_11F5FC]
+        call dword [ShowPointerHook]
         push BackBufferWidth
         call ResetClipRect
         add esp, byte 4
@@ -166,7 +166,7 @@ ShowPromptBox:
         push BackBufferWidth
         call SetClipRect
         add esp, byte 14h
-        call dword [off_11F5F4]
+        call dword [HidePointerKeepHook]
         call SetScreenTarget
         push esi
         mov ebx, dword [dword esp+0B8h]
@@ -176,7 +176,7 @@ ShowPromptBox:
         push ecx
         call DrawArtOpaque
         add esp, byte 0Ch
-        call dword [off_11F5FC]
+        call dword [ShowPointerHook]
         lea eax, [byte esp+060h]
         push eax
         call SetDrawTarget
@@ -193,7 +193,7 @@ ShowPromptBox:
         push ebp
         call ReturnFalse
         add esp, byte 4
-        call dword [off_14F078]
+        call dword [ModalEndHook]
         xor eax, eax
         mov dword [joycalactive], eax
         mov eax, edi
@@ -265,7 +265,7 @@ ShowMessageBox:
         push BackBufferWidth
         call SetClipRect
         add esp, byte 14h
-        call dword [off_11F5F8]
+        call dword [HidePointerHook]
         call SetScreenTarget
         push dword 0BEh
         push byte 0
@@ -297,11 +297,11 @@ ShowMessageBox:
         call PrintCentredBoxed
         add esp, byte 8
         mov ebp, dword [dword esp+0B4h]
-        call dword [off_11F5FC]
+        call dword [ShowPointerHook]
         push ebp
         call DebugLineCount
         add esp, byte 4
-        call dword [off_11F5F4]
+        call dword [HidePointerKeepHook]
         call SetScreenTarget
         push dword 0BEh
         push byte 0
@@ -309,7 +309,7 @@ ShowMessageBox:
         push eax
         call DrawArtOpaque
         add esp, byte 0Ch
-        call dword [off_11F5FC]
+        call dword [ShowPointerHook]
         lea eax, [byte esp+060h]
         push eax
         call SetDrawTarget

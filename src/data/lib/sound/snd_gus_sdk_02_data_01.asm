@@ -6,7 +6,7 @@ extern __InitFiles_, __chk8087_, __full_io_exit_, __setEFGfmt_, __setenvp_, imul
 extern Init387Emulator, SaveStackSegment, GusSizeDram, GusInitDma, DrawArtShadow
 global GusDmaLatchBits, GusDmaPageTable, GusDramSized, WVideoActive, GusDmaReady, GusIrqOldHandler, GusMidiPending, GusMidiIrqCount
 global GusTimerCallback, GusDmaDoneCallback, GusRecordDoneCallback, GusWaveCallback, GusVolumeCallback, GusTimer1Callback, GusTimer2Callback, GusWaveIrqCallback
-global GusVolumeIrqCallback, GusMidiXmitCallback, GusMidiRecvCallback, GusDmaBusy, MaxPrecision, off_151524, InitRtnsEntry, FiniRtnsEntry
+global GusVolumeIrqCallback, GusMidiXmitCallback, GusMidiRecvCallback, GusDmaBusy, MaxPrecision, ArtDrawModeFuncs, InitRtnsEntry, FiniRtnsEntry
 global GusInitTable, GusMidiControlPort, GusMidiDataPort, GusVoiceSelectPort, GusRegSelectPort, GusDataLowPort, GusDataHighPort, GusDramPort
 global GusIrqVectorTable, GusIrqOldSelector, GusIrqPending
 GusMidiControlPort:
@@ -78,7 +78,7 @@ MaxPrecision:
         db 011h,00h,00h,00h
 WVideoActive:
         db 00h,00h,00h,00h
-off_151524:
+ArtDrawModeFuncs:
         dd PutBlock
         dd PutBlock
         dd DrawArt

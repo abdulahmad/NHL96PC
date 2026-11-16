@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_AD680 progbits alloc exec nowrite align=1
 extern TextFirstChar, TextLastChar, TextCharW, TextSpacing, TextWidthTable, TextCursorY, ScreenWidth, DrawClipLeft
-extern DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, dword_1228FC, dword_122930, str_F_PutBlock, FreeMemBlock
+extern DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, DrawVideoBase, ScreenRowTable, str_F_PutBlock, FreeMemBlock
 extern PushMemDescriptorLocked, removewindow, SetScreenTarget, VesaSetBank, FillRectCore, XorRectCore, ClearClipRect, FillMem
 extern SaveDrawState, RestoreDrawState
 global TextStringWidth, mem_putc_, FillRect, FillRectClipped, XorRect, XorRectClipped, ClearScreenColour, DrawRectOutline
@@ -36,10 +36,10 @@ FillRect:
         add esp, byte 14h
         jmp near .11
 .1:
-        mov eax, dword [dword_1228FC]
+        mov eax, dword [DrawVideoBase]
         mov dword [byte esp+010h], eax
         mov eax, dword [byte esp+028h]
-        mov ecx, dword [nosplit eax*4+dword_122930]
+        mov ecx, dword [nosplit eax*4+ScreenRowTable]
         mov eax, dword [ScreenWidth]
         sub eax, edx
         add esi, ecx
@@ -253,7 +253,7 @@ XorRect:
         add esp, byte 14h
         jmp near .12
 .1:
-        mov esi, dword [dword_1228FC]
+        mov esi, dword [DrawVideoBase]
         mov dword [byte esp+08h], esi
         mov esi, dword [ScreenWidth]
         imul ecx, esi

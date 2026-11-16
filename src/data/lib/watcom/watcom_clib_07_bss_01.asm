@@ -2,17 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_19B654 nobits alloc noexec write align=1
-global CrowdLayerPriority, CrowdLayerVolume, dword_19B654, dword_19B66C, dword_19B670, StreamPacketTail, StreamPacketHead, CrowdExcitementWhole
+global CrowdLayerPriority, CrowdLayerVolume, VesaRealModeRegs, StreamPacketTail, StreamPacketHead, CrowdExcitementWhole
 global CrowdIntensityCopy, CrowdMixLevel, CrowdIntensityTerm, CrowdExcitementTerm, CrowdExcitementWeight, CrowdIntensityWeight, CrowdExcitement, CrowdIntensityLevel
 global CrowdExcitementGoal, CrowdLayerCount, CrowdEventCount, CrowdDriftRange, CrowdDriftRiseTime, CrowdDriftFallTime, CrowdStartEvent, CrowdCurveRise
-global CrowdCurveFall, CrowdLayerSample, CrowdBank, CrowdLayers, word_19B676
-dword_19B654:
+global CrowdCurveFall, CrowdLayerSample, CrowdBank, CrowdLayers
+VesaRealModeRegs:
         resb 24
-dword_19B66C:
         resb 4
-dword_19B670:
         resb 6
-word_19B676:
         resb 18
 StreamPacketTail:
         resb 4

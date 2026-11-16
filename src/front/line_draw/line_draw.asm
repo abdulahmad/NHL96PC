@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_873AE progbits alloc exec nowrite align=1
-extern LinePattern, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_1228FC
+extern LinePattern, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, DrawVideoBase
 extern LineClipRight, LineClipBottom, LineSteep, LineClipTop, LineClipLeft, LineErrX, LineErrStepY, LineErrStepX
 extern LineDeltaX, LineDeltaY, LineX, LineSpanRight, LineSpanBottom, LineSpanTop, LineSpanLeft, LineStepY
 extern LineErrY, LineColor, LineEndX, LineEndY, LineUserClipBottom, LineUserClipTop, PlotPixel, SetClipWindow
@@ -547,7 +547,7 @@ DrawLineY:
         mov eax, dword [LineSpanLeft]
         mov esi, 10000h
         and eax, 0FFFFh
-        mov ecx, dword [dword_1228FC]
+        mov ecx, dword [DrawVideoBase]
         sub esi, eax
         mov eax, dword [DrawDestBuffer]
         add ecx, dword [edi+eax]
@@ -763,7 +763,7 @@ DrawLineX:
         mov ecx, dword [DrawDestBuffer]
         shl eax, 2
         add eax, ecx
-        mov ecx, dword [dword_1228FC]
+        mov ecx, dword [DrawVideoBase]
         sar esi, 0Ch
         add ecx, dword [eax]
         sar edx, 0Ch

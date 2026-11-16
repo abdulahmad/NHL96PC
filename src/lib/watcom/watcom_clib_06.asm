@@ -3,12 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_BC73C progbits alloc exec nowrite align=1
 extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, NearPlaneZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight
-extern DrawClipBottom, dword_1228FC, ViewCentreX, ViewCentreY, FovScaleX, FovScaleY, ProjectFlags, dword_19869C
-extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4, dword_19A5F8
-extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
-extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
-extern dword_19A640, dword_19A644, dword_19A648, dword_19A64C, strnicmp_, FixedDivide, ProjectPointWide, DrawMappedTriangle
-extern TexSpanFill, FillRectColor, PutPixel, FillPolygon, ClipEdgeToPlane, unk_1983E0
+extern DrawClipBottom, DrawVideoBase, ViewCentreX, ViewCentreY, FovScaleX, FovScaleY, ProjectFlags
+extern ReciprocalTable, ShadeTableWidth, ShadeRowPtr, ShadeLeftX, ShadeLeftXStep, ShadeLeftFracStep, ShadeLeftFracLimit, ShadeLeftFrac
+extern ShadeLeftTopY, ShadeLeftRows, ShadeLeftShade, ShadeLeftShadeV, ShadeLeftShadeStep, ShadeLeftShadeVStep, ShadeTexture, ShadeRightX
+extern ShadeRightXStep, ShadeRightFracStep, ShadeRightFracLimit, ShadeRightFrac, ShadeRightRows, ShadeRightShade, ShadeRightShadeV, ShadeRightShadeStep
+extern ShadeRightShadeVStep, PolyScreenPoints, PolyProjPoints, PolyColour, strnicmp_, FixedDivide, ProjectPointWide, DrawMappedTriangle
+extern TexSpanFill, FillRectColor, PutPixel, FillPolygon, ClipEdgeToPlane, ShadeEdgeList
 global __CHP, ShadedPolyStepEdge_19F, FillShadedTriRight_1C9, OriFindGroup, OriFindPartition, OriGetPartition, ShadedPolyStepEdge, ShadedSpansLeftClipped
 global ShadedSpansLeft, ShadedSpansRightClipped, ShadedSpansRight, FillShadedTriRight, FillShadedTriRightClipped, FillShadedTriLeft, FillShadedTriLeftClipped, FillShadedPoly
 global InitReciprocalTable, ClipEdgeAtZ, ClipAndProjectEdge, PolySideTest, ClipPolyNearZ, ClipEdgeAtZTex, DrawTexturedPolyCore, SubdivideMappedTriangle
@@ -330,14 +330,14 @@ ShadedPolyStepEdge:
         mov ecx, dword [esp]
         mov dword [byte esi+020h], eax
         mov eax, ebx
-        mov edx, dword [nosplit ecx*4+dword_1986A0]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         mov dword [byte esi+024h], eax
         mov eax, edi
-        mov edx, dword [nosplit ecx*4+dword_1986A0]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
         imul edx
         add eax, 8000h
         adc edx, byte 0
@@ -359,21 +359,21 @@ ShadedSpansLeftClipped:
         push edi
         push ebp
         sub esp, byte 10h
-        mov ecx, dword [dword_19A5E8]
-        mov ebx, dword [dword_19A618]
+        mov ecx, dword [ShadeLeftX]
+        mov ebx, dword [ShadeRightX]
         sub ebx, ecx
         inc ebx
         test ebx, ebx
         jle near .3
-        mov esi, dword [dword_19A604]
-        mov edx, dword [dword_19A638]
-        mov eax, dword [dword_19A634]
+        mov esi, dword [ShadeLeftShade]
+        mov edx, dword [ShadeRightShadeV]
+        mov eax, dword [ShadeRightShade]
         mov dword [esp], edx
         lea edx, [nosplit ebx*4+00h]
         sub eax, esi
         mov dword [byte esp+04h], edx
-        mov edx, dword [dword edx+dword_1986A0]
-        mov edi, dword [dword_19A608]
+        mov edx, dword [dword edx+ReciprocalTable]
+        mov edi, dword [ShadeLeftShadeV]
         imul edx
         add eax, 8000h
         adc edx, byte 0
@@ -382,13 +382,13 @@ ShadedSpansLeftClipped:
         mov ebp, eax
         mov dword [byte esp+08h], eax
         mov eax, dword [esp]
-        mov edx, dword [dword edx+dword_1986A0]
+        mov edx, dword [dword edx+ReciprocalTable]
         sub eax, edi
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov edx, dword [dword_19A5E0]
+        mov edx, dword [ShadeTableWidth]
         mov dword [byte esp+0Ch], eax
         sar eax, 10h
         imul edx, eax
@@ -416,7 +416,7 @@ ShadedSpansLeftClipped:
         sub ebx, ebp
         add edi, edx
 .2:
-        mov edx, dword [dword_19A614]
+        mov edx, dword [ShadeTexture]
         mov ebp, dword [byte edx+02h]
         sar ebp, 10h
         mov dword [byte esp+04h], ebp
@@ -424,7 +424,7 @@ ShadedSpansLeftClipped:
         sar ebp, 10h
         imul ebp, dword [byte esp+04h]
         push ebx
-        mov ebx, dword [dword_19A5E0]
+        mov ebx, dword [ShadeTableWidth]
         add edx, byte 10h
         push eax
         add eax, ebx
@@ -438,7 +438,7 @@ ShadedSpansLeftClipped:
         push edi
         mov eax, dword [byte esp+01Ch]
         push eax
-        mov eax, dword [dword_19A5E4]
+        mov eax, dword [ShadeRowPtr]
         push esi
         add eax, ecx
         push eax
@@ -459,57 +459,57 @@ ShadedSpansLeft:
         push esi
         push edi
         push ebp
-        mov eax, dword [dword_19A618]
-        sub eax, dword [dword_19A5E8]
+        mov eax, dword [ShadeRightX]
+        sub eax, dword [ShadeLeftX]
         lea ecx, [byte eax+01h]
         test ecx, ecx
         jle near .1
-        mov eax, dword [dword_19A634]
-        mov ebx, dword [dword_19A604]
-        mov edx, dword [nosplit ecx*4+dword_1986A0]
+        mov eax, dword [ShadeRightShade]
+        mov ebx, dword [ShadeLeftShade]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
         sub eax, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov esi, dword [dword_19A608]
+        mov esi, dword [ShadeLeftShadeV]
         mov ebx, eax
-        mov eax, dword [dword_19A638]
-        mov edx, dword [nosplit ecx*4+dword_1986A0]
+        mov eax, dword [ShadeRightShadeV]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
         sub eax, esi
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         mov edx, eax
-        mov edi, dword [dword_19A5E0]
+        mov edi, dword [ShadeTableWidth]
         sar edx, 10h
         imul edx, edi
         mov esi, ebx
         sar esi, 10h
         add edx, esi
-        mov esi, dword [dword_19A608]
+        mov esi, dword [ShadeLeftShadeV]
         sar esi, 10h
         imul esi, edi
         mov ebp, edi
         push ecx
         mov ecx, ebp
-        mov edi, dword [dword_19A614]
+        mov edi, dword [ShadeTexture]
         push edx
         add edi, byte 10h
         add edx, ecx
         add edi, esi
-        mov esi, dword [dword_19A604]
+        mov esi, dword [ShadeLeftShade]
         push edx
         sar esi, 10h
         push eax
         add esi, edi
-        mov edi, dword [dword_19A608]
+        mov edi, dword [ShadeLeftShadeV]
         push edi
-        mov ebp, dword [dword_19A604]
+        mov ebp, dword [ShadeLeftShade]
         push ebx
-        mov edx, dword [dword_19A5E8]
-        mov eax, dword [dword_19A5E4]
+        mov edx, dword [ShadeLeftX]
+        mov eax, dword [ShadeRowPtr]
         push ebp
         add eax, edx
         push eax
@@ -531,21 +531,21 @@ ShadedSpansRightClipped:
         push edi
         push ebp
         sub esp, byte 10h
-        mov ecx, dword [dword_19A618]
-        mov ebx, dword [dword_19A5E8]
+        mov ecx, dword [ShadeRightX]
+        mov ebx, dword [ShadeLeftX]
         sub ebx, ecx
         inc ebx
         test ebx, ebx
         jle near .3
-        mov esi, dword [dword_19A634]
-        mov edx, dword [dword_19A608]
-        mov eax, dword [dword_19A604]
+        mov esi, dword [ShadeRightShade]
+        mov edx, dword [ShadeLeftShadeV]
+        mov eax, dword [ShadeLeftShade]
         mov dword [esp], edx
         lea edx, [nosplit ebx*4+00h]
         sub eax, esi
         mov dword [byte esp+04h], edx
-        mov edx, dword [dword edx+dword_1986A0]
-        mov edi, dword [dword_19A638]
+        mov edx, dword [dword edx+ReciprocalTable]
+        mov edi, dword [ShadeRightShadeV]
         imul edx
         add eax, 8000h
         adc edx, byte 0
@@ -554,13 +554,13 @@ ShadedSpansRightClipped:
         mov ebp, eax
         mov dword [byte esp+08h], eax
         mov eax, dword [esp]
-        mov edx, dword [dword edx+dword_1986A0]
+        mov edx, dword [dword edx+ReciprocalTable]
         sub eax, edi
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov edx, dword [dword_19A5E0]
+        mov edx, dword [ShadeTableWidth]
         mov dword [byte esp+0Ch], eax
         sar eax, 10h
         imul edx, eax
@@ -588,7 +588,7 @@ ShadedSpansRightClipped:
         sub ebx, ebp
         add edi, edx
 .2:
-        mov edx, dword [dword_19A614]
+        mov edx, dword [ShadeTexture]
         mov ebp, dword [byte edx+02h]
         sar ebp, 10h
         mov dword [byte esp+04h], ebp
@@ -596,7 +596,7 @@ ShadedSpansRightClipped:
         sar ebp, 10h
         imul ebp, dword [byte esp+04h]
         push ebx
-        mov ebx, dword [dword_19A5E0]
+        mov ebx, dword [ShadeTableWidth]
         add edx, byte 10h
         push eax
         add eax, ebx
@@ -610,7 +610,7 @@ ShadedSpansRightClipped:
         push edi
         mov eax, dword [byte esp+01Ch]
         push eax
-        mov eax, dword [dword_19A5E4]
+        mov eax, dword [ShadeRowPtr]
         push esi
         add eax, ecx
         push eax
@@ -631,57 +631,57 @@ ShadedSpansRight:
         push esi
         push edi
         push ebp
-        mov eax, dword [dword_19A5E8]
-        sub eax, dword [dword_19A618]
+        mov eax, dword [ShadeLeftX]
+        sub eax, dword [ShadeRightX]
         lea ecx, [byte eax+01h]
         test ecx, ecx
         jle near .1
-        mov eax, dword [dword_19A604]
-        mov ebx, dword [dword_19A634]
-        mov edx, dword [nosplit ecx*4+dword_1986A0]
+        mov eax, dword [ShadeLeftShade]
+        mov ebx, dword [ShadeRightShade]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
         sub eax, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov esi, dword [dword_19A638]
+        mov esi, dword [ShadeRightShadeV]
         mov ebx, eax
-        mov eax, dword [dword_19A608]
-        mov edx, dword [nosplit ecx*4+dword_1986A0]
+        mov eax, dword [ShadeLeftShadeV]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
         sub eax, esi
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         mov edx, eax
-        mov edi, dword [dword_19A5E0]
+        mov edi, dword [ShadeTableWidth]
         sar edx, 10h
         imul edx, edi
         mov esi, ebx
         sar esi, 10h
         add edx, esi
-        mov esi, dword [dword_19A638]
+        mov esi, dword [ShadeRightShadeV]
         sar esi, 10h
         imul esi, edi
         mov ebp, edi
         push ecx
         mov ecx, ebp
-        mov edi, dword [dword_19A614]
+        mov edi, dword [ShadeTexture]
         push edx
         add edi, byte 10h
         add edx, ecx
         add edi, esi
-        mov esi, dword [dword_19A634]
+        mov esi, dword [ShadeRightShade]
         push edx
         sar esi, 10h
         push eax
         add esi, edi
-        mov edi, dword [dword_19A638]
+        mov edi, dword [ShadeRightShadeV]
         push edi
-        mov ebp, dword [dword_19A634]
+        mov ebp, dword [ShadeRightShade]
         push ebx
-        mov edx, dword [dword_19A618]
-        mov eax, dword [dword_19A5E4]
+        mov edx, dword [ShadeRightX]
+        mov eax, dword [ShadeRowPtr]
         push ebp
         add eax, edx
         push eax
@@ -704,17 +704,17 @@ FillShadedTriRight:
         push ebp
         sub esp, byte 4
         mov ebp, dword [byte esp+018h]
-        mov esi, dword [dword_19A5FC]
+        mov esi, dword [ShadeLeftTopY]
         imul esi, dword [ScreenWidth]
-        mov eax, dword [dword_1228FC]
+        mov eax, dword [DrawVideoBase]
         add eax, byte 10h
         add eax, esi
-        mov dword [dword_19A5E4], eax
+        mov dword [ShadeRowPtr], eax
         mov eax, dword [byte esp+01Ch]
         dec eax
         mov dword [esp], eax
 .1:
-        cmp dword [dword_19A600], byte 0
+        cmp dword [ShadeLeftRows], byte 0
         jg short .3
         mov ecx, dword [byte esp+014h]
         dec ecx
@@ -729,12 +729,12 @@ FillShadedTriRight:
         je near FillShadedTriRight_1C9
         imul esi, edi, byte 2Ch
         mov ecx, 0Bh
-        mov edi, dword_19A5E8
-        lea esi, [dword esi+unk_1983E0]
+        mov edi, ShadeLeftX
+        lea esi, [dword esi+ShadeEdgeList]
         rep movsd
         jmp short .1
 .3:
-        mov edx, dword [dword_19A630]
+        mov edx, dword [ShadeRightRows]
         test edx, edx
         jg short .5
         mov ecx, dword [byte esp+01Ch]
@@ -745,12 +745,12 @@ FillShadedTriRight:
 .4:
         imul esi, ebp, byte 2Ch
         mov ecx, 0Bh
-        mov edi, dword_19A618
-        lea esi, [dword esi+unk_1983E0]
+        mov edi, ShadeRightX
+        lea esi, [dword esi+ShadeEdgeList]
         rep movsd
         jmp short .3
 .5:
-        mov ebx, dword [dword_19A600]
+        mov ebx, dword [ShadeLeftRows]
         cmp edx, ebx
         jge short .6
         mov esi, edx
@@ -763,66 +763,66 @@ FillShadedTriRight:
         je near .1
         call ShadedSpansRight
         mov eax, dword [ScreenWidth]
-        mov edi, dword [dword_19A5E4]
-        mov edx, dword [dword_19A5E8]
-        mov ebx, dword [dword_19A604]
-        mov ecx, dword [dword_19A608]
+        mov edi, dword [ShadeRowPtr]
+        mov edx, dword [ShadeLeftX]
+        mov ebx, dword [ShadeLeftShade]
+        mov ecx, dword [ShadeLeftShadeV]
         add edi, eax
-        mov eax, dword [dword_19A5EC]
-        mov dword [dword_19A5E4], edi
-        mov edi, dword [dword_19A600]
+        mov eax, dword [ShadeLeftXStep]
+        mov dword [ShadeRowPtr], edi
+        mov edi, dword [ShadeLeftRows]
         add edx, eax
-        mov eax, dword [dword_19A60C]
-        mov dword [dword_19A5E8], edx
+        mov eax, dword [ShadeLeftShadeStep]
+        mov dword [ShadeLeftX], edx
         dec edi
-        mov edx, dword [dword_19A5F8]
-        mov dword [dword_19A600], edi
+        mov edx, dword [ShadeLeftFrac]
+        mov dword [ShadeLeftRows], edi
         add ebx, eax
-        mov eax, dword [dword_19A610]
-        mov dword [dword_19A604], ebx
+        mov eax, dword [ShadeLeftShadeVStep]
+        mov dword [ShadeLeftShade], ebx
         add ecx, eax
-        mov eax, dword [dword_19A5F0]
-        mov ebx, dword [dword_19A5F4]
+        mov eax, dword [ShadeLeftFracStep]
+        mov ebx, dword [ShadeLeftFracLimit]
         add edx, eax
-        mov dword [dword_19A608], ecx
-        mov dword [dword_19A5F8], edx
+        mov dword [ShadeLeftShadeV], ecx
+        mov dword [ShadeLeftFrac], edx
         cmp edx, ebx
         jl short .8
-        mov ecx, dword [dword_19A5E8]
+        mov ecx, dword [ShadeLeftX]
         mov edi, edx
         inc ecx
         sub edi, ebx
-        mov dword [dword_19A5E8], ecx
-        mov dword [dword_19A5F8], edi
+        mov dword [ShadeLeftX], ecx
+        mov dword [ShadeLeftFrac], edi
 .8:
-        mov eax, dword [dword_19A61C]
-        mov edx, dword [dword_19A618]
-        mov ebx, dword [dword_19A634]
-        mov edi, dword [dword_19A630]
-        mov ecx, dword [dword_19A638]
+        mov eax, dword [ShadeRightXStep]
+        mov edx, dword [ShadeRightX]
+        mov ebx, dword [ShadeRightShade]
+        mov edi, dword [ShadeRightRows]
+        mov ecx, dword [ShadeRightShadeV]
         dec edi
         add edx, eax
-        mov eax, dword [dword_19A63C]
-        mov dword [dword_19A618], edx
-        mov dword [dword_19A630], edi
-        mov edx, dword [dword_19A628]
+        mov eax, dword [ShadeRightShadeStep]
+        mov dword [ShadeRightX], edx
+        mov dword [ShadeRightRows], edi
+        mov edx, dword [ShadeRightFrac]
         add ebx, eax
-        mov eax, dword [dword_19A640]
-        mov dword [dword_19A634], ebx
+        mov eax, dword [ShadeRightShadeVStep]
+        mov dword [ShadeRightShade], ebx
         add ecx, eax
-        mov eax, dword [dword_19A620]
-        mov ebx, dword [dword_19A624]
+        mov eax, dword [ShadeRightFracStep]
+        mov ebx, dword [ShadeRightFracLimit]
         add edx, eax
-        mov dword [dword_19A638], ecx
-        mov dword [dword_19A628], edx
+        mov dword [ShadeRightShadeV], ecx
+        mov dword [ShadeRightFrac], edx
         cmp edx, ebx
         jl near .7
-        mov ecx, dword [dword_19A618]
+        mov ecx, dword [ShadeRightX]
         mov edi, edx
         inc ecx
         sub edi, ebx
-        mov dword [dword_19A618], ecx
-        mov dword [dword_19A628], edi
+        mov dword [ShadeRightX], ecx
+        mov dword [ShadeRightFrac], edi
         jmp near .7
 FillShadedTriRight_1C9:
         add esp, byte 4
@@ -840,20 +840,20 @@ FillShadedTriRightClipped:
         push ebp
         sub esp, byte 8
         mov ebp, dword [byte esp+01Ch]
-        mov eax, dword [dword_19A5FC]
+        mov eax, dword [ShadeLeftTopY]
         mov dword [byte esp+04h], eax
         mov edx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
         imul eax, edx
-        mov esi, dword [dword_1228FC]
+        mov esi, dword [DrawVideoBase]
         add esi, byte 10h
         add esi, eax
         mov eax, dword [byte esp+020h]
         dec eax
-        mov dword [dword_19A5E4], esi
+        mov dword [ShadeRowPtr], esi
         mov dword [esp], eax
 .1:
-        cmp dword [dword_19A600], byte 0
+        cmp dword [ShadeLeftRows], byte 0
         jg short .3
         mov ecx, dword [byte esp+018h]
         dec ecx
@@ -868,12 +868,12 @@ FillShadedTriRightClipped:
         je near ShadedPolyStepEdge_19F
         imul esi, edi, byte 2Ch
         mov ecx, 0Bh
-        mov edi, dword_19A5E8
-        lea esi, [dword esi+unk_1983E0]
+        mov edi, ShadeLeftX
+        lea esi, [dword esi+ShadeEdgeList]
         rep movsd
         jmp short .1
 .3:
-        mov edx, dword [dword_19A630]
+        mov edx, dword [ShadeRightRows]
         test edx, edx
         jg short .5
         mov ecx, dword [byte esp+020h]
@@ -884,12 +884,12 @@ FillShadedTriRightClipped:
 .4:
         imul esi, ebp, byte 2Ch
         mov ecx, 0Bh
-        mov edi, dword_19A618
-        lea esi, [dword esi+unk_1983E0]
+        mov edi, ShadeRightX
+        lea esi, [dword esi+ShadeEdgeList]
         rep movsd
         jmp short .3
 .5:
-        mov ebx, dword [dword_19A600]
+        mov ebx, dword [ShadeLeftRows]
         cmp edx, ebx
         jge short .6
         mov esi, edx
@@ -912,66 +912,66 @@ FillShadedTriRightClipped:
         cmp eax, edx
         jge near ShadedPolyStepEdge_19F
         mov eax, dword [ScreenWidth]
-        mov ebx, dword [dword_19A5E4]
-        mov ecx, dword [dword_19A5E8]
-        mov edi, dword [dword_19A604]
-        mov edx, dword [dword_19A608]
+        mov ebx, dword [ShadeRowPtr]
+        mov ecx, dword [ShadeLeftX]
+        mov edi, dword [ShadeLeftShade]
+        mov edx, dword [ShadeLeftShadeV]
         add ebx, eax
-        mov eax, dword [dword_19A5EC]
-        mov dword [dword_19A5E4], ebx
-        mov ebx, dword [dword_19A600]
+        mov eax, dword [ShadeLeftXStep]
+        mov dword [ShadeRowPtr], ebx
+        mov ebx, dword [ShadeLeftRows]
         add ecx, eax
-        mov eax, dword [dword_19A60C]
-        mov dword [dword_19A5E8], ecx
+        mov eax, dword [ShadeLeftShadeStep]
+        mov dword [ShadeLeftX], ecx
         dec ebx
-        mov ecx, dword [dword_19A5F8]
-        mov dword [dword_19A600], ebx
+        mov ecx, dword [ShadeLeftFrac]
+        mov dword [ShadeLeftRows], ebx
         add edi, eax
-        mov eax, dword [dword_19A610]
-        mov dword [dword_19A604], edi
+        mov eax, dword [ShadeLeftShadeVStep]
+        mov dword [ShadeLeftShade], edi
         add edx, eax
-        mov eax, dword [dword_19A5F0]
-        mov edi, dword [dword_19A5F4]
+        mov eax, dword [ShadeLeftFracStep]
+        mov edi, dword [ShadeLeftFracLimit]
         add ecx, eax
-        mov dword [dword_19A608], edx
-        mov dword [dword_19A5F8], ecx
+        mov dword [ShadeLeftShadeV], edx
+        mov dword [ShadeLeftFrac], ecx
         cmp ecx, edi
         jl short .9
-        mov eax, dword [dword_19A5E8]
+        mov eax, dword [ShadeLeftX]
         mov edx, ecx
         inc eax
         sub edx, edi
-        mov dword [dword_19A5E8], eax
-        mov dword [dword_19A5F8], edx
+        mov dword [ShadeLeftX], eax
+        mov dword [ShadeLeftFrac], edx
 .9:
-        mov eax, dword [dword_19A61C]
-        mov ebx, dword [dword_19A618]
-        mov ecx, dword [dword_19A634]
+        mov eax, dword [ShadeRightXStep]
+        mov ebx, dword [ShadeRightX]
+        mov ecx, dword [ShadeRightShade]
         add ebx, eax
-        mov eax, dword [dword_19A63C]
-        mov edi, dword [dword_19A638]
+        mov eax, dword [ShadeRightShadeStep]
+        mov edi, dword [ShadeRightShadeV]
         add ecx, eax
-        mov eax, dword [dword_19A640]
-        mov edx, dword [dword_19A628]
+        mov eax, dword [ShadeRightShadeVStep]
+        mov edx, dword [ShadeRightFrac]
         add edi, eax
-        mov eax, dword [dword_19A630]
-        mov dword [dword_19A618], ebx
+        mov eax, dword [ShadeRightRows]
+        mov dword [ShadeRightX], ebx
         dec eax
-        mov ebx, dword [dword_19A624]
-        mov dword [dword_19A630], eax
-        mov eax, dword [dword_19A620]
-        mov dword [dword_19A634], ecx
+        mov ebx, dword [ShadeRightFracLimit]
+        mov dword [ShadeRightRows], eax
+        mov eax, dword [ShadeRightFracStep]
+        mov dword [ShadeRightShade], ecx
         add edx, eax
-        mov dword [dword_19A638], edi
-        mov dword [dword_19A628], edx
+        mov dword [ShadeRightShadeV], edi
+        mov dword [ShadeRightFrac], edx
         cmp edx, ebx
         jl near .7
-        mov ecx, dword [dword_19A618]
+        mov ecx, dword [ShadeRightX]
         mov edi, edx
         inc ecx
         sub edi, ebx
-        mov dword [dword_19A618], ecx
-        mov dword [dword_19A628], edi
+        mov dword [ShadeRightX], ecx
+        mov dword [ShadeRightFrac], edi
         jmp near .7
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
@@ -984,17 +984,17 @@ FillShadedTriLeft:
         push ebp
         sub esp, byte 4
         mov ebp, dword [byte esp+018h]
-        mov esi, dword [dword_19A5FC]
+        mov esi, dword [ShadeLeftTopY]
         imul esi, dword [ScreenWidth]
-        mov eax, dword [dword_1228FC]
+        mov eax, dword [DrawVideoBase]
         add eax, byte 10h
         add eax, esi
-        mov dword [dword_19A5E4], eax
+        mov dword [ShadeRowPtr], eax
         mov eax, dword [byte esp+01Ch]
         dec eax
         mov dword [esp], eax
 .1:
-        cmp dword [dword_19A600], byte 0
+        cmp dword [ShadeLeftRows], byte 0
         jg short .3
         mov ecx, dword [byte esp+014h]
         dec ecx
@@ -1009,12 +1009,12 @@ FillShadedTriLeft:
         je near FillShadedTriRight_1C9
         imul esi, edi, byte 2Ch
         mov ecx, 0Bh
-        mov edi, dword_19A5E8
-        lea esi, [dword esi+unk_1983E0]
+        mov edi, ShadeLeftX
+        lea esi, [dword esi+ShadeEdgeList]
         rep movsd
         jmp short .1
 .3:
-        mov edx, dword [dword_19A630]
+        mov edx, dword [ShadeRightRows]
         test edx, edx
         jg short .5
         mov ecx, dword [byte esp+01Ch]
@@ -1025,12 +1025,12 @@ FillShadedTriLeft:
 .4:
         imul esi, ebp, byte 2Ch
         mov ecx, 0Bh
-        mov edi, dword_19A618
-        lea esi, [dword esi+unk_1983E0]
+        mov edi, ShadeRightX
+        lea esi, [dword esi+ShadeEdgeList]
         rep movsd
         jmp short .3
 .5:
-        mov ebx, dword [dword_19A600]
+        mov ebx, dword [ShadeLeftRows]
         cmp edx, ebx
         jge short .6
         mov esi, edx
@@ -1043,66 +1043,66 @@ FillShadedTriLeft:
         je near .1
         call ShadedSpansLeft
         mov eax, dword [ScreenWidth]
-        mov edi, dword [dword_19A5E4]
-        mov edx, dword [dword_19A5E8]
-        mov ebx, dword [dword_19A604]
-        mov ecx, dword [dword_19A608]
+        mov edi, dword [ShadeRowPtr]
+        mov edx, dword [ShadeLeftX]
+        mov ebx, dword [ShadeLeftShade]
+        mov ecx, dword [ShadeLeftShadeV]
         add edi, eax
-        mov eax, dword [dword_19A5EC]
-        mov dword [dword_19A5E4], edi
-        mov edi, dword [dword_19A600]
+        mov eax, dword [ShadeLeftXStep]
+        mov dword [ShadeRowPtr], edi
+        mov edi, dword [ShadeLeftRows]
         add edx, eax
-        mov eax, dword [dword_19A60C]
-        mov dword [dword_19A5E8], edx
+        mov eax, dword [ShadeLeftShadeStep]
+        mov dword [ShadeLeftX], edx
         dec edi
-        mov edx, dword [dword_19A5F8]
-        mov dword [dword_19A600], edi
+        mov edx, dword [ShadeLeftFrac]
+        mov dword [ShadeLeftRows], edi
         add ebx, eax
-        mov eax, dword [dword_19A610]
-        mov dword [dword_19A604], ebx
+        mov eax, dword [ShadeLeftShadeVStep]
+        mov dword [ShadeLeftShade], ebx
         add ecx, eax
-        mov eax, dword [dword_19A5F0]
-        mov ebx, dword [dword_19A5F4]
+        mov eax, dword [ShadeLeftFracStep]
+        mov ebx, dword [ShadeLeftFracLimit]
         add edx, eax
-        mov dword [dword_19A608], ecx
-        mov dword [dword_19A5F8], edx
+        mov dword [ShadeLeftShadeV], ecx
+        mov dword [ShadeLeftFrac], edx
         cmp edx, ebx
         jl short .8
-        mov ecx, dword [dword_19A5E8]
+        mov ecx, dword [ShadeLeftX]
         mov edi, edx
         inc ecx
         sub edi, ebx
-        mov dword [dword_19A5E8], ecx
-        mov dword [dword_19A5F8], edi
+        mov dword [ShadeLeftX], ecx
+        mov dword [ShadeLeftFrac], edi
 .8:
-        mov eax, dword [dword_19A61C]
-        mov edx, dword [dword_19A618]
-        mov ebx, dword [dword_19A634]
-        mov edi, dword [dword_19A630]
-        mov ecx, dword [dword_19A638]
+        mov eax, dword [ShadeRightXStep]
+        mov edx, dword [ShadeRightX]
+        mov ebx, dword [ShadeRightShade]
+        mov edi, dword [ShadeRightRows]
+        mov ecx, dword [ShadeRightShadeV]
         dec edi
         add edx, eax
-        mov eax, dword [dword_19A63C]
-        mov dword [dword_19A618], edx
-        mov dword [dword_19A630], edi
-        mov edx, dword [dword_19A628]
+        mov eax, dword [ShadeRightShadeStep]
+        mov dword [ShadeRightX], edx
+        mov dword [ShadeRightRows], edi
+        mov edx, dword [ShadeRightFrac]
         add ebx, eax
-        mov eax, dword [dword_19A640]
-        mov dword [dword_19A634], ebx
+        mov eax, dword [ShadeRightShadeVStep]
+        mov dword [ShadeRightShade], ebx
         add ecx, eax
-        mov eax, dword [dword_19A620]
-        mov ebx, dword [dword_19A624]
+        mov eax, dword [ShadeRightFracStep]
+        mov ebx, dword [ShadeRightFracLimit]
         add edx, eax
-        mov dword [dword_19A638], ecx
-        mov dword [dword_19A628], edx
+        mov dword [ShadeRightShadeV], ecx
+        mov dword [ShadeRightFrac], edx
         cmp edx, ebx
         jl near .7
-        mov ecx, dword [dword_19A618]
+        mov ecx, dword [ShadeRightX]
         mov edi, edx
         inc ecx
         sub edi, ebx
-        mov dword [dword_19A618], ecx
-        mov dword [dword_19A628], edi
+        mov dword [ShadeRightX], ecx
+        mov dword [ShadeRightFrac], edi
         jmp near .7
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
@@ -1115,20 +1115,20 @@ FillShadedTriLeftClipped:
         push ebp
         sub esp, byte 8
         mov ebp, dword [byte esp+01Ch]
-        mov eax, dword [dword_19A5FC]
+        mov eax, dword [ShadeLeftTopY]
         mov dword [byte esp+04h], eax
         mov edx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
         imul eax, edx
-        mov esi, dword [dword_1228FC]
+        mov esi, dword [DrawVideoBase]
         add esi, byte 10h
         add esi, eax
         mov eax, dword [byte esp+020h]
         dec eax
-        mov dword [dword_19A5E4], esi
+        mov dword [ShadeRowPtr], esi
         mov dword [esp], eax
 .1:
-        cmp dword [dword_19A600], byte 0
+        cmp dword [ShadeLeftRows], byte 0
         jg short .3
         mov ecx, dword [byte esp+018h]
         dec ecx
@@ -1143,12 +1143,12 @@ FillShadedTriLeftClipped:
         je near ShadedPolyStepEdge_19F
         imul esi, edi, byte 2Ch
         mov ecx, 0Bh
-        mov edi, dword_19A5E8
-        lea esi, [dword esi+unk_1983E0]
+        mov edi, ShadeLeftX
+        lea esi, [dword esi+ShadeEdgeList]
         rep movsd
         jmp short .1
 .3:
-        mov edx, dword [dword_19A630]
+        mov edx, dword [ShadeRightRows]
         test edx, edx
         jg short .5
         mov ecx, dword [byte esp+020h]
@@ -1159,12 +1159,12 @@ FillShadedTriLeftClipped:
 .4:
         imul esi, ebp, byte 2Ch
         mov ecx, 0Bh
-        mov edi, dword_19A618
-        lea esi, [dword esi+unk_1983E0]
+        mov edi, ShadeRightX
+        lea esi, [dword esi+ShadeEdgeList]
         rep movsd
         jmp short .3
 .5:
-        mov ebx, dword [dword_19A600]
+        mov ebx, dword [ShadeLeftRows]
         cmp edx, ebx
         jge short .6
         mov esi, edx
@@ -1187,66 +1187,66 @@ FillShadedTriLeftClipped:
         cmp eax, edx
         jge near ShadedPolyStepEdge_19F
         mov eax, dword [ScreenWidth]
-        mov ebx, dword [dword_19A5E4]
-        mov ecx, dword [dword_19A5E8]
-        mov edi, dword [dword_19A604]
-        mov edx, dword [dword_19A608]
+        mov ebx, dword [ShadeRowPtr]
+        mov ecx, dword [ShadeLeftX]
+        mov edi, dword [ShadeLeftShade]
+        mov edx, dword [ShadeLeftShadeV]
         add ebx, eax
-        mov eax, dword [dword_19A5EC]
-        mov dword [dword_19A5E4], ebx
-        mov ebx, dword [dword_19A600]
+        mov eax, dword [ShadeLeftXStep]
+        mov dword [ShadeRowPtr], ebx
+        mov ebx, dword [ShadeLeftRows]
         add ecx, eax
-        mov eax, dword [dword_19A60C]
-        mov dword [dword_19A5E8], ecx
+        mov eax, dword [ShadeLeftShadeStep]
+        mov dword [ShadeLeftX], ecx
         dec ebx
-        mov ecx, dword [dword_19A5F8]
-        mov dword [dword_19A600], ebx
+        mov ecx, dword [ShadeLeftFrac]
+        mov dword [ShadeLeftRows], ebx
         add edi, eax
-        mov eax, dword [dword_19A610]
-        mov dword [dword_19A604], edi
+        mov eax, dword [ShadeLeftShadeVStep]
+        mov dword [ShadeLeftShade], edi
         add edx, eax
-        mov eax, dword [dword_19A5F0]
-        mov edi, dword [dword_19A5F4]
+        mov eax, dword [ShadeLeftFracStep]
+        mov edi, dword [ShadeLeftFracLimit]
         add ecx, eax
-        mov dword [dword_19A608], edx
-        mov dword [dword_19A5F8], ecx
+        mov dword [ShadeLeftShadeV], edx
+        mov dword [ShadeLeftFrac], ecx
         cmp ecx, edi
         jl short .9
-        mov eax, dword [dword_19A5E8]
+        mov eax, dword [ShadeLeftX]
         mov edx, ecx
         inc eax
         sub edx, edi
-        mov dword [dword_19A5E8], eax
-        mov dword [dword_19A5F8], edx
+        mov dword [ShadeLeftX], eax
+        mov dword [ShadeLeftFrac], edx
 .9:
-        mov eax, dword [dword_19A61C]
-        mov ebx, dword [dword_19A618]
-        mov ecx, dword [dword_19A634]
+        mov eax, dword [ShadeRightXStep]
+        mov ebx, dword [ShadeRightX]
+        mov ecx, dword [ShadeRightShade]
         add ebx, eax
-        mov eax, dword [dword_19A63C]
-        mov edi, dword [dword_19A638]
+        mov eax, dword [ShadeRightShadeStep]
+        mov edi, dword [ShadeRightShadeV]
         add ecx, eax
-        mov eax, dword [dword_19A640]
-        mov edx, dword [dword_19A628]
+        mov eax, dword [ShadeRightShadeVStep]
+        mov edx, dword [ShadeRightFrac]
         add edi, eax
-        mov eax, dword [dword_19A630]
-        mov dword [dword_19A618], ebx
+        mov eax, dword [ShadeRightRows]
+        mov dword [ShadeRightX], ebx
         dec eax
-        mov ebx, dword [dword_19A624]
-        mov dword [dword_19A630], eax
-        mov eax, dword [dword_19A620]
-        mov dword [dword_19A634], ecx
+        mov ebx, dword [ShadeRightFracLimit]
+        mov dword [ShadeRightRows], eax
+        mov eax, dword [ShadeRightFracStep]
+        mov dword [ShadeRightShade], ecx
         add edx, eax
-        mov dword [dword_19A638], edi
-        mov dword [dword_19A628], edx
+        mov dword [ShadeRightShadeV], edi
+        mov dword [ShadeRightFrac], edx
         cmp edx, ebx
         jl near .7
-        mov ecx, dword [dword_19A618]
+        mov ecx, dword [ShadeRightX]
         mov edi, edx
         inc ecx
         sub edi, ebx
-        mov dword [dword_19A618], ecx
-        mov dword [dword_19A628], edi
+        mov dword [ShadeRightX], ecx
+        mov dword [ShadeRightFrac], edi
         jmp near .7
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
@@ -1363,7 +1363,7 @@ FillShadedPoly:
         mov eax, dword [byte edx+04h]
         sub eax, dword [byte ebx+04h]
         inc eax
-        mov edi, dword [nosplit eax*4+dword_1986A0]
+        mov edi, dword [nosplit eax*4+ReciprocalTable]
         mov eax, dword [edx]
         sub eax, dword [ebx]
         shl esi, 3
@@ -1380,7 +1380,7 @@ FillShadedPoly:
         sub eax, edx
         inc eax
         mov ecx, dword [ebx]
-        mov edx, dword [nosplit eax*4+dword_1986A0]
+        mov edx, dword [nosplit eax*4+ReciprocalTable]
         mov eax, dword [esi]
         sub eax, ecx
         shl eax, 10h
@@ -1399,7 +1399,7 @@ FillShadedPoly:
         xor esi, esi
         test ebp, ebp
         jle short .15
-        mov edi, unk_1983E0
+        mov edi, ShadeEdgeList
 .14:
         push eax
         push esi
@@ -1426,24 +1426,24 @@ FillShadedPoly:
         sub eax, ebx
         shl eax, 2
         sub eax, ebx
-        lea esi, [nosplit eax*4+unk_1983E0]
+        lea esi, [nosplit eax*4+ShadeEdgeList]
         lea eax, [nosplit edx*4+00h]
         mov ecx, 0Bh
         sub eax, edx
-        mov edi, dword_19A5E8
+        mov edi, ShadeLeftX
         shl eax, 2
         rep movsd
         sub eax, edx
         mov ecx, 0Bh
-        mov edi, dword_19A618
-        lea esi, [nosplit eax*4+unk_1983E0]
+        mov edi, ShadeRightX
+        lea esi, [nosplit eax*4+ShadeEdgeList]
         mov eax, dword [byte esp+01Ch]
         rep movsd
-        mov dword [dword_19A614], eax
+        mov dword [ShadeTexture], eax
         mov eax, dword [byte eax+02h]
         sar eax, 10h
         mov ecx, dword [byte esp+02Ch]
-        mov dword [dword_19A5E0], eax
+        mov dword [ShadeTableWidth], eax
         test ecx, ecx
         jge short .18
         cmp dword [esp], byte 0
@@ -1531,7 +1531,7 @@ InitReciprocalTable:
         mov ebx, 1
         xor edx, edx
         mov ecx, 4
-        mov dword [dword_1986A0], edx
+        mov dword [ReciprocalTable], edx
         mov esi, 10000h
 .1:
         mov edx, esi
@@ -1540,7 +1540,7 @@ InitReciprocalTable:
         idiv ebx
         add ecx, byte 4
         inc ebx
-        mov dword [dword ecx+dword_19869C], eax
+        mov dword [dword ecx+ReciprocalTable-4], eax
         cmp ebx, 7D0h
         jl short .1
         pop esi
@@ -2404,7 +2404,7 @@ DrawTexturedPolyCore:
         push edi
         push ebp
         sub esp, byte 18h
-        mov ebp, dword [dword_19A644]
+        mov ebp, dword [PolyScreenPoints]
         lea esi, [nosplit eax*8+00h]
         lea edi, [esi+ebp]
         lea esi, [nosplit edx*8+00h]
@@ -2413,7 +2413,7 @@ DrawTexturedPolyCore:
         shl eax, 2
         mov dword [byte esp+014h], edi
         sub eax, esi
-        mov edi, dword [dword_19A648]
+        mov edi, dword [PolyProjPoints]
         shl eax, 2
         lea esi, [edi+eax]
         lea eax, [nosplit edx*4+00h]
@@ -2471,7 +2471,7 @@ DrawTexturedPolyCore:
         mov dword [byte edi+04h], 80000000h
         or dword [ProjectFlags], byte 1
 .19:
-        mov eax, dword [dword_19A64C]
+        mov eax, dword [PolyColour]
         push eax
         mov esi, dword [byte ebp+04h]
         push esi
@@ -2592,7 +2592,7 @@ SubdivideMappedTriangle:
         mov edx, dword [ecx]
         mov dword [byte esp+03Ch], edx
         imul edx, byte 0Ch
-        mov esi, dword [dword_19A648]
+        mov esi, dword [PolyProjPoints]
         add edi, esi
         mov ecx, dword [NearPlaneZ]
         add esi, edx
@@ -2640,7 +2640,7 @@ SubdivideMappedTriangle:
         push edi
         call ClipEdgeToPlane
         add esp, byte 10h
-        mov esi, dword [dword_19A644]
+        mov esi, dword [PolyScreenPoints]
         mov edi, dword [byte esp+038h]
         mov eax, dword [byte esp+044h]
         add esi, edi
@@ -2677,7 +2677,7 @@ SubdivideMappedTriangle:
         jmp near .1
 .7:
         mov ebx, dword [byte esp+038h]
-        mov esi, dword [dword_19A644]
+        mov esi, dword [PolyScreenPoints]
         mov edi, ebp
         add esi, ebx
         movsd
@@ -2752,7 +2752,7 @@ DrawMarkingPolys:
         mov eax, dword [ecx]
         mov dword [dword esp+0338h], eax
         imul edi, dword [dword esp+0338h], byte 0Ch
-        mov eax, dword [dword_19A648]
+        mov eax, dword [PolyProjPoints]
         add esi, eax
         mov ecx, dword [NearPlaneZ]
         add eax, edi
@@ -2783,7 +2783,7 @@ DrawMarkingPolys:
         push eax
         push esi
         call ClipEdgeToPlane
-        mov esi, dword [dword_19A644]
+        mov esi, dword [PolyScreenPoints]
         add esi, edi
         mov edi, ebp
         add esp, byte 10h
@@ -2800,7 +2800,7 @@ DrawMarkingPolys:
         add esp, byte 8
         jmp short .4
 .3:
-        mov esi, dword [dword_19A644]
+        mov esi, dword [PolyScreenPoints]
         add esi, edi
         mov edi, ebp
         movsd
@@ -2821,7 +2821,7 @@ DrawMarkingPolys:
         mov edx, dword [dword esp+0334h]
         push edx
         call FillPolygon
-        mov ebx, dword [dword_19A64C]
+        mov ebx, dword [PolyColour]
         add esp, byte 0Ch
         test ebx, ebx
         jle short .7
@@ -2844,7 +2844,7 @@ DrawMarkingPolys:
         mov dword [dword esp+0340h], ecx
         test ebp, ebp
         je short .7
-        mov esi, dword [dword_19A64C]
+        mov esi, dword [PolyColour]
         push esi
         mov edi, dword [esp+ebp]
         push edi
@@ -2868,9 +2868,9 @@ DrawMarkingPolys:
 ; Sets the point arrays and colour DrawMarkingPolys uses
 ;-----------------------------------------------------------------------------
 SetPolyVertexArrays:
-        mov dword [dword_19A648], eax
-        mov dword [dword_19A644], edx
-        mov dword [dword_19A64C], ebx
+        mov dword [PolyProjPoints], eax
+        mov dword [PolyScreenPoints], edx
+        mov dword [PolyColour], ebx
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D79CC progbits alloc exec nowrite align=1
-extern _FtoS_, ColourRemap, dword_1228F0, DrawDestBuffer, dword_1228FC, forcedecpt_, SbIsrPicPort, SbIsrAckPort
+extern _FtoS_, ColourRemap, DrawRowBytes, DrawDestBuffer, DrawVideoBase, forcedecpt_, SbIsrPicPort, SbIsrAckPort
 global _EFG_Format_, SbProIsr, Sb16Isr, BlitBlockRemapKeyed_34, SbIsrAutoInit, BlitBlockRemapKeyed, SbProIsrPicPort, SbProIsrAckPort
 global Sb16IsrPicPort, Sb16IsrAckPort
 ;-----------------------------------------------------------------------------
@@ -114,8 +114,8 @@ BlitBlockRemapKeyed_34:
         add ebx, dword [DrawDestBuffer]
         mov edi, dword [ebx]
         add edi, dword [byte ebp-04h]
-        add edi, dword [dword_1228FC]
-        mov edx, dword [dword_1228F0]
+        add edi, dword [DrawVideoBase]
+        mov edx, dword [DrawRowBytes]
         movsx eax, word [byte esi+04h]
         mov dword [byte ebp-0Ch], eax
         LD sub, edx, eax

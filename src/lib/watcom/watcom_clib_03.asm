@@ -8,10 +8,10 @@ extern InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMi
 extern InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
 extern InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 extern InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
-extern isatty_, SerialPortTable, off_11FD5C, off_11FD60, AllocMemLocked, FreeMemBlock, LoadDataFileExt, DosGetVector
-extern DosSetVector, LoadFileCached, ReadPaletteEntries8, AddExitHandler, DosOpenReadOnly, DosCloseFile, RandSeed, SerialPorts
-extern unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, SerialIrqMask
-extern SerialBaudDivisors, word_120EC0
+extern isatty_, SerialPortTable, AllocMemLocked, FreeMemBlock, LoadDataFileExt, DosGetVector
+extern DosSetVector, LoadFileCached, ReadPaletteEntries8, AddExitHandler, DosOpenReadOnly, DosCloseFile, RandSeed, SerialPortCom1
+extern SerialPortCom2, SerialPortCom3, SerialPortCom4, SerialIrqMask
+extern SerialBaudDivisors, Crc16Table
 global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, LoadResourceData_8, LoadFileDataFlags, SerialCarrier_75, SerialWrite_5
 global SerialReadWait_1A, SerialIsrCom2, SerialIsrCom3, SerialIsrCom4, SerialIsrCom1_85, unk_B15DE_10, med3__4F, lseek_
 global med3_, open_, qsort_, rand_, read_, sopen_, srand_, strlen_
@@ -1789,7 +1789,7 @@ SerialFlushRx:
 ;-----------------------------------------------------------------------------
 SerialIsrCom1:
         push ebx
-        lea ebx, [SerialPorts]
+        lea ebx, [SerialPortCom1]
         jmp short SerialIsrCom4.1
 ;-----------------------------------------------------------------------------
 ; SerialIsrCom2                                   B1546  96 PC, low confidence
@@ -1797,7 +1797,7 @@ SerialIsrCom1:
 ;-----------------------------------------------------------------------------
 SerialIsrCom2:
         push ebx
-        lea ebx, [unk_1201B6]
+        lea ebx, [SerialPortCom2]
         jmp short SerialIsrCom4.1
 ;-----------------------------------------------------------------------------
 ; SerialIsrCom3                                   B154F  96 PC, low confidence
@@ -1805,7 +1805,7 @@ SerialIsrCom2:
 ;-----------------------------------------------------------------------------
 SerialIsrCom3:
         push ebx
-        lea ebx, [unk_120602]
+        lea ebx, [SerialPortCom3]
         jmp short SerialIsrCom4.1
 ;-----------------------------------------------------------------------------
 ; SerialIsrCom4                                   B1558  96 PC, low confidence
@@ -1813,7 +1813,7 @@ SerialIsrCom3:
 ;-----------------------------------------------------------------------------
 SerialIsrCom4:
         push ebx
-        lea ebx, [unk_120A4E]
+        lea ebx, [SerialPortCom4]
 .1:
         push eax
         push ecx
@@ -1836,17 +1836,17 @@ SerialIsrCom4:
         db 01Fh,05Fh,05Eh,05Ah,059h,058h,03Bh,01Dh
         dd SerialPortTable
         db 075h,08h,05Bh,0EAh
-        dd unk_11FD74 wrt ..gotoff
+        dd SerialPortCom1+0Ah wrt ..gotoff
         db 00h,00h,03Bh,01Dh
-        dd off_11FD5C
+        dd SerialPortTable+4
         db 075h,08h,05Bh,0EAh
-        dd unk_1201C0 wrt ..gotoff
+        dd SerialPortCom2+0Ah wrt ..gotoff
         db 00h,00h,03Bh,01Dh
-        dd off_11FD60
+        dd SerialPortTable+8
         db 075h,08h,05Bh,0EAh
-        dd unk_12060C wrt ..gotoff
+        dd SerialPortCom3+0Ah wrt ..gotoff
         db 00h,00h,05Bh,0EAh
-        dd unk_120A58 wrt ..gotoff
+        dd SerialPortCom4+0Ah wrt ..gotoff
         db 00h,00h
 ;-----------------------------------------------------------------------------
 ; SerialIsrCom1_85                                                     B15C2  
@@ -2215,7 +2215,7 @@ LinkCrc16:
         mov bl, dl
         mov cl, byte [eax]
         xor ebx, ecx
-        mov bx, word [nosplit ebx*2+word_120EC0]
+        mov bx, word [nosplit ebx*2+Crc16Table]
         and ebx, 0FFFFh
         shr edx, 8
         inc eax

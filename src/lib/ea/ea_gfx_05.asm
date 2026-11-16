@@ -4,7 +4,7 @@ bits 32
 section s_BA3D0 progbits alloc exec nowrite align=1
 extern FatalError, str_ORIINST, str_INVMATRX, str_Ori, str_OriloadCouldNotLoadORIGA, ViewScreenWidth, ViewScreenHeight, NearClipZ
 extern SubdivTable, SubdivMinDepth, SubdivMaxSize, QuadDepthLimit, SinTable, NearPlaneZ, ScreenWidth, DrawClipLeft
-extern DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_1228FC, ViewCentreX, ViewCentreY, ProjectFlags
+extern DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, DrawVideoBase, ViewCentreX, ViewCentreY, ProjectFlags
 extern SortBuffer, AtanTable, str_Punct_AngleOfVector, LineClipRight, LineClipBottom, LineClipTop, LineClipLeft, PerspQuadState
 extern SubdivDepth
 extern SubdivLimit, ModelPolyColour, ModelPolyFlags, ModelPolyFirst, ModelPolyCount, ModelPolyClip, ModelPolyShade, RinkViewChanged
@@ -621,7 +621,7 @@ FillPolyIndexed:
         mov edx, dword [byte esp+020h]
         mov eax, dword [DrawDestBuffer]
         add edx, eax
-        mov eax, dword [dword_1228FC]
+        mov eax, dword [DrawVideoBase]
         mov ecx, dword [edx]
         sar ebp, 10h
         add eax, ecx

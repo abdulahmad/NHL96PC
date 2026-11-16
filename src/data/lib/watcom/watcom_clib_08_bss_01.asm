@@ -5,9 +5,9 @@ section s_19B760 nobits alloc noexec write align=1
 global __HeapFlags, __nheap_clean, SndChannelType, SndChannelBendRange, SndChannelActive, SndChannelSfx, SndChannelVolume, SndChannelGain
 global SndChannelPan, CrowdLayerData, CrowdLayerChannel, CrowdLayerCurVolume, CrowdLayerCurBend, CrowdLayerThreshold, CrowdLayerMinVolume, CrowdLayerMaxVolume
 global CrowdEvents, CrowdEventRaise, CrowdEventCap, CrowdEventCurve, CrowdEventSfx, CrowdRampRate, __OpenStreams, __ClosedStreams
-global AtexitTable, SpeechBankCount, MemLockState, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, dword_1A0B1C, SndChannelRate
-global SfxTable, SfxTableNext, unk_19BA34, errno, unk_19BAD0, SndChannels, SbBasePort, SbMixerAddrPort
-global word_1A0FA4, SbMixerDataPort, SbResetPort, SbReadPort, SbWritePort
+global AtexitTable, SpeechBankCount, MemLockState, BigEntryNamePtr, BigEntryLength, ScaledRowBuffer, ScreenSaveBitmap, SndChannelRate
+global SfxTable, SfxTableNext, _doserrno, errno, DefaultRowTable, SndChannels, SbBasePort, SbMixerAddrPort
+global SbMixerIndexPort, SbMixerDataPort, SbResetPort, SbReadPort, SbWritePort
 CrowdLayerData:
         resb 16
 CrowdLayerChannel:
@@ -34,7 +34,7 @@ CrowdEventSfx:
         resb 304
 CrowdRampRate:
         resb 4
-unk_19BA34:
+_doserrno:
         resb 4
 errno:
         resb 4
@@ -52,15 +52,15 @@ SpeechBankCount:
         resb 4
 MemLockState:
         resb 4
-unk_19BAD0:
+DefaultRowTable:
         resb 14336
-dword_19F2D0:
+BigEntryNamePtr:
         resb 4
-dword_19F2D4:
+BigEntryLength:
         resb 4
 ScaledRowBuffer:
         resb 6212
-dword_1A0B1C:
+ScreenSaveBitmap:
         resb 4
 SndChannels:
         resb 11
@@ -88,7 +88,7 @@ SbBasePort:
         resb 2
 SbMixerAddrPort:
         resb 2
-word_1A0FA4:
+SbMixerIndexPort:
         resb 2
 SbMixerDataPort:
         resb 2

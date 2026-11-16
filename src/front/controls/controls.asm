@@ -17,7 +17,7 @@ extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mous
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
 extern strcat_, strcpy_, CameraFacing, InitMouse, KeyIsDown, KbdGetKey, CalibrateJoystick, JoyResetCentres
 extern AddExitHandler, KeyBindings, KeyBindingsAlt, GripSlotNames, GripSlotTypes, GripFarCall, InputDevicesFound, InputDevicesReady
-extern MouseReady, GripBufferSide, SlotsTwoPlayer, ControllerScreenMode, JoyAxisValues, JoyReadX, JoyReadY, word_11F91C
+extern MouseReady, GripBufferSide, SlotsTwoPlayer, ControllerScreenMode, JoyRawX1, JoyRawY1, JoyRawX2, JoyRawY2
 extern SlotDevice, GripAxisMin, GripAxisMax, Joy1MaxY, Joy1Present, Joy1CentreY
 extern Joy1Buttons, Joy2MaxY, Joy2Present, Joy2CentreY, Joy2Buttons, Joy1RepeatState, Joy2RepeatState, GripSlotIds
 extern GripLinkStatus, GripDriverSeg, GripLibSeg, GripDataSeg, GripResult, GripAxesRaw
@@ -2114,9 +2114,9 @@ ReadAnalogJoysticks:
         add esp, byte 4
         test byte [JoyPortMask], 3
         je short .5
-        cmp dword [JoyAxisValues], byte 0
+        cmp dword [JoyRawX1], byte 0
         jne short .4
-        cmp dword [JoyReadX], byte 0
+        cmp dword [JoyRawY1], byte 0
         je short .5
 .4:
         jmp short .6
@@ -2130,9 +2130,9 @@ ReadAnalogJoysticks:
 .8:
         test byte [JoyPortMask], 0Ch
         je short .10
-        cmp dword [JoyReadY], byte 0
+        cmp dword [JoyRawX2], byte 0
         jne short .9
-        cmp dword [word_11F91C], byte 0
+        cmp dword [JoyRawY2], byte 0
         je short .10
 .9:
         jmp short .11
@@ -2149,67 +2149,67 @@ ReadAnalogJoysticks:
 .14:
         cmp dword [Joy1NeedsCalib], byte 0
         je short .15
-        mov ax, word [JoyAxisValues]
+        mov ax, word [JoyRawX1]
         mov word [Joy1MinX], ax
-        mov ax, word [JoyReadX]
+        mov ax, word [JoyRawY1]
         mov word [Joy1MinY], ax
-        mov ax, word [JoyAxisValues]
+        mov ax, word [JoyRawX1]
         mov word [Joy1MaxX], ax
-        mov ax, word [JoyReadX]
+        mov ax, word [JoyRawY1]
         mov word [Joy1MaxY], ax
-        mov ax, word [JoyAxisValues]
+        mov ax, word [JoyRawX1]
         mov word [Joy1CentreX], ax
-        mov ax, word [JoyReadX]
+        mov ax, word [JoyRawY1]
         mov word [Joy1CentreY], ax
         mov dword [Joy1NeedsCalib], 0
 .15:
         cmp dword [Joy2NeedsCalib], byte 0
         je short .16
-        mov ax, word [JoyReadY]
+        mov ax, word [JoyRawX2]
         mov word [Joy2MinX], ax
-        mov ax, word [word_11F91C]
+        mov ax, word [JoyRawY2]
         mov word [Joy2MinY], ax
-        mov ax, word [JoyReadY]
+        mov ax, word [JoyRawX2]
         mov word [Joy2MaxX], ax
-        mov ax, word [word_11F91C]
+        mov ax, word [JoyRawY2]
         mov word [Joy2MaxY], ax
-        mov ax, word [JoyReadY]
+        mov ax, word [JoyRawX2]
         mov word [Joy2CentreX], ax
-        mov ax, word [word_11F91C]
+        mov ax, word [JoyRawY2]
         mov word [Joy2CentreY], ax
         mov dword [Joy2NeedsCalib], 0
 .16:
         mov eax, dword [Joy1MinX-2]
         sar eax, 10h
-        cmp eax, dword [JoyAxisValues]
+        cmp eax, dword [JoyRawX1]
         jle short .17
-        mov ax, word [JoyAxisValues]
+        mov ax, word [JoyRawX1]
         mov word [Joy1MinX], ax
 .17:
         mov eax, dword [Joy1MinY]
         sar eax, 10h
-        cmp eax, dword [JoyAxisValues]
+        cmp eax, dword [JoyRawX1]
         jge short .18
-        mov ax, word [JoyAxisValues]
+        mov ax, word [JoyRawX1]
         mov word [Joy1MaxX], ax
 .18:
         mov eax, dword [Joy1MinX]
         sar eax, 10h
-        cmp eax, dword [JoyReadX]
+        cmp eax, dword [JoyRawY1]
         jle short .19
-        mov ax, word [JoyReadX]
+        mov ax, word [JoyRawY1]
         mov word [Joy1MinY], ax
 .19:
         mov eax, dword [Joy1MaxX]
         sar eax, 10h
-        cmp eax, dword [JoyReadX]
+        cmp eax, dword [JoyRawY1]
         jge short .20
-        mov ax, word [JoyReadX]
+        mov ax, word [JoyRawY1]
         mov word [Joy1MaxY], ax
 .20:
-        mov ax, word [JoyAxisValues]
+        mov ax, word [JoyRawX1]
         mov word [Joy1X], ax
-        mov ax, word [JoyReadX]
+        mov ax, word [JoyRawY1]
         mov word [Joy1Y], ax
         mov eax, dword [byte ebp-04h]
         or eax, 0FFFFFFFCh
@@ -2217,35 +2217,35 @@ ReadAnalogJoysticks:
         not word [Joy1Buttons]
         mov eax, dword [Joy2MinX-2]
         sar eax, 10h
-        cmp eax, dword [JoyReadY]
+        cmp eax, dword [JoyRawX2]
         jle short .21
-        mov ax, word [JoyReadY]
+        mov ax, word [JoyRawX2]
         mov word [Joy2MinX], ax
 .21:
         mov eax, dword [Joy2MinY]
         sar eax, 10h
-        cmp eax, dword [JoyReadY]
+        cmp eax, dword [JoyRawX2]
         jge short .22
-        mov ax, word [JoyReadY]
+        mov ax, word [JoyRawX2]
         mov word [Joy2MaxX], ax
 .22:
         mov eax, dword [Joy2MinX]
         sar eax, 10h
-        cmp eax, dword [word_11F91C]
+        cmp eax, dword [JoyRawY2]
         jle short .23
-        mov ax, word [word_11F91C]
+        mov ax, word [JoyRawY2]
         mov word [Joy2MinY], ax
 .23:
         mov eax, dword [Joy2MaxX]
         sar eax, 10h
-        cmp eax, dword [word_11F91C]
+        cmp eax, dword [JoyRawY2]
         jge short .24
-        mov ax, word [word_11F91C]
+        mov ax, word [JoyRawY2]
         mov word [Joy2MaxY], ax
 .24:
-        mov ax, word [JoyReadY]
+        mov ax, word [JoyRawX2]
         mov word [Joy2X], ax
-        mov ax, word [word_11F91C]
+        mov ax, word [JoyRawY2]
         mov word [Joy2Y], ax
         mov eax, dword [byte ebp-04h]
         sar eax, 2

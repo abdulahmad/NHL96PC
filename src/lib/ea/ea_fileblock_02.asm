@@ -5,7 +5,7 @@ section s_B22E0 progbits alloc exec nowrite align=1
 extern FatalError, str_SavefileblockaOPENFAILEDFOR, TextFirstChar, TextLastChar, TextCharW, TextCharH, TextSpacing, TextColour
 extern TextOriginX, TextOriginY, TextShadowOn, TextFontTag, TextWidthTable, TextCursorX, TextCursorY, TextLeft
 extern TextTop, TextRight, TextBottom, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
-extern dword_1228E8, KeyedDraw, DrawDestBuffer, dword_1228FC, TextColumnTable, TextFont, MemDescPtr, MemDescSize
+extern DrawBitsPerPixel, KeyedDraw, DrawDestBuffer, DrawVideoBase, TextColumnTable, TextFont, MemDescPtr, MemDescSize
 extern SetTextOrigin, ArtBitDepth, PixelToRgb, DrawEllipseClipped, PutPixel, BlitFontNibbles, CreateHandle, DosCloseFile
 extern DosWriteFile
 global SaveDataFile, savefileblocka, TextPrint, TextPrintAt
@@ -501,7 +501,7 @@ TextPrint:
         je near .34
         cmp dword [KeyedDraw], byte 0
         jne near .34
-        cmp dword [dword_1228E8], byte 8
+        cmp dword [DrawBitsPerPixel], byte 8
         jne near .34
         mov eax, dword [byte esp+044h]
         cmp eax, dword [DrawClipLeft]
@@ -538,7 +538,7 @@ TextPrint:
         push edi
         push eax
         mov eax, dword [DrawDestBuffer]
-        mov edx, dword [dword_1228FC]
+        mov edx, dword [DrawVideoBase]
         mov ecx, dword [eax+esi*4]
         mov esi, dword [byte esp+054h]
         add edx, ecx

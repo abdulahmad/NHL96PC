@@ -8,10 +8,10 @@ extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, str_BelowToAl
 extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, str_LocatebigFILEISNOTAUNITFILE, str_LocatebigsFILENOTFOUNDS, str_OriinitmorphObjectCannotMorp, str_OriapplymorphObjectCannotMor, str_OriapplymorphObjectCanno, RemapTable
 extern _Extender, _ExtenderSubtype, _osmajor, __HeapFlags, GraphicsReady, MousePresent, ViewScreenWidth, ViewScreenHeight
 extern MenuScreenBitmap, HeapList, MemPoolBase, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw
-extern DrawDestBuffer, dword_1228FC, DosErrnoTable, __NHandles, __io_mode, dword_12417C, str_G_JoystickCalibrateScreen, CMainEnv
-extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
-extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, off_14F074
-extern off_14F078, sprintf_, stricmp_, BlitToScreenWindow, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
+extern DrawDestBuffer, DrawVideoBase, DosErrnoTable, __NHandles, __io_mode, JoyCalibArrowX, JoyCalibArrowY, CMainEnv
+extern CMainResult, SavedTextScreen, SystemNeedsInit, BigEntryNamePtr, BigEntryLength, ScaledRowBuffer, CMainArgc, CMainArgv
+extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, ModalBeginHook
+extern ModalEndHook, sprintf_, stricmp_, BlitToScreenWindow, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
 extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaqueAtOwnPos, InitMemoryPoolDefault, NumLockOff, NearestColour
 extern FileSizeByName, AddVec3, OriScaleVector, InitReciprocalTable, BuildPerspTable, initgraphics, ShowMessageBox, ArtBitDepth
 extern PixelToRgb, InitFpuFlags, DrawTextCentredBoxed, CMainHook, __CommonInit_, SaveTextScreen, RestoreTextScreen, InitPointer
@@ -640,7 +640,7 @@ JoystickCalibrateScreen:
         push ebp
         sub esp, 0A0h
         mov dword [joycalactive], 1
-        call dword [off_14F074]
+        call dword [ModalBeginHook]
         call MemLargestFreeLocked
         sar eax, 4
         cmp eax, 0FA0h
@@ -1001,7 +1001,7 @@ JoystickCalibrateScreen:
         sar edx, 1Fh
         idiv ebx
         mov ecx, dword [ViewScreenHeight]
-        mov edx, dword [dword esi+str_G_JoystickCalibrateScreen]
+        mov edx, dword [dword esi+JoyCalibArrowY]
         imul edx, ecx
         mov ebx, 0C8h
         push eax
@@ -1009,7 +1009,7 @@ JoystickCalibrateScreen:
         sar edx, 1Fh
         idiv ebx
         push eax
-        mov edx, dword [dword esi+dword_12417C]
+        mov edx, dword [dword esi+JoyCalibArrowX]
         imul edx, dword [ViewScreenWidth]
         mov ebx, 140h
         mov eax, edx
@@ -1038,7 +1038,7 @@ JoystickCalibrateScreen:
         sar edx, 1Fh
         idiv ebx
         mov ecx, dword [ViewScreenHeight]
-        mov edx, dword [nosplit edi*4+str_G_JoystickCalibrateScreen]
+        mov edx, dword [nosplit edi*4+JoyCalibArrowY]
         imul edx, ecx
         mov ebx, 0C8h
         push eax
@@ -1046,7 +1046,7 @@ JoystickCalibrateScreen:
         sar edx, 1Fh
         idiv ebx
         mov esi, dword [ViewScreenWidth]
-        mov edx, dword [nosplit edi*4+dword_12417C]
+        mov edx, dword [nosplit edi*4+JoyCalibArrowX]
         imul edx, esi
         mov ebx, 140h
         push eax
@@ -1081,7 +1081,7 @@ JoystickCalibrateScreen:
 .5:
         call FlushKeys
         xor edi, edi
-        call dword [off_14F078]
+        call dword [ModalEndHook]
         mov dword [joycalactive], edi
         add esp, 0A0h
         pop ebp
@@ -1247,13 +1247,13 @@ ShutdownSystem:
         push ecx
         push edx
         call RestoreTextMode
-        mov edx, dword [dword_12443C]
+        mov edx, dword [SavedTextScreen]
         test edx, edx
         je short .1
         mov eax, edx
         xor ebx, ebx
         call RestoreTextScreen
-        mov dword [dword_12443C], ebx
+        mov dword [SavedTextScreen], ebx
 .1:
         pop edx
         pop ecx
@@ -1322,7 +1322,7 @@ InitSystem:
         push esi
         push edi
         push ebp
-        cmp dword [dword_124440], byte 0
+        cmp dword [SystemNeedsInit], byte 0
         je short .4
         push byte 1
         call InitSystem
@@ -1339,7 +1339,7 @@ InitSystem:
         call SaveTextScreen
         db 068h                                 ; insn: push 0B5AF0h
         dd ShutdownSystem
-        mov dword [dword_12443C], eax
+        mov dword [SavedTextScreen], eax
         call AddExitHandler
         add esp, byte 4
         mov esi, dword [MenuScreenBitmap]
@@ -1911,7 +1911,7 @@ LocateBigEntry:
         neg ecx
         lea ecx, [nosplit ecx*8+020h]
         shr eax, cl
-        mov dword [dword_19F2D4], eax
+        mov dword [BigEntryLength], eax
         mov eax, esi
         pop ebp
         pop edi
@@ -1930,7 +1930,7 @@ LocateBigEntry:
         jb short .2
         xor edx, edx
         xor eax, eax
-        mov dword [dword_19F2D4], edx
+        mov dword [BigEntryLength], edx
         pop ebp
         pop edi
         pop esi
@@ -1969,7 +1969,7 @@ LocateBigEntry:
         neg ecx
         lea ecx, [nosplit ecx*8+020h]
         shr eax, cl
-        mov dword [dword_19F2D4], eax
+        mov dword [BigEntryLength], eax
         mov eax, esi
         pop ebp
         pop edi
@@ -1989,7 +1989,7 @@ LocateBigEntry:
 .7:
         xor edx, edx
         xor eax, eax
-        mov dword [dword_19F2D4], edx
+        mov dword [BigEntryLength], edx
         pop ebp
         pop edi
         pop esi
@@ -2232,7 +2232,7 @@ WalkBigFile:
         jne short .3
         mov ecx, 3
         mov eax, edx
-        mov dword [dword_19F2D0], edi
+        mov dword [BigEntryNamePtr], edi
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -2246,7 +2246,7 @@ WalkBigFile:
         neg ecx
         lea ecx, [nosplit ecx*8+020h]
         shr eax, cl
-        mov dword [dword_19F2D4], eax
+        mov dword [BigEntryLength], eax
         mov eax, dword [byte esp+010h]
         add eax, ebx
         pop ebp
@@ -2267,7 +2267,7 @@ WalkBigFile:
         jb short .2
         xor edx, edx
         xor eax, eax
-        mov dword [dword_19F2D4], edx
+        mov dword [BigEntryLength], edx
         pop ebp
         pop edi
         pop esi
@@ -2293,7 +2293,7 @@ WalkBigFile:
         jne short .6
         mov ecx, 4
         mov eax, edx
-        mov dword [dword_19F2D0], edi
+        mov dword [BigEntryNamePtr], edi
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -2307,7 +2307,7 @@ WalkBigFile:
         neg ecx
         lea ecx, [nosplit ecx*8+020h]
         shr eax, cl
-        mov dword [dword_19F2D4], eax
+        mov dword [BigEntryLength], eax
         mov eax, dword [byte esp+010h]
         add eax, ebx
         pop ebp
@@ -2329,7 +2329,7 @@ WalkBigFile:
 .7:
         xor edx, edx
         xor eax, eax
-        mov dword [dword_19F2D4], edx
+        mov dword [BigEntryLength], edx
         pop ebp
         pop edi
         pop esi
@@ -2347,7 +2347,7 @@ WalkBigFile:
         add esp, byte 8
         test eax, eax
         je short .10
-        mov esi, dword [dword_19F2D0]
+        mov esi, dword [BigEntryNamePtr]
         mov edi, ebp
         push edi
 .8:
@@ -5430,7 +5430,7 @@ DrawClippedPoly:
         inc edx
         sub ebx, edx
 .16:
-        mov ebp, dword [dword_1228FC]
+        mov ebp, dword [DrawVideoBase]
         mov edx, dword [DrawDestBuffer]
         add ebp, dword [edx+esi]
         mov edx, ebp
@@ -5948,7 +5948,7 @@ DrawMappedPolyClipped:
         inc edx
         sub ebx, edx
 .16:
-        mov ebp, dword [dword_1228FC]
+        mov ebp, dword [DrawVideoBase]
         mov edx, dword [DrawDestBuffer]
         add ebp, dword [edx+esi]
         mov edx, ebp
@@ -7450,7 +7450,7 @@ RemapSpanList:
         mov dword [byte esp+018h], esi
         test edi, edi
         jle near .12
-        mov eax, dword [dword_1228FC]
+        mov eax, dword [DrawVideoBase]
         mov dword [esp], eax
         mov eax, dword [DrawDestBuffer]
         mov edx, dword [eax+ebp]

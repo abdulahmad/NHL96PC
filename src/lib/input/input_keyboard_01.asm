@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_DFC33 progbits alloc exec nowrite align=1
-extern byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, KeyboardHooked
-extern KeyAscii, KeyAsciiShift, KeyAsciiNum, KeyAsciiCtrl, KeyAsciiAlt, NearClipZ, dword_11F61C, KeyBuffer
+extern KbdCapsLock, KeyStateTable, KeyboardHooked
+extern KeyAscii, KeyAsciiShift, KeyAsciiNum, KeyAsciiCtrl, KeyAsciiAlt, NearClipZ, DebugKeysEnabled, KeyBuffer
 extern KeyBufferHead, KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, bailout_vec, BiosKeyFunc
 extern RestoreDS, PrintScreenInt, DosSetVector, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall, unk_DFDDD
@@ -71,16 +71,16 @@ RemoveKeyboardHandler_6F:
         db 083h,0FBh,03Ah                       ; insn: cmp ebx,3Ah
         db 074h, .6-($+2)
         db 0F6h,05h                             ; insn: test byte [0F6A8h],1
-        dd KbdNumLock
+        dd KeyStateTable+38h
         db 01h
         jne near .10
-        test byte [byte_11F68D], 1
+        test byte [KeyStateTable+1Dh], 1
         jne near .9
-        test byte [KbdCtrlDown], 1
+        test byte [KeyStateTable+2Ah], 1
         jne short .8
-        test byte [KbdAltDown], 1
+        test byte [KeyStateTable+36h], 1
         jne short .8
-        test byte [byte_11F668], 1
+        test byte [KbdCapsLock], 1
         jne near .12
         mov al, byte [dword ebx+KeyAscii]
 .3:
@@ -100,10 +100,10 @@ RemoveKeyboardHandler_6F:
         pop eax
         iret
 .6:
-        xor dword [byte_11F668], byte 1
+        xor dword [KbdCapsLock], byte 1
         mov al, 0EDh
         out 60h, al
-        mov al, byte [byte_11F668]
+        mov al, byte [KbdCapsLock]
         shl al, 2
         out 60h, al
         jmp short .5
@@ -118,7 +118,7 @@ RemoveKeyboardHandler_6F:
         mov al, byte [dword ebx+KeyAsciiShift]
         cmp ebx, byte 37h
         jne short .3
-        cmp dword [dword_11F61C], byte 0
+        cmp dword [DebugKeysEnabled], byte 0
         je short .3
         mov byte [dword ebx+KeyStateTable], 0
         call PrintScreenInt
@@ -129,7 +129,7 @@ RemoveKeyboardHandler_6F:
         jne short .3
         jmp short .14
 .10:
-        test byte [byte_11F68D], 1
+        test byte [KeyStateTable+1Dh], 1
         jne short .13
 .11:
         mov al, byte [dword ebx+KeyAsciiAlt]
@@ -138,10 +138,10 @@ RemoveKeyboardHandler_6F:
         mov al, byte [dword ebx+KeyAsciiNum]
         jmp near .3
 .13:
-        test byte [KbdScrollLock], 1
+        test byte [KeyStateTable+53h], 1
         je short .11
 .14:
-        cmp dword [dword_11F61C], byte 0
+        cmp dword [DebugKeysEnabled], byte 0
         je near .3
         call dword [bailout_vec]
 unk_DFDDD:
@@ -238,8 +238,8 @@ Int16Service:
         ret
 .4:
         LD xor, eax, eax
-        mov al, byte [KbdCtrlDown]
-        or al, byte [KbdAltDown]
+        mov al, byte [KeyStateTable+2Ah]
+        or al, byte [KeyStateTable+36h]
         and al, 1
         LD or, eax, eax
         ret

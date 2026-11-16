@@ -3,10 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_11F5DC progbits alloc noexec write align=1
 extern ReturnZero, BiosKeyCall
-global byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, CpuIs386
-global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, NearClipZ, dword_11F61C, KeyBuffer, KeyBufferHead
-global KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, mousepollfn, off_11F5F4, off_11F5F8
-global off_11F5FC, BiosKeyFunc, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
+global KbdCapsLock, KeyStateTable, CpuIs386
+global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, NearClipZ, DebugKeysEnabled, KeyBuffer, KeyBufferHead
+global KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, mousepollfn, HidePointerKeepHook, HidePointerHook
+global ShowPointerHook, BiosKeyFunc, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 CpuIs386:
         db 00h,00h,00h,00h
 CpuIs486:
@@ -19,11 +19,11 @@ CpuFeatures:
         db 00h,00h,00h,00h
 NearClipZ:
         db 0Ah,00h,00h,00h
-off_11F5F4:
+HidePointerKeepHook:
         dd ReturnZero
-off_11F5F8:
+HidePointerHook:
         dd ReturnZero
-off_11F5FC:
+ShowPointerHook:
         dd ReturnZero
 mousepollfn:
         dd ReturnZero
@@ -34,7 +34,7 @@ mousepollfn:
         dd ReturnZero
 BiosKeyFunc:
         dd BiosKeyCall
-dword_11F61C:
+DebugKeysEnabled:
         db 01h,00h,00h,00h
 KeyBuffer:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -45,23 +45,18 @@ KeyBufferHead:
         db 00h,00h,00h,00h
 KeyBufferTail:
         db 00h,00h,00h,00h
-byte_11F668:
+KbdCapsLock:
         db 00h,00h,00h,00h
 KeyBufferMask:
         db 01h,00h,00h,00h
 KeyStateTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-byte_11F68D:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-KbdCtrlDown:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-KbdAltDown:
         db 00h,00h
-KbdNumLock:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-KbdScrollLock:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

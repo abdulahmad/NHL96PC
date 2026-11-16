@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_BF070 progbits alloc exec nowrite align=1
-extern FatalError, str_VESAMEM, str_GetvesainfoINVALIDDOSSEGMENT, str_VESA, str_GetvesainfoINVALIDVESAINFOVE, ScreenWidth, KeyedDraw, dword_1228FC
-extern dword_122930, VesaModeInfo, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
-extern AllocMemBlock, FreeMemBlock, VesaSetBank, BlitShapeFast, FindShape, FindShapeQuiet, bcopy, word_19B676
+extern FatalError, str_VESAMEM, str_GetvesainfoINVALIDDOSSEGMENT, str_VESA, str_GetvesainfoINVALIDVESAINFOVE, ScreenWidth, KeyedDraw, DrawVideoBase
+extern ScreenRowTable, VesaModeInfo, VesaRealModeRegs, int386x_, segread_, strncmp_
+extern AllocMemBlock, FreeMemBlock, VesaSetBank, BlitShapeFast, FindShape, FindShapeQuiet, bcopy
 global __STOSB, __STOSD, DrawArtFast, FindShapeListQuiet, FindShapeList, VesaGetInfo, VesaGetModeInfo
 ;-----------------------------------------------------------------------------
 ; __STOSB                                                       BF070  library
@@ -127,9 +127,9 @@ DrawArtFast:
         mov eax, dword [byte eax+02h]
         sar ebp, 10h
         sar eax, 10h
-        mov ecx, dword [nosplit edi*4+dword_122930]
+        mov ecx, dword [nosplit edi*4+ScreenRowTable]
         mov dword [byte esp+0Ch], eax
-        mov eax, dword [dword_1228FC]
+        mov eax, dword [DrawVideoBase]
         mov edi, dword [byte esp+0Ch]
         mov dword [byte esp+04h], eax
         mov eax, dword [ScreenWidth]
@@ -329,21 +329,21 @@ VesaGetInfo:
         add esp, byte 8
 .2:
         mov ecx, 32h
-        mov edi, dword_19B654
+        mov edi, VesaRealModeRegs
         mov ebx, 4F00h
         xor eax, eax
         mov edx, 300h
         rep stosb
         lea eax, [byte esp+038h]
-        mov dword [dword_19B670], ebx
-        mov word [word_19B676], si
+        mov dword [VesaRealModeRegs+1Ch], ebx
+        mov word [VesaRealModeRegs+22h], si
         mov edi, ebp
         xor ecx, ecx
         mov ebx, 10h
-        mov esi, dword_19B654
-        mov dword [dword_19B654], ecx
+        mov esi, VesaRealModeRegs
+        mov dword [VesaRealModeRegs], ecx
         call segread_
-        mov eax, dword_19B654
+        mov eax, VesaRealModeRegs
         mov word [byte esp+01Ch], dx
         mov word [byte esp+020h], bx
         xor ecx, ecx
@@ -369,7 +369,7 @@ VesaGetInfo:
         call FatalError
         add esp, byte 4
 .3:
-        mov eax, dword [dword_19B670]
+        mov eax, dword [VesaRealModeRegs+1Ch]
         and eax, 0FFFFh
         cmp eax, byte 4Fh
         jne short .4
@@ -406,7 +406,7 @@ VesaGetModeInfo:
         push dword 400h
         xor edx, edx
         push str_VESAMEM
-        mov edi, dword_19B654
+        mov edi, VesaRealModeRegs
         mov dword [byte esp+050h], edx
         call AllocMemBlock
         mov ecx, 32h
@@ -418,17 +418,17 @@ VesaGetModeInfo:
         shr edx, 4
         rep stosb
         lea eax, [byte esp+038h]
-        mov dword [dword_19B670], ebx
-        mov dword [dword_19B66C], esi
-        mov word [word_19B676], dx
+        mov dword [VesaRealModeRegs+1Ch], ebx
+        mov dword [VesaRealModeRegs+18h], esi
+        mov word [VesaRealModeRegs+22h], dx
         mov edi, ebp
         xor ecx, ecx
         mov edx, 300h
         mov ebx, 10h
-        mov esi, dword_19B654
-        mov dword [dword_19B654], ecx
+        mov esi, VesaRealModeRegs
+        mov dword [VesaRealModeRegs], ecx
         call segread_
-        mov eax, dword_19B654
+        mov eax, VesaRealModeRegs
         mov word [esp], dx
         mov word [byte esp+04h], bx
         xor ecx, ecx
@@ -444,7 +444,7 @@ VesaGetModeInfo:
         mov ecx, 100h
         mov esi, dword [VesaModeInfo]
         rep movsb
-        mov eax, dword [dword_19B670]
+        mov eax, dword [VesaRealModeRegs+1Ch]
         and eax, 0FFFFh
         cmp eax, byte 4Fh
         jne short .1

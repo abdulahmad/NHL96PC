@@ -12,11 +12,11 @@ global HeapRover, HeapLargestFree, JoyTimeX, TimerCalibration, JoyTimeY, JoyTime
 global JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P, JoyX1Min
 global JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen, JoyY1Center
 global JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, bailout_vec, TimerTickStep
-global FileCacheList, dword_11F9B8, RowTable, FreeSpaceList, MemLockOn, DebugMode, dword_11F9D0, DebugLineWidth
+global FileCacheList, RowTableCount, RowTable, FreeSpaceList, MemLockOn, DebugMode, DebugScreenBase, DebugLineWidth
 global DebugLogOn, TextColour, TextBgColour, TextOriginX, TextOriginY, TextShadowOn, TextFontTag, TextWidthTable
 global TextCursorX, TextCursorY, TextLeft, TextTop, TextRight, TextBottom, TextColourTable, joycalactive
-global TextFont, oldint8off, oldint8sel, tickcount, tickdeadline, JoyAxisValues, JoyReadX, JoyReadY
-global word_11F91C
+global TextFont, oldint8off, oldint8sel, tickcount, tickdeadline, JoyRawX1, JoyRawY1, JoyRawX2
+global JoyRawY2
 tickdeadline:
         db 00h,00h,00h,00h
 LastTickCount:
@@ -43,13 +43,13 @@ JoyCalibrateTicks:
         db 00h,00h,00h,00h
 JoyCalibrating:
         db 00h,00h,00h,00h
-JoyAxisValues:
+JoyRawX1:
         db 00h,00h,00h,00h
-JoyReadX:
+JoyRawY1:
         db 00h,00h,00h,00h
-JoyReadY:
+JoyRawX2:
         db 00h,00h,00h,00h
-word_11F91C:
+JoyRawY2:
         db 00h,00h,00h,00h
 JoyButtonBits:
         db 00h,00h,00h,00h
@@ -123,7 +123,7 @@ oldint8sel:
         db 00h,00h,00h,00h
 FileCacheList:
         dd memlist1
-dword_11F9B8:
+RowTableCount:
         db 00h,0Eh,00h,00h
 RowTable:
         db 00h,00h,00h,00h
@@ -133,7 +133,7 @@ MemLockOn:
         db 00h,00h,00h,00h
 DebugMode:
         db 02h,00h,00h,00h,00h,00h,00h,00h
-dword_11F9D0:
+DebugScreenBase:
         db 00h,00h,0Bh,00h
 DebugLineWidth:
         db 080h,07h,00h,00h

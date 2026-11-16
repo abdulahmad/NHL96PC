@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C39C2 progbits alloc exec nowrite align=1
-extern _Extender, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228F0, DrawDestBuffer, dword_1228FC
+extern _Extender, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawRowBytes, DrawDestBuffer, DrawVideoBase
 extern MemLockState
 global _dos_getvect_, _dos_setvect_, DrawShapeOpaque_34, DrawShapeOpaque, ResetMemLock
 ;-----------------------------------------------------------------------------
@@ -190,9 +190,9 @@ DrawShapeOpaque_34:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov esi, dword [byte ebp-018h]
-        mov edx, dword [dword_1228F0]
+        mov edx, dword [DrawRowBytes]
         sub edx, dword [byte ebp-0Ch]
         LD xor, eax, eax
         LD xor, ebx, ebx

@@ -6,7 +6,7 @@ section s_11F4BC progbits alloc noexec write align=1
 
 
 global LeaderCardFlags, LeadersBuilt, LeaderCardTextIds, LeaderColTextIds, mouseminx, mouseminy, mousemaxx, mousemaxy
-global MouseDeltaX, MouseButtonState, dword_11F598, GraphicsReady, MousePresent, mousex, mousey, MouseMoved
+global MouseDeltaX, MouseButtonState, MouseForceTwoButtons, GraphicsReady, MousePresent, mousex, mousey, MouseMoved
 global PointerCount, MouseButtons, ViewScreenWidth, ViewScreenHeight, MenuScreenBitmap, ScreenPitch, ScreenBuffer, ScreenModeWidth
 global ScreenModeHeight, joyenablemask, LeaderListPtrs
 global MouseSavedSensX, MouseSavedSensY, MouseSavedThreshold
@@ -55,7 +55,7 @@ MouseSavedSensY:
 MouseSavedThreshold:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-dword_11F598:
+MouseForceTwoButtons:
         db 00h,00h,00h,00h,01h,00h,00h,00h
 GraphicsReady:
         db 00h,00h,00h,00h

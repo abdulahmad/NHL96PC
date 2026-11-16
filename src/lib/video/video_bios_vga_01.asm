@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_DD6C4 progbits alloc exec nowrite align=1
 extern RemapTable, ColourRemap, GraphicsReady, ScreenWidth, ScreenHeight, DrawClipLeft, DrawClipTop, DrawClipRight
-extern DrawClipBottom, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, BlitColumnOffsets, BlitSourcePtr, RetraceTimeout
-extern dword_1248C8, ClearScreenColour, FillRectSpans, SetupRectFill, PaletteShadow
+extern DrawClipBottom, DrawBitsPerPixel, DrawVideoBase, BackBufferWidth, BlendTablePtr, BlitColumnOffsets, BlitSourcePtr, RetraceTimeout
+extern RetraceMode, ClearScreenColour, FillRectSpans, SetupRectFill, PaletteShadow
 global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, SetPaletteEntries, SetTextMode
 global SetPaletteEntries8, ReadPaletteEntries8, SetRemapTable, GetRemapTable, SetColourRemap, GetColourRemap, SetBlitSource, SetBlendTables
 global CopyMappedSpan, ScaleRowRemapKeyed, CopyScaledSpanShadow, ScaleRowShadow, ScaleRowBlend, CopyScaledSpan, ReadPortStable, WaitRetrace
@@ -369,7 +369,7 @@ SetBlendTables:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_123A88], eax
+        mov dword [BlendTablePtr], eax
         leave
         ret
 ;-----------------------------------------------------------------------------
@@ -384,7 +384,7 @@ CopyMappedSpan:
         mov edi, dword [byte esp+0Ch]
         mov ecx, dword [byte esp+014h]
         add esi, dword [BlitSourcePtr]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
         sub ecx, byte 4
@@ -437,7 +437,7 @@ CopyMappedSpan:
         pop esi
         ret
         mov ebx, dword [edx]
-        cmp dword [dword_1228E8], byte 10h
+        cmp dword [DrawBitsPerPixel], byte 10h
         je short .12
 .10:
         mov eax, dword [esi+ebx*4]
@@ -474,7 +474,7 @@ ScaleRowRemapKeyed:
         mov edi, dword [byte esp+0Ch]
         mov ecx, dword [byte esp+014h]
         add esi, dword [BlitSourcePtr]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
         sub ecx, byte 4
@@ -539,7 +539,7 @@ ScaleRowRemapKeyed:
         mov edi, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+010h]
         add esi, dword [BlitSourcePtr]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
 .10:
@@ -568,7 +568,7 @@ CopyScaledSpanShadow:
         mov edi, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+010h]
         add esi, dword [BlitSourcePtr]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
 .1:
@@ -604,7 +604,7 @@ ScaleRowShadow:
         mov edi, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+010h]
         add esi, dword [BlitSourcePtr]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
 .1:
@@ -639,9 +639,9 @@ ScaleRowBlend:
         mov ebp, dword [byte esp+010h]
         mov ecx, dword [byte esp+018h]
         add esi, dword [BlitSourcePtr]
-        add ebp, dword [dword_1228FC]
+        add ebp, dword [DrawVideoBase]
         mov edx, dword [BlitColumnOffsets]
-        mov edi, dword [dword_123A88]
+        mov edi, dword [BlendTablePtr]
         LD xor, eax, eax
         sub ecx, byte 2
         js short .2
@@ -689,7 +689,7 @@ CopyScaledSpan:
         mov ecx, dword [byte esp+018h]
         mov edx, dword [BlitColumnOffsets]
         add esi, dword [BlitSourcePtr]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov ebx, dword [byte edx+0Ch]
         sub ecx, byte 10h
         js near .2
@@ -792,7 +792,7 @@ CopyScaledSpan:
         jns near .1
         jmp short .2
         mov ebx, dword [edx]
-        cmp dword [dword_1228E8], byte 10h
+        cmp dword [DrawBitsPerPixel], byte 10h
         je short .10
 .9:
         mov eax, dword [esi+ebx*4]
@@ -819,7 +819,7 @@ CopyScaledSpan:
         mov edi, dword [byte esp+010h]
         mov ebp, dword [byte esp+018h]
         add esi, dword [BlitSourcePtr]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         sub ebp, byte 10h
         js short .12
 .11:
@@ -891,7 +891,7 @@ CopyScaledSpan:
         mov edi, dword [byte esp+04h]
         mov esi, dword [byte esp+08h]
         mov eax, dword [byte esp+0Ch]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         add esi, dword [BlitSourcePtr]
         cmp eax, byte 0Ch
         jl short .17
@@ -932,7 +932,7 @@ ReadPortStable:
 WaitRetrace:
         mov dx, 3DAh
         mov ecx, dword [RetraceTimeout]
-        cmp dword [dword_1248C8], byte 1
+        cmp dword [RetraceMode], byte 1
         jg short .3
         je short .2
 .1:

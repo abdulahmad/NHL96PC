@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_AA5C4 progbits alloc exec nowrite align=1
 extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, TimerTickStep, ScreenWidth, DrawClipLeft
-extern DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, dword_1228FC, dword_122930, oldint8off, oldint8sel
+extern DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, DrawVideoBase, ScreenRowTable, oldint8off, oldint8sel
 extern RestoreDS, BlitShapeClipped, VesaSetBank, AddExitHandler, bcopy, tickcount, timercallbacks
 global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, DrawShapeCore, str_Locateshape44sSHAPENOTFOUND, TimerISR_tick
 ;-----------------------------------------------------------------------------
@@ -254,7 +254,7 @@ DrawShapeCore:
         sar ebp, 10h
         mov dword [byte esp+04h], ecx
         mov dword [byte esp+010h], ebx
-        mov ebx, dword [dword_1228FC]
+        mov ebx, dword [DrawVideoBase]
         sub edi, eax
         mov dword [byte esp+08h], ebx
         test edi, edi
@@ -299,7 +299,7 @@ DrawShapeCore:
         mov dword [byte esp+010h], ecx
 .5:
         mov ebx, dword [byte esp+010h]
-        mov edi, dword [nosplit eax*4+dword_122930]
+        mov edi, dword [nosplit eax*4+ScreenRowTable]
         mov dword [byte esp+0Ch], ebp
         add edx, edi
         mov eax, dword [ScreenWidth]

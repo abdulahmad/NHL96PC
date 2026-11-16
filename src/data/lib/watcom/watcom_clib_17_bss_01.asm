@@ -2,47 +2,46 @@
 bits 32
 %include "hockey.inc"
 section s_1A10B0 nobits alloc noexec write align=1
-global WssCodecDmaPage, WssCodecDmaRunning, WssIndexBits, WssCodecRunning, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4
-global dword_1A10C8, dword_1A10CC, dword_1A10D0, dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4
-global dword_1A10E8, dword_1A10EC, dword_1A10F0, dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, WssCodecDmaSize
+global WssCodecDmaPage, WssCodecDmaRunning, WssIndexBits, WssCodecRunning, PointerHotX, PointerLastButtons, PointerSaveBitmap
+global PointerShapeIndex, PointerScreen, PointerCellY, PointerCellX, PointerFileData, PointerSpareBitmap, PointerBitmapHeight, PointerBitmapWidth
+global PointerClipLeft, PointerClipTop, PointerDrawBitmap, PointerX, PointerY, PointerClipBottom, PointerClipRight, WssCodecDmaSize
 global WssCodecDmaHalf, WssCodecPort, WssCodecDma, GusEnvConfig, Hook387Save, WssCodecDmaAddress, WssCodecDmaCount, GusDramSize
-dword_1A10B0:
         resb 4
-dword_1A10B4:
+PointerHotX:
         resb 12
-dword_1A10C0:
+PointerLastButtons:
         resb 4
-dword_1A10C4:
+PointerSaveBitmap:
         resb 4
-dword_1A10C8:
+PointerShapeIndex:
         resb 4
-dword_1A10CC:
+PointerScreen:
         resb 4
-dword_1A10D0:
+PointerCellY:
         resb 4
-dword_1A10D4:
+PointerCellX:
         resb 4
-dword_1A10D8:
+PointerFileData:
         resb 4
-dword_1A10DC:
+PointerSpareBitmap:
         resb 4
-dword_1A10E0:
+PointerBitmapHeight:
         resb 4
-dword_1A10E4:
+PointerBitmapWidth:
         resb 4
-dword_1A10E8:
+PointerClipLeft:
         resb 4
-dword_1A10EC:
+PointerClipTop:
         resb 4
-dword_1A10F0:
+PointerDrawBitmap:
         resb 4
-dword_1A10F4:
+PointerX:
         resb 4
-dword_1A10F8:
+PointerY:
         resb 4
-dword_1A10FC:
+PointerClipBottom:
         resb 4
-dword_1A1100:
+PointerClipRight:
         resb 4
 Hook387Save:
         resb 128

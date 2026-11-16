@@ -4355,6 +4355,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1142A8,str_RATIONALDOS4G,,95PC,high,NHL95PC C4B30 (string): 'RATIONAL DOS/4G',
 1142B8,str_RMHandler,asc_1142B8,new,high,string 'RMHandler',src/data/lib/sound/snd_soundblaster_data_01.asm
 1142C4,str_ULTRASND,unk_1142C4,95PC,high,string 'ULTRASND',src/data/lib/sound/snd_soundblaster_data_01.asm
+1142D0,str_StarRule,unk_1142D0,new,low,line of stars,src/data/lib/sound/snd_soundblaster_data_01.asm
 1142FC,str_Fs,unk_1142FC,95PC,high,string '%Fs',src/data/lib/sound/snd_soundblaster_data_01.asm
 114300,str_Jan2,unk_114300,95PC,high,string 'Jan',src/data/lib/sound/snd_soundblaster_data_01.asm
 114304,str_Feb3,unk_114304,95PC,high,string 'Feb',src/data/lib/sound/snd_soundblaster_data_01.asm
@@ -5229,6 +5230,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11F580,MouseSavedSensX,word_11F580,new,low,mouse X sensitivity saved at start up,src/data/lib/lib_A8B9B_data_02.asm
 11F582,MouseSavedSensY,word_11F582,new,low,mouse Y sensitivity saved at start up,src/data/lib/lib_A8B9B_data_02.asm
 11F584,MouseSavedThreshold,word_11F584,new,low,mouse double speed threshold saved at start up,src/data/lib/lib_A8B9B_data_02.asm
+11F598,MouseForceTwoButtons,dword_11F598,new,low,treat the mouse as two buttons,src/data/lib/lib_A8B9B_data_02.asm
 11F5A0,GraphicsReady,dword_11F5A0,new,low,graphics are set up,src/data/lib/lib_A8B9B_data_02.asm
 11F5A4,MousePresent,dword_11F5A4,new,low,mouse driver found,src/data/lib/lib_A8B9B_data_02.asm
 11F5A8,mousex,dword_11F5A8,95PC,high,"mouse library: pointer x, as NHL95PC mousex",src/data/lib/lib_A8B9B_data_02.asm
@@ -5250,11 +5252,16 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11F5E8,CpuHasCpuid,dword_11F5E8,new,low,CPU has CPUID,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F5EC,CpuFeatures,dword_11F5EC,new,low,CPUID feature bits,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F5F0,NearClipZ,dword_11F5F0,new,medium,the near clip distance: points at or nearer than it are not projected,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F5F4,HidePointerKeepHook,off_11F5F4,new,low,hides the pointer keeping the screen,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F5F8,HidePointerHook,off_11F5F8,new,low,hides the pointer,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F5FC,ShowPointerHook,off_11F5FC,new,low,shows the pointer,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F600,mousepollfn,,95PC,medium,NHL95PC D3078 (refset): referenced by the same 2 matched functions,
 11F618,BiosKeyFunc,off_11F618,new,low,routine that calls the BIOS keyboard service,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F61C,DebugKeysEnabled,dword_11F61C,new,low,debug hot keys are on,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F620,KeyBuffer,dword_11F620,new,medium,keyboard buffer ring,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F660,KeyBufferHead,dword_11F660,new,medium,keyboard buffer read position,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F664,KeyBufferTail,dword_11F664,new,medium,keyboard buffer write position,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F668,KbdCapsLock,byte_11F668,new,low,caps lock state,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F66C,KeyBufferMask,dword_11F66C,new,medium,keyboard buffer index mask,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F670,KeyStateTable,byte_11F670,new,medium,key down state per scan code,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F69A,KbdCtrlDown,byte_11F69A,new,medium,control held,src/data/lib/watcom/watcom_clib_05_data_02.asm
@@ -5287,9 +5294,10 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11F904,JoyTimeSecondY,dword_11F904,new,medium,second joystick y timing,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F908,JoyCalibrateTicks,dword_11F908,new,medium,timer ticks counted during joystick calibration,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F90C,JoyCalibrating,byte_11F90C,new,medium,set while the joystick is being calibrated,src/data/lib/input/input_joystick_misc_01_data_01.asm
-11F910,JoyAxisValues,word_11F910,new,medium,joystick axis values,src/data/lib/input/input_joystick_misc_01_data_01.asm
-11F914,JoyReadX,word_11F914,new,low,analog joystick x reading,src/data/lib/input/input_joystick_misc_01_data_01.asm
-11F918,JoyReadY,word_11F918,new,low,analog joystick y reading,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F910,JoyRawX1,word_11F910,new,low,raw first joystick X axis count,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F914,JoyRawY1,word_11F914,new,low,raw first joystick Y axis count,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F918,JoyRawX2,word_11F918,new,low,raw second joystick X axis count,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F91C,JoyRawY2,word_11F91C,new,low,raw second joystick Y axis count,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F920,JoyButtonBits,byte_11F920,new,medium,joystick button bits,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F924,JoyPortMask,byte_11F924,new,medium,joystick port mask,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F928,JoyReadTimeout,dword_11F928,new,medium,loop count before a joystick axis read times out,src/data/lib/input/input_joystick_misc_01_data_01.asm
@@ -5325,10 +5333,12 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11F9AC,oldint8off,,95PC,medium,NHL95PC D2FE4 (refset): referenced by the same 3 matched functions,
 11F9B0,oldint8sel,,95PC,medium,NHL95PC D2FE8 (refset): referenced by the same 2 matched functions,
 11F9B4,FileCacheList,dword_11F9B4,new,medium,file cache list,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F9B8,RowTableCount,dword_11F9B8,new,low,number of entries in the row table,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9BC,RowTable,dword_11F9BC,new,low,screen row address table,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9C0,FreeSpaceList,dword_11F9C0,new,medium,free space list,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9C4,MemLockOn,dword_11F9C4,new,low,memory lock enabled,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9C8,DebugMode,dword_11F9C8,new,medium,debug display mode (2 = status lines),src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F9D0,DebugScreenBase,dword_11F9D0,new,low,address of the monochrome text screen used by the debug output,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9D4,DebugLineWidth,dword_11F9D4,new,medium,width of the debug line area,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9D8,DebugRow,byte_11F9D8,new,low,debug screen row,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9D9,DebugBackColor,byte_11F9D9,new,low,debug background colour,src/data/lib/input/input_joystick_misc_01_data_01.asm
@@ -5362,9 +5372,14 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11FD54,RandSeed,unk_11FD54,new,low,random number generator seed,src/data/lib/watcom/watcom_clib_03_data_01.asm
 11FD58,SerialPortTable,off_11FD58,new,medium,serial port record per COM port,src/data/lib/watcom/watcom_clib_03_data_01.asm
 11FD68,SerialIrqMask,word_11FD68,new,low,serial IRQ mask,src/data/lib/watcom/watcom_clib_03_data_01.asm
-11FD6A,SerialPorts,unk_11FD6A,new,medium,"serial port records, one per COM port (44Ch bytes each)",src/data/lib/watcom/watcom_clib_03_data_01.asm
+11FD6A,SerialPortCom1,unk_11FD6A,new,low,COM1 serial port state,src/data/lib/watcom/watcom_clib_03_data_01.asm
+1201B6,SerialPortCom2,unk_1201B6,new,low,COM2 serial port state,src/data/lib/watcom/watcom_clib_03_data_01.asm
+120602,SerialPortCom3,unk_120602,new,low,COM3 serial port state,src/data/lib/watcom/watcom_clib_03_data_01.asm
+120A4E,SerialPortCom4,unk_120A4E,new,low,COM4 serial port state,src/data/lib/watcom/watcom_clib_03_data_01.asm
 120E9A,SerialBaudDivisors,word_120E9A,new,medium,baud rate divisor table,src/data/lib/watcom/watcom_clib_03_data_01.asm
+120EC0,Crc16Table,word_120EC0,new,low,CRC-16 table,src/data/lib/watcom/watcom_clib_03_data_01.asm
 1210C0,RowCopyFunc,dword_1210C0,new,medium,routine that copies one row when drawing art,src/data/lib/watcom/watcom_clib_03_data_01.asm
+1210C8,MemPoolTop,dword_1210C8,new,low,end of the memory pool,src/data/lib/watcom/watcom_clib_03_data_01.asm
 1210CC,MemPoolBase,dword_1210CC,new,low,memory pool base,src/data/lib/watcom/watcom_clib_03_data_01.asm
 1210D0,SavedBreakOffset,dword_1210D0,new,medium,previous ctrl-break handler offset,src/data/lib/input/input_joystick_misc_01_data_02.asm
 1210D4,SavedBreakSelector,word_1210D4,new,medium,previous ctrl-break handler selector,src/data/lib/input/input_joystick_misc_01_data_02.asm
@@ -5401,6 +5416,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 121F90,SinCosTable,dword_121F90,new,medium,sine/cosine lookup table,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121FBC,CdStreamSpeed,dword_121FBC,new,medium,CD stream speed,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121FC0,str_Viv,asc_121FC0,new,high,string '.viv',src/data/lib/watcom/watcom_clib_05_data_03.asm
+121FC8,DefaultVgaPalette,unk_121FC8,new,low,standard VGA palette,src/data/lib/watcom/watcom_clib_05_data_03.asm
 1222C8,RandomState,dword_1222C8,new,low,random number generator state,src/data/lib/input/input_joystick_misc_02_data_01.asm
 1222D4,RandState,dword_1222D4,new,low,random generator state (5 dwords),src/data/lib/input/input_joystick_misc_02_data_01.asm
 1222DC,RandIndex,dword_1222DC,new,low,random generator step counter,src/data/lib/input/input_joystick_misc_02_data_01.asm
@@ -5429,15 +5445,28 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1228DC,DrawClipTop,dword_1228DC,new,medium,top edge of the draw target's clip rectangle; y above it is not drawn,src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228E0,DrawClipRight,dword_1228E0,new,medium,right edge of the draw target's clip rectangle (exclusive),src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228E4,DrawClipBottom,dword_1228E4,new,medium,bottom edge of the draw target's clip rectangle (exclusive),src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228E8,DrawBitsPerPixel,dword_1228E8,new,low,bits per pixel of the draw target,src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228F0,DrawRowBytes,dword_1228F0,new,low,bytes per row of the draw target,src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228F4,KeyedDraw,dword_1228F4,new,medium,set to skip colour 0FFh when drawing art,src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228F8,DrawDestBuffer,dword_1228F8,new,medium,buffer drawing routines write to,src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228FC,DrawVideoBase,dword_1228FC,new,low,address of the draw target pixels,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122900,BackBufferWidth,dword_122900,new,low,back buffer width,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122904,ModeSetCount,dword_122904,new,low,graphics mode set count,src/data/lib/watcom/watcom_clib_05_data_04.asm
+122908,ScreenClipLeft,dword_122908,new,low,screen clip left,src/data/lib/watcom/watcom_clib_05_data_04.asm
+12290C,ScreenClipTop,dword_12290C,new,low,screen clip top,src/data/lib/watcom/watcom_clib_05_data_04.asm
+122910,ScreenClipRight,dword_122910,new,low,screen clip right,src/data/lib/watcom/watcom_clib_05_data_04.asm
+122914,ScreenClipBottom,dword_122914,new,low,screen clip bottom,src/data/lib/watcom/watcom_clib_05_data_04.asm
+122918,ScreenBitsPerPixel,dword_122918,new,low,screen bits per pixel,src/data/lib/watcom/watcom_clib_05_data_04.asm
+122920,ScreenRowBytes,dword_122920,new,low,screen bytes per row,src/data/lib/watcom/watcom_clib_05_data_04.asm
+122924,ScreenBanked,dword_122924,new,low,screen uses VESA banks,src/data/lib/watcom/watcom_clib_05_data_04.asm
+122930,ScreenRowTable,dword_122930,new,low,byte offset of each screen row,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122B90,str_BK,dword_122B90,new,medium,"string ""BK""",src/data/lib/watcom/watcom_clib_05_data_04.asm
+123930,ScreenWidthFractions,dword_123930,new,low,65536 times k over the screen width,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123934,str_F_PutBlock,dword_123934,new,high,"string ""f""",src/data/lib/watcom/watcom_clib_05_data_04.asm
 123984,__8087,byte_123984,95PC,medium,same code as in the next game,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123985,FpuType,byte_123985,new,low,FPU type found at start up,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123988,ColourRemap,byte_123988,new,medium,"colour remap table, 256 entries",src/data/lib/watcom/watcom_clib_05_data_04.asm
+123A88,BlendTablePtr,dword_123A88,new,low,blend table in use,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123A8C,BlitColumnOffsets,dword_123A8C,new,medium,column offset table of the span copy,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123A90,BlitSourcePtr,dword_123A90,new,medium,source pointer of the span copy,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123A94,ViewHalfWidth,dword_123A94,new,medium,half the view's width in pixels,src/data/lib/input/input_joystick_misc_02_data_02.asm
@@ -5515,6 +5544,12 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 123D98,TgvTotalTicks,dword_123D98,new,medium,ticks counted for the average rate,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123D9C,TgvFrameRate,dword_123D9C,new,medium,last frame rate,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123DA0,TgvFirstPeriod,dword_123DA0,new,low,first rate period length,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123DA4,JoyDirScanCodes,dword_123DA4,new,low,key scan code for each joystick direction,src/data/lib/video/video_bios_vga_02_data_01.asm
+123DE4,JoyRepeatKey,word_123DE4,new,low,key the joystick is repeating,src/data/lib/video/video_bios_vga_02_data_01.asm
+123DE6,JoyPendingKey,word_123DE6,new,low,key read on the last joystick poll,src/data/lib/video/video_bios_vga_02_data_01.asm
+123DE8,JoyDebounceCount,byte_123DE8,new,low,polls left before a joystick key counts,src/data/lib/video/video_bios_vga_02_data_01.asm
+123DE9,JoyRepeatDelay,word_123DE9,new,low,ticks before the joystick key repeats,src/data/lib/video/video_bios_vga_02_data_01.asm
+123DEB,JoyRepeatStart,dword_123DEB,new,low,tick count when the joystick key repeat started,src/data/lib/video/video_bios_vga_02_data_01.asm
 123DF4,__iob,unk_123DF4,new,low,stdio stream table,src/data/lib/video/video_bios_vga_02_data_01.asm
 123E0E,__stdout_buf,unk_123E0E,new,low,stdout buffer,src/data/lib/video/video_bios_vga_02_data_01.asm
 123E35,__iob_flags,byte_123E35,new,low,stdio stream flags,src/data/lib/video/video_bios_vga_02_data_01.asm
@@ -5537,7 +5572,8 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 124124,__NHandles,dword_124124,new,low,number of file handles,src/data/lib/watcom/watcom_clib_13_data_02.asm
 124128,__init_mode,unk_124128,new,medium,initial file handle modes,src/data/lib/watcom/watcom_clib_13_data_02.asm
 124178,__io_mode,dword_124178,new,low,file handle mode table pointer,src/data/lib/watcom/watcom_clib_13_data_02.asm
-1241A0,str_G_JoystickCalibrateScreen,dword_1241A0,new,high,"string ""g""",src/data/lib/watcom/watcom_clib_13_data_02.asm
+12417C,JoyCalibArrowX,dword_12417C,new,low,joystick calibration arrow X positions,src/data/lib/watcom/watcom_clib_13_data_02.asm
+1241A0,JoyCalibArrowY,dword_1241A0,new,low,joystick calibration arrow Y positions,src/data/lib/watcom/watcom_clib_13_data_02.asm
 1241C4,HotkeyScanTable,byte_1241C4,new,low,scan code per registered hotkey,src/data/lib/watcom/watcom_clib_13_data_02.asm
 124244,HotkeyModTable,byte_124244,new,low,shift state per registered hotkey,src/data/lib/video/video_bios_vga_03_data_01.asm
 1242CA,HotkeyNesting,dword_1242CA,new,medium,hotkey dispatch nesting count,src/data/lib/video/video_bios_vga_03_data_01.asm
@@ -5565,6 +5601,14 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 124433,_osmajor,byte_124433,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
 124434,_osminor,byte_124434,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
 124435,FpuInitHook,dword_124435,new,low,function that sets up the coprocessor,src/data/lib/video/video_bios_vga_03_data_01.asm
+12443C,SavedTextScreen,dword_12443C,new,low,text screen saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
+124440,SystemNeedsInit,dword_124440,new,low,system set up must run before the game starts,src/data/lib/video/video_bios_vga_03_data_01.asm
+124444,PrintfSavedEbx,dword_124444,new,low,EBX kept across printf,src/data/lib/video/video_bios_vga_03_data_01.asm
+124448,PrintfSavedEcx,dword_124448,new,low,ECX kept across printf,src/data/lib/video/video_bios_vga_03_data_01.asm
+12444C,PrintfSavedEdx,dword_12444C,new,low,EDX kept across printf,src/data/lib/video/video_bios_vga_03_data_01.asm
+124450,PrintfSavedEsi,dword_124450,new,low,ESI kept across printf,src/data/lib/video/video_bios_vga_03_data_01.asm
+124454,PrintfSavedEdi,dword_124454,new,low,EDI kept across printf,src/data/lib/video/video_bios_vga_03_data_01.asm
+124458,PrintfSavedReturn,dword_124458,new,low,return address kept across printf,src/data/lib/video/video_bios_vga_03_data_01.asm
 12445C,SavedTextMode,byte_12445C,new,low,text mode saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
 12445D,SavedTextPage,byte_12445D,new,low,text page saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
 12445E,SavedTextColumns,word_12445E,new,low,text columns saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
@@ -5578,6 +5622,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1248C0,OldFpuVectorSelector,word_1248C0,new,low,saved selector of the old coprocessor-missing vector,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248C2,FpuCr0Bits,word_1248C2,new,low,saved CR0 coprocessor bits,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248C4,__real87,byte_1248C4,95PC,high,same code as in the next game,src/data/lib/video/video_bios_vga_03_data_01.asm
+1248C8,RetraceMode,dword_1248C8,new,low,how the wait for retrace works,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248CC,snddriver,dword_1248CC,new,medium,the driver table index SndSetDriver made current (0: none),src/data/lib/video/video_bios_vga_03_data_01.asm
 1248D0,SpeechQueueOpen,byte_1248D0,new,medium,set while the speech queue is open,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248D1,CrowdPlaying,byte_1248D1,new,medium,set while the crowd layers play,src/data/lib/video/video_bios_vga_03_data_01.asm
@@ -5628,16 +5673,38 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 14F066,Sb16MixFormat,byte_14F066,new,medium,mixer format for each mode,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F067,Sb16FrameBytes,byte_14F067,new,medium,bytes per sample frame for each mode,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F070,SndTickBusy,byte_14F070,new,medium,set while the sound tick runs,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F074,ModalBeginHook,off_14F074,new,low,called before a modal box opens,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F078,ModalEndHook,off_14F078,new,low,called after a modal box closes,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F07C,SoundOnHook,off_14F07C,new,low,turns sound effects on,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F080,SoundOffHook,off_14F080,new,low,turns sound effects off,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F084,SoundToggleHook,off_14F084,new,low,toggles sound effects and returns the new state,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F088,MusicOnHook,off_14F088,new,low,turns music on,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F08C,MusicOffHook,off_14F08C,new,low,turns music off,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F090,MusicToggleHook,off_14F090,new,low,toggles music and returns the new state,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F098,TickWaitTarget,dword_14F098,new,low,tick count a timed wait runs until,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F09C,_environ,dword_14F09C,95PC,medium,Watcom: the environment pointer table __setenvp_ builds,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F0A0,___env_mask,dword_14F0A0,95PC,medium,Watcom: one flag byte per environ entry,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F0A4,__nheapbeg,dword_14F0A4,new,low,near heap start,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F0A8,__amblksiz,dword_14F0A8,new,low,heap growth amount,src/data/lib/sound/snd_soundblaster_data_02.asm
-14F0AC,str_28,dword_14F0AC,new,high,string '2',src/data/lib/sound/snd_soundblaster_data_02.asm
+14F0AC,FractionRowCount,dword_14F0AC,new,low,number of rows in the fraction row table,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F0B0,FractionRowTable,off_14F0B0,new,low,pointer to the fraction row for each divisor,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F178,FractionRows,unk_14F178,new,low,rows of 16-bit fractions k/n for each divisor n,src/data/lib/sound/snd_soundblaster_data_02.asm
 14FAA8,__EFG_printf,off_14FAA8,new,low,float formatting routine for printf,src/data/lib/sound/snd_soundblaster_data_02.asm
 14FAAC,__EFG_scanf,off_14FAAC,new,low,float parsing routine for scanf,src/data/lib/sound/snd_soundblaster_data_02.asm
 14FAB0,str_SHPI2,,95PC,high,NHL95PC D544C (string): 'SHPI',
-14FACC,str_KK,byte_14FACC,new,high,"string ""KK""",src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAC0,KeyPadFireKey,byte_14FAC0,new,low,scan code of the fire key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAC1,KeyPadSelectKey,byte_14FAC1,new,low,scan code of the select key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAC2,KeyPadUpLeftKey,byte_14FAC2,new,low,scan code of the up left key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAC3,KeyPadUpKey,byte_14FAC3,new,low,scan code of the up key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAC5,KeyPadUpRightKey,byte_14FAC5,new,low,scan code of the up right key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAC6,KeyPadRightKey,byte_14FAC6,new,low,scan code of the right key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAC8,KeyPadDownRightKey,byte_14FAC8,new,low,scan code of the down right key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAC9,KeyPadDownKey,byte_14FAC9,new,low,scan code of the down key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FACB,KeyPadDownLeftKey,byte_14FACB,new,low,scan code of the down left key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FACC,KeyPadLeftKey,byte_14FACC,new,low,scan code of the left key,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAD0,PointerFileName,off_14FAD0,new,low,mouse pointer shape file name,src/data/lib/video/video_bios_vga_03_data_02.asm
 14FAD4,DrawArtRemapFunc,off_14FAD4,new,low,routine used to draw remapped art,src/data/lib/video/video_bios_vga_03_data_02.asm
+14FAD8,PointerInstalled,dword_14FAD8,new,low,mouse pointer is set up,src/data/lib/video/video_bios_vga_03_data_02.asm
 14FADC,SavedStackSegment,word_14FADC,new,low,stack segment saved at start up,src/data/lib/video/video_bios_vga_03_data_02.asm
 14FADE,str_StackOverflow,,95PC,high,NHL95PC D2F46 (string): 'Stack Overflow!\r\n',
 14FAF0,AngleOctantTable,byte_14FAF0,new,medium,octant per delta slope for AngleFromDelta,src/data/lib/video/video_bios_vga_03_data_02.asm
@@ -5690,7 +5757,19 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 151396,GusStreamStartHi,word_151396,new,low,high word of the stream voices' start address,src/data/lib/sound/snd_hw_sb_data_01.asm
 151398,GusStreamEndLo,word_151398,new,low,low word of the stream voices' end address,src/data/lib/sound/snd_hw_sb_data_01.asm
 15139A,GusStreamEndHi,word_15139A,new,low,high word of the stream voices' end address,src/data/lib/sound/snd_hw_sb_data_01.asm
-1513D4,str_UU,dword_1513D4,new,high,"string ""UU""",src/data/lib/sound/snd_hw_sb_data_01.asm
+15139C,MemViewBlack,dword_15139C,new,low,memory viewer black colour index,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513A0,MemViewWhite,dword_1513A0,new,low,memory viewer white colour index,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513A4,MemViewYellow,dword_1513A4,new,low,memory viewer yellow colour index,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513A8,MemViewGreen,dword_1513A8,new,low,memory viewer green colour index,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513AC,MemViewRed,dword_1513AC,new,low,memory viewer red colour index,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513B0,MemMapRulePtr,off_1513B0,new,low,pointer to the line of stars written in the memory map file,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513B8,MemViewShowDetail,dword_1513B8,new,low,memory viewer shows block details (toggled by D),src/data/lib/sound/snd_hw_sb_data_01.asm
+1513BC,MemViewLastMode,dword_1513BC,new,low,memory viewer mode from the last call,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513C0,MemViewCursor,dword_1513C0,new,low,memory viewer cursor,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513C4,MemViewSavedTop,dword_1513C4,new,low,memory viewer list top kept between calls,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513C8,MemViewSavedRow,dword_1513C8,new,low,memory viewer selected row kept between calls,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513CC,PaletteCursorColours,dword_1513CC,new,low,palette viewer cursor xor colours,src/data/lib/sound/snd_hw_sb_data_01.asm
+1513D4,MonthNameTable,dword_1513D4,new,low,"pointer to each month name, by month number",src/data/lib/sound/snd_hw_sb_data_01.asm
 15140C,GusBasePort,word_15140C,new,low,base port of the card; the other port words follow,src/data/lib/sound/snd_hw_sb_data_01.asm
 15140E,GusIrqStatusPort,word_15140E,new,low,card port of the IRQ status register,src/data/lib/sound/snd_hw_sb_data_01.asm
 151414,GusIrqLatchPort,word_151414,new,low,card port of the IRQ latch register,src/data/lib/sound/snd_hw_sb_data_01.asm
@@ -5725,6 +5804,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 151518,GusDmaBusy,dword_151518,new,low,set while a DMA transfer to card memory runs,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 15151C,MaxPrecision,dword_15151C,new,low,maximum number of digits printed for a floating-point number,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151520,WVideoActive,byte_151520,new,low,debugger video active,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151524,ArtDrawModeFuncs,off_151524,new,low,draw routine for each art draw mode,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 15155A,GusDmaReady,byte_15155A,new,low,set once the DMA channels have been set up,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 15155C,InitRtnsEntry,unk_15155C,new,low,start up routine entry,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151580,FiniRtnsEntry,unk_151580,new,low,shut down routine entry,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
@@ -7043,12 +7123,28 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 185838,InvTabFillDist,dword_185838,new,medium,inverse colour table fill: distance,src/data/lib/ea/ea_debug_01_bss_01.asm
 185848,MemPoolSize,dword_185848,new,low,memory pool size,src/data/lib/ea/ea_debug_01_bss_01.asm
 18584C,PaletteShadow,unk_18584C,new,low,copy of the hardware palette (4 bytes per entry),src/data/lib/ea/ea_debug_01_bss_01.asm
+185C4C,AaColumnCodes,dword_185C4C,new,low,step code for each column of an anti-aliased scale,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18664C,AaColumnSums,dword_18664C,new,low,weighted colour sums for each column,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18704C,PaletteShadeTable,unk_18704C,new,low,palette colours at 16 brightness levels,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B04C,AaPalLut,dword_18B04C,new,low,anti-alias palette lookup table,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B050,AaStepY,dword_18B050,new,low,source rows per destination row,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B054,AaDestX,dword_18B054,new,low,destination X,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B058,AaDestY,dword_18B058,new,low,destination Y,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B05C,AaSrcPtr,dword_18B05C,new,low,source pixel pointer,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B060,AaSrcWidthFixed,dword_18B060,new,low,source width in 16.16,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B064,AaStepX,dword_18B064,new,low,source columns per destination column,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B068,AaDestHeight,dword_18B068,new,low,destination height,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B06C,AaDestWidth,dword_18B06C,new,low,destination width,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B070,AaSrcHeightFixed,dword_18B070,new,low,source height in 16.16,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B074,AaSrcWidth,dword_18B074,new,low,source width,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B078,CdBufferSegment,word_18B078,new,medium,real mode segment of the CD buffer,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B07C,CdBufferSelector,dword_18B07C,new,medium,selector of the CD buffer,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B080,CdBufferAllocated,dword_18B080,new,medium,CD buffer allocated,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B084,CdDriveLetter,dword_18B084,new,medium,CD drive number,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B088,CdRequestCount,dword_18B088,new,low,sectors in the CD read request,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B08C,CdRequestSegment,dword_18B08C,new,medium,real mode segment of the CD request header,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B090,CdBufferAddr,dword_18B090,new,medium,linear address of the CD buffer,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B094,CdRequestSector,dword_18B094,new,low,first sector of the CD read request,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B098,CdRequestSelector,word_18B098,new,medium,selector of the CD request header,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B09C,CdRegs,dword_18B09C,new,medium,real mode registers for MSCDEX calls,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B0A0,CdDirEntryBuf,dword_18B0A0,new,medium,CD directory entry,src/data/lib/watcom/watcom_clib_05_bss_01.asm
@@ -7056,6 +7152,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 18B0B0,CdRegEdi,dword_18B0B0,new,medium,MSCDEX call EDI,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B0B4,CdRegEax,dword_18B0B4,new,medium,MSCDEX call EAX,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B0B8,CdRegEdx,dword_18B0B8,new,medium,MSCDEX call EDX,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B0BC,CdRegFlags,word_18B0BC,new,low,flags from the CD real mode call,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B0BE,CdRegEs,word_18B0BE,new,medium,MSCDEX call ES,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B0C0,CdRegSegs,word_18B0C0,new,medium,MSCDEX call segment registers,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B0D0,ResourceArchiveData,byte_18B0D0,new,low,data of the open resource archive,src/data/lib/watcom/watcom_clib_05_bss_01.asm
@@ -7086,6 +7183,38 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1983A8,RinkViewChanged,dword_1983A8,new,low,set when the rink view matrix changes,src/data/lib/ea/ea_gfx_05_bss_01.asm
 1983B4,ModelPolyDrawFn,dword_1983B4,new,low,model polygon draw routine,src/data/lib/ea/ea_gfx_05_bss_01.asm
 1983B8,OriPositionBuf,unk_1983B8,new,low,model position buffer,src/data/lib/ea/ea_gfx_05_bss_01.asm
+1983E0,ShadeEdgeList,unk_1983E0,new,low,edges of the shaded polygon,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+1986A0,ReciprocalTable,dword_1986A0,new,low,65536 divided by each count,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A5E0,ShadeTableWidth,dword_19A5E0,new,low,width of the shade table,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A5E4,ShadeRowPtr,dword_19A5E4,new,low,screen row being filled,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A5E8,ShadeLeftX,dword_19A5E8,new,low,left edge X,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A5EC,ShadeLeftXStep,dword_19A5EC,new,low,left edge X step per row,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A5F0,ShadeLeftFracStep,dword_19A5F0,new,low,left edge X fraction step,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A5F4,ShadeLeftFracLimit,dword_19A5F4,new,low,left edge X fraction limit,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A5F8,ShadeLeftFrac,dword_19A5F8,new,low,left edge X fraction,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A5FC,ShadeLeftTopY,dword_19A5FC,new,low,left edge top row,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A600,ShadeLeftRows,dword_19A600,new,low,left edge rows left,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A604,ShadeLeftShade,dword_19A604,new,low,left edge shade,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A608,ShadeLeftShadeV,dword_19A608,new,low,left edge second shade value,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A60C,ShadeLeftShadeStep,dword_19A60C,new,low,left edge shade step,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A610,ShadeLeftShadeVStep,dword_19A610,new,low,left edge second shade step,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A614,ShadeTexture,dword_19A614,new,low,shade texture art,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A618,ShadeRightX,dword_19A618,new,low,right edge X,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A61C,ShadeRightXStep,dword_19A61C,new,low,right edge X step per row,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A620,ShadeRightFracStep,dword_19A620,new,low,right edge X fraction step,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A624,ShadeRightFracLimit,dword_19A624,new,low,right edge X fraction limit,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A628,ShadeRightFrac,dword_19A628,new,low,right edge X fraction,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A630,ShadeRightRows,dword_19A630,new,low,right edge rows left,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A634,ShadeRightShade,dword_19A634,new,low,right edge shade,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A638,ShadeRightShadeV,dword_19A638,new,low,right edge second shade value,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A63C,ShadeRightShadeStep,dword_19A63C,new,low,right edge shade step,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A640,ShadeRightShadeVStep,dword_19A640,new,low,right edge second shade step,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A644,PolyScreenPoints,dword_19A644,new,low,screen points of the polygons being drawn,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A648,PolyProjPoints,dword_19A648,new,low,projected points of the polygons being drawn,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A64C,PolyColour,dword_19A64C,new,low,colour of the polygons being drawn,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19A650,SortBufferData,unk_19A650,new,low,depth sort buffer,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19B650,ScreenWidthPtr,dword_19B650,new,low,pointer to the screen width,src/data/lib/watcom/watcom_clib_06_bss_01.asm
+19B654,VesaRealModeRegs,dword_19B654,new,low,real mode registers for VESA calls,src/data/lib/watcom/watcom_clib_07_bss_01.asm
 19B688,StreamPacketTail,dword_19B688,new,medium,last queued audio stream packet,src/data/lib/watcom/watcom_clib_07_bss_01.asm
 19B68C,StreamPacketHead,dword_19B68C,new,medium,first queued audio stream packet,src/data/lib/watcom/watcom_clib_07_bss_01.asm
 19B690,CrowdExcitementWhole,dword_19B690,new,medium,"crowd excitement, whole part",src/data/lib/watcom/watcom_clib_07_bss_01.asm
@@ -7124,6 +7253,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 19B8FC,CrowdEventCurve,dword_19B8FC,new,medium,rise curve of a crowd event,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19B900,CrowdEventSfx,dword_19B900,new,medium,sound effect a crowd event plays,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA30,CrowdRampRate,dword_19BA30,new,medium,crowd excitement change per tick,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BA34,_doserrno,unk_19BA34,new,low,DOS error number,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA38,errno,unk_19BA38,new,low,C library errno,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA3C,__OpenStreams,dword_19BA3C,new,low,list of open stdio streams,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA40,__ClosedStreams,dword_19BA40,new,low,list of closed stdio streams,src/data/lib/watcom/watcom_clib_08_bss_01.asm
@@ -7132,7 +7262,11 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 19BA48,AtexitTable,dword_19BA48,new,low,atexit routines,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BAC8,SpeechBankCount,dword_19BAC8,new,low,number of registered speech banks,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BACC,MemLockState,dword_19BACC,new,low,memory lock state,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BAD0,DefaultRowTable,unk_19BAD0,new,low,row table used when none is given,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19F2D0,BigEntryNamePtr,dword_19F2D0,new,low,name of the archive entry found,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19F2D4,BigEntryLength,dword_19F2D4,new,low,length of the archive entry found,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19F2D8,ScaledRowBuffer,dword_19F2D8,new,medium,scaled shape row buffer,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B1C,ScreenSaveBitmap,dword_1A0B1C,new,low,bitmap holding a copy of the screen,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0B20,SndChannels,unk_1A0B20,new,medium,"sound channel records, 16 of 28h bytes",src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0B2B,SndChannelType,byte_1A0B2B,new,medium,"sound channel type: 1 effect, 2 stream",src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0B2C,SndChannelRate,dword_1A0B2C,new,medium,sound channel base sample rate,src/data/lib/watcom/watcom_clib_08_bss_01.asm
@@ -7146,6 +7280,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1A0DA4,SfxTableNext,dword_1A0DA4,new,medium,"sound effect table from the second entry, for stereo pairs",src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FA0,SbBasePort,word_1A0FA0,new,low,base port of the Sound Blaster,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FA2,SbMixerAddrPort,word_1A0FA2,new,low,Sound Blaster mixer address port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0FA4,SbMixerIndexPort,word_1A0FA4,new,low,Sound Blaster mixer register select port (base plus 4),src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FA6,SbMixerDataPort,word_1A0FA6,new,low,Sound Blaster mixer data port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FA8,SbResetPort,word_1A0FA8,new,low,Sound Blaster DSP reset port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FAA,SbReadPort,word_1A0FAA,new,low,Sound Blaster DSP read port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
@@ -7212,6 +7347,26 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1A1092,RationalAllocFlags,word_1A1092,new,low,rational allocator flags,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A1094,CMainArgc,dword_1A1094,new,low,argument count passed to main,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A1098,CMainArgv,dword_1A1098,new,low,argument vector passed to main,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A109C,PointerShapes,dword_1A109C,new,low,mouse pointer shape for each state,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A10A8,PointerHotY,dword_1A10A8,new,low,mouse pointer hot spot Y for each state,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A10B4,PointerHotX,dword_1A10B4,new,low,mouse pointer hot spot X for each state,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10C0,PointerLastButtons,dword_1A10C0,new,low,mouse button state when the pointer was last drawn,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10C4,PointerSaveBitmap,dword_1A10C4,new,low,bitmap holding the screen under the pointer,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10C8,PointerShapeIndex,dword_1A10C8,new,low,pointer shape in use,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10CC,PointerScreen,dword_1A10CC,new,low,bitmap the pointer is drawn on,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10D0,PointerCellY,dword_1A10D0,new,low,pointer Y rounded down to 8 pixels,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10D4,PointerCellX,dword_1A10D4,new,low,pointer X rounded down to 8 pixels,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10D8,PointerFileData,dword_1A10D8,new,low,loaded mouse pointer shape file,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10DC,PointerSpareBitmap,dword_1A10DC,new,low,spare save bitmap swapped with the save bitmap,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10E0,PointerBitmapHeight,dword_1A10E0,new,low,pointer bitmap height,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10E4,PointerBitmapWidth,dword_1A10E4,new,low,pointer bitmap width,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10E8,PointerClipLeft,dword_1A10E8,new,low,clip left kept while the pointer is hidden,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10EC,PointerClipTop,dword_1A10EC,new,low,clip top kept while the pointer is hidden,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10F0,PointerDrawBitmap,dword_1A10F0,new,low,bitmap the pointer is composed in,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10F4,PointerX,dword_1A10F4,new,low,pointer X less the hot spot,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10F8,PointerY,dword_1A10F8,new,low,pointer Y less the hot spot,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A10FC,PointerClipBottom,dword_1A10FC,new,low,clip bottom kept while the pointer is hidden,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1100,PointerClipRight,dword_1A1100,new,low,clip right kept while the pointer is hidden,src/data/lib/watcom/watcom_clib_17_bss_01.asm
 1A1104,Hook387Save,unk_1A1104,new,low,FPU state saved by __hook387,src/data/lib/watcom/watcom_clib_17_bss_01.asm
 1A1184,WssCodecDmaAddress,word_1A1184,new,medium,low word of the codec DMA buffer address,src/data/lib/watcom/watcom_clib_17_bss_01.asm
 1A1186,WssCodecDmaCount,word_1A1186,new,medium,DMA transfer count for the codec buffer,src/data/lib/watcom/watcom_clib_17_bss_01.asm

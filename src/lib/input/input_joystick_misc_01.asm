@@ -9,7 +9,7 @@ extern JoyX1Min, JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2,
 extern JoyY1Center, JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, SavedBreakOffset
 extern BreakCallFunc, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, exit_, joyenablemask, BiosKeyFunc
 extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, str_Locateshape44sSHAPENOTFOUND
-extern JoyAxisValues, JoyReadX, JoyReadY, word_11F91C, SavedBreakSelector, BreakDataSelector
+extern JoyRawX1, JoyRawY1, JoyRawX2, JoyRawY2, SavedBreakSelector, BreakDataSelector
 global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, FindShapeQuiet_2, ClearClipRect_30
 global TicksSinceLast, WaitTicks, KbdGetKey, CallKbdIdleHook, KbdPeekKey, SetKbdIdleHook, FlushKeys, CalibrateJoystick
 global ReadJoystickPorts, JoyResetCentres, JoyButtonMap, AddExitHandler, ExitProgram, FindShape, FindShapeQuiet, bcopy
@@ -226,10 +226,10 @@ FlushKeys:
 .7:
         shr al, 4
         mov byte [JoyButtonBits], al
-        mov dword [JoyAxisValues], ebp
-        mov dword [JoyReadX], esi
-        mov dword [JoyReadY], edi
-        mov dword [word_11F91C], ebx
+        mov dword [JoyRawX1], ebp
+        mov dword [JoyRawY1], esi
+        mov dword [JoyRawX2], edi
+        mov dword [JoyRawY2], ebx
         pop edi
         pop esi
         pop ebp
@@ -321,7 +321,7 @@ CalibrateJoystick:
         add eax, dword [TimerCalibration]
         jl short .11
 .10:
-        mov dword [dword ebx+JoyAxisValues], eax
+        mov dword [dword ebx+JoyRawX1], eax
 .11:
         sub ebx, byte 4
         jge short .9

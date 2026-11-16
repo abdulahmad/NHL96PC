@@ -3,12 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_E19F0 progbits alloc exec nowrite align=1
 extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, KeyStateTable, HotkeyScanTable, HotkeyModTable, SavedTextMode
-extern SavedTextPage, SavedTextRows, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
-extern byte_14FAC8, byte_14FAC9, byte_14FACB, str_KK, AngleOctantTable, TimerTickStep, SinCosTable, SinTable
-extern CosTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, str_BK, dword_123390, HotkeyNesting
-extern HotkeyFuncTable, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
-extern dword_14F098, str_28, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
-extern off_14F090, off_14F0B0, printf_, sprintf_, ClearScreenColour, ShowMessageBox, ReadJoystickPorts, AddExitHandler
+extern SavedTextPage, SavedTextRows, KeyPadFireKey, KeyPadSelectKey, KeyPadUpLeftKey, KeyPadUpKey, KeyPadUpRightKey, KeyPadRightKey
+extern KeyPadDownRightKey, KeyPadDownKey, KeyPadDownLeftKey, KeyPadLeftKey, AngleOctantTable, TimerTickStep, SinCosTable, SinTable
+extern CosTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, HotkeyNesting
+extern HotkeyFuncTable, PrintfSavedEbx, PrintfSavedEcx, PrintfSavedEdx, PrintfSavedEsi, PrintfSavedEdi, PrintfSavedReturn, RetraceMode
+extern TickWaitTarget, FractionRowCount, joyenablemask, SoundOnHook, SoundOffHook, SoundToggleHook, MusicOnHook, MusicOffHook
+extern MusicToggleHook, FractionRowTable, printf_, sprintf_, ClearScreenColour, ShowMessageBox, ReadJoystickPorts, AddExitHandler
 extern SavedTextColumns
 global jpt_E1B6F, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, SetupRectFill_C, SetupRectFill_5A, SetupRectFill_164
 global jpt_E1B6F_40, jpt_E1BCE_D2, jpt_E1CBA_DF, jpt_E1DA4_14A, jpt_E1DA4_1DA, jpt_E1F8A_145, jpt_E1F8A_153, jpt_E1F8A_1AC
@@ -144,10 +144,10 @@ SetupRectFill_5A:
 .15:
         xchg ecx, edx
 .16:
-        cmp ecx, dword [str_28]
+        cmp ecx, dword [FractionRowCount]
         jge short .17
         LD mov, ebx, ecx
-        mov ebx, dword [nosplit ebx*4+off_14F0B0]
+        mov ebx, dword [nosplit ebx*4+FractionRowTable]
         mov ax, word [ebx+edx*2]
         shl eax, 10h
         jmp short .18
@@ -986,28 +986,28 @@ SetHotkey:
         jmp short .4
         db 00h,00h
 SetHotkey_5B:
-        call dword [off_14F084]
+        call dword [SoundToggleHook]
         LD or, al, al
         jne short .7
         jmp short .8
-        call dword [off_14F07C]
+        call dword [SoundOnHook]
 .7:
         mov eax, str_SOUNDON
         jmp short SetHotkey_81.11
-        call dword [off_14F080]
+        call dword [SoundOffHook]
 .8:
         mov eax, str_SOUNDOFF
         jmp short SetHotkey_81.11
 SetHotkey_81:
-        call dword [off_14F090]
+        call dword [MusicToggleHook]
         LD or, al, al
         jne short .9
         jmp short .10
-        call dword [off_14F088]
+        call dword [MusicOnHook]
 .9:
         mov eax, str_MUSICON
         jmp short .11
-        call dword [off_14F08C]
+        call dword [MusicOffHook]
 .10:
         mov eax, str_MUSICOFF
 .11:
@@ -1017,38 +1017,38 @@ SetHotkey_81:
         add sp, byte 8
         ret
         db 00h
-        mov dword [dword_124444], ebx
-        mov dword [dword_124448], ecx
-        mov dword [dword_12444C], edx
-        mov dword [dword_124450], esi
-        mov dword [dword_124454], edi
-        pop dword [dword_124458]
+        mov dword [PrintfSavedEbx], ebx
+        mov dword [PrintfSavedEcx], ecx
+        mov dword [PrintfSavedEdx], edx
+        mov dword [PrintfSavedEsi], esi
+        mov dword [PrintfSavedEdi], edi
+        pop dword [PrintfSavedReturn]
         call sprintf_
-        push dword [dword_124458]
-        mov ebx, dword [dword_124444]
-        mov ecx, dword [dword_124448]
-        mov edx, dword [dword_12444C]
-        mov esi, dword [dword_124450]
-        mov edi, dword [dword_124454]
+        push dword [PrintfSavedReturn]
+        mov ebx, dword [PrintfSavedEbx]
+        mov ecx, dword [PrintfSavedEcx]
+        mov edx, dword [PrintfSavedEdx]
+        mov esi, dword [PrintfSavedEsi]
+        mov edi, dword [PrintfSavedEdi]
         ret
 ;-----------------------------------------------------------------------------
 ; PrintfSaveRegs                                  E2436  96 PC, low confidence
 ; Calls printf keeping the registers it would change
 ;-----------------------------------------------------------------------------
 PrintfSaveRegs:
-        mov dword [dword_124444], ebx
-        mov dword [dword_124448], ecx
-        mov dword [dword_12444C], edx
-        mov dword [dword_124450], esi
-        mov dword [dword_124454], edi
-        pop dword [dword_124458]
+        mov dword [PrintfSavedEbx], ebx
+        mov dword [PrintfSavedEcx], ecx
+        mov dword [PrintfSavedEdx], edx
+        mov dword [PrintfSavedEsi], esi
+        mov dword [PrintfSavedEdi], edi
+        pop dword [PrintfSavedReturn]
         call printf_
-        push dword [dword_124458]
-        mov ebx, dword [dword_124444]
-        mov ecx, dword [dword_124448]
-        mov edx, dword [dword_12444C]
-        mov esi, dword [dword_124450]
-        mov edi, dword [dword_124454]
+        push dword [PrintfSavedReturn]
+        mov ebx, dword [PrintfSavedEbx]
+        mov ecx, dword [PrintfSavedEcx]
+        mov edx, dword [PrintfSavedEdx]
+        mov esi, dword [PrintfSavedEsi]
+        mov edi, dword [PrintfSavedEdi]
         ret
 ;-----------------------------------------------------------------------------
 ; SaveTextMode                                                    E2484  95 PC
@@ -1259,22 +1259,22 @@ CosLookup:
         LD sub, eax, edx
         ret
         db 00h,00h
-        mov dword [dword_1248C8], 0
+        mov dword [RetraceMode], 0
         ret
         db 00h
         mov eax, dword [TimerTickStep]
         ret
         mov eax, dword [byte esp+04h]
         add eax, dword [TimerTickStep]
-        mov dword [dword_14F098], eax
+        mov dword [TickWaitTarget], eax
         ret
 .1:
         mov eax, dword [TimerTickStep]
-        sub eax, dword [dword_14F098]
+        sub eax, dword [TickWaitTarget]
         js short .1
         ret
         mov ebx, dword [TimerTickStep]
-        sub ebx, dword [dword_14F098]
+        sub ebx, dword [TickWaitTarget]
         LD sbb, eax, eax
         inc eax
         ret
@@ -1303,52 +1303,52 @@ DebugLineCount:
 ReadKeyPadBits:
         LD xor, eax, eax
         LD xor, ebx, ebx
-        mov bl, byte [byte_14FAC0]
+        mov bl, byte [KeyPadFireKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .1
         or al, 10h
 .1:
-        mov bl, byte [byte_14FAC1]
+        mov bl, byte [KeyPadSelectKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .2
         or al, 20h
 .2:
-        mov bl, byte [byte_14FAC2]
+        mov bl, byte [KeyPadUpLeftKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .3
         or al, 9
 .3:
-        mov bl, byte [byte_14FAC3]
+        mov bl, byte [KeyPadUpKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .4
         or al, 1
 .4:
-        mov bl, byte [byte_14FAC5]
+        mov bl, byte [KeyPadUpRightKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .5
         or al, 5
 .5:
-        mov bl, byte [byte_14FAC6]
+        mov bl, byte [KeyPadRightKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .6
         or al, 4
 .6:
-        mov bl, byte [byte_14FAC8]
+        mov bl, byte [KeyPadDownRightKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .7
         or al, 6
 .7:
-        mov bl, byte [byte_14FAC9]
+        mov bl, byte [KeyPadDownKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .8
         or al, 2
 .8:
-        mov bl, byte [byte_14FACB]
+        mov bl, byte [KeyPadDownLeftKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .9
         or al, 0Ah
 .9:
-        mov bl, byte [str_KK]
+        mov bl, byte [KeyPadLeftKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .10
         or al, 8
@@ -1360,12 +1360,12 @@ ReadKeyPadBits:
         ret
         LD xor, ecx, ecx
         LD xor, ebx, ebx
-        mov bl, byte [byte_14FAC0]
+        mov bl, byte [KeyPadFireKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .12
         or cl, 10h
 .12:
-        mov bl, byte [byte_14FAC1]
+        mov bl, byte [KeyPadSelectKey]
         cmp byte [dword ebx+KeyStateTable], 0
         je short .13
         or cl, 20h
@@ -1415,13 +1415,13 @@ SinCosLookup:
         neg edx
         mov dword [ebx], edx
         neg eax
-        mov edx, dword [nosplit eax*4+str_BK]
+        mov edx, dword [nosplit eax*4+SinTable+800h]
         neg edx
         mov dword [ecx], edx
         ret
 .3:
         neg eax
-        mov edx, dword [nosplit eax*4+dword_123390]
+        mov edx, dword [nosplit eax*4+SinTable+1000h]
         neg edx
         mov dword [ebx], edx
         neg eax

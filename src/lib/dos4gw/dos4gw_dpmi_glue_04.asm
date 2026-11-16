@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_D14D1 progbits alloc exec nowrite align=1
 extern FatalError, str_BuildtableminLinearmapfExcee, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, RemapTable, DrawClipLeft, DrawClipTop
-extern DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_1228FC, TexSpanFill, EmuTrapExit, EaEax, EaEcx
+extern DrawClipRight, DrawClipBottom, DrawDestBuffer, DrawVideoBase, TexSpanFill, EmuTrapExit, EaEax, EaEcx
 extern EaEdx, EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8
 extern EaEdxDisp8, EaEbxDisp8, EaEspDisp8, EaEbpDisp8, EaEsiDisp8, EaEdiDisp8, EaEaxDisp32, EaEcxDisp32
 extern EaEdxDisp32, EaEbxDisp32, EaEspDisp32, EaEbpDisp32, EaEsiDisp32, EaEdiDisp32, EaSib, EmuUnsupported
@@ -958,7 +958,7 @@ FillFlatPolyCore:
         inc edx
         sub ebx, edx
 .16:
-        mov ebp, dword [dword_1228FC]
+        mov ebp, dword [DrawVideoBase]
         mov edx, dword [DrawDestBuffer]
         add ebp, dword [edx+esi]
         mov edx, ebp

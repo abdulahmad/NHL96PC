@@ -10,10 +10,10 @@ extern MixBuffer
 extern MixBuffer
 extern MixBuffer, MixerReady, MixerMode, MixerOutputRate, MixerBufferSamples, MixerOutBuffer, MixerChunkSamples, MixerChunkLeft
 extern MixerChunkPos, MixerChunkCount, MixerLoopLength, MixerLoopLimit, MixerLoopStart, MixStepFrac, MixStepWhole, MixerOutputFunc
-extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, PutBlockAtOwnPos, FreeMemBlock, PushMemDescriptorLocked, CreateBitmapDepth
+extern ScreenSaveBitmap, MixerChannelTable, EmuInitHook, EmuFiniHook, PutBlockAtOwnPos, FreeMemBlock, PushMemDescriptorLocked, CreateBitmapDepth
 extern RestoreDS, AudioStreamCallback, StartChannelSample, PanVolumes, SbDelay, SbWaitRead, AdpcmDecodeMono, AdpcmDecodeStereo
 extern SetScreenTarget, MixDecodeBuffer, SndChannels, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
-extern SbBasePort, SbMixerAddrPort, word_1A0FA4, SbMixerDataPort, SbResetPort, SbReadPort, SbWritePort
+extern SbBasePort, SbMixerAddrPort, SbMixerIndexPort, SbMixerDataPort, SbResetPort, SbReadPort, SbWritePort
 global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, MixerChunkLength_4A, MixerChunkLength_8F
 global MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, MixStereo8, MixStereo16, MixMono16Lookup, MixStereo16Lookup, MixOutputStereo16
 global MixOutputStereo8, MixOutputMono8, EmuRestoreFpuVector, EmuRestoreRealVector, PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel
@@ -182,7 +182,7 @@ __chk8087_:
         db 00h
         push esi
         push edi
-        mov edx, dword [dword_1A0B1C]
+        mov edx, dword [ScreenSaveBitmap]
         test edx, edx
         jne short .3
         push edx
@@ -194,10 +194,10 @@ __chk8087_:
         push esi
         call CreateBitmapDepth
         add esp, byte 10h
-        mov dword [dword_1A0B1C], eax
+        mov dword [ScreenSaveBitmap], eax
 .3:
         call SetScreenTarget
-        mov eax, dword [dword_1A0B1C]
+        mov eax, dword [ScreenSaveBitmap]
         mov edi, dword [byte eax+02Ch]
         push edi
         call PutBlockAtOwnPos
@@ -207,7 +207,7 @@ __chk8087_:
         ret
         push esi
         push edi
-        mov edx, dword [dword_1A0B1C]
+        mov edx, dword [ScreenSaveBitmap]
         test edx, edx
         jne short .4
         push edx
@@ -219,9 +219,9 @@ __chk8087_:
         push esi
         call CreateBitmapDepth
         add esp, byte 10h
-        mov dword [dword_1A0B1C], eax
+        mov dword [ScreenSaveBitmap], eax
 .4:
-        mov edi, dword [dword_1A0B1C]
+        mov edi, dword [ScreenSaveBitmap]
         push edi
         call SetDrawBitmap
         add esp, byte 4
@@ -2935,7 +2935,7 @@ ClearMixBuffer:
         push edx
         mov edx, eax
         add edx, byte 4
-        mov word [word_1A0FA4], dx
+        mov word [SbMixerIndexPort], dx
         mov edx, eax
         add edx, byte 5
         mov word [SbMixerDataPort], dx

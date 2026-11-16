@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C40B4 progbits alloc exec nowrite align=1
-extern dword_1228E8, PaletteHookFn, itoa_, ltoa_, __EFG_printf, toupper_, ultoa_, PaletteShadow
+extern DrawBitsPerPixel, PaletteHookFn, itoa_, ltoa_, __EFG_printf, toupper_, ultoa_, PaletteShadow
 global FixedPoint_Format_, __prtf_, evalflags_, far_other_strlen_, far_strlen_, float_format_, fmt4hex_, formstring_
 global getprintspecs_, ArtBitDepthJumpTable, far_strlen__1F, ArtBitDepth_19, ArtBitDepth_1F, ArtBitDepth_25, ArtBitDepth_2B, ArtBitDepth_31
 global ArtBitDepth_37, ArtBitDepth_3D, memmove_, RefPackSize, GetPalette, ArtBitDepth, PixelToRgb, zupstr_
@@ -1486,7 +1486,7 @@ ArtBitDepth_3D:
 ;-----------------------------------------------------------------------------
 PixelToRgb:
         mov edx, dword [byte esp+04h]
-        mov eax, dword [dword_1228E8]
+        mov eax, dword [DrawBitsPerPixel]
         cmp eax, byte 10h
         jb short .1
         jbe short .2

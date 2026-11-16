@@ -2,14 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_1512F0 progbits alloc noexec write align=1
-extern str_ULTRASND, unk_1142D0, str_Fs, str_Jan2, str_Feb3, str_Mar2, str_Apr2, str_May2
+extern str_ULTRASND, str_StarRule, str_Fs, str_Jan2, str_Feb3, str_Mar2, str_Apr2, str_May2
 extern str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2, str_Nov2, str_Dec2
 global DmaPagePorts, DmaMaskPorts, DmaModePorts, DmaClearPorts, DmaAddressPorts, DmaCountPorts, GusIrqLatchBits, GusStreamVoiceA
 global GusStreamVoiceStereo, GusStreamVoiceB, DmaLastHalf, GusEnvVarName, GusOpenCount, GusStreamRefillA, GusStreamRefillB, GusStreamSrcA
 global GusStreamHalfA, GusStreamBusyA, GusStreamSrcB, GusStreamHalfB, GusStreamBusyB, GusStreamActive, GusStreamBufSize, GusStreamHalfSize
 global GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusStreamCardA, GusStreamCardB, GusStreamCardEnd, GusStreamStartLo
-global dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC, dword_1513B8, dword_1513BC, dword_1513C0
-global dword_1513C4, dword_1513C8, dword_1513CC, str_UU, off_1513B0, GusStreamLoopLo, GusStreamLoopHi, GusStreamStartHi
+global MemViewBlack, MemViewWhite, MemViewYellow, MemViewGreen, MemViewRed, MemViewShowDetail, MemViewLastMode, MemViewCursor
+global MemViewSavedTop, MemViewSavedRow, PaletteCursorColours, MonthNameTable, MemMapRulePtr, GusStreamLoopLo, GusStreamLoopHi, GusStreamStartHi
 global GusStreamEndLo, GusStreamEndHi, GusBasePort, GusIrqStatusPort, GusIrqLatchPort, GusDmaLatchPort
 DmaPagePorts:
         db 087h,083h,081h,082h,08Fh,08Bh,089h,08Ah
@@ -85,32 +85,32 @@ GusStreamEndLo:
         db 00h,00h
 GusStreamEndHi:
         db 00h,00h
-dword_15139C:
+MemViewBlack:
         db 00h,00h,00h,00h
-dword_1513A0:
+MemViewWhite:
         db 03h,00h,00h,00h
-dword_1513A4:
+MemViewYellow:
         db 03h,00h,00h,00h
-dword_1513A8:
+MemViewGreen:
         db 01h,00h,00h,00h
-dword_1513AC:
+MemViewRed:
         db 02h,00h,00h,00h
-off_1513B0:
-        dd unk_1142D0
+MemMapRulePtr:
+        dd str_StarRule
         dd str_Fs
-dword_1513B8:
+MemViewShowDetail:
         db 00h,00h,00h,00h
-dword_1513BC:
+MemViewLastMode:
         db 00h,00h,00h,00h
-dword_1513C0:
+MemViewCursor:
         db 00h,00h,00h,00h
-dword_1513C4:
+MemViewSavedTop:
         db 00h,00h,00h,00h
-dword_1513C8:
+MemViewSavedRow:
         db 00h,00h,00h,00h
-dword_1513CC:
+PaletteCursorColours:
         db 0FFh,0FFh,00h,00h,0AAh,0AAh,00h,00h
-str_UU:
+MonthNameTable:
         db 055h,055h,00h,00h
         dd str_Jan2
         dd str_Feb3

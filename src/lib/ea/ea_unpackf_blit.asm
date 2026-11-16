@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_DBFA8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_Unpackf, str_Targa, ScreenHeight, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
-extern TgaBytesPerPixel, off_151524, AllocMemBlock, AllocMemLocked, FreeMemBlock, XorRectClipped, SaveDataFile, FlipArtHorizontal
+extern TgaBytesPerPixel, ArtDrawModeFuncs, AllocMemBlock, AllocMemLocked, FreeMemBlock, XorRectClipped, SaveDataFile, FlipArtHorizontal
 extern GetPalette, PutBytesLE, FlipArtVertical, TranslateArtPixels, PlotPixel, UnpackArtRle, bcopy
 global DrawArtAnyFormat, DrawArtAnyFormatAt, DrawArtAnyFormatOwnPos, XorRectOutline, WriteTgaScreen, SelectBitmapHandle
 ;-----------------------------------------------------------------------------
@@ -157,7 +157,7 @@ DrawArtAnyFormat:
         push ebp
         mov eax, dword [byte esp+024h]
         push esi
-        call dword [nosplit eax*4+off_151524]
+        call dword [nosplit eax*4+ArtDrawModeFuncs]
         add esp, byte 0Ch
         mov ebx, dword [byte esp+04h]
         test ebx, ebx

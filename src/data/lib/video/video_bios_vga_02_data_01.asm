@@ -3,23 +3,23 @@ bits 32
 %include "hockey.inc"
 section s_123DA4 progbits alloc noexec write align=1
 extern __null_int23_exit_, __ClosedStreams
-global byte_123DE8, __iob_flags, VesaBankShift, dword_123DA4, dword_123DEB, _fmode, VesaBank, VesaBankFunc
-global ExitHook, Int23Hook, FpuExitHook, __iob, __stdout_buf, __iob_end, __NFiles, word_123DE4
-global word_123DE6, word_123DE9
-dword_123DA4:
+global JoyDebounceCount, __iob_flags, VesaBankShift, JoyDirScanCodes, JoyRepeatStart, _fmode, VesaBank, VesaBankFunc
+global ExitHook, Int23Hook, FpuExitHook, __iob, __stdout_buf, __iob_end, __NFiles, JoyRepeatKey
+global JoyPendingKey, JoyRepeatDelay
+JoyDirScanCodes:
         db 00h,00h,00h,00h,00h,048h,00h,00h,00h,050h,00h,00h,00h,00h,00h,00h
         db 00h,04Dh,00h,00h,00h,049h,00h,00h,00h,051h,00h,00h,00h,00h,00h,00h
         db 00h,04Bh,00h,00h,00h,047h,00h,00h,00h,04Fh,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-word_123DE4:
+JoyRepeatKey:
         db 00h,00h
-word_123DE6:
+JoyPendingKey:
         db 00h,00h
-byte_123DE8:
+JoyDebounceCount:
         db 00h
-word_123DE9:
+JoyRepeatDelay:
         db 00h,00h
-dword_123DEB:
+JoyRepeatStart:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 __iob:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h

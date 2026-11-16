@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_DF8AC progbits alloc exec nowrite align=1
-extern mouseminx, mouseminy, mousemaxx, mousemaxy, MouseDeltaX, MouseButtonState, dword_11F598, MousePresent
+extern mouseminx, mouseminy, mousemaxx, mousemaxy, MouseDeltaX, MouseButtonState, MouseForceTwoButtons, MousePresent
 extern mousex, mousey, MouseMoved, PointerCount, MouseButtons, ViewScreenWidth, ViewScreenHeight, SavedKbdVecOffset
-extern SavedInt16Offset, SavedRealKbdOffset, RemoveKeyboardHandler_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, BiosKeyFunc
+extern SavedInt16Offset, SavedRealKbdOffset, RemoveKeyboardHandler_6F, mousepollfn, HidePointerKeepHook, HidePointerHook, ShowPointerHook, BiosKeyFunc
 extern DosGetVector, DosSetVector, RemoveKeyboardHandler, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, MouseSavedSensX
 extern MouseSavedSensY, MouseSavedThreshold, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 global MouseReadButtons, MouseSetSensitivity, MouseRead, SetViewRect, MouseReadMotion, PointerCountUp, PointerCountDown, MouseRestoreSensitivity
@@ -217,7 +217,7 @@ InitMouse:
         LD or, ax, ax
         je near .2
         inc dword [MousePresent]
-        cmp dword [dword_11F598], byte 0
+        cmp dword [MouseForceTwoButtons], byte 0
         je short .1
         mov dword [MouseButtons], 2
         mov eax, 3
@@ -246,9 +246,9 @@ InitMouse:
         push byte 20h
         push byte 20h
         call MouseSetSensitivity
-        mov dword [off_11F5F4], PointerCountDown
-        mov dword [off_11F5F8], PointerCountDown
-        mov dword [off_11F5FC], PointerCountUp
+        mov dword [HidePointerKeepHook], PointerCountDown
+        mov dword [HidePointerHook], PointerCountDown
+        mov dword [ShowPointerHook], PointerCountUp
         mov dword [mousepollfn], MouseReadMotion
         push MouseRestoreSensitivity
         call AddExitHandler

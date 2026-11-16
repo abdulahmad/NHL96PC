@@ -17,7 +17,7 @@ extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenC
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
 extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, ClearScreenColour, DrawRectOutline, SetScreenTarget, FillRectColor, KbdGetKey, FindShape, TextSetFont
-extern unk_121FC8, GripSlotNames, GripSlotTypes, Joy2State, unk_2018D, JoyTestButtonMap, JoyTestButtonsLit
+extern DefaultVgaPalette, GripSlotNames, GripSlotTypes, Joy2State, unk_2018D, JoyTestButtonMap, JoyTestButtonsLit
 extern JoyTestAxisVals, GripSetupHeld, GripSetupCounts, GripSetupTimers, LastButtonCode, GripSetupSlot
 global DrawGripPads, DrawGripPads_73B, DrawGripPads_73C, GripSetupScreen, UpdateJoystickTest, JoystickTestScreen
 ;-----------------------------------------------------------------------------
@@ -720,7 +720,7 @@ GripSetupScreen:
         add esp, byte 0Ch
         push byte 0
         push dword 0A00h
-        mov esi, unk_121FC8
+        mov esi, DefaultVgaPalette
         push str_RGRIPCON
         lea edi, [dword ebp-0360h]
         mov dword [GripSetupCursor], eax

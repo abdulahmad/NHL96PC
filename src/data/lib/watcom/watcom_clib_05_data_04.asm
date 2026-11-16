@@ -2,58 +2,54 @@
 bits 32
 %include "hockey.inc"
 section s_1228D6 progbits alloc noexec write align=1
-global __8087, FpuType, ColourRemap, dword_1228D6, DrawClipLeft, dword_1228DA, DrawClipTop, dword_1228DE
-global DrawClipRight, dword_1228E2, DrawClipBottom, dword_1228E8, dword_1228F0, KeyedDraw, DrawDestBuffer, dword_1228FC
-global BackBufferWidth, ModeSetCount, dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920
-global dword_122924, dword_122930, str_BK, dword_123390, dword_123930, str_F_PutBlock, dword_123A88, BlitColumnOffsets
+global __8087, FpuType, ColourRemap, DrawClipLeft, DrawClipTop
+global DrawClipRight, DrawClipBottom, DrawBitsPerPixel, DrawRowBytes, KeyedDraw, DrawDestBuffer, DrawVideoBase
+global BackBufferWidth, ModeSetCount, ScreenClipLeft, ScreenClipTop, ScreenClipRight, ScreenClipBottom, ScreenBitsPerPixel, ScreenRowBytes
+global ScreenBanked, ScreenRowTable, ScreenWidthFractions, str_F_PutBlock, BlendTablePtr, BlitColumnOffsets
 global BlitSourcePtr
-dword_1228D6:
         db 00h,00h
 DrawClipLeft:
         db 00h,00h
-dword_1228DA:
         db 00h,00h
 DrawClipTop:
         db 00h,00h
-dword_1228DE:
         db 00h,00h
 DrawClipRight:
         db 080h,02h
-dword_1228E2:
         db 00h,00h
 DrawClipBottom:
         db 0E0h,01h,00h,00h
-dword_1228E8:
+DrawBitsPerPixel:
         db 08h,00h,00h,00h,00h,00h,00h,00h
-dword_1228F0:
+DrawRowBytes:
         db 080h,02h,00h,00h
 KeyedDraw:
         db 00h,00h,00h,00h
 DrawDestBuffer:
-        dd dword_122930
-dword_1228FC:
+        dd ScreenRowTable
+DrawVideoBase:
         db 00h,00h,0Ah,00h
 BackBufferWidth:
         db 080h,02h,00h,00h
 ModeSetCount:
         db 0E0h,01h,00h,00h
-dword_122908:
+ScreenClipLeft:
         db 00h,00h,00h,00h
-dword_12290C:
+ScreenClipTop:
         db 00h,00h,00h,00h
-dword_122910:
+ScreenClipRight:
         db 080h,02h,00h,00h
-dword_122914:
+ScreenClipBottom:
         db 0E0h,01h,00h,00h
-dword_122918:
+ScreenBitsPerPixel:
         db 00h,00h,00h,00h,08h,00h,00h,00h
-dword_122920:
+ScreenRowBytes:
         db 00h,00h,00h,00h
-dword_122924:
+ScreenBanked:
         db 00h,00h,00h,00h
-        dd dword_122930
+        dd ScreenRowTable
         db 00h,00h,0Ah,00h
-dword_122930:
+ScreenRowTable:
         db 00h,00h,00h,00h,080h,02h,00h,00h,00h,05h,00h,00h,080h,07h,00h,00h
         db 00h,0Ah,00h,00h,080h,0Ch,00h,00h,00h,0Fh,00h,00h,080h,011h,00h,00h
         db 00h,014h,00h,00h,080h,016h,00h,00h,00h,019h,00h,00h,080h,01Bh,00h,00h
@@ -92,7 +88,6 @@ dword_122930:
         db 00h,05Eh,01h,00h,080h,060h,01h,00h,00h,063h,01h,00h,080h,065h,01h,00h
         db 00h,068h,01h,00h,080h,06Ah,01h,00h,00h,06Dh,01h,00h,080h,06Fh,01h,00h
         db 00h,072h,01h,00h,080h,074h,01h,00h,00h,077h,01h,00h,080h,079h,01h,00h
-str_BK:
         db 00h,07Ch,01h,00h,080h,07Eh,01h,00h,00h,081h,01h,00h,080h,083h,01h,00h
         db 00h,086h,01h,00h,080h,088h,01h,00h,00h,08Bh,01h,00h,080h,08Dh,01h,00h
         db 00h,090h,01h,00h,080h,092h,01h,00h,00h,095h,01h,00h,080h,097h,01h,00h
@@ -221,7 +216,6 @@ str_BK:
         db 00h,05Eh,06h,00h,080h,060h,06h,00h,00h,063h,06h,00h,080h,065h,06h,00h
         db 00h,068h,06h,00h,080h,06Ah,06h,00h,00h,06Dh,06h,00h,080h,06Fh,06h,00h
         db 00h,072h,06h,00h,080h,074h,06h,00h,00h,077h,06h,00h,080h,079h,06h,00h
-dword_123390:
         db 00h,07Ch,06h,00h,080h,07Eh,06h,00h,00h,081h,06h,00h,080h,083h,06h,00h
         db 00h,086h,06h,00h,080h,088h,06h,00h,00h,08Bh,06h,00h,080h,08Dh,06h,00h
         db 00h,090h,06h,00h,080h,092h,06h,00h,00h,095h,06h,00h,080h,097h,06h,00h
@@ -312,7 +306,7 @@ dword_123390:
         db 00h,0E2h,09h,00h,080h,0E4h,09h,00h,00h,0E7h,09h,00h,080h,0E9h,09h,00h
         db 00h,0ECh,09h,00h,080h,0EEh,09h,00h,00h,0F1h,09h,00h,080h,0F3h,09h,00h
         db 00h,0F6h,09h,00h,080h,0F8h,09h,00h,00h,0FBh,09h,00h,080h,0FDh,09h,00h
-dword_123930:
+ScreenWidthFractions:
         db 00h,00h,0Ah,00h
 str_F_PutBlock:
         db 066h,00h,00h,00h,0CCh,00h,00h,00h,033h,01h,00h,00h,099h,01h,00h,00h
@@ -341,7 +335,7 @@ ColourRemap:
         db 0D0h,0D1h,0D2h,0D3h,0D4h,0D5h,0D6h,0D7h,0D8h,0D9h,0DAh,0DBh,0DCh,0DDh,0DEh,0DFh
         db 0E0h,0E1h,0E2h,0E3h,0E4h,0E5h,0E6h,0E7h,0E8h,0E9h,0EAh,0EBh,0ECh,0EDh,0EEh,0EFh
         db 0F0h,0F1h,0F2h,0F3h,0F4h,0F5h,0F6h,0F7h,0F8h,0F9h,0FAh,0FBh,0FCh,0FDh,0FEh,0FFh
-dword_123A88:
+BlendTablePtr:
         db 00h,00h,00h,00h
 BlitColumnOffsets:
         db 00h,00h,00h,00h

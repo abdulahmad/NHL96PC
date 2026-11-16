@@ -5,7 +5,7 @@ section s_CE06B progbits alloc exec nowrite align=1
 extern str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, ColourRemap
 extern SpeechQueueOpen, CrowdPlaying, WssFormatBits, WssMixFormat, WssBytesPerFrame, SbProMixFormat, SbProFrameBytes, Sb16DspCommand
 extern Sb16DspModeByte, Sb16MixFormat, Sb16FrameBytes, SndTickBusy, GusConfigGf1Irq, GusConfigMidiIrq, CpuType, RowCopyFunc
-extern DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228F0, KeyedDraw, DrawDestBuffer, dword_1228FC
+extern DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawRowBytes, KeyedDraw, DrawDestBuffer, DrawVideoBase
 extern StreamState, StreamChannel, SndTickHold, WssDmaAlloc, WssRunning, GusDriverIsOpen, GusDmaAlloc, GusEnvRead
 extern GusCardFound, SbRunning, SbDmaAlloc, SbProRunning, SbProDmaAlloc, SbProChannels, Sb16Running, Sb16DmaAlloc
 extern Sb16Mode, GusStreamRefillB, WssBlockSamples, WssHalfBuffer, WssFormat, WssDmaChannel, WssDmaSize, WssDmaBuffer
@@ -21,7 +21,7 @@ extern DmaPlayedHalf, PicSendEoi, IrqUnmask, IrqMask, IrqSetHandler, InstallReal
 extern GusProbePort, GusOpen, GusClose, GusMemAlloc, GusStopStream, GusStreamBusy, GusServiceStream, GusStartStream
 extern SbIsrSingle, SbIsrAutoInit, BlitBlockRemapKeyed, bcopy, SndChannels, SbHighDma, SbProHighDma, SbIsrPicPort
 extern SbIsrAckPort, SbIsrWritePort, SbProIsrPicPort, SbProIsrAckPort, Sb16IsrPicPort, Sb16IsrAckPort, SbProRealIsr220, SbProRealIsr240
-extern SbProRealIsrHigh220, SbProRealIsrHigh240, SbBasePort, SbMixerAddrPort, word_1A0FA4, SbMixerDataPort, SbResetPort, SbReadPort
+extern SbProRealIsrHigh220, SbProRealIsrHigh240, SbBasePort, SbMixerAddrPort, SbMixerIndexPort, SbMixerDataPort, SbResetPort, SbReadPort
 extern SbWritePort, GusConfig, GusConfigPort, SbPort, SbOldIrqSelector, SbProOldIrqSelector, Sb16Port, Sb16OldIrqSelector
 global WssOpenJumpTable, WssOpen_57, WssOpen_68, WssOpen_79, WssOpen_85, WssOpen_96, WssOpen_A2, WssOpen_AE
 global WssOpen_BD, WssOpen_218, WssQueryRate, WssQueryFormat, WssQueryNone, GusQueryRate, GusQueryFormat, GusQueryNone
@@ -164,7 +164,7 @@ ParseBlasterEnv:
         mov ecx, dword [esi]
         mov eax, ecx
         add eax, 4
-        mov word [word_1A0FA4], ax
+        mov word [SbMixerIndexPort], ax
         mov eax, ecx
         add eax, 5
         mov word [SbMixerDataPort], ax
@@ -281,7 +281,7 @@ SbProSetStereo:
         push edx
         mov ecx, eax
         mov al, 0Eh
-        movzx edx, word [word_1A0FA4]
+        movzx edx, word [SbMixerIndexPort]
         out dx, al
         movzx edx, word [SbMixerDataPort]
         sub eax, eax
@@ -308,7 +308,7 @@ SbProSetFilter:
         push edx
         mov ecx, eax
         mov al, 0Eh
-        movzx edx, word [word_1A0FA4]
+        movzx edx, word [SbMixerIndexPort]
         out dx, al
         movzx edx, word [SbMixerDataPort]
         sub eax, eax
@@ -2574,8 +2574,8 @@ DrawArtKeyedRows:
         add ebx, dword [DrawDestBuffer]
         mov edi, dword [ebx]
         add edi, dword [byte ebp-04h]
-        add edi, dword [dword_1228FC]
-        mov edx, dword [dword_1228F0]
+        add edi, dword [DrawVideoBase]
+        mov edx, dword [DrawRowBytes]
         movsx eax, word [byte esi+04h]
         mov dword [byte ebp-0Ch], eax
         LD sub, edx, eax
@@ -2741,9 +2741,9 @@ PutBlockKeyedRows:
         mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
-        add edi, dword [dword_1228FC]
+        add edi, dword [DrawVideoBase]
         mov esi, dword [byte ebp-018h]
-        mov edx, dword [dword_1228F0]
+        mov edx, dword [DrawRowBytes]
         sub edx, dword [byte ebp-0Ch]
         LD xor, eax, eax
         LD xor, ebx, ebx

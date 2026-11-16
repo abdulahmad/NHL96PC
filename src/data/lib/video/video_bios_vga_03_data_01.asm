@@ -6,9 +6,9 @@ extern FpuHookStub
 global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, HotkeyModTable, _Extender, _ExtenderSubtype, Is8087
 global _osmajor, _osminor, SavedTextMode, SavedTextPage, SavedTextRows, __real87, SpeechQueueOpen, CrowdPlaying
 global SndMasterVolume, HotkeyNesting, HotkeyFuncTable, _dynend, _curbrk, _LpCmdLine, StackLow, _STACKLOW
-global _STACKTOP, CMainEnv, CMainResult, UngetChar, _Envptr, FpuInitHook, dword_12443C, dword_124440
-global dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, AtanTable, str_Punct_AngleOfVector
-global ShadowFillFunc, TitleBandFunc, FpuSystemFlags, OldFpuVectorOffset, dword_1248C8, snddriver, SndTickHold, SndMaxRate
+global _STACKTOP, CMainEnv, CMainResult, UngetChar, _Envptr, FpuInitHook, SavedTextScreen, SystemNeedsInit
+global PrintfSavedEbx, PrintfSavedEcx, PrintfSavedEdx, PrintfSavedEsi, PrintfSavedEdi, PrintfSavedReturn, AtanTable, str_Punct_AngleOfVector
+global ShadowFillFunc, TitleBandFunc, FpuSystemFlags, OldFpuVectorOffset, RetraceMode, snddriver, SndTickHold, SndMaxRate
 global _psp, __no87, _Envptr_w4, SavedTextColumns, OldFpuVectorSelector, FpuCr0Bits
 HotkeyModTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -87,21 +87,21 @@ _osminor:
 FpuInitHook:
         dd FpuHookStub
         db 00h,00h,00h
-dword_12443C:
+SavedTextScreen:
         db 00h,00h,00h,00h
-dword_124440:
+SystemNeedsInit:
         db 01h,00h,00h,00h
-dword_124444:
+PrintfSavedEbx:
         db 00h,00h,00h,00h
-dword_124448:
+PrintfSavedEcx:
         db 00h,00h,00h,00h
-dword_12444C:
+PrintfSavedEdx:
         db 00h,00h,00h,00h
-dword_124450:
+PrintfSavedEsi:
         db 00h,00h,00h,00h
-dword_124454:
+PrintfSavedEdi:
         db 00h,00h,00h,00h
-dword_124458:
+PrintfSavedReturn:
         db 00h,00h,00h,00h
 SavedTextMode:
         db 00h
@@ -196,7 +196,7 @@ FpuCr0Bits:
         db 00h,00h
 __real87:
         db 00h,00h,00h,00h
-dword_1248C8:
+RetraceMode:
         db 00h,00h,00h,00h
 snddriver:
         db 00h,00h,00h,00h

@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_E1824 progbits alloc exec nowrite align=1
-extern GetTicks, TicksSince, byte_123DE8, dword_123DA4, dword_123DEB, mousepollfn, KbdGetKey, ReadJoystickPorts
-extern DispatchHotkey, word_123DE4, word_123DE6, word_123DE9
+extern GetTicks, TicksSince, JoyDebounceCount, JoyDirScanCodes, JoyRepeatStart, mousepollfn, KbdGetKey, ReadJoystickPorts
+extern DispatchHotkey, JoyRepeatKey, JoyPendingKey, JoyRepeatDelay
 global ZeroMem_6, ZeroMem_29, FillMem, ZeroMem, PollHotkeys
 ;-----------------------------------------------------------------------------
 ; FillMem                                      E1824  96 PC, medium confidence
@@ -73,10 +73,10 @@ ZeroMem_29:
         jmp short .5
 .4:
         and ebx, byte 0Fh
-        mov eax, dword [nosplit ebx*2+dword_123DA4]
+        mov eax, dword [nosplit ebx*2+JoyDirScanCodes]
 .5:
         db 066h,03Bh,05h                        ; insn: cmp ax,[13DE4h]
-        dd word_123DE4
+        dd JoyRepeatKey
         db 075h, .8-($+2)
         LD or, ax, ax
         jne short .7
@@ -84,30 +84,30 @@ ZeroMem_29:
         LD xor, ax, ax
         ret
 .7:
-        push dword [dword_123DEB]
+        push dword [JoyRepeatStart]
         call TicksSince
         add esp, byte 4
-        cmp ax, word [word_123DE9]
+        cmp ax, word [JoyRepeatDelay]
         jl short .6
         mov ax, 0Fh
-        mov word [word_123DE9], ax
+        mov word [JoyRepeatDelay], ax
         jmp short .9
 .8:
-        cmp ax, word [word_123DE6]
+        cmp ax, word [JoyPendingKey]
         jne short .10
-        dec byte [byte_123DE8]
+        dec byte [JoyDebounceCount]
         jg short .6
-        mov word [word_123DE4], ax
+        mov word [JoyRepeatKey], ax
         mov ax, 46h
-        mov word [word_123DE9], ax
+        mov word [JoyRepeatDelay], ax
 .9:
         call GetTicks
-        mov dword [dword_123DEB], eax
-        mov ax, word [word_123DE4]
+        mov dword [JoyRepeatStart], eax
+        mov ax, word [JoyRepeatKey]
         ret
 .10:
-        mov byte [byte_123DE8], 3
-        mov word [word_123DE6], ax
+        mov byte [JoyDebounceCount], 3
+        mov word [JoyPendingKey], ax
         jmp short .6
 ;-----------------------------------------------------------------------------
 ; PollHotkeys                                     E1927  96 PC, low confidence

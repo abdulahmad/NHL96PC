@@ -3,33 +3,33 @@ bits 32
 %include "hockey.inc"
 section s_14FAC0 progbits alloc noexec write align=1
 extern DrawArtKeyedRemap, str_Mouse
-global str_StackOverflow, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6, byte_14FAC8
-global byte_14FAC9, byte_14FACB, str_KK, AngleOctantTable, dword_14FAD8, off_14FAD0, DrawArtRemapFunc, SavedStackSegment
-byte_14FAC0:
+global str_StackOverflow, KeyPadFireKey, KeyPadSelectKey, KeyPadUpLeftKey, KeyPadUpKey, KeyPadUpRightKey, KeyPadRightKey, KeyPadDownRightKey
+global KeyPadDownKey, KeyPadDownLeftKey, KeyPadLeftKey, AngleOctantTable, PointerInstalled, PointerFileName, DrawArtRemapFunc, SavedStackSegment
+KeyPadFireKey:
         db 039h
-byte_14FAC1:
+KeyPadSelectKey:
         db 01Ch
-byte_14FAC2:
+KeyPadUpLeftKey:
         db 047h
-byte_14FAC3:
+KeyPadUpKey:
         db 048h,048h
-byte_14FAC5:
+KeyPadUpRightKey:
         db 049h
-byte_14FAC6:
+KeyPadRightKey:
         db 04Dh,04Dh
-byte_14FAC8:
+KeyPadDownRightKey:
         db 051h
-byte_14FAC9:
+KeyPadDownKey:
         db 050h,050h
-byte_14FACB:
+KeyPadDownLeftKey:
         db 04Fh
-str_KK:
+KeyPadLeftKey:
         db 04Bh,04Bh,00h,00h
-off_14FAD0:
+PointerFileName:
         dd str_Mouse
 DrawArtRemapFunc:
         dd DrawArtKeyedRemap
-dword_14FAD8:
+PointerInstalled:
         db 00h,00h,00h,00h
 SavedStackSegment:
         db 00h,00h

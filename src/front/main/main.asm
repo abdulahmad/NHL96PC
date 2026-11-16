@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1B046 progbits alloc exec nowrite align=1
 extern _dos_gettime_, str_Punct_StartUp, chdir_, DetectCPU, GripLibHandle, FrontShapesFile, SaveFileHandle, CpuTestPattern
-extern StartupPalette, CpuType, dword_11F61C, bailout_vec, DebugMode, LogoPackBuf, LogoPackFile, PanelShadeArt
+extern StartupPalette, CpuType, DebugKeysEnabled, bailout_vec, DebugMode, LogoPackBuf, LogoPackFile, PanelShadeArt
 extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, globalset, InitInputDevices, InstallTimer, LoadDataFile
 extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, LogoNames, optflags, PlayMenuGame, printf_
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
@@ -467,7 +467,7 @@ StartUp:
         call InitHardware
         push byte 0
         mov dword [DebugMode], 0
-        mov dword [dword_11F61C], 0
+        mov dword [DebugKeysEnabled], 0
         call ClearScreenColour
         add esp, byte 4
         call InitInputDevices

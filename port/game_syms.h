@@ -79,7 +79,7 @@
 #define SYM__Envptr_w4              0x124431u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM__osmajor                0x124433u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM__osminor                0x124434u   /* data/lib/video/video_bios_vga_03_data_01.asm */
-#define SYM_dword_1248C8            0x1248C8u   /* data/lib/video/video_bios_vga_03_data_01.asm */
+#define SYM_RetraceMode             0x1248C8u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM_snddriver               0x1248CCu   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM_Sb16DmaAlloc            0x14F05Cu   /* data/lib/sound/snd_soundblaster_data_02.asm */
 #define SYM__environ                0x14F09Cu   /* data/lib/sound/snd_soundblaster_data_02.asm */

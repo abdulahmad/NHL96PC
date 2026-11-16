@@ -4,8 +4,8 @@ bits 32
 section s_BF534 progbits alloc exec nowrite align=1
 extern FatalError, __STOSB, str_InitgraphicsINITMEMMAN, str_InitgraphicsINVALIDSCREEN, str_VESAVideoBiosDriver, GraphicsReady, ViewScreenWidth, ViewScreenHeight
 extern ScreenPitch, ScreenBuffer, ScreenModeWidth, ScreenModeHeight, MemPoolBase, ScreenWidth, BackBufferWidth, ModeSetCount
-extern dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920, dword_122924, dword_122930
-extern dword_123930, VideoModeWidths, VideoModeHeights, VesaBank, VesaBankFunc, dword_19B650, dword_1A0B1C, FreeBitmap
+extern ScreenClipLeft, ScreenClipTop, ScreenClipRight, ScreenClipBottom, ScreenBitsPerPixel, ScreenRowBytes, ScreenBanked, ScreenRowTable
+extern ScreenWidthFractions, VideoModeWidths, VideoModeHeights, VesaBank, VesaBankFunc, ScreenWidthPtr, ScreenSaveBitmap, FreeBitmap
 extern VesaGetInfo, VesaGetModeInfo, SetScreenTarget, VesaSetBank, VesaSetMode, VgaSetModeTwice, SaveTextMode
 global initgraphics, TranslatePixels, SumRingRange
 ;-----------------------------------------------------------------------------
@@ -210,29 +210,29 @@ initgraphics:
         mov esi, ebx
         mov dword [BackBufferWidth], ebx
         mov dword [ModeSetCount], edx
-        mov dword [dword_122910], ebx
+        mov dword [ScreenClipRight], ebx
         sub esi, eax
         mov eax, dword [ScreenBuffer]
         mov dword [ScreenModeWidth], esi
         mov esi, edx
-        mov dword [dword_122914], edx
+        mov dword [ScreenClipBottom], edx
         sub esi, eax
-        mov dword [dword_122920], ebx
+        mov dword [ScreenRowBytes], ebx
         mov dword [ScreenModeHeight], esi
         xor esi, esi
-        mov dword [dword_122918], ebp
-        mov dword [dword_122908], esi
-        mov dword [dword_12290C], esi
+        mov dword [ScreenBitsPerPixel], ebp
+        mov dword [ScreenClipLeft], esi
+        mov dword [ScreenClipTop], esi
         cmp ecx, byte 2
         sete al
         and eax, 0FFh
-        mov dword [dword_122924], eax
+        mov dword [ScreenBanked], eax
         xor eax, eax
         test edx, edx
         jle short .27
         shl edx, 2
 .26:
-        mov dword [dword esi+dword_122930], eax
+        mov dword [dword esi+ScreenRowTable], eax
         add esi, byte 4
         add eax, ebx
         cmp esi, edx
@@ -247,22 +247,22 @@ initgraphics:
         idiv ebx
         add edi, byte 4
         add esi, 10000h
-        mov dword [dword edi+dword_123930], eax
+        mov dword [dword edi+ScreenWidthFractions], eax
         cmp edi, byte 50h
         jne short .28
         mov eax, 0FFFFFFFFh
         call VesaSetBank
-        mov esi, dword [dword_1A0B1C]
+        mov esi, dword [ScreenSaveBitmap]
         test esi, esi
         je short .29
         push esi
         call FreeBitmap
         xor ebp, ebp
         add esp, byte 4
-        mov dword [dword_1A0B1C], ebp
+        mov dword [ScreenSaveBitmap], ebp
 .29:
         call SetScreenTarget
-        mov dword [dword_19B650], ScreenWidth
+        mov dword [ScreenWidthPtr], ScreenWidth
         add esp, 208h
         pop ebp
         pop edi

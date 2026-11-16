@@ -153,7 +153,7 @@ __attribute__((naked)) static void wait_ticks_entry(void)
  * video_present could sample the DAC mid-write (one wrong frame every few seconds). Sleep until the emulated retrace edge instead. */
 void host_wait_retrace(void)
 {
-    uint32_t mode = *(uint32_t *)GAME_ADDR(SYM_dword_1248C8);
+    uint32_t mode = *(uint32_t *)GAME_ADDR(SYM_RetraceMode);
     int64_t now, ph;
     if (mode > 1) { *(uint32_t *)GAME_ADDR(SYM_RetraceTimeout) = 0x186A0; return; }
     host_allow_irq = 1;

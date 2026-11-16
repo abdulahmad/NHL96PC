@@ -8,7 +8,7 @@ global SbIrq, SbDmaBuffer, SbVersion, SbOldIrqOffset, SbDmaPos, SbProRealOldOffs
 global SbProBlockSamples, SbProHalfBuffer, SbProDmaSize, SbProRate, SbProDma, SbProOldFilter, SbProIrq, SbProDmaBuffer
 global SbProOldStereo, SbProVersion, SbProPort, SbProOldIrqOffset, SbProDmaPos, Sb16BlockSamples, Sb16DmaSize, Sb16HalfBuffer
 global Sb16Rate, Sb16HighDma, Sb16ActiveDma, Sb16LowDma, Sb16Irq, Sb16DmaBuffer, Sb16Version, Sb16OldIrqOffset
-global Sb16DmaPos, RationalAllocLimit, CMainArgc, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4, dword_1A10A8
+global Sb16DmaPos, RationalAllocLimit, CMainArgc, CMainArgv, PointerShapes, PointerHotY
 global SbHighDma, SbProHighDma, GusConfig, GusConfigPort, SbPort, SbOldIrqSelector, SbProOldIrqSelector, Sb16Port
 global Sb16OldIrqSelector, RationalAllocFlags
 WssBlockSamples:
@@ -135,11 +135,9 @@ CMainArgc:
         resb 4
 CMainArgv:
         resb 4
-dword_1A109C:
+PointerShapes:
         resb 4
-dword_1A10A0:
         resb 4
-dword_1A10A4:
         resb 4
-dword_1A10A8:
+PointerHotY:
         resb 8

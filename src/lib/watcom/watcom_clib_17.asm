@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_D069B progbits alloc exec nowrite align=1
 extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, str_CUtilMouse, str_Ptr0ptr1ptr2, str_StackOverflow, TextCharH, MousePresent
-extern mousex, mousey, MouseMoved, PointerCount, ViewScreenWidth, ViewScreenHeight, MenuScreenBitmap, dword_11F61C
-extern TextBgColour, TextOriginX, TextOriginY, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228FC
-extern BackBufferWidth, _STACKLOW, __amblksiz, dword_14FAD8, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4
-extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
-extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
-extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, TextStringWidth, MemViewer, MemViewerOpenAlt, SetHotkey_5B
-extern SetHotkey_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, DrawArtRemapFunc, sprintf_
+extern mousex, mousey, MouseMoved, PointerCount, ViewScreenWidth, ViewScreenHeight, MenuScreenBitmap, DebugKeysEnabled
+extern TextBgColour, TextOriginX, TextOriginY, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawVideoBase
+extern BackBufferWidth, _STACKLOW, __amblksiz, PointerInstalled, CMainArgv, PointerShapes
+extern PointerHotY, PointerHotX, PointerLastButtons, PointerSaveBitmap, PointerShapeIndex, PointerScreen, PointerCellY
+extern PointerCellX, PointerFileData, PointerSpareBitmap, PointerBitmapHeight, PointerBitmapWidth, PointerClipLeft, PointerClipTop, PointerDrawBitmap
+extern PointerX, PointerY, PointerClipBottom, PointerClipRight, TextStringWidth, MemViewer, MemViewerOpenAlt, SetHotkey_5B
+extern SetHotkey_81, mousepollfn, HidePointerKeepHook, HidePointerHook, ShowPointerHook, PointerFileName, DrawArtRemapFunc, sprintf_
 extern DrawShapeCore, PutBlock, AllocMemBlockLockedChecked, FreeMemBlock, PushMemDescriptorLocked, MemDescPtr, CreateBitmapDepth, FillRectClipped
 extern FreeBitmap, SetTextOrigin, LoadFileData, TextPrint, DrawArtOpaque, FindShapeListQuiet, AskExitToDos, PauseUntilKey
 extern JoystickCalibrateScreen, ShowKeyboardOn, ResetClipWindow, SaveScreenshot, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
@@ -187,15 +187,15 @@ RestoreTextScreen:
 ; Returns 1 when the draw target is the screen the mouse pointer is drawn on
 ;-----------------------------------------------------------------------------
 PointerOnTarget:
-        mov edx, dword [dword_1A10CC]
-        mov eax, dword [dword_1228FC]
+        mov edx, dword [PointerScreen]
+        mov eax, dword [DrawVideoBase]
         cmp eax, dword [byte edx+02Ch]
         sete al
         and eax, 0FFh
         ret
         db 090h
-        mov edx, dword [dword_1A10CC]
-        mov eax, dword [dword_1228FC]
+        mov edx, dword [PointerScreen]
+        mov eax, dword [DrawVideoBase]
         cmp eax, dword [byte edx+02Ch]
         sete al
         and eax, 0FFh
@@ -218,32 +218,32 @@ DrawPointer:
         push esi
         push ebp
         sub esp, byte 60h
-        mov eax, dword [dword_1A10C8]
-        cmp dword [nosplit eax*4+dword_1A109C], byte 0
+        mov eax, dword [PointerShapeIndex]
+        cmp dword [nosplit eax*4+PointerShapes], byte 0
         je near .3
         mov eax, esp
         push eax
         call SaveDrawState
         add esp, byte 4
-        mov ebx, dword [dword_1A10F0]
+        mov ebx, dword [PointerDrawBitmap]
         push ebx
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
-        mov eax, dword [dword_1A10C4]
+        mov eax, dword [PointerSaveBitmap]
         push byte 0
         mov ecx, dword [byte eax+02Ch]
         push ecx
         call DrawArtOpaque
-        mov eax, dword [dword_1A10F8]
+        mov eax, dword [PointerY]
         add esp, byte 0Ch
         and eax, byte 7
         push eax
-        mov eax, dword [dword_1A10F4]
+        mov eax, dword [PointerX]
         and eax, byte 7
         push eax
-        mov eax, dword [dword_1A10C8]
-        mov esi, dword [nosplit eax*4+dword_1A109C]
+        mov eax, dword [PointerShapeIndex]
+        mov esi, dword [nosplit eax*4+PointerShapes]
         push esi
         call dword [DrawArtRemapFunc]
         add esp, byte 0Ch
@@ -254,7 +254,7 @@ DrawPointer:
         call PointerOnTarget
         test eax, eax
         jne short .2
-        mov eax, dword [dword_1A10CC]
+        mov eax, dword [PointerScreen]
         cmp dword [byte eax+024h], byte 0
         je short .1
         call SetScreenTarget
@@ -264,11 +264,11 @@ DrawPointer:
         call SetDrawBitmap
         add esp, byte 4
 .2:
-        mov ebp, dword [dword_1A10D0]
+        mov ebp, dword [PointerCellY]
         push ebp
-        mov eax, dword [dword_1A10D4]
+        mov eax, dword [PointerCellX]
         push eax
-        mov eax, dword [dword_1A10F0]
+        mov eax, dword [PointerDrawBitmap]
         mov edx, dword [byte eax+02Ch]
         push edx
         call PutBlock
@@ -290,10 +290,10 @@ DrawPointer:
 UpdatePointerPos:
         push esi
         mov eax, dword [MouseMoved]
-        mov dword [dword_1A10C0], eax
+        mov dword [PointerLastButtons], eax
         test eax, eax
         je short .2
-        test byte [dword_1A10C0], 5
+        test byte [PointerLastButtons], 5
         je short .1
         mov edx, 1
         jmp short .3
@@ -304,19 +304,19 @@ UpdatePointerPos:
         xor edx, edx
 .3:
         mov ebx, dword [mousex]
-        sub ebx, dword [nosplit edx*4+dword_1A10B4]
-        mov esi, dword [nosplit edx*4+dword_1A10A8]
+        sub ebx, dword [nosplit edx*4+PointerHotX]
+        mov esi, dword [nosplit edx*4+PointerHotY]
         mov eax, ebx
-        mov dword [dword_1A10F4], ebx
+        mov dword [PointerX], ebx
         mov ebx, dword [mousey]
         and al, 0F8h
         sub ebx, esi
-        mov dword [dword_1A10D4], eax
+        mov dword [PointerCellX], eax
         mov eax, ebx
         and al, 0F8h
-        mov dword [dword_1A10F8], ebx
-        mov dword [dword_1A10D0], eax
-        mov dword [dword_1A10C8], edx
+        mov dword [PointerY], ebx
+        mov dword [PointerCellY], eax
+        mov dword [PointerShapeIndex], edx
         pop esi
         ret
         db 08Bh,0C0h
@@ -337,7 +337,7 @@ HidePointerKeep:
         call PointerOnTarget
         test eax, eax
         jne short .2
-        mov eax, dword [dword_1A10CC]
+        mov eax, dword [PointerScreen]
         cmp dword [byte eax+024h], byte 0
         je short .1
         call SetScreenTarget
@@ -348,13 +348,13 @@ HidePointerKeep:
         add esp, byte 4
 .2:
         mov eax, dword [DrawClipLeft]
-        mov dword [dword_1A10E8], eax
+        mov dword [PointerClipLeft], eax
         mov eax, dword [DrawClipTop]
-        mov dword [dword_1A10EC], eax
+        mov dword [PointerClipTop], eax
         mov eax, dword [DrawClipRight]
-        mov dword [dword_1A1100], eax
+        mov dword [PointerClipRight], eax
         mov eax, dword [DrawClipBottom]
-        mov dword [dword_1A10FC], eax
+        mov dword [PointerClipBottom], eax
         mov eax, esp
         push eax
         call RestoreDrawState
@@ -382,7 +382,7 @@ HidePointer:
         call PointerOnTarget
         test eax, eax
         jne short .2
-        mov eax, dword [dword_1A10CC]
+        mov eax, dword [PointerScreen]
         cmp dword [byte eax+024h], byte 0
         je short .1
         call SetScreenTarget
@@ -393,19 +393,19 @@ HidePointer:
         add esp, byte 4
 .2:
         mov eax, dword [DrawClipLeft]
-        mov dword [dword_1A10E8], eax
+        mov dword [PointerClipLeft], eax
         mov eax, dword [DrawClipTop]
-        mov dword [dword_1A10EC], eax
+        mov dword [PointerClipTop], eax
         mov eax, dword [DrawClipRight]
-        mov dword [dword_1A1100], eax
+        mov dword [PointerClipRight], eax
         mov eax, dword [DrawClipBottom]
-        mov esi, dword [dword_1A10C4]
-        mov dword [dword_1A10FC], eax
+        mov esi, dword [PointerSaveBitmap]
+        mov dword [PointerClipBottom], eax
         test esi, esi
         je short .3
-        mov edi, dword [dword_1A10D0]
+        mov edi, dword [PointerCellY]
         push edi
-        mov ebp, dword [dword_1A10D4]
+        mov ebp, dword [PointerCellX]
         push ebp
         mov edx, dword [byte esi+02Ch]
         push edx
@@ -446,7 +446,7 @@ ShowPointer:
         call PointerOnTarget
         test eax, eax
         jne short .6
-        mov eax, dword [dword_1A10CC]
+        mov eax, dword [PointerScreen]
         cmp dword [byte eax+024h], byte 0
         je short .5
         call SetScreenTarget
@@ -456,32 +456,32 @@ ShowPointer:
         call SetDrawBitmap
         add esp, byte 4
 .6:
-        mov eax, dword [dword_1A10FC]
+        mov eax, dword [PointerClipBottom]
         mov edi, dword [ViewScreenHeight]
         cmp eax, edi
         jl short .7
         mov eax, edi
 .7:
         push eax
-        mov eax, dword [dword_1A10EC]
+        mov eax, dword [PointerClipTop]
         mov edx, dword [ViewScreenWidth]
         push eax
-        mov eax, dword [dword_1A1100]
+        mov eax, dword [PointerClipRight]
         cmp eax, edx
         jl short .8
         mov eax, edx
 .8:
         push eax
-        mov ebx, dword [dword_1A10E8]
+        mov ebx, dword [PointerClipLeft]
         push ebx
         call SetClipWindow
-        mov ecx, dword [dword_1A10C4]
+        mov ecx, dword [PointerSaveBitmap]
         add esp, byte 10h
         test ecx, ecx
         je short .9
-        mov esi, dword [dword_1A10D0]
+        mov esi, dword [PointerCellY]
         push esi
-        mov edi, dword [dword_1A10D4]
+        mov edi, dword [PointerCellX]
         push edi
         mov edx, dword [byte ecx+02Ch]
         push edx
@@ -545,7 +545,7 @@ RestoreUnderPointer:
         push esi
         push ebp
         call SetClipWindow
-        mov ebx, dword [dword_1A10C4]
+        mov ebx, dword [PointerSaveBitmap]
         add esp, byte 10h
         test ebx, ebx
         je short .5
@@ -581,23 +581,23 @@ PointerService:
         sub esp, byte 68h
         cmp dword [PointerCount], byte 1
         jl near .16
-        mov esi, dword [dword_1A10C8]
+        mov esi, dword [PointerShapeIndex]
         mov edi, dword [mousex]
         mov eax, dword [mousey]
-        mov ebx, dword [nosplit esi*4+dword_1A10B4]
-        mov ecx, dword [nosplit esi*4+dword_1A10A8]
-        mov esi, dword [dword_1A10F4]
+        mov ebx, dword [nosplit esi*4+PointerHotX]
+        mov ecx, dword [nosplit esi*4+PointerHotY]
+        mov esi, dword [PointerX]
         sub edi, ebx
         sub eax, ecx
         cmp edi, esi
         jne short .6
-        cmp eax, dword [dword_1A10F8]
+        cmp eax, dword [PointerY]
         jne short .6
         mov eax, dword [MouseMoved]
-        cmp eax, dword [dword_1A10C0]
+        cmp eax, dword [PointerLastButtons]
         je near .16
 .6:
-        cmp dword [dword_1A10C4], byte 0
+        cmp dword [PointerSaveBitmap], byte 0
         je near .15
         mov eax, esp
         push eax
@@ -606,7 +606,7 @@ PointerService:
         call PointerOnTarget
         test eax, eax
         jne short .8
-        mov eax, dword [dword_1A10CC]
+        mov eax, dword [PointerScreen]
         cmp dword [byte eax+024h], byte 0
         je short .7
         call SetScreenTarget
@@ -617,37 +617,37 @@ PointerService:
         add esp, byte 4
 .8:
         call ResetClipWindow
-        mov esi, dword [dword_1A10D4]
-        mov edi, dword [dword_1A10D0]
+        mov esi, dword [PointerCellX]
+        mov edi, dword [PointerCellY]
         call UpdatePointerPos
-        cmp esi, dword [dword_1A10D4]
+        cmp esi, dword [PointerCellX]
         jne short .9
-        cmp edi, dword [dword_1A10D0]
+        cmp edi, dword [PointerCellY]
         je near .14
 .9:
         call ResetClipWindow
-        mov ebp, dword [dword_1A10D0]
+        mov ebp, dword [PointerCellY]
         push ebp
-        mov eax, dword [dword_1A10D4]
+        mov eax, dword [PointerCellX]
         push eax
-        mov eax, dword [dword_1A10DC]
+        mov eax, dword [PointerSpareBitmap]
         mov edx, dword [byte eax+02Ch]
         push edx
         call DrawShapeCore
         add esp, byte 0Ch
-        mov ebx, dword [dword_1A10DC]
+        mov ebx, dword [PointerSpareBitmap]
         push ebx
         call SetDrawBitmap
-        mov ecx, dword [dword_1A10D0]
+        mov ecx, dword [PointerCellY]
         mov eax, edi
         add esp, byte 4
         sub eax, ecx
-        mov ebp, dword [dword_1A10D4]
+        mov ebp, dword [PointerCellX]
         push eax
         mov eax, esi
         sub eax, ebp
         push eax
-        mov eax, dword [dword_1A10C4]
+        mov eax, dword [PointerSaveBitmap]
         mov edx, dword [byte eax+02Ch]
         push edx
         call PutBlock
@@ -659,7 +659,7 @@ PointerService:
         call PointerOnTarget
         test eax, eax
         jne short .11
-        mov eax, dword [dword_1A10CC]
+        mov eax, dword [PointerScreen]
         cmp dword [byte eax+024h], byte 0
         je short .10
         call SetScreenTarget
@@ -670,7 +670,7 @@ PointerService:
         add esp, byte 4
 .11:
         call ResetClipWindow
-        mov ecx, dword [dword_1A10D0]
+        mov ecx, dword [PointerCellY]
         mov eax, dword [DrawClipRight]
         push ecx
         mov dword [byte esp+064h], eax
@@ -686,9 +686,9 @@ PointerService:
         mov dword [byte esp+07Ch], edx
         call RestoreUnderPointer
         add esp, byte 18h
-        mov eax, dword [dword_1A10D0]
+        mov eax, dword [PointerCellY]
         mov edx, dword [byte esp+064h]
-        mov ebx, dword [dword_1A10E0]
+        mov ebx, dword [PointerBitmapHeight]
         push edx
         add eax, ebx
         push eax
@@ -698,29 +698,29 @@ PointerService:
         push edi
         push esi
         call RestoreUnderPointer
-        mov eax, dword [dword_1A10D0]
-        mov edx, dword [dword_1A10E0]
+        mov eax, dword [PointerCellY]
+        mov edx, dword [PointerBitmapHeight]
         add esp, byte 18h
         add eax, edx
         push eax
-        mov ebx, dword [dword_1A10D0]
+        mov ebx, dword [PointerCellY]
         push ebx
-        mov ecx, dword [dword_1A10D4]
+        mov ecx, dword [PointerCellX]
         push ecx
         push ebp
         push edi
         push esi
         call RestoreUnderPointer
-        mov eax, dword [dword_1A10D0]
-        mov ebp, dword [dword_1A10E0]
+        mov eax, dword [PointerCellY]
+        mov ebp, dword [PointerBitmapHeight]
         add esp, byte 18h
         add eax, ebp
         push eax
-        mov eax, dword [dword_1A10D0]
-        mov ebx, dword [dword_1A10E4]
+        mov eax, dword [PointerCellY]
+        mov ebx, dword [PointerBitmapWidth]
         push eax
         mov edx, dword [byte esp+068h]
-        mov eax, dword [dword_1A10D4]
+        mov eax, dword [PointerCellX]
         push edx
         add eax, ebx
         push eax
@@ -735,7 +735,7 @@ PointerService:
         call PointerOnTarget
         test eax, eax
         jne short .13
-        mov eax, dword [dword_1A10CC]
+        mov eax, dword [PointerScreen]
         cmp dword [byte eax+024h], byte 0
         je short .12
         call SetScreenTarget
@@ -746,10 +746,10 @@ PointerService:
         add esp, byte 4
 .13:
         call ResetClipWindow
-        mov eax, dword [dword_1A10DC]
-        mov esi, dword [dword_1A10C4]
-        mov dword [dword_1A10C4], eax
-        mov dword [dword_1A10DC], esi
+        mov eax, dword [PointerSpareBitmap]
+        mov esi, dword [PointerSaveBitmap]
+        mov dword [PointerSaveBitmap], eax
+        mov dword [PointerSpareBitmap], esi
 .14:
         call DrawPointer
         mov eax, esp
@@ -757,7 +757,7 @@ PointerService:
         call RestoreDrawState
         add esp, byte 4
 .15:
-        mov eax, dword [dword_1A10C0]
+        mov eax, dword [PointerLastButtons]
         add esp, byte 68h
         pop ebp
         pop edi
@@ -781,45 +781,45 @@ PointerSetupBitmaps:
         push ebp
         mov edi, dword [byte esp+018h]
         mov esi, dword [byte esp+01Ch]
-        call dword [off_11F5F8]
+        call dword [HidePointerHook]
         mov eax, dword [byte esp+010h]
         add eax, byte 7
         and al, 0F8h
         add eax, byte 8
-        mov dword [dword_1A10E4], eax
+        mov dword [PointerBitmapWidth], eax
         mov eax, dword [byte esp+014h]
         add eax, byte 8
-        mov dword [dword_1A10E0], eax
+        mov dword [PointerBitmapHeight], eax
         xor eax, eax
 .1:
         add eax, byte 4
-        mov dword [dword eax+dword_1A10B0], edi
-        mov dword [dword eax+dword_1A10A4], esi
+        mov dword [dword eax+PointerHotY+8], edi
+        mov dword [dword eax+PointerShapes+8], esi
         cmp eax, byte 0Ch
         jne short .1
-        mov edx, dword [dword_1A10C4]
+        mov edx, dword [PointerSaveBitmap]
         test edx, edx
         je short .2
         push edx
         call FreeBitmap
         add esp, byte 4
-        mov ecx, dword [dword_1A10F0]
+        mov ecx, dword [PointerDrawBitmap]
         push ecx
         call FreeBitmap
         add esp, byte 4
-        mov esi, dword [dword_1A10DC]
+        mov esi, dword [PointerSpareBitmap]
         push esi
         call FreeBitmap
         add esp, byte 4
 .2:
-        mov eax, dword [dword_1A10E4]
-        mov edi, dword [dword_1A10E0]
+        mov eax, dword [PointerBitmapWidth]
+        mov edi, dword [PointerBitmapHeight]
         imul eax, edi
         test eax, eax
         jne short .3
-        mov dword [dword_1A10DC], eax
-        mov dword [dword_1A10F0], eax
-        mov dword [dword_1A10C4], eax
+        mov dword [PointerSpareBitmap], eax
+        mov dword [PointerDrawBitmap], eax
+        mov dword [PointerSaveBitmap], eax
         pop ebp
         pop edi
         pop esi
@@ -829,43 +829,43 @@ PointerSetupBitmaps:
         mov ebp, dword [MenuScreenBitmap]
         push ebp
         push edi
-        mov edx, dword [dword_1A10E4]
+        mov edx, dword [PointerBitmapWidth]
         push edx
         call CreateBitmapDepth
         add esp, byte 10h
         push byte 20h
         mov ebx, dword [MenuScreenBitmap]
         push ebx
-        mov ecx, dword [dword_1A10E0]
+        mov ecx, dword [PointerBitmapHeight]
         push ecx
-        mov esi, dword [dword_1A10E4]
+        mov esi, dword [PointerBitmapWidth]
         push esi
-        mov dword [dword_1A10C4], eax
+        mov dword [PointerSaveBitmap], eax
         call CreateBitmapDepth
         add esp, byte 10h
         push byte 20h
         mov edi, dword [MenuScreenBitmap]
         push edi
-        mov ebp, dword [dword_1A10E0]
+        mov ebp, dword [PointerBitmapHeight]
         push ebp
-        mov dword [dword_1A10F0], eax
-        mov eax, dword [dword_1A10E4]
+        mov dword [PointerDrawBitmap], eax
+        mov eax, dword [PointerBitmapWidth]
         push eax
         call CreateBitmapDepth
         add esp, byte 10h
-        mov dword [dword_1A10DC], eax
-        call dword [off_11F5FC]
+        mov dword [PointerSpareBitmap], eax
+        call dword [ShowPointerHook]
         pop ebp
         pop edi
         pop esi
         ret
         db 08Dh,040h,00h
         mov edx, dword [byte esp+04h]
-        mov eax, dword [dword_1A109C]
+        mov eax, dword [PointerShapes]
         mov dword [edx], eax
-        mov eax, dword [dword_1A10A0]
+        mov eax, dword [PointerShapes+4]
         mov dword [byte edx+04h], eax
-        mov eax, dword [dword_1A10A4]
+        mov eax, dword [PointerShapes+8]
         mov dword [byte edx+08h], eax
         ret
 ;-----------------------------------------------------------------------------
@@ -884,15 +884,15 @@ PointerLoadShapes:
         mov dword [esp], edx
 .1:
         mov ecx, dword [ebx]
-        mov dword [dword eax+dword_1A109C], ecx
+        mov dword [dword eax+PointerShapes], ecx
         test ecx, ecx
         jne short .2
         test edx, edx
         je short .2
         mov ecx, dword [dword eax+CMainArgv]
-        mov dword [dword eax+dword_1A109C], ecx
+        mov dword [dword eax+PointerShapes], ecx
 .2:
-        mov ecx, dword [dword eax+dword_1A109C]
+        mov ecx, dword [dword eax+PointerShapes]
         test ecx, ecx
         je short .4
         mov esi, ecx
@@ -914,7 +914,7 @@ PointerLoadShapes:
         add eax, byte 4
         cmp edx, byte 3
         jl short .1
-        cmp dword [dword_1A109C], byte 0
+        cmp dword [PointerShapes], byte 0
         je short .6
         push byte 0
         push byte 0
@@ -925,14 +925,14 @@ PointerLoadShapes:
         add esp, byte 10h
         xor eax, eax
 .5:
-        mov edx, dword [dword eax+dword_1A109C]
+        mov edx, dword [dword eax+PointerShapes]
         mov ebx, dword [byte edx+06h]
         sar ebx, 10h
-        mov dword [dword eax+dword_1A10B4], ebx
+        mov dword [dword eax+PointerHotX], ebx
         mov edx, dword [byte edx+08h]
         add eax, byte 4
         sar edx, 10h
-        mov dword [dword eax+dword_1A10A4], edx
+        mov dword [dword eax+PointerShapes+8], edx
         cmp eax, byte 0Ch
         jne short .5
 .6:
@@ -943,11 +943,11 @@ PointerLoadShapes:
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
-        mov dword [off_14FAD0], eax
+        mov dword [PointerFileName], eax
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
-        mov dword [dword_1A10CC], eax
+        mov dword [PointerScreen], eax
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
@@ -962,31 +962,31 @@ InitPointer:
         mov eax, dword [ViewScreenWidth]
         xor edx, edx
         mov esi, dword [MousePresent]
-        mov dword [dword_1A10C4], edx
-        mov dword [dword_1A10F0], edx
-        mov dword [dword_1A10DC], edx
-        mov dword [dword_1A10D4], edx
+        mov dword [PointerSaveBitmap], edx
+        mov dword [PointerDrawBitmap], edx
+        mov dword [PointerSpareBitmap], edx
+        mov dword [PointerCellX], edx
         mov dword [PointerCount], edx
-        mov dword [dword_1A10A4], edx
-        mov dword [dword_1A10A0], edx
-        mov dword [dword_1A109C], edx
-        mov dword [dword_1A10D8], edx
-        mov dword [dword_1A10E8], edx
-        mov dword [dword_1A1100], eax
+        mov dword [PointerShapes+8], edx
+        mov dword [PointerShapes+4], edx
+        mov dword [PointerShapes], edx
+        mov dword [PointerFileData], edx
+        mov dword [PointerClipLeft], edx
+        mov dword [PointerClipRight], eax
         mov eax, dword [ViewScreenHeight]
-        mov dword [dword_1A10EC], edx
-        mov dword [dword_1A10FC], eax
+        mov dword [PointerClipTop], edx
+        mov dword [PointerClipBottom], eax
         test esi, esi
         jne short .1
         call InitMouse
         mov esi, eax
         call MouseReadMotion
 .1:
-        cmp dword [dword_14FAD8], byte 0
+        cmp dword [PointerInstalled], byte 0
         jne near .5
         mov ebp, BackBufferWidth
-        mov eax, dword [dword_1A10D8]
-        mov dword [dword_1A10CC], ebp
+        mov eax, dword [PointerFileData]
+        mov dword [PointerScreen], ebp
         test eax, eax
         je short .2
         push eax
@@ -994,11 +994,11 @@ InitPointer:
         add esp, byte 4
 .2:
         push byte 0
-        mov ebx, dword [off_14FAD0]
+        mov ebx, dword [PointerFileName]
         push ebx
         call LoadFileData
         add esp, byte 8
-        mov dword [dword_1A10D8], eax
+        mov dword [PointerFileData], eax
         test eax, eax
         jne short .3
         push str_CUtilMouse
@@ -1011,10 +1011,10 @@ InitPointer:
         push eax
         call LoadFileData
         add esp, byte 8
-        mov dword [dword_1A10D8], eax
+        mov dword [PointerFileData], eax
 .3:
         xor ecx, ecx
-        mov eax, dword [dword_1A10D8]
+        mov eax, dword [PointerFileData]
         mov dword [dword esp+088h], ecx
         mov dword [dword esp+084h], ecx
         mov dword [dword esp+080h], ecx
@@ -1023,7 +1023,7 @@ InitPointer:
         lea eax, [dword esp+080h]
         push eax
         push str_Ptr0ptr1ptr2
-        mov edx, dword [dword_1A10D8]
+        mov edx, dword [PointerFileData]
         push edx
         call FindShapeListQuiet
         add esp, byte 0Ch
@@ -1036,12 +1036,12 @@ InitPointer:
         mov ebx, HidePointerKeep
         mov ecx, HidePointer
         add esp, byte 4
-        mov dword [off_11F5FC], edi
+        mov dword [ShowPointerHook], edi
         mov dword [mousepollfn], ebp
-        mov dword [off_11F5F4], ebx
-        mov dword [off_11F5F8], ecx
+        mov dword [HidePointerKeepHook], ebx
+        mov dword [HidePointerHook], ecx
         call UpdatePointerPos
-        mov dword [dword_14FAD8], 1
+        mov dword [PointerInstalled], 1
 .5:
         mov eax, esi
         add esp, 8Ch
@@ -1051,42 +1051,42 @@ InitPointer:
         ret
         push edi
         push ebp
-        cmp dword [dword_14FAD8], byte 0
+        cmp dword [PointerInstalled], byte 0
         je near .9
         cmp dword [PointerCount], byte 0
         jle short .6
-        call dword [off_11F5F8]
+        call dword [HidePointerHook]
 .6:
-        mov ecx, dword [dword_1A10D8]
+        mov ecx, dword [PointerFileData]
         test ecx, ecx
         je short .7
         push ecx
         call FreeMemBlock
         xor edi, edi
         add esp, byte 4
-        mov dword [dword_1A10D8], edi
+        mov dword [PointerFileData], edi
 .7:
-        mov ebp, dword [dword_1A10C4]
+        mov ebp, dword [PointerSaveBitmap]
         test ebp, ebp
         je short .8
         push ebp
         call FreeBitmap
         add esp, byte 4
-        mov edx, dword [dword_1A10F0]
+        mov edx, dword [PointerDrawBitmap]
         push edx
         call FreeBitmap
         add esp, byte 4
-        mov ebx, dword [dword_1A10DC]
+        mov ebx, dword [PointerSpareBitmap]
         push ebx
         call FreeBitmap
         xor ecx, ecx
         add esp, byte 4
-        mov dword [dword_1A10DC], ecx
-        mov dword [dword_1A10F0], ecx
-        mov dword [dword_1A10C4], ecx
+        mov dword [PointerSpareBitmap], ecx
+        mov dword [PointerDrawBitmap], ecx
+        mov dword [PointerSaveBitmap], ecx
 .8:
         xor ebp, ebp
-        mov dword [dword_14FAD8], ebp
+        mov dword [PointerInstalled], ebp
 .9:
         pop ebp
         pop edi
@@ -1101,7 +1101,7 @@ InstallDebugHotkeys:
         push MemViewer
         mov edx, 1
         push byte 4
-        mov dword [dword_11F61C], edx
+        mov dword [DebugKeysEnabled], edx
         call SetHotkey
         add esp, byte 8
         push MemViewerOpenAlt

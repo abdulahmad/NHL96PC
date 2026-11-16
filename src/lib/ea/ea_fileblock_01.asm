@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_AC9F0 progbits alloc exec nowrite align=1
 extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, DebugRow, DebugBackColor
-extern DebugAttr, DebugMode, dword_11F9D0, DebugLineWidth, DebugLogOn, fclose_, fopen_, DebugLog
+extern DebugAttr, DebugMode, DebugScreenBase, DebugLineWidth, DebugLogOn, fclose_, fopen_, DebugLog
 extern FindWildcardDigits, FormatDateStamp, bcopy, ZeroMem, str_Wt, vsprintf_
 global DebugPrintf, DebugShowLines_D5, DebugShowLines_E6, DebugShowLines_124, DebugShowLines_140, DebugShowLines_149, DebugSetLine, DebugShowLines
 global DebugScrollUp, DebugClearScreen, DebugSetRow, DebugSetAttr, unk_ACABC
@@ -86,7 +86,7 @@ DebugShowLines:
         push edi
         push ebp
         sub esp, byte 0Ch
-        mov ebx, dword [dword_11F9D0]
+        mov ebx, dword [DebugScreenBase]
         mov esi, dword [DebugLineWidth]
         mov edx, eax
         cmp dword [DebugMode], byte 2
@@ -110,7 +110,7 @@ DebugShowLines:
         xor eax, eax
         mov esi, dword [DebugLineWidth]
         mov al, cl
-        mov ebx, dword [dword_11F9D0]
+        mov ebx, dword [DebugScreenBase]
         cmp eax, byte 0Eh
         jne short .2
         mov al, byte [edi]
@@ -125,7 +125,7 @@ DebugShowLines:
         jl short .3
         call DebugScrollUp
         mov esi, dword [DebugLineWidth]
-        mov ebx, dword [dword_11F9D0]
+        mov ebx, dword [DebugScreenBase]
         xor ah, ah
         xor dh, dh
         mov al, byte [DebugBackColor]
@@ -195,7 +195,7 @@ DebugShowLines_149:
         jl short .4
 .5:
         movzx esi, byte [DebugRow]
-        mov dword [dword_11F9D0], ebx
+        mov dword [DebugScreenBase], ebx
 .6:
         imul esi, dword 0A0h
 .7:
@@ -208,7 +208,7 @@ DebugShowLines_149:
         cmp ebp, edx
         jl near DebugShowLines.1
 .8:
-        mov ebx, dword [dword_11F9D0]
+        mov ebx, dword [DebugScreenBase]
         add esp, byte 0Ch
         pop ebp
         pop edi
@@ -240,7 +240,7 @@ DebugScrollUp:
         push eax
         lea eax, [nosplit edx*4+00h]
         add eax, edx
-        mov ebx, dword [dword_11F9D0]
+        mov ebx, dword [DebugScreenBase]
         shl eax, 5
         add eax, ebx
         inc edx
@@ -252,7 +252,7 @@ DebugScrollUp:
         push eax
         call bcopy
         add esp, byte 0Ch
-        mov eax, dword [dword_11F9D0]
+        mov eax, dword [DebugScreenBase]
         push dword 0A0h
         add eax, 0F00h
         push eax
@@ -271,7 +271,7 @@ DebugScrollUp:
 ; Clears the debug monochrome screen
 ;-----------------------------------------------------------------------------
 DebugClearScreen:
-        mov ebx, dword [dword_11F9D0]
+        mov ebx, dword [DebugScreenBase]
         cmp dword [DebugMode], byte 2
         jl short .2
         xor eax, eax
@@ -281,7 +281,7 @@ DebugClearScreen:
         cmp eax, 0FA0h
         jl short .1
 .2:
-        mov dword [dword_11F9D0], ebx
+        mov dword [DebugScreenBase], ebx
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
@@ -317,7 +317,7 @@ DebugSetAttr:
         mov eax, dword [byte esp+04h]
         shl eax, 0Fh
         add eax, 0B0000h
-        mov dword [dword_11F9D0], eax
+        mov dword [DebugScreenBase], eax
         ret
         db 08Bh,0C0h
         push ebx

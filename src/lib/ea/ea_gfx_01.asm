@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_AA988 progbits alloc exec nowrite align=1
-extern FatalError, str_InitmemmanadrINSUFFICIENTMEM, str_LOWMEM, str_HIGHMEM, str_GAP, str_UnlinkmemclassareaReleaseMem, dword_11F9B8, RowTable
-extern RowCopyFunc, dword_1210C8, MemPoolBase, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
-extern KeyedDraw, dword_1228FC, dword_122930, str_F_PutBlock, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
+extern FatalError, str_InitmemmanadrINSUFFICIENTMEM, str_LOWMEM, str_HIGHMEM, str_GAP, str_UnlinkmemclassareaReleaseMem, RowTableCount, RowTable
+extern RowCopyFunc, MemPoolTop, MemPoolBase, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
+extern KeyedDraw, DrawVideoBase, ScreenRowTable, str_F_PutBlock, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
 extern MemFreeBytes, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, BlitBlock, BlitBlockXor, BlitBlockAnd
 extern AndPixel, BlitBlockOr, OrPixel, bcopy, SaveDrawState, RestoreDrawState
@@ -58,7 +58,7 @@ BlitToScreenWindow:
         push eax
         call SaveDrawState
         add esp, byte 4
-        mov esi, dword [dword_1228FC]
+        mov esi, dword [DrawVideoBase]
         call SetScreenTarget
         mov eax, dword [dword esp+084h]
         add eax, edi
@@ -230,7 +230,7 @@ PutBlock:
         mov edx, dword [byte eax+02h]
         mov ebp, dword [byte eax+04h]
         xor ebx, ebx
-        mov eax, dword [dword_1228FC]
+        mov eax, dword [DrawVideoBase]
         sar edx, 10h
         sar ebp, 10h
         mov dword [byte esp+01Ch], eax
@@ -282,7 +282,7 @@ PutBlock:
 .5:
         mov eax, dword [byte esp+03Ch]
         mov ecx, dword [byte esp+020h]
-        mov ebx, dword [nosplit eax*4+dword_122930]
+        mov ebx, dword [nosplit eax*4+ScreenRowTable]
         mov eax, dword [ScreenWidth]
         sub eax, ecx
         add esi, ebx
@@ -937,14 +937,14 @@ DrawArtOr:
         push byte 10h
         add eax, ebx
         push byte 10h
-        mov dword [dword_1210C8], eax
+        mov dword [MemPoolTop], eax
         push eax
         mov eax, dword [MemPoolBase]
         add eax, esi
         push eax
         push byte 0
         call AddMemRegion
-        mov eax, dword [dword_1210C8]
+        mov eax, dword [MemPoolTop]
         mov esi, dword [MemPoolBase]
         add esp, byte 18h
         mov edi, dword [MemLockHandle]
@@ -1331,7 +1331,7 @@ MemListEnd:
         mov eax, dword [byte esp+04h]
         mov dword [RowTable], eax
         mov eax, dword [byte esp+08h]
-        mov dword [dword_11F9B8], eax
+        mov dword [RowTableCount], eax
         ret
         db 090h
 ;-----------------------------------------------------------------------------

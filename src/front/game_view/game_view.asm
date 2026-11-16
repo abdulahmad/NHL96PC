@@ -8,7 +8,7 @@ extern textline3, textline4, textline5, byte_176F96, byte_1770A2, byte_1770A3, b
 extern byte_1770D7, byte_1796AC, byte_1796BF, byte_1796C0, byte_1796DC, byte_179700, byte_179701, byte_17970A
 extern byte_17970B, byte_17970D, byte_179712, byte_179713, byte_179715, byte_17971B, byte_17971C, byte_179722
 extern byte_179723, byte_17972D, byte_179733, byte_179743, byte_17974B, byte_179759, byte_17975A, byte_179763
-extern byte_179764, byte_1798A4, byte_179CB8, byte_179CB9, byte_179DC1, byte_179E06, byte_17CA5D, CloseTextOverlay
+extern byte_179764, byte_1798A4, byte_179CB8, byte_179CB9, byte_179DC1, byte_179E06, CloseTextOverlay
 extern curperiod, dword_1176E5, PreGameSkateOn, ZonesDirty, playsuspended, InReplay, ReplayRemoteShape, dword_11B238
 extern dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294, dword_11B298
 extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC, dword_11B300
@@ -25,7 +25,7 @@ extern dword_1798B4, dword_1798B8, dword_1798BC, dword_1798E4, dword_1798E8, dwo
 extern dword_1798F8, dword_1798FC, dword_179900, dword_179904, dword_179908, dword_17990C, dword_179910, dword_179914
 extern dword_179918, dword_179920, dword_179924, dword_179928, dword_17992C, dword_179930, dword_179934, dword_179978
 extern dword_17997C, dword_179A7C, dword_179AC8, dword_179C88, dword_179C8C, dword_179C90, dword_179DCE, dword_179E0B
-extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA4C, dword_17BA50, dword_17BA54, dword_17CA5C
+extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA4C, dword_17BA50, dword_17BA54, GsOptions
 extern FrontShapeFile, FillRect, FormatPlayerName, TextStringWidth, gameclock, gameopts, GetLowestPen, GetSpecialTeamsRanks
 extern gmode, gmode2, gsp, hmroster, hmtmstruct, lcboxon, lcline, lineuptime
 extern LoadPackedFile, LoadTeamLogo, MouseRead, mousex, mousey, PtrPuckFlags, off_11B278, optflags
@@ -647,7 +647,7 @@ InitGameView:
         mov byte [byte_179700], 1
         mov byte [byte_179743], 1
         call InitReciprocalTable
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         setne al
         movzx eax, al
         mov dword [dword_11B248], eax
@@ -711,7 +711,7 @@ InitGameView:
         mov edx, 1
         mov eax, unk_1782AC
         call SaveTeamPalette
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .5
         push byte 20h
         push dword 1E0h
@@ -740,14 +740,14 @@ InitGameView:
         add esp, byte 4
         push byte 50h
         call SetScreenScale
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 0Eh
         add esp, byte 4
         shr eax, 1Ch
         mov dword [dword_11B374], 0
         mov dword [dword_11B330], eax
         call SetGameViewSize
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 13h
         shr eax, 1Ch
         shl eax, 4
@@ -791,40 +791,40 @@ InitGameView:
         mov eax, ebx
         call BuildAntiAliasTable
         mov dword [dword_1798E4], eax
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Bh
         shr eax, 1Fh
         mov byte [byte_1175A4], al
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Ch
         shr eax, 1Fh
         mov byte [byte_1175A5], al
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         and eax, byte 1
         mov byte [byte_1175A9], al
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Dh
         shr eax, 1Fh
         mov byte [byte_1175A8], al
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Eh
         shr eax, 1Fh
         mov byte [byte_1175A6], al
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Ah
         shr eax, 1Fh
         mov byte [byte_1175A7], al
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 17h
         shr eax, 1Fh
         mov byte [byte_1175AB], al
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 19h
         mov byte [byte_1175AA], 0
         shr eax, 1Fh
         push byte 20h
         mov dword [dword_179978], eax
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         push byte 11h
         shl eax, 18h
         push str_Priority
@@ -911,7 +911,7 @@ InitGameView:
         mov eax, 107h
         call LoadPackedFile
         mov dword [dword_179904], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .10
         mov edx, 20h
         mov eax, 28h
@@ -967,7 +967,7 @@ InitGameView:
         push dword 0A666h
         call TintRect
         add esp, byte 0Ch
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .12
         mov edx, 20h
         mov eax, 62h
@@ -1214,7 +1214,7 @@ DrawRinkSprite:
         movzx edi, dl
         movzx ebx, byte [dword ebx+byte_1647FA]
 .5:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .6
         add esi, esi
         jmp short .7
@@ -1382,7 +1382,7 @@ DrawPlayerSprite:
         mov dword [byte ebp-04h], eax
         call SetPlayerSpriteColors
 .7:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .8
         add esi, esi
         jmp short .9
@@ -1580,7 +1580,7 @@ DrawControlMarker_41:
         push dword [byte ebp-08h]
         push edi
         push dword [nosplit esi*4+dword_152FEC]
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .14
         mov eax, 20000h
         jmp short .15
@@ -1602,7 +1602,7 @@ DrawControlMarker_41:
         mov eax, dword [byte ebp-0Ch]
         push edi
         push dword [nosplit eax*4+dword_152FEC]
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .17
         mov eax, 20000h
         jmp short .18
@@ -1622,7 +1622,7 @@ DrawControlMarker_41:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov esi, eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .20
         cmp eax, 30000h
         jle short .21
@@ -2554,7 +2554,7 @@ DrawPlayerMarkers:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov edx, eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je near PlaceGoalNets_65
         cmp eax, 30000h
         jle near PlaceGoalNets_71
@@ -2928,7 +2928,7 @@ DrawGameFrame:
         sub eax, dword [str_D_DrawGameFrame]
         imul eax, eax
         add edx, eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .24
         mov eax, 2710h
         jmp short .25
@@ -3377,7 +3377,7 @@ DrawOverlayCaption_E1:
 ResetGameOverlays:
         push edx
         mov dword [dword_11B238], 1770h
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         mov dword [dword_11B2E8], 0
         shl eax, 12h
         mov dword [dword_11B23C], 1F40h
@@ -5781,7 +5781,7 @@ DrawLineChangeBox:
         mov eax, dword [dword_17990C]
 .2:
         mov dword [byte ebp-04h], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         setne al
         movzx eax, al
         mov dword [byte ebp-010h], eax

@@ -6,7 +6,7 @@ extern __CHP, BuildShadeLut, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7,
 extern byte_1175AA, byte_1175AB, byte_1175AC, byte_11B380, byte_11B3C5, byte_11B40A, byte_11B44F, byte_11B494
 extern byte_11B4D9, byte_11B51E, byte_11B563, byte_11B5A8, byte_11B5ED, byte_11B632, byte_11BB20, byte_11BB24
 extern HexDigits, byte_1647E3, PenBuf, byte_1770A6, byte_1770B1, byte_179D7C, byte_179DC1, byte_179E47
-extern byte_17CA5D, DemoMode, InReplay, ReplayRemoteShape, dword_11B244, dword_11B314, dword_11B318, dword_11B31C
+extern DemoMode, InReplay, ReplayRemoteShape, dword_11B244, dword_11B314, dword_11B318, dword_11B31C
 extern dword_11B320, str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, str_C_CloseTextOverlay, dword_11B364
 extern dword_11B368, dword_11B370, dword_11B374, dword_11B37C, dword_11B381, dword_11B3C1, dword_11B3C6, dword_11B406
 extern dword_11B40B, dword_11B44B, dword_11B450, dword_11B490, dword_11B495, dword_11B4D5, dword_11B4DA, dword_11B51A
@@ -21,7 +21,7 @@ extern dword_179CC4, dword_179CC8, dword_179D44, dword_179D48, dword_179D50, dwo
 extern dword_179D60, dword_179D64, dword_179D68, dword_179D6C, dword_179D70, dword_179D74, dword_179D78, dword_179D7D
 extern dword_179DBD, dword_179DC2, dword_179DC6, dword_179DCA, dword_179DCE, dword_179DD2, dword_179DD6, dword_179E0B
 extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_179E1F, dword_179E23, dword_179E27, dword_179E2B
-extern dword_179E2F, dword_179E33, dword_179E37, dword_179E3B, dword_179E3F, dword_179E43, dword_17CA5C, fox
+extern dword_179E2F, dword_179E33, dword_179E37, dword_179E3B, dword_179E3F, dword_179E43, GsOptions, fox
 extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, puckvy, off_117890
 extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
 extern QueueOverlayPanel, F64_0p00277778, F64_65536_CamView236, F64_0p00277778_CamView236, qword_11109C, F64_0p00277778_CamView238, F64_65536_CamView238, F64_0p00277778_CamView239
@@ -3580,7 +3580,7 @@ CloseTextOverlay:
         mov dword [dword_11B8F1], 0
         mov dword [dword_11B8F5], 0BB8h
         mov dword [dword_11B8F9], 0FFFFF060h
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         mov dword [dword_11B8E9], 0
         and eax, byte 1
         mov dword [dword_11B8ED], 0FFFFE38Fh
@@ -3672,7 +3672,7 @@ SetGameViewSize:
         rep movsd
         mov eax, dword [dword_11B330]
         shl eax, 2
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .1
         mov edx, dword [byte eax+ebp-06Ch]
         mov dword [dword_11B318], edx
@@ -3739,9 +3739,9 @@ SetGameViewSize:
         call SetRinkClipWindow
         mov eax, dword [dword_11B330]
         and eax, byte 0Fh
-        and dword [dword_17CA5C], 0FFFC3FFFh
+        and dword [GsOptions], 0FFFC3FFFh
         shl eax, 0Eh
-        or dword [dword_17CA5C], eax
+        or dword [GsOptions], eax
         jmp near CamShot242_278
 jpt_609B6:
         dd ReadHotKeys_6FB
@@ -3776,13 +3776,13 @@ ReadHotKeys:
         call GetTicks
         cmp eax, dword [dword_11BAEC]
         jle short .1
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         and eax, byte 1
         xor al, 1
         and eax, byte 1
-        and byte [dword_17CA5C], 0FEh
+        and byte [GsOptions], 0FEh
         mov byte [byte_1175A9], al
-        or dword [dword_17CA5C], eax
+        or dword [GsOptions], eax
         call GetTicks
         add eax, byte 19h
         mov dword [dword_11BAEC], eax
@@ -3795,15 +3795,15 @@ ReadHotKeys:
         call GetTicks
         cmp eax, dword [dword_11BAF0]
         jle short .2
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Eh
         shr eax, 1Fh
         xor al, 1
         and eax, byte 1
         lea edx, [eax+eax]
-        and byte [dword_17CA5C], 0FDh
+        and byte [GsOptions], 0FDh
         mov byte [byte_1175A6], al
-        or dword [dword_17CA5C], edx
+        or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
         mov dword [dword_11BAF0], eax
@@ -3816,16 +3816,16 @@ ReadHotKeys:
         call GetTicks
         cmp eax, dword [dword_11BAF4]
         jle short .3
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Dh
         shr eax, 1Fh
         xor al, 1
         and eax, byte 1
         mov edx, eax
-        and byte [dword_17CA5C], 0FBh
+        and byte [GsOptions], 0FBh
         shl edx, 2
         mov byte [byte_1175A8], al
-        or dword [dword_17CA5C], edx
+        or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
         mov dword [dword_11BAF4], eax
@@ -3838,16 +3838,16 @@ ReadHotKeys:
         call GetTicks
         cmp eax, dword [dword_11BAF8]
         jle short .4
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Ch
         shr eax, 1Fh
         xor al, 1
         and eax, byte 1
         mov edx, eax
-        and byte [dword_17CA5C], 0F7h
+        and byte [GsOptions], 0F7h
         shl edx, 3
         mov byte [byte_1175A5], al
-        or dword [dword_17CA5C], edx
+        or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
         mov dword [dword_11BAF8], eax
@@ -3860,16 +3860,16 @@ ReadHotKeys:
         call GetTicks
         cmp eax, dword [dword_11BAFC]
         jle short .5
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Bh
         shr eax, 1Fh
         xor al, 1
         and eax, byte 1
         mov edx, eax
-        and byte [dword_17CA5C], 0EFh
+        and byte [GsOptions], 0EFh
         shl edx, 4
         mov byte [byte_1175A4], al
-        or dword [dword_17CA5C], edx
+        or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
         mov dword [dword_11BAFC], eax
@@ -3882,16 +3882,16 @@ ReadHotKeys:
         call GetTicks
         cmp eax, dword [dword_11BB00]
         jle short .6
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 1Ah
         shr eax, 1Fh
         xor al, 1
         and eax, byte 1
         mov edx, eax
-        and byte [dword_17CA5C], 0DFh
+        and byte [GsOptions], 0DFh
         shl edx, 5
         mov byte [byte_1175A7], al
-        or dword [dword_17CA5C], edx
+        or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
         mov dword [dword_11BB00], eax
@@ -3904,16 +3904,16 @@ ReadHotKeys:
         call GetTicks
         cmp eax, dword [dword_11BB04]
         jle short .7
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 19h
         shr eax, 1Fh
         xor al, 1
         and eax, byte 1
         mov edx, eax
-        and byte [dword_17CA5C], 0BFh
+        and byte [GsOptions], 0BFh
         shl edx, 6
         mov dword [dword_179978], eax
-        or dword [dword_17CA5C], edx
+        or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
         mov dword [dword_11BB04], eax
@@ -3926,16 +3926,16 @@ ReadHotKeys:
         call GetTicks
         cmp eax, dword [dword_11BB08]
         jle short .8
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 18h
         shr eax, 1Fh
         xor al, 1
         and eax, byte 1
         mov edx, eax
-        and byte [dword_17CA5C], 7Fh
+        and byte [GsOptions], 7Fh
         shl edx, 7
         mov dword [dword_17997C], eax
-        or dword [dword_17CA5C], edx
+        or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
         mov dword [dword_11BB08], eax
@@ -3948,16 +3948,16 @@ ReadHotKeys:
         call GetTicks
         cmp eax, dword [dword_11BB0C]
         jle short .9
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 17h
         shr eax, 1Fh
         xor al, 1
         and eax, byte 1
         mov edx, eax
-        and byte [byte_17CA5D], 0FEh
+        and byte [GsOptions+1], 0FEh
         shl edx, 8
         mov byte [byte_1175AB], al
-        or dword [dword_17CA5C], edx
+        or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
         mov dword [dword_11BB0C], eax

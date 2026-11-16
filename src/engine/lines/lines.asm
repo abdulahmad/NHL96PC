@@ -5,14 +5,14 @@ section s_51F18 progbits alloc exec nowrite align=1
 extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str_GloL, str_GloR
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
 extern lineslotgroups, lineslotgroupstart, byte_11BB20, hmrosterpos, byte_1647E0, byte_176B83, defsort_d, dressflags
-extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, byte_17CA5D, crowdlevel, dword_1150D4
+extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, crowdlevel, dword_1150D4
 extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, dword_11B294
 extern dword_11B330, dword_11B364, dword_11D91F, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
 extern MenuBitmapPixels, dword_157AF4, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
 extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, ReplayBufferTop, lineslotmark
 extern AttractOptTeams, SpriteSortDelay, ZoneBufFront, ZoneBufBack, ZoneBufCount, ZoneMarksFront, ZoneMarksBack, ZonePrevList
 extern ZonePrevCount, ZoneCurList, ZoneWorkBuf, ZoneCurCount, ZoneCapacity, ZoneMemBlock, DrawFrameCount, dword_1798BC
-extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, replaystart, puckvy
+extern optflags, GsOptions, gameclock, gameopts, gmode, hmroster, replaystart, puckvy
 extern puckc, PtrPuckFlags, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern LoadPackedFile, InitGameTeams, PuckInNet, PickForwardLines, PickDefencePairs, PickSpecialLines, LoadFrontEndArt, FreeFrontEndArt
 extern CopyBitmap, StartGameSound, EndGameSound, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
@@ -1901,7 +1901,7 @@ RunAttractMode:
         mov dword [AttractOptTeams], eax
 .4:
         call FreeFrontEndArt
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .5
         push dword [MenuCursorPixels]
         call FreeMemBlock
@@ -1922,25 +1922,25 @@ RunAttractMode:
         cmp eax, byte 4
         jl short .6
         call StartGameSound
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 13h
         shr eax, 1Ch
         mov dword [byte ebp-04h], eax
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 0Eh
         mov edi, dword [optflags]
         shr eax, 1Ch
         xor edx, edx
         mov dword [byte ebp-08h], eax
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         and word [optflags], 0FE0Fh
         shl eax, 12h
         or word [optflags], 140h
         shr eax, 1Fh
-        and dword [dword_17CA5C], 0FFFC01FFh
+        and dword [GsOptions], 0FFFC01FFh
         mov dword [byte ebp-0Ch], eax
         xor eax, eax
-        or dword [dword_17CA5C], 20600h
+        or dword [GsOptions], 20600h
         call InitGameTeams
         push str_GloL
         push dword [dword_1150D4]
@@ -1972,22 +1972,22 @@ RunAttractMode:
         or dword [optflags], edi
         mov eax, dword [byte ebp-08h]
         and eax, byte 0Fh
-        and dword [dword_17CA5C], 0FFFC3FFFh
+        and dword [GsOptions], 0FFFC3FFFh
         shl eax, 0Eh
-        or dword [dword_17CA5C], eax
+        or dword [GsOptions], eax
         mov eax, dword [byte ebp-0Ch]
         and eax, byte 1
-        and byte [byte_17CA5D], 0DFh
+        and byte [GsOptions+1], 0DFh
         shl eax, 0Dh
         push str_FhiL
-        or dword [dword_17CA5C], eax
+        or dword [GsOptions], eax
         mov eax, dword [byte ebp-04h]
         and byte [optflags], 8Fh
         and eax, byte 0Fh
-        and byte [byte_17CA5D], 0E1h
+        and byte [GsOptions+1], 0E1h
         shl eax, 9
         push dword [dword_1150D4]
-        or dword [dword_17CA5C], eax
+        or dword [GsOptions], eax
         call FindShape
         add esp, byte 8
         push str_FhiR

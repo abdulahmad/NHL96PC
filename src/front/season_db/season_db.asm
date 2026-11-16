@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_7FF7F progbits alloc exec nowrite align=1
-extern BlackPalette, HmGoalieSwapped, HmStarterGoalieMarks, AwGoalieSwapped, byte_17BDAE, byte_17CC1E, byte_17CC36, byte_17CFB1
+extern BlackPalette, HmGoalieSwapped, HmStarterGoalieMarks, AwGoalieSwapped, byte_17BDAE, SeasonUserSim, SeasonUserSlot, byte_17CFB1
 extern byte_17D262, byte_17D26F, byte_17D270, byte_17D271, CompareTeamPoints, seasondb, dword_1174EC, statsplayoffs
-extern dword_117500, dword_117510, dword_11E4B8, hmtmlines, hmtmplstats, hmtmglstats, hmtmroster, dword_17CB2F
-extern PlayoffTreeData, dword_17CC13, dword_17CC17, dword_17CEC3, SeasonRandomSeed, dword_17CED6, dword_17D162, dword_17D1E2
+extern dword_117500, dword_117510, dword_11E4B8, hmtmlines, hmtmplstats, hmtmglstats, hmtmroster, SeasonGameOpts
+extern PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonDay, SeasonRandomSeed, dword_17CED6, dword_17D162, dword_17D1E2
 extern dword_17D202, dword_17D267, dword_17D26B, FillMusicStream, gameopts, GetLangText, HideMessage, HideProgressBox
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
 extern SoundIdle, SoundSecondsToBytes, sprintf_, srand_, str_05dCNZDB, str_S05dCNZDB, strcat_, strlen_
 extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, FreeMemBlock, OpenArtArchiveErr, SaveFileBlock
-extern FileSizeByName, SeasonUserRecords, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, hmtmPwrPlays
+extern FileSizeByName, SeasonUserRecords, SeasonUserName, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, hmtmPwrPlays
 extern hmscore, awscore
 global UpdateTeamDbs, UpdateTeamDbs_86F, ApplyDayResults, SimSeasonGames, ApplyPlayoffDayResults, SaveSeasonTeams, unk_81ED1
 ;-----------------------------------------------------------------------------
@@ -42,7 +42,7 @@ UpdateTeamDbs:
         lea eax, [byte ebp-066h]
         xor ebx, ebx
         call MakeDirPath
-        mov eax, dword [dword_17CEC3]
+        mov eax, dword [SeasonDay]
 .1:
         add eax, byte 41h
         push eax
@@ -85,19 +85,19 @@ UpdateTeamDbs:
         mov dword [byte ebp+06h], eax
         cmp dword [byte ebp-0Ah], byte 0
         jne short .11
-        cmp dword [dword_17CC13], byte 2
+        cmp dword [SeasonType], byte 2
         jne short .5
         mov dword [byte ebp-02h], 19h
         jmp short .7
 .5:
-        cmp dword [dword_17CC13], byte 1
+        cmp dword [SeasonType], byte 1
         jne short .6
         mov dword [byte ebp-02h], 30h
         jmp short .7
 .6:
         mov dword [byte ebp-02h], 54h
 .7:
-        imul eax, dword [dword_17CEC3], dword 31Bh
+        imul eax, dword [SeasonDay], dword 31Bh
         mov edx, dword [statsplayoffs]
         mov dword [byte ebp+012h], 0
         add eax, edx
@@ -117,12 +117,12 @@ UpdateTeamDbs:
 .11:
         cmp dword [dword_17D267], byte 0
         je short .14
-        cmp dword [dword_17CC13], byte 2
+        cmp dword [SeasonType], byte 2
         jne short .12
         mov dword [byte ebp-02h], 19h
         jmp short .15
 .12:
-        cmp dword [dword_17CC13], byte 1
+        cmp dword [SeasonType], byte 1
         jne short .13
         mov dword [byte ebp-02h], 30h
         jmp short .15
@@ -182,10 +182,10 @@ UpdateTeamDbs:
         cmp dword [byte ebp-0Ah], byte 0
         jne short .18
         mov eax, dword [byte ebp+0Eh]
-        cmp eax, dword [dword_17CEC3]
+        cmp eax, dword [SeasonDay]
         je near .21
         mov eax, dword [byte ebp+016h]
-        cmp byte [dword eax+byte_17CC36], 0
+        cmp byte [dword eax+SeasonUserSlot], 0
         je near .21
 .18:
         cmp dword [byte ebp+012h], byte 1
@@ -193,10 +193,10 @@ UpdateTeamDbs:
         cmp dword [byte ebp-0Ah], byte 0
         jne short .19
         mov eax, dword [byte ebp+0Ah]
-        cmp eax, dword [dword_17CEC3]
+        cmp eax, dword [SeasonDay]
         je near .21
         mov eax, dword [byte ebp+01Ah]
-        cmp byte [dword eax+byte_17CC36], 0
+        cmp byte [dword eax+SeasonUserSlot], 0
         je near .21
 .19:
         cmp dword [byte ebp+012h], byte 0
@@ -1236,7 +1236,7 @@ ApplyDayResults:
 .44:
         cmp word [byte ebx+0Ch], byte 0
         jbe short .45
-        mov eax, dword [dword_17CB2F]
+        mov eax, dword [SeasonGameOpts]
         shl eax, 15h
         shr eax, 1Eh
         imul eax, dword [nosplit eax*4+dword_11E4B8], byte 64h
@@ -1409,11 +1409,11 @@ SimSeasonGames:
         add edi, edx
         movzx eax, byte [byte edi+02h]
         imul eax, byte 1Ah
-        cmp byte [dword eax+byte_17CC36], 0
+        cmp byte [dword eax+SeasonUserSlot], 0
         jne short .5
         movzx eax, byte [byte edi+03h]
         imul eax, byte 1Ah
-        cmp byte [dword eax+byte_17CC36], 0
+        cmp byte [dword eax+SeasonUserSlot], 0
         jne short .5
         mov eax, dword [SeasonRandomSeed]
         mov ecx, 0FFFFFFFFh
@@ -1446,11 +1446,11 @@ SimSeasonGames:
         add edi, edx
         movzx eax, byte [byte edi+02h]
         imul eax, byte 1Ah
-        cmp byte [dword eax+byte_17CC36], 0
+        cmp byte [dword eax+SeasonUserSlot], 0
         jne short .8
         movzx eax, byte [byte edi+03h]
         imul eax, byte 1Ah
-        cmp byte [dword eax+byte_17CC36], 0
+        cmp byte [dword eax+SeasonUserSlot], 0
         jne short .8
         movzx eax, byte [byte edi+01h]
         cmp eax, dword [byte ebp+04Ah]
@@ -1528,12 +1528,12 @@ SimSeasonGames:
         mov edx, byte_17BDAE
         call GetLangText
         call ShowMessage
-        cmp dword [dword_17CC13], byte 2
+        cmp dword [SeasonType], byte 2
         jne short .11
         mov dword [byte ebp+06Ah], 19h
         jmp short .13
 .11:
-        cmp dword [dword_17CC13], byte 1
+        cmp dword [SeasonType], byte 1
         jne short .12
         mov dword [byte ebp+06Ah], 30h
         jmp short .13
@@ -1550,7 +1550,7 @@ SimSeasonGames:
 .14:
         call SoundIdle
         mov eax, dword [byte ebp+04Eh]
-        movsx eax, byte [dword eax+byte_17CC36]
+        movsx eax, byte [dword eax+SeasonUserSlot]
         cmp eax, byte 1
         jne near .21
         mov edx, 4
@@ -1649,11 +1649,11 @@ SimSeasonGames:
         add edx, eax
         movzx ebx, byte [byte edx+02h]
         imul ebx, byte 1Ah
-        cmp byte [dword ebx+byte_17CC36], 0
+        cmp byte [dword ebx+SeasonUserSlot], 0
         jne short .23
         movzx ebx, byte [byte edx+03h]
         imul ebx, byte 1Ah
-        cmp byte [dword ebx+byte_17CC36], 0
+        cmp byte [dword ebx+SeasonUserSlot], 0
         jne short .23
         add eax, dword [SeasonRandomSeed]
         mov ecx, 0FFFFFFFFh
@@ -1666,7 +1666,7 @@ SimSeasonGames:
         add word [esi], byte 6
         jmp short .22
 .24:
-        mov dword [dword_17CC17], 1
+        mov dword [SeasonPlayoffs], 1
         mov byte [byte ebp+07Eh], 0FFh
         lea edi, [byte ebp+016h]
         mov esi, unk_7FF77
@@ -1683,7 +1683,7 @@ SimSeasonGames:
         add eax, byte 1Ah
         mov edx, dword [byte ebp+022h]
         mov bl, byte [byte ebp+022h]
-        mov byte [dword eax+byte_17CC1E], 1
+        mov byte [dword eax+SeasonUserSim], 1
         inc dword [byte ebp+022h]
         mov byte [byte edx+ebp-022h], bl
         cmp dword [byte ebp+022h], byte 1Ah
@@ -1874,7 +1874,7 @@ SimSeasonGames:
         imul esi, dword [dword edx+dword_17D1E2], byte 1Ah
         mov ecx, 1Ah
         mov edi, ebx
-        add esi, unk_17CC1F
+        add esi, SeasonUserName
         mov dword [byte ebp+01Eh], eax
         rep movsb
         mov eax, dword [byte ebp+01Eh]
@@ -2599,12 +2599,12 @@ SaveSeasonTeams:
         push eax
         call sprintf_
         add esp, byte 14h
-        cmp dword [dword_17CC13], byte 2
+        cmp dword [SeasonType], byte 2
         jne short .2
         mov edi, 19h
         jmp short .5
 .2:
-        cmp dword [dword_17CC13], byte 1
+        cmp dword [SeasonType], byte 1
         jne short .3
         mov edi, 30h
         jmp short .5

@@ -5,7 +5,7 @@ section s_849D5 progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, byte_17CFB1, byte_17D262, byte_17DB78, byte_17DC14, byte_17DC15, byte_17DC16
 extern byte_17DC17, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, dword_1174E4, statsplayoffs
 extern dword_1174F8, dword_117518, dword_11D674, dword_17BC74, MatchupLayer, TeamStatsBitmap, dword_17BCE2, str_Standings
-extern PlayoffTreeData, dword_17CC13, dword_17CEC3, dword_17CEC7, dword_17CED6, cddriveptr, dword_17CF92, dword_17CF96
+extern PlayoffTreeData, SeasonType, SeasonDay, SeasonGamePending, dword_17CED6, cddriveptr, dword_17CF92, dword_17CF96
 extern dword_17D1E2, dword_17D26B, dword_17DB7C, dword_17DBC0, dword_17DBC4, dword_17DC0C, dword_17DC10, FadeOut
 extern FadePalette, FileClose, FileOpenRead, FillMusicStream, gameopts, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LoadPackedFile, LoadTeamLogo, MakeSeasonDbPath, ModemChat, MouseRead, mousex
@@ -18,7 +18,7 @@ extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, s
 extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
 extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, SetColourRemap, GetColourRemap, FindShape, ClearClipRect, TextSetFont
-extern unk_112523, str_WesternConference2, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
+extern unk_112523, str_WesternConference2, unk_849C1, unk_849C7, unk_849CB, unk_849D1, SlotsTwoPlayer
 global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
 ;-----------------------------------------------------------------------------
@@ -191,7 +191,7 @@ PreGameMatchupScreen:
         lea edx, [dword ebp-0F2h]
         mov eax, 3
         call InitMenuItems
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         lea edi, [dword ebp-0F2h]
@@ -209,7 +209,7 @@ PreGameMatchupScreen:
         mov byte [dword ebp-0ADh], 1
         mov byte [dword ebp-0AFh], 0
         rep movsb
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov byte [byte ebp-04Ah], 1
         xor ah, ah
         mov byte [byte ebp-048h], 0
@@ -329,7 +329,7 @@ PreGameMatchupScreen:
 .14:
         mov dword [byte ebp+072h], 0FFFFFFFFh
 .15:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov edx, eax
@@ -779,7 +779,7 @@ PreGameTeamsScreen:
         mov dword [dword_17DC0C], 11h
         mov dword [dword_17DC10], eax
         call CycleScreenPalettes
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov esi, TeamStatsBitmap
@@ -797,7 +797,7 @@ PreGameTeamsScreen:
         mov byte [dword ebp-010Dh], 1
         mov byte [dword ebp-010Fh], 0
         rep movsb
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov byte [dword ebp-0AAh], 1
         xor ah, ah
         mov byte [dword ebp-0A8h], 0
@@ -838,12 +838,12 @@ PreGameTeamsScreen:
         and eax, byte 70h
         cmp eax, byte 10h
         jne near .31
-        cmp dword [dword_17CEC7], byte 0
+        cmp dword [SeasonGamePending], byte 0
         jle near .31
-        imul eax, dword [dword_17CEC3], dword 31Bh
+        imul eax, dword [SeasonDay], dword 31Bh
         mov edx, dword [statsplayoffs]
         add edx, eax
-        mov eax, dword [dword_17CC13]
+        mov eax, dword [SeasonType]
         mov dword [byte ebp+062h], edx
         cmp eax, byte 1
         jb short .16
@@ -886,7 +886,7 @@ PreGameTeamsScreen:
         call WriteDbRecord6
         test eax, eax
         jne near .27
-        mov esi, dword [dword_17CEC7]
+        mov esi, dword [SeasonGamePending]
         xor edx, edx
         dec esi
 .20:
@@ -912,7 +912,7 @@ PreGameTeamsScreen:
         jmp short .26
 .22:
         movzx ebx, byte [byte eax+02h]
-        cmp ebx, dword [dword_17CEC3]
+        cmp ebx, dword [SeasonDay]
         sete bl
         mov cl, byte [byte eax+04h]
         movzx ebx, bl
@@ -954,7 +954,7 @@ PreGameTeamsScreen:
         je near .55
         lea eax, [byte ebp+016h]
         push eax
-        push dword [dword_17CEC3]
+        push dword [SeasonDay]
         push byte 4
         jmp near .47
 .31:
@@ -1115,7 +1115,7 @@ PreGameTeamsScreen:
         call SoundIdle
         cmp dword [byte ebp+046h], byte 0
         jl short .58
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1133,7 +1133,7 @@ PreGameTeamsScreen:
 .57:
         mov dword [byte ebp+046h], 0FFFFFFFFh
 .58:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov edx, eax
@@ -1952,7 +1952,7 @@ PreGameCardsA:
         lea eax, [byte ebp+0Eh]
         mov ebx, ecx
         call DrawColorTextCentred
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         lea edi, [dword ebp-0126h]
@@ -1970,7 +1970,7 @@ PreGameCardsA:
         mov byte [dword ebp-0E1h], 1
         mov byte [dword ebp-0E3h], 0
         rep movsb
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov byte [byte ebp-07Eh], 1
         xor ah, ah
         mov byte [byte ebp-07Ch], 0
@@ -2013,7 +2013,7 @@ PreGameCardsA:
         call SoundIdle
         cmp dword [byte ebp+036h], byte 0
         jl short .36
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2031,7 +2031,7 @@ PreGameCardsA:
 .35:
         mov dword [byte ebp+036h], 0FFFFFFFFh
 .36:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov edx, eax
@@ -2504,7 +2504,7 @@ PreGameCardsB:
         lea eax, [byte ebp-062h]
         push eax
         call SetDrawTarget
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         lea edi, [dword ebp-0196h]
         and al, 1
@@ -2523,7 +2523,7 @@ PreGameCardsB:
         mov byte [dword ebp-0151h], 1
         mov byte [dword ebp-0153h], 0
         rep movsb
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov byte [dword ebp-0EEh], 1
         xor ah, ah
         mov byte [dword ebp-0ECh], 0
@@ -2564,7 +2564,7 @@ PreGameCardsB:
         call SoundIdle
         cmp dword [byte ebp+05Ah], byte 0
         jl short .9
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2582,7 +2582,7 @@ PreGameCardsB:
 .8:
         mov dword [byte ebp+05Ah], 0FFFFFFFFh
 .9:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov edx, eax
@@ -3038,7 +3038,7 @@ PreGameCardsC:
         lea eax, [byte ebp-04Ah]
         push eax
         call SetDrawTarget
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         lea edi, [dword ebp-017Eh]
         and al, 1
@@ -3057,7 +3057,7 @@ PreGameCardsC:
         mov byte [dword ebp-0139h], 1
         mov byte [dword ebp-013Bh], 0
         rep movsb
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov byte [dword ebp-0D6h], 1
         xor ah, ah
         mov byte [dword ebp-0D4h], 0
@@ -3092,7 +3092,7 @@ PreGameCardsC:
         call SoundIdle
         cmp dword [byte ebp+05Ah], byte 0
         jl short .9
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -3110,7 +3110,7 @@ PreGameCardsC:
 .8:
         mov dword [byte ebp+05Ah], 0FFFFFFFFh
 .9:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov edx, eax

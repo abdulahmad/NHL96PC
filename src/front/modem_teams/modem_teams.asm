@@ -14,7 +14,7 @@ extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, s
 extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
 extern str_Swt12, str_SwtD2, GameOptionsScreen, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
 extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, str_WesternConference2, unk_17D272, word_114CE0
+extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, str_WesternConference2, unk_17D272, SlotsTwoPlayer
 extern word_11ED38
 global str_B, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
@@ -518,7 +518,7 @@ ModemTeamSelectScreen:
         movsx eax, word [byte eax+0Eh]
         mov esi, TeamStatsBitmap
         mov dword [dword ebp-032Eh], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov dword [dword ebp-031Eh], 146h
         xor ah, ah
         mov dword [dword ebp-031Ah], 0D4h
@@ -1024,7 +1024,7 @@ ModemTeamSelectScreen_B78:
 ;-----------------------------------------------------------------------------
 RunModemGameSetup:
         push edx
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde

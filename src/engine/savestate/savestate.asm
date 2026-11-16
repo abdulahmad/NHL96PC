@@ -1,14 +1,15 @@
 ; Saved game state: save and load the game in progress (95 PC pc/game_saveload).
 bits 32
 %include "hockey.inc"
+extern SeasonUsers
 section s_4DED8 progbits alloc exec nowrite align=1
 extern awtmstruct, byte_1178C8, awroster, byte_15864E, byte_15864F, byte_158650, pad2dev, pad1dev
-extern PenBuf, iflags, curevent, byte_17CC37, collflag, curperiod, dword_114F16, dword_1150D8
+extern PenBuf, iflags, curevent, collflag, curperiod, GameLoopFrames, dword_1150D8
 extern PreGameSkateOn, onetimerflag, penshotfox, penshotteam, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
-extern sopathend, sopathpoint, pspathside, pspathdir, dword_11B364, dword_151B84, hmtmlines, hmtmplattr
+extern sopathend, sopathpoint, pspathside, pspathdir, dword_11B364, GameFrameCount, hmtmlines, hmtmplattr
 extern hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmlines, awtmplattr
-extern awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec, awtmsort, ReplayBufferTop, dword_17CB2F
-extern PlayoffTreeData, dword_17CC17, dword_17CEC3, dword_17D162, dword_17D267, energywarn, exitgame, fadeinpending
+extern awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec, awtmsort, ReplayBufferTop, SeasonGameOpts
+extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, dword_17D162, dword_17D267, energywarn, exitgame, fadeinpending
 extern FileReadAt, fodir1, fodir2, fox, foy, gameclock, gameopts, gameover
 extern GetPeriodTime, gmode, gmode2, goalevent, gsp, hmroster, hmtmstruct, lastplayer
 extern lasttouch, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq, replaystart, OOlist
@@ -455,11 +456,11 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_151B84]
+        mov dx, word [GameFrameCount]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_114F16]
+        mov dx, word [GameLoopFrames]
         mov word [eax], dx
         inc eax
         inc eax
@@ -1160,11 +1161,11 @@ LoadGameState:
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_151B84], edx
+        mov dword [GameFrameCount], edx
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_114F16], edx
+        mov dword [GameLoopFrames], edx
         movsx edx, word [eax]
         inc eax
         inc eax
@@ -1523,7 +1524,7 @@ ReadSeasonDbHeader:
         lea edx, [byte ebp-010h]
         lea eax, [byte ebp-044h]
         call strcat_
-        mov eax, dword [dword_17CB2F]
+        mov eax, dword [SeasonGameOpts]
         shl eax, 0Fh
         shr eax, 1Bh
         add eax, byte 41h
@@ -1582,7 +1583,7 @@ ReadPlayoffDbHeader:
         mov esi, eax
         mov dword [byte ebp-04h], 0FFFFFFFFh
         mov dword [gameopts], unk_17CED5
-        cmp dword [dword_17CC17], byte 0
+        cmp dword [SeasonPlayoffs], byte 0
         je short .1
         mov edx, 4
         lea eax, [byte ebp-044h]
@@ -1615,7 +1616,7 @@ ReadPlayoffDbHeader:
         lea edx, [byte ebp-010h]
         lea eax, [byte ebp-044h]
         call strcat_
-        cmp dword [dword_17CC17], byte 0
+        cmp dword [SeasonPlayoffs], byte 0
         je short .4
         lea edx, [byte ebp-04h]
         lea eax, [byte ebp-044h]
@@ -1659,7 +1660,7 @@ ReadPlayoffDbHeader:
         mov dword [byte ebp-04h], 0FFFFFFFFh
         jmp near ReadSeasonDbHeader_C4
 .6:
-        cmp dword [dword_17CC17], byte 0
+        cmp dword [SeasonPlayoffs], byte 0
         jne near ReadSeasonDbHeader_C4
         mov ecx, 0B9h
         lea esi, [dword ebp-03E4h]
@@ -1686,7 +1687,7 @@ DeleteSeasonFiles:
         lea edx, [byte ebp-0Ch]
         lea eax, [byte ebp-040h]
         call strcat_
-        mov eax, dword [dword_17CB2F]
+        mov eax, dword [SeasonGameOpts]
         shl eax, 0Fh
         shr eax, 1Bh
         add eax, byte 41h
@@ -1707,7 +1708,7 @@ DeleteSeasonFiles:
         lea eax, [byte ebp-040h]
         xor ebx, ebx
         call MakeDirPath
-        mov eax, dword [dword_17CEC3]
+        mov eax, dword [SeasonDay]
         add eax, byte 41h
         push eax
         push dword [PlayoffTreeData]
@@ -1725,12 +1726,12 @@ DeleteSeasonFiles:
         shl edx, 0Fh
         shr edx, 1Bh
         imul edx, byte 1Ah
-        mov byte [dword edx+byte_17CC37], 0FFh
+        mov byte [dword edx+SeasonUsers+1Ah], 0FFh
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
         shr eax, 1Bh
         imul eax, byte 1Ah
-        mov byte [dword eax+byte_17CC37], 0FFh
+        mov byte [dword eax+SeasonUsers+1Ah], 0FFh
 .1:
         leave
         pop edx
@@ -1760,13 +1761,13 @@ DeleteSeasonDb:
         shl edx, 0Fh
         shr edx, 1Bh
         imul edx, byte 1Ah
-        mov byte [dword edx+byte_17CC37], 0FFh
+        mov byte [dword edx+SeasonUsers+1Ah], 0FFh
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
         shr eax, 1Bh
         imul eax, byte 1Ah
         add esp, byte 0Ch
-        mov byte [dword eax+byte_17CC37], 0FFh
+        mov byte [dword eax+SeasonUsers+1Ah], 0FFh
         jmp short .2
 .1:
         mov edx, 6

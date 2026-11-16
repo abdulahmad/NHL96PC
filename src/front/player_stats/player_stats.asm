@@ -43,7 +43,7 @@ extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRec
 extern StatsDb1Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, DrawArtKeyed, SetScreenTarget, FindShape, TextSetFont, TickDeadlinePassed
 extern str_Punct_ExportPlayerStats, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
-extern unk_1802C0, unk_8B87F, str_U_PlayerStatsScreen, unk_8BF1F, UpdateProgressBox, word_114CE0, hmscore, word_181EB4
+extern unk_1802C0, unk_8B87F, str_U_PlayerStatsScreen, unk_8BF1F, UpdateProgressBox, SlotsTwoPlayer, hmscore, word_181EB4
 extern word_181EB6, word_181EB8, word_181EBA, word_181EBC, word_181EBE, word_181EC0, word_181EC2, word_181EC4
 extern word_181EC6, word_181EC8
 global AnimatePlayerStatsButton, AnimatePlayerStatsButtons, ComparePlayerNames, ComparePlayerStatRows, ShowPlayerStatsTitle, jpt_8C4AB, jpt_8C4BB, jpt_8C4CB
@@ -1383,7 +1383,7 @@ PlayerStatsScreen:
         call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .36:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1435,7 +1435,7 @@ PlayerStatsScreen:
         call DrawColorTextCentred
 .44:
         mov ecx, 66h
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov edi, unk_17FDF8
         xor ah, ah
         mov esi, TeamStatsBitmap
@@ -1940,7 +1940,7 @@ PlayerStatsScreen_13DD:
         add edx, byte 66h
         cmp ebx, dword [byte ebp+062h]
         jne short .62
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1986,7 +1986,7 @@ PlayerStatsScreen_1630:
         mov dword [byte ebp+036h], 0A410h
         jmp near PlayerStatsScreen_1F1B.105
 PlayerStatsScreen_1641:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde

@@ -9,36 +9,36 @@ extern str_fe7, str_NOANSWER, str_8, str_fe8, str_CONNECT2400, str_10, str_102, 
 extern str_13, str_132, str_CONNECT9600ARQ, str_17, str_172, str_CONNECT9600HST, str_23, str_232
 extern str_CONNECT9600ARQHST, str_27, str_272, str_CONNECT14400, str_25, str_252, str_CONNECT14400ARQ, str_26
 extern str_262, str_CONNECT14400HST, str_35, str_352, str_CONNECT14400ARQHST, str_36, str_362
-global GameLoopActive, InputRecordBusy, InputRecordPhase, InputRecordTicks, PauseReplayPending, str_Punct_LinkTimerTick, dword_114DE8, dword_114DF0
-global str_Z_AnimateStarsScreen, dword_114DFC, dword_114EB0, dword_114EB4, dword_114ED0, dword_114ED4, dword_114EE8, dword_114EEC
-global dword_114EF0, dword_114EF4, dword_114F16, ModemResultCount, ModemLastResult, dword_115008, dword_11500C, str_Punct_LinkOpen
-global dword_115014, dword_115018, dword_11501C, dword_115020, dword_115024, dword_115028, dword_11502C, dword_115030
-global dword_115034, dword_115038, dword_11503C, dword_115040, dword_115044, dword_115048, dword_11504C, dword_115050
-global dword_115054, dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068, str_ctl06, str_22
-global str_D_LinkCopyBytes, str_newline, dword_11507C, dword_115080, ModemResultTextTable, ModemResultCodeTable, word_114DD2, word_114DD4
-global word_114DD6, word_114DD8, str_Punct_DrawGameStats, word_114DE4, word_114DE6, word_114EA8, word_114EAC, word_114EF8
-global word_114EFA, word_114EFC, word_114EFE, word_114F00, word_114F14
-word_114DD2:
+global GameLoopActive, InputRecordBusy, InputRecordPhase, InputRecordTicks, PauseReplayPending, str_Punct_LinkTimerTick, StarsSlideFrom, StarsSlideTo
+global StarsSlideTarget, StarsSpritePath, StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsTimerA, StarsTimerFace
+global StarsTimerName, StarsTimerCard, GameLoopFrames, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, str_Punct_LinkOpen
+global LinkOpenFlags, LinkRetryOn, LinkCarrierCheck, LinkPollOn, LinkIsOpen, LinkWindowSize, LinkAckOn, LinkResendOn
+global LinkOpenMode, LinkErrorCount, LinkSpareHook, LinkMessageHandler, LinkTickHandler, LinkResendHandler, LinkTxSeq, LinkRxDeliverSeq
+global LinkAckedSeq, LinkRxSeq, LinkPacketLen, LinkTxPending, LinkState, LinkCheckPeriod, str_ctl06, str_22
+global str_D_LinkCopyBytes, str_newline, LinkRxHead, LinkRxCount, ModemResultTextTable, ModemResultCodeTable, GameStatsLabelX, GameStatsTop
+global GameStatsRight, GameStatsColX, GameStatsLabelPos, GameStatsRowStep, GameStatsScroll, StarsCardX, StarsCardY, StarsShowFaces
+global StarsShowNames, StarsShowCards, StarsPhase, StarsCurrent, PauseRequested
+GameStatsLabelX:
         db 03Ch,01h
-word_114DD4:
+GameStatsTop:
         db 082h,00h
-word_114DD6:
+GameStatsRight:
         db 0FCh,01h
-word_114DD8:
+GameStatsColX:
         db 0A9h,00h,037h,01h
-str_Punct_DrawGameStats:
+GameStatsLabelPos:
         db 07Eh,00h,0ABh,00h,0D8h,00h,08h,01h
-word_114DE4:
+GameStatsRowStep:
         db 038h,01h
-word_114DE6:
+GameStatsScroll:
         db 00h,00h
-dword_114DE8:
+StarsSlideFrom:
         db 00h,00h,00h,00h,05Ah,00h,00h,00h
-dword_114DF0:
+StarsSlideTo:
         db 040h,01h,00h,00h
-str_Z_AnimateStarsScreen:
+StarsSlideTarget:
         db 05Ah,00h,00h,00h,040h,01h,00h,00h
-dword_114DFC:
+StarsSpritePath:
         db 0DAh,00h,00h,00h,00h,00h,00h,00h,0DBh,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,07h,02h,00h,00h
@@ -50,37 +50,37 @@ dword_114DFC:
         db 04Fh,01h,00h,00h,01Eh,01h,00h,00h,04Fh,01h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-word_114EA8:
+StarsCardX:
         db 0FEh,00h,00h,00h
-word_114EAC:
+StarsCardY:
         db 09Dh,00h,00h,00h
-dword_114EB0:
+StarsNameX:
         db 036h,02h,00h,00h
-dword_114EB4:
+StarsNameXs:
         db 0A0h,00h,00h,00h,0EAh,00h,00h,00h,0ABh,01h,00h,00h,0F6h,01h,00h,00h
         db 0D8h,00h,00h,00h,01Eh,02h,00h,00h,0B8h,01h,00h,00h
-dword_114ED0:
+StarsTextX:
         db 0EBh,00h,00h,00h
-dword_114ED4:
+StarsTextXs:
         db 05h,01h,00h,00h,06Ah,01h,00h,00h,0D8h,00h,00h,00h,019h,02h,00h,00h
         db 03Fh,01h,00h,00h
-dword_114EE8:
+StarsTimerA:
         db 00h,00h,00h,00h
-dword_114EEC:
+StarsTimerFace:
         db 00h,00h,00h,00h
-dword_114EF0:
+StarsTimerName:
         db 00h,00h,00h,00h
-dword_114EF4:
+StarsTimerCard:
         db 00h,00h,00h,00h
-word_114EF8:
+StarsShowFaces:
         db 00h,00h
-word_114EFA:
+StarsShowNames:
         db 00h,00h
-word_114EFC:
+StarsShowCards:
         db 00h,00h
-word_114EFE:
+StarsPhase:
         db 00h,00h
-word_114F00:
+StarsCurrent:
         db 00h,00h,00h,00h
 InputRecordTicks:
         db 00h,00h,00h,00h
@@ -90,9 +90,9 @@ InputRecordBusy:
         db 00h,00h
 InputRecordPhase:
         db 00h,00h,00h,00h,00h,00h
-word_114F14:
+PauseRequested:
         db 00h,00h
-dword_114F16:
+GameLoopFrames:
         db 00h,00h,00h,00h
 PauseReplayPending:
         db 00h,00h
@@ -159,55 +159,55 @@ ModemResultCount:
         db 013h,00h,00h,00h
 ModemLastResult:
         db 00h,00h,00h,00h
-dword_115008:
+LinkTickCount:
         db 00h,00h,00h,00h
-dword_11500C:
+LinkPortHandle:
         db 00h,00h,00h,00h
 str_Punct_LinkOpen:
         db 09h,00h,00h,00h
-dword_115014:
+LinkOpenFlags:
         db 00h,00h,00h,00h
-dword_115018:
+LinkRetryOn:
         db 01h,00h,00h,00h
-dword_11501C:
+LinkCarrierCheck:
         db 01h,00h,00h,00h
-dword_115020:
+LinkPollOn:
         db 01h,00h,00h,00h
-dword_115024:
+LinkIsOpen:
         db 00h,00h,00h,00h
-dword_115028:
+LinkWindowSize:
         db 04h,00h,00h,00h
-dword_11502C:
+LinkAckOn:
         db 01h,00h,00h,00h
-dword_115030:
+LinkResendOn:
         db 01h,00h,00h,00h
-dword_115034:
+LinkOpenMode:
         db 01h,00h,00h,00h
-dword_115038:
+LinkErrorCount:
         db 00h,00h,00h,00h
-dword_11503C:
+LinkSpareHook:
         db 00h,00h,00h,00h
-dword_115040:
+LinkMessageHandler:
         db 00h,00h,00h,00h
-dword_115044:
+LinkTickHandler:
         db 00h,00h,00h,00h
-dword_115048:
+LinkResendHandler:
         db 00h,00h,00h,00h
-dword_11504C:
+LinkTxSeq:
         db 00h,00h,00h,00h
-dword_115050:
+LinkRxDeliverSeq:
         db 00h,00h,00h,00h
-dword_115054:
+LinkAckedSeq:
         db 0FFh,0FFh,0FFh,0FFh
-dword_115058:
+LinkRxSeq:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11505C:
+LinkPacketLen:
         db 00h,00h,00h,00h
-dword_115060:
+LinkTxPending:
         db 00h,00h,00h,00h
-dword_115064:
+LinkState:
         db 00h,00h,00h,00h
-dword_115068:
+LinkCheckPeriod:
         db 00h,00h,00h,00h
 str_ctl06:
         db 06h,00h,00h,00h
@@ -217,9 +217,9 @@ str_D_LinkCopyBytes:
         db 064h,00h,00h,00h
 str_newline:
         db 0Ah,00h,00h,00h
-dword_11507C:
+LinkRxHead:
         db 00h,00h,00h,00h
-dword_115080:
+LinkRxCount:
         db 00h,00h,00h,00h
 str_Punct_LinkTimerTick:
         db 03Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

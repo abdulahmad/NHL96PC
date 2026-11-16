@@ -16,8 +16,8 @@ extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, st
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
 extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, DrawShapeCore
 extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
-extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, str_Punct_ControllerScreen, unk_11DE90, str_WesternConference2, word_114CE0
-extern word_114CE4, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
+extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, str_Punct_ControllerScreen, unk_11DE90, str_WesternConference2, SlotsTwoPlayer
+extern ControllerScreenMode, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 extern word_160ACC, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
 global ControllerSlotDefaults, ControllerColumnDefaults, ControllerUsersPanel, NextControllerDeviceMasks, NextControllerDeviceJumpTable, NextControllerDevice, NextControllerDevice_2C, NextControllerDevice_F2
 global NextControllerDevice_199, NextControllerDevice_240, NextControllerDevice_2E7, NextControllerDevice_38E, NextControllerDevice_435, NextControllerDevice_4D0, ScanControllers, DeviceIconCodes
@@ -1112,7 +1112,7 @@ DeviceIconShape:
         and edx, byte 70h
         cmp edx, byte 30h
         jne short .3
-        movsx edx, word [word_114CE4]
+        movsx edx, word [ControllerScreenMode]
         cmp edx, byte 1
         jne short .1
         movsx edx, bx
@@ -1214,7 +1214,7 @@ DrawControllerIcons:
         add esp, byte 4
         cmp eax, byte 30h
         jne near .6
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         jne short .3
         jmp near .6
@@ -1228,7 +1228,7 @@ DrawControllerIcons:
         add esp, byte 4
         cmp eax, byte 30h
         jne near .6
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
 .2:
         je near .6
@@ -1250,7 +1250,7 @@ DrawControllerIcons:
         add esp, byte 4
         cmp eax, byte 30h
         jne short .6
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jmp short .2
 .5:
         cmp dword [eax], byte 14h
@@ -1262,7 +1262,7 @@ DrawControllerIcons:
         add esp, byte 4
         cmp eax, byte 30h
         jne short .6
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne short .3
         mov ax, word [esi]
         mov word [word_17D58E], ax
@@ -1806,13 +1806,13 @@ DrawControllerColumns:
         jne short .7
         cmp dword [byte ebp-028h], byte 0Ah
         jge short .6
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .7
 .6:
         cmp dword [byte ebp-028h], byte 0Ah
         jle short .8
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne short .8
 .7:
         movsx eax, word [byte ebp-0Ch]
@@ -1862,13 +1862,13 @@ DrawControllerColumns:
         jne short .11
         cmp dword [byte ebp-028h], byte 0Ah
         jge short .10
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .12
 .10:
         cmp dword [byte ebp-028h], byte 0Ah
         jle short .13
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne short .13
         jmp short .12
 .11:
@@ -1934,13 +1934,13 @@ DrawControllerColumns:
         jne short .15
         cmp dword [byte ebp-028h], byte 0Ah
         jge short .14
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .15
 .14:
         cmp dword [byte ebp-028h], byte 0Ah
         jle near .49
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne near .49
 .15:
         mov esi, dword [byte ebp-028h]
@@ -2119,13 +2119,13 @@ DrawControllerColumns:
         jne short .23
         cmp dword [byte ebp-028h], byte 0Ah
         jge short .21
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .22
 .21:
         cmp dword [byte ebp-028h], byte 0Ah
         jle near .29
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne near .29
 .22:
         mov eax, 1
@@ -2162,13 +2162,13 @@ DrawControllerColumns:
         jne short .27
         cmp dword [byte ebp-028h], byte 0Ah
         jge short .25
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .26
 .25:
         cmp dword [byte ebp-028h], byte 0Ah
         jle short .29
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne short .29
 .26:
         xor edx, edx
@@ -2198,13 +2198,13 @@ DrawControllerColumns:
         jne short .31
         cmp dword [byte ebp-028h], byte 0Ah
         jge short .30
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .31
 .30:
         cmp dword [byte ebp-028h], byte 0Ah
         jle short .32
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne short .32
 .31:
         movsx esi, word [byte ebp-04h]
@@ -2266,13 +2266,13 @@ DrawControllerColumns:
         jne short .35
         cmp dword [byte ebp-028h], byte 0Ah
         jge short .34
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .35
 .34:
         cmp dword [byte ebp-028h], byte 0Ah
         jle short .36
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne short .36
 .35:
         movsx eax, word [byte ebp-0Ch]
@@ -2321,13 +2321,13 @@ DrawControllerColumns:
         jne short .39
         cmp dword [byte ebp-028h], byte 0Ah
         jge short .38
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .40
 .38:
         cmp dword [byte ebp-028h], byte 0Ah
         jle short .41
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne short .41
         jmp short .40
 .39:
@@ -2389,13 +2389,13 @@ DrawControllerColumns:
         jne short .43
         cmp dword [byte ebp-028h], byte 0Ah
         jge short .42
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .43
 .42:
         cmp dword [byte ebp-028h], byte 0Ah
         jle near .49
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne near .49
 .43:
         mov esi, dword [byte ebp-028h]
@@ -2548,7 +2548,7 @@ DrawControllerColumns:
         and eax, byte 70h
         cmp eax, byte 30h
         jne short .52
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         jne short .51
         mov eax, dword [byte ebp-024h]
@@ -2558,7 +2558,7 @@ DrawControllerColumns:
         mov word [word_17D58C], 0FFFFh
         jmp short .53
 .51:
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne short .53
         mov eax, dword [byte ebp-024h]
         cmp dword [eax], byte 0Ah
@@ -2928,13 +2928,13 @@ ControllerScreen:
         jne short .9
         cmp dword [byte ebp-048h], byte 2
         jge short .8
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .9
 .8:
         cmp dword [byte ebp-048h], byte 1
         jle near .10
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne near .10
 .9:
         push dword [dword_17BC74]
@@ -3151,7 +3151,7 @@ ControllerScreen:
         and eax, byte 70h
         cmp eax, byte 30h
         jne short .20
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         jne short .18
         cmp dword [byte ebp-048h], byte 2
@@ -3209,13 +3209,13 @@ ControllerScreen:
         jne short .22
         cmp edx, dword [byte ebp-048h]
         jle short .21
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je short .22
 .21:
         cmp dword [byte ebp-048h], byte 1
         jle near .23
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne near .23
 .22:
         push dword [dword_17BC74]
@@ -3490,7 +3490,7 @@ ControllerScreen:
         mov eax, dword [dword_17D580]
         mov word [dword eax+0876h], 3
 .33:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 6
@@ -3667,7 +3667,7 @@ ControllerScreen:
         call SoundIdle
         cmp dword [byte ebp-044h], byte 0
         jl short .46
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -3686,7 +3686,7 @@ ControllerScreen:
 .45:
         mov dword [byte ebp-044h], 0FFFFFFFFh
 .46:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov edx, eax
@@ -3742,13 +3742,13 @@ ControllerScreen_11AB:
         jne short .48
         cmp dword [byte ebp-048h], byte 2
         jge short .47
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, esi
         je short .48
 .47:
         cmp dword [byte ebp-048h], byte 1
         jle near ControllerScreen_16D6.76
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne near ControllerScreen_16D6.76
 .48:
         mov eax, 35h
@@ -3921,13 +3921,13 @@ ControllerScreen_11AB:
 .60:
         cmp dword [byte ebp-048h], byte 2
         jge short .61
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         je near ControllerScreen_16D6.76
 .61:
         cmp dword [byte ebp-048h], byte 1
         jle short .62
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         je near ControllerScreen_16D6.76
 .62:
         mov eax, 28h

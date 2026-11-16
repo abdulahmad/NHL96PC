@@ -6,7 +6,7 @@ extern GripPassMap
 extern GripShootMap
 extern GripSlotIds
 extern byte_11FA2E, byte_11FA2F, Joy1State, GripSlotPresent, JoyPadBits, byte_158D2A, byte_158D2B, byte_158D2C
-extern byte_158D2D, byte_17BDAE, byte_17CA24, byte_17CA3C, byte_17CA54, dword_114CB0, dword_114CB4, dword_117588
+extern byte_158D2D, byte_17BDAE, GsJoy1Calib, GsJoy2Calib, GsGripButtons, Joy1NeedsCalib, Joy2NeedsCalib, dword_117588
 extern dword_11F5C0, dword_158CC0, dword_158CCC, dword_158CD0, dword_158CD4, dword_158D54
 extern dword_158D64, dword_158D68, dword_158D6C, dword_158D70, MatchupLayer, TeamStatsBitmap, str_Standings, FillRect
 extern TextStringWidth, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
@@ -691,7 +691,7 @@ DrawGripPads_73C:
 ; GripSetupScreen                                                 2090F  96 PC
 ; Start-up screen when GrIP pads are connected (GRIPCON / RGRIPCON art): pick
 ; the buttons that shoot and pass on each pad (SetGripButtonMap /
-; GetGripButtonMap, kept in byte_17CA54), Enter to go on
+; GetGripButtonMap, kept in GsGripButtons), Enter to go on
 ;-----------------------------------------------------------------------------
 GripSetupScreen:
         push ebx
@@ -700,7 +700,7 @@ GripSetupScreen:
         push esi
         push edi
         enter 360h, 0
-        mov eax, byte_17CA54
+        mov eax, GsGripButtons
         call SetGripButtonMap
         call GetInputDevices
         test al, 2
@@ -1436,7 +1436,7 @@ GripSetupScreen:
         call FreeMemBlock
         add esp, byte 4
 .29:
-        mov eax, byte_17CA54
+        mov eax, GsGripButtons
         call GetGripButtonMap
         jmp near DrawGripPads_73B
         push ebx
@@ -1451,12 +1451,12 @@ GripSetupScreen:
         mov edx, eax
         test al, 2
         je short .30
-        test byte [byte_17CA24], 1
+        test byte [GsJoy1Calib], 1
         je short .31
 .30:
         test dl, 4
         je near .35
-        test byte [byte_17CA3C], 1
+        test byte [GsJoy2Calib], 1
         jne near .35
 .31:
         mov eax, 0Fh
@@ -1484,24 +1484,24 @@ GripSetupScreen:
         call KbdGetKey
         cmp eax, byte 1Bh
         je short .34
-        mov dword [dword_114CB0], 1
-        mov dword [dword_114CB4], 1
+        mov dword [Joy1NeedsCalib], 1
+        mov dword [Joy2NeedsCalib], 1
         call InitInputDevices
         push byte 0
         call ClearScreenColour
         add esp, byte 4
 .35:
-        test byte [byte_17CA24], 1
+        test byte [GsJoy1Calib], 1
         je short .36
         mov ecx, 18h
-        mov esi, byte_17CA24
+        mov esi, GsJoy1Calib
         mov edi, Joy1State
         rep movsb
 .36:
-        test byte [byte_17CA3C], 1
+        test byte [GsJoy2Calib], 1
         je near DrawGripPads_73C
         mov ecx, 18h
-        mov esi, byte_17CA3C
+        mov esi, GsJoy2Calib
         mov edi, Joy2State
         rep movsb
         jmp near DrawGripPads_73C
@@ -1798,13 +1798,13 @@ JoystickTestScreen:
         call MessageBox
         cmp dword [dword ebp-014Eh], byte 0
         je short .6
-        and byte [byte_17CA3C], 0FEh
+        and byte [GsJoy2Calib], 0FEh
         jmp short .7
 .6:
-        and byte [byte_17CA24], 0FEh
+        and byte [GsJoy1Calib], 0FEh
 .7:
         mov eax, dword [byte ebp+072h]
-        mov dword [dword eax+dword_114CB0], 1
+        mov dword [dword eax+Joy1NeedsCalib], 1
         call ReadJoystickBits
         jmp short .12
 .8:
@@ -1815,10 +1815,10 @@ JoystickTestScreen:
         call SlideInTitleBar
         cmp dword [dword ebp-014Eh], byte 0
         je short .10
-        mov edi, byte_17CA3C
+        mov edi, GsJoy2Calib
         jmp short .11
 .10:
-        mov edi, byte_17CA24
+        mov edi, GsJoy1Calib
 .11:
         mov eax, dword [byte ebp+07Eh]
         mov ecx, 18h

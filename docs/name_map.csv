@@ -4441,33 +4441,129 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 114AEC,HugeValHi,dword_114AEC,new,low,high half of HUGE_VAL,src/data/lib/watcom/watcom_clib_21_data_01.asm
 114AF0,Scale10Count,unk_114AF0,new,low,power of ten table length,src/data/lib/watcom/watcom_clib_21_data_01.asm
 114AF2,Pow10Table,qword_114AF2,new,low,powers of ten,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114B40,InputDevicesFound,word_114B40,new,low,Input devices found by GetInputDevices,src/data/front/front_10010_data_01.asm
+114B42,InputDevicesReady,word_114B42,new,low,Input devices initialised,src/data/front/front_10010_data_01.asm
+114B44,MouseReady,word_114B44,new,low,Mouse driver found and set up,src/data/front/front_10010_data_01.asm
+114B48,InputDeviceMask,byte_114B48,new,low,"Input device bits (bit 0 keyboard, then mouse, joysticks, GrIP)",src/data/front/front_10010_data_01.asm
+114B4C,SlotJoyMap,byte_114B4C,new,low,SlotToJoy: joystick number per slot code,src/data/front/front_10010_data_01.asm
+114B5C,KeyPollTick,dword_114B5C,new,low,Tick of the last keyboard read,src/data/front/front_10010_data_01.asm
+114B60,MousePollTick,dword_114B60,new,low,Tick of the last mouse read,src/data/front/front_10010_data_01.asm
+114B64,KeyRepeatTick,dword_114B64,new,low,Keyboard pad repeat tick,src/data/front/front_10010_data_01.asm
+114B68,JoyPollTicks,dword_114B68,new,low,Tick of the last read per joystick,src/data/front/front_10010_data_01.asm
+114B78,KeyPadActive,dword_114B78,new,low,Keyboard pad in use this frame,src/data/front/front_10010_data_01.asm
+114B7C,JoyPadActive,dword_114B7C,new,low,"Joystick pad in use, per joystick",src/data/front/front_10010_data_01.asm
+114B80,MousePadActive,dword_114B80,new,low,Mouse pad in use,src/data/front/front_10010_data_01.asm
+114B88,SimSlotButtons,dword_114B88,new,low,Slot buttons used while simulating frames,src/data/front/front_10010_data_01.asm
 114B8C,SlotButtons,dword_114B8C,new,high,the 4 slot button dwords of the current frame,
+114B9C,InputRecordIndex,dword_114B9C,new,low,Input record ring index being replayed,src/data/front/front_10010_data_01.asm
 114BA0,InputRecordHead,dword_114BA0,new,high,ring write index,
 114BA4,InputRecordCount,dword_114BA4,new,high,records in ring (max 5),
 114BA8,KeyBindings,unk_114BA8,new,low,Default keyboard binding set,src/data/front/front_10010_data_01.asm
 114C00,KeyBindingsAlt,unk_114C00,new,low,Alternate keyboard binding set,src/data/front/front_10010_data_01.asm
+114C58,EscReplayKeyMap,byte_114C58,new,low,ReadEscReplayKeys / PollControllers: key to pad bit map,src/data/front/front_10010_data_01.asm
+114CB0,Joy1NeedsCalib,dword_114CB0,new,low,Joystick 1 calibration not done yet,src/data/front/front_10010_data_01.asm
+114CB4,Joy2NeedsCalib,dword_114CB4,new,low,Joystick 2 calibration not done yet,src/data/front/front_10010_data_01.asm
 114CB8,str_GRIPGLL,asc_114CB8,new,high,string 'GRIP.GLL',src/data/front/front_10010_data_01.asm
 114CC1,str_GRIP,asc_114CC1,new,high,string 'GRIP',src/data/front/front_10010_data_01.asm
 114CC6,str_CGRIP,asc_114CC6,new,high,string 'C:\GRIP\',src/data/front/front_10010_data_01.asm
 114CCF,GripLinked,dword_114CCF,new,low,Gravis GrIP library linked,src/data/front/front_10010_data_01.asm
-114D12,str_Punct_ModemGameOpen,dword_114D12,new,high,"string ""\t""",src/data/front/front_10010_data_01.asm
+114CD3,GripLibHandle,dword_114CD3,new,low,"GrIP library handle, -1 when not loaded",src/data/front/front_10010_data_01.asm
+114CD7,GripSlotsScanned,dword_114CD7,new,low,GrIP slots have been scanned,src/data/front/front_10010_data_01.asm
+114CD9,GripPadBitsPrev,dword_114CD9,new,low,GrIP pad bits of the previous read,src/data/front/front_10010_data_01.asm
+114CDB,GripBufferSide,word_114CDB,new,low,GrIP pad bits buffer side (toggled each read),src/data/front/front_10010_data_01.asm
+114CE0,SlotsTwoPlayer,word_114CE0,new,low,Controller screen: two-player slot mode,src/data/front/front_10010_data_01.asm
+114CE2,LinkSyncInput,dword_114CE2,new,low,Link: input value at the sync point,src/data/front/front_10010_data_01.asm
+114CE4,ControllerScreenMode,word_114CE4,new,low,Controller screen mode (icons and columns),src/data/front/front_10010_data_01.asm
+114CE6,LinkConfig,unk_114CE6,new,low,Link set-up block passed to LinkOpen,src/data/front/front_10010_data_01.asm
+114D0E,LinkCfgPort,dword_114D0E,new,low,Link set-up: serial port,src/data/front/front_10010_data_01.asm
+114D12,LinkCfgMode,dword_114D12,new,low,Link set-up: connection mode (9 for a direct link),src/data/front/front_10010_data_01.asm
+114D1A,LinkCfgAnswer,dword_114D1A,new,low,Link set-up: answer an incoming call,src/data/front/front_10010_data_01.asm
+114D1E,LinkCfgDirect,dword_114D1E,new,low,Link set-up: direct (null-modem) link,src/data/front/front_10010_data_01.asm
+114D36,LinkCfgBaud,dword_114D36,new,low,Link set-up: baud rate,src/data/front/front_10010_data_01.asm
+114D3A,LinkCfgOption,dword_114D3A,new,low,Link set-up: link option from GLOBAL.SET,src/data/front/front_10010_data_01.asm
+114D46,LinkCfgInit,unk_114D46,new,low,Link set-up: modem init string,src/data/front/front_10010_data_01.asm
+114D6E,LinkCfgDial,unk_114D6E,new,low,Link set-up: modem dial string,src/data/front/front_10010_data_01.asm
+114D96,LinkFlags,byte_114D96,new,low,Link: status bits (bit 1 connected),src/data/front/front_10010_data_01.asm
+114D9A,LinkInputFrame,dword_114D9A,new,low,Link: input frame number,src/data/front/front_10010_data_01.asm
+114D9E,LinkSyncTarget,dword_114D9E,new,low,Link: sync point being waited for,src/data/front/front_10010_data_01.asm
+114DA2,LinkSyncTimeout,dword_114DA2,new,low,Link: tick when the sync wait times out,src/data/front/front_10010_data_01.asm
+114DA6,LinkSyncCount,dword_114DA6,new,low,Link: sync points passed,src/data/front/front_10010_data_01.asm
+114DAA,LinkInputDelay,dword_114DAA,new,low,Link: input delay in frames,src/data/front/front_10010_data_01.asm
+114DAE,LinkRxBlockCount,dword_114DAE,new,low,Link: blocks received,src/data/front/front_10010_data_01.asm
+114DB2,LinkRxBlockTicks,dword_114DB2,new,low,Link: ticks spent receiving the block,src/data/front/front_10010_data_01.asm
 114DB6,str_Punct_ModemSettingsScreen,dword_114DB6,new,low,"string "" """,src/data/front/front_10010_data_01.asm
-114DDC,str_Punct_DrawGameStats,word_114DDC,new,high,"string ""~""",src/data/front/front_1456D_data_02.asm
-114DF4,str_Z_AnimateStarsScreen,dword_114DF4,new,high,"string ""Z""",src/data/front/front_1456D_data_02.asm
+114DBA,LinkBlockPtr,dword_114DBA,new,low,Link: pointer into the block being sent or received,src/data/front/front_10010_data_01.asm
+114DBE,LinkSyncWord,word_114DBE,new,low,Link: sync word,src/data/front/front_10010_data_01.asm
+114DC0,BaudRateTable,word_114DC0,new,low,Baud rate per GsBaudIndex,src/data/front/front_10010_data_01.asm
+114DCA,ModemReplyBuf,dword_114DCA,new,low,Modem reply buffer,src/data/front/front_10010_data_01.asm
+114DD2,GameStatsLabelX,word_114DD2,new,low,Game stats page: label column x,src/data/front/front_1456D_data_02.asm
+114DD4,GameStatsTop,word_114DD4,new,low,Game stats page: first row y,src/data/front/front_1456D_data_02.asm
+114DD6,GameStatsRight,word_114DD6,new,low,Game stats page: right edge,src/data/front/front_1456D_data_02.asm
+114DD8,GameStatsColX,word_114DD8,new,low,Game stats page: column x positions,src/data/front/front_1456D_data_02.asm
+114DDC,GameStatsLabelPos,word_114DDC,new,low,Game stats page: label positions (part of the column table),src/data/front/front_1456D_data_02.asm
+114DE4,GameStatsRowStep,word_114DE4,new,low,Game stats page: row spacing,src/data/front/front_1456D_data_02.asm
+114DE6,GameStatsScroll,word_114DE6,new,low,Game stats page: page shown,src/data/front/front_1456D_data_02.asm
+114DE8,StarsSlideFrom,dword_114DE8,new,low,Three stars screen: slide start positions,src/data/front/front_1456D_data_02.asm
+114DF0,StarsSlideTo,dword_114DF0,new,low,Three stars screen: slide end positions,src/data/front/front_1456D_data_02.asm
+114DF4,StarsSlideTarget,dword_114DF4,new,low,Three stars screen: slide target positions,src/data/front/front_1456D_data_02.asm
+114DFC,StarsSpritePath,dword_114DFC,new,low,Three stars screen: sprite path points,src/data/front/front_1456D_data_02.asm
+114EA8,StarsCardX,word_114EA8,new,low,Three stars screen: card x,src/data/front/front_1456D_data_02.asm
+114EAC,StarsCardY,word_114EAC,new,low,Three stars screen: card y,src/data/front/front_1456D_data_02.asm
+114EB0,StarsNameX,dword_114EB0,new,low,Three stars screen: name x,src/data/front/front_1456D_data_02.asm
+114EB4,StarsNameXs,dword_114EB4,new,low,Three stars screen: name x per star,src/data/front/front_1456D_data_02.asm
+114ED0,StarsTextX,dword_114ED0,new,low,Three stars screen: text x,src/data/front/front_1456D_data_02.asm
+114ED4,StarsTextXs,dword_114ED4,new,low,Three stars screen: text x per star,src/data/front/front_1456D_data_02.asm
+114EE8,StarsTimerA,dword_114EE8,new,low,Three stars screen: slide timer,src/data/front/front_1456D_data_02.asm
+114EEC,StarsTimerFace,dword_114EEC,new,low,Three stars screen: face timer,src/data/front/front_1456D_data_02.asm
+114EF0,StarsTimerName,dword_114EF0,new,low,Three stars screen: name timer,src/data/front/front_1456D_data_02.asm
+114EF4,StarsTimerCard,dword_114EF4,new,low,Three stars screen: card timer,src/data/front/front_1456D_data_02.asm
+114EF8,StarsShowFaces,word_114EF8,new,low,Three stars screen: faces shown,src/data/front/front_1456D_data_02.asm
+114EFA,StarsShowNames,word_114EFA,new,low,Three stars screen: names shown,src/data/front/front_1456D_data_02.asm
+114EFC,StarsShowCards,word_114EFC,new,low,Three stars screen: cards shown,src/data/front/front_1456D_data_02.asm
+114EFE,StarsPhase,word_114EFE,new,low,Three stars screen: phase (2 when done),src/data/front/front_1456D_data_02.asm
+114F00,StarsCurrent,word_114F00,new,low,Three stars screen: star being shown,src/data/front/front_1456D_data_02.asm
 114F04,InputRecordTicks,dword_114F04,new,high,"ticks since last record, capped 0x3E8",
 114F08,GameLoopActive,dword_114F08,new,medium,1 while the in-game loop runs,
 114F0C,InputRecordBusy,word_114F0C,new,high,re-entry guard of the timer,
 114F0E,InputRecordPhase,dword_114F0E,new,high,3..0 down counter; record on 0,
+114F14,PauseRequested,word_114F14,new,low,Pause requested from the game loop,src/data/front/front_1456D_data_02.asm
+114F16,GameLoopFrames,dword_114F16,new,low,Game loop frames (saved with the game state),src/data/front/front_1456D_data_02.asm
 114F1A,PauseReplayPending,word_114F1A,new,medium,"bit0 pause, bit1 replay seen",
 114F1C,ModemResultTextTable,off_114F1C,new,low,modem result text string table,src/data/front/front_1456D_data_02.asm
 114F24,ModemResultCodeTable,off_114F24,new,low,modem result code string table,src/data/front/front_1456D_data_02.asm
 115000,ModemResultCount,dword_115000,new,low,number of modem result codes,src/data/front/front_1456D_data_02.asm
 115004,ModemLastResult,dword_115004,new,low,last modem result code,src/data/front/front_1456D_data_02.asm
+115008,LinkTickCount,dword_115008,new,low,Link: timer ticks,src/data/front/front_1456D_data_02.asm
+11500C,LinkPortHandle,dword_11500C,new,low,Link: serial port handle,src/data/front/front_1456D_data_02.asm
 115010,str_Punct_LinkOpen,dword_115010,new,high,"string ""\t""",src/data/front/front_1456D_data_02.asm
+115014,LinkOpenFlags,dword_115014,new,low,Link: open flags,src/data/front/front_1456D_data_02.asm
+115018,LinkRetryOn,dword_115018,new,low,Link: retries on,src/data/front/front_1456D_data_02.asm
+11501C,LinkCarrierCheck,dword_11501C,new,low,Link: check the carrier,src/data/front/front_1456D_data_02.asm
+115020,LinkPollOn,dword_115020,new,low,Link: timer polling on,src/data/front/front_1456D_data_02.asm
+115024,LinkIsOpen,dword_115024,new,low,Link: port open,src/data/front/front_1456D_data_02.asm
+115028,LinkWindowSize,dword_115028,new,low,Link: packets in flight (4),src/data/front/front_1456D_data_02.asm
+11502C,LinkAckOn,dword_11502C,new,low,Link: acknowledges on,src/data/front/front_1456D_data_02.asm
+115030,LinkResendOn,dword_115030,new,low,Link: resends on,src/data/front/front_1456D_data_02.asm
+115034,LinkOpenMode,dword_115034,new,low,Link: open mode,src/data/front/front_1456D_data_02.asm
+115038,LinkErrorCount,dword_115038,new,low,Link: errors,src/data/front/front_1456D_data_02.asm
+11503C,LinkSpareHook,dword_11503C,new,low,Link: spare hook,src/data/front/front_1456D_data_02.asm
+115040,LinkMessageHandler,dword_115040,new,low,Link: message handler,src/data/front/front_1456D_data_02.asm
+115044,LinkTickHandler,dword_115044,new,low,Link: per-tick handler,src/data/front/front_1456D_data_02.asm
+115048,LinkResendHandler,dword_115048,new,low,Link: resend handler,src/data/front/front_1456D_data_02.asm
+11504C,LinkTxSeq,dword_11504C,new,low,Link: next transmit sequence,src/data/front/front_1456D_data_02.asm
+115050,LinkRxDeliverSeq,dword_115050,new,low,Link: next sequence to deliver,src/data/front/front_1456D_data_02.asm
+115054,LinkAckedSeq,dword_115054,new,low,"Link: last acknowledged sequence, -1 for none",src/data/front/front_1456D_data_02.asm
+115058,LinkRxSeq,dword_115058,new,low,"Link: last received sequence, -1 for none",src/data/front/front_1456D_data_02.asm
+11505C,LinkPacketLen,dword_11505C,new,low,Link: length of the packet being parsed,src/data/front/front_1456D_data_02.asm
+115060,LinkTxPending,dword_115060,new,low,Link: packets waiting for an acknowledge,src/data/front/front_1456D_data_02.asm
+115064,LinkState,dword_115064,new,low,Link: connection state,src/data/front/front_1456D_data_02.asm
+115068,LinkCheckPeriod,dword_115068,new,low,Link: ticks between checks,src/data/front/front_1456D_data_02.asm
 11506C,str_ctl06,dword_11506C,95PC,high,string ' ',src/data/front/front_1456D_data_02.asm
 115070,str_22,dword_115070,new,high,string '2',src/data/front/front_1456D_data_02.asm
 115074,str_D_LinkCopyBytes,dword_115074,new,high,"string ""d""",src/data/front/front_1456D_data_02.asm
 115078,str_newline,dword_115078,95PC,high,string ' ',src/data/front/front_1456D_data_02.asm
+11507C,LinkRxHead,dword_11507C,new,low,Link: receive ring head,src/data/front/front_1456D_data_02.asm
+115080,LinkRxCount,dword_115080,new,low,Link: bytes in the receive ring,src/data/front/front_1456D_data_02.asm
 115084,str_Punct_LinkTimerTick,byte_115084,new,high,"string "":""",src/data/front/front_1456D_data_02.asm
 11509C,str_0123456789abcdefghijklmn,asc_11509C,new,high,string '0123456789abcdefghijklmnopqrstuvwxyz ',src/data/front/main_data_02.asm
 1150E4,AsyncQueueTail,dword_1150E4,new,low,last request in the async queue,src/data/front/main_data_02.asm
@@ -5270,7 +5366,30 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 151ADC,LinkAckReply,unk_151ADC,new,low,Link: reply to the block acknowledge,src/data/front/front_10010_bss_01.asm
 151AE0,ChatLocalLen,word_151AE0,new,low,Modem chat: length of the local line,src/data/front/front_10010_bss_01.asm
 151AE2,ChatRemoteLen,word_151AE2,new,low,Modem chat: length of the remote line,src/data/front/front_10010_bss_01.asm
+151AE4,StarsBgBmp,dword_151AE4,new,low,Three stars screen: background bitmap,src/data/front/front_1456D_bss_01.asm
+151AE8,StarsSaveBmp,dword_151AE8,new,low,Three stars screen: saved background under the cards,src/data/front/front_1456D_bss_01.asm
+151AEC,StarsFaceBmps,dword_151AEC,new,low,Three stars screen: player face bitmaps,src/data/front/front_1456D_bss_01.asm
+151B08,StarsCardBmps,dword_151B08,new,low,Three stars screen: card bitmaps,src/data/front/front_1456D_bss_01.asm
+151B4C,StarsPanelBmp,dword_151B4C,new,low,Three stars screen: panel bitmap,src/data/front/front_1456D_bss_01.asm
+151B50,StarsNameBmps,dword_151B50,new,low,Three stars screen: name bitmaps,src/data/front/front_1456D_bss_01.asm
+151B64,StarsTitleBmp,dword_151B64,new,low,Three stars screen: title bitmap,src/data/front/front_1456D_bss_01.asm
+151B68,StarsAnimStep,dword_151B68,new,low,Three stars screen: animation step,src/data/front/front_1456D_bss_01.asm
+151B6C,StarsCardBmp,dword_151B6C,new,low,Three stars screen: card being animated,src/data/front/front_1456D_bss_01.asm
+151B70,StarsShapeFile,dword_151B70,new,low,Three stars screen: shape file,src/data/front/front_1456D_bss_01.asm
+151B74,StarsSlideX,dword_151B74,new,low,Three stars screen: slide x,src/data/front/front_1456D_bss_01.asm
+151B78,StarsSlideY,dword_151B78,new,low,Three stars screen: slide y,src/data/front/front_1456D_bss_01.asm
+151B7C,StarsSlideStep,dword_151B7C,new,low,Three stars screen: slide step,src/data/front/front_1456D_bss_01.asm
 151B80,fadeinpending,,95PC,medium,NHL95PC CBEC4 (refset): referenced by the same 2 matched functions,
+151B84,GameFrameCount,dword_151B84,new,low,Game frames run (saved with the game state),src/data/front/front_1456D_bss_01.asm
+151B87,LinkRxPayload,byte_151B87,new,low,"Link: payload bytes of LinkRxMsgs, indexed from 1",src/data/front/front_1456D_bss_01.asm
+151B88,LinkRxMsgs,unk_151B88,new,low,"Link: received messages, 7 bytes each (6 payload bytes, then a full flag)",src/data/front/front_1456D_bss_01.asm
+151D48,LinkRxSlots,dword_151D48,new,low,"Link: receive slots, 16 bytes each (state, length, sequence, time)",src/data/front/front_1456D_bss_01.asm
+152148,LinkTxSlots,dword_152148,new,low,"Link: transmit slots, 24 bytes each (state, length, sequence, then the packet)",src/data/front/front_1456D_bss_01.asm
+152748,LinkTxTimers,unk_152748,new,low,Link: transmit retry timers,src/data/front/front_1456D_bss_01.asm
+152798,LinkPortName,unk_152798,new,low,Link: serial port settings string,src/data/front/front_1456D_bss_01.asm
+1527C0,LinkModemString,unk_1527C0,new,low,Link: modem command string,src/data/front/front_1456D_bss_01.asm
+152810,LinkRxRing,byte_152810,new,low,Link: serial receive ring buffer,src/data/front/front_1456D_bss_01.asm
+15291C,LinkAbortCheck,dword_15291C,new,low,Link: callback that aborts a link wait,src/data/front/front_1456D_bss_01.asm
 152C44,str_WesternConference2,unk_152C44,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 152F50,MenuRemoteCursorArt,dword_152F50,new,low,remote cursor art,src/data/front/main_bss_01.asm
 152F54,MenuCursorPixels,dword_152F54,new,low,local cursor pixels,src/data/front/main_bss_01.asm
@@ -5602,13 +5721,44 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 17C9A0,gameopts,,95PC,medium,NHL95PC C53FF (refset): referenced by the same 7 matched functions,
 17C9A4,GlobalSetData,dword_17C9A4,new,low,GLOBAL.SET settings,src/data/front/front_67000_bss_01.asm
 17C9A8,optflags,dword_17C9A8,new,medium,"game option flags (bits 7-8 the skill level: 0 Rookie, 80h Pro, 100h All-Star)",src/data/front/front_67000_bss_01.asm
+17C9A9,GsModemFlags,byte_17C9A9,new,low,GLOBAL.SET: modem flag bits (bit 0 cleared on defaults),src/data/front/front_67000_bss_01.asm
+17C9AC,GsComPort,word_17C9AC,new,low,GLOBAL.SET: serial port number (default 1),src/data/front/front_10010_bss_02.asm
+17C9AE,GsBaudIndex,word_17C9AE,new,low,GLOBAL.SET: baud rate index into BaudRateTable (default 1),src/data/front/front_10010_bss_02.asm
+17C9B0,GsDirectLink,word_17C9B0,new,low,GLOBAL.SET: nonzero for a direct (null-modem) link instead of a modem,src/data/front/front_10010_bss_02.asm
+17C9B2,GsWaitForCall,word_17C9B2,new,low,GLOBAL.SET: nonzero to wait for the other side to call,src/data/front/front_10010_bss_02.asm
+17C9B4,GsLinkOption,word_17C9B4,new,low,GLOBAL.SET: link option passed to the link set-up (default 1),src/data/front/front_10010_bss_02.asm
+17C9B6,GsDialMode,word_17C9B6,new,low,GLOBAL.SET: dial mode (default 0),src/data/front/front_10010_bss_02.asm
+17C9B8,GsPhoneNumber,unk_17C9B8,new,low,GLOBAL.SET: phone number to dial (20 bytes),src/data/front/front_10010_bss_02.asm
+17C9CC,GsModemInit,unk_17C9CC,new,low,"GLOBAL.SET: modem init string (40 bytes, default ATF...)",src/data/front/front_10010_bss_02.asm
+17C9F4,GsModemDial,dword_17C9F4,new,low,"GLOBAL.SET: modem dial prefix (40 bytes, default ATD)",src/data/front/front_10010_bss_02.asm
 17CA1C,globalset,dword_17CA1C,new,medium,GLOBAL.SET options (bits 0-2 the sound card),src/data/front/front_10010_bss_02.asm
 17CA20,optblock,dword_17CA20,new,medium,start of the option block the port sends to the guest,src/data/front/front_10010_bss_02.asm
+17CA24,GsJoy1Calib,byte_17CA24,new,low,GLOBAL.SET: saved joystick 1 calibration (Joy1State block),src/data/front/front_10010_bss_02.asm
+17CA3C,GsJoy2Calib,byte_17CA3C,new,low,GLOBAL.SET: saved joystick 2 calibration (Joy2State block),src/data/front/front_10010_bss_02.asm
+17CA54,GsGripButtons,byte_17CA54,new,low,"GLOBAL.SET: GrIP shoot/pass button pair per slot (defaults 1, 2)",src/data/front/front_10010_bss_02.asm
+17CA5C,GsOptions,dword_17CA5C,new,low,"GLOBAL.SET: option bits (hotkeys, name display and more)",src/data/front/front_10010_bss_02.asm
 17CA60,GlobalSetName,byte_17CA60,new,low,name stored in GLOBAL.SET,src/data/front/front_10010_bss_02.asm
 17CA75,optblock_end,unk_17CA75,new,medium,end of the option block,src/data/front/front_10010_bss_02.asm
+17CA76,GsTeamSelect,dword_17CA76,new,low,GLOBAL.SET: packed team selection bits of the team select screen,src/data/front/front_10010_bss_02.asm
+17CA7A,GsPlayerPads,byte_17CA7A,new,low,GLOBAL.SET: controller per player (cleared on defaults),src/data/front/front_10010_bss_02.asm
+17CA7C,GsPlayerFlags,word_17CA7C,new,low,GLOBAL.SET: per-player flag words (1 on defaults),src/data/front/front_10010_bss_02.asm
+17CA86,GsPanelSlots,byte_17CA86,new,low,GLOBAL.SET: team panel slot bytes for the home and away panels,src/data/front/front_10010_bss_02.asm
 17CB2E,SeasonUserRecords,unk_17CB2E,new,low,"season user records (28 bytes each, name first)",src/data/front/front_10010_bss_02.asm
+17CB2F,SeasonGameOpts,dword_17CB2F,new,low,Season file: game options of the season (packed teams and settings),src/data/front/front_10010_bss_02.asm
 17CBE7,PlayoffTreeData,dword_17CBE7,new,low,playoff tree data,src/data/front/front_10010_bss_02.asm
 17CBEB,SeasonUserTeam,byte_17CBEB,new,low,user team in the season,src/data/front/front_10010_bss_02.asm
+17CC13,SeasonType,dword_17CC13,new,low,"Season file: season type (1, 2)",src/data/front/front_10010_bss_02.asm
+17CC17,SeasonPlayoffs,dword_17CC17,new,low,Season file: set once the playoffs start,src/data/front/front_10010_bss_02.asm
+17CC1B,SeasonOver,dword_17CC1B,new,low,Season file: set when the season is finished,src/data/front/front_10010_bss_02.asm
+17CC1D,SeasonUsers,byte_17CC1D,new,low,"Season file: user records, 1Ah bytes each (+0 team, -1 for none)",src/data/front/front_10010_bss_02.asm
+17CC1E,SeasonUserSim,byte_17CC1E,new,low,Season file: user record +1: simulate this user's games,src/data/front/front_10010_bss_02.asm
+17CC1F,SeasonUserName,unk_17CC1F,new,low,Season file: user record +2: name (22 bytes),src/data/front/front_10010_bss_02.asm
+17CC35,SeasonUserFlag,byte_17CC35,new,low,Season file: user record +18h: user flag,src/data/front/front_10010_bss_02.asm
+17CC36,SeasonUserSlot,byte_17CC36,new,low,Season file: user record +19h: controller slot,src/data/front/front_10010_bss_02.asm
+17CEC3,SeasonDay,dword_17CEC3,new,low,Season: current calendar day,src/data/front/front_10010_bss_02.asm
+17CEC7,SeasonGamePending,dword_17CEC7,new,low,Season: a scheduled game is ready to play,src/data/front/front_10010_bss_02.asm
+17CECB,SeasonGameHome,byte_17CECB,new,low,Season: home team of the game to play,src/data/front/front_10010_bss_02.asm
+17CECC,SeasonGameAway,byte_17CECC,new,low,Season: away team of the game to play,src/data/front/front_10010_bss_02.asm
 17CED1,SeasonRandomSeed,dword_17CED1,new,low,season random seed,src/data/front/front_794FF_bss_01.asm
 17CF8E,cddriveptr,dword_17CF8E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_794FF_bss_01.asm
 17D18E,PlayoffFormatTeams,dword_17D18E,new,low,teams per playoff format,src/data/front/playoff_bss_01.asm

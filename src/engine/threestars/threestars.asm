@@ -1,11 +1,12 @@
 ; Pre-game intro skate and the three stars (95 PC engine/intro, 94G hockey94).
 bits 32
 %include "hockey.inc"
+extern GsOptions
 section s_2D9D9 progbits alloc exec nowrite align=1
 extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin, byte_164920
-extern byte_164CE0, textline1, textline2, textline3, textline4, textline5, byte_17CA5D, CloseTextOverlay
-extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, dword_114B90, dword_114B94, dword_114B98, dword_114B9C
-extern dword_114F16, gameresult, PreGameSkateOn, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4
+extern byte_164CE0, textline1, textline2, textline3, textline4, textline5, CloseTextOverlay
+extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, InputRecordIndex
+extern GameLoopFrames, gameresult, PreGameSkateOn, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4
 extern dword_152F4C, dword_164956, dword_164D16, gwgteam, gwgplayer, DrawFrameCount
 extern dword_179918, dword_179920, dword_179924, dword_179DBD, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
@@ -294,7 +295,7 @@ RunPreGameSkate:
         call DoGameFrame
         call SprSort
         mov eax, dword [puckc]
-        mov dword [dword_114F16], 0
+        mov dword [GameLoopFrames], 0
         mov byte [eax], 0FFh
         mov dword [GameLoopActive], 0
         mov word [word_1178A0], 0
@@ -357,17 +358,17 @@ LineupLoopFrame:
         jne near .4
         cmp dword [InGameMenuRequest], byte 0
         jne near .4
-        imul eax, dword [dword_114B9C], byte 12h
+        imul eax, dword [InputRecordIndex], byte 12h
         mov ecx, dword [dword eax+InputRecordRing]
         mov dword [SlotButtons], ecx
         mov ecx, dword [dword eax+InputRecordRing+4]
-        mov dword [dword_114B90], ecx
+        mov dword [SlotButtons+4], ecx
         mov ecx, dword [dword eax+InputRecordRing+8]
-        mov dword [dword_114B94], ecx
+        mov dword [SlotButtons+8], ecx
         mov ecx, dword [dword eax+InputRecordRing+0Ch]
-        mov dword [dword_114B98], ecx
+        mov dword [SlotButtons+0Ch], ecx
         movsx ecx, word [dword eax+InputRecordRing+10h]
-        mov eax, dword [dword_114B9C]
+        mov eax, dword [InputRecordIndex]
         inc eax
         mov dword [byte ebp-04h], 5
         cdq
@@ -376,14 +377,14 @@ LineupLoopFrame:
         imul ecx, byte 0Ah
         mov edi, dword [GameLoopActive]
         dec dword [InputRecordCount]
-        add dword [dword_114F16], ecx
+        add dword [GameLoopFrames], ecx
         mov dword [GameLoopActive], 0
-        mov ecx, dword [dword_114F16]
+        mov ecx, dword [GameLoopFrames]
         mov dword [GameLoopActive], edi
         sar ecx, 4
-        and dword [dword_114F16], byte 0Fh
+        and dword [GameLoopFrames], byte 0Fh
         mov eax, ecx
-        mov dword [dword_114B9C], edx
+        mov dword [InputRecordIndex], edx
         call RunSimFrames
         mov eax, ebx
         sub eax, esi
@@ -595,7 +596,7 @@ DrawOverlayPanels:
         jle near .71
         mov edi, dword [lineuptime]
         sub edi, 140h
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .1
         mov esi, StarPanelOffsets
         mov dword [byte ebp-04h], str_V_DrawOverlayPanels
@@ -860,7 +861,7 @@ DrawOverlayPanels:
         movsx ebx, word [byte ebp-02Eh]
         call LoadTeamLogo
         mov edx, eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .18
         mov eax, 0FAE1h
         jmp short .19
@@ -878,7 +879,7 @@ DrawOverlayPanels:
         movsx ebx, word [byte ebp-02Eh]
         call LoadTeamLogo
         mov edx, eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .20
         mov eax, 0FAE1h
         jmp short .23
@@ -894,7 +895,7 @@ DrawOverlayPanels:
         movsx ebx, word [byte ebp-020h]
         call LoadTeamLogo
         mov edx, eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .22
         mov eax, 0FAE1h
         jmp short .23
@@ -908,7 +909,7 @@ DrawOverlayPanels:
         add esp, byte 4
         test byte [byte eax+03h], 3Eh
         jne short .26
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .24
         mov ebx, 10h
         jmp short .25
@@ -921,7 +922,7 @@ DrawOverlayPanels:
         mov eax, str_MightyDucks
         jmp short .29
 .26:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .27
         mov ebx, 10h
         jmp short .28
@@ -943,7 +944,7 @@ DrawOverlayPanels:
         mov eax, dword [gameopts]
         test dword [byte eax+01h], 1F000h
         jne short .32
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .30
         mov eax, 10h
         jmp short .31
@@ -956,7 +957,7 @@ DrawOverlayPanels:
         mov eax, str_MightyDucks
         jmp short .35
 .32:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .33
         mov eax, 10h
         jmp short .34
@@ -980,7 +981,7 @@ DrawOverlayPanels:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .36
         mov ebx, 10h
         jmp short .37
@@ -999,7 +1000,7 @@ DrawOverlayPanels:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .38
         mov ebx, 10h
         jmp short .39
@@ -1015,7 +1016,7 @@ DrawOverlayPanels:
         mov eax, dword [gameopts]
         test dword [byte eax+01h], 1F000h
         jne short .43
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .41
         mov eax, 10h
         jmp short .42
@@ -1028,7 +1029,7 @@ DrawOverlayPanels:
         mov eax, str_MightyDucks
         jmp short .46
 .43:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .44
         mov ebx, 10h
         jmp short .45
@@ -1051,7 +1052,7 @@ DrawOverlayPanels:
         add esp, byte 4
         test byte [byte eax+03h], 3Eh
         jne short .49
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .47
         mov ebx, 8
         jmp short .48
@@ -1064,7 +1065,7 @@ DrawOverlayPanels:
         mov eax, str_OfAnaheim
         jmp short .52
 .49:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .50
         mov ebx, 8
         jmp short .51
@@ -1086,7 +1087,7 @@ DrawOverlayPanels:
         jne short .59
         cmp dword [byte ebp-05Ch], byte 0
         je short .56
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .53
         mov ebx, 8
         jmp short .54
@@ -1101,7 +1102,7 @@ DrawOverlayPanels:
         call DrawColorText
         jmp near .66
 .56:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .57
         mov ebx, 8
         jmp short .58
@@ -1116,7 +1117,7 @@ DrawOverlayPanels:
 .59:
         cmp dword [byte ebp-05Ch], byte 0
         je short .62
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .60
         mov ebx, 8
         jmp short .61
@@ -1133,7 +1134,7 @@ DrawOverlayPanels:
         mov eax, dword [nosplit eax*4+off_11D52C]
         jmp short .55
 .62:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .63
         mov eax, 8
         jmp short .64
@@ -1173,7 +1174,7 @@ DrawOverlayPanels:
         lea eax, [byte ebp-058h]
         call GetPeriodText
 .68:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .69
         mov ebx, 9
         jmp short .70

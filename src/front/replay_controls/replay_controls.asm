@@ -19,7 +19,7 @@ extern byte_17794A, byte_17794B, byte_17794C, byte_17794D, byte_17794E, byte_177
 extern byte_1779B4, byte_177A18, byte_177A19, byte_177A1A, byte_177A7E, byte_177A7F, byte_177A80, byte_177AE4
 extern byte_177AE5, byte_177AE6, byte_177B4A, byte_177B4B, byte_177B4C, byte_177BB0, byte_177BB1, byte_177BB2
 extern byte_177C15, byte_177C16, byte_177C7A, byte_177C7C, byte_177DAC, byte_177DAD, byte_177DAF, byte_177E12
-extern byte_178247, byte_178288, byte_17CA5D, crowdlevel, curperiod, dword_1150D4, dword_1150D8, dword_1175B5
+extern byte_178247, byte_178288, crowdlevel, curperiod, dword_1150D4, dword_1150D8, dword_1175B5
 extern dword_1175B9, dword_1176E1, PreGameSkateOn, InReplay, ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd
 extern dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, dword_11B294
 extern dword_11B314, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330
@@ -46,7 +46,7 @@ extern dword_1781D4, dword_1781D8, dword_1781DC, dword_1781E0, dword_1781F0, Rep
 extern dword_178248, dword_17824C, dword_178250, dword_178254, dword_1797F4, dword_1797F8, dword_1797FC, dword_179800
 extern dword_179908, dword_179914, dword_179918, dword_179934, dword_179978, dword_17997C, dword_179A7C, dword_179AC8
 extern dword_179DBD, dword_179E0B, dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA54, optflags
-extern optblock, dword_17CA5C, gameclock, gameopts, gmode, hmroster, replaystart, off_11BA08
+extern optblock, GsOptions, gameclock, gameopts, gmode, hmroster, replaystart, off_11BA08
 extern rand_, sflags, sprintf_, strcat_, strcpy_, strlen_, LinkSendBlock, LinkReceiveBlock
 extern LinkSync, ModemChat, NameIndexNew, NameIndexLoad, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText
 extern MessageBox, BlankForFadeIn, FileCreate, FileClose, FileWriteAt, MakeDirPath, LoadPackedFile, FreeStatsTables
@@ -67,7 +67,7 @@ extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, F
 extern SetViewFov, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, str_Punct_ReplayScreen, str_0_SaveHighlight, unk_122344, exhstate, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
-extern word_114CE0, word_114CE4, GoalNetFrames, str_Punct_DrawReplayCounter, word_11A410, word_11A414, regd0, regd1
+extern SlotsTwoPlayer, ControllerScreenMode, GoalNetFrames, str_Punct_DrawReplayCounter, word_11A410, word_11A414, regd0, regd1
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
 extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
 extern word_177508, word_17750A, word_177CB6, word_177D1C, word_1781FC
@@ -104,7 +104,7 @@ StartReplay:
         call ClearGlassHoles
         call StopGlassShake
         call FreeFightSprites
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .1
         mov edx, 20h
         mov eax, 0B2h
@@ -123,7 +123,7 @@ StartReplay:
         push dword [dword_1778FC]
         call TextSetFont
         add esp, byte 4
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         sete al
         movzx eax, al
         mov dword [InReplay], 80000004h
@@ -891,7 +891,7 @@ DrawReplayObjects:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov esi, eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .2
         cmp eax, 30000h
         jle short .3
@@ -1354,7 +1354,7 @@ DrawReplayCounter:
         lea eax, [byte ebp-018h]
         call DrawText
         push byte 0
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .7
         mov eax, 7
         jmp short .8
@@ -1362,14 +1362,14 @@ DrawReplayCounter:
         mov eax, 3
 .8:
         push eax
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 12h
         shr eax, 1Fh
         movsx edx, word [nosplit eax*2+word_11A410]
         add edx, byte 4
         push edx
         movsx edx, word [nosplit eax*2+word_11A414]
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .9
         mov eax, 3
         jmp short .10
@@ -1377,7 +1377,7 @@ DrawReplayCounter:
         mov eax, 1
 .10:
         sub edx, eax
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 12h
         shr eax, 1Fh
         movsx eax, word [nosplit eax*2+str_Punct_DrawReplayCounter]
@@ -1386,7 +1386,7 @@ DrawReplayCounter:
         dec eax
         push eax
         call FillRect
-        mov ebx, dword [dword_17CA5C]
+        mov ebx, dword [GsOptions]
         shl ebx, 12h
         shr ebx, 1Fh
         add ebx, ebx
@@ -1398,7 +1398,7 @@ DrawReplayCounter:
         movsx edi, word [dword ebx+str_Punct_DrawReplayCounter]
         push byte 7Dh
         add edi, eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .11
         mov eax, 7
         jmp short .12
@@ -1406,7 +1406,7 @@ DrawReplayCounter:
         mov eax, 3
 .12:
         push eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .13
         mov eax, 5
         jmp short .14
@@ -1414,11 +1414,11 @@ DrawReplayCounter:
         mov eax, 3
 .14:
         push eax
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 12h
         shr eax, 1Fh
         movsx edx, word [nosplit eax*2+word_11A414]
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .15
         mov eax, 3
         jmp short .16
@@ -1427,7 +1427,7 @@ DrawReplayCounter:
 .16:
         sub edx, eax
         push edx
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         setne al
         movzx eax, al
         inc eax
@@ -1472,7 +1472,7 @@ DrawReplayClock:
         cdq
         idiv ebx
         mov dword [byte ebp-014h], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .1
         mov eax, 20Ch
         jmp short .2
@@ -1480,7 +1480,7 @@ DrawReplayClock:
         mov eax, 0FEh
 .2:
         mov dword [byte ebp-08h], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .3
         mov eax, 1ADh
         jmp short .4
@@ -1488,7 +1488,7 @@ DrawReplayClock:
         mov eax, 0AFh
 .4:
         mov dword [byte ebp-04h], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .5
         mov eax, 9
         jmp short .6
@@ -1496,7 +1496,7 @@ DrawReplayClock:
         mov eax, 4
 .6:
         mov dword [byte ebp-0Ch], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .7
         mov eax, 5
         jmp short .8
@@ -2525,7 +2525,7 @@ ReplayScreen:
         push edi
         enter 38h, 0
         call FreeSpriteCache
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2536,7 +2536,7 @@ ReplayScreen:
         push str_TRANSIT
         call AllocMemBlock
         mov esi, dword [replaystart]
-        movsx edx, word [word_114CE4]
+        movsx edx, word [ControllerScreenMode]
         add esp, byte 0Ch
         mov edi, eax
         mov ebx, eax
@@ -2578,7 +2578,7 @@ ReplayScreen:
         add esp, byte 4
 .6:
         call StartReplay
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .7
         mov dword [dword_1781DC], unk_11AB30
         mov dword [byte ebp-020h], unk_11AE70
@@ -2847,7 +2847,7 @@ ReplayScreen:
         sar edx, 1
         add eax, edx
         mov dword [dword_177BAA], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         add esp, byte 8
         xor ah, ah
         mov byte [byte_177BB0], 5
@@ -3338,7 +3338,7 @@ ReplayScreen_D83:
         mov dword [InReplay], eax
 ReplayScreen_E86:
         call SoundIdle
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -3459,7 +3459,7 @@ ReplayScreen_10E1:
         call CrowdPause
         jmp near ReplayScreen_E86
 ReplayScreen_1110:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -4049,7 +4049,7 @@ SaveHighlight:
         xor eax, eax
         call GetLangText
         mov dword [byte ebp+062h], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -4127,7 +4127,7 @@ WatchHighlight:
         call FreeFrontEndArt
         call FreeStatsTables
         call FreeColourLookup
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .1
         push dword [MenuCursorPixels]
         call FreeMemBlock
@@ -4198,7 +4198,7 @@ WatchHighlight:
         mov eax, dword [replaystart]
         add eax, dword [dword_17750C]
         mov dword [ReplayBufferTop], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .4
         push str_GloL4
         push dword [dword_1150D4]
@@ -4234,7 +4234,7 @@ WatchHighlight:
         call BlankForFadeIn
         mov eax, exhstate
         call LoadGamePalette
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         setne al
         movzx eax, al
         call SetScreenMode
@@ -4265,7 +4265,7 @@ WatchHighlight:
         call FindShape
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .6
         push dword [MenuCursorPixels]
         call FreeMemBlock
@@ -4282,7 +4282,7 @@ WatchHighlight:
         call SetDrawTarget
         add esp, byte 4
         call EndGameSound
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .7
         mov edx, 20h
         mov eax, dword [dword_152F58]

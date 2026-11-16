@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_76071 progbits alloc exec nowrite align=1
-extern BlackPalette, byte_17CA78, byte_17CA86, CopyBitmap, DrawFrameAt, dword_11E284, dword_11E288, dword_11E2A0
+extern BlackPalette, GsPanelSlots, CopyBitmap, DrawFrameAt, dword_11E284, dword_11E288, dword_11E2A0
 extern dword_11E2A4, dword_11E2A8, dword_11E2AC, TeamSelectDrawn, dword_11E2B4, PanelTeamNameShift, dword_11E2BC, TeamStatsBitmap
-extern str_Standings, dword_17CA76, dword_17D688, dword_17D68C, dword_17D690, FadeOut, FadePalette, FillMusicStream
+extern str_Standings, GsTeamSelect, dword_17D688, dword_17D68C, dword_17D690, FadeOut, FadePalette, FillMusicStream
 extern gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LoadPackedFile, LoadTeamLogo, mousex, mousey
 extern OpenScreen, optblock_end, PutBlock, RunMenu, SetDrawBitmap, SetMenuMouse, SetScreenColors, SlideInSideBar
 extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Aal02, str_Aal12, str_Aal22, str_Aar02
@@ -64,7 +64,7 @@ DrawHomeTeamPanel:
         push byte 0
         push dword [dword_11E2A8]
         call PutBlock
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         add esp, byte 0Ch
         shl eax, 0Fh
         xor ecx, ecx
@@ -82,7 +82,7 @@ DrawHomeTeamPanel:
         shrd eax, edx, 10h
         sar eax, 10h
         lea ecx, [byte eax+05h]
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Fh
         shr eax, 1Bh
         xor ebx, ebx
@@ -101,10 +101,10 @@ DrawHomeTeamPanel:
         call PutBlock
         add esp, byte 0Ch
 .1:
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Fh
         shr eax, 1Bh
-        movsx eax, byte [dword edi+eax+byte_17CA86]
+        movsx eax, byte [dword edi+eax+GsPanelSlots]
         push eax
         push str_Rk02d2
         lea eax, [byte ebp-0Ch]
@@ -180,7 +180,7 @@ DrawAwayTeamPanel:
         push byte 0
         push dword [dword_11E2AC]
         call PutBlock
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         add esp, byte 0Ch
         shl eax, 0Ah
         xor ecx, ecx
@@ -198,7 +198,7 @@ DrawAwayTeamPanel:
         shrd eax, edx, 10h
         sar eax, 10h
         lea ecx, [byte eax+05h]
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Ah
         shr eax, 1Bh
         xor ebx, ebx
@@ -217,10 +217,10 @@ DrawAwayTeamPanel:
         call PutBlock
         add esp, byte 0Ch
 .1:
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Ah
         shr eax, 1Bh
-        movsx eax, byte [dword edi+eax+byte_17CA86]
+        movsx eax, byte [dword edi+eax+GsPanelSlots]
         push eax
         push str_Rk02d2
         lea eax, [byte ebp-08h]
@@ -735,175 +735,175 @@ TeamSelectScreen:
         cmp dword [byte ebp+06Eh], byte 8
         ja near TeamSelectScreen_BE5.14
         mov edx, dword [byte ebp+06Eh]
-        mov esi, dword [dword_17CA76]
-        mov eax, dword [dword_17CA76]
+        mov esi, dword [GsTeamSelect]
+        mov eax, dword [GsTeamSelect]
         and esi, 0FFFE0FFFh
         and eax, 0FFC1FFFFh
         jmp dword [nosplit cs:edx*4+jpt_764F4]
 TeamSelectScreen_863:
-        test dword [dword_17CA76], 1F000h
+        test dword [GsTeamSelect], 1F000h
         jne short .4
-        mov dword [dword_17CA76], esi
+        mov dword [GsTeamSelect], esi
         or esi, 1C000h
-        mov dword [dword_17CA76], esi
+        mov dword [GsTeamSelect], esi
 .4:
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Fh
         shr eax, 1Bh
         dec eax
         and eax, byte 1Fh
-        and dword [dword_17CA76], 0FFFE0FFFh
+        and dword [GsTeamSelect], 0FFFE0FFFh
         shl eax, 0Ch
-        or dword [dword_17CA76], eax
-        mov eax, dword [dword_17CA76]
-        mov edx, dword [dword_17CA76]
+        or dword [GsTeamSelect], eax
+        mov eax, dword [GsTeamSelect]
+        mov edx, dword [GsTeamSelect]
         shl eax, 0Ah
         shl edx, 0Fh
         shr eax, 1Bh
         shr edx, 1Bh
         cmp eax, edx
         jne short .6
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         and eax, 3E0000h
         cmp eax, 340000h
         jb short .6
-        test dword [dword_17CA76], 1F000h
+        test dword [GsTeamSelect], 1F000h
         jne short .5
-        and dword [dword_17CA76], 0FFFE0FFFh
-        or dword [dword_17CA76], 1C000h
+        and dword [GsTeamSelect], 0FFFE0FFFh
+        or dword [GsTeamSelect], 1C000h
 .5:
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Fh
         shr eax, 1Bh
         dec eax
         and eax, byte 1Fh
-        and dword [dword_17CA76], 0FFFE0FFFh
+        and dword [GsTeamSelect], 0FFFE0FFFh
         shl eax, 0Ch
-        or dword [dword_17CA76], eax
+        or dword [GsTeamSelect], eax
 .6:
         mov eax, dword [byte ebp+07Eh]
         call DrawHomeTeamPanel
         jmp near TeamSelectScreen_BE5.14
 TeamSelectScreen_91E:
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Fh
         shr eax, 1Bh
         inc eax
         and eax, byte 1Fh
         shl eax, 0Ch
-        mov dword [dword_17CA76], esi
+        mov dword [GsTeamSelect], esi
         or esi, eax
         mov eax, esi
         and eax, 1F000h
-        mov dword [dword_17CA76], esi
+        mov dword [GsTeamSelect], esi
         cmp eax, 1C000h
         jne short .7
-        and dword [dword_17CA76], 0FFFE0FFFh
+        and dword [GsTeamSelect], 0FFFE0FFFh
 .7:
-        mov edx, dword [dword_17CA76]
-        mov eax, dword [dword_17CA76]
+        mov edx, dword [GsTeamSelect]
+        mov eax, dword [GsTeamSelect]
         shl edx, 0Ah
         shl eax, 0Fh
         shr edx, 1Bh
         shr eax, 1Bh
         cmp edx, eax
         jne short TeamSelectScreen_863.6
-        mov edx, dword [dword_17CA76]
+        mov edx, dword [GsTeamSelect]
         and edx, 3E0000h
         cmp edx, 340000h
         jb short TeamSelectScreen_863.6
         inc eax
         and eax, byte 1Fh
-        and dword [dword_17CA76], 0FFFE0FFFh
+        and dword [GsTeamSelect], 0FFFE0FFFh
         shl eax, 0Ch
-        or dword [dword_17CA76], eax
-        mov eax, dword [dword_17CA76]
+        or dword [GsTeamSelect], eax
+        mov eax, dword [GsTeamSelect]
         and eax, 1F000h
         cmp eax, 1C000h
         jne near TeamSelectScreen_863.6
-        and dword [dword_17CA76], 0FFFE0FFFh
+        and dword [GsTeamSelect], 0FFFE0FFFh
         jmp near TeamSelectScreen_863.6
 TeamSelectScreen_9C0:
-        test byte [byte_17CA78], 3Eh
+        test byte [GsTeamSelect+2], 3Eh
         jne short .8
-        mov dword [dword_17CA76], eax
+        mov dword [GsTeamSelect], eax
         or eax, 380000h
-        mov dword [dword_17CA76], eax
+        mov dword [GsTeamSelect], eax
 .8:
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Ah
         shr eax, 1Bh
         dec eax
         and eax, byte 1Fh
-        and byte [byte_17CA78], 0C1h
+        and byte [GsTeamSelect+2], 0C1h
         shl eax, 11h
-        or dword [dword_17CA76], eax
-        mov eax, dword [dword_17CA76]
-        mov edx, dword [dword_17CA76]
+        or dword [GsTeamSelect], eax
+        mov eax, dword [GsTeamSelect]
+        mov edx, dword [GsTeamSelect]
         shl eax, 0Fh
         shl edx, 0Ah
         shr eax, 1Bh
         shr edx, 1Bh
         cmp eax, edx
         jne short .10
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         and eax, 1F000h
         cmp eax, 1A000h
         jb short .10
-        test byte [byte_17CA78], 3Eh
+        test byte [GsTeamSelect+2], 3Eh
         jne short .9
-        and byte [byte_17CA78], 0C1h
-        or byte [byte_17CA78], 38h
+        and byte [GsTeamSelect+2], 0C1h
+        or byte [GsTeamSelect+2], 38h
 .9:
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Ah
         shr eax, 1Bh
         dec eax
         and eax, byte 1Fh
-        and byte [byte_17CA78], 0C1h
+        and byte [GsTeamSelect+2], 0C1h
         shl eax, 11h
-        or dword [dword_17CA76], eax
+        or dword [GsTeamSelect], eax
 .10:
         mov eax, dword [byte ebp+07Eh]
         call DrawAwayTeamPanel
         jmp near TeamSelectScreen_BE5.14
 TeamSelectScreen_A66:
-        mov edx, dword [dword_17CA76]
+        mov edx, dword [GsTeamSelect]
         shl edx, 0Ah
         shr edx, 1Bh
         inc edx
         and edx, byte 1Fh
         shl edx, 11h
-        mov dword [dword_17CA76], eax
+        mov dword [GsTeamSelect], eax
         or eax, edx
-        mov dword [dword_17CA76], eax
+        mov dword [GsTeamSelect], eax
         and eax, 3E0000h
         cmp eax, 380000h
         jne short .11
-        and byte [byte_17CA78], 0C1h
+        and byte [GsTeamSelect+2], 0C1h
 .11:
-        mov edx, dword [dword_17CA76]
-        mov eax, dword [dword_17CA76]
+        mov edx, dword [GsTeamSelect]
+        mov eax, dword [GsTeamSelect]
         shl edx, 0Fh
         shl eax, 0Ah
         shr edx, 1Bh
         shr eax, 1Bh
         cmp edx, eax
         jne short TeamSelectScreen_9C0.10
-        mov edx, dword [dword_17CA76]
+        mov edx, dword [GsTeamSelect]
         and edx, 1F000h
         cmp edx, 1A000h
         jb short TeamSelectScreen_9C0.10
         inc eax
         and eax, byte 1Fh
-        and byte [byte_17CA78], 0C1h
+        and byte [GsTeamSelect+2], 0C1h
         shl eax, 11h
-        or dword [dword_17CA76], eax
-        mov eax, dword [dword_17CA76]
+        or dword [GsTeamSelect], eax
+        mov eax, dword [GsTeamSelect]
         and eax, 3E0000h
         cmp eax, 380000h
         jne near TeamSelectScreen_9C0.10
-        and byte [byte_17CA78], 0C1h
+        and byte [GsTeamSelect+2], 0C1h
         jmp near TeamSelectScreen_9C0.10
 TeamSelectScreen_AFC:
         mov esi, 2
@@ -937,22 +937,22 @@ TeamSelectScreen_AFC:
         add esp, byte 8
         push eax
         call PutBlockAtOwnPos
-        mov eax, dword [dword_17CA76]
+        mov eax, dword [GsTeamSelect]
         shl eax, 0Fh
-        mov edx, dword [dword_17CA76]
+        mov edx, dword [GsTeamSelect]
         shr eax, 1Bh
-        and byte [byte_17CA78], 0C1h
+        and byte [GsTeamSelect+2], 0C1h
         and eax, byte 1Fh
         shl edx, 0Ah
         shl eax, 11h
         shr edx, 1Bh
-        or dword [dword_17CA76], eax
+        or dword [GsTeamSelect], eax
         mov eax, edx
         and eax, byte 1Fh
-        and dword [dword_17CA76], 0FFFE0FFFh
+        and dword [GsTeamSelect], 0FFFE0FFFh
         shl eax, 0Ch
         add esp, byte 4
-        or dword [dword_17CA76], eax
+        or dword [GsTeamSelect], eax
         mov eax, dword [byte ebp+07Eh]
         call DrawHomeTeamPanel
         jmp near TeamSelectScreen_9C0.10

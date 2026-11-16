@@ -1,11 +1,13 @@
 ; Controls: keyboard, mouse and joystick pads, the key bindings and the Gravis GrIP library (96 PC).
 bits 32
 %include "hockey.inc"
+extern GsOptions
+extern optblock
 section s_10010 progbits alloc exec nowrite align=1
-extern _nfree_, _nmalloc_, _searchenv_, byte_114B48, byte_114C58, JoyPortMask
-extern GripSlotPresent, JoyPadBits, GripLinkByte, GripPadState, byte_17CA21
-extern byte_17CA22, byte_17CA5D, dword_114B5C, dword_114B60, dword_114B64, dword_114B68, dword_114B78, dword_114B7C
-extern dword_114B80, dword_114B9C, dword_114CB0, dword_114CB4, GripLinked, dword_114CD3, dword_114CD7, dword_114CD9
+extern _nfree_, _nmalloc_, _searchenv_, InputDeviceMask, EscReplayKeyMap, JoyPortMask
+extern GripSlotPresent, JoyPadBits, GripLinkByte, GripPadState
+extern KeyPollTick, MousePollTick, KeyRepeatTick, JoyPollTicks, KeyPadActive, JoyPadActive
+extern MousePadActive, InputRecordIndex, Joy1NeedsCalib, Joy2NeedsCalib, GripLinked, GripLibHandle, GripSlotsScanned, GripPadBitsPrev
 extern dword_11D91F, dword_11F5C0, dword_11F5C4, SlotPollState, SlotWords, LastKeyPollTick, SlotInput, KeyBindingSet
 extern GripPadBits, GripShootMap, GripPassMap, Joy1MinX, Joy1MinY
 extern Joy1MaxX, Joy1X, Joy1Y, Joy1CentreX, Joy2MinX, Joy2MinY, Joy2MaxX
@@ -14,8 +16,8 @@ extern fread_, fseek_, ftell_, GameLoopActive, gameopts, GetTicks, InputRecordCo
 extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mousex, mousey, SetViewRect
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
 extern strcat_, strcpy_, CameraFacing, InitMouse, KeyIsDown, KbdGetKey, CalibrateJoystick, JoyResetCentres
-extern AddExitHandler, KeyBindings, KeyBindingsAlt, GripSlotNames, GripSlotTypes, GripFarCall, word_114B40, word_114B42
-extern word_114B44, word_114CDB, word_114CE0, word_114CE4, JoyAxisValues, word_11F914, word_11F918, word_11F91C
+extern AddExitHandler, KeyBindings, KeyBindingsAlt, GripSlotNames, GripSlotTypes, GripFarCall, InputDevicesFound, InputDevicesReady
+extern MouseReady, GripBufferSide, SlotsTwoPlayer, ControllerScreenMode, JoyAxisValues, word_11F914, word_11F918, word_11F91C
 extern SlotDevice, GripAxisMin, GripAxisMax, Joy1MaxY, Joy1Present, Joy1CentreY
 extern Joy1Buttons, Joy2MaxY, Joy2Present, Joy2CentreY, Joy2Buttons, Joy1RepeatState, Joy2RepeatState, GripSlotIds
 extern GripLinkStatus, GripDriverSeg, GripLibSeg, GripDataSeg, GripResult, GripAxesRaw
@@ -25,8 +27,8 @@ global GripUnlinkLibrary_5, SetGripButtonMap, GetGripButtonMap, LoadGripLibrary,
 global ReadJoystickBits, GripShutdown, InitGrip
 ;-----------------------------------------------------------------------------
 ; GetInputDevices                                                 10010  96 PC
-; Input device bitmask: 1 mouse present (word_114B42), 2/4/8/10h joystick or
-; GrIP pad 1-4 (word_114B40 bits); InitSlotTable keeps it in byte_114B48
+; Input device bitmask: 1 mouse present (InputDevicesReady), 2/4/8/10h joystick or
+; GrIP pad 1-4 (InputDevicesFound bits); InitSlotTable keeps it in InputDeviceMask
 ;-----------------------------------------------------------------------------
 GetInputDevices:
         push ebx
@@ -38,32 +40,32 @@ GetInputDevices:
         mov ebp, esp
         sub esp, 8
         mov dword [byte ebp-08h], 0
-        cmp word [word_114B42], byte 0
+        cmp word [InputDevicesReady], byte 0
         je short .1
         or dword [byte ebp-08h], byte 1
 .1:
-        mov ax, word [word_114B40]
+        mov ax, word [InputDevicesFound]
         and eax, 1
         cwde
         test eax, eax
         je short .2
         or dword [byte ebp-08h], byte 2
 .2:
-        mov ax, word [word_114B40]
+        mov ax, word [InputDevicesFound]
         and eax, 2
         cwde
         test eax, eax
         je short .3
         or dword [byte ebp-08h], byte 4
 .3:
-        mov ax, word [word_114B40]
+        mov ax, word [InputDevicesFound]
         and eax, 4
         cwde
         test eax, eax
         je short .4
         or dword [byte ebp-08h], byte 8
 .4:
-        mov ax, word [word_114B40]
+        mov ax, word [InputDevicesFound]
         and eax, 8
         cwde
         test eax, eax
@@ -84,7 +86,7 @@ GetInputDevices:
 ;-----------------------------------------------------------------------------
 ; InitInputDevices                                                10095  96 PC
 ; One-time device init: detects the mouse (int 33h, InitMouse) and polls it
-; once, then InitGrip; stores the joystick mask in word_114B40
+; once, then InitGrip; stores the joystick mask in InputDevicesFound
 ;-----------------------------------------------------------------------------
 InitInputDevices:
         push ebx
@@ -95,20 +97,20 @@ InitInputDevices:
         push ebp
         mov ebp, esp
         sub esp, 0
-        mov word [word_114B40], 0
-        mov word [word_114B42], 0
-        cmp word [word_114B44], byte 0
+        mov word [InputDevicesFound], 0
+        mov word [InputDevicesReady], 0
+        cmp word [MouseReady], byte 0
         jne short .2
         call InitMouse
         test eax, eax
         je short .1
-        mov word [word_114B42], 1
+        mov word [InputDevicesReady], 1
         call dword [mousepollfn]
 .1:
-        mov word [word_114B44], 1
+        mov word [MouseReady], 1
 .2:
         call InitGrip
-        mov word [word_114B40], ax
+        mov word [InputDevicesFound], ax
         pop ebp
         pop edi
         pop esi
@@ -219,7 +221,7 @@ ReadEscReplayKeys_52:
         call CameraFacing
         movsx eax, al
         imul eax, byte 0Bh
-        movsx ebx, byte [dword ebx+eax+byte_114C58]
+        movsx ebx, byte [dword ebx+eax+EscReplayKeyMap]
         mov eax, ebx
         and eax, byte 0Fh
         shl eax, 2
@@ -338,7 +340,7 @@ ReadKeyboardPad:
         call TestKeyBinding
         mov edi, dword [esi]
         sar edi, 2
-        mov eax, dword [dword_114B78]
+        mov eax, dword [KeyPadActive]
         and edi, byte 0Fh
         test eax, eax
         jbe short .1
@@ -351,20 +353,20 @@ ReadKeyboardPad:
         call GetTicks
         cmp edi, dword [LastKeyPollTick]
         jne short .2
-        cmp eax, dword [dword_114B64]
+        cmp eax, dword [KeyRepeatTick]
         jge short .2
         or byte [byte esi+02h], 10h
-        mov dword [dword_114B64], eax
+        mov dword [KeyRepeatTick], eax
 .2:
-        mov dword [dword_114B78], 1
+        mov dword [KeyPadActive], 1
         jmp short .4
 .3:
         test edi, edi
         jne short .4
-        mov dword [dword_114B78], edi
+        mov dword [KeyPadActive], edi
         call GetTicks
         add eax, byte 0Ah
-        mov dword [dword_114B64], eax
+        mov dword [KeyRepeatTick], eax
         jmp short .5
 .4:
         mov dword [LastKeyPollTick], edi
@@ -372,7 +374,7 @@ ReadKeyboardPad:
         cmp dword [byte ebp-0Ch], byte 0
         je near .6
         call GetTicks
-        cmp eax, dword [dword_114B5C]
+        cmp eax, dword [KeyPollTick]
         jle near ReadKeyboardPad_2D7
         mov ecx, 400h
         mov ebx, 0Ch
@@ -406,11 +408,11 @@ ReadKeyboardPad:
         call TestKeyBinding
         call GetTicks
         add eax, byte 12h
-        mov dword [dword_114B5C], eax
+        mov dword [KeyPollTick], eax
         jmp near ReadKeyboardPad_2D7
 .6:
         call GetTicks
-        cmp eax, dword [dword_114B60]
+        cmp eax, dword [MousePollTick]
         jle short ReadKeyboardPad_2D7
         mov ecx, 4000h
         mov ebx, 10h
@@ -444,7 +446,7 @@ ReadKeyboardPad:
         call TestKeyBinding
         call GetTicks
         add eax, byte 12h
-        mov dword [dword_114B60], eax
+        mov dword [MousePollTick], eax
 ReadKeyboardPad_2D7:
         leave
         pop edi
@@ -496,7 +498,7 @@ ReadMousePad:
         cmp dword [byte ebp-08h], byte 0
         je near .1
         call GetTicks
-        cmp eax, dword [dword_114B5C]
+        cmp eax, dword [KeyPollTick]
         jle near .2
         mov ecx, 400h
         mov ebx, 0Ch
@@ -530,11 +532,11 @@ ReadMousePad:
         call TestKeyBinding
         call GetTicks
         add eax, byte 12h
-        mov dword [dword_114B5C], eax
+        mov dword [KeyPollTick], eax
         jmp near .2
 .1:
         call GetTicks
-        cmp eax, dword [dword_114B60]
+        cmp eax, dword [MousePollTick]
         jle short .2
         mov ecx, 4000h
         mov ebx, 10h
@@ -568,10 +570,10 @@ ReadMousePad:
         call TestKeyBinding
         call GetTicks
         add eax, byte 12h
-        mov dword [dword_114B60], eax
+        mov dword [MousePollTick], eax
 .2:
         call dword [mousepollfn]
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .7
         cmp dword [mousex], 0A0h
         jge short .3
@@ -608,7 +610,7 @@ ReadMousePad:
 .10:
         or byte [esi], 8
 .11:
-        test byte [byte_17CA22], 1
+        test byte [optblock+2], 1
         je short .13
         test al, 2
         je short .12
@@ -652,7 +654,7 @@ ReadJoyPad:
         cmp dword [byte ebp-0Ch], byte 0
         je near .1
         call GetTicks
-        cmp eax, dword [dword_114B5C]
+        cmp eax, dword [KeyPollTick]
         jle near .2
         mov ecx, 400h
         mov ebx, 0Ch
@@ -686,11 +688,11 @@ ReadJoyPad:
         call TestKeyBinding
         call GetTicks
         add eax, byte 12h
-        mov dword [dword_114B5C], eax
+        mov dword [KeyPollTick], eax
         jmp near .2
 .1:
         call GetTicks
-        cmp eax, dword [dword_114B60]
+        cmp eax, dword [MousePollTick]
         jle short .2
         mov ecx, 4000h
         mov ebx, 10h
@@ -724,7 +726,7 @@ ReadJoyPad:
         call TestKeyBinding
         call GetTicks
         add eax, byte 12h
-        mov dword [dword_114B60], eax
+        mov dword [MousePollTick], eax
 .2:
         mov ecx, dword [byte ebp-010h]
         mov eax, dword [JoyPadBits]
@@ -739,7 +741,7 @@ ReadJoyPad:
         and eax, byte 0Fh
         shl edi, 2
         mov dword [byte ebp-08h], eax
-        mov eax, dword [dword edi+dword_114B7C]
+        mov eax, dword [dword edi+JoyPadActive]
         test eax, eax
         jbe short .3
         cmp eax, byte 1
@@ -756,14 +758,14 @@ ReadJoyPad:
         mov ecx, dword [byte ebp-08h]
         cmp ecx, dword [dword edi+kaufmfont]
         jne short .4
-        cmp eax, dword [dword edi+dword_114B68]
+        cmp eax, dword [dword edi+JoyPollTicks]
         jge short .4
         or byte [byte esi+02h], 10h
-        mov dword [dword edi+dword_114B68], eax
+        mov dword [dword edi+JoyPollTicks], eax
 .4:
         mov esi, dword [byte ebp-010h]
         mov eax, dword [byte ebp-08h]
-        mov dword [nosplit esi*4+dword_114B7C], 1
+        mov dword [nosplit esi*4+JoyPadActive], 1
         mov dword [nosplit esi*4+kaufmfont], eax
         leave
         pop edi
@@ -773,10 +775,10 @@ ReadJoyPad:
 .5:
         cmp dword [byte ebp-08h], byte 0
         jne short .6
-        mov dword [dword edi+dword_114B7C], 0
+        mov dword [dword edi+JoyPadActive], 0
         call GetTicks
         add eax, byte 0Ch
-        mov dword [dword edi+dword_114B68], eax
+        mov dword [dword edi+JoyPollTicks], eax
         leave
         pop edi
         pop esi
@@ -802,18 +804,18 @@ InitSlotTable:
         push esi
         push edi
         mov dword [LastKeyPollTick], 0
-        mov dword [dword_114B78], 0
+        mov dword [KeyPadActive], 0
         mov dword [SlotPollState], 0
         mov dword [kaufmfont], 0
-        mov dword [dword_114B80], 0
-        mov dword [dword_114B7C], 0
+        mov dword [MousePadActive], 0
+        mov dword [JoyPadActive], 0
         call GetTicks
-        mov dword [dword_114B5C], eax
+        mov dword [KeyPollTick], eax
         call GetTicks
-        mov dword [dword_114B60], eax
+        mov dword [MousePollTick], eax
         call GetInputDevices
-        mov dword [byte_114B48], eax
-        test byte [byte_17CA21], 80h
+        mov dword [InputDeviceMask], eax
+        test byte [optblock+1], 80h
         je short .1
         mov dword [KeyBindingSet], KeyBindingsAlt
         jmp short .2
@@ -826,7 +828,7 @@ InitSlotTable:
         rep stosb
         xor ebx, ebx
         xor edx, edx
-        mov di, word [word_114CE0]
+        mov di, word [SlotsTwoPlayer]
         mov esi, dword [gameopts]
         xor eax, eax
         and edi, byte 1
@@ -838,7 +840,7 @@ InitSlotTable:
         mov byte [dword edx+SlotTable], 1
         test ecx, ecx
         je short .5
-        movsx ecx, word [word_114CE4]
+        movsx ecx, word [ControllerScreenMode]
         cmp ecx, byte 1
         jne short .4
         mov byte [SlotTable+0Eh], 2
@@ -867,7 +869,7 @@ InitSlotTable:
         add edx, byte 7
         cmp ebx, byte 4
         jl near .3
-        test byte [byte_114B48], 1
+        test byte [InputDeviceMask], 1
         je short .9
         push dword 0C8h
         push dword 140h
@@ -890,7 +892,7 @@ InitSlotTable:
         xor eax, eax
         rep stosb
         mov dword [InputRecordCount], 0
-        mov dword [dword_114B9C], 0
+        mov dword [InputRecordIndex], 0
         mov dword [InputRecordHead], 0
         mov dword [GameLoopActive], 0
         jmp near ReadEscReplayKeys_52
@@ -908,7 +910,7 @@ ResetInputSlots:
         mov edi, SlotTable
         xor eax, eax
         rep stosb
-        test byte [byte_114B48], 1
+        test byte [InputDeviceMask], 1
         je short .1
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]
@@ -932,7 +934,7 @@ ResetInputSlots:
         mov dword [GameLoopActive], 0
         rep stosb
         mov dword [InputRecordCount], 0
-        mov dword [dword_114B9C], 0
+        mov dword [InputRecordIndex], 0
         mov dword [InputRecordHead], 0
         pop edi
         pop edx
@@ -1052,7 +1054,7 @@ PollControllers:
         call CameraFacing
         movsx eax, al
         imul eax, byte 0Bh
-        movsx ebx, byte [dword ebx+eax+byte_114C58]
+        movsx ebx, byte [dword ebx+eax+EscReplayKeyMap]
         and ebx, byte 0Fh
         shl ebx, 2
         or dword [edx], ebx
@@ -1089,7 +1091,7 @@ ResetSlotButtons:
         mov dword [dword eax+LastKeyPollTick], 0
         cmp eax, byte 1Ch
         jne short .1
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1107,7 +1109,7 @@ ResetSlotButtons:
         mov dword [GameLoopActive], eax
         rep stosb
         mov dword [InputRecordCount], 0
-        mov dword [dword_114B9C], 0
+        mov dword [InputRecordIndex], 0
         mov dword [InputRecordHead], 0
         mov dword [GameLoopActive], edx
         pop edi
@@ -1632,7 +1634,7 @@ GetGripButtonMap:
 ; LoadGripLibrary                                                 1124D  96 PC
 ; Finds GRIP.GLL on the GRIP and PATH environment variables or in C:\GRIP\,
 ; reads it (at most 32 KB) and links it with GripLinkLibrary; failure clears
-; dword_114CD3
+; GripLibHandle
 ;-----------------------------------------------------------------------------
 LoadGripLibrary:
         push ebx
@@ -1709,7 +1711,7 @@ LoadGripLibrary:
         call GripLinkLibrary
         test ax, ax
         je short .5
-        mov dword [dword_114CD3], 0
+        mov dword [GripLibHandle], 0
 .5:
         mov eax, dword [byte ebp-08h]
         call _nfree_
@@ -1752,7 +1754,7 @@ GripScanSlots:
         call far [GripFarCall]
         jmp short .2
 .4:
-        mov dword [dword_114CD7], 0
+        mov dword [GripSlotsScanned], 0
         mov ax, 84B0h
         call far [GripFarCall]
         mov dword [GripSlotMask], eax
@@ -1884,7 +1886,7 @@ GripScanSlots:
         mov eax, 1
         shl eax, cl
         mov ecx, eax
-        or dword [dword_114CD7], ecx
+        or dword [GripSlotsScanned], ecx
         mov ecx, dword [byte ebp-08h]
         dec ecx
         imul ecx, byte 18h
@@ -1904,7 +1906,7 @@ GripScanSlots:
 ; GripReadSlots                                                   11589  96 PC
 ; Reads every connected GrIP slot's buttons (84C1h, against the shoot/pass
 ; masks) and axes (84C0h, scaled by the axis range) into a direction+button
-; byte per pad in GripPadBits (double buffered by word_114CDB)
+; byte per pad in GripPadBits (double buffered by GripBufferSide)
 ;-----------------------------------------------------------------------------
 GripReadSlots:
         push ebx
@@ -1915,9 +1917,9 @@ GripReadSlots:
         push ebp
         mov ebp, esp
         sub esp, 0
-        cmp dword [dword_114CD7], byte 0
+        cmp dword [GripSlotsScanned], byte 0
         je near .11
-        mov ax, word [word_114CDB]
+        mov ax, word [GripBufferSide]
         xor al, 1
         cwde
         shl eax, 2
@@ -1938,7 +1940,7 @@ GripReadSlots:
         mov cl, byte [GripCurSlot]
         mov edx, 1
         shl edx, cl
-        test dword [dword_114CD7], edx
+        test dword [GripSlotsScanned], edx
         je near .9
         mov eax, dword [GripCurSlot]
         mov cl, byte [dword eax+GripSlotPresent]
@@ -2022,7 +2024,7 @@ GripReadSlots:
         jne short .9
         or byte [GripPadState], 2
 .9:
-        mov ax, word [word_114CDB]
+        mov ax, word [GripBufferSide]
         xor al, 1
         cwde
         shl eax, 2
@@ -2034,7 +2036,7 @@ GripReadSlots:
         or dword [dword eax+GripPadBits], ecx
         jmp near .2
 .10:
-        xor byte [word_114CDB], 1
+        xor byte [GripBufferSide], 1
 .11:
         pop ebp
         pop edi
@@ -2058,9 +2060,9 @@ GripReadPadBits:
         mov ebp, esp
         sub esp, 0
         call GripReadSlots
-        cmp dword [dword_114CD7], byte 0
+        cmp dword [GripSlotsScanned], byte 0
         je short .1
-        mov eax, dword [dword_114CD9]
+        mov eax, dword [GripPadBitsPrev]
         sar eax, 10h
         shl eax, 2
         mov eax, dword [dword eax+GripPadBits]
@@ -2093,9 +2095,9 @@ ReadAnalogJoysticks:
         sub esp, 8
         call CalibrateJoystick
         mov dword [byte ebp-04h], eax
-        cmp dword [dword_114CB0], byte 0
+        cmp dword [Joy1NeedsCalib], byte 0
         jne short .1
-        cmp dword [dword_114CB4], byte 0
+        cmp dword [Joy2NeedsCalib], byte 0
         je near .14
 .1:
         mov eax, dword [JoyPortMask]
@@ -2145,7 +2147,7 @@ ReadAnalogJoysticks:
         mov word [Joy1RepeatState], 0
         mov word [Joy2RepeatState], 0
 .14:
-        cmp dword [dword_114CB0], byte 0
+        cmp dword [Joy1NeedsCalib], byte 0
         je short .15
         mov ax, word [JoyAxisValues]
         mov word [Joy1MinX], ax
@@ -2159,9 +2161,9 @@ ReadAnalogJoysticks:
         mov word [Joy1CentreX], ax
         mov ax, word [word_11F914]
         mov word [Joy1CentreY], ax
-        mov dword [dword_114CB0], 0
+        mov dword [Joy1NeedsCalib], 0
 .15:
-        cmp dword [dword_114CB4], byte 0
+        cmp dword [Joy2NeedsCalib], byte 0
         je short .16
         mov ax, word [word_11F918]
         mov word [Joy2MinX], ax
@@ -2175,7 +2177,7 @@ ReadAnalogJoysticks:
         mov word [Joy2CentreX], ax
         mov ax, word [word_11F91C]
         mov word [Joy2CentreY], ax
-        mov dword [dword_114CB4], 0
+        mov dword [Joy2NeedsCalib], 0
 .16:
         mov eax, dword [Joy1MinX-2]
         sar eax, 10h
@@ -2273,7 +2275,7 @@ ReadJoystickBits:
         push ebp
         mov ebp, esp
         sub esp, 8
-        cmp dword [dword_114CD3], byte 0
+        cmp dword [GripLibHandle], byte 0
         jle short .1
         call GripReadPadBits
         jmp near .47
@@ -2790,13 +2792,13 @@ GripShutdown:
         push ebp
         mov ebp, esp
         sub esp, 0
-        cmp dword [dword_114CD3], byte 0
+        cmp dword [GripLibHandle], byte 0
         jle short .1
         mov ax, 84A2h
         call far [GripFarCall]
-        mov dword [dword_114CD3], 0
+        mov dword [GripLibHandle], 0
 .1:
-        cmp dword [dword_114CD3], byte 0
+        cmp dword [GripLibHandle], byte 0
         jne short .2
         call GripUnlinkLibrary
 .2:
@@ -2823,9 +2825,9 @@ InitGrip:
         mov ebp, esp
         sub esp, 8
         mov dword [byte ebp-08h], 0
-        cmp dword [dword_114CB0], byte 0
+        cmp dword [Joy1NeedsCalib], byte 0
         je short .1
-        cmp dword [dword_114CB4], byte 0
+        cmp dword [Joy2NeedsCalib], byte 0
         jne short .2
 .1:
         jmp near .6
@@ -2838,26 +2840,26 @@ InitGrip:
         push eax
         call AddExitHandler
         add esp, byte 4
-        mov dword [dword_114CD7], 0
-        cmp dword [dword_114CD3], byte 0
+        mov dword [GripSlotsScanned], 0
+        cmp dword [GripLibHandle], byte 0
         jle short .3
         mov ax, 84A2h
         call far [GripFarCall]
-        mov dword [dword_114CD3], 0
+        mov dword [GripLibHandle], 0
 .3:
-        cmp dword [dword_114CD3], byte 0
+        cmp dword [GripLibHandle], byte 0
         jl short .4
         mov ax, 84A1h
         call far [GripFarCall]
         and eax, 0FFFFh
-        mov dword [dword_114CD3], eax
+        mov dword [GripLibHandle], eax
 .4:
-        cmp dword [dword_114CD3], byte 0
+        cmp dword [GripLibHandle], byte 0
         jle short .5
         call GripScanSlots
-        mov dword [dword_114CB4], 0
-        mov eax, dword [dword_114CB4]
-        mov dword [dword_114CB0], eax
+        mov dword [Joy2NeedsCalib], 0
+        mov eax, dword [Joy2NeedsCalib]
+        mov dword [Joy1NeedsCalib], eax
         jmp short .6
 .5:
         call ReadJoystickBits

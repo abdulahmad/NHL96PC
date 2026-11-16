@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_1D6C1 progbits alloc exec nowrite align=1
-extern assinsert, BuildDefaultLines, apl, curevent, crowdlevel, CrowdNoiseReset, curperiod, dword_114F16
-extern gameresult, dword_151B84, dword_164744, dword_164748, CrowdExciteTotal, energywarn, exitgame, fadeinpending
+extern assinsert, BuildDefaultLines, apl, curevent, crowdlevel, CrowdNoiseReset, curperiod, GameLoopFrames
+extern gameresult, GameFrameCount, dword_164744, dword_164748, CrowdExciteTotal, energywarn, exitgame, fadeinpending
 extern forceteams, fox, foy, GameLoopActive, gameopts, gameover, goalevent, gsp
 extern InGameMenuRequest, introskipped, lastplayer, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq
 extern optblock, passplayer, Pencntdwn, Pencntdwn2, penshotlive, penshotmode, penshotplayer, penshotstart
@@ -325,8 +325,8 @@ ResetGameVars:
         mov dword [InGameMenuRequest], 0
         mov word [exitgame], 0
         mov word [gameover], 0
-        mov dword [dword_151B84], 0
-        mov dword [dword_114F16], 0
+        mov dword [GameFrameCount], 0
+        mov dword [GameLoopFrames], 0
         mov dword [GameLoopActive], 0
         mov word [joysampling], 0
         ret

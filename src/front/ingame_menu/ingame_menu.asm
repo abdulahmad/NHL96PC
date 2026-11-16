@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_A17D5 progbits alloc exec nowrite align=1
 extern AwayClinchesSeries, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
-extern byte_11D91C, byte_11D91D, byte_11FA2F, byte_17CA5D, byte_1820F1, byte_1843CC, byte_18444E, byte_184451
+extern byte_11D91C, byte_11D91D, byte_11FA2F, byte_1820F1, byte_1843CC, byte_18444E, byte_184451
 extern byte_1844B4, byte_1844B6, byte_18451B, byte_184580, byte_184581, byte_184583, byte_1845E6, byte_1845E7
 extern byte_1845E8, byte_18464C, byte_18464E, byte_18464F, byte_1846C4, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdFadeOut, CrowdNoiseReset, CrowdReaction, curperiod, DrawArtOpaque, DrawBox, DrawColorTextCentred
 extern DrawFrameAt, DrawGameFrame, DrawRinkView, dword_1150D4, gameresult, ReplayRemoteShape, dword_11B330, dword_11BC24
 extern dword_11D3A6, dword_11D91F, dword_11ED30, dword_11F5C0, dword_11F5C4, dword_152F4C, MenuRemoteCursorArt, MenuCursorPixels
-extern dword_152F58, MenuBitmapPixels, dword_179918, dword_179920, dword_17CA5C, dword_17CB2F, PlayoffTreeData, dword_17CC17
+extern dword_152F58, MenuBitmapPixels, dword_179918, dword_179920, GsOptions, SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs
 extern dword_17CED6, dword_17CF92, dword_17D162, FrontShapeFile, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0
 extern dword_1843D0, dword_1843E4, dword_1843F8, dword_1843FC, dword_184400, dword_184404, dword_184408, dword_18441C
 extern dword_184420, dword_184426, dword_18442A, dword_18442E, dword_184432, dword_184436, dword_184446, dword_18444A
@@ -34,7 +34,7 @@ extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, Re
 extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, FreeColourLookup, SetAaPalLut, SetScreenTarget
 extern FindShape, ClearClipRect, TextSetFont, unk_11D7A4, unk_11D7BC, str_Punct_InGameMenu, unk_11D7EC, str_N_InGameMenu
 extern str_F_InGameMenu, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, exhstate, unk_17D3E8, unk_18440C
-extern unk_184688, unk_184692, UpdateCamera, word_114CE0, word_114F14, word_11ED34, hmscore, awscore
+extern unk_184688, unk_184692, UpdateCamera, SlotsTwoPlayer, PauseRequested, word_11ED34, hmscore, awscore
 global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, jpt_A25B5
 global InGameMenu, InGameMenu_A9C, InGameMenu_ABD, InGameMenu_D17, InGameMenu_F31, InGameMenu_F42, InGameMenu_FA8
 ;-----------------------------------------------------------------------------
@@ -148,7 +148,7 @@ DrawInGameMenuFrame:
         push dword [dword_179920]
         call TextSetFont
         add esp, byte 4
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .2
         mov edx, 4
         jmp short .3
@@ -180,7 +180,7 @@ DrawInGameMenuFrame:
         add esp, byte 4
         movzx eax, byte [byte_11D91C]
         call SetTextColors
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .4
         mov eax, 5
         jmp short .5
@@ -277,7 +277,7 @@ DrawInGameMenuFrame:
         push dword [dword_179920]
         call TextSetFont
         add esp, byte 4
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .6
         mov edx, 4
         jmp short .7
@@ -309,7 +309,7 @@ DrawInGameMenuFrame:
         add esp, byte 4
         movzx eax, byte [byte_11D91C]
         call SetTextColors
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .8
         mov edx, 5
         jmp short .9
@@ -536,7 +536,7 @@ DrawInGameMenuFrame:
         push dword [FrontShapeFile]
         call FindShape
         mov ebx, 11h
-        mov ecx, dword [dword_17CA5C]
+        mov ecx, dword [GsOptions]
         mov edx, dword [dword_184674]
         shl ecx, 12h
         add esp, byte 8
@@ -595,7 +595,7 @@ RedrawInGameMenu:
         call DrawArt
         add esp, byte 0Ch
 .2:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -656,7 +656,7 @@ OpenFrontEndFromGame:
         call FindShape
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .1
         push dword [MenuCursorPixels]
         call FreeMemBlock
@@ -674,7 +674,7 @@ OpenFrontEndFromGame:
         mov dword [MenuBitmapPixels], eax
 .1:
         call LoadFrontEndArt
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .2
         mov eax, 1
         call SetScreenMode
@@ -697,7 +697,7 @@ ReturnToGameView:
         call FadeOut
         call FreeFrontEndArt
         call RestoreSpeechBuffer
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .1
         push dword [MenuCursorPixels]
         call FreeMemBlock
@@ -740,7 +740,7 @@ ReturnToGameView:
         call SetScreenPalette
         call InitSlotTable
         call RefreshControlSlots
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .3
         xor eax, eax
         call SetScreenMode
@@ -953,7 +953,7 @@ InGameReturnMenu:
 .3:
         mov dword [byte ebp+076h], 0FFFFFFFFh
 .4:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -1113,7 +1113,7 @@ InGameMenu:
         call ClearClipRect
         add esp, byte 4
         call DrawRinkView
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .5
         mov dword [dword_18467C], str_Punct_InGameMenu
         mov dword [dword_184680], unk_11D7EC
@@ -1312,7 +1312,7 @@ InGameMenu:
         sar edx, 1
         add eax, edx
         mov dword [dword_1844B0], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         add esp, byte 8
         and al, 1
@@ -1386,7 +1386,7 @@ InGameMenu:
         movsx edx, word [byte eax+02h]
         mov eax, dword [dword_184408]
         mov dword [dword eax+0104h], edx
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         add esp, byte 8
         xor ah, ah
         mov byte [byte_1845E8], 3
@@ -1469,7 +1469,7 @@ InGameMenu:
         add edx, byte 40h
         mov dword [dword eax+dword_1843E4], ebx
 .20:
-        mov bx, word [word_114CE0]
+        mov bx, word [SlotsTwoPlayer]
         xor bh, bh
         and bl, 1
         movsx ebx, bx
@@ -1509,7 +1509,7 @@ InGameMenu:
         mov dword [dword_11ED30], eax
         mov eax, 1
         call LinkSync
-        cmp word [word_114F14], byte 0
+        cmp word [PauseRequested], byte 0
         jne short .24
         movsx eax, word [awscore]
         push eax
@@ -1538,7 +1538,7 @@ InGameMenu:
         add esp, byte 18h
         jmp short .25
 .24:
-        mov word [word_114F14], 0
+        mov word [PauseRequested], 0
 .25:
         cmp dword [gameresult], byte 1
         jne near .39
@@ -1631,7 +1631,7 @@ InGameMenu:
 .40:
         mov dword [byte ebp-018h], 0FFFFFFFFh
 .41:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -1654,7 +1654,7 @@ InGameMenu:
         mov eax, 1
         jmp short .45
 .44:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1692,7 +1692,7 @@ InGameMenu_ABD:
         mov eax, 3
         call GetLangText
         mov dword [byte ebp-01Ch], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -1821,7 +1821,7 @@ InGameMenu_ABD:
         mov eax, dword [byte ebp-08h]
         jmp near RedrawInGameMenu_7C
 InGameMenu_D17:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2068,7 +2068,7 @@ InGameMenu_FA8:
         mov edx, unk_184688
         mov eax, unk_184692
         call strcat_
-        mov eax, dword [dword_17CB2F]
+        mov eax, dword [SeasonGameOpts]
         shl eax, 0Fh
         shr eax, 1Bh
         add eax, byte 41h
@@ -2078,7 +2078,7 @@ InGameMenu_FA8:
 .75:
         cmp eax, byte 20h
         jne short .78
-        cmp dword [dword_17CC17], byte 0
+        cmp dword [SeasonPlayoffs], byte 0
         je short .77
         mov edx, 4
         mov eax, unk_184692
@@ -2137,7 +2137,7 @@ InGameMenu_FA8:
         sar eax, 1
         mov byte [byte_1846C4], 0
         push eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .82
         mov ecx, 28h
         jmp short .83
@@ -2164,7 +2164,7 @@ InGameMenu_FA8:
         jne short .85
         call GetLangText
         mov dword [byte ebp-020h], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -2197,7 +2197,7 @@ InGameMenu_FA8:
         xor eax, eax
         call GetLangText
         mov dword [byte ebp-020h], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2

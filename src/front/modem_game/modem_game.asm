@@ -2,13 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_122A6 progbits alloc exec nowrite align=1
-extern addtimer, byte_114D96, byte_11FA2F, ChatLine, LinkBlockHeader, LinkBlockAck, byte_17BDAE
-extern DebugPrintf, dword_114B9C, dword_114CE2, dword_114D0E, str_Punct_ModemGameOpen, dword_114D1A, dword_114D1E, dword_114D36
-extern dword_114D3A, dword_114D9A, dword_114D9E, dword_114DA2, dword_114DA6, dword_114DAA, dword_114DAE, dword_114DB2
-extern str_Punct_ModemSettingsScreen, dword_114DBA, dword_114DCA, dword_115008, dword_1150D4, dword_11BCE4, dword_11F5C0, dword_11F5C4
+extern addtimer, LinkFlags, byte_11FA2F, ChatLine, LinkBlockHeader, LinkBlockAck, byte_17BDAE
+extern DebugPrintf, InputRecordIndex, LinkSyncInput, LinkCfgPort, LinkCfgMode, LinkCfgAnswer, LinkCfgDirect, LinkCfgBaud
+extern LinkCfgOption, LinkInputFrame, LinkSyncTarget, LinkSyncTimeout, LinkSyncCount, LinkInputDelay, LinkRxBlockCount, LinkRxBlockTicks
+extern str_Punct_ModemSettingsScreen, LinkBlockPtr, ModemReplyBuf, LinkTickCount, dword_1150D4, dword_11BCE4, dword_11F5C0, dword_11F5C4
 extern SlotInput, ChatActive, LinkSyncValue, LinkBlockLen, LinkBlockPos
 extern LinkInputHead, LinkInputTail, LinkMsgHead, LinkValueHead, LinkMsgTail, LinkRemoteHead, LinkValueTail, LinkRemoteTail
-extern LinkWaitBoxBmp, dword_15291C, dword_17C9AA, dword_17C9F4, FillRect, TextStringWidth
+extern LinkWaitBoxBmp, LinkAbortCheck, GsModemDial, FillRect, TextStringWidth
 extern GameLoopActive, GetTicks, InputRecordCount, InputRecordHead, InputRecordRing, LinkClose, LinkConnect, LinkCopyBytes
 extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClipWindow, SetDrawBitmap, SetLinkAbortCheck
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
@@ -16,9 +16,9 @@ extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitm
 extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
 extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, TintRect, DrawRectOutline, FreeBitmap, SetScreenTarget, GetPaletteRange, FillRectColor
-extern KeyIsDown, KbdGetKey, FindShape, unk_114CE6, unk_114D46, unk_114D6E, LinkBlockBuffer, LinkMsgQueue
-extern LinkValueQueue, LinkInputQueue, LinkRemoteQueue, LinkAckReply, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
-extern word_114CE4, word_114DBE, word_114DC0, ChatLocalLen, ChatRemoteLen, word_17C9AC, word_17C9B0, word_17C9B2
+extern KeyIsDown, KbdGetKey, FindShape, LinkConfig, LinkCfgInit, LinkCfgDial, LinkBlockBuffer, LinkMsgQueue
+extern LinkValueQueue, LinkInputQueue, LinkRemoteQueue, LinkAckReply, GsPhoneNumber, GsModemInit, unk_17D272, SlotsTwoPlayer
+extern ControllerScreenMode, LinkSyncWord, BaudRateTable, ChatLocalLen, ChatRemoteLen, GsComPort, GsDirectLink, GsWaitForCall
 global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, jpt_1278E
 global LinkGameMessage_18, LinkExchangeValues, ModemGameConnect, ShowLinkWaitBox, HideLinkWaitBox, LinkSyncTimedOut, LinkSyncPoint, LinkSync
 global LinkSyncWithMessage, ModemGameClose, ModemGameQuit, LinkResyncInput, LinkExchangeInput, ModemChat, unk_144BD, unk_144C3
@@ -27,8 +27,8 @@ global unk_144C9, str_N, unk_144ED
 ; ModemGameOpen                                                   122A6  96 PC
 ; (answer, settings): copies the modem settings (port, speed, numbers, init
 ; string) and opens the link with LinkOpen, showing a message while the modem
-; starts (unless word_17C9B0); clears the message queues; 1 when open
-; (byte_114D96 bit 1), else shows the error
+; starts (unless GsDirectLink); clears the message queues; 1 when open
+; (LinkFlags bit 1), else shows the error
 ;-----------------------------------------------------------------------------
 ModemGameOpen:
         push ebx
@@ -40,27 +40,27 @@ ModemGameOpen:
         sub esp, 10h
         mov dword [byte ebp-010h], eax
         mov dword [byte ebp-0Ch], edx
-        cmp dword [byte_114D96], byte 0
+        cmp dword [LinkFlags], byte 0
         je short .1
         mov dword [byte ebp-04h], 0
         jmp near .8
 .1:
-        mov eax, dword [dword_17C9AA]
+        mov eax, dword [GsComPort-2]
         sar eax, 10h
-        mov dword [dword_114D0E], eax
-        mov eax, dword [word_17C9AC]
+        mov dword [LinkCfgPort], eax
+        mov eax, dword [GsComPort]
         sar eax, 10h
         add eax, eax
-        mov eax, dword [dword eax+word_114DC0]
+        mov eax, dword [dword eax+BaudRateTable]
         sar eax, 10h
-        mov dword [dword_114D36], eax
-        mov eax, dword [word_17C9B2]
+        mov dword [LinkCfgBaud], eax
+        mov eax, dword [GsWaitForCall]
         sar eax, 10h
-        mov dword [dword_114D3A], eax
-        cmp word [word_17C9B0], byte 0
+        mov dword [LinkCfgOption], eax
+        cmp word [GsDirectLink], byte 0
         je short .2
-        mov dword [dword_114D1E], 1
-        mov dword [str_Punct_ModemGameOpen], 9
+        mov dword [LinkCfgDirect], 1
+        mov dword [LinkCfgMode], 9
         jmp short .3
 .2:
         mov ecx, 0F0h
@@ -73,20 +73,20 @@ ModemGameOpen:
         mov eax, 50h
         call FadeOutMusic
         call StopMusic
-        mov edx, unk_17C9B8
-        mov eax, unk_114CE6
+        mov edx, GsPhoneNumber
+        mov eax, LinkConfig
         call strcpy_
-        mov edx, unk_17C9CC
-        mov eax, unk_114D46
+        mov edx, GsModemInit
+        mov eax, LinkCfgInit
         call strcpy_
-        mov edx, dword_17C9F4
-        mov eax, unk_114D6E
+        mov edx, GsModemDial
+        mov eax, LinkCfgDial
         call strcpy_
-        mov dword [str_Punct_ModemGameOpen], 9
-        mov dword [dword_114D1E], 0
+        mov dword [LinkCfgMode], 9
+        mov dword [LinkCfgDirect], 0
 .3:
         mov eax, dword [byte ebp-010h]
-        mov dword [dword_114D1A], eax
+        mov dword [LinkCfgAnswer], eax
         mov ecx, 3Ch
         xor eax, eax
         mov edi, LinkRemoteQueue
@@ -105,8 +105,8 @@ ModemGameOpen:
         xor eax, eax
         mov edi, LinkInputQueue
         rep stosb
-        mov dword [dword_114D9A], 0
-        mov eax, dword [dword_114D9A]
+        mov dword [LinkInputFrame], 0
+        mov eax, dword [LinkInputFrame]
         mov dword [LinkInputHead], eax
         mov eax, dword [LinkInputHead]
         mov dword [LinkInputTail], eax
@@ -117,19 +117,19 @@ ModemGameOpen:
         mov dword [LinkMsgHead], 0
         mov eax, dword [LinkMsgHead]
         mov dword [LinkMsgTail], eax
-        mov dword [dword_114DA6], 0
-        mov dword [dword_114DAE], 0
-        mov dword [dword_114DB2], 0
+        mov dword [LinkSyncCount], 0
+        mov dword [LinkRxBlockCount], 0
+        mov dword [LinkRxBlockTicks], 0
         mov dword [str_Punct_ModemSettingsScreen], 0
-        mov dword [dword_114DBA], 0
-        mov word [word_114DBE], 0
+        mov dword [LinkBlockPtr], 0
+        mov word [LinkSyncWord], 0
         mov eax, dword [byte ebp-0Ch]
         call SetLinkAbortCheck
-        mov eax, unk_114CE6
+        mov eax, LinkConfig
         call LinkOpen
         test eax, eax
         jne near .6
-        cmp word [word_17C9B0], byte 0
+        cmp word [GsDirectLink], byte 0
         jne short .4
         call QueueCurrentMusic
         mov eax, 2
@@ -137,7 +137,7 @@ ModemGameOpen:
         call FillMusicStream
         call PlayMusic
 .4:
-        cmp word [word_17C9B0], byte 0
+        cmp word [GsDirectLink], byte 0
         jne short .5
         call HideMessage
 .5:
@@ -157,16 +157,16 @@ ModemGameOpen:
         mov eax, 129h
         call GetLangText
         call MessageBox
-        mov dword [byte_114D96], 0
+        mov dword [LinkFlags], 0
         mov dword [byte ebp-04h], 0
         jmp short .8
 .6:
-        or byte [byte_114D96], 1
+        or byte [LinkFlags], 1
         mov eax, LinkTimerTick
         push eax
         call addtimer
         add esp, byte 4
-        cmp word [word_17C9B0], byte 0
+        cmp word [GsDirectLink], byte 0
         jne short .7
         call HideMessage
 .7:
@@ -199,7 +199,7 @@ LinkBlockStart:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp-04h]
         mov dword [LinkBlockLen], eax
-        mov dword [dword_114DBA], LinkBlockBuffer
+        mov dword [LinkBlockPtr], LinkBlockBuffer
         mov eax, dword [LinkBlockLen]
         mov eax, dword [byte eax+01h]
         mov dword [str_Punct_ModemSettingsScreen], eax
@@ -228,7 +228,7 @@ LinkBlockData:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp-04h]
         mov dword [LinkBlockPos], eax
-        cmp dword [dword_114DBA], byte 0
+        cmp dword [LinkBlockPtr], byte 0
         je short .1
         cmp dword [str_Punct_ModemSettingsScreen], byte 0
         jg short .2
@@ -239,18 +239,18 @@ LinkBlockData:
         movsx ebx, byte [byte eax+01h]
         mov eax, dword [LinkBlockPos]
         lea edx, [byte eax+02h]
-        mov eax, dword [dword_114DBA]
+        mov eax, dword [LinkBlockPtr]
         call LinkCopyBytes
         mov eax, dword [LinkBlockPos]
         movsx eax, byte [byte eax+01h]
         sub dword [str_Punct_ModemSettingsScreen], eax
         mov eax, dword [LinkBlockPos]
         movsx eax, byte [byte eax+01h]
-        add dword [dword_114DBA], eax
+        add dword [LinkBlockPtr], eax
         cmp dword [str_Punct_ModemSettingsScreen], byte 0
         jne short .3
-        inc dword [dword_114DAE]
-        mov dword [dword_114DBA], 0
+        inc dword [LinkRxBlockCount]
+        mov dword [LinkBlockPtr], 0
 .3:
         mov esp, ebp
         pop ebp
@@ -275,7 +275,7 @@ LinkSendBlock:
         sub esp, 14h
         mov dword [byte ebp-014h], eax
         mov dword [byte ebp-010h], edx
-        mov word [word_114DC0], 0
+        mov word [BaudRateTable], 0
         mov byte [LinkBlockHeader], 3
         mov eax, dword [byte ebp-010h]
         mov dword [LinkBlockHeader+1], eax
@@ -288,10 +288,10 @@ LinkSendBlock:
         call SoundIdle
         jmp short .1
 .2:
-        mov dword [dword_114DBA], LinkBlockBuffer
+        mov dword [LinkBlockPtr], LinkBlockBuffer
         mov ebx, dword [byte ebp-010h]
         mov edx, dword [byte ebp-014h]
-        mov eax, dword [dword_114DBA]
+        mov eax, dword [LinkBlockPtr]
         call LinkCopyBytes
         mov eax, dword [byte ebp-010h]
         mov dword [str_Punct_ModemSettingsScreen], eax
@@ -308,7 +308,7 @@ LinkSendBlock:
         mov al, byte [byte ebp-08h]
         mov byte [LinkBlockAck+1], al
         mov ebx, dword [byte ebp-08h]
-        mov edx, dword [dword_114DBA]
+        mov edx, dword [LinkBlockPtr]
         mov eax, LinkAckReply
         call LinkCopyBytes
         mov edx, 6
@@ -317,7 +317,7 @@ LinkSendBlock:
         test eax, eax
         je short .6
         mov eax, dword [byte ebp-08h]
-        add dword [dword_114DBA], eax
+        add dword [LinkBlockPtr], eax
         mov eax, dword [byte ebp-08h]
         sub dword [str_Punct_ModemSettingsScreen], eax
         jmp short .7
@@ -326,7 +326,7 @@ LinkSendBlock:
 .7:
         cmp dword [str_Punct_ModemSettingsScreen], byte 0
         jg short .3
-        mov dword [dword_114DBA], 0
+        mov dword [LinkBlockPtr], 0
         mov esp, ebp
         pop ebp
         pop edi
@@ -349,10 +349,10 @@ LinkReceiveBlock:
         sub esp, 0Ch
         mov dword [byte ebp-0Ch], eax
         mov dword [byte ebp-08h], edx
-        inc dword [dword_114DB2]
+        inc dword [LinkRxBlockTicks]
 .1:
-        mov eax, dword [dword_114DAE]
-        cmp eax, dword [dword_114DB2]
+        mov eax, dword [LinkRxBlockCount]
+        cmp eax, dword [LinkRxBlockTicks]
         jge short .2
         call SoundIdle
         jmp short .1
@@ -370,8 +370,8 @@ LinkReceiveBlock:
         ret
 ;-----------------------------------------------------------------------------
 ; LinkSyncMessage                                                 1272E  96 PC
-; Received message type 5: the other side's sync point number (dword_114D9E);
-; one from this side's own number means "quit" (word_114DBE)
+; Received message type 5: the other side's sync point number (LinkSyncTarget);
+; one from this side's own number means "quit" (LinkSyncWord)
 ;-----------------------------------------------------------------------------
 LinkSyncMessage:
         push ebx
@@ -387,14 +387,14 @@ LinkSyncMessage:
         mov dword [LinkSyncValue], eax
         mov eax, dword [LinkSyncValue]
         movsx ax, byte [byte eax+05h]
-        cmp ax, word [word_114CE4]
+        cmp ax, word [ControllerScreenMode]
         je short .1
         mov eax, dword [LinkSyncValue]
         mov eax, dword [byte eax+01h]
-        mov dword [dword_114D9E], eax
+        mov dword [LinkSyncTarget], eax
         jmp short .2
 .1:
-        mov word [word_114DBE], 1
+        mov word [LinkSyncWord], 1
 .2:
         mov esp, ebp
         pop ebp
@@ -428,7 +428,7 @@ jpt_1278E:
         dd LinkGameMessage_18.8
         dd LinkGameMessage_18.1
 LinkGameMessage_18:
-        mov word [word_114DC0], 0
+        mov word [BaudRateTable], 0
         mov eax, dword [byte ebp-04h]
         mov al, byte [eax]
         dec al
@@ -551,7 +551,7 @@ LinkExchangeValues:
         mov dword [byte ebp-014h], edx
         mov dword [byte ebp-018h], ebx
         mov dword [byte ebp-0Ch], ecx
-        test byte [byte_114D96], 2
+        test byte [LinkFlags], 2
         je near .9
         mov byte [byte ebp-024h], 1
         mov eax, dword [byte ebp-01Ch]
@@ -564,7 +564,7 @@ LinkExchangeValues:
         je short .1
         or dword [byte ebp-023h], byte 1
 .1:
-        mov word [word_114DC0], 0
+        mov word [BaudRateTable], 0
 .2:
         mov edx, 6
         lea eax, [byte ebp-024h]
@@ -636,9 +636,9 @@ LinkExchangeValues:
 ;-----------------------------------------------------------------------------
 ; ModemGameConnect                                                12A24  96 PC
 ; (abort check): connects (LinkConnect) with a message up; on success sets
-; the side (word_114CE4: 1 dialler), syncs, and the answering side sends its
+; the side (ControllerScreenMode: 1 dialler), syncs, and the answering side sends its
 ; game options (optblock, 0B9h bytes) and option bits to the dialler; 1 when
-; connected (byte_114D96 bit 2, word_114CE0 bit 1)
+; connected (LinkFlags bit 2, SlotsTwoPlayer bit 1)
 ;-----------------------------------------------------------------------------
 ModemGameConnect:
         push ebx
@@ -655,12 +655,12 @@ ModemGameConnect:
         mov dword [byte ebp-04h], 0
         jmp near .17
 .1:
-        cmp dword [byte_114D96], byte 1
+        cmp dword [LinkFlags], byte 1
         je short .2
         mov dword [byte ebp-04h], 0
         jmp near .17
 .2:
-        cmp dword [dword_114D1A], byte 0
+        cmp dword [LinkCfgAnswer], byte 0
         je short .3
         mov ecx, 0F0h
         mov ebx, 140h
@@ -679,7 +679,7 @@ ModemGameConnect:
 .4:
         mov eax, dword [byte ebp-014h]
         call SetLinkAbortCheck
-        mov dword [dword_114DA6], 0
+        mov dword [LinkSyncCount], 0
         mov ecx, 3Ch
         xor eax, eax
         mov edi, LinkRemoteQueue
@@ -698,8 +698,8 @@ ModemGameConnect:
         xor eax, eax
         mov edi, LinkInputQueue
         rep stosb
-        mov dword [dword_114D9A], 0
-        mov eax, dword [dword_114D9A]
+        mov dword [LinkInputFrame], 0
+        mov eax, dword [LinkInputFrame]
         mov dword [LinkInputHead], eax
         mov eax, dword [LinkInputHead]
         mov dword [LinkInputTail], eax
@@ -710,10 +710,10 @@ ModemGameConnect:
         mov dword [LinkMsgHead], 0
         mov eax, dword [LinkMsgHead]
         mov dword [LinkMsgTail], eax
-        mov dword [dword_114DAE], 0
-        mov dword [dword_114DB2], 0
+        mov dword [LinkRxBlockCount], 0
+        mov dword [LinkRxBlockTicks], 0
         mov dword [str_Punct_ModemSettingsScreen], 0
-        mov dword [dword_114DBA], 0
+        mov dword [LinkBlockPtr], 0
         mov eax, LinkGameMessage
         call SetLinkMessageHandler
         call LinkConnect
@@ -721,7 +721,7 @@ ModemGameConnect:
         jne short .6
         xor eax, eax
         call SetLinkAbortCheck
-        cmp word [word_17C9B0], byte 0
+        cmp word [GsDirectLink], byte 0
         jne short .5
         call QueueCurrentMusic
         mov eax, 2
@@ -747,19 +747,19 @@ ModemGameConnect:
         mov dword [byte ebp-04h], 0
         jmp near .17
 .6:
-        cmp dword [dword_114D1A], byte 0
+        cmp dword [LinkCfgAnswer], byte 0
         je short .7
-        mov word [word_114CE4], 1
+        mov word [ControllerScreenMode], 1
         jmp short .8
 .7:
-        mov word [word_114CE4], 0
+        mov word [ControllerScreenMode], 0
 .8:
         call HideMessage
         mov dword [byte ebp-020h], 0F0h
         mov dword [byte ebp-01Ch], 140h
         mov eax, byte_17BDAE
         mov dword [byte ebp-018h], eax
-        cmp word [word_17C9B0], byte 0
+        cmp word [GsDirectLink], byte 0
         je short .9
         mov eax, 20Ah
         call GetLangText
@@ -775,7 +775,7 @@ ModemGameConnect:
         mov ebx, dword [byte ebp-01Ch]
         mov edx, dword [byte ebp-018h]
         call ShowMessage
-        cmp word [word_17C9B0], byte 0
+        cmp word [GsDirectLink], byte 0
         jne short .11
         call QueueCurrentMusic
         mov eax, 2
@@ -783,10 +783,10 @@ ModemGameConnect:
         call FillMusicStream
         call PlayMusic
 .11:
-        mov word [word_114DBE], 0
+        mov word [LinkSyncWord], 0
         mov edx, 1
-        inc dword [dword_114DA6]
-        mov eax, dword [dword_114DA6]
+        inc dword [LinkSyncCount]
+        mov eax, dword [LinkSyncCount]
         call LinkSyncPoint
         test eax, eax
         jne short .14
@@ -794,7 +794,7 @@ ModemGameConnect:
         xor eax, eax
         call GetLangText
         mov dword [byte ebp-0Ch], eax
-        cmp word [word_114DBE], byte 0
+        cmp word [LinkSyncWord], byte 0
         je short .12
         mov eax, 261h
         call GetLangText
@@ -815,48 +815,48 @@ ModemGameConnect:
         mov edx, 1
         mov eax, dword [byte ebp-08h]
         call MessageBox
-        mov word [word_114DBE], 0
+        mov word [LinkSyncWord], 0
         mov dword [byte ebp-04h], 0
         jmp near .17
 .14:
-        mov word [word_114DBE], 0
+        mov word [LinkSyncWord], 0
         call HideMessage
         xor eax, eax
         call SetLinkAbortCheck
-        or byte [byte_114D96], 2
-        or byte [word_114CE0], 1
+        or byte [LinkFlags], 2
+        or byte [SlotsTwoPlayer], 1
         mov ecx, 0F0h
         mov ebx, 140h
         mov edx, byte_17BDAE
         mov eax, 59h
         call GetLangText
         call ShowMessage
-        cmp word [word_114CE4], byte 0
+        cmp word [ControllerScreenMode], byte 0
         jne short .15
         mov edx, 0B9h
         mov eax, unk_17D272
         call LinkReceiveBlock
         xor edx, edx
-        inc dword [dword_114DA6]
-        mov eax, dword [dword_114DA6]
+        inc dword [LinkSyncCount]
+        mov eax, dword [LinkSyncCount]
         call LinkSyncPoint
         mov edx, 4
-        mov eax, dword_114DCA
+        mov eax, ModemReplyBuf
         call LinkReceiveBlock
         mov eax, dword [optflags]
         shl eax, 17h
         shr eax, 1Eh
         mov dword [byte ebp-010h], eax
-        mov eax, dword [dword_114DCA]
+        mov eax, dword [ModemReplyBuf]
         and eax, byte 3
         and word [optflags], 0FE7Fh
         shl eax, 7
         or dword [optflags], eax
         mov eax, dword [byte ebp-010h]
-        mov dword [dword_114DCA], eax
+        mov dword [ModemReplyBuf], eax
         xor edx, edx
-        inc dword [dword_114DA6]
-        mov eax, dword [dword_114DA6]
+        inc dword [LinkSyncCount]
+        mov eax, dword [LinkSyncCount]
         call LinkSyncPoint
         jmp short .16
 .15:
@@ -868,19 +868,19 @@ ModemGameConnect:
         mov eax, unk_17D272
         call LinkSendBlock
         xor edx, edx
-        inc dword [dword_114DA6]
-        mov eax, dword [dword_114DA6]
+        inc dword [LinkSyncCount]
+        mov eax, dword [LinkSyncCount]
         call LinkSyncPoint
         mov eax, dword [optflags]
         shl eax, 17h
         shr eax, 1Eh
-        mov dword [dword_114DCA], eax
+        mov dword [ModemReplyBuf], eax
         mov edx, 4
-        mov eax, dword_114DCA
+        mov eax, ModemReplyBuf
         call LinkSendBlock
         xor edx, edx
-        inc dword [dword_114DA6]
-        mov eax, dword [dword_114DA6]
+        inc dword [LinkSyncCount]
+        mov eax, dword [LinkSyncCount]
         call LinkSyncPoint
 .16:
         call HideMessage
@@ -1010,7 +1010,7 @@ HideLinkWaitBox:
 ;-----------------------------------------------------------------------------
 ; LinkSyncTimedOut                                                12F77  96 PC
 ; Abort check used while syncing: idles, 1 once the sync deadline
-; (dword_114DA2) has passed
+; (LinkSyncTimeout) has passed
 ;-----------------------------------------------------------------------------
 LinkSyncTimedOut:
         push ebx
@@ -1023,7 +1023,7 @@ LinkSyncTimedOut:
         sub esp, 4
         call SoundIdle
         call GetTicks
-        cmp eax, dword [dword_114DA2]
+        cmp eax, dword [LinkSyncTimeout]
         jle short .1
         mov dword [byte ebp-04h], 1
         jmp short .2
@@ -1056,13 +1056,13 @@ LinkSyncPoint:
         mov dword [byte ebp-0Ch], eax
         mov dword [byte ebp-010h], edx
         mov dword [byte ebp-04h], 0
-        mov word [word_114DC0], 0
+        mov word [BaudRateTable], 0
         mov byte [byte ebp-018h], 5
         mov eax, dword [byte ebp-0Ch]
         mov dword [byte ebp-017h], eax
-        mov al, byte [word_114CE4]
+        mov al, byte [ControllerScreenMode]
         mov byte [byte ebp-013h], al
-        mov eax, dword [dword_114CE2]
+        mov eax, dword [LinkSyncInput]
         sar eax, 10h
         cmp eax, byte 1
         jne near .18
@@ -1077,11 +1077,11 @@ LinkSyncPoint:
 .2:
         jmp short .9
 .3:
-        mov ax, word [word_114DBE]
+        mov ax, word [LinkSyncWord]
         mov dword [byte ebp-04h], eax
         cmp dword [byte ebp-010h], byte 0
         je short .4
-        cmp dword [dword_15291C], byte 0
+        cmp dword [LinkAbortCheck], byte 0
         jne short .5
 .4:
         jmp short .6
@@ -1091,13 +1091,13 @@ LinkSyncPoint:
 .6:
         jmp short .8
 .7:
-        call dword [dword_15291C]
+        call dword [LinkAbortCheck]
         mov dword [byte ebp-04h], eax
 .8:
         call SoundIdle
         jmp short .1
 .9:
-        mov eax, dword [dword_114D9E]
+        mov eax, dword [LinkSyncTarget]
         cmp eax, dword [byte ebp-0Ch]
         je short .10
         cmp word [byte ebp-04h], byte 0
@@ -1105,11 +1105,11 @@ LinkSyncPoint:
 .10:
         jmp short .17
 .11:
-        mov ax, word [word_114DBE]
+        mov ax, word [LinkSyncWord]
         mov dword [byte ebp-04h], eax
         cmp dword [byte ebp-010h], byte 0
         je short .12
-        cmp dword [dword_15291C], byte 0
+        cmp dword [LinkAbortCheck], byte 0
         jne short .13
 .12:
         jmp short .14
@@ -1119,7 +1119,7 @@ LinkSyncPoint:
 .14:
         jmp short .16
 .15:
-        call dword [dword_15291C]
+        call dword [LinkAbortCheck]
         mov dword [byte ebp-04h], eax
 .16:
         call SoundIdle
@@ -1127,7 +1127,7 @@ LinkSyncPoint:
 .17:
         jmp near .34
 .18:
-        mov eax, dword [dword_114D9E]
+        mov eax, dword [LinkSyncTarget]
         cmp eax, dword [byte ebp-0Ch]
         je short .19
         cmp word [byte ebp-04h], byte 0
@@ -1135,11 +1135,11 @@ LinkSyncPoint:
 .19:
         jmp short .26
 .20:
-        mov ax, word [word_114DBE]
+        mov ax, word [LinkSyncWord]
         mov dword [byte ebp-04h], eax
         cmp dword [byte ebp-010h], byte 0
         je short .21
-        cmp dword [dword_15291C], byte 0
+        cmp dword [LinkAbortCheck], byte 0
         jne short .22
 .21:
         jmp short .23
@@ -1149,7 +1149,7 @@ LinkSyncPoint:
 .23:
         jmp short .25
 .24:
-        call dword [dword_15291C]
+        call dword [LinkAbortCheck]
         mov dword [byte ebp-04h], eax
 .25:
         call SoundIdle
@@ -1165,11 +1165,11 @@ LinkSyncPoint:
 .27:
         jmp short .34
 .28:
-        mov ax, word [word_114DBE]
+        mov ax, word [LinkSyncWord]
         mov dword [byte ebp-04h], eax
         cmp dword [byte ebp-010h], byte 0
         je short .29
-        cmp dword [dword_15291C], byte 0
+        cmp dword [LinkAbortCheck], byte 0
         jne short .30
 .29:
         jmp short .31
@@ -1179,7 +1179,7 @@ LinkSyncPoint:
 .31:
         jmp short .33
 .32:
-        call dword [dword_15291C]
+        call dword [LinkAbortCheck]
         mov dword [byte ebp-04h], eax
 .33:
         call SoundIdle
@@ -1216,11 +1216,11 @@ LinkSync:
         mov ebp, esp
         sub esp, 0Ch
         mov dword [byte ebp-08h], eax
-        test byte [byte_114D96], 2
+        test byte [LinkFlags], 2
         je near .6
         call GetTicks
         add eax, 1770h
-        mov dword [dword_114DA2], eax
+        mov dword [LinkSyncTimeout], eax
         mov eax, LinkSyncTimedOut
         call SetLinkAbortCheck
         cmp dword [byte ebp-08h], byte 0
@@ -1228,8 +1228,8 @@ LinkSync:
         call ShowLinkWaitBox
 .1:
         mov edx, 1
-        inc dword [dword_114DA6]
-        mov eax, dword [dword_114DA6]
+        inc dword [LinkSyncCount]
+        mov eax, dword [LinkSyncCount]
         call LinkSyncPoint
         test eax, eax
         jge short .2
@@ -1278,13 +1278,13 @@ LinkSyncWithMessage:
         mov ebp, esp
         sub esp, 0Ch
         mov dword [byte ebp-08h], eax
-        test byte [byte_114D96], 2
+        test byte [LinkFlags], 2
         je near .4
         mov eax, LinkSyncTimedOut
         call SetLinkAbortCheck
         call GetTicks
         add eax, 1770h
-        mov dword [dword_114DA2], eax
+        mov dword [LinkSyncTimeout], eax
         mov ecx, 0F0h
         mov ebx, 140h
         mov edx, byte_17BDAE
@@ -1292,8 +1292,8 @@ LinkSyncWithMessage:
         call ShowMessage
 .1:
         mov edx, 1
-        inc dword [dword_114DA6]
-        mov eax, dword [dword_114DA6]
+        inc dword [LinkSyncCount]
+        mov eax, dword [LinkSyncCount]
         call LinkSyncPoint
         test eax, eax
         jge short .2
@@ -1334,12 +1334,12 @@ ModemGameClose:
         push ebp
         mov ebp, esp
         sub esp, 0
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         and eax, 1
         cwde
         test eax, eax
         je short .1
-        mov eax, dword [dword_114DCA]
+        mov eax, dword [ModemReplyBuf]
         and eax, byte 3
         and word [optflags], 0FE7Fh
         shl eax, 7
@@ -1349,7 +1349,7 @@ ModemGameClose:
         xor eax, eax
         call SetLinkSpareHook
 .1:
-        test byte [byte_114D96], 1
+        test byte [LinkFlags], 1
         je short .2
         mov eax, LinkTimerTick
         push eax
@@ -1357,8 +1357,8 @@ ModemGameClose:
         add esp, byte 4
         call LinkClose
 .2:
-        mov word [word_114CE0], 0
-        mov dword [byte_114D96], 0
+        mov word [SlotsTwoPlayer], 0
+        mov dword [LinkFlags], 0
         pop ebp
         pop edi
         pop esi
@@ -1379,7 +1379,7 @@ ModemGameQuit:
         push ebp
         mov ebp, esp
         sub esp, 0
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         and eax, 1
         cwde
         test eax, eax
@@ -1409,13 +1409,13 @@ LinkResyncInput:
         push ebp
         mov ebp, esp
         sub esp, 4
-        cmp word [word_114DC0], byte 0
+        cmp word [BaudRateTable], byte 0
         jne near .1
-        test byte [byte_114D96], 2
+        test byte [LinkFlags], 2
         je near .1
-        mov eax, dword [dword_114DAA]
+        mov eax, dword [LinkInputDelay]
         mov dword [byte ebp-04h], eax
-        mov dword [dword_114DAA], 0
+        mov dword [LinkInputDelay], 0
         xor eax, eax
         call LinkSync
         mov dword [LinkRemoteHead], 0
@@ -1424,13 +1424,13 @@ LinkResyncInput:
         mov dword [LinkInputHead], 0
         mov eax, dword [LinkInputHead]
         mov dword [LinkInputTail], eax
-        mov dword [dword_114D9A], 0
+        mov dword [LinkInputFrame], 0
         mov ecx, 5Ah
         xor eax, eax
         mov edi, InputRecordRing
         rep stosb
         mov dword [InputRecordCount], 0
-        mov dword [dword_114B9C], 0
+        mov dword [InputRecordIndex], 0
         mov dword [InputRecordHead], 0
         mov ecx, 10h
         xor eax, eax
@@ -1439,8 +1439,8 @@ LinkResyncInput:
         xor eax, eax
         call LinkSync
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_114DAA], eax
-        mov word [word_114DC0], 1
+        mov dword [LinkInputDelay], eax
+        mov word [BaudRateTable], 1
 .1:
         mov esp, ebp
         pop ebp
@@ -1466,17 +1466,17 @@ LinkExchangeInput:
         mov ebp, esp
         sub esp, 1Ch
         mov dword [byte ebp-01Ch], eax
-        test byte [byte_114D96], 2
+        test byte [LinkFlags], 2
         je short .1
-        cmp dword [dword_114DAA], byte 0
+        cmp dword [LinkInputDelay], byte 0
         jne short .2
 .1:
         jmp near .23
 .2:
-        mov dword [dword_114DAA], 0
-        mov eax, dword [dword_115008]
-        inc dword [dword_115008]
-        cmp dword [dword_114D9A], byte 4
+        mov dword [LinkInputDelay], 0
+        mov eax, dword [LinkTickCount]
+        inc dword [LinkTickCount]
+        cmp dword [LinkInputFrame], byte 4
         jge short .3
         cmp dword [byte ebp-01Ch], byte 0
         je short .4
@@ -1489,7 +1489,7 @@ LinkExchangeInput:
         mov dword [byte ebp-018h], edx
         mov eax, dword [byte ebp-018h]
         mov byte [eax], 2
-        mov eax, dword [dword_114CE2]
+        mov eax, dword [LinkSyncInput]
         sar eax, 10h
         cmp eax, byte 1
         jne short .5
@@ -1538,13 +1538,13 @@ LinkExchangeInput:
         mov eax, dword [byte ebp-04h]
         mov edx, dword [byte ebp-018h]
         mov dword [byte edx+01h], eax
-        mov word [word_114DC0], 0
+        mov word [BaudRateTable], 0
         mov edx, 6
         mov eax, dword [byte ebp-018h]
         call LinkSendMessage
         test eax, eax
         je short .7
-        inc dword [dword_114D9A]
+        inc dword [LinkInputFrame]
         mov edx, dword [LinkInputHead]
         inc edx
         mov ebx, 0Ah
@@ -1553,7 +1553,7 @@ LinkExchangeInput:
         idiv ebx
         mov dword [LinkInputHead], edx
 .7:
-        cmp dword [dword_114D9A], byte 1
+        cmp dword [LinkInputFrame], byte 1
         jle short .8
         mov eax, dword [LinkRemoteTail]
         cmp eax, dword [LinkRemoteHead]
@@ -1594,7 +1594,7 @@ LinkExchangeInput:
         sar edx, 1Fh
         idiv ebx
         mov dword [LinkInputTail], edx
-        dec dword [dword_114D9A]
+        dec dword [LinkInputFrame]
         imul eax, dword [LinkRemoteTail], byte 6
         mov edx, LinkRemoteQueue
         add edx, eax
@@ -1626,7 +1626,7 @@ LinkExchangeInput:
         and edx, 0FCh
         or eax, edx
         or dword [byte ebp-04h], eax
-        mov eax, dword [dword_114CE2]
+        mov eax, dword [LinkSyncInput]
         sar eax, 10h
         cmp eax, byte 1
         jne short .14
@@ -1655,7 +1655,7 @@ LinkExchangeInput:
         shl eax, 5
         or eax, edx
         or dword [byte ebp-04h], eax
-        mov eax, dword [dword_114CE2]
+        mov eax, dword [LinkSyncInput]
         sar eax, 10h
         cmp eax, byte 1
         jne short .16
@@ -1682,7 +1682,7 @@ LinkExchangeInput:
         and edx, 0FCh
         or eax, edx
         or dword [byte ebp-04h], eax
-        mov eax, dword [dword_114CE2]
+        mov eax, dword [LinkSyncInput]
         sar eax, 10h
         cmp eax, byte 1
         jne short .18
@@ -1711,7 +1711,7 @@ LinkExchangeInput:
         shl eax, 5
         or eax, edx
         or dword [byte ebp-04h], eax
-        mov eax, dword [dword_114CE2]
+        mov eax, dword [LinkSyncInput]
         sar eax, 10h
         cmp eax, byte 1
         jne short .20
@@ -1727,9 +1727,9 @@ LinkExchangeInput:
         mov eax, dword [byte ebp-010h]
         mov word [byte eax+010h], 4
 .22:
-        mov dword [dword_114DAA], 1
-        mov eax, dword [dword_115008]
-        dec dword [dword_115008]
+        mov dword [LinkInputDelay], 1
+        mov eax, dword [LinkTickCount]
+        dec dword [LinkTickCount]
 .23:
         mov esp, ebp
         pop ebp
@@ -1758,7 +1758,7 @@ ModemChat:
         mov dword [byte ebp-01Ch], 0
         mov dword [byte ebp-030h], 0
         mov dword [byte ebp-02Ch], 0
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         and eax, 1
         cwde
         test eax, eax

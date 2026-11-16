@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_711ED progbits alloc exec nowrite align=1
-extern str_GenericHayesCompatible, BlackPalette, byte_11FA2F, byte_17BDAE, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21
-extern byte_17CA22, byte_17CA5D, byte_17CA5E, byte_17D650, byte_17D651, CopyBitmap, DrawColorText, DrawFrameAt
-extern dword_114CD3, dword_11D1A8, dword_11DF80, str_Punct_ControlPicksScreen, dword_11E278, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
-extern dword_17BCE2, str_Standings, GlobalSetData, dword_17C9F4, dword_17CA5C, dword_17D590, dword_17D594, dword_17D654
+extern str_GenericHayesCompatible, BlackPalette, byte_11FA2F, byte_17BDAE
+extern byte_17D650, byte_17D651, CopyBitmap, DrawColorText, DrawFrameAt
+extern GripLibHandle, dword_11D1A8, dword_11DF80, str_Punct_ControlPicksScreen, dword_11E278, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
+extern dword_17BCE2, str_Standings, GlobalSetData, GsModemDial, GsOptions, dword_17D590, dword_17D594, dword_17D654
 extern dword_17D678, dword_17D67C, dword_17D680, dword_17D684, EditText, FadeOut, FadeOutMusic, FadePalette
 extern FillMusicStream, TextStringWidth, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
 extern LoadPackedFile, MessageBox, ModemChat, ModemGameClose, ModemGameConnect, ModemGameOpen, ModemGameQuit, MouseRead
@@ -22,9 +22,9 @@ extern str_Off0, str_Off1, str_Onn0, str_Onn1, str_Pal13, str_PICKS, str_PICKS2,
 extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, str_WFC2
 extern str_YES0, str_YES1, strcpy_, strlen_, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlockAtOwnPos
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SetScreenTarget, KeyIsDown, KbdGetKey
-extern FindShape, TextSetFont, unk_17C9B8, unk_17C9CC, unk_17D598, unk_708A9, unk_70901, unk_70BC1
-extern unk_70BCB, str_N_ControlSetupScreen, str_R, str_F, word_114CE0, word_11E270, word_17C9AC, word_17C9AE
-extern word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6, WriteGlobalSet
+extern FindShape, TextSetFont, GsPhoneNumber, GsModemInit, unk_17D598, unk_708A9, unk_70901, unk_70BC1
+extern unk_70BCB, str_N_ControlSetupScreen, str_R, str_F, SlotsTwoPlayer, word_11E270, GsComPort, GsBaudIndex
+extern GsDirectLink, GsWaitForCall, GsLinkOption, GsDialMode, WriteGlobalSet
 global DrawOnOffSlider, jpt_7130F, PollOptionKeys, PollOptionKeys_94, PollOptionKeys_B6, PollOptionKeys_D5, PollOptionKeys_F6, PollOptionKeys_117
 global PollOptionKeys_138, PollOptionKeys_156, PollOptionKeys_174, PollOptionKeys_192, unk_7158B, jpt_715AF, jpt_715D3, ControlPicksScreen
 global ControlPicksScreen_124, ControlPicksScreen_12E, ControlPicksScreen_13B, ControlPicksScreen_145, ControlPicksScreen_14F, ControlPicksScreen_159, ControlPicksScreen_163, ControlPicksScreen_16D
@@ -1746,7 +1746,7 @@ ControlSetupScreen:
         cmp dword [byte ebp+03Eh], byte 3
         jl near .25
         call SetScreenTarget
-        test byte [byte_17CA22], 1
+        test byte [optblock+2], 1
         je short .42
         mov eax, dword [byte ebp-012h]
         mov dword [dword ebp-088Ah], eax
@@ -1791,7 +1791,7 @@ ControlSetupScreen:
         mov dword [dword ebp-0866h], eax
         call DrawArt
         add esp, byte 0Ch
-        test byte [byte_17CA21], 80h
+        test byte [optblock+1], 80h
         je short .44
         mov eax, dword [byte ebp-06h]
         mov dword [dword ebp-0824h], eax
@@ -1841,7 +1841,7 @@ ControlSetupScreen:
         mov dword [byte ebp+042h], eax
         test al, 2
         je short .46
-        cmp dword [dword_114CD3], byte 0
+        cmp dword [GripLibHandle], byte 0
         jg short .46
         push str_Jy10
         push dword [byte ebp+032h]
@@ -1890,7 +1890,7 @@ ControlSetupScreen:
         add esp, byte 0Ch
         test byte [byte ebp+042h], 4
         je short .48
-        cmp dword [dword_114CD3], byte 0
+        cmp dword [GripLibHandle], byte 0
         jg short .48
         push str_Jy20
         push dword [byte ebp+032h]
@@ -2045,7 +2045,7 @@ ControlSetupScreen:
         jbe near .62
         jmp near .65
 .56:
-        test byte [byte_17CA1E], 10h
+        test byte [globalset+2], 10h
         je near .110
         movsx eax, word [byte ebp+06h]
         cmp eax, dword [dword_11D1A8]
@@ -2062,7 +2062,7 @@ ControlSetupScreen:
         cdq
         idiv ebx
         and eax, byte 7Fh
-        and word [byte_17CA1E], 0F01Fh
+        and word [globalset+2], 0F01Fh
         shl eax, 15h
         or dword [globalset], eax
         jmp short .60
@@ -2151,20 +2151,20 @@ ControlSetupScreen:
 .62:
         test byte [globalset], 7
         je near .110
-        test byte [byte_17CA1E], 10h
+        test byte [globalset+2], 10h
         sete al
         movzx eax, al
         mov ecx, eax
         and ecx, byte 1
         mov ebx, dword [dword ebp-0DA8h]
         mov eax, ecx
-        and byte [byte_17CA1E], 0EFh
+        and byte [globalset+2], 0EFh
         shl eax, 14h
         mov edx, dword [dword ebp-0DACh]
         or dword [globalset], eax
         mov eax, dword [byte ebp+032h]
         call DrawOnOffSlider
-        test byte [byte_17CA1E], 10h
+        test byte [globalset+2], 10h
         je short .64
         push str_Onn0
         push dword [byte ebp+032h]
@@ -2193,7 +2193,7 @@ ControlSetupScreen:
         mov word [dword ebp-0E20h], 2
         jmp short .63
 .65:
-        test byte [byte_17CA1F], 10h
+        test byte [globalset+3], 10h
         je near .110
         movsx eax, word [byte ebp+08h]
         cmp eax, dword [dword_11D1A8]
@@ -2283,20 +2283,20 @@ ControlSetupScreen:
 .70:
         test byte [globalset], 7
         je near .110
-        test byte [byte_17CA1F], 10h
+        test byte [globalset+3], 10h
         sete al
         movzx eax, al
         mov ecx, eax
         and ecx, byte 1
         mov ebx, dword [dword ebp-0C76h]
         mov eax, ecx
-        and byte [byte_17CA1F], 0EFh
+        and byte [globalset+3], 0EFh
         shl eax, 1Ch
         mov edx, dword [dword ebp-0C7Ah]
         or dword [globalset], eax
         mov eax, dword [byte ebp+032h]
         call DrawOnOffSlider
-        test byte [byte_17CA1F], 10h
+        test byte [globalset+3], 10h
         je short .72
         push str_Onn0
         push dword [byte ebp+032h]
@@ -2342,7 +2342,7 @@ ControlSetupScreen:
         cdq
         idiv ebx
         and eax, byte 7Fh
-        and byte [byte_17CA21], 80h
+        and byte [optblock+1], 80h
         shl eax, 8
         or dword [optblock], eax
         jmp short .77
@@ -2612,7 +2612,7 @@ ControlSetupScreen:
         mov word [dword ebp-0A8Ah], 2
         jmp short .89
 .91:
-        test byte [byte_17CA1D], 10h
+        test byte [globalset+1], 10h
         je near .110
         movsx eax, word [byte ebp+0Eh]
         cmp eax, dword [dword_11D1A8]
@@ -2709,19 +2709,19 @@ ControlSetupScreen:
 .96:
         test byte [globalset], 7
         je near .110
-        test byte [byte_17CA1D], 10h
+        test byte [globalset+1], 10h
         sete al
         movzx ecx, al
         and ecx, byte 1
         mov ebx, dword [dword ebp-08E0h]
         mov eax, ecx
-        and byte [byte_17CA1D], 0EFh
+        and byte [globalset+1], 0EFh
         shl eax, 0Ch
         mov edx, dword [dword ebp-08E4h]
         or dword [globalset], eax
         mov eax, dword [byte ebp+032h]
         call DrawOnOffSlider
-        test byte [byte_17CA1D], 10h
+        test byte [globalset+1], 10h
         je short .98
         push str_Onn0
         push dword [byte ebp+032h]
@@ -2750,7 +2750,7 @@ ControlSetupScreen:
         mov word [dword ebp-0958h], 2
         jmp short .97
 .99:
-        test byte [byte_17CA22], 1
+        test byte [optblock+2], 1
         je short .100
         push str_Mse0
         push dword [byte ebp+032h]
@@ -2775,18 +2775,18 @@ ControlSetupScreen:
         mov eax, dword [byte ebp-0Ah]
 .101:
         mov dword [dword ebp-0882h], eax
-        test byte [byte_17CA22], 1
+        test byte [optblock+2], 1
         sete al
         movzx eax, al
         and eax, byte 1
-        and byte [byte_17CA22], 0FEh
+        and byte [optblock+2], 0FEh
         shl eax, 10h
         mov dword [dword ebp-0898h], 1
 .102:
         or dword [optblock], eax
         jmp near .110
 .103:
-        test byte [byte_17CA21], 80h
+        test byte [optblock+1], 80h
         je short .104
         push str_Key0
         push dword [byte ebp+032h]
@@ -2811,11 +2811,11 @@ ControlSetupScreen:
         mov eax, dword [byte ebp+02h]
 .105:
         mov dword [dword ebp-081Ch], eax
-        test byte [byte_17CA21], 80h
+        test byte [optblock+1], 80h
         sete al
         movzx eax, al
         and eax, byte 1
-        and byte [byte_17CA21], 7Fh
+        and byte [optblock+1], 7Fh
         shl eax, 0Fh
         jmp near .102
 .106:
@@ -3042,9 +3042,9 @@ ModemSettingsScreen:
         mov eax, 0Dh
         mov edx, esi
         call InitMenuItems
-        movsx eax, word [word_17C9AC]
+        movsx eax, word [GsComPort]
         mov dword [byte ebp+046h], eax
-        movsx eax, word [word_17C9AE]
+        movsx eax, word [GsBaudIndex]
         mov dword [byte ebp+066h], 0
         mov dword [byte ebp+04Ah], eax
         mov al, byte [byte ebp+066h]
@@ -3338,7 +3338,7 @@ ModemSettingsScreen:
         push byte 20h
         inc eax
         push eax
-        movsx eax, word [word_17C9B6]
+        movsx eax, word [GsDialMode]
         imul eax, byte 44h
         add eax, str_GenericHayesCompatible
         push eax
@@ -3365,7 +3365,7 @@ ModemSettingsScreen:
         push esi
         mov dword [byte ebp+022h], eax
         call SetDrawBitmap
-        movsx eax, word [word_17C9B6]
+        movsx eax, word [GsDialMode]
         imul eax, byte 44h
         add esp, byte 4
         xor ebx, ebx
@@ -3383,7 +3383,7 @@ ModemSettingsScreen:
         push byte 20h
         inc eax
         push eax
-        push dword_17C9F4
+        push GsModemDial
         call TextStringWidth
         add esp, byte 4
         inc eax
@@ -3407,7 +3407,7 @@ ModemSettingsScreen:
         push esi
         mov dword [byte ebp+026h], eax
         call SetDrawBitmap
-        mov eax, dword_17C9F4
+        mov eax, GsModemDial
         add esp, byte 4
         xor ebx, ebx
         xor edx, edx
@@ -3423,7 +3423,7 @@ ModemSettingsScreen:
         push byte 20h
         inc eax
         push eax
-        push unk_17C9CC
+        push GsModemInit
         call TextStringWidth
         add esp, byte 4
         inc eax
@@ -3447,7 +3447,7 @@ ModemSettingsScreen:
         push esi
         mov dword [byte ebp+02Ah], eax
         call SetDrawBitmap
-        mov eax, unk_17C9CC
+        mov eax, GsModemInit
         add esp, byte 4
         xor ebx, ebx
         xor edx, edx
@@ -3459,7 +3459,7 @@ ModemSettingsScreen:
         push esi
         call FreeBitmap
         add esp, byte 4
-        cmp word [word_17C9B4], byte 0
+        cmp word [GsLinkOption], byte 0
         je short .21
         push str_TONE
         jmp short .22
@@ -3535,25 +3535,25 @@ ModemSettingsScreen:
         jbe near .30
         jmp near .31
 .27:
-        movsx esi, word [word_17C9AC]
+        movsx esi, word [GsComPort]
         cmp esi, dword [byte ebp+03Ah]
         je near .44
         mov eax, dword [byte ebp+03Ah]
-        mov word [word_17C9AC], ax
+        mov word [GsComPort], ax
         cwde
         add eax, eax
         mov dx, word [dword eax+word_11E270]
         mov edi, esi
         cmp dx, word [nosplit esi*2+word_11E270]
         je near .28
-        movsx esi, word [word_17C9AE]
+        movsx esi, word [GsBaudIndex]
         push esi
         add esi, byte 4
         imul esi, byte 66h
         push str_02D0
         lea eax, [byte ebp+02Eh]
         push eax
-        mov word [word_17C9AE], dx
+        mov word [GsBaudIndex], dx
         call sprintf_
         add esp, byte 0Ch
         lea eax, [byte ebp+02Eh]
@@ -3579,7 +3579,7 @@ ModemSettingsScreen:
         mov dword [byte esi+0Ch], 1
         mov dword [byte esi+022h], eax
         add esp, byte 8
-        movsx esi, word [word_17C9AE]
+        movsx esi, word [GsBaudIndex]
         push esi
         push str_02D2
         lea eax, [byte ebp+02Eh]
@@ -3631,7 +3631,7 @@ ModemSettingsScreen:
         mov dword [byte esi+0Ch], 1
         mov dword [byte esi+022h], eax
         add esp, byte 8
-        movsx edi, word [word_17C9AC]
+        movsx edi, word [GsComPort]
         push edi
         push str_01D2
         lea eax, [byte ebp+02Eh]
@@ -3655,7 +3655,7 @@ ModemSettingsScreen:
         jmp near .44
 .30:
         mov eax, dword [byte ebp+03Ah]
-        movsx esi, word [word_17C9AE]
+        movsx esi, word [GsBaudIndex]
         sub eax, byte 4
         cmp esi, eax
         je near .44
@@ -3665,7 +3665,7 @@ ModemSettingsScreen:
         mov eax, dword [byte ebp+03Ah]
         sub eax, byte 4
         push str_02D0
-        mov word [word_17C9AE], ax
+        mov word [GsBaudIndex], ax
         lea eax, [byte ebp+02Eh]
         push eax
         call sprintf_
@@ -3693,7 +3693,7 @@ ModemSettingsScreen:
         mov dword [byte esi+0Ch], 1
         mov dword [byte esi+022h], eax
         add esp, byte 8
-        movsx esi, word [word_17C9AE]
+        movsx esi, word [GsBaudIndex]
         push esi
         push str_02D2
         lea eax, [byte ebp+02Eh]
@@ -3714,7 +3714,7 @@ ModemSettingsScreen:
         add esp, byte 4
         push dword [byte ebp+022h]
         call FreeMemBlock
-        movsx eax, word [word_17C9B6]
+        movsx eax, word [GsDialMode]
         inc eax
         mov ebx, 0Ah
         cdq
@@ -3728,7 +3728,7 @@ ModemSettingsScreen:
         imul eax, byte 44h
         add eax, str_GenericHayesCompatible
         push eax
-        mov word [word_17C9B6], dx
+        mov word [GsDialMode], dx
         call TextStringWidth
         add esp, byte 4
         inc eax
@@ -3752,7 +3752,7 @@ ModemSettingsScreen:
         push esi
         mov dword [byte ebp+022h], eax
         call SetDrawBitmap
-        movsx eax, word [word_17C9B6]
+        movsx eax, word [GsDialMode]
         imul eax, byte 44h
         add esp, byte 4
         xor ebx, ebx
@@ -3771,12 +3771,12 @@ ModemSettingsScreen:
         add esp, byte 4
         push dword [byte ebp+02Ah]
         call FreeMemBlock
-        movsx eax, word [word_17C9B6]
+        movsx eax, word [GsDialMode]
         imul eax, byte 44h
         mov edx, str_GenericHayesCompatible
         add esp, byte 4
         add edx, eax
-        mov eax, unk_17C9CC
+        mov eax, GsModemInit
         add edx, byte 26h
 .32:
         call strcpy_
@@ -3784,7 +3784,7 @@ ModemSettingsScreen:
         push byte 20h
         inc eax
         push eax
-        push unk_17C9CC
+        push GsModemInit
         call TextStringWidth
         add esp, byte 4
         inc eax
@@ -3808,7 +3808,7 @@ ModemSettingsScreen:
         push esi
         mov dword [byte ebp+02Ah], eax
         call SetDrawBitmap
-        mov eax, unk_17C9CC
+        mov eax, GsModemInit
 .33:
         add esp, byte 4
         xor ebx, ebx
@@ -3822,7 +3822,7 @@ ModemSettingsScreen:
         call FreeBitmap
         jmp near .41
 .34:
-        mov edx, dword_17C9F4
+        mov edx, GsModemDial
         lea eax, [byte ebp-0Eh]
         call strcpy_
         lea eax, [byte ebp-0Eh]
@@ -3849,13 +3849,13 @@ ModemSettingsScreen:
         call FreeMemBlock
         add esp, byte 4
         lea edx, [byte ebp-0Eh]
-        mov eax, dword_17C9F4
+        mov eax, GsModemDial
         call strcpy_
         movzx eax, byte [byte_11FA2F]
         push byte 20h
         inc eax
         push eax
-        push dword_17C9F4
+        push GsModemDial
         call TextStringWidth
         add esp, byte 4
         inc eax
@@ -3879,7 +3879,7 @@ ModemSettingsScreen:
         push esi
         mov dword [byte ebp+026h], eax
         call SetDrawBitmap
-        mov eax, dword_17C9F4
+        mov eax, GsModemDial
         jmp near .33
 .35:
         call GetLangText
@@ -3898,7 +3898,7 @@ ModemSettingsScreen:
         call MessageBox
         jmp near .44
 .37:
-        mov edx, unk_17C9CC
+        mov edx, GsModemInit
         lea eax, [byte ebp-0Eh]
         call strcpy_
         lea eax, [byte ebp-0Eh]
@@ -3925,7 +3925,7 @@ ModemSettingsScreen:
         call FreeMemBlock
         add esp, byte 4
         lea edx, [byte ebp-0Eh]
-        mov eax, unk_17C9CC
+        mov eax, GsModemInit
         jmp near .32
 .38:
         call GetLangText
@@ -3940,10 +3940,10 @@ ModemSettingsScreen:
         mov eax, 1FAh
         jmp near .36
 .39:
-        cmp word [word_17C9B4], byte 0
+        cmp word [GsLinkOption], byte 0
         sete al
         movzx ax, al
-        mov word [word_17C9B4], ax
+        mov word [GsLinkOption], ax
         test ax, ax
         je short .42
         push str_TONE
@@ -4079,7 +4079,7 @@ DrawPhoneNumber:
         lea eax, [byte ebp-02Ch]
         push eax
         mov dword [byte ebp-08h], 0Fh
-        mov edi, unk_17C9B8
+        mov edi, GsPhoneNumber
         call sprintf_
         add esp, byte 0Ch
 .3:
@@ -4130,7 +4130,7 @@ DrawPhoneNumber:
         lea eax, [byte ebp-02Ch]
         push eax
         mov dword [byte ebp-018h], 0Fh
-        mov edi, unk_17C9B8
+        mov edi, GsPhoneNumber
         call sprintf_
         add esp, byte 0Ch
 .7:
@@ -4205,7 +4205,7 @@ ModemDialScreen:
         lea edi, [dword ebp-0252h]
         mov esi, unk_73F7D
         rep movsd
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -4245,7 +4245,7 @@ ModemDialScreen:
         lea edx, [dword ebp-06B6h]
         mov eax, 0Bh
         call InitMenuItems
-        cmp word [word_17C9B2], byte 0
+        cmp word [GsWaitForCall], byte 0
         jne short .2
         push str_MAK2
         push esi
@@ -4290,7 +4290,7 @@ ModemDialScreen:
         mov dword [dword ebp-0678h], eax
         call DrawArt
         add esp, byte 0Ch
-        cmp word [word_17C9B2], byte 0
+        cmp word [GsWaitForCall], byte 0
         je short .4
         push str_WFC2
         push dword [byte ebp+072h]
@@ -4342,7 +4342,7 @@ ModemDialScreen:
         mov dword [dword_17D678], 0
         call DrawPhoneNumber
         call SetScreenTarget
-        cmp word [word_17C9B2], byte 0
+        cmp word [GsWaitForCall], byte 0
         jne short .6
         mov eax, dword [dword_17D678]
         mov dword [dword ebp-05D0h], eax
@@ -4375,7 +4375,7 @@ ModemDialScreen:
         mov dword [dword ebp-05ACh], eax
         call DrawArt
         add esp, byte 0Ch
-        cmp word [word_17C9B0], byte 0
+        cmp word [GsDirectLink], byte 0
         je short .8
         push str_YES0
         push dword [byte ebp+072h]
@@ -4416,7 +4416,7 @@ ModemDialScreen:
         push dword [dword ebp-056Ah]
         mov dword [dword ebp-0546h], eax
         call DrawArt
-        movsx eax, word [word_17C9AC]
+        movsx eax, word [GsComPort]
         add eax, byte 4
         mov dword [byte ebp+06Eh], 4
         mov dword [byte ebp+05Eh], eax
@@ -4610,11 +4610,11 @@ ModemDialScreen:
         mov eax, dword [byte ebp+066h]
         jmp dword [nosplit cs:eax*4+jpt_7510E]
 ModemDialScreen_75A:
-        cmp word [word_17C9B2], byte 0
+        cmp word [GsWaitForCall], byte 0
         je near ModemDialScreen_BD2.36
         push str_WFC0
         push dword [byte ebp+072h]
-        mov word [word_17C9B2], 0
+        mov word [GsWaitForCall], 0
         call FindShape
         add esp, byte 8
         push str_WFC1
@@ -4647,11 +4647,11 @@ ModemDialScreen_75A:
         mov dword [dword ebp-05CCh], eax
         jmp near ModemDialScreen_BD2.36
 ModemDialScreen_81F:
-        cmp word [word_17C9B2], byte 0
+        cmp word [GsWaitForCall], byte 0
         jne near ModemDialScreen_BD2.36
         push str_MAK0
         push dword [byte ebp+072h]
-        mov word [word_17C9B2], 1
+        mov word [GsWaitForCall], 1
         call FindShape
         add esp, byte 8
         push str_MAK1
@@ -4683,7 +4683,7 @@ ModemDialScreen_8DB:
         push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
-        mov edx, unk_17C9B8
+        mov edx, GsPhoneNumber
         lea eax, [byte ebp+036h]
         call strcpy_
         lea eax, [byte ebp+036h]
@@ -4722,11 +4722,11 @@ ModemDialScreen_8DB:
         test eax, eax
         je short .26
         lea edx, [byte ebp+036h]
-        mov eax, unk_17C9B8
+        mov eax, GsPhoneNumber
         call strcpy_
         mov eax, dword [byte ebp+072h]
         call DrawPhoneNumber
-        cmp word [word_17C9B2], byte 0
+        cmp word [GsWaitForCall], byte 0
         jne short .25
         mov eax, dword [dword_17D678]
         mov dword [dword ebp-05D0h], eax
@@ -4753,11 +4753,11 @@ ModemDialScreen_8DB:
         call MessageBox
         jmp near ModemDialScreen_BD2.36
 ModemDialScreen_9DA:
-        cmp word [word_17C9B0], byte 0
+        cmp word [GsDirectLink], byte 0
         je short .27
         push str_NOO0
         push dword [byte ebp+072h]
-        mov word [word_17C9B0], 0
+        mov word [GsDirectLink], 0
         call FindShape
         add esp, byte 8
         push str_NOO1
@@ -4767,7 +4767,7 @@ ModemDialScreen_9DA:
 .27:
         push str_YES0
         push dword [byte ebp+072h]
-        mov word [word_17C9B0], 1
+        mov word [GsDirectLink], 1
         call FindShape
         add esp, byte 8
         push str_YES1
@@ -4816,7 +4816,7 @@ ModemDialScreen_9DA:
         jmp short .29
 ModemDialScreen_AB2:
         mov eax, dword [byte ebp+066h]
-        movsx esi, word [word_17C9AC]
+        movsx esi, word [GsComPort]
         sub eax, byte 4
         cmp esi, eax
         je near ModemDialScreen_BD2.36
@@ -4826,11 +4826,11 @@ ModemDialScreen_AB2:
         imul esi, byte 66h
         mov eax, dword [byte ebp+066h]
         sub eax, byte 4
-        mov word [word_17C9AC], ax
+        mov word [GsComPort], ax
         cwde
         mov ax, word [nosplit eax*2+word_11E270]
         push str_CMD02
-        mov word [word_17C9AE], ax
+        mov word [GsBaudIndex], ax
         lea eax, [byte ebp+04Eh]
         push eax
         call sprintf_
@@ -4856,7 +4856,7 @@ ModemDialScreen_AB2:
         call FindShape
         mov dword [dword esi+ebp-06AAh], 1
         mov dword [dword esi+ebp-0694h], eax
-        movsx esi, word [word_17C9AC]
+        movsx esi, word [GsComPort]
         add esp, byte 8
         inc esi
         push esi
@@ -4888,7 +4888,7 @@ ModemDialScreen_BC1:
         jmp near ModemDialScreen_BD2.36
 ModemDialScreen_BD2:
         call SlideInTitleBar
-        cmp word [word_17C9B2], byte 0
+        cmp word [GsWaitForCall], byte 0
         setne al
         mov edx, ModemWaitIdle
         movzx eax, al
@@ -4899,19 +4899,19 @@ ModemDialScreen_BD2:
         call ModemGameConnect
         test eax, eax
         je short .32
-        mov eax, dword [dword_17CA5C]
+        mov eax, dword [GsOptions]
         shl eax, 12h
         shr eax, 1Fh
         mov dword [byte ebp+06Ah], 12h
         mov dword [dword_11E278], eax
         test eax, eax
         je short .36
-        and byte [byte_17CA5D], 0DFh
-        mov eax, dword [dword_17CA5C]
+        and byte [GsOptions+1], 0DFh
+        mov eax, dword [GsOptions]
         shl eax, 0Eh
-        and dword [dword_17CA5C], 0FFFC3FFFh
+        and dword [GsOptions], 0FFFC3FFFh
         shr eax, 1Ch
-        or byte [byte_17CA5E], 2
+        or byte [GsOptions+2], 2
         mov dword [LinkSetupSlots], eax
         jmp short .36
 .32:
@@ -4978,7 +4978,7 @@ RunModemSetup:
         ret
 ;-----------------------------------------------------------------------------
 ; LinkSetupScreen                                 75E2C  96 PC, low confidence
-; With a serial link (word_114CE0 bit 1): the link screen (bkgd, data 56h)
+; With a serial link (SlotsTwoPlayer bit 1): the link screen (bkgd, data 56h)
 ;-----------------------------------------------------------------------------
 LinkSetupScreen:
         push ebx
@@ -4988,7 +4988,7 @@ LinkSetupScreen:
         push edi
         enter 144h, 0
         sub ebp, 82h
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -5103,11 +5103,11 @@ LinkSetupScreen:
         cmp dword [dword_11E278], byte 0
         je short .6
         mov eax, dword [LinkSetupSlots]
-        or byte [byte_17CA5D], 20h
+        or byte [GsOptions+1], 20h
         and eax, byte 0Fh
-        and dword [dword_17CA5C], 0FFFC3FFFh
+        and dword [GsOptions], 0FFFC3FFFh
         shl eax, 0Eh
-        or dword [dword_17CA5C], eax
+        or dword [GsOptions], eax
 .6:
         mov dword [byte ebp+076h], 0
         jmp short .8

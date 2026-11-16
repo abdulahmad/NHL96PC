@@ -1,9 +1,10 @@
 ; The roster screens: trades, free agents, creating players, team ranks (96 PC).
 bits 32
 %include "hockey.inc"
+extern SeasonUsers
 section s_971E9 progbits alloc exec nowrite align=1
-extern __CHP, __STOSD, AutoSetLines, byte_11E844, byte_11E852, byte_17BDAE, byte_17CC36, byte_17CC37
-extern byte_17CC38, byte_17EBF0, byte_182296, byte_1843B8, DrawColorText, DrawColorTextRight, DrawFrameAt, DrawScrollBar
+extern __CHP, __STOSD, AutoSetLines, byte_11E844, byte_11E852, byte_17BDAE, SeasonUserSlot
+extern byte_17EBF0, byte_182296, byte_1843B8, DrawColorText, DrawColorTextRight, DrawFrameAt, DrawScrollBar
 extern F32_0p001, F32_0p0208333, F32_0p00333333, F32_390, F32_0p005, F32_100, F32_neg50, F32_0p002
 extern F32_0p0111111, F32_0p1, F32_0p0142857, F32_0p0333333, F32_58, F32_90, F32_0p01, F32_347
 extern dword_1174E4, dword_1174EC, statsplayoffs, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514
@@ -275,13 +276,13 @@ RosterScreen:
         xor eax, eax
         shl edx, 2
 .4:
-        movsx ecx, byte [dword eax+byte_17CC36]
+        movsx ecx, byte [dword eax+SeasonUserSlot]
         cmp ecx, byte 1
         jne short .5
-        movsx ecx, byte [dword eax+byte_17CC37]
+        movsx ecx, byte [dword eax+SeasonUsers+1Ah]
         cmp ecx, byte 0FFFFFFFFh
         jne short .5
-        cmp byte [dword eax+byte_17CC38], 0
+        cmp byte [dword eax+SeasonUsers+1Bh], 0
         jne short .5
         add edx, byte 4
         inc dword [byte ebp-01Ah]

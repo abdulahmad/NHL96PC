@@ -1,13 +1,15 @@
 ; The in-game menu: RunInGameMenu and the pause menu screens of a game (96 PC; its routines still to be named).
 bits 32
 %include "hockey.inc"
+extern SeasonUsers
+extern GsOptions
 section s_6A7D3 progbits alloc exec nowrite align=1
-extern awtmstruct, byte_11D91C, byte_11FA2F, byte_17CA5D, byte_17CC37, CloseTextOverlay, ControllerScreen, CopyBitmap
+extern awtmstruct, byte_11D91C, byte_11FA2F, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox, DrawColorTextCentred, DrawFrameAt
 extern DrawGameClock, DrawGameFrame, dword_1150D4, gameresult, dword_1174EC, statsplayoffs, dword_1174F4, ReplayRemoteShape
 extern dword_11B320, str_D_DrawGameFrame, dword_11BC24, dword_11D91F, dword_11D923, dword_11F5C0, dword_11F5C4, dword_152F4C
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, ReplayBufferTop, DrawFrameCount, dword_179918, dword_179920
-extern dword_17CB2F, PlayoffTreeData, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC
+extern SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC
 extern dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C
 extern dword_17D510, dword_17D514, PauseClockArea, dword_17D51C, dword_17D520, dword_17D524, FrontShapeFile, dword_1843AC
 extern dword_1843B0, dword_1843B4, EditText, EndCameraShot, EndGameSound, FadeOut, FadeOutMusic, FadePalette
@@ -29,7 +31,7 @@ extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlo
 extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, ClearClipRect
 extern TextSetFont, unk_11D7A4, unk_11D7BC, str_Punct_InGameMenu, unk_11D7EC, str_N_InGameMenu, str_F_InGameMenu, unk_11D810
 extern unk_11D816, unk_11D81C, unk_11D89C, exhstate, SeasonUserRecords, unk_17CED5, unk_17D3E8, unk_17D52C
-extern UpdateCamera, word_114CE0, word_114F14, clockticks, word_11D927, word_11D929, hmscore, awscore
+extern UpdateCamera, SlotsTwoPlayer, PauseRequested, clockticks, word_11D927, word_11D929, hmscore, awscore
 global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, jpt_6B476, SaveGameFile
 global SaveGameFile_59, SaveGameFile_60, SaveGameFile_6C, SaveGameFile_81, jpt_6B878, PauseMenu, PauseMenu_66B, PauseMenu_6F1
 global PauseMenu_6FD, PauseMenu_724, PauseMenu_730, PauseMenu_73C, PauseMenu_748, PauseToFrontEnd, PauseBackToGame, PauseBackToGame_28A
@@ -188,7 +190,7 @@ DrawPauseButtons:
         add esp, byte 8
         push eax
         call DrawArt
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -384,7 +386,7 @@ DrawPauseFrame:
         push dword [dword_179920]
         call TextSetFont
         add esp, byte 4
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .3
         mov ebx, 4
         jmp short .4
@@ -419,7 +421,7 @@ DrawPauseFrame:
         mov eax, 30h
         xor edx, edx
         call SetTextColors
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .5
         mov ebx, 5
         jmp short .6
@@ -549,7 +551,7 @@ DrawPauseFrame:
         push dword [dword_179920]
         call TextSetFont
         add esp, byte 4
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .8
         mov ebx, 4
         jmp short .9
@@ -584,7 +586,7 @@ DrawPauseFrame:
         mov eax, 30h
         xor edx, edx
         call SetTextColors
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .10
         mov ebx, 5
         jmp short .11
@@ -735,7 +737,7 @@ DrawPauseFrame:
         movsx eax, word [byte eax+012h]
         sub edx, eax
         lea ebx, [esi+edx]
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .25
         mov eax, 0Eh
         jmp short .26
@@ -1226,7 +1228,7 @@ SaveGameFile_81:
         shr eax, 1Bh
         mov dl, al
         imul eax, byte 1Ah
-        mov byte [dword eax+byte_17CC37], dl
+        mov byte [dword eax+SeasonUsers+1Ah], dl
         mov eax, dword [byte esi+01h]
         shl eax, 0Ah
         shr eax, 1Bh
@@ -1235,7 +1237,7 @@ SaveGameFile_81:
         shl edx, 0Fh
         shr edx, 1Bh
         mov ebx, 7
-        mov byte [dword eax+byte_17CC37], dl
+        mov byte [dword eax+SeasonUsers+1Ah], dl
         lea eax, [byte ebp-044h]
         mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
@@ -1261,7 +1263,7 @@ SaveGameFile_81:
         shr eax, 1Bh
         mov dl, al
         imul eax, byte 1Ah
-        mov byte [dword eax+byte_17CC37], dl
+        mov byte [dword eax+SeasonUsers+1Ah], dl
         mov eax, dword [byte esi+01h]
         shl eax, 0Fh
         shr eax, 1Bh
@@ -1271,7 +1273,7 @@ SaveGameFile_81:
         shr eax, 1Bh
         imul eax, byte 1Ah
         mov ebx, 7
-        mov byte [dword eax+byte_17CC37], dl
+        mov byte [dword eax+SeasonUsers+1Ah], dl
         lea eax, [byte ebp-044h]
         mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
@@ -1368,7 +1370,7 @@ PauseMenu:
         mov edi, eax
         add esp, byte 0Ch
         mov dword [dword_17D4E8], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .2
         mov ecx, 80h
         mov esi, unk_11D89C
@@ -1455,7 +1457,7 @@ PauseMenu:
         mov edx, dword [dword ebp-01FAh]
         sar eax, 1
         add edx, eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         add esp, byte 8
         xor ah, ah
         mov byte [dword ebp-01E2h], 5
@@ -1552,7 +1554,7 @@ PauseMenu:
         movsx edx, word [byte eax+02h]
         mov eax, dword [dword_17D4E8]
         mov dword [dword eax+0144h], edx
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         mov byte [byte ebp-048h], 4
         and al, 1
@@ -1635,7 +1637,7 @@ PauseMenu:
         add edx, byte 40h
         mov dword [dword eax+ebp-02B2h], ebx
 .8:
-        mov bx, word [word_114CE0]
+        mov bx, word [SlotsTwoPlayer]
         xor bh, bh
         and bl, 1
         movsx ebx, bx
@@ -1678,7 +1680,7 @@ PauseMenu:
 .10:
         mov dword [byte ebp+07Ah], 0FFFFFFFFh
 .11:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov edx, eax
@@ -1708,7 +1710,7 @@ PauseMenu_66B:
         mov eax, 3
         call GetLangText
         mov dword [dword_17D500], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -1739,7 +1741,7 @@ PauseMenu_6F1:
         mov dword [byte ebp+07Eh], 0FFFFFFFEh
         jmp near PauseMenu_748.25
 PauseMenu_6FD:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1801,7 +1803,7 @@ PauseMenu_748:
         lea edx, [byte ebp+06Eh]
         mov eax, unk_17D52C
         call strcat_
-        mov eax, dword [dword_17CB2F]
+        mov eax, dword [SeasonGameOpts]
         shl eax, 0Fh
         shr eax, 1Bh
         add eax, byte 41h
@@ -1811,7 +1813,7 @@ PauseMenu_748:
 .15:
         cmp eax, byte 20h
         jne near .25
-        cmp dword [dword_17CC17], byte 0
+        cmp dword [SeasonPlayoffs], byte 0
         je short .16
         mov edx, 4
         mov eax, unk_17D52C
@@ -1888,7 +1890,7 @@ PauseMenu_748:
         jne short .21
         call GetLangText
         mov dword [dword_17D4FC], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -1921,7 +1923,7 @@ PauseMenu_748:
         xor eax, eax
         call GetLangText
         mov dword [dword_17D4FC], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -2012,7 +2014,7 @@ PauseToFrontEnd:
         call FindShape
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .1
         push dword [MenuCursorPixels]
         call FreeMemBlock
@@ -2030,7 +2032,7 @@ PauseToFrontEnd:
         mov dword [MenuBitmapPixels], eax
 .1:
         call LoadFrontEndArt
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .2
         mov eax, 1
         call SetScreenMode
@@ -2059,7 +2061,7 @@ PauseBackToGame:
         call FadeOutMusic
         call StopMusic
         call FreeFrontEndArt
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .1
         push dword [MenuCursorPixels]
         call FreeMemBlock
@@ -2100,7 +2102,7 @@ PauseBackToGame:
 .2:
         call InitSlotTable
         call RefreshControlSlots
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .3
         xor eax, eax
         call SetScreenMode
@@ -2282,7 +2284,7 @@ PauseGame:
         mov dword [byte ebp-018h], eax
         xor eax, eax
         call SetCrowdTarget
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .2
         mov dword [dword_17D51C], str_Punct_InGameMenu
         mov dword [dword_17D520], unk_11D7EC
@@ -2430,7 +2432,7 @@ PauseGame:
         push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
-        cmp word [word_114F14], byte 0
+        cmp word [PauseRequested], byte 0
         je short .7
         mov edx, 0FFFFFFFFh
         mov eax, 0Ah
@@ -2475,13 +2477,13 @@ PauseGame:
         xor eax, eax
         mov word [word_11D929], 1
         call DrawGameFrame
-        cmp word [word_114F14], byte 0
+        cmp word [PauseRequested], byte 0
         je short .10
         mov ebx, 2
         mov edx, exhstate
         xor eax, eax
         call FadePalette
-        mov word [word_114F14], 0
+        mov word [PauseRequested], 0
 .10:
         mov word [word_11D927], 0
         call CrowdPause
@@ -2542,7 +2544,7 @@ PauseGame_3A3:
         xor eax, eax
         call GetLangText
         mov dword [dword_17D4FC], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2

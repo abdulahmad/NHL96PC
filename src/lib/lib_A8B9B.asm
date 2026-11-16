@@ -6,7 +6,7 @@ extern __STOSB, __set_errno_, access_, str_Pal19, str_Bkgd27, str_FSH6, str_Plyr
 extern str_Card4, str_Ard4, str_DSS5, str_SD8, str_SDD, str_S0, str_SDD2, str_0000
 extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, seasondb, dword_1174EC
 extern statsplayoffs, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, TeamStatsBitmap, str_Standings, PlayoffTreeData
-extern dword_17CC13, cddriveptr, dword_17D162, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
+extern SeasonType, cddriveptr, dword_17D162, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
 extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
@@ -434,19 +434,19 @@ BuildPlayoffLeaders:
         mov edx, dword [off_11F545]
         cmp eax, byte 19h
         jl short .30
-        cmp dword [dword_17CC13], byte 0
+        cmp dword [SeasonType], byte 0
         je short .32
 .30:
         movzx eax, word [byte ebp-06h]
         cmp eax, byte 0Dh
         jl short .31
-        cmp dword [dword_17CC13], byte 1
+        cmp dword [SeasonType], byte 1
         je short .32
 .31:
         movzx eax, word [byte ebp-06h]
         cmp eax, byte 7
         jl short .34
-        cmp dword [dword_17CC13], byte 2
+        cmp dword [SeasonType], byte 2
         jne short .34
 .32:
         cmp byte [byte ebp+067h], 0

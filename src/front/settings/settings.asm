@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_6A341 progbits alloc exec nowrite align=1
-extern _dos_close_, _dos_open_, byte_17C9A9, byte_17CA24, byte_17CA3C, byte_17CA54, byte_17CA55, byte_17CA56
-extern byte_17CA57, byte_17CA58, byte_17CA59, byte_17CA5A, byte_17CA5B, byte_17CA5F, GlobalSetName, byte_17CA73
-extern byte_17CA7A, DetectCPU, dword_1150D8, DirPathTable, CpuHasCpuid, GlobalSetData, dword_17C9F4, dword_17CA5C
-extern dword_17CA76, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadExhibitionStats, MakeDataPath
+extern _dos_close_, _dos_open_, GsModemFlags, GsJoy1Calib, GsJoy2Calib, GsGripButtons
+extern GlobalSetName
+extern GsPlayerPads, DetectCPU, dword_1150D8, DirPathTable, CpuHasCpuid, GlobalSetData, GsModemDial, GsOptions
+extern GsTeamSelect, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadExhibitionStats, MakeDataPath
 extern MakeDirPath, NameIndexFree, NameIndexLoad, optblock, optblock_end, optflags, str_5552362337, str_ATD2
 extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, LoadDataFileFlag0, RunControllerScreen
 extern TeamSelectScreen, PickIndexEntryScreen, RunRosterScreens, ComputeTeamRanks, FreeMemBlock, CreateHandle, DosCloseFile, DosWriteFile
-extern unk_17C9B8, unk_17C9CC, unk_17D32C, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4
-extern word_17C9B6, word_17CA7C
+extern GsPhoneNumber, GsModemInit, unk_17D32C, GsComPort, GsBaudIndex, GsDirectLink, GsWaitForCall, GsLinkOption
+extern GsDialMode, GsPlayerFlags
 global ReadGlobalSet, WriteGlobalSet, RunExhibitionMenus
 ;-----------------------------------------------------------------------------
 ; ReadGlobalSet                                6A341  96 PC, medium confidence
@@ -69,7 +69,7 @@ ReadGlobalSet:
         mov ecx, 0B9h
         call strncpy_
         mov eax, GlobalSetName
-        mov byte [byte_17CA73], 0
+        mov byte [GlobalSetName+13h], 0
         call strlen_
         inc eax
         mov edi, optblock_end
@@ -85,78 +85,78 @@ ReadGlobalSet:
         jne near .10
         mov dword [GlobalSetData], 160BDh
         mov byte [optflags], 0
-        mov word [word_17C9AC], 1
-        mov word [word_17C9AE], 1
-        mov word [word_17C9B4], 1
-        mov word [word_17C9B0], 0
-        mov word [word_17C9B2], 0
-        mov edi, unk_17C9B8
+        mov word [GsComPort], 1
+        mov word [GsBaudIndex], 1
+        mov word [GsLinkOption], 1
+        mov word [GsDirectLink], 0
+        mov word [GsWaitForCall], 0
+        mov edi, GsPhoneNumber
         mov esi, str_5552362337
-        and byte [byte_17C9A9], 0FEh
+        and byte [GsModemFlags], 0FEh
         or byte [optflags], 80h
         movsd
         movsd
         movsw
         movsb
-        mov edi, unk_17C9CC
+        mov edi, GsModemInit
         mov esi, str_ATF
-        mov word [word_17C9B6], 0
+        mov word [GsDialMode], 0
         mov ecx, 18h
         movsd
         movsw
         mov eax, dword [str_ATD2]
-        mov edi, byte_17CA24
+        mov edi, GsJoy1Calib
         and dword [globalset], 0E0000000h
         or word [optblock], 577Fh
-        mov dword [dword_17C9F4], eax
+        mov dword [GsModemDial], eax
         or dword [globalset], 0AEAEAE8h
         xor eax, eax
         and dword [optblock], 0FFFE577Fh
         rep stosb
         mov ecx, 18h
-        mov edi, byte_17CA3C
+        mov edi, GsJoy2Calib
         xor eax, eax
         rep stosb
-        mov byte [byte_17CA54], 1
-        mov byte [byte_17CA55], 2
-        mov byte [byte_17CA56], 1
-        mov byte [byte_17CA57], 2
-        mov byte [byte_17CA58], 1
-        mov byte [byte_17CA59], 2
-        mov byte [byte_17CA5A], 1
-        mov byte [byte_17CA5B], 2
-        or word [dword_17CA5C], 163h
+        mov byte [GsGripButtons], 1
+        mov byte [GsGripButtons+1], 2
+        mov byte [GsGripButtons+2], 1
+        mov byte [GsGripButtons+3], 2
+        mov byte [GsGripButtons+4], 1
+        mov byte [GsGripButtons+5], 2
+        mov byte [GsGripButtons+6], 1
+        mov byte [GsGripButtons+7], 2
+        or word [GsOptions], 163h
         cmp dword [CpuHasCpuid], byte 0
         je short .6
-        or byte [dword_17CA5C], 9Ch
+        or byte [GsOptions], 9Ch
         jmp short .7
 .6:
-        and byte [dword_17CA5C], 63h
+        and byte [GsOptions], 63h
 .7:
         mov edx, 14h
-        and dword [dword_17CA5C], 0FFFC01FFh
+        and dword [GsOptions], 0FFFC01FFh
         mov eax, GlobalSetName
-        or dword [dword_17CA5C], 20200h
+        or dword [GsOptions], 20200h
         call getcwd_
         mov eax, GlobalSetName
         call strlen_
-        movsx eax, byte [dword eax+byte_17CA5F]
+        movsx eax, byte [dword eax+GlobalSetName-1]
         cmp eax, byte 5Ch
         je short .8
         mov edx, str_backslash
         mov eax, GlobalSetName
         call strcat_
 .8:
-        and dword [dword_17CA76], 0FFC00000h
+        and dword [GsTeamSelect], 0FFC00000h
         xor eax, eax
         xor esi, esi
-        or dword [dword_17CA76], 18655Fh
+        or dword [GsTeamSelect], 18655Fh
 .9:
         inc esi
         inc esi
-        mov byte [dword eax+byte_17CA7A], 0
+        mov byte [dword eax+GsPlayerPads], 0
         inc eax
-        mov word [dword esi+word_17CA7C], 1
+        mov word [dword esi+GsPlayerFlags], 1
         cmp eax, byte 4
         jl short .9
 .10:

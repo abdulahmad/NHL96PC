@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_38070 progbits alloc exec nowrite align=1
-extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, byte_114B4C
+extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, SlotJoyMap
 extern lchoicetab, assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, byte_164741, byte_16507A, InputState
 extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
@@ -2175,7 +2175,7 @@ SlotToJoy:
         shl edx, 4
         and eax, byte 0Fh
         add edx, JoyStateTable
-        movsx eax, byte [dword eax+byte_114B4C]
+        movsx eax, byte [dword eax+SlotJoyMap]
         test ebx, 100000h
         je short .1
         mov dword [byte edx+0Ch], 4

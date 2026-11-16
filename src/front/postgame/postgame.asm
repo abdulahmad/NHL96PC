@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_1456D progbits alloc exec nowrite align=1
-extern awtmstruct, byte_11FA2F, byte_17BDAE, byte_1820F1, dword_114DE8, dword_114DF0, str_Z_AnimateStarsScreen, dword_114DFC
-extern dword_114EB0, dword_114EB4, dword_114ED0, dword_114ED4, dword_114EE8, dword_114EEC, dword_114EF0, dword_114EF4
-extern seasondb, dword_11F5C0, dword_151AE4, dword_151AE8, dword_151AEC, dword_151B08, dword_151B4C, dword_151B50
-extern dword_151B64, dword_151B68, dword_151B6C, dword_151B70, dword_151B74, dword_151B78, dword_151B7C, dword_152F58
+extern awtmstruct, byte_11FA2F, byte_17BDAE, byte_1820F1, StarsSlideFrom, StarsSlideTo, StarsSlideTarget, StarsSpritePath
+extern StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsTimerA, StarsTimerFace, StarsTimerName, StarsTimerCard
+extern seasondb, dword_11F5C0, StarsBgBmp, StarsSaveBmp, StarsFaceBmps, StarsCardBmps, StarsPanelBmp, StarsNameBmps
+extern StarsTitleBmp, StarsAnimStep, StarsCardBmp, StarsShapeFile, StarsSlideX, StarsSlideY, StarsSlideStep, dword_152F58
 extern dword_1571B3, dword_17BC74, MatchupLayer, dword_17BCE2, str_Standings, gameopts, GetTicks, hmtmstruct
 extern LinkSync, ModemChat, mousex, mousey, PutBlock, rand_, SetDrawBitmap, sprintf_
 extern str_004, str_04d, str_AR005, str_AR015, str_AR105, str_AR115, str_Ard5, str_BALL7
@@ -18,9 +18,9 @@ extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, I
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
 extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern ClearScreenColour, FreeBitmap, UnpackTo, DosFileInfo, LoadResourceDataShared, SetScreenTarget, FindShape, bcopy
-extern ClearClipRect, TextSetFont, unk_144BD, unk_144C3, unk_144C9, str_N, unk_144ED, word_114CE0
-extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, str_Punct_DrawGameStats, word_114DE4, word_114DE6, word_114EA8
-extern word_114EAC, word_114EF8, word_114EFA, word_114EFC, word_114EFE, word_114F00, hmtmPwrGoals, hmtmPwrPlays
+extern ClearClipRect, TextSetFont, unk_144BD, unk_144C3, unk_144C9, str_N, unk_144ED, SlotsTwoPlayer
+extern GameStatsLabelX, GameStatsTop, GameStatsRight, GameStatsColX, GameStatsLabelPos, GameStatsRowStep, GameStatsScroll, StarsCardX
+extern StarsCardY, StarsShowFaces, StarsShowNames, StarsShowCards, StarsPhase, StarsCurrent, hmtmPwrGoals, hmtmPwrPlays
 extern hmtmPPShots, hmtmPwrPlayTime, hmtmPenalties, hmtmPenMin, hmtmATOP, hmscore, hmtmSHGoals, hmtmFaceoffsWon
 extern hmtmOneTimers, hmtmOneTimerGoals, hmtmBreakaways, hmtmBreakawayGoals, hmtmPenShots, hmtmPenShotGoals, hmtmChecks, hmpassatt
 extern hmpasscmp, awtmPwrGoals, awtmPwrPlays, awtmPPShots, awtmPwrPlayTime, awtmPenalties, awtmPenMin, awtmATOP
@@ -62,11 +62,11 @@ DrawGameStats:
         mov edx, 0FEh
         mov eax, 0FCh
         call SetTextColors
-        cmp word [word_114DE6], byte 0
+        cmp word [GameStatsScroll], byte 0
         jne short .1
         mov eax, 20Ch
         mov ebx, 1
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmscore]
@@ -78,7 +78,7 @@ DrawGameStats:
         call sprintf_
         lea eax, [byte ebp-020h]
         add esp, byte 0Ch
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         call DrawColorTextCentred
         movsx eax, word [awscore]
         push eax
@@ -89,20 +89,20 @@ DrawGameStats:
         call sprintf_
         lea eax, [byte ebp-020h]
         add esp, byte 0Ch
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         call DrawColorTextCentred
 .1:
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 2
         jge near .2
         mov edx, 3
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         lea ebx, [byte edx+01h]
         mov eax, 20Dh
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmstruct]
@@ -112,15 +112,15 @@ DrawGameStats:
         push eax
         mov edx, 3
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 0Ch
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         call DrawColorTextCentred
         movsx eax, word [awtmstruct]
         push eax
@@ -129,28 +129,28 @@ DrawGameStats:
         push eax
         mov edx, 3
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 0Ch
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         call DrawColorTextCentred
 .2:
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 3
         jge near .7
         mov edx, 4
         sub edx, eax
-        movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [str_Punct_DrawGameStats]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelPos]
         sub eax, edx
         lea ebx, [byte eax+01h]
         mov eax, 20Eh
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx esi, word [hmtmstruct]
@@ -179,14 +179,14 @@ DrawGameStats:
         mov dword [byte ebp-020h], eax
 .4:
         mov edx, 4
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         call DrawColorTextCentred
         movsx esi, word [awtmstruct]
         movsx ebx, word [awscore]
@@ -214,27 +214,27 @@ DrawGameStats:
         mov dword [byte ebp-020h], eax
 .6:
         mov edx, 4
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         call DrawColorTextCentred
 .7:
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 4
         jge near .8
         mov edx, 5
         sub edx, eax
-        movsx ebx, word [str_Punct_DrawGameStats]
-        movsx eax, word [nosplit edx*2+word_114DD8]
+        movsx ebx, word [GameStatsLabelPos]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
         sub eax, ebx
         lea ebx, [byte eax+01h]
         mov eax, 20Fh
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmOneTimers]
@@ -246,14 +246,14 @@ DrawGameStats:
         push eax
         mov edx, 5
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [str_Punct_DrawGameStats]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelPos]
         sub eax, edx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
         movsx eax, word [awtmOneTimers]
@@ -265,25 +265,25 @@ DrawGameStats:
         push eax
         mov edx, 5
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx ebx, word [str_Punct_DrawGameStats]
-        movsx eax, word [nosplit edx*2+word_114DD8]
+        movsx ebx, word [GameStatsLabelPos]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
         sub eax, ebx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
 .8:
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 5
         jge near .9
         mov edx, 6
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DD2]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelX]
         sub ebx, eax
         mov eax, 210h
         inc ebx
@@ -298,14 +298,14 @@ DrawGameStats:
         push eax
         mov edx, 6
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx ebx, word [str_Punct_DrawGameStats]
-        movsx eax, word [nosplit edx*2+word_114DD8]
+        movsx ebx, word [GameStatsLabelPos]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
         sub eax, ebx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
         movsx eax, word [awtmBreakaways]
@@ -317,30 +317,30 @@ DrawGameStats:
         push eax
         mov edx, 6
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         add esp, byte 10h
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DD6]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsRight]
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
         call DrawColorTextCentred
 .9:
-        cmp word [word_114DE6], byte 0
+        cmp word [GameStatsScroll], byte 0
         jle near .10
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 6
         jge near .10
         mov edx, 7
         sub edx, eax
-        movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [str_Punct_DrawGameStats]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelPos]
         sub eax, edx
         lea ebx, [byte eax+01h]
         mov eax, 211h
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmPwrPlays]
@@ -352,14 +352,14 @@ DrawGameStats:
         push eax
         mov edx, 7
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx ebx, word [str_Punct_DrawGameStats]
-        movsx eax, word [nosplit edx*2+word_114DD8]
+        movsx ebx, word [GameStatsLabelPos]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
         sub eax, ebx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
         movsx eax, word [awtmPwrPlays]
@@ -371,27 +371,27 @@ DrawGameStats:
         push eax
         mov edx, 7
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         add esp, byte 10h
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DD6]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsRight]
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
         call DrawColorTextCentred
 .10:
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 1
         jle near .11
         cmp eax, byte 7
         jge near .11
         mov ebx, 8
         sub ebx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit ebx*2+word_114DD8]
-        movsx edx, word [word_114DD2]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit ebx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelX]
         sub ebx, eax
         mov eax, 212h
         inc ebx
@@ -412,15 +412,15 @@ DrawGameStats:
         push eax
         mov edx, 8
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 10h
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         call DrawColorTextCentred
         movsx esi, word [awtmPwrPlayTime]
         mov eax, esi
@@ -437,30 +437,30 @@ DrawGameStats:
         push eax
         mov edx, 8
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         add esp, byte 10h
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DD6]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsRight]
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
         call DrawColorTextCentred
 .11:
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 2
         jle near .12
         cmp eax, byte 8
         jge near .12
         mov edx, 9
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         lea ebx, [byte edx+01h]
         mov eax, 213h
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmPPShots]
@@ -470,12 +470,12 @@ DrawGameStats:
         push eax
         mov edx, 9
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         add esp, byte 0Ch
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DD4]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsTop]
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
@@ -487,27 +487,27 @@ DrawGameStats:
         push eax
         mov edx, 9
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 0Ch
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         call DrawColorTextCentred
 .12:
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 3
         jle near .13
         cmp eax, byte 9
         jge near .13
         mov edx, 0Ah
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DD2]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelX]
         sub ebx, eax
         mov eax, 214h
         inc ebx
@@ -522,14 +522,14 @@ DrawGameStats:
         push eax
         mov edx, 0Ah
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx ebx, word [str_Punct_DrawGameStats]
-        movsx eax, word [nosplit edx*2+word_114DD8]
+        movsx ebx, word [GameStatsLabelPos]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
         sub eax, ebx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
         movsx eax, word [awtmPenMin]
@@ -541,30 +541,30 @@ DrawGameStats:
         push eax
         mov edx, 0Ah
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [str_Punct_DrawGameStats]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelPos]
         sub eax, edx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
 .13:
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 4
         jle near .14
         cmp eax, byte 0Ah
         jge near .14
         mov edx, 0Bh
         sub edx, eax
-        movsx ebx, word [str_Punct_DrawGameStats]
-        movsx eax, word [nosplit edx*2+word_114DD8]
+        movsx ebx, word [GameStatsLabelPos]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
         sub eax, ebx
         lea ebx, [byte eax+01h]
         mov eax, 215h
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmSHGoals]
@@ -574,15 +574,15 @@ DrawGameStats:
         push eax
         mov edx, 0Bh
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 0Ch
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         call DrawColorTextCentred
         movsx eax, word [awtmSHGoals]
         push eax
@@ -591,28 +591,28 @@ DrawGameStats:
         push eax
         mov edx, 0Bh
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 0Ch
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         call DrawColorTextCentred
 .14:
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 5
         jle near .19
         mov edx, 0Ch
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         lea ebx, [byte edx+01h]
         mov eax, 216h
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmPenShots]
@@ -624,15 +624,15 @@ DrawGameStats:
         push eax
         mov edx, 0Ch
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 10h
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         call DrawColorTextCentred
         movsx eax, word [awtmPenShots]
         push eax
@@ -643,27 +643,27 @@ DrawGameStats:
         push eax
         mov edx, 0Ch
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 10h
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         call DrawColorTextCentred
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 6
         jle near .19
         mov edx, 0Dh
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         lea ebx, [byte edx+01h]
         mov eax, 217h
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmFaceoffsWon]
@@ -676,15 +676,15 @@ DrawGameStats:
         push eax
         mov edx, 0Dh
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 10h
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         call DrawColorTextCentred
         push esi
         movsx eax, word [awtmFaceoffsWon]
@@ -694,24 +694,24 @@ DrawGameStats:
         push eax
         mov edx, 0Dh
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         add esp, byte 10h
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DD6]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsRight]
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
         call DrawColorTextCentred
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 7
         jle near .19
         mov edx, 0Eh
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DD2]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelX]
         sub ebx, eax
         mov eax, 218h
         inc ebx
@@ -724,15 +724,15 @@ DrawGameStats:
         push eax
         mov edx, 0Eh
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         add esp, byte 0Ch
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         call DrawColorTextCentred
         movsx eax, word [awtmChecks]
         push eax
@@ -741,27 +741,27 @@ DrawGameStats:
         push eax
         mov edx, 0Eh
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         add esp, byte 0Ch
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx ebx, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [word_114DD6]
+        movsx eax, word [GameStatsLabelPos]
+        movsx ebx, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsRight]
         sub ebx, eax
         lea eax, [byte ebp-020h]
         inc ebx
         call DrawColorTextCentred
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 8
         jle near .19
         mov edx, 0Fh
         sub edx, eax
-        movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [str_Punct_DrawGameStats]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelPos]
         sub eax, edx
         lea ebx, [byte eax+01h]
         mov eax, 219h
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx esi, word [hmtmATOP]
@@ -779,14 +779,14 @@ DrawGameStats:
         push eax
         mov edx, 0Fh
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [str_Punct_DrawGameStats]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelPos]
         sub eax, edx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
         movsx esi, word [awtmATOP]
@@ -804,27 +804,27 @@ DrawGameStats:
         push eax
         mov edx, 0Fh
         call sprintf_
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx ebx, word [str_Punct_DrawGameStats]
-        movsx eax, word [nosplit edx*2+word_114DD8]
+        movsx ebx, word [GameStatsLabelPos]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
         sub eax, ebx
         add esp, byte 10h
         lea ebx, [byte eax+01h]
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 0Ah
         jne near .19
         mov edx, 10h
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         lea ebx, [byte edx+01h]
         mov eax, 21Ah
-        movsx edx, word [word_114DD2]
+        movsx edx, word [GameStatsLabelX]
         call GetLangText
         call DrawColorTextCentred
         movsx esi, word [hmpassatt]
@@ -847,14 +847,14 @@ DrawGameStats:
         call sprintf_
         add esp, byte 14h
         mov edx, 10h
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [str_Punct_DrawGameStats]
-        movsx edx, word [nosplit edx*2+word_114DD8]
+        movsx eax, word [GameStatsLabelPos]
+        movsx edx, word [nosplit edx*2+GameStatsColX]
         sub edx, eax
         lea ebx, [byte edx+01h]
         lea eax, [byte ebp-020h]
-        movsx edx, word [word_114DD4]
+        movsx edx, word [GameStatsTop]
         call DrawColorTextCentred
         movsx esi, word [awpassatt]
         movsx ebx, word [awpasscmp]
@@ -876,18 +876,18 @@ DrawGameStats:
         call sprintf_
         add esp, byte 14h
         mov edx, 10h
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         sub edx, eax
-        movsx eax, word [nosplit edx*2+word_114DD8]
-        movsx edx, word [str_Punct_DrawGameStats]
+        movsx eax, word [nosplit edx*2+GameStatsColX]
+        movsx edx, word [GameStatsLabelPos]
         sub eax, edx
         lea ebx, [byte eax+01h]
-        movsx edx, word [word_114DD6]
+        movsx edx, word [GameStatsRight]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
 .19:
         call SetScreenTarget
-        movsx eax, word [str_Punct_DrawGameStats]
+        movsx eax, word [GameStatsLabelPos]
         dec eax
         push eax
         push byte 0
@@ -1083,10 +1083,10 @@ GameStatsScreen:
         add esp, byte 8
         mov dword [byte ebp+062h], eax
         call SetScreenColors
-        movsx eax, word [word_114DE4]
+        movsx eax, word [GameStatsRowStep]
         movzx edx, byte [byte_11FA2F]
         add eax, edx
-        movsx edx, word [str_Punct_DrawGameStats]
+        movsx edx, word [GameStatsLabelPos]
         inc eax
         inc eax
         sub eax, edx
@@ -1106,7 +1106,7 @@ GameStatsScreen:
         movsd
         movsb
         mov word [byte eax+0Ch], 0
-        mov dx, word [str_Punct_DrawGameStats]
+        mov dx, word [GameStatsLabelPos]
         dec edx
         mov word [byte eax+0Eh], dx
         mov dx, word [dword_11F5C0]
@@ -1115,8 +1115,8 @@ GameStatsScreen:
         mov word [byte eax+04h], dx
         mov dword [byte ebp+072h], eax
         movzx ax, byte [byte_11FA2F]
-        add ax, word [word_114DE4]
-        mov si, word [str_Punct_DrawGameStats]
+        add ax, word [GameStatsRowStep]
+        mov si, word [GameStatsLabelPos]
         inc eax
         inc eax
         mov edx, dword [byte ebp+06Ah]
@@ -1126,7 +1126,7 @@ GameStatsScreen:
         call SetScreenTarget
         push dword [byte ebp+06Ah]
         call DrawShapeAtOwnPos
-        mov word [word_114DE6], 0
+        mov word [GameStatsScroll], 0
         add esp, byte 4
         mov eax, dword [byte ebp+06Ah]
         lea edx, [dword ebp-01C2h]
@@ -1246,7 +1246,7 @@ GameStatsScreen:
         mov dword [dword ebp-011Eh], edx
         rep movsb
         add esp, byte 8
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov byte [dword ebp-0B4h], 1
         xor ah, ah
         mov byte [dword ebp-0B2h], 2
@@ -1266,7 +1266,7 @@ GameStatsScreen:
         mov byte [byte ebp-04Dh], 0
         mov byte [dword ebp-0180h], 3
 .1:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2
@@ -1300,7 +1300,7 @@ GameStatsScreen:
         call SoundIdle
         cmp dword [byte ebp+05Eh], byte 0
         jl short .5
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1317,7 +1317,7 @@ GameStatsScreen:
 .4:
         mov dword [byte ebp+05Eh], 0FFFFFFFFh
 .5:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov edx, eax
@@ -1342,21 +1342,21 @@ GameStatsScreen:
 .6:
         cmp dword [byte ebp+05Eh], byte 0
         jne short .7
-        cmp word [word_114DE6], byte 0
+        cmp word [GameStatsScroll], byte 0
         jle short .7
-        dec word [word_114DE6]
+        dec word [GameStatsScroll]
         jmp short .8
 .7:
         cmp dword [byte ebp+05Eh], byte 1
         jne short .8
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         cmp eax, byte 0Ah
         jge short .8
-        inc word [word_114DE6]
+        inc word [GameStatsScroll]
 .8:
         mov eax, dword [byte ebp+072h]
         call DrawGameStats
-        movsx eax, word [word_114DE6]
+        movsx eax, word [GameStatsScroll]
         imul eax, byte 0Fh
         add eax, 0A0h
         push eax
@@ -1425,18 +1425,18 @@ AnimateStarsScreen:
         push edx
         push esi
         call GetTicks
-        cmp eax, dword [dword_114EF4]
+        cmp eax, dword [StarsTimerCard]
         jle near AnimateStarsScreen_121.14
-        cmp word [word_114EFE], byte 0
+        cmp word [StarsPhase], byte 0
         jne short .1
-        movsx eax, word [word_114F00]
+        movsx eax, word [StarsCurrent]
         inc eax
         mov ebx, 18h
         cdq
         idiv ebx
         movsx ebx, dx
         mov eax, ebx
-        mov word [word_114F00], dx
+        mov word [StarsCurrent], dx
         cdq
         shl edx, 3
         LD sbb, eax, edx
@@ -1448,30 +1448,30 @@ AnimateStarsScreen:
         idiv esi
         shl ecx, 5
         mov eax, edx
-        push dword [dword ecx+eax*4+dword_151AEC]
+        push dword [dword ecx+eax*4+StarsFaceBmps]
         call PutBlockAtOwnPos
-        movsx eax, word [word_114F00]
+        movsx eax, word [StarsCurrent]
         cdq
         idiv esi
-        mov word [word_114EFE], 2
+        mov word [StarsPhase], 2
         add esp, byte 4
         cmp edx, byte 7
         jne short .2
-        mov word [word_114EFE], 20h
+        mov word [StarsPhase], 20h
         jmp short .2
 .1:
-        dec word [word_114EFE]
+        dec word [StarsPhase]
 .2:
-        cmp word [word_114EF8], byte 0
+        cmp word [StarsShowFaces], byte 0
         je near AnimateStarsScreen_121.4
-        push dword [dword_151B4C]
+        push dword [StarsPanelBmp]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
         push byte 0
-        push dword [dword_151B64]
+        push dword [StarsTitleBmp]
         call PutBlock
-        mov ax, word [word_114EF8]
+        mov ax, word [StarsShowFaces]
         add esp, byte 0Ch
         cmp ax, 6
         ja short AnimateStarsScreen_E7
@@ -1479,36 +1479,36 @@ AnimateStarsScreen:
         jmp dword [nosplit cs:eax*4+jpt_15A72]
 AnimateStarsScreen_D3:
         mov eax, 0FD70h
-        mov edx, dword [dword_151B7C]
+        mov edx, dword [StarsSlideStep]
 .3:
         xor ecx, ecx
         xor ebx, ebx
         call DrawFrameAt
 AnimateStarsScreen_E7:
         call SetScreenTarget
-        push dword [dword_151AE8]
-        mov eax, dword [dword_151B4C]
-        push dword [dword_151AE4]
+        push dword [StarsSaveBmp]
+        mov eax, dword [StarsPanelBmp]
+        push dword [StarsBgBmp]
         push dword [byte eax+02Ch]
         call PutBlock
-        dec word [word_114EF8]
+        dec word [StarsShowFaces]
         add esp, byte 0Ch
         jmp near AnimateStarsScreen_121.13
 AnimateStarsScreen_114:
         mov eax, 0FD70h
-        mov edx, dword [dword_151B78]
+        mov edx, dword [StarsSlideY]
         jmp short AnimateStarsScreen_D3.3
 AnimateStarsScreen_121:
         mov eax, 0FD70h
-        mov edx, dword [dword_151B74]
+        mov edx, dword [StarsSlideX]
         jmp short AnimateStarsScreen_D3.3
 .4:
         call GetTicks
-        cmp eax, dword [dword_114EE8]
+        cmp eax, dword [StarsTimerA]
         jle near .5
-        cmp word [word_114EFC], byte 0
+        cmp word [StarsShowCards], byte 0
         jne near .5
-        cmp word [word_114EFA], byte 0
+        cmp word [StarsShowNames], byte 0
         jne near .5
         call rand_
         mov ebx, 3
@@ -1516,45 +1516,45 @@ AnimateStarsScreen_121:
         idiv ebx
         mov ebx, edx
         shl ebx, 6
-        mov esi, dword [dword ebx+dword_114DF0]
-        sub esi, dword [dword ebx+dword_114DE8]
+        mov esi, dword [dword ebx+StarsSlideTo]
+        sub esi, dword [dword ebx+StarsSlideFrom]
         call rand_
         inc esi
         cdq
         idiv esi
-        mov eax, dword [dword ebx+dword_114DE8]
+        mov eax, dword [dword ebx+StarsSlideFrom]
         add eax, edx
-        mov edx, dword [dword ebx+dword_114DFC]
-        sub edx, dword [dword ebx+str_Z_AnimateStarsScreen]
-        mov dword [dword_151AE4], eax
+        mov edx, dword [dword ebx+StarsSpritePath]
+        sub edx, dword [dword ebx+StarsSlideTarget]
+        mov dword [StarsBgBmp], eax
         lea esi, [byte edx+01h]
         call rand_
         cdq
         idiv esi
-        mov eax, dword [dword ebx+str_Z_AnimateStarsScreen]
+        mov eax, dword [dword ebx+StarsSlideTarget]
         add eax, edx
-        mov dword [dword_151AE8], eax
-        mov eax, dword [dword_151B4C]
+        mov dword [StarsSaveBmp], eax
+        mov eax, dword [StarsPanelBmp]
         mov eax, dword [byte eax+02Ch]
-        mov dx, word [dword_151AE4]
+        mov dx, word [StarsBgBmp]
         mov word [byte eax+0Ch], dx
-        mov eax, dword [dword_151B4C]
+        mov eax, dword [StarsPanelBmp]
         mov eax, dword [byte eax+02Ch]
-        mov dx, word [dword_151AE8]
+        mov dx, word [StarsSaveBmp]
         mov word [byte eax+0Eh], dx
-        mov eax, dword [dword_151B4C]
+        mov eax, dword [StarsPanelBmp]
         push dword [byte eax+02Ch]
         call DrawShapeAtOwnPos
         add esp, byte 4
-        push dword [dword_151B64]
+        push dword [StarsTitleBmp]
         call FreeMemBlock
-        mov eax, dword [dword_151B4C]
+        mov eax, dword [StarsPanelBmp]
         add esp, byte 4
         mov edx, 20h
         mov eax, dword [byte eax+02Ch]
         call CopyBitmap
-        mov word [word_114EF8], 6
-        mov dword [dword_151B64], eax
+        mov word [StarsShowFaces], 6
+        mov dword [StarsTitleBmp], eax
         call GetTicks
         mov ecx, 46h
         mov ebx, eax
@@ -1563,48 +1563,48 @@ AnimateStarsScreen_121:
         idiv ecx
         add ebx, byte 1Eh
         add ebx, edx
-        mov dword [dword_114EE8], ebx
+        mov dword [StarsTimerA], ebx
         jmp near .13
 .5:
-        cmp word [word_114EFA], byte 0
+        cmp word [StarsShowNames], byte 0
         je near .8
-        movsx eax, word [word_114EFA]
+        movsx eax, word [StarsShowNames]
         cmp eax, byte 5
         jge short .6
-        push dword [dword_151B68]
+        push dword [StarsAnimStep]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [dword_151B68]
+        push dword [StarsAnimStep]
         call FreeMemBlock
-        mov dword [dword_151B68], 0
+        mov dword [StarsAnimStep], 0
         add esp, byte 4
 .6:
         mov esi, 5
-        movsx eax, word [word_114EFA]
+        movsx eax, word [StarsShowNames]
         sub esi, eax
         cmp eax, byte 1
         je short .7
         mov edx, 20h
-        mov eax, dword [nosplit esi*4+dword_151B50]
+        mov eax, dword [nosplit esi*4+StarsNameBmps]
         call CopyBitmap
-        mov dword [dword_151B68], eax
+        mov dword [StarsAnimStep], eax
         call SetScreenTarget
-        push dword [dword_151B68]
+        push dword [StarsAnimStep]
         call DrawShapeAtOwnPos
         add esp, byte 4
-        push dword [nosplit esi*4+dword_151B50]
+        push dword [nosplit esi*4+StarsNameBmps]
         call PutBlockAtOwnPos
         add esp, byte 4
 .7:
-        dec word [word_114EFA]
+        dec word [StarsShowNames]
         jmp near .13
 .8:
-        cmp word [word_114EFC], byte 0
+        cmp word [StarsShowCards], byte 0
         jne short .9
         call GetTicks
-        cmp eax, dword [dword_114EF0]
+        cmp eax, dword [StarsTimerName]
         jle short .9
-        mov word [word_114EFA], 5
+        mov word [StarsShowNames], 5
         mov esi, 190h
         call GetTicks
         mov ebx, eax
@@ -1613,12 +1613,12 @@ AnimateStarsScreen_121:
         idiv esi
         add ebx, 1F4h
         add ebx, edx
-        mov dword [dword_114EF0], ebx
+        mov dword [StarsTimerName], ebx
         jmp near .13
 .9:
-        cmp word [word_114EFC], byte 0
+        cmp word [StarsShowCards], byte 0
         je near .12
-        movsx eax, word [word_114EFC]
+        movsx eax, word [StarsShowCards]
         cmp eax, byte 2
         jne short .10
         call rand_
@@ -1627,34 +1627,34 @@ AnimateStarsScreen_121:
         idiv ebx
         mov esi, edx
         shl esi, 3
-        mov eax, dword [dword_151B70]
-        mov dx, word [dword esi+word_114EA8]
+        mov eax, dword [StarsShapeFile]
+        mov dx, word [dword esi+StarsCardX]
         mov word [byte eax+0Ch], dx
-        mov eax, dword [dword_151B70]
-        mov dx, word [dword esi+word_114EAC]
+        mov eax, dword [StarsShapeFile]
+        mov dx, word [dword esi+StarsCardY]
         mov word [byte eax+0Eh], dx
         call SetScreenTarget
-        push dword [dword_151B70]
+        push dword [StarsShapeFile]
         call DrawShapeAtOwnPos
         add esp, byte 4
-        push dword [dword esi+word_114EAC]
-        push dword [dword esi+word_114EA8]
-        push dword [dword_151B6C]
+        push dword [dword esi+StarsCardY]
+        push dword [dword esi+StarsCardX]
+        push dword [StarsCardBmp]
         call DrawArt
         add esp, byte 0Ch
         jmp short .11
 .10:
-        push dword [dword_151B70]
+        push dword [StarsShapeFile]
         call PutBlockAtOwnPos
         add esp, byte 4
 .11:
-        dec word [word_114EFC]
+        dec word [StarsShowCards]
         jmp short .13
 .12:
         call GetTicks
-        cmp eax, dword [dword_114EEC]
+        cmp eax, dword [StarsTimerFace]
         jle short .13
-        mov word [word_114EFC], 2
+        mov word [StarsShowCards], 2
         call GetTicks
         mov ecx, 1F4h
         mov ebx, eax
@@ -1663,11 +1663,11 @@ AnimateStarsScreen_121:
         idiv ecx
         add ebx, 0C8h
         add ebx, edx
-        mov dword [dword_114EEC], ebx
+        mov dword [StarsTimerFace], ebx
 .13:
         call GetTicks
         add eax, byte 4
-        mov dword [dword_114EF4], eax
+        mov dword [StarsTimerCard], eax
 .14:
         pop esi
         pop edx
@@ -1935,8 +1935,8 @@ ThreeStarsScreen:
         call sprintf_
         lea eax, [byte ebp-04Ah]
         add esp, byte 10h
-        mov ebx, dword [dword esi+dword_114EB4]
-        mov edx, dword [dword esi+dword_114EB0]
+        mov ebx, dword [dword esi+StarsNameXs]
+        mov edx, dword [dword esi+StarsNameX]
         add dword [byte ebp+066h], byte 4
         call DrawColorTextRight
         cmp edi, byte 6
@@ -1966,7 +1966,7 @@ ThreeStarsScreen:
         movsx eax, word [byte eax+04h]
         mov edx, dword [byte ebp+05Ah]
         lea eax, [eax+eax*2]
-        mov edx, dword [dword edx+dword_114ED0]
+        mov edx, dword [dword edx+StarsTextX]
         sar eax, 3
         sub edx, eax
         mov eax, dword [byte ebp+042h]
@@ -1976,7 +1976,7 @@ ThreeStarsScreen:
         movsx eax, word [byte eax+06h]
         mov edx, dword [byte ebp+05Ah]
         lea eax, [eax+eax*2]
-        mov edx, dword [dword edx+dword_114ED4]
+        mov edx, dword [dword edx+StarsTextXs]
         sar eax, 3
         sub edx, eax
         mov eax, dword [byte ebp+042h]
@@ -2024,14 +2024,14 @@ ThreeStarsScreen:
         push byte 0
         mov edx, dword [byte ebp+06Eh]
         push dword [byte ebp+072h]
-        mov dword [dword edx+dword_151AEC], eax
+        mov dword [dword edx+StarsFaceBmps], eax
         call PutBlock
         mov edx, dword [byte ebp+06Eh]
         mov eax, 0C000h
         add esp, byte 0Ch
         xor ecx, ecx
         xor ebx, ebx
-        mov edx, dword [dword edx+dword_151AEC]
+        mov edx, dword [dword edx+StarsFaceBmps]
         mov esi, dword [byte ebp+042h]
         call DrawFrameAt
         mov esi, dword [byte esi+02Ch]
@@ -2039,7 +2039,7 @@ ThreeStarsScreen:
         movsx eax, word [byte esi+06h]
         imul eax, edx
         mov edi, dword [byte ebp+06Eh]
-        mov edi, dword [dword edi+dword_151AEC]
+        mov edi, dword [dword edi+StarsFaceBmps]
         lea ecx, [byte eax+010h]
         rep movsb
         mov eax, dword [byte ebp+04Eh]
@@ -2053,15 +2053,15 @@ ThreeStarsScreen:
         mov eax, dword [byte ebp+03Ah]
         add dword [byte ebp+05Eh], byte 20h
         add dword [byte ebp+05Ah], byte 8
-        push dword [dword eax+dword_151B08]
+        push dword [dword eax+StarsCardBmps]
         inc dword [byte ebp+04Ah]
         call PutBlockAtOwnPos
         add esp, byte 4
         cmp dword [byte ebp+04Ah], byte 3
         jl near .6
-        mov word [word_114EFE], 8
+        mov word [StarsPhase], 8
         push dword [byte ebp+042h]
-        mov word [word_114F00], 0
+        mov word [StarsCurrent], 0
         call FreeBitmap
         xor edi, edi
         xor esi, esi
@@ -2080,10 +2080,10 @@ ThreeStarsScreen:
         inc edi
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_151B70], eax
+        mov dword [dword esi+StarsShapeFile], eax
         cmp edi, byte 3
         jl short .8
-        mov eax, dword [dword_151B74]
+        mov eax, dword [StarsSlideX]
         push byte 20h
         movsx edx, word [byte eax+06h]
         push edx
@@ -2092,12 +2092,12 @@ ThreeStarsScreen:
         xor edi, edi
         call CreateBitmap
         mov edx, 20h
-        mov dword [dword_151B4C], eax
+        mov dword [StarsPanelBmp], eax
         add esp, byte 0Ch
         mov eax, dword [byte eax+02Ch]
         xor esi, esi
         call CopyBitmap
-        mov dword [dword_151B64], eax
+        mov dword [StarsTitleBmp], eax
 .9:
         push edi
         push str_METD
@@ -2112,36 +2112,36 @@ ThreeStarsScreen:
         inc edi
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_151B4C], eax
+        mov dword [dword esi+StarsPanelBmp], eax
         cmp edi, byte 4
         jl short .9
         push str_STRK
         push dword [byte ebp+07Eh]
-        mov dword [dword_151B68], 0
+        mov dword [StarsAnimStep], 0
         call FindShape
         add esp, byte 8
         mov edx, 20h
-        mov dword [dword_151B6C], eax
+        mov dword [StarsCardBmp], eax
         call CopyBitmap
-        mov dword [dword_151B70], eax
+        mov dword [StarsShapeFile], eax
         call GetTicks
-        mov dword [dword_114EF4], eax
-        mov dword [dword_114EEC], eax
-        mov dword [dword_114EE8], eax
+        mov dword [StarsTimerCard], eax
+        mov dword [StarsTimerFace], eax
+        mov dword [StarsTimerA], eax
         call GetTicks
         mov ebx, 190h
         mov esi, eax
         call rand_
         cdq
         idiv ebx
-        mov word [word_114EFC], 0
-        mov word [word_114EFA], 0
-        mov word [word_114EF8], 0
+        mov word [StarsShowCards], 0
+        mov word [StarsShowNames], 0
+        mov word [StarsShowFaces], 0
         add esi, 1F4h
         mov eax, 4
         add esi, edx
         lea edx, [dword ebp-0262h]
-        mov dword [dword_114EF0], esi
+        mov dword [StarsTimerName], esi
         call InitMenuItems
         push str_BT006
         push dword [byte ebp+07Eh]
@@ -2197,7 +2197,7 @@ ThreeStarsScreen:
         movsx eax, word [byte eax+0Eh]
         mov ecx, 66h
         mov dword [dword ebp-01D2h], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         add esp, byte 8
         xor ah, ah
         mov dword [dword ebp-01C2h], 159h
@@ -2209,7 +2209,7 @@ ThreeStarsScreen:
         mov byte [dword ebp-01B7h], 2
         call OpenScreen
         rep movsb
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov byte [dword ebp-0154h], 2
         xor ah, ah
         mov byte [dword ebp-0152h], 1
@@ -2248,7 +2248,7 @@ ThreeStarsScreen:
         call SoundIdle
         cmp dword [byte ebp+046h], byte 0
         jl short .13
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2265,7 +2265,7 @@ ThreeStarsScreen:
 .12:
         mov dword [byte ebp+046h], 0FFFFFFFFh
 .13:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         mov edx, eax
@@ -2286,7 +2286,7 @@ ThreeStarsScreen:
         mov eax, dword [byte ebp+046h]
         jmp dword [nosplit cs:eax*4+jpt_15E83]
 ThreeStarsScreen_8CF:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2331,19 +2331,19 @@ ThreeStarsScreen_936:
 .15:
         cmp dword [byte ebp+076h], byte 0
         jl near ThreeStarsScreen.11
-        cmp dword [dword_151B68], byte 0
+        cmp dword [StarsAnimStep], byte 0
         je short .16
-        push dword [dword_151B68]
+        push dword [StarsAnimStep]
         call FreeMemBlock
         add esp, byte 4
 .16:
-        push dword [dword_151B70]
+        push dword [StarsShapeFile]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_151B64]
+        push dword [StarsTitleBmp]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_151B4C]
+        push dword [StarsPanelBmp]
         call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+07Eh]

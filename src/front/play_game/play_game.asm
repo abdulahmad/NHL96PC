@@ -1,12 +1,13 @@
 ; Playing a game: from the menus by game mode, the input record timer, the game loop, the demo game (95 PC front/main, 96 PC).
 bits 32
 %include "hockey.inc"
+extern GsOptions
 section s_168DA progbits alloc exec nowrite align=1
 extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, textline2, textline3, textline4, textline5
-extern byte_17BDAE, byte_17CA5D, byte_17CECB, byte_17CECC, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
-extern DrawGameStats_DD0, dword_114B88, dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114F16, dword_1150D4
+extern byte_17BDAE, SeasonGameHome, SeasonGameAway, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
+extern DrawGameStats_DD0, SimSlotButtons, InputRecordIndex, GameLoopFrames, dword_1150D4
 extern gameresult, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5C0, dword_11F5C4, SlotInput
-extern dword_151B84, MenuRemoteCursorArt, MenuCursorPixels
+extern GameFrameCount, MenuRemoteCursorArt, MenuCursorPixels
 extern dword_152F58, MenuBitmapPixels, dword_157AF4, PlayoffTreeData, dword_17D162, dword_17D267, exitgame, fadeinpending
 extern GameLoopActive, gameopts, gameover, GetTicks, gmode, InGameMenuRequest, InitSlotTable, InputRecordBusy
 extern InputRecordCount, InputRecordHead, InputRecordPhase, InputRecordRing, InputRecordTicks, LineChangeLine, LineChangeReq, LinkExchangeInput
@@ -20,7 +21,7 @@ extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScree
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
 extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
-extern FindShape, exhstate, SeasonUserRecords, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
+extern FindShape, exhstate, SeasonUserRecords, unk_17CED5, unk_17D272, unk_17D32C, SlotsTwoPlayer, PauseRequested
 extern bannermsg, bannertimer, PeriodEventCount, GameEventFlags
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
@@ -82,8 +83,8 @@ PlayMenuGame_75:
         mov dword [gameopts], optblock_end
         jmp short PlayMenuGame_AF.1
 PlayMenuGame_85:
-        movzx edx, byte [byte_17CECC]
-        movzx eax, byte [byte_17CECB]
+        movzx edx, byte [SeasonGameAway]
+        movzx eax, byte [SeasonGameHome]
         mov dword [gameopts], SeasonUserRecords
         jmp short PlayMenuGame_AF.1
 PlayMenuGame_9F:
@@ -98,7 +99,7 @@ PlayMenuGame_AF:
 .1:
         call InitGameTeams
 .2:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .3
         push dword [MenuCursorPixels]
         call FreeMemBlock
@@ -108,7 +109,7 @@ PlayMenuGame_AF:
         add esp, byte 4
 .3:
         call StartGameSound
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .4
         push str_GloL5
         push dword [dword_1150D4]
@@ -160,7 +161,7 @@ PlayMenuGame_AF:
         call FindShape
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .7
         push dword [MenuCursorPixels]
         call FreeMemBlock
@@ -170,7 +171,7 @@ PlayMenuGame_AF:
         add esp, byte 4
 .7:
         call EndGameSound
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         jne short .8
         mov edx, 20h
         mov eax, dword [dword_152F58]
@@ -294,7 +295,7 @@ InputRecordTimer:
         jne short .1
         call PollControllers
 .1:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         and eax, 1
         cwde
         test eax, eax
@@ -519,7 +520,7 @@ RunSimFrames:
         jne short .4
         cmp dword [penshotlive], byte 0
         jne short .3
-        add dword [dword_151B84], byte 64h
+        add dword [GameFrameCount], byte 64h
 .3:
         call ClockTick
 .4:
@@ -527,7 +528,7 @@ RunSimFrames:
         xor eax, eax
 .5:
         add eax, byte 4
-        and dword [dword eax+dword_114B88], 0FFEFFFFCh
+        and dword [dword eax+SimSlotButtons], 0FFEFFFFCh
         cmp eax, byte 10h
         jne short .5
         movsx eax, word [bannermsg]
@@ -617,17 +618,17 @@ GameLoop_inputcheck:
         je near .1
         cmp dword [InGameMenuRequest], byte 0
         jne near .1
-        imul eax, dword [dword_114B9C], byte 12h
+        imul eax, dword [InputRecordIndex], byte 12h
         mov ecx, dword [dword eax+InputRecordRing]
         mov dword [SlotButtons], ecx
         mov ecx, dword [dword eax+InputRecordRing+4]
-        mov dword [dword_114B90], ecx
+        mov dword [SlotButtons+4], ecx
         mov ecx, dword [dword eax+InputRecordRing+8]
-        mov dword [dword_114B94], ecx
+        mov dword [SlotButtons+8], ecx
         mov ecx, dword [dword eax+InputRecordRing+0Ch]
-        mov dword [dword_114B98], ecx
+        mov dword [SlotButtons+0Ch], ecx
         movsx ecx, word [dword eax+InputRecordRing+10h]
-        mov eax, dword [dword_114B9C]
+        mov eax, dword [InputRecordIndex]
         inc eax
         mov dword [byte ebp-04h], 5
         cdq
@@ -637,12 +638,12 @@ GameLoop_inputcheck:
         mov edi, dword [GameLoopActive]
         dec dword [InputRecordCount]
         mov dword [GameLoopActive], 0
-        add dword [dword_114F16], ecx
+        add dword [GameLoopFrames], ecx
         mov dword [GameLoopActive], edi
-        mov eax, dword [dword_114F16]
-        mov dword [dword_114B9C], edx
+        mov eax, dword [GameLoopFrames]
+        mov dword [InputRecordIndex], edx
         sar eax, 4
-        and dword [dword_114F16], byte 0Fh
+        and dword [GameLoopFrames], byte 0Fh
         call RunSimFrames
         mov eax, ebx
         sub eax, esi
@@ -664,11 +665,11 @@ GameLoop_inputcheck:
         mov dword [GameLoopActive], ecx
         cmp dword [penshotlive], byte 0
         jne short .2
-        mov eax, dword [dword_151B84]
+        mov eax, dword [GameFrameCount]
         mov ecx, 18h
         cdq
         idiv ecx
-        mov dword [dword_151B84], edx
+        mov dword [GameFrameCount], edx
 .2:
         cmp dword [fadeinpending], byte 2
         jne short .3
@@ -731,8 +732,8 @@ GameLoop_nextperiodcall:
         mov word [LineChangeReq], 0
         mov dword [fadeinpending], 1
         mov word [exitgame], 0
-        mov dword [dword_114F16], 0
-        mov dword [dword_151B84], 0
+        mov dword [GameLoopFrames], 0
+        mov dword [GameFrameCount], 0
         jmp near GameLoop_E
 GameLoop_nextperiodcall_6C:
         mov eax, dword [optflags]
@@ -866,7 +867,7 @@ PlayGame:
         pop ebx
         ret
 .1:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -887,14 +888,14 @@ PlayGame:
         shl edx, 10h
         shr eax, 1Bh
         add edx, eax
-        mov word [word_114F14], 0
+        mov word [PauseRequested], 0
         add dword [seed], edx
 PlayGame_initslotscall:
         call InitSlotTable
         call BlankForFadeIn
         mov eax, exhstate
         call LoadGamePalette
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         setne al
         movzx eax, al
         call SetScreenMode
@@ -929,7 +930,7 @@ PlayGame_initslotscall:
         mov dword [InGameMenuRequest], 1
 .2:
         mov dword [gameresult], 0
-        mov word [word_114F14], 1
+        mov word [PauseRequested], 1
         call ResetGameOverlays
 PlayGame_menucall:
         call RunInGameMenu

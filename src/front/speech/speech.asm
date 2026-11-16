@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_67000 progbits alloc exec nowrite align=1
 extern _dos_gettime_, AsyncCancelRequest, AsyncClose, AsyncInit, asyncreader, AsyncRequestDone, AsyncRequestOpen, AsyncRequestSection
-extern byte_17C60C, byte_17CA1D, str_Z_OpenSpeechBanks, dword_11D242, str_Punct_OpenSpeechBanks, speechq, dword_11D37E, dword_11D38A
+extern byte_17C60C, str_Z_OpenSpeechBanks, dword_11D242, str_Punct_OpenSpeechBanks, speechq, dword_11D37E, dword_11D38A
 extern speechinit, dword_17C4A0, dword_17C4A4, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
 extern dword_17C5D0, dword_17C5FC, dword_17C600, GetTicks, globalset, MakeDataPath, optflags, rand_
 extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, OpenSpeechQueue, SetSpeechQueueVolume
@@ -1011,7 +1011,7 @@ PaEvent:
         enter 28h, 0
         cmp dword [sndcard], byte 0
         jl near FindClipIndex_55
-        test byte [byte_17CA1D], 10h
+        test byte [globalset+1], 10h
         je near FindClipIndex_55
         mov eax, dword [byte ebp+01Ch]
         dec eax

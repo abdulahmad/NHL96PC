@@ -1,9 +1,10 @@
 ; Digital sound effects, crowd noise, arena clips, the sound card start-up, the game and front-end sound banks and the sound idle call (96 PC).
 bits 32
 %include "hockey.inc"
+extern GsOptions
 section s_68D25 progbits alloc exec nowrite align=1
-extern AsyncClose, AsyncInit, asyncreader, byte_11D1DE, byte_11D392, byte_17CA1D, byte_17CA1E, byte_17CA1F
-extern byte_17CA5D, CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, delstream, dword_11D1C8, dword_11D1CC, dword_11D1D2
+extern AsyncClose, AsyncInit, asyncreader, byte_11D1DE, byte_11D392
+extern CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, delstream, dword_11D1C8, dword_11D1CC, dword_11D1D2
 extern dword_11D1D6, SpeechStreamFile, SpeechStreamTimer, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
 extern dword_11D1FE, dword_11D202, dword_11D206, dword_11D236, dword_11D37E, dword_11D3A6, dword_11D3AA, dword_11D3AE
 extern dword_11D3B2, dword_17C604, dword_17C608, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
@@ -73,7 +74,7 @@ StopAllSfx_8D:
         cmp dword [dword_11D1EE], byte 0
         jl short StopAllSfx_BF
 .6:
-        test byte [byte_17CA1E], 10h
+        test byte [globalset+2], 10h
         je short StopAllSfx_BF
 StopAllSfx_BA:
         mov eax, 1
@@ -133,7 +134,7 @@ PlaySfx:
         jl near StopAllSfx_8D
         cmp dword [dword_11D1F2], byte 0
         jl short StopAllSfx_BF
-        test byte [byte_17CA1E], 10h
+        test byte [globalset+2], 10h
         je near StopAllSfx_BF
         jmp near StopAllSfx_BA
 ;-----------------------------------------------------------------------------
@@ -188,7 +189,7 @@ CrowdNoiseReset:
         je near .4
         cmp dword [dword_11D1FA], byte 0
         jne near .4
-        test byte [byte_17CA1F], 10h
+        test byte [globalset+3], 10h
         je near .4
         cmp dword [dword_11D1FA], byte 0
         jne short .1
@@ -881,7 +882,7 @@ StartGameSound:
         mov esi, 2
         jmp short .5
 .3:
-        test byte [byte_17CA5D], 20h
+        test byte [GsOptions+1], 20h
         je short .4
         xor esi, esi
         jmp short .5
@@ -1181,7 +1182,7 @@ SpeechService:
         enter 4, 0
         cmp dword [sndcard], byte 0
         jl near FindClipIndex_55
-        test byte [byte_17CA1D], 10h
+        test byte [globalset+1], 10h
         je near FindClipIndex_55
         cmp dword [dword_11D37E], byte 0
         jl near FindClipIndex_55

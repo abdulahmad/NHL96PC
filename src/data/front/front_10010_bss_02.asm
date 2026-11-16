@@ -2,125 +2,105 @@
 bits 32
 %include "hockey.inc"
 section s_17C9AA nobits alloc noexec write align=1
-global byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, byte_17CA22, byte_17CA24, byte_17CA3C, byte_17CA54
-global byte_17CA55, byte_17CA56, byte_17CA57, byte_17CA58, byte_17CA59, byte_17CA5A, byte_17CA5B, byte_17CA5D
-global byte_17CA5E, byte_17CA5F, GlobalSetName, byte_17CA73, byte_17CA78, byte_17CA7A, byte_17CA86, SeasonUserTeam
-global byte_17CC1D, byte_17CC1E, byte_17CC35, byte_17CC36, byte_17CC37, byte_17CC38, byte_17CECB, byte_17CECC
-global dword_17C9AA, dword_17C9F4, globalset, optblock, dword_17CA5C, dword_17CA76, dword_17CB2F, PlayoffTreeData
-global dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3, dword_17CEC7, unk_17C9B8, unk_17C9CC, optblock_end
-global SeasonUserRecords, unk_17CC1F, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6
-global word_17CA7C
-dword_17C9AA:
+global GsJoy1Calib, GsJoy2Calib, GsGripButtons
+
+global GlobalSetName, GsPlayerPads, GsPanelSlots, SeasonUserTeam
+global SeasonUsers, SeasonUserSim, SeasonUserFlag, SeasonUserSlot, SeasonGameHome, SeasonGameAway
+global GsModemDial, globalset, optblock, GsOptions, GsTeamSelect, SeasonGameOpts, PlayoffTreeData
+global SeasonType, SeasonPlayoffs, SeasonOver, SeasonDay, SeasonGamePending, GsPhoneNumber, GsModemInit, optblock_end
+global SeasonUserRecords, SeasonUserName, GsComPort, GsBaudIndex, GsDirectLink, GsWaitForCall, GsLinkOption, GsDialMode
+global GsPlayerFlags
         resb 2
-word_17C9AC:
+GsComPort:
         resb 2
-word_17C9AE:
+GsBaudIndex:
         resb 2
-word_17C9B0:
+GsDirectLink:
         resb 2
-word_17C9B2:
+GsWaitForCall:
         resb 2
-word_17C9B4:
+GsLinkOption:
         resb 2
-word_17C9B6:
+GsDialMode:
         resb 2
-unk_17C9B8:
+GsPhoneNumber:
         resb 20
-unk_17C9CC:
+GsModemInit:
         resb 40
-dword_17C9F4:
+GsModemDial:
         resb 40
 globalset:
         resb 1
-byte_17CA1D:
         resb 1
-byte_17CA1E:
         resb 1
-byte_17CA1F:
         resb 1
 optblock:
         resb 1
-byte_17CA21:
         resb 1
-byte_17CA22:
         resb 2
-byte_17CA24:
+GsJoy1Calib:
         resb 24
-byte_17CA3C:
+GsJoy2Calib:
         resb 24
-byte_17CA54:
+GsGripButtons:
         resb 1
-byte_17CA55:
         resb 1
-byte_17CA56:
         resb 1
-byte_17CA57:
         resb 1
-byte_17CA58:
         resb 1
-byte_17CA59:
         resb 1
-byte_17CA5A:
         resb 1
-byte_17CA5B:
         resb 1
-dword_17CA5C:
+GsOptions:
         resb 1
-byte_17CA5D:
         resb 1
-byte_17CA5E:
         resb 1
-byte_17CA5F:
         resb 1
 GlobalSetName:
         resb 19
-byte_17CA73:
         resb 2
 optblock_end:
         resb 1
-dword_17CA76:
+GsTeamSelect:
         resb 2
-byte_17CA78:
         resb 2
-byte_17CA7A:
+GsPlayerPads:
         resb 2
-word_17CA7C:
+GsPlayerFlags:
         resb 10
-byte_17CA86:
+GsPanelSlots:
         resb 168
 SeasonUserRecords:
         resb 1
-dword_17CB2F:
+SeasonGameOpts:
         resb 184
 PlayoffTreeData:
         resb 4
 SeasonUserTeam:
         resb 40
-dword_17CC13:
+SeasonType:
         resb 4
-dword_17CC17:
+SeasonPlayoffs:
         resb 4
-dword_17CC1B:
+SeasonOver:
         resb 2
-byte_17CC1D:
+SeasonUsers:
         resb 1
-byte_17CC1E:
+SeasonUserSim:
         resb 1
-unk_17CC1F:
+SeasonUserName:
         resb 22
-byte_17CC35:
+SeasonUserFlag:
         resb 1
-byte_17CC36:
+SeasonUserSlot:
         resb 1
-byte_17CC37:
         resb 1
-byte_17CC38:
         resb 651
-dword_17CEC3:
+SeasonDay:
         resb 4
-dword_17CEC7:
+SeasonGamePending:
         resb 4
-byte_17CECB:
+SeasonGameHome:
         resb 1
-byte_17CECC:
+SeasonGameAway:
         resb 1

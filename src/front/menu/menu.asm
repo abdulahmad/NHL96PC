@@ -1,8 +1,9 @@
 ; Menus: the menu items, the menu input (mouse, pads, joysticks, keys) and its sounds, the menu loop (96 PC; still to be named).
 bits 32
 %include "hockey.inc"
+extern globalset
 section s_64721 progbits alloc exec nowrite align=1
-extern abs_, BlackPalette, byte_17BDAE, byte_17CA1E, CopyBitmap, dword_11D1A8, dword_11D1AC, dword_11D1B0
+extern abs_, BlackPalette, byte_17BDAE, CopyBitmap, dword_11D1A8, dword_11D1AC, dword_11D1B0
 extern dword_11D1BC, dword_11D1C0, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels
 extern TeamStatsBitmap, str_Standings, dword_17C3E4, dword_17C3E8, dword_17C3EC, dword_17C3F0, dword_17C3F4, dword_17C3F8
 extern dword_17C3FC, dword_17C400, MenuRemoteItem, MenuRemoteLayer, MenuLocalCursorY, MenuLocalCursorX, MenuItemLeaveFunc, MenuLocalLayer
@@ -18,7 +19,7 @@ extern str_Bt02d, str_Bt102, str_Bt112, str_Bt19, str_Bt20, str_Bt28, str_Bt29, 
 extern str_Hig2, str_Hig3, str_HILITESNDX, str_LOCALNDX2, str_Opt1, str_Opt2, str_Opt3, str_Pal11
 extern str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, GetLangText, DrawShapeCore
 extern DrawArt, PutBlockAtOwnPos, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SumRingRange, SetScreenTarget
-extern KeyIsDown, FindShape, ClearClipRect, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
+extern KeyIsDown, FindShape, ClearClipRect, vecdist, WaitRetrace, WaitRetraceEdges, SlotsTwoPlayer, ControllerScreenMode
 extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, MenuViewSaved, word_17C468
 extern word_17C46A, word_17C46C, word_17C46E, word_17C470
 global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, SetGameBackdrop, GetSavedViewSize, RunMenu, SetMenuMouse
@@ -439,7 +440,7 @@ PollMenuInput:
         push dword [dword_11D1A8]
         call MouseRead
         add esp, byte 8
-        test byte [byte_17CA1E], 10h
+        test byte [globalset+2], 10h
         je near .66
         mov eax, dword [edi]
         cmp eax, dword [byte ebp-08h]
@@ -594,7 +595,7 @@ PollMenuInput:
         mov dword [dword_11D1AC], eax
         call MouseRead
         add esp, byte 8
-        test byte [byte_17CA1E], 10h
+        test byte [globalset+2], 10h
         je short .66
         mov eax, dword [byte ebp-0Ch]
         cmp dword [byte eax+02Eh], byte 0
@@ -927,7 +928,7 @@ RunMenu:
 .26:
         mov eax, dword [byte ebp+042h]
         mov dword [byte ebp+02h], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -947,7 +948,7 @@ RunMenu:
 .29:
         mov eax, dword [dword_11D1B0]
         mov dword [byte ebp+042h], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1048,7 +1049,7 @@ RunMenu:
         cmp dword [dword_17C41C], byte 0
         jne near .46
         call WaitRetraceEdges
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1075,7 +1076,7 @@ RunMenu:
 .42:
         cmp dword [byte ebp+05Ah], byte 0
         je short .48
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1204,7 +1205,7 @@ RunMenu:
         cmp dword [dword_17C41C], byte 0
         jne near .66
         call WaitRetraceEdges
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1231,7 +1232,7 @@ RunMenu:
 .62:
         cmp dword [byte ebp+05Ah], byte 0
         je short .66
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -1996,7 +1997,7 @@ RunMenu:
         jl short .156
         cmp dword [byte ebp+06Ah], byte 0
         jl short .156
-        movsx eax, word [word_114CE4]
+        movsx eax, word [ControllerScreenMode]
         cmp eax, byte 1
         jne short .155
 .154:
@@ -2067,7 +2068,7 @@ RunMenu:
 .163:
         cmp dword [byte ebp+066h], byte 0FFFFFFFFh
         jne near .172
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2142,7 +2143,7 @@ RunMenu:
 .168:
         add esp, byte 0Ch
 .169:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2214,7 +2215,7 @@ RunMenu:
         je near .181
 .174:
         call WaitRetraceEdges
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2240,7 +2241,7 @@ RunMenu:
 .177:
         cmp dword [byte ebp+05Ah], byte 0
         je short .181
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         cwde
@@ -2299,7 +2300,7 @@ RunMenu:
 SetMenuMouse:
         push ebx
         push ecx
-        mov bx, word [word_114CE0]
+        mov bx, word [SlotsTwoPlayer]
         xor bh, bh
         and bl, 1
         movsx ebx, bx
@@ -2637,7 +2638,7 @@ MainMenuScreen_F3:
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         mov dword [dword ebp-0262h], eax
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         mov dword [dword ebp-0252h], 1E4h
         xor ah, ah
         mov dword [dword ebp-024Eh], 10Ch

@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_81EEA progbits alloc exec nowrite align=1
-extern __CHP, str_Ags, awtmgoalie, HmGoalieSwapped, HmStarterGoalieMarks, HmBackupGoalieMarks, AwGoalieSwapped, byte_17CC36
+extern __CHP, str_Ags, awtmgoalie, HmGoalieSwapped, HmStarterGoalieMarks, HmBackupGoalieMarks, AwGoalieSwapped, SeasonUserSlot
 extern byte_17CFB1, byte_17D26F, byte_17DADF, byte_17DAE0, byte_17DB12, byte_17DB44, byte_17DB78, seasondb
 extern statsfromleague, statsplayoffs, dword_11E4B8, dword_11E4C4, dword_11E514, hmtmlines, hmtmplstats, hmtmglstats
-extern hmtmroster, dword_17CB2F, dword_17CEC3, dword_17CED6, dword_17D1E2, dword_17D928, dword_17D930, dword_17D938
+extern hmtmroster, SeasonGameOpts, SeasonDay, dword_17CED6, dword_17D1E2, dword_17D928, dword_17D930, dword_17D938
 extern dword_17D950, dword_17DA18, dword_17DA20, dword_17DA28, dword_17DA30, dword_17DA38, dword_17DA40, dword_17DA48
 extern AwayShotTotals, dword_17DA54, dword_17DA58, dword_17DA5C, dword_17DA60, dword_17DA68, dword_17DA6C, dword_17DA70
 extern dword_17DA74, dword_17DA78, dword_17DA80, dword_17DA84, dword_17DA88, dword_17DA90, dword_17DA98, dword_17DA9C
@@ -2416,7 +2416,7 @@ SimulateGame:
         mov eax, dword [dword_17CED6]
         jmp short .189
 .188:
-        mov eax, dword [dword_17CB2F]
+        mov eax, dword [SeasonGameOpts]
 .189:
         shl eax, 15h
         shr eax, 1Eh
@@ -2711,7 +2711,7 @@ SimulateGame:
         mov eax, dword [dword ebp-012Ah]
         mov byte [byte eax+04h], 0FFh
         mov byte [byte eax+05h], 0FFh
-        mov esi, dword [dword_17CEC3]
+        mov esi, dword [SeasonDay]
         cmp dword [dword ebp-0126h], byte 0
         jne near .216
         mov dword [byte ebp-062h], 0
@@ -2726,12 +2726,12 @@ SimulateGame:
         cmp eax, dword [byte ebp-062h]
         jne short .215
 .214:
-        movsx eax, byte [dword ebx+byte_17CC36]
+        movsx eax, byte [dword ebx+SeasonUserSlot]
         cmp eax, byte 1
         jne short .215
         mov eax, dword [byte ebp-062h]
         mov edx, dword [dword ebp-012Ah]
-        mov dword [dword_17CEC3], eax
+        mov dword [SeasonDay], eax
         movzx edx, byte [byte edx+02h]
         mov eax, dword [gameopts]
         and edx, byte 1Fh
@@ -2783,7 +2783,7 @@ SimulateGame:
         cmp dword [byte ebp-062h], byte 10h
         jl short .217
 .220:
-        mov dword [dword_17CEC3], esi
+        mov dword [SeasonDay], esi
 .221:
         mov dword [byte ebp-062h], 0
         mov dword [byte ebp-07Eh], 64h

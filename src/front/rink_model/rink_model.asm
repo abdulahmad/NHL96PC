@@ -80,7 +80,7 @@ extern unk_159398, BoardLinePolys, unk_159458, unk_159500, unk_159508, unk_15951
 extern unk_159528, unk_159F58, unk_15AE88, unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450
 extern unk_15DB38, GlassRemap, BenchRemap, unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8
 extern IceLinePolys, unk_15E5A0, IceCenterPoly, FlashPolys, unk_15E904, unk_165258, unk_165354, unpack
-extern vecdist, word_114CE0, word_158D74, word_15E472, word_176FB8, word_176FDA, word_176FFC, word_17704C
+extern vecdist, SlotsTwoPlayer, word_158D74, word_15E472, word_176FB8, word_176FDA, word_176FFC, word_17704C
 extern word_17706E
 global unk_21984, DrawIceCrud, DrawTexturedQuad, DrawIceTextureQuad, RinkNullCallback, AddIceCrud, LoadFshFile, LoadFshFile_E1
 global LoadIceTexture, FatLineEdge, ClipEdgeToNear, ClipLineToNear, DrawFaceEdge, DrawFaceEdge_4F, DrawThickSegment, DrawThickSegmentVisible
@@ -10886,7 +10886,7 @@ GameOptionsScreen:
 .8:
         mov dword [byte ebp+05Eh], 0FFFFFFFFh
 .9:
-        mov ax, word [word_114CE0]
+        mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
         or al, 2

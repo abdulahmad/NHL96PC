@@ -2,78 +2,67 @@
 bits 32
 %include "hockey.inc"
 section s_151AE4 nobits alloc noexec write align=1
-global byte_151B87, byte_151B8E, byte_152157, byte_15280F, byte_152810, dword_151AE4, dword_151AE8, dword_151AEC
-global dword_151B08, dword_151B4C, dword_151B50, dword_151B64, dword_151B68, dword_151B6C, dword_151B70, dword_151B74
-global dword_151B78, dword_151B7C, dword_151B84, dword_151D48, dword_151D4C, dword_151D50, dword_151D54, dword_152130
-global dword_152134, dword_152138, dword_152148, dword_15214C, dword_152150, dword_15291C, fadeinpending, unk_151B88
-global unk_152748, unk_152798, unk_1527C0
-dword_151AE4:
+global LinkRxPayload, LinkRxRing, StarsBgBmp, StarsSaveBmp, StarsFaceBmps
+global StarsCardBmps, StarsPanelBmp, StarsNameBmps, StarsTitleBmp, StarsAnimStep, StarsCardBmp, StarsShapeFile, StarsSlideX
+global StarsSlideY, StarsSlideStep, GameFrameCount, LinkRxSlots
+global LinkTxSlots, LinkAbortCheck, fadeinpending, LinkRxMsgs
+global LinkTxTimers, LinkPortName, LinkModemString
+StarsBgBmp:
         resb 4
-dword_151AE8:
+StarsSaveBmp:
         resb 4
-dword_151AEC:
+StarsFaceBmps:
         resb 28
-dword_151B08:
+StarsCardBmps:
         resb 68
-dword_151B4C:
+StarsPanelBmp:
         resb 4
-dword_151B50:
+StarsNameBmps:
         resb 20
-dword_151B64:
+StarsTitleBmp:
         resb 4
-dword_151B68:
+StarsAnimStep:
         resb 4
-dword_151B6C:
+StarsCardBmp:
         resb 4
-dword_151B70:
+StarsShapeFile:
         resb 4
-dword_151B74:
+StarsSlideX:
         resb 4
-dword_151B78:
+StarsSlideY:
         resb 4
-dword_151B7C:
+StarsSlideStep:
         resb 4
 fadeinpending:
         resb 4
-dword_151B84:
+GameFrameCount:
         resb 3
-byte_151B87:
+LinkRxPayload:
         resb 1
-unk_151B88:
+LinkRxMsgs:
         resb 6
-byte_151B8E:
         resb 442
-dword_151D48:
+LinkRxSlots:
         resb 4
-dword_151D4C:
         resb 4
-dword_151D50:
         resb 4
-dword_151D54:
         resb 988
-dword_152130:
         resb 4
-dword_152134:
         resb 4
-dword_152138:
         resb 16
-dword_152148:
+LinkTxSlots:
         resb 4
-dword_15214C:
         resb 4
-dword_152150:
         resb 7
-byte_152157:
         resb 1521
-unk_152748:
+LinkTxTimers:
         resb 80
-unk_152798:
+LinkPortName:
         resb 40
-unk_1527C0:
+LinkModemString:
         resb 79
-byte_15280F:
         resb 1
-byte_152810:
+LinkRxRing:
         resb 268
-dword_15291C:
+LinkAbortCheck:
         resb 4

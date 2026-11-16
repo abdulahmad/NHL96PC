@@ -2,20 +2,21 @@
 bits 32
 %include "hockey.inc"
 section s_17675 progbits alloc exec nowrite align=1
-extern addtimer, str_Punct2, str_Punct_LinkTimerTick, byte_151B87, byte_151B8E, byte_152157, byte_15280F, byte_152810
+extern LinkRxPayload
+extern addtimer, str_Punct2, str_Punct_LinkTimerTick, LinkRxRing
 extern byte_152920, byte_152921, byte_152922, byte_152923, byte_15292C, byte_15292D, byte_15292E, byte_15292F
-extern byte_15293A, byte_152A44, ModemResultCount, ModemLastResult, dword_115008, dword_11500C, str_Punct_LinkOpen, dword_115014
-extern dword_115018, dword_11501C, dword_115020, dword_115024, dword_115028, dword_11502C, dword_115030, dword_115034
-extern dword_115038, dword_11503C, dword_115040, dword_115044, dword_115048, dword_11504C, dword_115050, dword_115054
-extern dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068, str_D_LinkCopyBytes, dword_11507C, dword_115080
-extern dword_115098, dword_151D48, dword_151D4C, dword_151D50, dword_151D54, dword_152130, dword_152134, dword_152138
-extern dword_152148, dword_15214C, dword_152150, dword_15291C, ModemResultTextTable, ModemResultCodeTable, str_0123456789abcdefghijklmn, str_22
+extern byte_15293A, byte_152A44, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, str_Punct_LinkOpen, LinkOpenFlags
+extern LinkRetryOn, LinkCarrierCheck, LinkPollOn, LinkIsOpen, LinkWindowSize, LinkAckOn, LinkResendOn, LinkOpenMode
+extern LinkErrorCount, LinkSpareHook, LinkMessageHandler, LinkTickHandler, LinkResendHandler, LinkTxSeq, LinkRxDeliverSeq, LinkAckedSeq
+extern LinkRxSeq, LinkPacketLen, LinkTxPending, LinkState, LinkCheckPeriod, str_D_LinkCopyBytes, LinkRxHead, LinkRxCount
+extern dword_115098, LinkRxSlots
+extern LinkTxSlots, LinkAbortCheck, ModemResultTextTable, ModemResultCodeTable, str_0123456789abcdefghijklmn, str_22
 extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01
 extern str_ATX3, str_ATX4, str_ATZS760S1155, str_ctl06, str_feP, str_newline, str_T, strcat_
 extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, SerialConfigure, SerialOpen, SerialClose
 extern SerialSetBaud, SerialRaiseDtr, SerialDropDtr, SerialCarrier, SerialWrite, SerialTxFree, SerialFlushTx, SerialWaitTxEmpty
-extern SerialRead, SerialReadWait, SerialFlushRx, atoi_, LinkCrc16, str_Punct_ModemSendCommand, str_AT, unk_151B88
-extern unk_152748, unk_152798, unk_1527C0, unk_152938, unk_152944, WaitTicks
+extern SerialRead, SerialReadWait, SerialFlushRx, atoi_, LinkCrc16, str_Punct_ModemSendCommand, str_AT, LinkRxMsgs
+extern LinkTxTimers, LinkPortName, LinkModemString, unk_152938, unk_152944, WaitTicks
 global ModemInitDefault, ModemInit, ModemHangup, ModemHangup_30, ModemHangup_54, ModemDial, ModemAutoAnswer, ModemWaitConnect
 global ModemReadResult, ModemSendCommand, ModemAttention, LinkCopyBytes, LinkRxPut, LinkRxPeek_none, LinkRxCopy, LinkCheckPacket
 global LinkParsePacket, LinkFirstMissingRx, LinkRxAckSeq, LinkDefaults, SetLinkAbortCheck, SetLinkSpareHook, SetLinkMessageHandler, SetLinkCheckPeriod
@@ -595,7 +596,7 @@ LinkCopyBytes:
 ;-----------------------------------------------------------------------------
 ; LinkRxPut                                                       17B9A  96 PC
 ; (bytes, count): appends received bytes to the receive ring (10Ch bytes,
-; byte_152810, head dword_11507C, length dword_115080)
+; LinkRxRing, head LinkRxHead, length LinkRxCount)
 ;-----------------------------------------------------------------------------
 LinkRxPut:
         push ebx
@@ -603,9 +604,9 @@ LinkRxPut:
         push esi
         mov ebx, eax
         mov esi, edx
-        mov eax, dword [dword_11507C]
+        mov eax, dword [LinkRxHead]
         xor edx, edx
-        add eax, dword [dword_115080]
+        add eax, dword [LinkRxCount]
         jmp short .3
 .1:
         cmp eax, 10Ch
@@ -615,9 +616,9 @@ LinkRxPut:
         inc eax
         inc edx
         mov cl, byte [ebx]
-        inc dword [dword_115080]
+        inc dword [LinkRxCount]
         inc ebx
-        mov byte [dword eax+byte_15280F], cl
+        mov byte [dword eax+LinkRxRing-1], cl
 .3:
         cmp edx, esi
         jl short .1
@@ -625,14 +626,14 @@ LinkRxPut:
         pop ecx
         pop ebx
         ret
-        cmp eax, dword [dword_115080]
+        cmp eax, dword [LinkRxCount]
         jge short LinkRxPeek_none
-        add eax, dword [dword_11507C]
+        add eax, dword [LinkRxHead]
         cmp eax, 10Ch
         jb short .4
         sub eax, 10Ch
 .4:
-        movzx eax, byte [dword eax+byte_152810]
+        movzx eax, byte [dword eax+LinkRxRing]
         and eax, 0FFh
         ret
 ;-----------------------------------------------------------------------------
@@ -651,10 +652,10 @@ LinkRxCopy:
         push esi
         mov ecx, eax
         mov esi, edx
-        mov eax, dword [dword_11507C]
+        mov eax, dword [LinkRxHead]
         add eax, ecx
         add ecx, edx
-        cmp ecx, dword [dword_115080]
+        cmp ecx, dword [LinkRxCount]
         jle short .1
         xor eax, eax
         pop esi
@@ -668,7 +669,7 @@ LinkRxCopy:
         jb short .3
         sub eax, 10Ch
 .3:
-        mov cl, byte [dword eax+byte_152810]
+        mov cl, byte [dword eax+LinkRxRing]
         inc eax
         inc edx
         mov byte [ebx], cl
@@ -680,11 +681,11 @@ LinkRxCopy:
         pop esi
         pop ecx
         ret
-        add dword [dword_11507C], eax
-        sub dword [dword_115080], eax
-        cmp dword [dword_11507C], 10Ch
+        add dword [LinkRxHead], eax
+        sub dword [LinkRxCount], eax
+        cmp dword [LinkRxHead], 10Ch
         jb short .5
-        sub dword [dword_11507C], 10Ch
+        sub dword [LinkRxHead], 10Ch
 .5:
         ret
 ;-----------------------------------------------------------------------------
@@ -738,7 +739,7 @@ LinkCheckPacket:
 ; LinkParsePacket                              17CC8  96 PC, medium confidence
 ; Parses the packet at the head of the receive ring: sync byte 0BDh, then 'd'
 ; (64h, 12-byte data packet) or 'C' (43h, 6-byte control packet: ack / resend
-; request); the result goes to dword_11505C (0 good, 4 bad); returns the
+; request); the result goes to LinkPacketLen (0 good, 4 bad); returns the
 ; bytes used
 ;-----------------------------------------------------------------------------
 LinkParsePacket:
@@ -747,15 +748,15 @@ LinkParsePacket:
         push edx
         enter 8, 0
         mov ecx, eax
-        mov dword [dword_11505C], 5
-        cmp dword [dword_115080], byte 0
+        mov dword [LinkPacketLen], 5
+        cmp dword [LinkRxCount], byte 0
         jle short .2
-        mov eax, dword [dword_11507C]
+        mov eax, dword [LinkRxHead]
         cmp eax, 10Ch
         jb short .1
         sub eax, 10Ch
 .1:
-        movzx eax, byte [dword eax+byte_152810]
+        movzx eax, byte [dword eax+LinkRxRing]
         and eax, 0FFh
         jmp short .3
 .2:
@@ -764,15 +765,15 @@ LinkParsePacket:
         mov dword [byte ebp-04h], eax
         cmp eax, 0BDh
         jne near .16
-        cmp dword [dword_115080], byte 1
+        cmp dword [LinkRxCount], byte 1
         jle short .5
-        mov eax, dword [dword_11507C]
+        mov eax, dword [LinkRxHead]
         inc eax
         cmp eax, 10Ch
         jb short .4
         sub eax, 10Ch
 .4:
-        movzx eax, byte [dword eax+byte_152810]
+        movzx eax, byte [dword eax+LinkRxRing]
         and eax, 0FFh
         jmp short .6
 .5:
@@ -796,7 +797,7 @@ LinkParsePacket:
         call LinkCheckPacket
         test eax, eax
         je short .7
-        mov dword [dword_11505C], 0
+        mov dword [LinkPacketLen], 0
         movzx eax, byte [byte ecx+03h]
         call LinkAckThrough
         mov eax, 0Ch
@@ -806,7 +807,7 @@ LinkParsePacket:
         pop ebx
         ret
 .7:
-        mov dword [dword_11505C], 4
+        mov dword [LinkPacketLen], 4
 .8:
         mov eax, 2
         leave
@@ -815,7 +816,7 @@ LinkParsePacket:
         pop ebx
         ret
 .9:
-        mov dword [dword_11505C], eax
+        mov dword [LinkPacketLen], eax
         leave
         pop edx
         pop ecx
@@ -843,15 +844,15 @@ LinkParsePacket:
         movzx eax, byte [byte ecx+02h]
         cmp eax, 0FFh
         je short .12
-        cmp dword [dword_115048], byte 0
+        cmp dword [LinkResendHandler], byte 0
         je short .11
         mov eax, 72h
-        call dword [dword_115048]
+        call dword [LinkResendHandler]
 .11:
         movzx eax, byte [byte ecx+02h]
         call LinkResendSlot
 .12:
-        mov dword [dword_11505C], 0FFFFFFFFh
+        mov dword [LinkPacketLen], 0FFFFFFFFh
         mov eax, 6
         leave
         pop edx
@@ -859,12 +860,12 @@ LinkParsePacket:
         pop ebx
         ret
 .13:
-        mov dword [dword_11505C], 2
+        mov dword [LinkPacketLen], 2
         jmp near .8
 .14:
         cmp eax, byte 0FFFFFFFFh
         jne short .15
-        mov dword [dword_11505C], 0
+        mov dword [LinkPacketLen], 0
         xor eax, eax
         leave
         pop edx
@@ -872,7 +873,7 @@ LinkParsePacket:
         pop ebx
         ret
 .15:
-        mov dword [dword_11505C], 3
+        mov dword [LinkPacketLen], 3
         cmp eax, 0BDh
         setne al
         movzx eax, al
@@ -886,8 +887,8 @@ LinkParsePacket:
         cmp eax, byte 0FFFFFFFFh
         setne al
         movzx eax, al
-        mov dword [dword_11505C], eax
-        mov eax, dword [dword_11505C]
+        mov dword [LinkPacketLen], eax
+        mov eax, dword [LinkPacketLen]
         leave
         pop edx
         pop ecx
@@ -901,16 +902,16 @@ LinkParsePacket:
 LinkFirstMissingRx:
         push ebx
         push edx
-        mov eax, dword [dword_115058]
+        mov eax, dword [LinkRxSeq]
         inc eax
-        mov ebx, dword [dword_115058]
+        mov ebx, dword [LinkRxSeq]
         and ebx, byte 3Fh
-        mov eax, dword [dword_115058]
+        mov eax, dword [LinkRxSeq]
         jmp short .2
 .1:
         mov edx, eax
         shl edx, 4
-        cmp dword [dword edx+dword_151D48], byte 1
+        cmp dword [dword edx+LinkRxSlots], byte 1
         jne short .3
 .2:
         inc eax
@@ -926,7 +927,7 @@ LinkFirstMissingRx:
         push ecx
         push eax
         push edx
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialRead
         add esp, byte 0Ch
         mov edx, eax
@@ -940,7 +941,7 @@ LinkFirstMissingRx:
         ret
 ;-----------------------------------------------------------------------------
 ; LinkRxAckSeq                                 17EE1  96 PC, medium confidence
-; Advances the acknowledged receive sequence (dword_115058) over the slots
+; Advances the acknowledged receive sequence (LinkRxSeq) over the slots
 ; that have arrived, marking them acknowledged (state 4); returns it (0FFh
 ; none) for the packet's ack byte
 ;-----------------------------------------------------------------------------
@@ -948,36 +949,36 @@ LinkRxAckSeq:
         push ebx
         push edx
         mov bl, 0FFh
-        cmp dword [dword_115058], byte 0FFFFFFFFh
+        cmp dword [LinkRxSeq], byte 0FFFFFFFFh
         jne short .1
         xor edx, edx
         jmp short .3
 .1:
-        mov edx, dword [dword_115058]
+        mov edx, dword [LinkRxSeq]
 .2:
         and edx, byte 3Fh
 .3:
         mov eax, edx
         shl eax, 4
-        cmp dword [dword eax+dword_151D48], byte 1
+        cmp dword [dword eax+LinkRxSlots], byte 1
         je short .4
-        cmp dword [dword eax+dword_151D48], byte 4
+        cmp dword [dword eax+LinkRxSlots], byte 4
         jne short .5
 .4:
         mov eax, edx
         shl eax, 4
         mov bl, dl
-        mov dword [dword eax+dword_151D48], 4
+        mov dword [dword eax+LinkRxSlots], 4
         movzx eax, dl
-        mov dword [dword_115058], eax
+        mov dword [LinkRxSeq], eax
         inc edx
         jmp short .2
 .5:
-        cmp dword [dword_115058], byte 0
+        cmp dword [LinkRxSeq], byte 0
         jl short .6
-        mov eax, dword [dword_115058]
+        mov eax, dword [LinkRxSeq]
         shl eax, 4
-        mov dword [dword eax+dword_151D48], 4
+        mov dword [dword eax+LinkRxSlots], 4
 .6:
         mov al, bl
         pop edx
@@ -989,85 +990,85 @@ LinkRxAckSeq:
 ; speed code 9, modem, answer, timer on, ...) and empties the receive ring
 ;-----------------------------------------------------------------------------
 LinkDefaults:
-        mov dword [dword_11500C], 0
+        mov dword [LinkPortHandle], 0
         mov dword [str_Punct_LinkOpen], 9
-        mov dword [dword_115014], 0
-        mov dword [dword_115018], 1
-        mov dword [dword_11501C], 1
-        mov dword [dword_115020], 1
-        mov dword [dword_115024], 0
-        mov dword [dword_115028], 4
-        mov dword [dword_11502C], 1
-        mov dword [dword_115030], 1
-        mov dword [dword_115038], 0
-        mov dword [dword_115054], 0FFFFFFFFh
-        mov dword [dword_115058], 0FFFFFFFFh
-        mov dword [dword_115064], 0
-        mov dword [dword_115068], 0
+        mov dword [LinkOpenFlags], 0
+        mov dword [LinkRetryOn], 1
+        mov dword [LinkCarrierCheck], 1
+        mov dword [LinkPollOn], 1
+        mov dword [LinkIsOpen], 0
+        mov dword [LinkWindowSize], 4
+        mov dword [LinkAckOn], 1
+        mov dword [LinkResendOn], 1
+        mov dword [LinkErrorCount], 0
+        mov dword [LinkAckedSeq], 0FFFFFFFFh
+        mov dword [LinkRxSeq], 0FFFFFFFFh
+        mov dword [LinkState], 0
+        mov dword [LinkCheckPeriod], 0
         mov dword [str_ctl06], 6
-        mov dword [dword_115008], 0
-        mov dword [dword_11504C], 0
-        mov dword [dword_115050], 0
-        mov dword [dword_115060], 0
-        mov dword [dword_11507C], 0
-        mov dword [dword_115080], 0
+        mov dword [LinkTickCount], 0
+        mov dword [LinkTxSeq], 0
+        mov dword [LinkRxDeliverSeq], 0
+        mov dword [LinkTxPending], 0
+        mov dword [LinkRxHead], 0
+        mov dword [LinkRxCount], 0
         ret
 ;-----------------------------------------------------------------------------
 ; SetLinkAbortCheck                                               1802B  96 PC
-; Sets the callback (dword_15291C) the connect loop polls to give up (e.g.
+; Sets the callback (LinkAbortCheck) the connect loop polls to give up (e.g.
 ; Esc); returns the old one
 ;-----------------------------------------------------------------------------
 SetLinkAbortCheck:
         push edx
         mov edx, eax
-        mov eax, dword [dword_15291C]
-        mov dword [dword_15291C], edx
+        mov eax, dword [LinkAbortCheck]
+        mov dword [LinkAbortCheck], edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
 ; SetLinkSpareHook                                1803B  96 PC, low confidence
-; Swaps dword_11503C, a hook the library never calls; returns the old one
+; Swaps LinkSpareHook, a hook the library never calls; returns the old one
 ;-----------------------------------------------------------------------------
 SetLinkSpareHook:
         push edx
         mov edx, eax
-        mov eax, dword [dword_11503C]
-        mov dword [dword_11503C], edx
+        mov eax, dword [LinkSpareHook]
+        mov dword [LinkSpareHook], edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
 ; SetLinkMessageHandler                                           1804B  96 PC
-; Sets the callback (dword_115040) each received message is handed to, in
+; Sets the callback (LinkMessageHandler) each received message is handed to, in
 ; order; returns the old one
 ;-----------------------------------------------------------------------------
 SetLinkMessageHandler:
         push edx
         mov edx, eax
-        mov eax, dword [dword_115040]
-        mov dword [dword_115040], edx
+        mov eax, dword [LinkMessageHandler]
+        mov dword [LinkMessageHandler], edx
         pop edx
         ret
         push edx
         mov edx, eax
-        mov eax, dword [dword_115044]
-        mov dword [dword_115044], edx
+        mov eax, dword [LinkTickHandler]
+        mov dword [LinkTickHandler], edx
         pop edx
         ret
         push edx
         mov edx, eax
-        mov eax, dword [dword_115048]
-        mov dword [dword_115048], edx
+        mov eax, dword [LinkResendHandler]
+        mov dword [LinkResendHandler], edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
 ; SetLinkCheckPeriod                           1807B  96 PC, medium confidence
 ; Sets the countdown (ticks) between carrier checks / the periodic hook
-; (dword_115068 and its reload); returns the old count
+; (LinkCheckPeriod and its reload); returns the old count
 ;-----------------------------------------------------------------------------
 SetLinkCheckPeriod:
         push edx
-        mov edx, dword [dword_115068]
-        mov dword [dword_115068], eax
+        mov edx, dword [LinkCheckPeriod]
+        mov dword [LinkCheckPeriod], eax
         mov dword [str_ctl06], eax
         mov eax, edx
         pop edx
@@ -1079,22 +1080,22 @@ LinkDeliverMessages_ret:
 ; bytes) to the message handler and frees their slots
 ;-----------------------------------------------------------------------------
 LinkDeliverMessages:
-        imul eax, dword [dword_115050], byte 7
-        movzx eax, byte [dword eax+byte_151B8E]
+        imul eax, dword [LinkRxDeliverSeq], byte 7
+        movzx eax, byte [dword eax+LinkRxMsgs+6]
         cmp eax, byte 1
         jne short LinkDeliverMessages_ret
-        cmp dword [dword_115040], byte 0
+        cmp dword [LinkMessageHandler], byte 0
         je short .1
-        imul eax, dword [dword_115050], byte 7
-        add eax, unk_151B88
-        call dword [dword_115040]
+        imul eax, dword [LinkRxDeliverSeq], byte 7
+        add eax, LinkRxMsgs
+        call dword [LinkMessageHandler]
 .1:
-        imul eax, dword [dword_115050], byte 7
-        mov byte [dword eax+byte_151B8E], 0
-        mov eax, dword [dword_115050]
+        imul eax, dword [LinkRxDeliverSeq], byte 7
+        mov byte [dword eax+LinkRxMsgs+6], 0
+        mov eax, dword [LinkRxDeliverSeq]
         inc eax
         and eax, byte 3Fh
-        mov dword [dword_115050], eax
+        mov dword [LinkRxDeliverSeq], eax
         jmp short LinkDeliverMessages
 ;-----------------------------------------------------------------------------
 ; LinkStoreRxMessage                                              180DC  96 PC
@@ -1108,7 +1109,7 @@ LinkStoreRxMessage:
         push esi
         movzx edx, byte [byte eax+02h]
         imul edx, byte 7
-        movzx edx, byte [dword edx+byte_151B8E]
+        movzx edx, byte [dword edx+LinkRxMsgs+6]
         cmp edx, byte 1
         jne short .1
         xor eax, eax
@@ -1126,12 +1127,12 @@ LinkStoreRxMessage:
         inc ebx
         mov cl, byte [byte edx+06h]
         inc edx
-        mov byte [dword esi+ebx+byte_151B87], cl
+        mov byte [dword esi+ebx+LinkRxPayload], cl
         cmp ebx, byte 6
         jl short .2
         movzx eax, byte [byte eax+02h]
         imul eax, byte 7
-        mov byte [dword eax+byte_151B8E], 1
+        mov byte [dword eax+LinkRxMsgs+6], 1
         mov eax, 1
         pop esi
         pop edx
@@ -1147,7 +1148,7 @@ LinkCarrierOK:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11501C], byte 0
+        cmp dword [LinkCarrierCheck], byte 0
         je short .1
         mov eax, 1
         pop edx
@@ -1166,7 +1167,7 @@ LinkCarrierOK:
         push ecx
         push edx
         push eax
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialWrite
         add esp, byte 0Ch
         pop ecx
@@ -1182,7 +1183,7 @@ LinkTxRoom:
         push edx
         push esi
         mov esi, eax
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialTxFree
         add esp, byte 4
         cmp eax, esi
@@ -1204,7 +1205,7 @@ LinkCheckTimeouts:
         push ecx
         push edx
         push esi
-        mov edx, dword_152148
+        mov edx, LinkTxSlots
         xor ecx, ecx
         xor ebx, ebx
         jmp short .3
@@ -1221,19 +1222,19 @@ LinkCheckTimeouts:
         add edx, byte 18h
         inc ebx
 .3:
-        cmp edx, unk_152748
+        cmp edx, LinkTxTimers
         jb short .1
-        mov ebx, dword [dword_115058]
+        mov ebx, dword [LinkRxSeq]
         inc ebx
         and ebx, byte 3Fh
-        mov esi, dword [dword_115058]
+        mov esi, dword [LinkRxSeq]
         and esi, byte 3Fh
 .4:
         cmp ebx, esi
         je short .8
         mov eax, ebx
         shl eax, 4
-        add eax, dword_151D48
+        add eax, LinkRxSlots
         cmp dword [eax], byte 2
         jne short .5
         inc dword [byte eax+08h]
@@ -1281,35 +1282,35 @@ LinkTimerTick:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_115064], byte 2
+        cmp dword [LinkState], byte 2
         jne near .9
-        cmp dword [dword_115008], byte 0
+        cmp dword [LinkTickCount], byte 0
         jne near .9
-        mov eax, dword [dword_115008]
-        inc dword [dword_115008]
-        mov eax, dword [dword_115008]
+        mov eax, dword [LinkTickCount]
+        inc dword [LinkTickCount]
+        mov eax, dword [LinkTickCount]
         mov byte [dword eax+str_Punct_LinkTimerTick], 63h
-        cmp dword [dword_115020], byte 0
+        cmp dword [LinkPollOn], byte 0
         je short .1
         call LinkCheckTimeouts
         call LinkReceive
         call LinkDeliverMessages
 .1:
-        add dword [dword_115068], byte 0FFFFFFFFh
-        cmp dword [dword_115068], byte 0
+        add dword [LinkCheckPeriod], byte 0FFFFFFFFh
+        cmp dword [LinkCheckPeriod], byte 0
         je short .2
-        mov eax, dword [dword_115008]
+        mov eax, dword [LinkTickCount]
         mov byte [dword eax+str_Punct_LinkTimerTick], 0
         jmp short .8
 .2:
-        cmp dword [dword_115020], byte 0
+        cmp dword [LinkPollOn], byte 0
         je short .7
-        cmp dword [dword_115044], byte 0
+        cmp dword [LinkTickHandler], byte 0
         je short .3
-        call dword [dword_115044]
+        call dword [LinkTickHandler]
 .3:
-        mov eax, dword [dword_11500C]
-        cmp dword [dword_11501C], byte 0
+        mov eax, dword [LinkPortHandle]
+        cmp dword [LinkCarrierCheck], byte 0
         je short .4
         mov eax, 1
         jmp short .5
@@ -1320,18 +1321,18 @@ LinkTimerTick:
 .5:
         test eax, eax
         jne short .6
-        mov dword [dword_115064], eax
+        mov dword [LinkState], eax
 .6:
         mov eax, dword [str_ctl06]
-        mov edx, dword [dword_115068]
-        mov dword [dword_115068], eax
+        mov edx, dword [LinkCheckPeriod]
+        mov dword [LinkCheckPeriod], eax
         mov dword [str_ctl06], eax
 .7:
-        mov eax, dword [dword_115008]
+        mov eax, dword [LinkTickCount]
         mov byte [dword eax+str_Punct_LinkTimerTick], 30h
 .8:
-        mov eax, dword [dword_115008]
-        dec dword [dword_115008]
+        mov eax, dword [LinkTickCount]
+        dec dword [LinkTickCount]
 .9:
         pop edx
         pop ecx
@@ -1339,30 +1340,30 @@ LinkTimerTick:
         ret
 ;-----------------------------------------------------------------------------
 ; LinkClearTxSlot                                                 1830D  96 PC
-; (slot): empties one transmit slot (24-byte entries at dword_152148)
+; (slot): empties one transmit slot (24-byte entries at LinkTxSlots)
 ;-----------------------------------------------------------------------------
 LinkClearTxSlot:
         imul eax, byte 18h
-        mov dword [dword eax+dword_152148], 0
-        mov dword [dword eax+dword_15214C], 0
-        mov dword [dword eax+dword_152150], 0
+        mov dword [dword eax+LinkTxSlots], 0
+        mov dword [dword eax+LinkTxSlots+4], 0
+        mov dword [dword eax+LinkTxSlots+8], 0
         ret
 ;-----------------------------------------------------------------------------
 ; LinkClearRxSlot                                                 1832F  96 PC
-; (slot): empties one receive slot (dword_151D48 state and the message ring
+; (slot): empties one receive slot (LinkRxSlots state and the message ring
 ; entry)
 ;-----------------------------------------------------------------------------
 LinkClearRxSlot:
         push edx
         mov edx, eax
         imul eax, byte 7
-        mov byte [dword eax+byte_151B8E], 0
+        mov byte [dword eax+LinkRxMsgs+6], 0
         mov eax, edx
         shl eax, 4
-        mov dword [dword eax+dword_151D48], 0
-        mov dword [dword eax+dword_151D4C], 0
-        mov dword [dword eax+dword_151D50], 0
-        mov dword [dword eax+dword_151D54], 0
+        mov dword [dword eax+LinkRxSlots], 0
+        mov dword [dword eax+LinkRxSlots+4], 0
+        mov dword [dword eax+LinkRxSlots+8], 0
+        mov dword [dword eax+LinkRxSlots+0Ch], 0
         pop edx
         ret
         push ebx
@@ -1370,10 +1371,10 @@ LinkClearRxSlot:
         xor ebx, ebx
         xor edx, edx
 .1:
-        mov dword [dword edx+dword_152148], 0
-        mov dword [dword edx+dword_15214C], 0
+        mov dword [dword edx+LinkTxSlots], 0
+        mov dword [dword edx+LinkTxSlots+4], 0
         mov eax, ebx
-        mov dword [dword edx+dword_152150], 0
+        mov dword [dword edx+LinkTxSlots+8], 0
         call LinkClearRxSlot
         inc ebx
         add edx, byte 18h
@@ -1385,9 +1386,9 @@ LinkClearRxSlot:
         xor eax, eax
 .2:
         add eax, byte 18h
-        mov dword [dword eax+dword_152130], 0
-        mov dword [dword eax+dword_152134], 0
-        mov dword [dword eax+dword_152138], 0
+        mov dword [dword eax+LinkTxSlots-18h], 0
+        mov dword [dword eax+LinkTxSlots-14h], 0
+        mov dword [dword eax+LinkTxSlots-10h], 0
         cmp eax, 600h
         jne short .2
         ret
@@ -1404,36 +1405,36 @@ LinkOpen:
         push edx
         mov ebx, eax
         call LinkDefaults
-        mov eax, unk_152798
+        mov eax, LinkPortName
         mov edx, ebx
         call strcpy_
         mov eax, dword [byte ebx+028h]
-        mov dword [dword_11500C], eax
+        mov dword [LinkPortHandle], eax
         mov eax, dword [byte ebx+02Ch]
         mov dword [str_Punct_LinkOpen], eax
         mov eax, dword [byte ebx+030h]
-        mov dword [dword_115014], eax
+        mov dword [LinkOpenFlags], eax
         mov eax, dword [byte ebx+034h]
-        mov dword [dword_115018], eax
+        mov dword [LinkRetryOn], eax
         mov eax, dword [byte ebx+038h]
-        mov dword [dword_11501C], eax
+        mov dword [LinkCarrierCheck], eax
         mov eax, dword [byte ebx+048h]
-        mov dword [dword_115034], eax
+        mov dword [LinkOpenMode], eax
         mov eax, dword [byte ebx+03Ch]
-        mov dword [dword_115020], eax
+        mov dword [LinkPollOn], eax
         mov eax, dword [byte ebx+044h]
-        mov dword [dword_115024], eax
+        mov dword [LinkIsOpen], eax
         mov eax, dword [byte ebx+058h]
-        mov dword [dword_115030], eax
+        mov dword [LinkResendOn], eax
         mov eax, dword [byte ebx+050h]
-        mov dword [dword_115028], eax
+        mov dword [LinkWindowSize], eax
         mov eax, dword [byte ebx+054h]
         lea edx, [byte ebx+060h]
-        mov dword [dword_11502C], eax
-        mov eax, unk_152748
-        mov dword [dword_115038], 0
+        mov dword [LinkAckOn], eax
+        mov eax, LinkTxTimers
+        mov dword [LinkErrorCount], 0
         call strcpy_
-        mov eax, unk_1527C0
+        mov eax, LinkModemString
         lea edx, [dword ebx+088h]
         call strcpy_
         xor ebx, ebx
@@ -1445,35 +1446,35 @@ LinkOpen:
         call LinkClearRxSlot
         cmp ebx, byte 40h
         jl short .1
-        cmp dword [dword_115028], byte 0
+        cmp dword [LinkWindowSize], byte 0
         je short .2
         mov eax, 1
-        mov cl, byte [dword_115028]
+        mov cl, byte [LinkWindowSize]
         shl eax, cl
         push eax
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialSetBaud
         add esp, byte 8
 .2:
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialOpen
         add esp, byte 4
         push byte 3
         push byte 0
         push byte 0
         push dword [str_Punct_LinkOpen]
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialConfigure
         add esp, byte 14h
-        cmp dword [dword_11501C], byte 0
+        cmp dword [LinkCarrierCheck], byte 0
         jne short .3
-        push unk_152748
-        push dword [dword_11500C]
+        push LinkTxTimers
+        push dword [LinkPortHandle]
         call ModemInit
         add esp, byte 8
         cmp eax, byte 4
         jne short .3
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialClose
         add esp, byte 4
         xor eax, eax
@@ -1482,13 +1483,13 @@ LinkOpen:
         pop ebx
         ret
 .3:
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialFlushRx
         add esp, byte 4
-        mov eax, dword [dword_115068]
-        mov dword [dword_115068], 64h
+        mov eax, dword [LinkCheckPeriod]
+        mov dword [LinkCheckPeriod], 64h
         mov dword [str_ctl06], 64h
-        cmp dword [dword_115024], byte 0
+        cmp dword [LinkIsOpen], byte 0
         je short .4
         push LinkTimerTick
         call addtimer
@@ -1509,85 +1510,85 @@ LinkConnect:
         push ebx
         push ecx
         push edx
-        mov dword [dword_115064], 0
-        cmp dword [dword_11501C], byte 0
+        mov dword [LinkState], 0
+        cmp dword [LinkCarrierCheck], byte 0
         jne near .8
-        cmp dword [dword_115018], byte 0
+        cmp dword [LinkRetryOn], byte 0
         je near .4
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call ModemAutoAnswer
         add esp, byte 4
-        mov dword [dword_115064], 1
+        mov dword [LinkState], 1
 .1:
-        cmp dword [dword_115064], byte 1
+        cmp dword [LinkState], byte 1
         jne near .9
-        cmp dword [dword_115064], byte 1
+        cmp dword [LinkState], byte 1
         jne short .3
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call ModemWaitConnect
         add esp, byte 4
         test eax, eax
         jle short .2
-        mov dword [dword_115064], 2
+        mov dword [LinkState], 2
         jmp short .3
 .2:
         jge short .3
-        mov dword [dword_115064], 0
+        mov dword [LinkState], 0
 .3:
-        mov eax, dword [dword_115064]
-        cmp dword [dword_15291C], byte 0
+        mov eax, dword [LinkState]
+        cmp dword [LinkAbortCheck], byte 0
         je short .1
-        call dword [dword_15291C]
+        call dword [LinkAbortCheck]
         test eax, eax
         je short .1
         push str_Punct_ModemSendCommand
         push byte 1
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialWrite
         add esp, byte 0Ch
-        mov dword [dword_115064], 0
+        mov dword [LinkState], 0
         jmp short .1
 .4:
-        push dword [dword_11502C]
-        push unk_1527C0
-        push unk_152798
-        push dword [dword_11500C]
+        push dword [LinkAckOn]
+        push LinkModemString
+        push LinkPortName
+        push dword [LinkPortHandle]
         call ModemDial
         add esp, byte 10h
-        mov dword [dword_115064], 1
+        mov dword [LinkState], 1
 .5:
-        cmp dword [dword_115064], byte 1
+        cmp dword [LinkState], byte 1
         jne near .9
-        cmp dword [dword_115064], byte 1
+        cmp dword [LinkState], byte 1
         jne short .7
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call ModemWaitConnect
         add esp, byte 4
         test eax, eax
         jle short .6
-        mov dword [dword_115064], 2
+        mov dword [LinkState], 2
         jmp short .7
 .6:
         jge short .7
-        mov dword [dword_115064], 0
+        mov dword [LinkState], 0
 .7:
-        mov eax, dword [dword_115064]
-        cmp dword [dword_15291C], byte 0
+        mov eax, dword [LinkState]
+        cmp dword [LinkAbortCheck], byte 0
         je short .5
-        call dword [dword_15291C]
+        call dword [LinkAbortCheck]
         test eax, eax
         je short .5
         push str_Punct_ModemSendCommand
         push byte 1
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialWrite
         add esp, byte 0Ch
-        mov dword [dword_115064], 0
+        mov dword [LinkState], 0
         jmp short .5
 .8:
-        mov dword [dword_115064], 2
+        mov dword [LinkState], 2
 .9:
-        cmp dword [dword_115064], byte 0
+        cmp dword [LinkState], byte 0
         setne al
         movzx eax, al
         pop edx
@@ -1597,10 +1598,10 @@ LinkConnect:
         push ebx
         push ecx
         push edx
-        mov dword [dword_115064], 0
-        cmp dword [dword_11501C], byte 0
+        mov dword [LinkState], 0
+        cmp dword [LinkCarrierCheck], byte 0
         jne short .10
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call ModemHangup
         add esp, byte 4
 .10:
@@ -1617,20 +1618,20 @@ LinkClose:
         push ebx
         push ecx
         push edx
-        mov dword [dword_115064], 0
-        cmp dword [dword_11501C], byte 0
+        mov dword [LinkState], 0
+        cmp dword [LinkCarrierCheck], byte 0
         jne short .1
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call ModemHangup
         add esp, byte 4
 .1:
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialDropDtr
         add esp, byte 4
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialClose
         add esp, byte 4
-        cmp dword [dword_115024], byte 0
+        cmp dword [LinkIsOpen], byte 0
         je short LinkClose_53.2
         push LinkTimerTick
         call RemoveTimerCallback
@@ -1724,7 +1725,7 @@ LinkSetChecksum:
 ; LinkRequestResend                            187CF  96 PC, medium confidence
 ; (slot, reason): asks the other side to send receive slot again with a 'C'
 ; control packet (unless asked recently), marks the slot requested (state 2)
-; and calls the resend hook dword_115048
+; and calls the resend hook LinkResendHandler
 ;-----------------------------------------------------------------------------
 LinkRequestResend:
         push ebx
@@ -1735,23 +1736,23 @@ LinkRequestResend:
         and eax, byte 3Fh
         mov esi, eax
         shl eax, 4
-        cmp dword [dword eax+dword_151D48], byte 2
+        cmp dword [dword eax+LinkRxSlots], byte 2
         jne short .1
         mov edx, dword [str_D_LinkCopyBytes]
         sar edx, 1
-        cmp edx, dword [dword eax+dword_151D50]
+        cmp edx, dword [dword eax+LinkRxSlots+8]
         jg near .2
 .1:
         mov eax, esi
         shl eax, 4
-        cmp dword [dword eax+dword_151D48], byte 1
+        cmp dword [dword eax+LinkRxSlots], byte 1
         je near .2
         imul edx, esi, byte 7
-        mov dword [dword eax+dword_151D48], 2
-        mov dword [dword eax+dword_151D50], 0
-        push dword [dword_11500C]
-        inc dword [dword eax+dword_151D54]
-        mov byte [dword edx+byte_151B8E], 0
+        mov dword [dword eax+LinkRxSlots], 2
+        mov dword [dword eax+LinkRxSlots+8], 0
+        push dword [LinkPortHandle]
+        inc dword [dword eax+LinkRxSlots+0Ch]
+        mov byte [dword edx+LinkRxMsgs+6], 0
         call SerialTxFree
         add esp, byte 4
         cmp eax, byte 6
@@ -1771,13 +1772,13 @@ LinkRequestResend:
         call LinkSetChecksum
         push byte_152920
         push byte 6
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialWrite
         add esp, byte 0Ch
-        cmp dword [dword_115048], byte 0
+        cmp dword [LinkResendHandler], byte 0
         je short .2
         movzx eax, byte [byte ebp-04h]
-        call dword [dword_115048]
+        call dword [LinkResendHandler]
 .2:
         leave
         pop esi
@@ -1793,7 +1794,7 @@ LinkSendAck:
         push ebx
         push ecx
         push edx
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialTxFree
         add esp, byte 4
         cmp eax, byte 6
@@ -1813,7 +1814,7 @@ LinkSendAck:
         call LinkSetChecksum
         push byte_15292C
         push byte 6
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialWrite
         add esp, byte 0Ch
 .1:
@@ -1835,7 +1836,7 @@ LinkSendMessage:
         enter 4, 0
         mov edi, eax
         mov dword [byte ebp-04h], edx
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialTxFree
         add esp, byte 4
         cmp eax, byte 0Ch
@@ -1843,26 +1844,26 @@ LinkSendMessage:
         movzx eax, al
         test eax, eax
         je near .3
-        mov eax, dword [dword_11504C]
+        mov eax, dword [LinkTxSeq]
         and eax, byte 3Fh
         imul eax, byte 18h
-        cmp dword [dword eax+dword_152148], byte 0
+        cmp dword [dword eax+LinkTxSlots], byte 0
         jne short .1
-        cmp dword [dword_115060], byte 1Fh
+        cmp dword [LinkTxPending], byte 1Fh
         jl short .2
 .1:
         xor eax, eax
         jmp short .3
 .2:
-        mov ebx, dword [dword_11504C]
+        mov ebx, dword [LinkTxSeq]
         and ebx, byte 3Fh
-        inc dword [dword_11504C]
-        inc dword [dword_115060]
+        inc dword [LinkTxSeq]
+        inc dword [LinkTxPending]
         imul eax, ebx, byte 18h
-        mov dword [dword eax+dword_152148], 3
-        mov dword [dword eax+dword_15214C], 0
-        mov dword [dword eax+dword_152150], 0
-        add eax, dword_152148
+        mov dword [dword eax+LinkTxSlots], 3
+        mov dword [dword eax+LinkTxSlots+4], 0
+        mov dword [dword eax+LinkTxSlots+8], 0
+        add eax, LinkTxSlots
         lea esi, [byte eax+0Ch]
         mov edx, dword [byte ebp-04h]
         mov ecx, esi
@@ -1870,7 +1871,7 @@ LinkSendMessage:
         call LinkBuildDataPacket
         push esi
         push byte 0Ch
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialWrite
         mov eax, 1
         add esp, byte 0Ch
@@ -1894,26 +1895,26 @@ LinkResendSlot:
         cmp eax, byte 40h
         jge short .1
         imul esi, eax, byte 18h
-        cmp dword [dword esi+dword_152148], byte 3
+        cmp dword [dword esi+LinkTxSlots], byte 3
         jne short .1
         mov eax, 0Ch
         call LinkTxRoom
         test eax, eax
         je short .1
-        mov ebx, dword_152148
+        mov ebx, LinkTxSlots
         call LinkRxAckSeq
         add ebx, esi
         mov edx, 0Ch
         add ebx, byte 0Ch
-        mov byte [dword esi+byte_152157], al
+        mov byte [dword esi+LinkTxSlots+0Fh], al
         mov eax, ebx
         call LinkSetChecksum
         push ebx
         push byte 0Ch
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialWrite
         add esp, byte 0Ch
-        mov dword [dword esi+dword_15214C], 0
+        mov dword [dword esi+LinkTxSlots+4], 0
 .1:
         pop esi
 LinkResendSlot_60:
@@ -1929,25 +1930,25 @@ LinkAckThrough:
         push ebx
         push edx
         mov edx, eax
-        cmp eax, dword [dword_115054]
+        cmp eax, dword [LinkAckedSeq]
         je short .3
         cmp eax, 0FFh
         je short .3
-        mov ebx, dword [dword_115054]
+        mov ebx, dword [LinkAckedSeq]
 .1:
         inc ebx
         and ebx, byte 3Fh
         imul eax, ebx, byte 18h
-        cmp dword [dword eax+dword_152148], byte 3
+        cmp dword [dword eax+LinkTxSlots], byte 3
         jne short .2
-        mov dword [dword eax+dword_152148], 0
-        cmp dword [dword_115060], byte 0
+        mov dword [dword eax+LinkTxSlots], 0
+        cmp dword [LinkTxPending], byte 0
         je short .2
-        add dword [dword_115060], byte 0FFFFFFFFh
+        add dword [LinkTxPending], byte 0FFFFFFFFh
 .2:
         cmp ebx, edx
         jne short .1
-        mov dword [dword_115054], edx
+        mov dword [LinkAckedSeq], edx
 .3:
         pop edx
         pop ebx
@@ -1964,7 +1965,7 @@ LinkReceive:
         push edx
         push unk_152944
         push dword 100h
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialRead
         add esp, byte 0Ch
         mov edx, eax
@@ -1981,13 +1982,13 @@ LinkReceive:
         call LinkParsePacket
         test eax, eax
         je near LinkResendSlot_60
-        add dword [dword_11507C], eax
-        sub dword [dword_115080], eax
-        cmp dword [dword_11507C], 10Ch
+        add dword [LinkRxHead], eax
+        sub dword [LinkRxCount], eax
+        cmp dword [LinkRxHead], 10Ch
         jb short .3
-        sub dword [dword_11507C], 10Ch
+        sub dword [LinkRxHead], 10Ch
 .3:
-        cmp dword [dword_11505C], byte 1
+        cmp dword [LinkPacketLen], byte 1
         jle short .4
         call LinkFirstMissingRx
         cmp eax, byte 0FFFFFFFFh
@@ -1996,13 +1997,13 @@ LinkReceive:
         call LinkRequestResend
         jmp short .2
 .4:
-        cmp dword [dword_11505C], byte 0
+        cmp dword [LinkPacketLen], byte 0
         jne short .2
         movzx eax, byte [byte_15293A]
         shl eax, 4
-        cmp dword [dword eax+dword_151D48], byte 0
+        cmp dword [dword eax+LinkRxSlots], byte 0
         je short .5
-        cmp dword [dword eax+dword_151D48], byte 2
+        cmp dword [dword eax+LinkRxSlots], byte 2
         jne short .2
 .5:
         mov eax, unk_152938
@@ -2012,14 +2013,14 @@ LinkReceive:
         movzx edx, byte [byte_15293A]
         mov eax, edx
         shl eax, 4
-        mov dword [dword eax+dword_151D48], 1
-        mov dword [dword eax+dword_151D4C], 0
-        mov dword [dword eax+dword_151D50], 0
-        mov dword [dword eax+dword_151D54], 0
+        mov dword [dword eax+LinkRxSlots], 1
+        mov dword [dword eax+LinkRxSlots+4], 0
+        mov dword [dword eax+LinkRxSlots+8], 0
+        mov dword [dword eax+LinkRxSlots+0Ch], 0
         lea eax, [byte edx+01Fh]
         and eax, byte 3Fh
         shl eax, 4
-        mov dword [dword eax+dword_151D48], 0
+        mov dword [dword eax+LinkRxSlots], 0
 .6:
         movzx eax, byte [byte_15293A]
         call LinkRequestMissing
@@ -2027,11 +2028,11 @@ LinkReceive:
         push ebx
         push ecx
         push edx
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call ModemAutoAnswer
         add esp, byte 4
 .7:
-        mov dword [dword_115064], 1
+        mov dword [LinkState], 1
         pop edx
         pop ecx
         pop ebx
@@ -2039,28 +2040,28 @@ LinkReceive:
         push ebx
         push ecx
         push edx
-        push dword [dword_11502C]
-        push unk_1527C0
-        push unk_152798
-        push dword [dword_11500C]
+        push dword [LinkAckOn]
+        push LinkModemString
+        push LinkPortName
+        push dword [LinkPortHandle]
         call ModemDial
         add esp, byte 10h
         jmp short .7
         push ebx
         push ecx
         push edx
-        cmp dword [dword_115068], byte 0
+        cmp dword [LinkCheckPeriod], byte 0
         jg short .11
         mov eax, dword [str_ctl06]
-        mov edx, dword [dword_115068]
-        mov dword [dword_115068], eax
+        mov edx, dword [LinkCheckPeriod]
+        mov dword [LinkCheckPeriod], eax
         mov dword [str_ctl06], eax
-        cmp dword [dword_115044], byte 0
+        cmp dword [LinkTickHandler], byte 0
         je short .8
-        call dword [dword_115044]
+        call dword [LinkTickHandler]
 .8:
-        mov eax, dword [dword_11500C]
-        cmp dword [dword_11501C], byte 0
+        mov eax, dword [LinkPortHandle]
+        cmp dword [LinkCarrierCheck], byte 0
         je short .9
         mov eax, 1
         jmp short .10
@@ -2071,26 +2072,26 @@ LinkReceive:
 .10:
         test eax, eax
         jne short .11
-        mov dword [dword_115064], eax
+        mov dword [LinkState], eax
 .11:
         pop edx
         pop ecx
         pop ebx
         ret
-        cmp dword [dword_115068], byte 0
+        cmp dword [LinkCheckPeriod], byte 0
         jg short .13
-        cmp dword [dword_11501C], byte 0
+        cmp dword [LinkCarrierCheck], byte 0
         jne short .12
-        cmp dword [dword_115064], byte 1
+        cmp dword [LinkState], byte 1
         je short .12
-        mov eax, dword [dword_11500C]
+        mov eax, dword [LinkPortHandle]
         call LinkCarrierOK
         test eax, eax
         jne short .12
-        mov dword [dword_115064], eax
+        mov dword [LinkState], eax
 .12:
-        mov eax, dword [dword_115068]
-        mov dword [dword_115068], 64h
+        mov eax, dword [LinkCheckPeriod]
+        mov dword [LinkCheckPeriod], 64h
         mov dword [str_ctl06], 64h
 .13:
         ret
@@ -2101,39 +2102,39 @@ LinkReceive:
 ; while connected
 ;-----------------------------------------------------------------------------
 LinkPoll:
-        cmp dword [dword_115020], byte 0
+        cmp dword [LinkPollOn], byte 0
         jne short .4
         cmp dword [dword_115098], byte 0
         jne short .3
         call LinkReceive
         call LinkDeliverMessages
-        cmp dword [dword_115068], byte 0
+        cmp dword [LinkCheckPeriod], byte 0
         jg short .2
         mov eax, dword [str_ctl06]
         call SetLinkCheckPeriod
-        cmp dword [dword_115044], byte 0
+        cmp dword [LinkTickHandler], byte 0
         je short .1
-        call dword [dword_115044]
+        call dword [LinkTickHandler]
 .1:
-        mov eax, dword [dword_11500C]
+        mov eax, dword [LinkPortHandle]
         call LinkCarrierOK
         test eax, eax
         jne short .2
-        mov dword [dword_115064], eax
+        mov dword [LinkState], eax
 .2:
         mov dword [dword_115098], 3
         jmp short .4
 .3:
         dec dword [dword_115098]
 .4:
-        cmp dword [dword_115064], byte 0
+        cmp dword [LinkState], byte 0
         setne al
         movzx eax, al
         ret
         push ebx
         push ecx
         push edx
-        cmp dword [dword_115064], byte 2
+        cmp dword [LinkState], byte 2
         jne short .5
         call LinkPoll
         pop edx
@@ -2141,35 +2142,35 @@ LinkPoll:
         pop ebx
         ret
 .5:
-        cmp dword [dword_115068], byte 0
+        cmp dword [LinkCheckPeriod], byte 0
         jg short .7
-        cmp dword [dword_11501C], byte 0
+        cmp dword [LinkCarrierCheck], byte 0
         jne short .6
-        cmp dword [dword_115064], byte 1
+        cmp dword [LinkState], byte 1
         je short .6
-        mov eax, dword [dword_11500C]
+        mov eax, dword [LinkPortHandle]
         call LinkCarrierOK
         test eax, eax
         jne short .6
-        mov dword [dword_115064], eax
+        mov dword [LinkState], eax
 .6:
         mov eax, 64h
         call SetLinkCheckPeriod
 .7:
-        cmp dword [dword_115064], byte 1
+        cmp dword [LinkState], byte 1
         jne short .9
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call ModemWaitConnect
         add esp, byte 4
         test eax, eax
         jle short .8
-        mov dword [dword_115064], 2
+        mov dword [LinkState], 2
         jmp short .9
 .8:
         jge short .9
-        mov dword [dword_115064], 0
+        mov dword [LinkState], 0
 .9:
-        mov eax, dword [dword_115064]
+        mov eax, dword [LinkState]
         test eax, eax
         je short .10
         mov eax, 1
@@ -2181,20 +2182,20 @@ LinkPoll:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_115064], byte 1
+        cmp dword [LinkState], byte 1
         jne short .12
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call ModemWaitConnect
         add esp, byte 4
         test eax, eax
         jle short .11
-        mov dword [dword_115064], 2
+        mov dword [LinkState], 2
         jmp short .12
 .11:
         jge short .12
-        mov dword [dword_115064], 0
+        mov dword [LinkState], 0
 .12:
-        mov eax, dword [dword_115064]
+        mov eax, dword [LinkState]
         pop edx
         pop ecx
         pop ebx
@@ -2209,21 +2210,21 @@ LinkRequestMissing:
         push ecx
         push edx
         mov ecx, eax
-        cmp dword [dword_115064], byte 2
+        cmp dword [LinkState], byte 2
         jne short .5
-        mov ebx, dword [dword_115058]
+        mov ebx, dword [LinkRxSeq]
         jmp short .4
 .1:
         mov eax, ebx
         shl eax, 4
-        cmp dword [dword eax+dword_151D48], byte 2
+        cmp dword [dword eax+LinkRxSlots], byte 2
         jne short .2
-        mov eax, dword [dword eax+dword_151D50]
+        mov eax, dword [dword eax+LinkRxSlots+8]
         cmp eax, dword [str_D_LinkCopyBytes]
         setg al
         jmp short .3
 .2:
-        cmp dword [dword eax+dword_151D48], byte 0
+        cmp dword [dword eax+LinkRxSlots], byte 0
         sete al
 .3:
         movzx eax, al
@@ -2246,20 +2247,20 @@ LinkRequestMissing:
         push ecx
         push edx
         push eax
-        mov dword [dword_11500C], eax
+        mov dword [LinkPortHandle], eax
         call SerialOpen
         jmp near LinkClose_53
         push ebx
         push ecx
         push edx
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialTxFree
         add esp, byte 4
         cmp eax, byte 25h
         jl short .6
         push str_0123456789abcdefghijklmn
         push byte 25h
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialWrite
         add esp, byte 0Ch
 .6:
@@ -2272,7 +2273,7 @@ LinkRequestMissing:
         push edx
         push byte_152A44
         push byte 25h
-        push dword [dword_11500C]
+        push dword [LinkPortHandle]
         call SerialReadWait
         add esp, byte 0Ch
         mov byte [dword eax+byte_152A44], 0

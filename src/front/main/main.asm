@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1B046 progbits alloc exec nowrite align=1
-extern _dos_gettime_, str_Punct_StartUp, chdir_, DetectCPU, dword_114CD3, dword_1150D4, dword_1150D8, dword_1150DC
+extern _dos_gettime_, str_Punct_StartUp, chdir_, DetectCPU, GripLibHandle, dword_1150D4, dword_1150D8, dword_1150DC
 extern dword_11D19C, CpuType, dword_11F61C, bailout_vec, DebugMode, dword_152F44, dword_152F48, dword_152F4C
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, globalset, InitInputDevices, InstallTimer, LoadDataFile
 extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, LogoNames, optflags, PlayMenuGame, printf_
@@ -609,7 +609,7 @@ StartUp:
         mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
         mov dword [MenuBitmapPixels], eax
-        cmp dword [dword_114CD3], byte 0
+        cmp dword [GripLibHandle], byte 0
         jle short .5
         call GripSetupScreen
 .5:

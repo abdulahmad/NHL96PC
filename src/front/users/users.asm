@@ -32,7 +32,7 @@ extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetText
 extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, InitVScrollBar, ScrollBarUp, ScrollBarDown
 extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, DrawShapeCore, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock
 extern CreateBitmap, sub_AD620, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
-extern FindShape, sub_E15AC, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
+extern FindShape, RemapPolygonArgs, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
 extern word_1656E8, word_165810, word_165812, word_16581E
 global unk_2A3D6, unk_2A3E2, unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, unk_2A482, ClearSlotUser
 global ClearSlotUsers, UserRecordRating, CreateUserRecord, DeleteUser, NewUser, NewUser_159, DrawUserList, GetUserName
@@ -2595,7 +2595,7 @@ DrawUserRecords_3F0:
         push dword 0A7h
 .28:
         push byte 4
-        call sub_E15AC
+        call RemapPolygonArgs
         add esp, byte 24h
 .29:
         call SetScreenTarget

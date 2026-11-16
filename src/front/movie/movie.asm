@@ -10,7 +10,7 @@ extern dword_17C994, dword_17C998, dword_17C99C, FadeOutMusic, FillMusicStream, 
 extern globalset, MakeDataPath, OpenMusicStream, PlayMusic, QueueCurrentMusic, SetClipWindow, SetCrtcStart, setstreamspeed
 extern SoundSecondsToBytes, StopMusic, str_TEMP, FadeOut, SetGraphicsMode, SetScreenMode, AllocMemBlock, FreeMemBlock
 extern StopSoundChannel, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamActive, AudioStreamPosition, AudioStreamPacketsPlayed, TgvAllocDecoder
-extern TgvDecodeFrame, TgvFreeDecoder, TgvResetFrameRate, TgvBlitFrame, DisableInterrupts, EnableInterrupts, sub_DD830, bcopy
+extern TgvDecodeFrame, TgvFreeDecoder, TgvResetFrameRate, TgvBlitFrame, DisableInterrupts, EnableInterrupts, SetPaletteEntries8, bcopy
 extern tgvpalpending, unk_17C644, WaitRetrace, WaitTicks
 global TgvClock, TgvOpen, TgvOpen_F9, PlayTGV, TgvNextFrame, TgvPlayFrames, PlayMovie, PlayMovieFile
 ;-----------------------------------------------------------------------------
@@ -528,7 +528,7 @@ TgvPlayFrames:
         push unk_17C644
         push dword 100h
         push byte 0
-        call sub_DD830
+        call SetPaletteEntries8
         add esp, byte 0Ch
         call EnableInterrupts
         mov dword [tgvpalpending], 0

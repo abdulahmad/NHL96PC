@@ -71,8 +71,8 @@ extern PerspScale, ProjectPoint, ProjectPointList, AngleOfVector, SinInterp, Cos
 extern DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, TransformVector, ProjectPointsPersp, DrawPolyList, SetRinkMatrix, SetRinkTranslation
 extern SetScreenScale, ProjectModelPoints, DrawModelFlat, DrawModelSorted, DrawModelPolyList, DrawModelPolys, OriCreateInstance, OriSetObjectMatrix
 extern OriSetObjectPosition, OriLoadModel, MakeRotYMatrix, OriFindGroup, OriFindPartition, OriGetPartition, InitReciprocalTable, ClipPolyNearZ
-extern DrawMarkingPolys, SetPolyVertexArrays, FixedInverse, SetScreenTarget, SetRemapTable, GetRemapTable, sub_DD908, SetBlitSource
-extern sub_DDB68, FindShape, bcopy, Random32, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
+extern DrawMarkingPolys, SetPolyVertexArrays, FixedInverse, SetScreenTarget, SetRemapTable, GetRemapTable, SetColourRemap, SetBlitSource
+extern ScaleRowShadow, FindShape, bcopy, Random32, FillPolygon, RemapPolygon, SetNearClipZ, unk_1175BD
 extern IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
 extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
 extern unk_15903C, unk_159108, unk_159148, unk_159190, IceSurfacePolys, unk_159238, unk_159338, unk_159368
@@ -2234,7 +2234,7 @@ DrawEndZoneMarkings:
         push eax
         push ebx
         push dword [dword_15E7F8]
-        call sub_E0959
+        call FillPolygon
         add esp, byte 0Ch
 .9:
         lea eax, [byte ebp+042h]
@@ -2340,7 +2340,7 @@ DrawEndZoneMarkings:
         push eax
         push ebx
         push dword [dword_15E7F8]
-        call sub_E0959
+        call FillPolygon
         add esp, byte 0Ch
         jmp near DrawFaceoffCircle_1DF
 ;-----------------------------------------------------------------------------
@@ -4797,7 +4797,7 @@ DrawGlassShards:
         lea eax, [byte ebp-024h]
         push eax
         push byte 3
-        call sub_E1575
+        call RemapPolygon
         add esp, byte 8
         cmp dword [dword_15E4B8], byte 4
         jne short .7
@@ -4806,7 +4806,7 @@ DrawGlassShards:
         lea eax, [byte ebp-024h]
         push eax
         push byte 3
-        call sub_E1575
+        call RemapPolygon
         add esp, byte 8
 .7:
         add edi, byte 24h
@@ -5139,7 +5139,7 @@ DrawPuckShadowModel:
         push eax
         mov eax, dword [dword_15E8D8]
         push dword [byte eax+04h]
-        call sub_E1575
+        call RemapPolygon
         jmp near DrawGoalLight_A4
 ;-----------------------------------------------------------------------------
 ; PlacePuckModels                                 2500F  96 PC, low confidence
@@ -6508,7 +6508,7 @@ LoadRinkModel:
         enter 4Ch, 0
         mov esi, eax
         push byte 50h
-        call sub_E162A
+        call SetNearClipZ
         add esp, byte 4
         push byte 50h
         call SetScreenScale
@@ -7926,7 +7926,7 @@ DrawIceBackPoly:
         mov dword [dword ebp+eax*8-0E2h], 0FFFFFC19h
         push byte 0
         mov dword [dword ebp+eax*8-0DEh], ebx
-        call sub_E0959
+        call FillPolygon
         mov edx, dword [byte ebp+06Eh]
         mov ebx, dword [byte ebp+076h]
         mov ecx, dword [byte ebp+076h]
@@ -7968,7 +7968,7 @@ DrawIceBackPoly:
         mov dword [dword ebp+eax*8-0E2h], 3E7h
         push byte 0
         mov dword [dword ebp+eax*8-0DEh], ebx
-        call sub_E0959
+        call FillPolygon
         add esp, byte 0Ch
         jmp near BuildRinkSides_602
 ;-----------------------------------------------------------------------------
@@ -8211,7 +8211,7 @@ DrawIceMarkings:
         lea eax, [byte ebp+032h]
         push eax
         push byte 4
-        call sub_E1575
+        call RemapPolygon
         add esp, byte 8
 .16:
         inc dword [byte ebp+072h]
@@ -10164,7 +10164,7 @@ BeginShadowDraw:
         push ecx
         push edx
         push unk_1176EC
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         push unk_15E904
         call SetRemapTable
@@ -10325,7 +10325,7 @@ DrawShadowSprite:
         push ecx
         add eax, dword [edx]
         push eax
-        call sub_DDB68
+        call ScaleRowShadow
         add esp, byte 0Ch
 .12:
         mov eax, dword [byte ebp-01Ch]

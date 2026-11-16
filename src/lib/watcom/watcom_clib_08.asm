@@ -24,7 +24,7 @@ extern SndCardNameGus, SndCardNameWss, strncpy_, CdStreamSeek, CdStreamFreePacke
 extern FreeMemBlock, MemDescPtr, DebugSetLine, UnpackTo, DrawArtOpaque, RestoreDS, DrawArtFast, PrintBoxedText
 extern PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel, SetMixerMode, MixerStartChannel, MixerStopChannel, MixerSetChannelVolumes
 extern MixerSetChannelRate, MixerSamplesLeft, ParseBlasterEnv, SbDspVersion, WssProbePort, GusDetect, SndTimerCallback, TgvCopyBlock
-extern TgvFillBlock, GatherPlaneBytes, DrawArtKeyedAt, PutBlockKeyedAt, CopyRowKeyedRemap, SetScreenTarget, sub_DDF4F, sub_DFB84
+extern TgvFillBlock, GatherPlaneBytes, DrawArtKeyedAt, PutBlockKeyedAt, CopyRowKeyedRemap, SetScreenTarget, WriteSequencerReg, ReturnZero
 extern AddExitHandler, bcopy, Random32, CrowdBank, CrowdLayers, SndChannels, MixerStepTable
 global _Alphabet, abs_, fini_void_, getcwd_, itoa_, SndErrorTextJumpTable, SetSpeechQueueVolume, SetCrowdLayerLevels_18C
 global memcmp_, SpeechQueueService, ClearSpeechSlot, ResetSpeechQueue, OpenSpeechQueue, AddSpeechQueueClip, SpeechQueueBusy, StartSpeechQueue
@@ -4155,7 +4155,7 @@ TgvShowFrameRate:
         cmp dword [DebugMode], byte 3
         jge short .4
         push dword 3E8h
-        push sub_DFB84
+        push ReturnZero
         jmp short .5
 .4:
         push dword 190h
@@ -4169,7 +4169,7 @@ TgvShowFrameRate:
 ;-----------------------------------------------------------------------------
 fini_void_:
         push byte 0
-        push sub_DFB84
+        push ReturnZero
         call TgvShowFrameRate
         add esp, byte 8
         ret
@@ -4270,7 +4270,7 @@ TgvBlitFrame:
         push byte 2
         mov esi, dword [byte esp+08h]
         mov edi, dword [byte esp+018h]
-        call sub_DDF4F
+        call WriteSequencerReg
         add esp, byte 8
         mov edx, dword [byte esp+014h]
         and dl, 0FCh

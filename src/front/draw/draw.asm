@@ -7,7 +7,7 @@ extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dwo
 extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, sub_ADA50
 extern sub_ADA80, TextSetColor, FreeColourLookup, CreateColourLookup, sub_B2B0C, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
-extern SetAaPalLut, DrawArtAaScaledInt, TranslatePixels, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
+extern SetAaPalLut, DrawArtAaScaledInt, TranslatePixels, SetScreenTarget, GetPaletteRange, SetPaletteEntries, WriteSequencerReg, SetModeX
 extern SetClipRect, bcopy, FillMem, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
 global SetGraphicsMode_204, SetScreenMode, DrawText, DrawTextRight, DrawTextRight_17, DrawTextCentred, FindTextColors, SetTextColors
@@ -30,7 +30,7 @@ BlackPalette:
         push unk_17C0E0
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         pop edi
         pop edx
@@ -118,7 +118,7 @@ FadePalette:
         push dword [byte ebp-04h]
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
 .10:
         call SoundIdle
@@ -286,7 +286,7 @@ InitGraphicsFix:
         push unk_121FC8
         push dword 100h
         push eax
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         push str_CouldNotAllocateLibraryB
         call FatalError
@@ -318,7 +318,7 @@ SetGraphicsMode:
         push unk_121FC8
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         push str_NHLinitgraphicsfixNotCal
         call FatalError
@@ -337,11 +337,11 @@ SetGraphicsMode:
         push unk_17C0E0
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         push byte 0Fh
         push byte 2
-        call sub_DDF4F
+        call WriteSequencerReg
         add esp, byte 8
         push byte 0
         push dword 10000h
@@ -375,11 +375,11 @@ SetGraphicsMode:
         push unk_17C0E0
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         call ClearChain4
         mov dword [dword_11F5C4], 0F0h
-        call sub_DE01A
+        call SetModeX
         mov eax, dword [dword_11F5C4]
         add eax, eax
         push eax
@@ -412,11 +412,11 @@ SetGraphicsMode:
         push unk_17C0E0
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         push byte 0Fh
         push byte 2
-        call sub_DDF4F
+        call WriteSequencerReg
         add esp, byte 8
         push byte 0
         push dword 10000h
@@ -468,7 +468,7 @@ SetScreenMode:
         push unk_17C0E0
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         call SetScreenTarget
         push byte 0
@@ -492,7 +492,7 @@ SetScreenMode:
         push unk_17C0E0
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         push byte 0
         call sub_ADA50

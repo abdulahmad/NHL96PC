@@ -17,8 +17,8 @@ extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncI
 extern AnimateBenchSprite, CrowdReactToPlay, AddZone, DrawGameFrame, GetPeriodText, SetCameraShot, EndCameraShot, UpdateCamera
 extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
-extern GetLangText, sub_ADA80, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, sub_DD7B8, SetRemapTable
-extern TicksSinceLast, bcopy, sub_E0992, sub_E15AC, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
+extern GetLangText, sub_ADA80, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
+extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
 extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, word_1178F8, word_118E9F
 extern word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4, word_156E6E, word_157AFA, word_157AFC
@@ -528,7 +528,7 @@ DrawPanelBorder:
         push ebx
         push edx
         push byte 4
-        call sub_E15AC
+        call RemapPolygonArgs
         add esp, byte 24h
         push dword [byte ebp+020h]
         push dword [byte ebp+01Ch]
@@ -563,7 +563,7 @@ DrawPanelShade:
         push ebx
         push byte 4
         push eax
-        call sub_E0992
+        call FillPolygonArgs
         add esp, byte 28h
         push dword [byte ebp+024h]
         push dword [byte ebp+020h]
@@ -1215,7 +1215,7 @@ StartPreGame:
         push unk_16443C
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         mov eax, dword_179DBD
         call SetCameraShot

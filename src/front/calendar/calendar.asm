@@ -16,7 +16,7 @@ extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFi
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, DrawArt, DrawShape
 extern PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, FillRect, sub_ADA80, FreeBitmap
-extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, DrawArtFast, PutBlockKeyed, SetScreenTarget, sub_DD908, FindShape, sub_E0584
+extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, DrawArtFast, PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, sub_E0584
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
 global unk_7FF77
@@ -2721,7 +2721,7 @@ DrawCalendar:
         add esp, byte 4
         lea eax, [dword ebp-0336h]
         push eax
-        call sub_DD908
+        call SetColourRemap
         movzx eax, byte [byte esi+02h]
         add esp, byte 4
         cmp eax, dword [dword_17CEC3]
@@ -2772,7 +2772,7 @@ DrawCalendar:
         add esp, byte 8
         lea eax, [dword ebp-0236h]
         push eax
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         push dword [byte ebp+066h]
         call SetDrawBitmap

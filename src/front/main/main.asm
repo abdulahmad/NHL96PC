@@ -14,7 +14,7 @@ extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelect
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunControlSetup, LoadLangText, FreeLangText, GetLangText
 extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMemBlock, FreeMemBlock, sub_AC868, sub_ADA50
 extern UnpackTo, TextSetColor, SetupMemoryPool, NumLockOff, InstallHotkeys, NearestColour, CreateAaPalLut, SetScreenTarget
-extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, KbdGetKey, AddExitHandler, FindShape
+extern SetTextMode, SetPaletteEntries8, ReadPaletteEntries8, InitMouse, InstallKeyboardHandler, KbdGetKey, AddExitHandler, FindShape
 extern bcopy, InstallBreakHandler, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
 extern unk_1210DC, unk_1213DC, unk_152C44, unk_18584C
 global jpt_1B046, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
@@ -241,7 +241,7 @@ CheckFreeMemory:
         jge short .2
         cmp esi, 4CE1A4h
         jge near .5
-        call sub_DD800
+        call SetTextMode
         mov eax, 262h
         call GetLangText
         push eax
@@ -265,7 +265,7 @@ CheckFreeMemory:
 .2:
         cmp esi, 4CE1A4h
         jge short .5
-        call sub_DD800
+        call SetTextMode
         mov eax, 264h
         call GetLangText
         push eax
@@ -328,7 +328,7 @@ CheckGameDirs:
 .4:
         cmp ebx, 3E8h
         jle near StartUp_ret
-        call sub_DD800
+        call SetTextMode
         mov eax, 25Dh
         call GetLangText
         push eax
@@ -359,7 +359,7 @@ InitHardware:
         push ecx
         push edx
         push edi
-        call sub_DFA98
+        call InitMouse
         call LoadGripLibrary
         push dword 0A0000h
         push dword 1000000h
@@ -404,7 +404,7 @@ InitHardware:
         call InstallTimer
         add esp, byte 4
         call NumLockOff
-        call sub_DFB88
+        call InstallKeyboardHandler
         push ReturnTrue
         call InstallBreakHandler
         add esp, byte 4
@@ -415,7 +415,7 @@ InitHardware:
         push unk_1210DC
         push dword 100h
         push byte 0
-        call sub_DD830
+        call SetPaletteEntries8
         add esp, byte 0Ch
         push unk_1213DC
         call TextSetFont
@@ -434,7 +434,7 @@ InitHardware:
         push unk_18584C
         push dword 100h
         push byte 0
-        call sub_DD87C
+        call ReadPaletteEntries8
         add esp, byte 0Ch
         pop edi
         pop edx
@@ -474,7 +474,7 @@ StartUp:
         call ReadGlobalSet
         test eax, eax
         jne short .2
-        call sub_DD800
+        call SetTextMode
         push str_YouMustFirstUseTheSETUPP
         call printf_
         add esp, byte 4
@@ -510,7 +510,7 @@ StartUp:
         call DetectCPU
         cmp dword [CpuType], byte 0
         jne short .4
-        call sub_DD800
+        call SetTextMode
         mov eax, 1D5h
         call GetLangText
         push eax

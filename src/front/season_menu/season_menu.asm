@@ -26,7 +26,7 @@ extern GameOptionsScreen, ReadSeasonDbHeader, ReadPlayoffDbHeader, DeleteSeasonF
 extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2
 extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, DrawArt, DrawShape, PutBlockAtOwnPos, FreeMemBlock
 extern CreateBitmap, TintRows, sub_ADA80, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr, OpenArtArchive
-extern SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, SetScreenTarget, sub_DD7B8, FindShape, sub_E0584
+extern SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, SetScreenTarget, SetPaletteEntries, FindShape, sub_E0584
 extern TextSetFont, TickDeadlinePassed, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
 extern unk_79303, unk_79483, unk_794C3, UpdateProgressBox
 global SeasonMenuScreen, SeasonMenuScreen_794, SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61
@@ -3025,7 +3025,7 @@ RunSeasonMenus_25A:
         push eax
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         mov eax, 3Eh
         mov ecx, 0C8h
         add esp, byte 0Ch

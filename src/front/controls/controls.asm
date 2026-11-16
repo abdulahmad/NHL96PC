@@ -13,7 +13,7 @@ extern dword_15172E, dword_151730, dword_151732, dword_151770, dword_15178E, dwo
 extern fread_, fseek_, ftell_, GameLoopActive, gameopts, GetTicks, InputRecordCount, InputRecordHead
 extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mousex, mousey, SetViewRect
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
-extern strcat_, strcpy_, CameraFacing, sub_DFA98, sub_DFE9C, KbdGetKey, CalibrateJoystick, sub_E0456
+extern strcat_, strcpy_, CameraFacing, InitMouse, sub_DFE9C, KbdGetKey, CalibrateJoystick, sub_E0456
 extern AddExitHandler, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, unk_151784, word_114B40, word_114B42
 extern word_114B44, word_114CDB, word_114CE0, word_114CE4, JoyAxisValues, word_11F914, word_11F918, word_11F91C
 extern word_1515B5, word_151634, word_151636, word_151638, word_15163A, word_151712, word_151714, word_15171C
@@ -83,7 +83,7 @@ GetInputDevices:
         ret
 ;-----------------------------------------------------------------------------
 ; InitInputDevices                                                10095  96 PC
-; One-time device init: detects the mouse (int 33h, sub_DFA98) and polls it
+; One-time device init: detects the mouse (int 33h, InitMouse) and polls it
 ; once, then InitGrip; stores the joystick mask in word_114B40
 ;-----------------------------------------------------------------------------
 InitInputDevices:
@@ -99,7 +99,7 @@ InitInputDevices:
         mov word [word_114B42], 0
         cmp word [word_114B44], byte 0
         jne short .2
-        call sub_DFA98
+        call InitMouse
         test eax, eax
         je short .1
         mov word [word_114B42], 1

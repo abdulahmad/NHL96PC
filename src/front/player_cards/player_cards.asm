@@ -23,7 +23,7 @@ extern str_S5, str_SD4, str_SEA4, str_SLDH2, str_Wt4, str_XTbl, strcat_, strlen_
 extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, DrawArt
 extern PutBlockAtOwnPos, BlitShapeAt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
-extern DrawArtOpaqueAtOwnPos, sub_B2C70, PutBlockKeyed, SetScreenTarget, sub_DD7B8, sub_DD908, FindShape, TickDeadlinePassed
+extern DrawArtOpaqueAtOwnPos, sub_B2C70, PutBlockKeyed, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed
 extern unk_1129C2, unk_1129E4, unk_1129F7, unk_152C44, UpdateProgressBox
 global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
 global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
@@ -164,7 +164,7 @@ SwitchPlayerCard:
 .1:
         push dword [dword_1820FC]
 .2:
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         mov edx, dword [dword_182114]
         mov eax, dword [dword_11E87F]
@@ -1149,7 +1149,7 @@ PlayerCardScreen:
         mov eax, dword [byte ebp-06Ch]
         push dword [dword_1820F4]
         mov dword [dword ebp-0832h], eax
-        call sub_DD908
+        call SetColourRemap
         mov eax, dword [dword ebp-0858h]
         mov ebx, dword [dword ebp-0860h]
         mov edx, dword [dword_182104]
@@ -1163,7 +1163,7 @@ PlayerCardScreen:
         mov eax, dword [dword_182110]
         call SlideCardRight
         push dword [dword_1820FC]
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         call SetScreenTarget
         push byte 5Dh
@@ -2994,7 +2994,7 @@ LoadPlayerCardArt:
         push dword [byte ebp-030h]
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
 .15:
         leave

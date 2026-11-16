@@ -7,9 +7,9 @@ extern ClipLeftCol, ClipRight, ScreenHeight, ViewCenterX, str_D_SetCameraAngles,
 extern str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0, CameraOriginX, CameraOriginY, dword_123ABC, ShadowFillFunc, TitleBandFunc
 extern FillSpanList, RemapSpanList, FillRectSpans, FillRectColor, sub_E19F0, SetupRectFill, AngleFromDelta, SinLookup
 extern CosLookup
-global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, sub_E0959_F, sub_E0992_F, sub_E0992_26, jpt_E0C7A_38, jpt_E0DBA_3B
-global jpt_E0F93_22F, sub_E15D7_B, SetCameraAngles_2D, Random32, sub_E0959, sub_E0992, FillBandEdges, FillBandRows
-global FillBandRowsBlend, vecdist, sub_E1530, sub_E1575, sub_E15AC, sub_E15D7, sub_E162A, SetViewScreenOrigin
+global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, FillPolygon_F, FillPolygonArgs_F, FillPolygonCore, jpt_E0C7A_38, jpt_E0DBA_3B
+global jpt_E0F93_22F, ClipEdgeToPlane_B, SetCameraAngles_2D, Random32, FillPolygon, FillPolygonArgs, FillBandEdges, FillBandRows
+global FillBandRowsBlend, vecdist, RemapPolygonCore, RemapPolygon, RemapPolygonArgs, ClipEdgeToPlane, SetNearClipZ, SetViewScreenOrigin
 global SetCameraAngles, TransposeMatrix
 ;-----------------------------------------------------------------------------
 ; Random32                                     E0898  96 PC, medium confidence
@@ -65,48 +65,54 @@ Random32:
         push esi
         push edi
         mov byte [byte ebp-011h], 1
-        jmp short sub_E0959_F
+        jmp short FillPolygon_F
 ;-----------------------------------------------------------------------------
-; sub_E0959                                                            E0959  
+; FillPolygon                                     E0959  96 PC, low confidence
+; Fills a polygon from a point list with a colour
 ;-----------------------------------------------------------------------------
-sub_E0959:
+FillPolygon:
         push ebp
         LD mov, ebp, esp
         add esp, 0FFFFD6F4h
         push esi
         push edi
         mov byte [byte ebp-011h], 0
-sub_E0959_F:
+FillPolygon_F:
         mov eax, FillSpanList
         mov dword [ShadowFillFunc], eax
         mov eax, FillRectColor
         mov dword [TitleBandFunc], eax
         mov esi, dword [byte ebp+010h]
-        jmp short sub_E0992_26
+        jmp short FillPolygonCore
         push ebp
         LD mov, ebp, esp
         add esp, 0FFFFD6F4h
         push esi
         push edi
         mov byte [byte ebp-011h], 1
-        jmp short sub_E0992_F
+        jmp short FillPolygonArgs_F
 ;-----------------------------------------------------------------------------
-; sub_E0992                                                            E0992  
+; FillPolygonArgs                                 E0992  96 PC, low confidence
+; Fills a polygon whose points are passed as arguments
 ;-----------------------------------------------------------------------------
-sub_E0992:
+FillPolygonArgs:
         push ebp
         LD mov, ebp, esp
         add esp, 0FFFFD6F4h
         push esi
         push edi
         mov byte [byte ebp-011h], 0
-sub_E0992_F:
+FillPolygonArgs_F:
         mov eax, FillSpanList
         mov dword [ShadowFillFunc], eax
         mov eax, FillRectColor
         mov dword [TitleBandFunc], eax
         lea esi, [byte ebp+010h]
-sub_E0992_26:
+;-----------------------------------------------------------------------------
+; FillPolygonCore                                 E09B8  96 PC, low confidence
+; Fills a polygon through the span and band fill routines set by the caller
+;-----------------------------------------------------------------------------
+FillPolygonCore:
         mov dword [byte ebp-0Ch], esi
         mov ecx, dword [byte ebp+0Ch]
         LD mov, eax, ecx
@@ -1341,9 +1347,10 @@ vecdist:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_E1530                                                            E1530  
+; RemapPolygonCore                                E1530  96 PC, low confidence
+; Darkens a polygon through the remap table
 ;-----------------------------------------------------------------------------
-sub_E1530:
+RemapPolygonCore:
         push ebp
         LD mov, ebp, esp
         add esp, 0FFFFD6F4h
@@ -1355,7 +1362,7 @@ sub_E1530:
         mov dword [ShadowFillFunc], eax
         mov eax, FillRectColor
         mov dword [TitleBandFunc], eax
-        jmp near sub_E0992_26
+        jmp near FillPolygonCore
         push ebp
         LD mov, ebp, esp
         push esi
@@ -1364,16 +1371,17 @@ sub_E1530:
         push dword [byte ebp+08h]
         push byte 0
         mov al, 1
-        call sub_E1530
+        call RemapPolygonCore
         add esp, byte 0Ch
         pop edi
         pop esi
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_E1575                                                            E1575  
+; RemapPolygon                                    E1575  96 PC, low confidence
+; Darkens a polygon from a point list through the remap table
 ;-----------------------------------------------------------------------------
-sub_E1575:
+RemapPolygon:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -1382,7 +1390,7 @@ sub_E1575:
         push dword [byte ebp+08h]
         push byte 0
         mov al, 0
-        call sub_E1530
+        call RemapPolygonCore
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -1397,16 +1405,17 @@ sub_E1575:
         push dword [byte ebp+08h]
         push byte 0
         mov al, 1
-        call sub_E1530
+        call RemapPolygonCore
         add esp, byte 0Ch
         pop edi
         pop esi
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_E15AC                                                            E15AC  
+; RemapPolygonArgs                                E15AC  96 PC, low confidence
+; Darkens a polygon whose points are passed as arguments
 ;-----------------------------------------------------------------------------
-sub_E15AC:
+RemapPolygonArgs:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -1416,7 +1425,7 @@ sub_E15AC:
         push dword [byte ebp+08h]
         push byte 0
         mov al, 0
-        call sub_E1530
+        call RemapPolygonCore
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -1428,18 +1437,19 @@ sub_E15AC:
         push esi
         push edi
         mov eax, dword [str_Punct_DrawRinkSurface]
-        jmp short sub_E15D7_B
+        jmp short ClipEdgeToPlane_B
 ;-----------------------------------------------------------------------------
-; sub_E15D7                                                            E15D7  
+; ClipEdgeToPlane                                 E15D7  96 PC, low confidence
+; Finds where an edge crosses a Z plane
 ;-----------------------------------------------------------------------------
-sub_E15D7:
+ClipEdgeToPlane:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF8h
         push esi
         push edi
         mov eax, dword [byte ebp+014h]
-sub_E15D7_B:
+ClipEdgeToPlane_B:
         mov esi, dword [byte ebp+08h]
         mov ebx, dword [byte ebp+0Ch]
         mov edi, dword [byte ebp+010h]
@@ -1471,9 +1481,10 @@ sub_E15D7_B:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_E162A                                                            E162A  
+; SetNearClipZ                                    E162A  96 PC, low confidence
+; Sets the near clip plane distance
 ;-----------------------------------------------------------------------------
-sub_E162A:
+SetNearClipZ:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]

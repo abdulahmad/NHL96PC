@@ -13,12 +13,12 @@ extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, Scal
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, sub_AA9CC, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
 extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaqueAtOwnPos, InitMemoryPoolDefault, NumLockOff, NearestColour
-extern FileSizeByName, AddVec3, OriScaleVector, InitReciprocalTable, sub_BEAE4, initgraphics, sub_C2AEC, ArtBitDepth
+extern FileSizeByName, AddVec3, OriScaleVector, InitReciprocalTable, BuildPerspTable, initgraphics, sub_C2AEC, ArtBitDepth
 extern PixelToRgb, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, SaveTextScreen, RestoreTextScreen, InitPointer
-extern InstallDebugHotkeys, DrawTextBoxedAt, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
-extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, SetBlitSource, CopyMappedSpan, CopyScaledSpanShadow
+extern InstallDebugHotkeys, DrawTextBoxedAt, BuildEdgeTableMin, BuildEdgeTableMax, BuildFixedTableMin, BuildFixedTableMax, MapPolySpans, MapPolySpansRemap
+extern FillFlatPolyCore, SetScreenTarget, SetClipWindow, SetPaletteEntries8, ReadPaletteEntries8, SetBlitSource, CopyMappedSpan, CopyScaledSpanShadow
 extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, FillSpansSet, FillSpansXor, FillSpansAnd, FillSpansOr
-extern RemapSpans, sub_DFB84, sub_DFB88, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
+extern RemapSpans, ReturnZero, InstallKeyboardHandler, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
 extern sub_E0486, AddExitHandler, sub_E0584, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, SaveDrawState
 extern RestoreDrawState, RestoreTextMode, sub_E272C, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
 extern FiniRtnsEntry, unk_15158C, unk_18584C, vsprintf_, DefaultControlWord
@@ -1354,7 +1354,7 @@ InitSystem:
         push unk_1210DC
         push dword 100h
         push byte 0
-        call sub_DD830
+        call SetPaletteEntries8
         add esp, byte 0Ch
         push unk_1213DC
         call TextSetFont
@@ -1378,8 +1378,8 @@ InitSystem:
         call InstallTimer
         add esp, byte 4
         call NumLockOff
-        call sub_DFB88
-        push sub_DFB84
+        call InstallKeyboardHandler
+        push ReturnZero
         call InstallBreakHandler
         add esp, byte 4
         push ZeroMem_29
@@ -1398,12 +1398,12 @@ InitSystem:
         push byte 0
         call SetViewScreenOrigin
         add esp, byte 8
-        call sub_BEAE4
+        call BuildPerspTable
         call InitReciprocalTable
         push unk_18584C
         push dword 100h
         push byte 0
-        call sub_DD87C
+        call ReadPaletteEntries8
         add esp, byte 0Ch
         pop ebp
         pop edi
@@ -5239,7 +5239,7 @@ DrawClippedPoly:
         lea eax, [byte esp+010h]
         push eax
         mov edi, ecx
-        call sub_D1860
+        call BuildEdgeTableMin
         add esp, byte 14h
         mov ebp, eax
         mov ebx, dword [dword esp+04818h]
@@ -5259,7 +5259,7 @@ DrawClippedPoly:
         mov dword [dword esp+04818h], eax
         lea eax, [dword esp+0C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
         mov eax, dword [dword esp+04808h]
         push ebp
@@ -5272,7 +5272,7 @@ DrawClippedPoly:
         push edi
         lea eax, [dword esp+03C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
 .7:
         mov esi, dword [dword esp+04830h]
@@ -5310,7 +5310,7 @@ DrawClippedPoly:
         lea eax, [dword esp+01810h]
         push eax
         mov edi, ecx
-        call sub_D1920
+        call BuildEdgeTableMax
         add esp, byte 14h
         mov ebp, eax
         mov edx, dword [dword esp+04820h]
@@ -5330,7 +5330,7 @@ DrawClippedPoly:
         mov dword [dword esp+04818h], eax
         lea eax, [dword esp+03014h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
         mov eax, dword [dword esp+04808h]
         push ebp
@@ -5343,7 +5343,7 @@ DrawClippedPoly:
         push edi
         lea eax, [dword esp+02414h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
 .10:
         mov esi, dword [dword esp+0482Ch]
@@ -5464,7 +5464,7 @@ DrawClippedPoly:
         push ebp
         add eax, edx
         push eax
-        call sub_D1B3C
+        call MapPolySpans
         add esp, byte 24h
 .17:
         add esi, byte 4
@@ -5510,7 +5510,7 @@ DrawClippedPoly:
         push ebp
         lea eax, [byte esp+010h]
         push eax
-        call sub_D1860
+        call BuildEdgeTableMin
         mov dword [dword esp+04820h], eax
         add esp, byte 14h
         mov edx, dword [dword esp+04848h]
@@ -5530,7 +5530,7 @@ DrawClippedPoly:
         mov dword [dword esp+04818h], eax
         lea eax, [dword esp+0C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
         mov ebx, dword [dword esp+0480Ch]
         mov eax, dword [dword esp+04808h]
@@ -5544,7 +5544,7 @@ DrawClippedPoly:
         push ebp
         lea eax, [dword esp+03C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
 .20:
         mov eax, dword [dword esp+04860h]
@@ -5582,7 +5582,7 @@ DrawClippedPoly:
         lea eax, [dword esp+01810h]
         push eax
         mov ebp, ecx
-        call sub_D1920
+        call BuildEdgeTableMax
         mov dword [dword esp+04818h], eax
         add esp, byte 14h
         mov edx, dword [dword esp+04850h]
@@ -5602,7 +5602,7 @@ DrawClippedPoly:
         mov dword [dword esp+04820h], eax
         lea eax, [dword esp+03014h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
         mov ebx, dword [dword esp+04804h]
         mov eax, dword [dword esp+04808h]
@@ -5616,7 +5616,7 @@ DrawClippedPoly:
         push ebp
         lea eax, [dword esp+02414h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
 .23:
         mov eax, dword [dword esp+0485Ch]
@@ -5757,7 +5757,7 @@ DrawMappedPolyClipped:
         lea eax, [byte esp+010h]
         push eax
         mov edi, ecx
-        call sub_D1860
+        call BuildEdgeTableMin
         add esp, byte 14h
         mov ebp, eax
         mov ebx, dword [dword esp+04818h]
@@ -5777,7 +5777,7 @@ DrawMappedPolyClipped:
         mov dword [dword esp+04818h], eax
         lea eax, [dword esp+0C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
         mov eax, dword [dword esp+04808h]
         push ebp
@@ -5790,7 +5790,7 @@ DrawMappedPolyClipped:
         push edi
         lea eax, [dword esp+03C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
 .7:
         mov esi, dword [dword esp+04830h]
@@ -5828,7 +5828,7 @@ DrawMappedPolyClipped:
         lea eax, [dword esp+01810h]
         push eax
         mov edi, ecx
-        call sub_D1920
+        call BuildEdgeTableMax
         add esp, byte 14h
         mov ebp, eax
         mov edx, dword [dword esp+04820h]
@@ -5848,7 +5848,7 @@ DrawMappedPolyClipped:
         mov dword [dword esp+04818h], eax
         lea eax, [dword esp+03014h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
         mov eax, dword [dword esp+04808h]
         push ebp
@@ -5861,7 +5861,7 @@ DrawMappedPolyClipped:
         push edi
         lea eax, [dword esp+02414h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
 .10:
         mov esi, dword [dword esp+0482Ch]
@@ -5982,7 +5982,7 @@ DrawMappedPolyClipped:
         push ebp
         add eax, edx
         push eax
-        call sub_D1BEC
+        call MapPolySpansRemap
         add esp, byte 24h
 .17:
         add esi, byte 4
@@ -6028,7 +6028,7 @@ DrawMappedPolyClipped:
         push ebp
         lea eax, [byte esp+010h]
         push eax
-        call sub_D1860
+        call BuildEdgeTableMin
         mov dword [dword esp+04820h], eax
         add esp, byte 14h
         mov edx, dword [dword esp+04848h]
@@ -6048,7 +6048,7 @@ DrawMappedPolyClipped:
         mov dword [dword esp+04818h], eax
         lea eax, [dword esp+0C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
         mov ebx, dword [dword esp+0480Ch]
         mov eax, dword [dword esp+04808h]
@@ -6062,7 +6062,7 @@ DrawMappedPolyClipped:
         push ebp
         lea eax, [dword esp+03C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
 .20:
         mov eax, dword [dword esp+04860h]
@@ -6100,7 +6100,7 @@ DrawMappedPolyClipped:
         lea eax, [dword esp+01810h]
         push eax
         mov ebp, ecx
-        call sub_D1920
+        call BuildEdgeTableMax
         mov dword [dword esp+04818h], eax
         add esp, byte 14h
         mov edx, dword [dword esp+04850h]
@@ -6120,7 +6120,7 @@ DrawMappedPolyClipped:
         mov dword [dword esp+04820h], eax
         lea eax, [dword esp+03014h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
         mov ebx, dword [dword esp+04804h]
         mov eax, dword [dword esp+04808h]
@@ -6134,7 +6134,7 @@ DrawMappedPolyClipped:
         push ebp
         lea eax, [dword esp+02414h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
 .23:
         mov eax, dword [dword esp+0485Ch]
@@ -6642,7 +6642,7 @@ DrawFlatPolyClipped:
         lea eax, [byte esp+04h]
         push eax
         push edx
-        call sub_D1CE0
+        call FillFlatPolyCore
         add esp, byte 0Ch
         add esp, byte 20h
         pop ebp

@@ -62,7 +62,7 @@ extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, 
 extern GetLangText, PickIndexEntryScreen, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlock, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, FillRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont
 extern FreeColourLookup, sub_B2B0C, SetAaPalLut, DrawArtAaScaledInt, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot
-extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, sub_BEAE4
+extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, BuildPerspTable
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, sub_E0584, SetViewScreenOrigin
 extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, unk_16443C, unk_1774C4, unk_177510, unk_1778C4
@@ -178,7 +178,7 @@ StartReplay:
         mov dword [dword_11B324], eax
         call SetCameraAngles
         add esp, byte 10h
-        call sub_BEAE4
+        call BuildPerspTable
         push dword [dword_11B32C]
         push dword [dword_11B328]
         call SetViewScreenOrigin

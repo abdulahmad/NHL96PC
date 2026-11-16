@@ -13,8 +13,8 @@ extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, str
 extern FindCachedFile, unpack, UnpackedSize, NearestColour, MultiplyMatrix, DrawPolyList, FillShadedPoly, ClipAndProjectEdge
 extern DrawTexturedPolyCore, GetPalette, PolyCrossProduct, DrawMappedTriangle, DrawMappedTriangleShadow, DrawShapeTriangleMapped, DrawClippedPoly, DrawMappedPolyClipped
 extern DrawMappedStrip, DrawMappedStripShadow, DrawMappedStripDirect, DrawFlatPolyClipped, DrawFlatPolyMapped, TexSpanFill, VecLength3, NormalizeVec3
-extern FillRectColor, FindShapeQuiet, bcopy, DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, sub_E0959
-extern sub_E1575, TransposeMatrix, unk_122320, unk_190EDC
+extern FillRectColor, FindShapeQuiet, bcopy, DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, FillPolygon
+extern RemapPolygon, TransposeMatrix, unk_122320, unk_190EDC
 global TexPolyFill_2C8, ReadFileRange, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle, LoadPackedHandleQuiet, LoadPackedCore, FileSizeByName
 global SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject, FillTexturePoly, FillTexturePolyClipped, OriTriOpaque, OriTriShadow
 global OriTriMapped, OriQuadOpaque, OriQuadMapped, OriQuadShadow, OriPolyShaded, OriPolyClipped, OriPolyMapped, OriStripOpaque
@@ -561,7 +561,7 @@ FillTexturePoly:
         push ebp
         mov ebp, dword [byte esp+038h]
         push ebp
-        call sub_E0959
+        call FillPolygon
         add esp, byte 0Ch
 .4:
         add esp, byte 20h
@@ -605,7 +605,7 @@ FillTexturePolyClipped:
         mov eax, esp
         push eax
         push ebp
-        call sub_E1575
+        call RemapPolygon
         add esp, byte 8
 .3:
         add esp, byte 20h

@@ -8,7 +8,7 @@ extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dwo
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
 extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
 extern dword_19A640, dword_19A644, dword_19A648, dword_19A64C, strnicmp_, FixedDivide, ProjectPointWide, DrawMappedTriangle
-extern TexSpanFill, FillRectColor, PutPixel, sub_E0959, sub_E15D7, unk_1983E0
+extern TexSpanFill, FillRectColor, PutPixel, FillPolygon, ClipEdgeToPlane, unk_1983E0
 global __CHP, ShadedPolyStepEdge_19F, FillShadedTriRight_1C9, OriFindGroup, OriFindPartition, OriGetPartition, ShadedPolyStepEdge, ShadedSpansLeftClipped
 global ShadedSpansLeft, ShadedSpansRightClipped, ShadedSpansRight, FillShadedTriRight, FillShadedTriRightClipped, FillShadedTriLeft, FillShadedTriLeftClipped, FillShadedPoly
 global InitReciprocalTable, ClipEdgeAtZ, ClipAndProjectEdge, PolySideTest, ClipPolyNearZ, ClipEdgeAtZTex, DrawTexturedPolyCore, SubdivideMappedTriangle
@@ -2431,7 +2431,7 @@ DrawTexturedPolyCore:
         push eax
         push esi
         lea edi, [byte esp+01Ch]
-        call sub_E15D7
+        call ClipEdgeToPlane
         add esp, byte 10h
         mov esi, esp
         lea ebp, [byte esp+0Ch]
@@ -2447,7 +2447,7 @@ DrawTexturedPolyCore:
         push esi
         push eax
         lea edi, [byte esp+01Ch]
-        call sub_E15D7
+        call ClipEdgeToPlane
         lea eax, [byte esp+01Ch]
         add esp, byte 10h
         mov esi, esp
@@ -2605,7 +2605,7 @@ SubdivideMappedTriangle:
         push eax
         push edi
         push esi
-        call sub_E15D7
+        call ClipEdgeToPlane
         add esp, byte 10h
         mov edi, ebp
         lea esi, [byte esp+020h]
@@ -2638,7 +2638,7 @@ SubdivideMappedTriangle:
         push eax
         push esi
         push edi
-        call sub_E15D7
+        call ClipEdgeToPlane
         add esp, byte 10h
         mov esi, dword [dword_19A644]
         mov edi, dword [byte esp+038h]
@@ -2704,7 +2704,7 @@ SubdivideMappedTriangle:
         push edi
         mov edx, dword [byte esp+034h]
         push edx
-        call sub_E0959
+        call FillPolygon
         add esp, byte 0Ch
 .11:
         add esp, byte 48h
@@ -2765,7 +2765,7 @@ DrawMarkingPolys:
         push edx
         push esi
         push eax
-        call sub_E15D7
+        call ClipEdgeToPlane
         add esp, byte 10h
         push ebp
         lea eax, [dword esp+0324h]
@@ -2782,7 +2782,7 @@ DrawMarkingPolys:
         push edx
         push eax
         push esi
-        call sub_E15D7
+        call ClipEdgeToPlane
         mov esi, dword [dword_19A644]
         add esi, edi
         mov edi, ebp
@@ -2820,7 +2820,7 @@ DrawMarkingPolys:
         push ebp
         mov edx, dword [dword esp+0334h]
         push edx
-        call sub_E0959
+        call FillPolygon
         mov ebx, dword [dword_19A64C]
         add esp, byte 0Ch
         test ebx, ebx

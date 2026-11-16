@@ -42,8 +42,8 @@ extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPau
 extern sub_AAADC, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, TextSetColor, FreeColourLookup, CreateColourLookup
 extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, MultiplyMatrix
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
-extern FixedInverse, sub_BE960, sub_BEF44, FlipArtHorizontal, SetScreenTarget, SetRemapTable, sub_DD908, SetBlitSource
-extern sub_DD975, sub_DDBB4, sub_E0486, FindShape, sub_E0584, sub_E162A, SetViewScreenOrigin, TeamLineEnergy
+extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTarget, SetRemapTable, SetColourRemap, SetBlitSource
+extern SetBlendTables, ScaleRowBlend, sub_E0486, FindShape, sub_E0584, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, unk_58468, unk_5848C, vtoa
@@ -159,7 +159,7 @@ DrawScaledSprite:
         call SetBlitSource
         add esp, byte 8
         push dword [byte ebp-018h]
-        call sub_DD975
+        call SetBlendTables
         mov eax, edi
         shl eax, 2
         add esp, byte 4
@@ -216,7 +216,7 @@ DrawScaledSprite:
         push ebx
         add eax, dword [edx]
         push eax
-        call sub_DDBB4
+        call ScaleRowBlend
         add esp, byte 0Ch
 .12:
         mov eax, dword [byte ebp-01Ch]
@@ -502,7 +502,7 @@ AllocShadeLut_5A:
         imul edx, eax
         imul eax, edx
         push eax
-        call sub_BE960
+        call IntSqrt
         add esp, byte 4
         pop edx
         pop ecx
@@ -514,7 +514,7 @@ AllocShadeLut_5A:
         imul edx, eax
         imul eax, edx
         push eax
-        call sub_BE960
+        call IntSqrt
         add esp, byte 4
         neg eax
         pop edx
@@ -736,7 +736,7 @@ InitGameView:
         call sub_E0584
         add esp, byte 4
         push byte 50h
-        call sub_E162A
+        call SetNearClipZ
         add esp, byte 4
         push byte 50h
         call SetScreenScale
@@ -1310,13 +1310,13 @@ DrawRinkSprite:
         mov eax, unk_17B830
 .20:
         push eax
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         push dword [byte ebp-014h]
         push dword [byte ebp-010h]
         push dword [byte ebp-04h]
         push esi
-        call sub_BEF44
+        call DrawArtScaledRemap
 .21:
         add esp, byte 10h
         jmp near DrawScaledSprite_1E2

@@ -1500,8 +1500,12 @@ BE8C0,Init387Emulator,sub_BE8C0,new,low,jumps to the 387 emulator set-up,src/lib
 BE8C5,imul32,,95PC,medium,NHL95PC 933F0 (similar): mnemonic similarity 0.82 over 47 instructions,
 BE926,FixedInverse,sub_BE926,new,low,returns 1/x in 16.16 fixed point,src/lib/ea/ea_fileblock_03.asm
 BE93C,fprintf_,,WATCOM,high,IDA FLIRT library signature,
+BE960,IntSqrt,sub_BE960,new,low,returns the integer square root of a number,src/lib/ea/ea_fileblock_03.asm
 BEA30,SortIndices,,95PC,medium,NHL95PC 93540 (similar): mnemonic similarity 0.83 over 62 instructions,
+BEAE4,BuildPerspTable,sub_BEAE4,new,low,fills the perspective table from the projection distance,src/lib/ea/ea_fileblock_03.asm
 BEB48,ProjectPointWide,sub_BEB48,new,low,projects one 3D point with perspective using 64-bit maths,src/lib/ea/ea_fileblock_03.asm
+BEC30,ScaleArtRemapRows,sub_BEC30,new,low,"draws art scaled through the colour remap, row by row, clipped",src/lib/ea/ea_fileblock_03.asm
+BEF44,DrawArtScaledRemap,sub_BEF44,new,low,draws art scaled by a factor through the colour remap,src/lib/ea/ea_fileblock_03.asm
 BEFF0,FlipArtHorizontal,sub_BEFF0,new,low,mirrors art left to right and moves its hotspot to match,src/lib/ea/ea_fileblock_03.asm
 BF070,__STOSB,,WATCOM,high,IDA FLIRT library signature,
 BF0A7,__STOSD,,WATCOM,high,IDA FLIRT library signature,
@@ -1884,6 +1888,13 @@ D1474,__int386x_,,WATCOM,high,IDA FLIRT library signature,
 D14AC,IntrLoadSegRegs,sub_D14AC,new,low,loads the register set and segment registers for a protected-mode interrupt call,src/lib/watcom/watcom_clib_17.asm
 D14D1,_DoINTR_,,WATCOM,high,IDA FLIRT library signature,
 D151E,IntrLoadRegs,sub_D151E,new,low,loads the full register set from a REGPACK and selects the interrupt stub to call,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
+D1860,BuildEdgeTableMin,sub_D1860,new,low,"builds the left edge table of a mapped polygon (buildtablemin, at most 768 rows)",src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
+D1920,BuildEdgeTableMax,sub_D1920,new,low,builds the right edge table of a mapped polygon,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
+D19BC,BuildFixedTableMin,sub_D19BC,new,low,builds the left edge table of a mapped polygon with fixed point steps,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
+D1A88,BuildFixedTableMax,sub_D1A88,new,low,builds the right edge table of a mapped polygon with fixed point steps,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
+D1B3C,MapPolySpans,sub_D1B3C,new,low,draws the texture mapped spans of a clipped polygon,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
+D1BEC,MapPolySpansRemap,sub_D1BEC,new,low,draws the texture mapped spans of a clipped polygon through the remap table,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
+D1CE0,FillFlatPolyCore,sub_D1CE0,new,low,builds the edge tables of a polygon and fills its spans,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
 D27B8,__int7_pl3,,WATCOM,high,IDA FLIRT library signature,
 D27DC,__int7_X32VM,,WATCOM,high,IDA FLIRT library signature,
 D2828,__int7,,WATCOM,high,IDA FLIRT library signature,
@@ -2200,18 +2211,30 @@ DD6E0,GetPaletteRange,sub_DD6E0,new,low,reads a range of palette entries from th
 DD708,SetDrawBitmap,,95PC,medium,NHL95PC B4F70 (sem): D:1228D0; R:1652; R:1650,
 DD724,FillRectColor,sub_DD724,new,low,clips a rectangle to the screen and fills it with a colour; followed by the row fillers,src/lib/video/video_bios_vga_01.asm
 DD760,SetClipWindow,,95PC,medium,NHL95PC B4BC4 (similar): mnemonic similarity 0.89 over 26 instructions,
+DD7B8,SetPaletteEntries,sub_DD7B8,new,medium,"writes 6-bit palette entries (start, count, rgb) to the VGA DAC and the palette copy",src/lib/video/video_bios_vga_01.asm
+DD800,SetTextMode,sub_DD800,new,medium,closes the graphics screen and sets 80x25 colour text mode,src/lib/video/video_bios_vga_01.asm
+DD830,SetPaletteEntries8,sub_DD830,new,medium,writes 8-bit palette entries to the VGA DAC (scaled to 6 bits) and the palette copy,src/lib/video/video_bios_vga_01.asm
+DD87C,ReadPaletteEntries8,sub_DD87C,new,medium,reads palette entries from the VGA DAC as 8-bit RGB,src/lib/video/video_bios_vga_01.asm
 DD8B0,SetRemapTable,sub_DD8B0,new,low,copies a 256-entry colour remap table into the current one,src/lib/video/video_bios_vga_01.asm
 DD8C8,GetRemapTable,sub_DD8C8,new,low,copies the current 256-entry colour remap table out,src/lib/video/video_bios_vga_01.asm
+DD908,SetColourRemap,sub_DD908,new,medium,copies a 256 byte colour remap table into the current remap,src/lib/video/video_bios_vga_01.asm
+DD920,GetColourRemap,sub_DD920,new,medium,copies the current 256 byte colour remap table out,src/lib/video/video_bios_vga_01.asm
 DD960,SetBlitSource,sub_DD960,new,medium,sets the source pointer and the column offset table used by the span copiers,src/lib/video/video_bios_vga_01.asm
+DD975,SetBlendTables,sub_DD975,new,low,sets the table of blend tables translucent scaled drawing uses,src/lib/video/video_bios_vga_01.asm
 DD982,CopyMappedSpan,sub_DD982,new,medium,"copies a span of pixels from the source through the column offset table, by pixel depth",src/lib/video/video_bios_vga_01.asm
+DDA44,ScaleRowRemapKeyed,sub_DDA44,new,low,"draws a scaled row through the colour remap, skipping FFh pixels",src/lib/video/video_bios_vga_01.asm
 DDB22,CopyScaledSpanShadow,sub_DDB22,new,medium,"copies a scaled row, skipping colour 0FFh and shading under colour 0FEh",src/lib/video/video_bios_vga_01.asm
+DDB68,ScaleRowShadow,sub_DDB68,new,low,"draws a scaled row through the colour remap: FEh darkens what is under it, FFh is skipped",src/lib/video/video_bios_vga_01.asm
+DDBB4,ScaleRowBlend,sub_DDBB4,new,low,draws a scaled row blended with what is under it through the blend tables,src/lib/video/video_bios_vga_01.asm
 DDC2A,CopyScaledSpan,sub_DDC2A,new,medium,copies a scaled row of pixels,src/lib/video/video_bios_vga_01.asm
 DDE74,ReadPortStable,sub_DDE74,new,low,reads a port twice and returns the bits set in both reads,src/lib/video/video_bios_vga_01.asm
 DDE7B,WaitRetrace,sub_DDE7B,new,high,busy-wait for the VGA vertical retrace,src/lib/video/video_bios_vga_01.asm
 DDEBC,WaitRetraceEdges,sub_DDEBC,new,medium,"as WaitRetrace, always waiting for both edges",src/lib/video/video_bios_vga_01.asm
 DDEE7,WaitDisplayRetrace,,new,medium,"waits for display enable, then for the start of vertical retrace (port 3DAh, bit 3); entry after the ret of WaitRetraceEdges",src/lib/video/video_bios_vga_01.asm
 DDF24,SetCrtcStart,sub_DDF24,new,medium,page flip: set the CRTC start address,src/lib/video/video_bios_vga_01.asm
+DDF4F,WriteSequencerReg,sub_DDF4F,new,medium,"writes a VGA sequencer register (index, value)",src/lib/video/video_bios_vga_01.asm
 DDF94,ClearChain4,sub_DDF94,new,medium,clear Chain-4 (sequencer register 4 bit 3) after mode 13h for the unchained pages,src/lib/video/video_bios_vga_01.asm
+DE01A,SetModeX,sub_DE01A,new,low,"sets the unchained 256 colour VGA mode from mode 13h, loading its CRTC registers",src/lib/video/video_bios_vga_01.asm
 DE084,SetClipRect,sub_DE084,new,medium,"sets a bitmap's clip rectangle (left, top, right, bottom), and the current clip when it is the draw target",src/lib/video/vesa_banked_blit_02.asm
 DE10D,PlotPixel,,95PC,medium,NHL95PC B5DB0 (sem): D:12401C; D:122930; C:2281; D:1228F4,
 DE15C,PutPixel,sub_DE15C,new,low,"plots a pixel of a colour at x, y when it is inside the clip rectangle",src/lib/video/vesa_banked_blit_02.asm
@@ -2244,9 +2267,16 @@ DF5C0,UnpackArtRle,sub_DF5C0,new,low,copies an art header and unpacks its run le
 DF6A7,BlitBlockShadow,sub_DF6A7,new,low,"draws a block with shadow pixels: FFh skipped, FEh remapped, others copied",src/lib/video/vesa_banked_blit_02.asm
 DF810,CopyRowShadowFast,sub_DF810,new,low,copies a row with shadow pixels to a linear screen,src/lib/video/vesa_banked_blit_02.asm
 DF8AC,MouseReadButtons,sub_DF8AC,new,low,reads the mouse buttons through the mouse driver,src/lib/input/input_mouse.asm
+DF8E8,MouseSetSensitivity,sub_DF8E8,new,medium,"sets the mouse sensitivity (int 33h, 1Ah) when a mouse is present",src/lib/input/input_mouse.asm
 DF928,MouseRead,,95PC,medium,NHL95PC B2DCA (similar): mnemonic similarity 0.88 over 29 instructions,
 DF98F,SetViewRect,,95PC,high,NHL95PC B2E1B (exact): 12 instructions,
 DF9B7,MouseReadMotion,sub_DF9B7,new,medium,mouse library: reads int 33h 0Bh into the pointer state,src/lib/input/input_mouse.asm
+DFA6C,PointerCountUp,sub_DFA6C,new,low,counts the mouse pointer shown once more,src/lib/input/input_mouse.asm
+DFA73,PointerCountDown,sub_DFA73,new,low,counts the mouse pointer hidden once more,src/lib/input/input_mouse.asm
+DFA7A,MouseRestoreSensitivity,sub_DFA7A,new,low,puts back the mouse sensitivity saved at start-up,src/lib/input/input_mouse.asm
+DFA98,InitMouse,sub_DFA98,new,low,"finds the mouse, saves its sensitivity, sets its range and the pointer routines",src/lib/input/input_mouse.asm
+DFB84,ReturnZero,sub_DFB84,new,medium,returns 0; the empty routine in hook tables,src/lib/input/input_mouse.asm
+DFB88,InstallKeyboardHandler,sub_DFB88,new,low,installs the keyboard and int 16h handlers and adds their removal at exit,src/lib/input/input_mouse.asm
 DFC33,RemoveKeyboardHandler,sub_DFC33,new,low,keyboard: restores the original keyboard interrupt,src/lib/input/input_keyboard_01.asm
 DFDDE,Int16Handler,sub_DFDDE,new,low,keyboard: BIOS keyboard service replacement that reads from the game's key buffer,src/lib/input/input_keyboard_01.asm
 DFE28,Int16Service,sub_DFE28,new,low,keyboard: handles the BIOS keyboard read and status calls,src/lib/input/input_keyboard_01.asm
@@ -2280,10 +2310,18 @@ E07C8,DosWriteFile,sub_E07C8,new,low,writes a buffer to a DOS file,src/lib/ea/ea
 E081C,DosSeekFile,sub_E081C,new,medium,moves a DOS file pointer to an absolute position,src/lib/ea/ea_fileio_01.asm
 E0834,FatalError,,95PC,high,NHL95PC B2CD8 (callsite): called at the same place of sub_B30BB,
 E0898,Random32,sub_E0898,new,medium,same code as in the next game,src/lib/input/input_joystick_misc_02.asm
+E0959,FillPolygon,sub_E0959,new,low,fills a polygon from a point list with a colour,src/lib/input/input_joystick_misc_02.asm
+E0992,FillPolygonArgs,sub_E0992,new,low,fills a polygon whose points are passed as arguments,src/lib/input/input_joystick_misc_02.asm
+E09B8,FillPolygonCore,,new,low,fills a polygon through the span and band fill routines set by the caller,src/lib/input/input_joystick_misc_02.asm
 E0B9B,FillBandEdges,sub_E0B9B,new,low,fills the soft edge columns of a shaded band,src/lib/input/input_joystick_misc_02.asm
 E0C59,FillBandRows,sub_E0C59,new,low,fills the rows of a shaded band with its colour,src/lib/input/input_joystick_misc_02.asm
 E0D8B,FillBandRowsBlend,sub_E0D8B,new,low,"fills the rows of a shaded band, blending with what is under it",src/lib/input/input_joystick_misc_02.asm
 E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4 routine(s) named in both: ShotLaneOpen,src/lib/input/input_joystick_misc_02.asm
+E1530,RemapPolygonCore,sub_E1530,new,low,darkens a polygon through the remap table,src/lib/input/input_joystick_misc_02.asm
+E1575,RemapPolygon,sub_E1575,new,low,darkens a polygon from a point list through the remap table,src/lib/input/input_joystick_misc_02.asm
+E15AC,RemapPolygonArgs,sub_E15AC,new,low,darkens a polygon whose points are passed as arguments,src/lib/input/input_joystick_misc_02.asm
+E15D7,ClipEdgeToPlane,sub_E15D7,new,low,finds where an edge crosses a Z plane,src/lib/input/input_joystick_misc_02.asm
+E162A,SetNearClipZ,sub_E162A,new,low,sets the near clip plane distance,src/lib/input/input_joystick_misc_02.asm
 E1638,SetViewScreenOrigin,sub_E1638,new,low,sets the view's screen origin and works out its far corner from the view size,src/lib/input/input_joystick_misc_02.asm
 E167A,SetCameraAngles,sub_E167A,new,low,converts the camera angles from degrees to 1024ths of a turn and builds the camera rotation,src/lib/input/input_joystick_misc_02.asm
 E17B8,TransposeMatrix,sub_E17B8,new,low,"transposes a 3x3 matrix, in place or into another matrix",src/lib/input/input_joystick_misc_02.asm

@@ -19,7 +19,7 @@ extern str_Teams, strcat_, strcpy_, strlen_, WriteDbRecord6, ReadSeasonHeader, G
 extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
 extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern sub_AD620, FreeBitmap, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, DrawArtKeyedAtOrigin
-extern PutBlockKeyed, SetScreenTarget, sub_DD908, FindShape, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
+extern PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
 extern unk_11E354, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, UpdateProgressBox
 global unk_77442, unk_7745A, CompareGrey, SortGreyColors, jpt_7761E, jpt_77632, NewSeasonScreen, NewSeasonScreen_5FB
 global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonScreen_7F2, NewSeasonScreen_8AF, NewSeasonScreen_8BB, NewSeasonScreen_8CB, NewSeasonScreen_8E0
@@ -907,7 +907,7 @@ DrawSeasonTeams:
 .4:
         push dword [byte ebp+01Ch]
 .5:
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         push byte 0
         mov eax, dword [byte ebp-020h]
@@ -1099,7 +1099,7 @@ DrawSeasonTeams:
 .18:
         push dword [byte ebp+01Ch]
 .19:
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         push byte 0
         mov eax, dword [byte ebp-03Ch]
@@ -1287,7 +1287,7 @@ DrawSeasonTeams:
 .33:
         lea eax, [dword ebp-0144h]
         push eax
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         push dword [byte ebp-01Ch]
         call FreeBitmap

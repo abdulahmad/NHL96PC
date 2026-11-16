@@ -5,10 +5,10 @@ section s_DD6C4 progbits alloc exec nowrite align=1
 extern RemapTable, ColourRemap, dword_11F5A0, ScreenWidth, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight
 extern ScreenHeight, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, BlitColumnOffsets, BlitSourcePtr, RetraceTimeout
 extern dword_1248C8, sub_ADA50, FillRectSpans, SetupRectFill, unk_18584C
-global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, sub_DD7B8, sub_DD800
-global sub_DD830, sub_DD87C, SetRemapTable, GetRemapTable, sub_DD908, sub_DD920, SetBlitSource, sub_DD975
-global CopyMappedSpan, sub_DDA44, CopyScaledSpanShadow, sub_DDB68, sub_DDBB4, CopyScaledSpan, ReadPortStable, WaitRetrace
-global WaitRetraceEdges, SetCrtcStart, sub_DDF4F, ClearChain4, sub_DE01A, unk_DE06D, WaitDisplayRetrace
+global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, SetPaletteEntries, SetTextMode
+global SetPaletteEntries8, ReadPaletteEntries8, SetRemapTable, GetRemapTable, SetColourRemap, GetColourRemap, SetBlitSource, SetBlendTables
+global CopyMappedSpan, ScaleRowRemapKeyed, CopyScaledSpanShadow, ScaleRowShadow, ScaleRowBlend, CopyScaledSpan, ReadPortStable, WaitRetrace
+global WaitRetraceEdges, SetCrtcStart, WriteSequencerReg, ClearChain4, SetModeX, ModeXCrtcTable, WaitDisplayRetrace
 ;-----------------------------------------------------------------------------
 ; SetScreenTarget                                 DD6C4  96 PC, low confidence
 ; Same code as in the next game
@@ -123,9 +123,11 @@ SetClipWindow:
         mov dword [ScreenHeight], ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_DD7B8                                                            DD7B8  
+; SetPaletteEntries                            DD7B8  96 PC, medium confidence
+; Writes 6-bit palette entries (start, count, rgb) to the VGA DAC and the
+; palette copy
 ;-----------------------------------------------------------------------------
-sub_DD7B8:
+SetPaletteEntries:
         push esi
         push edi
         push ebp
@@ -154,9 +156,10 @@ sub_DD7B8:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DD800                                                            DD800  
+; SetTextMode                                  DD800  96 PC, medium confidence
+; Closes the graphics screen and sets 80x25 colour text mode
 ;-----------------------------------------------------------------------------
-sub_DD800:
+SetTextMode:
         push byte 0
         call sub_ADA50
         add esp, byte 4
@@ -170,9 +173,11 @@ sub_DD800:
         mov dword [dword_11F5A0], 0
         ret
 ;-----------------------------------------------------------------------------
-; sub_DD830                                                            DD830  
+; SetPaletteEntries8                           DD830  96 PC, medium confidence
+; Writes 8-bit palette entries to the VGA DAC (scaled to 6 bits) and the
+; palette copy
 ;-----------------------------------------------------------------------------
-sub_DD830:
+SetPaletteEntries8:
         push esi
         push edi
         push ebp
@@ -205,9 +210,10 @@ sub_DD830:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_DD87C                                                            DD87C  
+; ReadPaletteEntries8                          DD87C  96 PC, medium confidence
+; Reads palette entries from the VGA DAC as 8-bit RGB
 ;-----------------------------------------------------------------------------
-sub_DD87C:
+ReadPaletteEntries8:
         push ebp
         LD mov, ebp, esp
         push edi
@@ -287,9 +293,10 @@ GetRemapTable:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_DD908                                                            DD908  
+; SetColourRemap                               DD908  96 PC, medium confidence
+; Copies a 256 byte colour remap table into the current remap
 ;-----------------------------------------------------------------------------
-sub_DD908:
+SetColourRemap:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -303,9 +310,10 @@ sub_DD908:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DD920                                                            DD920  
+; GetColourRemap                               DD920  96 PC, medium confidence
+; Copies the current 256 byte colour remap table out
 ;-----------------------------------------------------------------------------
-sub_DD920:
+GetColourRemap:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -354,9 +362,10 @@ SetBlitSource:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DD975                                                            DD975  
+; SetBlendTables                                  DD975  96 PC, low confidence
+; Sets the table of blend tables translucent scaled drawing uses
 ;-----------------------------------------------------------------------------
-sub_DD975:
+SetBlendTables:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -455,9 +464,10 @@ CopyMappedSpan:
         jns short .12
         jmp short .9
 ;-----------------------------------------------------------------------------
-; sub_DDA44                                                            DDA44  
+; ScaleRowRemapKeyed                              DDA44  96 PC, low confidence
+; Draws a scaled row through the colour remap, skipping FFh pixels
 ;-----------------------------------------------------------------------------
-sub_DDA44:
+ScaleRowRemapKeyed:
         push esi
         push edi
         mov esi, dword [byte esp+010h]
@@ -581,9 +591,11 @@ CopyScaledSpanShadow:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DDB68                                                            DDB68  
+; ScaleRowShadow                                  DDB68  96 PC, low confidence
+; Draws a scaled row through the colour remap: FEh darkens what is under it,
+; FFh is skipped
 ;-----------------------------------------------------------------------------
-sub_DDB68:
+ScaleRowShadow:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -616,9 +628,10 @@ sub_DDB68:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DDBB4                                                            DDBB4  
+; ScaleRowBlend                                   DDBB4  96 PC, low confidence
+; Draws a scaled row blended with what is under it through the blend tables
 ;-----------------------------------------------------------------------------
-sub_DDBB4:
+ScaleRowBlend:
         push esi
         push edi
         push ebp
@@ -1006,9 +1019,10 @@ SetCrtcStart:
         in al, dx
         ret
 ;-----------------------------------------------------------------------------
-; sub_DDF4F                                                            DDF4F  
+; WriteSequencerReg                            DDF4F  96 PC, medium confidence
+; Writes a VGA sequencer register (index, value)
 ;-----------------------------------------------------------------------------
-sub_DDF4F:
+WriteSequencerReg:
         mov al, byte [byte esp+04h]
         mov ah, byte [byte esp+08h]
         mov edx, 3C4h
@@ -1114,9 +1128,11 @@ ClearChain4:
         out dx, al
         ret
 ;-----------------------------------------------------------------------------
-; sub_DE01A                                                            DE01A  
+; SetModeX                                        DE01A  96 PC, low confidence
+; Sets the unchained 256 colour VGA mode from mode 13h, loading its CRTC
+; registers
 ;-----------------------------------------------------------------------------
-sub_DE01A:
+SetModeX:
         push esi
         push edi
         mov dx, 3C4h
@@ -1139,7 +1155,7 @@ sub_DE01A:
         out dx, al
         dec dx
         cld
-        mov esi, unk_DE06D
+        mov esi, ModeXCrtcTable
         mov ecx, 0Ah
 .1:
         lodsw
@@ -1155,6 +1171,6 @@ sub_DE01A:
         pop edi
         pop esi
         ret
-unk_DE06D:
+ModeXCrtcTable:
         db 06h,0Dh,07h,03Eh,09h,041h,010h,0EAh,011h,0ACh,012h,0DFh,014h,00h,015h,0E7h
         db 016h,06h,017h,0E3h,00h,00h,00h

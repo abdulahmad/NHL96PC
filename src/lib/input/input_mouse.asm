@@ -7,8 +7,8 @@ extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5B8, dword_11F5C0, dwo
 extern SavedInt16Offset, SavedRealKbdOffset, RemoveKeyboardHandler_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, BiosKeyFunc
 extern DosGetVector, DosSetVector, RemoveKeyboardHandler, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, word_11F580
 extern word_11F582, word_11F584, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
-global MouseReadButtons, sub_DF8E8, MouseRead, SetViewRect, MouseReadMotion, sub_DFA6C, sub_DFA73, sub_DFA7A
-global sub_DFA98, sub_DFB84, sub_DFB88
+global MouseReadButtons, MouseSetSensitivity, MouseRead, SetViewRect, MouseReadMotion, PointerCountUp, PointerCountDown, MouseRestoreSensitivity
+global InitMouse, ReturnZero, InstallKeyboardHandler
 ;-----------------------------------------------------------------------------
 ; MouseReadButtons                                DF8AC  96 PC, low confidence
 ; Reads the mouse buttons through the mouse driver
@@ -35,9 +35,10 @@ MouseReadButtons:
         inc dword [MouseButtonState]
         ret
 ;-----------------------------------------------------------------------------
-; sub_DF8E8                                                            DF8E8  
+; MouseSetSensitivity                          DF8E8  96 PC, medium confidence
+; Sets the mouse sensitivity (int 33h, 1Ah) when a mouse is present
 ;-----------------------------------------------------------------------------
-sub_DF8E8:
+MouseSetSensitivity:
         push ebp
         LD mov, ebp, esp
         cmp dword [MousePresent], byte 0
@@ -175,21 +176,24 @@ MouseReadMotion:
         inc dword [MouseButtonState]
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFA6C                                                            DFA6C  
+; PointerCountUp                                  DFA6C  96 PC, low confidence
+; Counts the mouse pointer shown once more
 ;-----------------------------------------------------------------------------
-sub_DFA6C:
+PointerCountUp:
         inc dword [dword_11F5B4]
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFA73                                                            DFA73  
+; PointerCountDown                                DFA73  96 PC, low confidence
+; Counts the mouse pointer hidden once more
 ;-----------------------------------------------------------------------------
-sub_DFA73:
+PointerCountDown:
         dec dword [dword_11F5B4]
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFA7A                                                            DFA7A  
+; MouseRestoreSensitivity                         DFA7A  96 PC, low confidence
+; Puts back the mouse sensitivity saved at start-up
 ;-----------------------------------------------------------------------------
-sub_DFA7A:
+MouseRestoreSensitivity:
         pusha
         mov ax, 1Ah
         mov bx, word [word_11F580]
@@ -199,9 +203,11 @@ sub_DFA7A:
         popa
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFA98                                                            DFA98  
+; InitMouse                                       DFA98  96 PC, low confidence
+; Finds the mouse, saves its sensitivity, sets its range and the pointer
+; routines
 ;-----------------------------------------------------------------------------
-sub_DFA98:
+InitMouse:
         pusha
         mov dword [MousePresent], 0
         mov dword [dword_11F5B4], 0
@@ -239,12 +245,12 @@ sub_DFA98:
         push byte 40h
         push byte 20h
         push byte 20h
-        call sub_DF8E8
-        mov dword [off_11F5F4], sub_DFA73
-        mov dword [off_11F5F8], sub_DFA73
-        mov dword [off_11F5FC], sub_DFA6C
+        call MouseSetSensitivity
+        mov dword [off_11F5F4], PointerCountDown
+        mov dword [off_11F5F8], PointerCountDown
+        mov dword [off_11F5FC], PointerCountUp
         mov dword [mousepollfn], MouseReadMotion
-        push sub_DFA7A
+        push MouseRestoreSensitivity
         call AddExitHandler
         add esp, byte 20h
 .2:
@@ -252,16 +258,18 @@ sub_DFA98:
         mov eax, dword [MousePresent]
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFB84                                                            DFB84  
+; ReturnZero                                   DFB84  96 PC, medium confidence
+; Returns 0; the empty routine in hook tables
 ;-----------------------------------------------------------------------------
-sub_DFB84:
+ReturnZero:
         LD xor, eax, eax
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_DFB88                                                            DFB88  
+; InstallKeyboardHandler                          DFB88  96 PC, low confidence
+; Installs the keyboard and int 16h handlers and adds their removal at exit
 ;-----------------------------------------------------------------------------
-sub_DFB88:
+InstallKeyboardHandler:
         cmp word [KbdDataSelector], byte 0
         jne near .1
         o16 mov word [KbdDataSelector], ds

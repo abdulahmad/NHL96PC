@@ -4,9 +4,9 @@ bits 32
 section s_BE8C5 progbits alloc exec nowrite align=1
 extern __fprtf_, __sys_fini_387_emulator, str_Punct_DrawRinkSurface, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern DrawDestBuffer, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123ABC, dword_123AC0, ScaledRowBuffer, Mul32To64
-extern Sar64, BuildSpanOffsets, SetBlitSource, sub_DDA44, ReverseBytes
-global fprintf_, imul32, FixedInverse, sub_BE960, SortIndices, sub_BEAE4, ProjectPointWide, sub_BEC30
-global sub_BEF44, FlipArtHorizontal
+extern Sar64, BuildSpanOffsets, SetBlitSource, ScaleRowRemapKeyed, ReverseBytes
+global fprintf_, imul32, FixedInverse, IntSqrt, SortIndices, BuildPerspTable, ProjectPointWide, ScaleArtRemapRows
+global DrawArtScaledRemap, FlipArtHorizontal
 ;-----------------------------------------------------------------------------
 ; imul32                                       BE8C5  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -78,9 +78,10 @@ fprintf_:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BE960                                                            BE960  
+; IntSqrt                                         BE960  96 PC, low confidence
+; Returns the integer square root of a number
 ;-----------------------------------------------------------------------------
-sub_BE960:
+IntSqrt:
         mov eax, dword [byte esp+04h]
         cmp eax, 10000h
         jae short .6
@@ -249,9 +250,10 @@ SortIndices:
 .7:
         ret
 ;-----------------------------------------------------------------------------
-; sub_BEAE4                                                            BEAE4  
+; BuildPerspTable                                 BEAE4  96 PC, low confidence
+; Fills the perspective table from the projection distance
 ;-----------------------------------------------------------------------------
-sub_BEAE4:
+BuildPerspTable:
         push esi
         push edi
         mov esi, dword [dword_123AAC]
@@ -371,9 +373,10 @@ ProjectPointWide:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BEC30                                                            BEC30  
+; ScaleArtRemapRows                               BEC30  96 PC, low confidence
+; Draws art scaled through the colour remap, row by row, clipped
 ;-----------------------------------------------------------------------------
-sub_BEC30:
+ScaleArtRemapRows:
         push esi
         push edi
         push ebp
@@ -533,7 +536,7 @@ sub_BEC30:
         push ecx
         push eax
         push ebp
-        call sub_DDA44
+        call ScaleRowRemapKeyed
         add esp, byte 0Ch
         mov eax, dword [ScreenWidth]
         mov edx, dword [esp]
@@ -624,7 +627,7 @@ sub_BEC30:
         push ebx
         mov ecx, dword [byte esp+01Ch]
         push ecx
-        call sub_BEC30
+        call ScaleArtRemapRows
         add esp, byte 14h
         pop edi
         pop esi
@@ -642,7 +645,7 @@ sub_BEC30:
         push edx
         mov ebx, dword [byte esp+014h]
         push ebx
-        call sub_BEC30
+        call ScaleArtRemapRows
         add esp, byte 14h
         ret
         db 08Bh,0C0h
@@ -672,14 +675,15 @@ sub_BEC30:
         push eax
         sar ebx, 10h
         push ebx
-        call sub_BEC30
+        call ScaleArtRemapRows
         add esp, byte 14h
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_BEF44                                                            BEF44  
+; DrawArtScaledRemap                              BEF44  96 PC, low confidence
+; Draws art scaled by a factor through the colour remap
 ;-----------------------------------------------------------------------------
-sub_BEF44:
+DrawArtScaledRemap:
         push esi
         push edi
         push ebp
@@ -740,7 +744,7 @@ sub_BEF44:
         push ebx
         push ebp
         push edi
-        call sub_BEC30
+        call ScaleArtRemapRows
         add esp, byte 14h
         pop ebp
         pop edi

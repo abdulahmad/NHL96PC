@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_14F01C progbits alloc noexec write align=1
-extern NoFloatSupport, sub_DFB84
+extern NoFloatSupport, ReturnZero
 global str_SHPI2, WssFormatBits, WssMixFormat, WssBytesPerFrame, SbProMixFormat, SbProFrameBytes, Sb16DspCommand, Sb16DspModeByte
 global Sb16MixFormat, Sb16FrameBytes, SndTickBusy, WssDmaAlloc, WssRunning, GusDriverIsOpen, GusDmaAlloc, GusEnvRead
 global GusCardFound, SbRunning, SbDmaAlloc, SbProRunning, SbProDmaAlloc, SbProChannels, Sb16Running, Sb16DmaAlloc
@@ -64,21 +64,21 @@ Sb16FrameBytes:
 SndTickBusy:
         db 00h,00h,00h,00h
 off_14F074:
-        dd sub_DFB84
+        dd ReturnZero
 off_14F078:
-        dd sub_DFB84
+        dd ReturnZero
 off_14F07C:
-        dd sub_DFB84
+        dd ReturnZero
 off_14F080:
-        dd sub_DFB84
+        dd ReturnZero
 off_14F084:
-        dd sub_DFB84
+        dd ReturnZero
 off_14F088:
-        dd sub_DFB84
+        dd ReturnZero
 off_14F08C:
-        dd sub_DFB84
+        dd ReturnZero
 off_14F090:
-        dd sub_DFB84
+        dd ReturnZero
         db 00h,00h,00h,00h
 dword_14F098:
         db 00h,00h,00h,00h

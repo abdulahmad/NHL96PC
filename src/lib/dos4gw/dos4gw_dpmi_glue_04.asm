@@ -19,8 +19,8 @@ extern EmuFsubrSt, EmuFdivSt, EmuFdivrSt, EmuFldSt, EmuFxch, EmuFtstFxam, EmuSig
 extern EmuRemOps, EmuFucompp, EmuDispatchDBReg, EmuFaddToSt, EmuFmulToSt, EmuFsubrToSt, EmuFsubToSt, EmuFdivrToSt
 extern EmuFdivToSt, EmuFfree, EmuFstSt, EmuFucom, EmuFucomp, EmuFstpSt, EmuFaddp, EmuFmulp
 extern EmuFcompp, EmuFsubrp, EmuFsubp, EmuFdivrp, EmuFdivp, EmuDispatchDFReg
-global _DoINTR_, __int7, __int7_X32VM, __int7_pl3, EmuOpcodeJumpTable, EmuModRmJumpTable, IntrLoadRegs, sub_D1860
-global sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC, sub_D1CE0, IntrStubs, EmuZeroTbyte
+global _DoINTR_, __int7, __int7_X32VM, __int7_pl3, EmuOpcodeJumpTable, EmuModRmJumpTable, IntrLoadRegs, BuildEdgeTableMin
+global BuildEdgeTableMax, BuildFixedTableMin, BuildFixedTableMax, MapPolySpans, MapPolySpansRemap, FillFlatPolyCore, IntrStubs, EmuZeroTbyte
 global unk_D2444, unk_D2448, EmuRegRing, unk_D244C, unk_D244E, EmuRegTagMasks, unk_D249C, unk_D24A0
 global unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 ;-----------------------------------------------------------------------------
@@ -139,9 +139,11 @@ IntrStubs:
         db 0C3h,0CDh,0FCh,0C3h,0CDh,0FDh,0C3h,0CDh,0FEh,0C3h,0CDh,0FFh,0C3h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_D1860                                                            D1860  
+; BuildEdgeTableMin                               D1860  96 PC, low confidence
+; Builds the left edge table of a mapped polygon (buildtablemin, at most 768
+; rows)
 ;-----------------------------------------------------------------------------
-sub_D1860:
+BuildEdgeTableMin:
         push esi
         push edi
         push ebp
@@ -226,9 +228,10 @@ sub_D1860:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D1920                                                            D1920  
+; BuildEdgeTableMax                               D1920  96 PC, low confidence
+; Builds the right edge table of a mapped polygon
 ;-----------------------------------------------------------------------------
-sub_D1920:
+BuildEdgeTableMax:
         push esi
         push edi
         push ebp
@@ -303,9 +306,10 @@ sub_D1920:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_D19BC                                                            D19BC  
+; BuildFixedTableMin                              D19BC  96 PC, low confidence
+; Builds the left edge table of a mapped polygon with fixed point steps
 ;-----------------------------------------------------------------------------
-sub_D19BC:
+BuildFixedTableMin:
         push esi
         push edi
         push ebp
@@ -383,9 +387,10 @@ sub_D19BC:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_D1A88                                                            D1A88  
+; BuildFixedTableMax                              D1A88  96 PC, low confidence
+; Builds the right edge table of a mapped polygon with fixed point steps
 ;-----------------------------------------------------------------------------
-sub_D1A88:
+BuildFixedTableMax:
         push esi
         push edi
         push ebp
@@ -456,9 +461,10 @@ sub_D1A88:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_D1B3C                                                            D1B3C  
+; MapPolySpans                                    D1B3C  96 PC, low confidence
+; Draws the texture mapped spans of a clipped polygon
 ;-----------------------------------------------------------------------------
-sub_D1B3C:
+MapPolySpans:
         push esi
         push edi
         push ebp
@@ -536,9 +542,10 @@ sub_D1B3C:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_D1BEC                                                            D1BEC  
+; MapPolySpansRemap                               D1BEC  96 PC, low confidence
+; Draws the texture mapped spans of a clipped polygon through the remap table
 ;-----------------------------------------------------------------------------
-sub_D1BEC:
+MapPolySpansRemap:
         push esi
         push edi
         push ebp
@@ -636,9 +643,10 @@ sub_D1BEC:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_D1CE0                                                            D1CE0  
+; FillFlatPolyCore                                D1CE0  96 PC, low confidence
+; Builds the edge tables of a polygon and fills its spans
 ;-----------------------------------------------------------------------------
-sub_D1CE0:
+FillFlatPolyCore:
         push esi
         push edi
         push ebp
@@ -759,7 +767,7 @@ sub_D1CE0:
         lea eax, [byte esp+010h]
         push eax
         mov edi, ecx
-        call sub_D1860
+        call BuildEdgeTableMin
         add esp, byte 14h
         mov ebp, eax
         mov ebx, dword [dword esp+04818h]
@@ -779,7 +787,7 @@ sub_D1CE0:
         mov dword [dword esp+04818h], eax
         lea eax, [dword esp+0C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
         mov eax, dword [dword esp+04808h]
         push ebp
@@ -792,7 +800,7 @@ sub_D1CE0:
         push edi
         lea eax, [dword esp+03C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
 .7:
         mov esi, dword [dword esp+04830h]
@@ -830,7 +838,7 @@ sub_D1CE0:
         lea eax, [dword esp+01810h]
         push eax
         mov edi, ecx
-        call sub_D1920
+        call BuildEdgeTableMax
         add esp, byte 14h
         mov ebp, eax
         mov edx, dword [dword esp+04820h]
@@ -850,7 +858,7 @@ sub_D1CE0:
         mov dword [dword esp+04818h], eax
         lea eax, [dword esp+03014h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
         mov eax, dword [dword esp+04808h]
         push ebp
@@ -863,7 +871,7 @@ sub_D1CE0:
         push edi
         lea eax, [dword esp+02414h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
 .10:
         mov esi, dword [dword esp+0482Ch]
@@ -1030,7 +1038,7 @@ sub_D1CE0:
         push ebp
         lea eax, [byte esp+010h]
         push eax
-        call sub_D1860
+        call BuildEdgeTableMin
         mov dword [dword esp+04820h], eax
         add esp, byte 14h
         mov edx, dword [dword esp+04848h]
@@ -1050,7 +1058,7 @@ sub_D1CE0:
         mov dword [dword esp+04818h], eax
         lea eax, [dword esp+0C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
         mov ebx, dword [dword esp+0480Ch]
         mov eax, dword [dword esp+04808h]
@@ -1064,7 +1072,7 @@ sub_D1CE0:
         push ebp
         lea eax, [dword esp+03C14h]
         push eax
-        call sub_D19BC
+        call BuildFixedTableMin
         add esp, byte 18h
 .20:
         mov eax, dword [dword esp+04860h]
@@ -1102,7 +1110,7 @@ sub_D1CE0:
         lea eax, [dword esp+01810h]
         push eax
         mov ebp, ecx
-        call sub_D1920
+        call BuildEdgeTableMax
         mov dword [dword esp+04818h], eax
         add esp, byte 14h
         mov edx, dword [dword esp+04850h]
@@ -1122,7 +1130,7 @@ sub_D1CE0:
         mov dword [dword esp+04820h], eax
         lea eax, [dword esp+03014h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
         mov ebx, dword [dword esp+04804h]
         mov eax, dword [dword esp+04808h]
@@ -1136,7 +1144,7 @@ sub_D1CE0:
         push ebp
         lea eax, [dword esp+02414h]
         push eax
-        call sub_D1A88
+        call BuildFixedTableMax
         add esp, byte 18h
 .23:
         mov eax, dword [dword esp+0485Ch]

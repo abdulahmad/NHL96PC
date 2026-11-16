@@ -13,7 +13,7 @@ extern SetHotkey_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0
 extern DrawShapeCore, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
 extern FreeBitmap, SetTextOrigin, LoadFileData, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
 extern JoystickCalibrateScreen, ShowKeyboardOn, sub_CFE8C, SaveScreenshot, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
-extern MouseReadMotion, sub_DFA98, bcopy, SaveDrawState, RestoreDrawState, SetHotkey, IntrStubs, SavedStackSegment
+extern MouseReadMotion, InitMouse, bcopy, SaveDrawState, RestoreDrawState, SetHotkey, IntrStubs, SavedStackSegment
 global __CHK, __GRO, __STK, __int386x_, ShowPointer, PointerService, __CommonInit_, IsTextModeWidth
 global SaveTextScreen, RestoreTextScreen, PointerOnTarget, DrawPointer, UpdatePointerPos, HidePointerKeep, HidePointer, RestoreUnderPointer
 global PointerSetupBitmaps, PointerLoadShapes, InitPointer, InstallDebugHotkeys, DrawTextBoxedAt, SaveStackSegment, IntrLoadSegRegs
@@ -978,7 +978,7 @@ InitPointer:
         mov dword [dword_1A10FC], eax
         test esi, esi
         jne short .1
-        call sub_DFA98
+        call InitMouse
         mov esi, eax
         call MouseReadMotion
 .1:

@@ -8,7 +8,7 @@ extern MakeDataPath, off_11BDA8, OpenMusicStream, PaEvent, PlayMovie, PlayMusic,
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
 extern str_Scr1, str_Scr2, RunAttractMode, GetLangText, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern FreeBitmap, SaveTextState, SetDrawTarget, DrawArtFast, sub_BF2C4, SetScreenTarget, sub_DD7B8, KbdGetKey
+extern FreeBitmap, SaveTextState, SetDrawTarget, DrawArtFast, sub_BF2C4, SetScreenTarget, SetPaletteEntries, KbdGetKey
 extern FindShape, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
 global RunSlideShow_A3, RunSlideShow_C7, RunSlideShow_E2, RunSlideShow_118, RunSlideShow_127, RunSlideShow_145, RunSlideShow_180, RunSlideShow_1A1
@@ -164,7 +164,7 @@ RunIntro:
         push dword [byte ebp-018h]
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         push str_Bkgd3
         push dword [byte ebp-04h]

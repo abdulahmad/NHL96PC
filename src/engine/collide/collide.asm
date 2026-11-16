@@ -15,7 +15,7 @@ extern regd3, setpersonel, sflags, shotongoal, shotontarget, BreakGlass, ShakeGl
 extern NearestGlassPoint, assextra2, assexitjump, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
 extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayeracc, burst
 extern GameEventStub, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, PlaySfx
-extern sfx, CrowdReaction, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
+extern sfx, CrowdReaction, IntSqrt, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4
 extern yc1, gmode2, HomeControlSlot, gsp, word_117902, word_117914, word_117916, refhitcount
 extern word_11910F, word_119111, word_119113, word_11916B, word_119F98, word_119F9A, word_119FB8, word_119FC8
@@ -3363,7 +3363,7 @@ passtoa0:
         test eax, eax
         jle short .2
         push eax
-        call sub_BE960
+        call IntSqrt
         add esp, byte 4
         mov ecx, eax
         jmp short .3

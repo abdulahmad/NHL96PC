@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_11F5DC progbits alloc noexec write align=1
-extern sub_DFB84, BiosKeyCall
+extern ReturnZero, BiosKeyCall
 global byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, CpuIs386
 global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, str_Punct_DrawRinkSurface, dword_11F61C, KeyBuffer, KeyBufferHead
 global KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, mousepollfn, off_11F5F4, off_11F5F8
@@ -20,18 +20,18 @@ CpuFeatures:
 str_Punct_DrawRinkSurface:
         db 0Ah,00h,00h,00h
 off_11F5F4:
-        dd sub_DFB84
+        dd ReturnZero
 off_11F5F8:
-        dd sub_DFB84
+        dd ReturnZero
 off_11F5FC:
-        dd sub_DFB84
+        dd ReturnZero
 mousepollfn:
-        dd sub_DFB84
-        dd sub_DFB84
-        dd sub_DFB84
-        dd sub_DFB84
-        dd sub_DFB84
-        dd sub_DFB84
+        dd ReturnZero
+        dd ReturnZero
+        dd ReturnZero
+        dd ReturnZero
+        dd ReturnZero
+        dd ReturnZero
 BiosKeyFunc:
         dd BiosKeyCall
 dword_11F61C:

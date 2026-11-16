@@ -21,7 +21,7 @@ extern sub_AC194, CompactDownLocked, CompactUpLocked, DebugSetLine, sub_ACCF8, s
 extern sub_ADA80, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, NearestColour, sub_BF02C, sub_BF034
 extern sub_BF04B, initgraphics, sub_C2AEC, PrintBoxedText, ToUpperChar, sub_CFE0C, sub_CFE8C, sub_D0650
 extern DrawTextBoxedAt, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, SetScreenTarget, GetPaletteRange
-extern FillRectColor, SetClipWindow, sub_DD7B8, KbdGetKey, sub_DFF7C, FindShape, sub_E0584, PollHotkeys
+extern FillRectColor, SetClipWindow, SetPaletteEntries, KbdGetKey, sub_DFF7C, FindShape, sub_E0584, PollHotkeys
 extern SaveDrawState, RestoreDrawState, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
 extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, str_Un, unk_114930, unk_1213DC
 global MemViewer, MemViewerKeys, MemViewerOpenAlt, MemViewerLoopNext, MemViewerLoop, DebugGetKey, MemViewerListHead, MemViewerSelectRow
@@ -3207,7 +3207,7 @@ PaletteViewer:
         push eax
         push dword 100h
         push byte 0
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
 .36:
         imul eax, esi, byte 12h

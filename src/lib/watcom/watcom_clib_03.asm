@@ -9,7 +9,7 @@ extern InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTab
 extern InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 extern InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
 extern isatty_, SerialPortTable, off_11FD5C, off_11FD60, AllocMemLocked, FreeMemBlock, LoadDataFileExt, DosGetVector
-extern DosSetVector, LoadFileCached, sub_DD87C, AddExitHandler, DosOpenReadOnly, DosCloseFile, unk_11FD54, SerialPorts
+extern DosSetVector, LoadFileCached, ReadPaletteEntries8, AddExitHandler, DosOpenReadOnly, DosCloseFile, unk_11FD54, SerialPorts
 extern unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, word_11FD68
 extern SerialBaudDivisors, word_120EC0
 global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, LoadResourceData_8, LoadFileDataFlags, SerialCarrier_75, SerialWrite_5
@@ -1121,7 +1121,7 @@ CreateColourLookup:
         push eax
         push dword 100h
         push byte 0
-        call sub_DD87C
+        call ReadPaletteEntries8
         add esp, byte 0Ch
         mov eax, esp
         push eax

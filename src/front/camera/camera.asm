@@ -27,7 +27,7 @@ extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc,
 extern QueueOverlayPanel, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
 extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, TransformVector, MakeRotYMatrix
-extern sub_BEAE4, sub_DFE9C, KbdGetKey, sub_E0584, SetViewScreenOrigin, SetCameraAngles, unk_11B673, unk_11B6B8
+extern BuildPerspTable, sub_DFE9C, KbdGetKey, sub_E0584, SetViewScreenOrigin, SetCameraAngles, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
 extern unk_16443C, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
 extern unk_5D549, unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84
@@ -448,7 +448,7 @@ SetCameraShot:
         call SetCameraAngles
         add esp, byte 10h
         mov edi, dword_179DBD
-        call sub_BEAE4
+        call BuildPerspTable
         mov ecx, 45h
         rep movsb
         mov ecx, 45h
@@ -3714,7 +3714,7 @@ SetGameViewSize:
         push dword [dword_11B314]
         call SetCameraAngles
         add esp, byte 10h
-        call sub_BEAE4
+        call BuildPerspTable
         push dword [dword_11B32C]
         push dword [dword_11B328]
         call SetViewScreenOrigin
@@ -4003,7 +4003,7 @@ ReadHotKeys:
         add esp, byte 10h
         mov edi, unk_179E02
         mov esi, dword_179DBD
-        call sub_BEAE4
+        call BuildPerspTable
         mov ecx, 45h
         call dword [dword_179DC2]
         mov dword [dword_179D48], 0FFFFFFFFh

@@ -1,0 +1,39 @@
+sub_DD7B8 SetPaletteEntries {confidence=medium,source=new} writes 6-bit palette entries (start, count, rgb) to the VGA DAC and the palette copy
+sub_DD830 SetPaletteEntries8 {confidence=medium,source=new} writes 8-bit palette entries to the VGA DAC (scaled to 6 bits) and the palette copy
+sub_DD87C ReadPaletteEntries8 {confidence=medium,source=new} reads palette entries from the VGA DAC as 8-bit RGB
+sub_DD800 SetTextMode {confidence=medium,source=new} closes the graphics screen and sets 80x25 colour text mode
+sub_DD908 SetColourRemap {confidence=medium,source=new} copies a 256 byte colour remap table into the current remap
+sub_DD920 GetColourRemap {confidence=medium,source=new} copies the current 256 byte colour remap table out
+sub_DD975 SetBlendTables {confidence=low,source=new} sets the table of blend tables translucent scaled drawing uses
+sub_DDA44 ScaleRowRemapKeyed {confidence=low,source=new} draws a scaled row through the colour remap, skipping FFh pixels
+sub_DDB68 ScaleRowShadow {confidence=low,source=new} draws a scaled row through the colour remap: FEh darkens what is under it, FFh is skipped
+sub_DDBB4 ScaleRowBlend {confidence=low,source=new} draws a scaled row blended with what is under it through the blend tables
+sub_DDF4F WriteSequencerReg {confidence=medium,source=new} writes a VGA sequencer register (index, value)
+sub_DE01A SetModeX {confidence=low,source=new} sets the unchained 256 colour VGA mode from mode 13h, loading its CRTC registers
+unk_DE06D ModeXCrtcTable {confidence=low,source=new} CRTC register values SetModeX loads
+sub_BE960 IntSqrt {confidence=low,source=new} returns the integer square root of a number
+sub_BEAE4 BuildPerspTable {confidence=low,source=new} fills the perspective table from the projection distance
+sub_BEC30 ScaleArtRemapRows {confidence=low,source=new} draws art scaled through the colour remap, row by row, clipped
+sub_BEF44 DrawArtScaledRemap {confidence=low,source=new} draws art scaled by a factor through the colour remap
+sub_DF8E8 MouseSetSensitivity {confidence=medium,source=new} sets the mouse sensitivity (int 33h, 1Ah) when a mouse is present
+sub_DFA6C PointerCountUp {confidence=low,source=new} counts the mouse pointer shown once more
+sub_DFA73 PointerCountDown {confidence=low,source=new} counts the mouse pointer hidden once more
+sub_DFA7A MouseRestoreSensitivity {confidence=low,source=new} puts back the mouse sensitivity saved at start-up
+sub_DFA98 InitMouse {confidence=low,source=new} finds the mouse, saves its sensitivity, sets its range and the pointer routines
+sub_DFB84 ReturnZero {confidence=medium,source=new} returns 0; the empty routine in hook tables
+sub_DFB88 InstallKeyboardHandler {confidence=low,source=new} installs the keyboard and int 16h handlers and adds their removal at exit
+sub_E0959 FillPolygon {confidence=low,source=new} fills a polygon from a point list with a colour
+sub_E0992 FillPolygonArgs {confidence=low,source=new} fills a polygon whose points are passed as arguments
+sub_E0992_26 FillPolygonCore {confidence=low,source=new} fills a polygon through the span and band fill routines set by the caller
+sub_E1530 RemapPolygonCore {confidence=low,source=new} darkens a polygon through the remap table
+sub_E1575 RemapPolygon {confidence=low,source=new} darkens a polygon from a point list through the remap table
+sub_E15AC RemapPolygonArgs {confidence=low,source=new} darkens a polygon whose points are passed as arguments
+sub_E15D7 ClipEdgeToPlane {confidence=low,source=new} finds where an edge crosses a Z plane
+sub_E162A SetNearClipZ {confidence=low,source=new} sets the near clip plane distance
+sub_D1860 BuildEdgeTableMin {confidence=low,source=new} builds the left edge table of a mapped polygon (buildtablemin, at most 768 rows)
+sub_D1920 BuildEdgeTableMax {confidence=low,source=new} builds the right edge table of a mapped polygon
+sub_D19BC BuildFixedTableMin {confidence=low,source=new} builds the left edge table of a mapped polygon with fixed point steps
+sub_D1A88 BuildFixedTableMax {confidence=low,source=new} builds the right edge table of a mapped polygon with fixed point steps
+sub_D1B3C MapPolySpans {confidence=low,source=new} draws the texture mapped spans of a clipped polygon
+sub_D1BEC MapPolySpansRemap {confidence=low,source=new} draws the texture mapped spans of a clipped polygon through the remap table
+sub_D1CE0 FillFlatPolyCore {confidence=low,source=new} builds the edge tables of a polygon and fills its spans

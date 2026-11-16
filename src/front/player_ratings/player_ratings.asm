@@ -18,7 +18,7 @@ extern str_S1dw, str_S1ug, str_S1up, str_S22, str_S2dg, str_S2dw, str_S2ug, str_
 extern str_S32, str_S3dg, str_S3dw, str_S3ug, str_S3up, str_SD5, str_TR00, str_TR01
 extern str_TR02, str_TR0D, str_XTbl2, SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record
 extern StatsDb2Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
-extern DrawArtOpaqueAtOwnPos, SetScreenTarget, sub_DD7B8, sub_DD908, FindShape, TickDeadlinePassed, unk_93BE6, unk_93CA6
+extern DrawArtOpaqueAtOwnPos, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed, unk_93BE6, unk_93CA6
 extern unk_93D26
 global PlayerRatingsScreen, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B, PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68
 global PlayerRatingsScreen_E71, unk_955D7, unk_95603, DrawRatingBars, DrawRatingBars_2CA, DrawRatingBars_30B, DrawRatingBars_331, DrawRatingBars_38D
@@ -382,7 +382,7 @@ PlayerRatingsScreen:
         mov edx, ecx
         call LoadRatingsPicture
         push dword [dword_182134]
-        call sub_DD908
+        call SetColourRemap
         mov edx, 0Ah
         mov ebx, dword [dword_182128]
         add esp, byte 4
@@ -390,7 +390,7 @@ PlayerRatingsScreen:
         xor ecx, ecx
         call SlideCardRight
         push dword [dword_182130]
-        call sub_DD908
+        call SetColourRemap
         mov esi, dword [dword_181EAC]
         add esp, byte 4
         cmp dword [dword ebp-01BBAh], byte 0
@@ -2584,7 +2584,7 @@ LoadRatingsPicture:
         push eax
         push byte 64h
         push esi
-        call sub_DD7B8
+        call SetPaletteEntries
         add esp, byte 0Ch
         leave
         pop edi
@@ -2683,7 +2683,7 @@ SwitchRatingsCard:
         push dword [dword_182134]
         mov edi, eax
         mov esi, eax
-        call sub_DD908
+        call SetColourRemap
         mov eax, dword [dword_18213C]
         mov ebx, dword [dword_11E898]
         add esp, byte 4
@@ -2769,7 +2769,7 @@ SwitchRatingsCard:
         add esp, byte 0Ch
 .8:
         push dword [dword_182130]
-        call sub_DD908
+        call SetColourRemap
         mov eax, dword [dword_182140]
         mov ebx, dword [dword_11E89C]
         add esp, byte 4
@@ -2855,7 +2855,7 @@ SwitchRatingsCard:
         add esp, byte 0Ch
 .16:
         push dword [dword_182138]
-        call sub_DD908
+        call SetColourRemap
         mov eax, dword [dword_18213C]
         add esp, byte 4
         mov dword [dword_181EAC], eax

@@ -11,7 +11,7 @@ extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
 extern RunMenu, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, DosFileInfo, LoadResourceDataShared, SaveFileBlock
-extern DrawArtOpaqueAtOwnPos, DrawArtKeyedAtOrigin, PutBlockKeyed, ErrnoPtr, sub_DD908, FindShape, unk_17CED5, unk_184B78
+extern DrawArtOpaqueAtOwnPos, DrawArtKeyedAtOrigin, PutBlockKeyed, ErrnoPtr, SetColourRemap, FindShape, unk_17CED5, unk_184B78
 extern unk_184BB4, unk_184BF0, unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48
 extern unk_184F48, unk_184F77, unk_185292
 global _searchenv_, sub_A8C81_555, sub_A8B9B, sub_A8C75, sub_A8C81, sub_A91DD, sub_A9BAC
@@ -583,7 +583,7 @@ sub_A91DD:
         lea eax, [dword ebp-0192h]
         push eax
         mov byte [dword ebp-093h], 0FFh
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         lea eax, [byte ebp+03Ah]
         push eax
@@ -640,7 +640,7 @@ sub_A91DD:
         lea eax, [dword ebp-0192h]
         push eax
         mov edi, dword [byte ebp+07Eh]
-        call sub_DD908
+        call SetColourRemap
         add esp, byte 4
         add edi, 186h
         mov ecx, 12Ch

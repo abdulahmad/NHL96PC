@@ -8,7 +8,7 @@ extern byte_17CA7A, DetectCPU, dword_1150D8, dword_11D3C8, dword_11F5E8, dword_1
 extern dword_17CA76, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadExhibitionStats, MakeDataPath
 extern MakeDirPath, NameIndexFree, NameIndexLoad, optblock, optblock_end, optflags, str_5552362337, str_ATD2
 extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, sub_1E73F, RunControllerScreen
-extern TeamSelectScreen, PickIndexEntryScreen, sub_971E9, sub_9C866, sub_ABF4C, sub_E069C, sub_E07B8, sub_E07C8
+extern TeamSelectScreen, PickIndexEntryScreen, RunRosterScreens, ComputeTeamRanks, sub_ABF4C, sub_E069C, sub_E07B8, sub_E07C8
 extern unk_17C9B8, unk_17C9CC, unk_17D32C, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4
 extern word_17C9B6, word_17CA7C
 global ReadGlobalSet, WriteGlobalSet, RunExhibitionMenus
@@ -240,7 +240,7 @@ RunExhibitionMenus:
         call LoadExhibitionStats
         xor ebx, ebx
         mov dword [gameopts], optblock_end
-        call sub_9C866
+        call ComputeTeamRanks
         lea eax, [byte ebp-038h]
         call MakeDirPath
         mov edx, str_EXHIBITNDX
@@ -280,7 +280,7 @@ RunExhibitionMenus:
         jne short .6
         xor eax, eax
         mov ebx, 2
-        call sub_971E9
+        call RunRosterScreens
         jmp short .8
 .6:
         cmp eax, byte 1

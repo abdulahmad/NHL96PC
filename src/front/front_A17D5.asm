@@ -38,7 +38,7 @@ extern InitMenuItems, sub_64E74, RunMenu, SetMenuMouse, FreeSpeechBuffer, Restor
 extern StopSpeech, StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, StopAllSfx
 extern Crowd_Noise, CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdFadeOut, sfx, CrowdReaction, StopArenaClip
 extern StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle, sub_6B486, sub_6C64B, ControllerScreen, RunControllerScreen
-extern RunModemSetup, LinkSetupScreen, GetLangText, PlayerStatsScreen, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
+extern RunModemSetup, LinkSetupScreen, GetLangText, PlayerStatsScreen, ComputeTeamRanks, RunEditLines, sub_AA988, sub_AAA40
 extern PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont
 extern sub_B0CA8, DrawArtOpaque, sub_B58D8, sub_DD6C4, SetClipWindow, SetViewRect, sub_E04E0, sub_E0584
 extern str_D13, str_7GM, str_5GM, str_3GM, str_1GM, unk_11D7A4, unk_11D7BC, unk_11D7D4
@@ -1892,7 +1892,7 @@ sub_A25CD_D17:
         call sub_A1FEF
         call sub_6C64B
         mov eax, 1
-        call sub_9CDDA
+        call RunEditLines
 .63:
         call FreeStatsTables
 .64:
@@ -3242,7 +3242,7 @@ sub_A4961:
         jne short .3
         call LoadModemStats
         mov dword [gameopts], unk_17D272
-        call sub_9C866
+        call ComputeTeamRanks
 .3:
         cmp edx, byte 12h
         jne short .6

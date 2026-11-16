@@ -1,0 +1,14 @@
+# NHL 96 PC edit lines screen and the automatic lines. PC-only, source new.
+sub_9ACDF ResetTeamLines {confidence=low} (team): after a roster change sorts the team's players and sets its lines again (AutoSetLines), not for team 1Ah
+sub_9CFE3 EditLinesScreen {confidence=high} the edit lines screen (bt09 / bh09, slid / slup / sldw scroll, power play bkpp and penalty kill bkpk boxes, jerseys): who plays on each line; returns 2 for a player card
+sub_9F0D8 LinesValid {confidence=low} 0 when a player is twice in the forward lines (4 x 3) or the defence pairs
+sub_9F205 CountLineSlots {confidence=low} counts the filled and empty line slots for AutoSetLines
+sub_9F6ED HasDuplicateInLine {confidence=low} (line, size): 1 when a player is in the line twice
+sub_9F738 DrawLinesPanel {confidence=low} draws the lines panel (power play bkpp, penalty kill bkpk) with the jerseys
+sub_9FE5A DrawLineJersey {confidence=medium} draws a jersey with its number (jers, jrhl)
+sub_9FF64 DrawLinesPlayerList {confidence=low} the player list of the edit lines screen ("%c %d", "%c. %s") with its scroll bar
+sub_A0355 SortTeamPlayers {confidence=low} the team's players into a sorted list (qsort) for the lines
+sub_A0480 AutoSetLines {confidence=medium} fills the team's lines with its best players by position and ratings (qsort), from the edit lines screen and after trades
+sub_9F205_4DD CountLineSlots_4DD {no_record}
+sub_9F6ED_45 HasDuplicateInLine_45 {no_record}
+sub_9FE5A_104 DrawLineJersey_104 {no_record}

@@ -72,3 +72,8 @@ cut AnimatePlayerStatsButton front/player_stats The player stats screen: its row
 rename front/front_8C3DD front/player_stats
 cut sub_905A1 front/player_cards The player card screen: player profiles with their pictures and season stats, the league logos, text export (96 PC; still being named).
 rename front/front_90879 front/player_cards
+# step 15: front_93E6A (player ratings), front_971E9 (roster), front_9CFE3 (edit lines)
+rename front/front_93E6A front/player_ratings The player ratings screen: pictures and rating bars (96 PC).
+rename front/front_971E9 front/roster The roster screens: trades, free agents, creating players, team ranks (96 PC).
+cut CompareRosterOrder front/edit_lines The edit lines screen and the automatic lines (96 PC).
+rename front/front_9CFE3 front/edit_lines

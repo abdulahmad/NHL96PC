@@ -20,8 +20,8 @@ extern str_DD7, str_DD8, str_DNRS, str_DSS2, str_DSS3, str_fmtpd, str_FSH4, str_
 extern str_HD00, str_HD022, str_LG02d2, str_Pal23, str_PHT0, str_PHT1, str_PHT2, str_PLY0
 extern str_PLY4, str_Plyr2, str_PRN02, str_PRN12, str_PRN22, str_PROFILEFSH2, str_RAT, str_RAT0
 extern str_S5, str_SD4, str_SEA4, str_SLDH2, str_Wt4, str_XTbl, strcat_, strlen_
-extern sub_1E643, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_93E6A_E11, sub_93E6A_E3B
-extern sub_93E6A_E44, sub_93E6A_E4D, sub_93E6A_E56, sub_93E6A_E5F, sub_93E6A_E68, sub_93E6A_E71, sub_9C060, sub_AAA40
+extern sub_1E643, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
+extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, sub_AAA40
 extern sub_AADA4, sub_AADC0, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0430, sub_B0494
 extern sub_B2C54, sub_B2C70, sub_C2600, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed
 extern unk_1129C2, unk_1129E4, unk_1129F7, unk_152C44, UpdateProgressBox
@@ -2751,7 +2751,7 @@ DrawPlayerCardStats_847:
         push dword [byte ebp+042h]
         xor ebx, ebx
 .93:
-        call sub_9C060
+        call RatingBar
 .94:
         mov eax, 0FCh
         add dword [byte ebp+042h], byte 14h
@@ -4341,12 +4341,12 @@ unk_93D26:
         db 0Dh,010h,02h,0Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 011h,02h,011h,08h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 jpt_93E46:
-        dd sub_93E6A_E11
-        dd sub_93E6A_E3B
-        dd sub_93E6A_E44
-        dd sub_93E6A_E4D
-        dd sub_93E6A_E56
-        dd sub_93E6A_E5F
-        dd sub_93E6A_E68
-        dd sub_93E6A_E71
-        dd sub_93E6A_E68
+        dd PlayerRatingsScreen_E11
+        dd PlayerRatingsScreen_E3B
+        dd PlayerRatingsScreen_E44
+        dd PlayerRatingsScreen_E4D
+        dd PlayerRatingsScreen_E56
+        dd PlayerRatingsScreen_E5F
+        dd PlayerRatingsScreen_E68
+        dd PlayerRatingsScreen_E71
+        dd PlayerRatingsScreen_E68

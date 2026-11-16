@@ -593,24 +593,26 @@
    "end": 618985,
    "module": "front_93E6A",
    "obj": 1,
-   "file": "front/front_93E6A.asm",
+   "file": "front/player_ratings/player_ratings.asm",
    "note": "placeholder"
   },
   {
    "start": 618985,
-   "end": 643043,
+   "end": 641817,
    "module": "front_971E9",
    "obj": 1,
-   "file": "front/front_971E9.asm",
+   "file": "front/roster/roster.asm",
    "note": "placeholder"
   },
   {
-   "start": 643043,
-   "end": 661461,
-   "module": "front_9CFE3",
    "obj": 1,
-   "file": "front/front_9CFE3.asm",
-   "note": "placeholder"
+   "start": 641817,
+   "end": 661461,
+   "module": "front_edit_lines",
+   "file": "front/edit_lines/edit_lines.asm",
+   "desc": "The edit lines screen and the automatic lines (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 661461,

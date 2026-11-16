@@ -827,6 +827,42 @@ address,name,auto_name,source,confidence,evidence,file
 92D6F,DrawPlayerCardName,sub_92D6F,new,medium,"the card's name line (""#%d %s %s"") and profile texts",src/front/player_cards/player_cards.asm
 9311A,ExportPlayerCard,sub_9311A,new,medium,"asks a file name and writes the player's card as text (fopen ""wt"", ""#%d %s %s."")",src/front/player_cards/player_cards.asm
 93B25,ScaleBlock,sub_93B25,new,low,"draws a block scaled by a factor (floating point), for the card slides",src/front/player_cards/player_cards.asm
+93E6A,PlayerRatingsScreen,sub_93E6A,new,medium,"the player ratings screen (X-tbl, RAT0, HD01 / HD02, ban2, BALL list): a player's picture and rating bars, from the stats menu and the roster screens",src/front/player_ratings/player_ratings.asm
+9562B,DrawRatingBars,sub_9562B,new,low,the player's rating bars (RatingBar) from his stats,src/front/player_ratings/player_ratings.asm
+95E84,DrawRatingsTitle,sub_95E84,new,low,the ratings screen's title text,src/front/player_ratings/player_ratings.asm
+95F93,LoadRatingsPicture,sub_95F93,new,low,"the player's picture (PROFILE.FSH, card, plyr) and his number",src/front/player_ratings/player_ratings.asm
+961ED,SwitchRatingsCard,sub_961ED,new,low,the card change animation of the ratings screen (SlideCardLeft / SlideCardRight),src/front/player_ratings/player_ratings.asm
+96525,DrawRatingsList,sub_96525,new,low,the ratings screen's player list and its scroll bar (BALL),src/front/player_ratings/player_ratings.asm
+966CA,DrawRatingsName,sub_966CA,new,low,"the name line ""#%d %s %s""",src/front/player_ratings/player_ratings.asm
+971E9,RunRosterScreens,sub_971E9,new,medium,"from the exhibition and season menus: sets up the stat tables (StatDBPTRs, DBPTRs, Player #, Profiles, ...), runs the roster, edit lines, ratings and player card screens, frees them",src/front/roster/roster.asm
+97420,RosterScreen,sub_97420,new,medium,"the roster screen: trades between teams, signing free agents (FREEAGNT.DB), creating players, by team lists (s1__-s4__)",src/front/roster/roster.asm
+9A1DB,DrawRosterTeams,sub_9A1DB,new,low,"the roster screen's team logos, names and player lists (LFRE free agents)",src/front/roster/roster.asm
+9A35C,FormatRosterLine,sub_9A35C,new,low,"formats the player lines of a roster list (""%c  %2d  %c. %s"")",src/front/roster/roster.asm
+9A5CF,DrawRosterPlayerInfo,sub_9A5CF,new,low,the picked player's info box on the roster screen,src/front/roster/roster.asm
+9AB3B,EditPlayerName,sub_9AB3B,new,low,edits a created player's name (EditText),src/front/roster/roster.asm
+9AC78,ConfirmTrade,sub_9AC78,new,low,the trade question message box with both team names,src/front/roster/roster.asm
+9ACDF,ResetTeamLines,sub_9ACDF,new,low,"(team): after a roster change sorts the team's players and sets its lines again (AutoSetLines), not for team 1Ah",src/front/roster/roster.asm
+9AD86,CycleLoadingArt,sub_9AD86,new,low,steps the SGI%d animation frames while waiting,src/front/roster/roster.asm
+9AE18,CreatePlayerScreen,sub_9AE18,new,low,"the create player screen (GOL0, NME0-2 name, NUM0-2 number buttons, random ratings by CreatePlayerRatings), from the roster screen",src/front/roster/roster.asm
+9BEA0,DrawCreatePlayerRow,sub_9BEA0,new,low,one rating row (text and RatingBar) on the create player screen,src/front/roster/roster.asm
+9C060,RatingBar,sub_9C060,new,medium,"(value, x, y, w, h): draws a rating bar (FillRect)",src/front/roster/roster.asm
+9C238,CreatePlayerRatings,sub_9C238,new,low,random ratings for a created player around the picked levels,src/front/roster/roster.asm
+9C5AF,CompareRankA,sub_9C5AF,new,low,qsort compare by dword_182FB8,src/front/roster/roster.asm
+9C5C4,CompareRankB,sub_9C5C4,new,low,qsort compare by dword_182144,src/front/roster/roster.asm
+9C866,ComputeTeamRanks,sub_9C866,new,medium,"the teams' ranks (26 or 28 teams by optflags) from their rosters' ratings (qsort), for the team select and pre-game screens",src/front/roster/roster.asm
+9CC19,CompareRosterOrder,sub_9CC19,new,low,qsort compare by dword_183C98,src/front/edit_lines/edit_lines.asm
+9CC2E,ComparePlayerPos,sub_9CC2E,new,medium,"qsort compare of two players by position (PositionOrder), then name",src/front/edit_lines/edit_lines.asm
+9CD22,PositionOrder,sub_9CD22,new,medium,"the sort order of a position letter (C, D, G, L, R)",src/front/edit_lines/edit_lines.asm
+9CDDA,RunEditLines,sub_9CDDA,new,medium,"sets up the stat tables if needed and runs the edit lines screen, with the player card screen when it asks (from the controller screen and the in-game menu)",src/front/edit_lines/edit_lines.asm
+9CFE3,EditLinesScreen,sub_9CFE3,new,high,"the edit lines screen (bt09 / bh09, slid / slup / sldw scroll, power play bkpp and penalty kill bkpk boxes, jerseys): who plays on each line; returns 2 for a player card",src/front/edit_lines/edit_lines.asm
+9F0D8,LinesValid,sub_9F0D8,new,low,0 when a player is twice in the forward lines (4 x 3) or the defence pairs,src/front/edit_lines/edit_lines.asm
+9F205,CountLineSlots,sub_9F205,new,low,counts the filled and empty line slots for AutoSetLines,src/front/edit_lines/edit_lines.asm
+9F6ED,HasDuplicateInLine,sub_9F6ED,new,low,"(line, size): 1 when a player is in the line twice",src/front/edit_lines/edit_lines.asm
+9F738,DrawLinesPanel,sub_9F738,new,low,"draws the lines panel (power play bkpp, penalty kill bkpk) with the jerseys",src/front/edit_lines/edit_lines.asm
+9FE5A,DrawLineJersey,sub_9FE5A,new,medium,"draws a jersey with its number (jers, jrhl)",src/front/edit_lines/edit_lines.asm
+9FF64,DrawLinesPlayerList,sub_9FF64,new,low,"the player list of the edit lines screen (""%c %d"", ""%c. %s"") with its scroll bar",src/front/edit_lines/edit_lines.asm
+A0355,SortTeamPlayers,sub_A0355,new,low,the team's players into a sorted list (qsort) for the lines,src/front/edit_lines/edit_lines.asm
+A0480,AutoSetLines,sub_A0480,new,medium,"fills the team's lines with its best players by position and ratings (qsort), from the edit lines screen and after trades",src/front/edit_lines/edit_lines.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

@@ -1,0 +1,73 @@
+# NHL 96 PC player ratings and roster screens: ratings cards, the roster / trades / free agents screen, edit lines, team ranks.
+# PC-only, source new.
+sub_93E6A PlayerRatingsScreen {confidence=medium} the player ratings screen (X-tbl, RAT0, HD01 / HD02, ban2, BALL list): a player's picture and rating bars, from the stats menu and the roster screens
+sub_9562B DrawRatingBars {confidence=low} the player's rating bars (RatingBar) from his stats
+sub_95E84 DrawRatingsTitle {confidence=low} the ratings screen's title text
+sub_95F93 LoadRatingsPicture {confidence=low} the player's picture (PROFILE.FSH, card, plyr) and his number
+sub_961ED SwitchRatingsCard {confidence=low} the card change animation of the ratings screen (SlideCardLeft / SlideCardRight)
+sub_96525 DrawRatingsList {confidence=low} the ratings screen's player list and its scroll bar (BALL)
+sub_966CA DrawRatingsName {confidence=low} the name line "#%d %s %s"
+sub_971E9 RunRosterScreens {confidence=medium} from the exhibition and season menus: sets up the stat tables (StatDBPTRs, DBPTRs, Player #, Profiles, ...), runs the roster, edit lines, ratings and player card screens, frees them
+sub_97420 RosterScreen {confidence=medium} the roster screen: trades between teams, signing free agents (FREEAGNT.DB), creating players, by team lists (s1__-s4__)
+sub_9A1DB DrawRosterTeams {confidence=low} the roster screen's team logos, names and player lists (LFRE free agents)
+sub_9A35C FormatRosterLine {confidence=low} formats the player lines of a roster list ("%c  %2d  %c. %s")
+sub_9A5CF DrawRosterPlayerInfo {confidence=low} the picked player's info box on the roster screen
+sub_9AB3B EditPlayerName {confidence=low} edits a created player's name (EditText)
+sub_9AC78 ConfirmTrade {confidence=low} the trade question message box with both team names
+sub_9AD86 CycleLoadingArt {confidence=low} steps the SGI%d animation frames while waiting
+sub_9AE18 CreatePlayerScreen {confidence=low} the create player screen (GOL0, NME0-2 name, NUM0-2 number buttons, random ratings by CreatePlayerRatings), from the roster screen
+sub_9BEA0 DrawCreatePlayerRow {confidence=low} one rating row (text and RatingBar) on the create player screen
+sub_9C060 RatingBar {confidence=medium} (value, x, y, w, h): draws a rating bar (FillRect)
+sub_9C5AF CompareRankA {confidence=low} qsort compare by dword_182FB8
+sub_9C5C4 CompareRankB {confidence=low} qsort compare by dword_182144
+sub_9C866 ComputeTeamRanks {confidence=medium} the teams' ranks (26 or 28 teams by optflags) from their rosters' ratings (qsort), for the team select and pre-game screens
+sub_9CC19 CompareRosterOrder {confidence=low} qsort compare by dword_183C98
+sub_9CC2E ComparePlayerPos {confidence=medium} qsort compare of two players by position (PositionOrder), then name
+sub_9CD22 PositionOrder {confidence=medium} the sort order of a position letter (C, D, G, L, R)
+sub_9CDDA RunEditLines {confidence=medium} sets up the stat tables if needed and runs the edit lines screen, with the player card screen when it asks (from the controller screen and the in-game menu)
+sub_93E6A_E11 PlayerRatingsScreen_E11 {no_record}
+sub_93E6A_E3B PlayerRatingsScreen_E3B {no_record}
+sub_93E6A_E44 PlayerRatingsScreen_E44 {no_record}
+sub_93E6A_E4D PlayerRatingsScreen_E4D {no_record}
+sub_93E6A_E56 PlayerRatingsScreen_E56 {no_record}
+sub_93E6A_E5F PlayerRatingsScreen_E5F {no_record}
+sub_93E6A_E68 PlayerRatingsScreen_E68 {no_record}
+sub_93E6A_E71 PlayerRatingsScreen_E71 {no_record}
+sub_9562B_2CA DrawRatingBars_2CA {no_record}
+sub_9562B_30B DrawRatingBars_30B {no_record}
+sub_9562B_331 DrawRatingBars_331 {no_record}
+sub_9562B_38D DrawRatingBars_38D {no_record}
+sub_9562B_3B9 DrawRatingBars_3B9 {no_record}
+sub_9562B_3E5 DrawRatingBars_3E5 {no_record}
+sub_9562B_411 DrawRatingBars_411 {no_record}
+sub_9562B_43D DrawRatingBars_43D {no_record}
+sub_9562B_469 DrawRatingBars_469 {no_record}
+sub_9562B_495 DrawRatingBars_495 {no_record}
+sub_9562B_4C1 DrawRatingBars_4C1 {no_record}
+sub_9562B_5E5 DrawRatingBars_5E5 {no_record}
+sub_9562B_620 DrawRatingBars_620 {no_record}
+sub_9562B_640 DrawRatingBars_640 {no_record}
+sub_9562B_660 DrawRatingBars_660 {no_record}
+sub_9562B_680 DrawRatingBars_680 {no_record}
+sub_9562B_6A6 DrawRatingBars_6A6 {no_record}
+sub_9562B_6CC DrawRatingBars_6CC {no_record}
+sub_9562B_6F2 DrawRatingBars_6F2 {no_record}
+sub_9562B_718 DrawRatingBars_718 {no_record}
+sub_9562B_73E DrawRatingBars_73E {no_record}
+sub_95E84_109 DrawRatingsTitle_109 {no_record}
+sub_971E9_230 RunRosterScreens_230 {no_record}
+sub_971E9_231 RunRosterScreens_231 {no_record}
+sub_9A1DB_17B DrawRosterTeams_17B {no_record}
+sub_9A35C_26D FormatRosterLine_26D {no_record}
+sub_9AB3B_131 EditPlayerName_131 {no_record}
+sub_9AE18_6BE CreatePlayerScreen_6BE {no_record}
+sub_9AE18_71A CreatePlayerScreen_71A {no_record}
+sub_9AE18_8D1 CreatePlayerScreen_8D1 {no_record}
+sub_9AE18_8DA CreatePlayerScreen_8DA {no_record}
+sub_9AE18_8E3 CreatePlayerScreen_8E3 {no_record}
+sub_9AE18_8EC CreatePlayerScreen_8EC {no_record}
+sub_9AE18_8F5 CreatePlayerScreen_8F5 {no_record}
+sub_9AE18_BD2 CreatePlayerScreen_BD2 {no_record}
+sub_9AE18_CF7 CreatePlayerScreen_CF7 {no_record}
+sub_9AE18_DBB CreatePlayerScreen_DBB {no_record}
+sub_9C238 CreatePlayerRatings {confidence=low} random ratings for a created player around the picked levels

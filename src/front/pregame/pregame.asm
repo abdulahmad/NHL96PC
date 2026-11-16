@@ -15,7 +15,7 @@ extern SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_
 extern str_Ard, str_Bkgd13, str_BKGD14, str_Card, str_CS3, str_D2, str_dbgSpace, str_Down
 extern str_DSS, str_FSH, str_FSH3, str_H07d, str_Home, str_LG02d, str_MightyDucksOfAnaheim, str_Pal3
 extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, str_Xlate, strcat_
-extern sub_1E222, sub_1E643, sub_1F15E, sub_9C866, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
+extern sub_1E222, sub_1E643, sub_1F15E, ComputeTeamRanks, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_B0254, sub_B026C, sub_B0430, sub_B0494
 extern sub_B7638, sub_C2600, sub_DD6C4, sub_DD908, sub_DD920, sub_E04E0, sub_E0584, TextSetFont
 extern unk_112523, unk_152C44, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
@@ -461,7 +461,7 @@ PreGameTeamsScreen:
         mov eax, edx
         mov dword [byte ebp+066h], edx
         call SetScreenColors
-        call sub_9C866
+        call ComputeTeamRanks
         call sub_DD6C4
         push str_Bkgd13
         push dword [byte ebp+056h]

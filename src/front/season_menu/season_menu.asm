@@ -23,7 +23,7 @@ extern str_Mod2, str_Mod3, str_Pal15, str_Pal16, str_S, str_S05dCnzDb4, str_S05d
 extern str_S05dCsgDb3, str_SEASONNDX2, str_SLDR, str_Sta12, str_Sta22, str_Sta32, str_star, str_Stn1
 extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, sub_1E8E9
 extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, sub_7D580, UpdateTeamDbs, SimSeasonGames
-extern SaveSeasonTeams, SimulateGame, RunStatsMenu, sub_971E9, sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4
+extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4
 extern sub_A7E6D, sub_A800A, sub_A8AC5, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, sub_ABF4C
 extern sub_AD35C, sub_AD5C8, sub_ADA80, sub_ADBEC, sub_B0430, sub_B178B, sub_B20D0, sub_B20EC
 extern sub_B22B0, sub_B2C54, sub_B7256, sub_B7810, sub_DD6C4, sub_DD7B8, sub_E04E0, sub_E0584
@@ -2872,7 +2872,7 @@ RunSeasonMenus_238:
         xor eax, eax
         mov esi, 1
 .9:
-        call sub_971E9
+        call RunRosterScreens
         jmp near RunSeasonMenus_138.6
 RunSeasonMenus_24E:
         mov eax, 1

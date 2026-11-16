@@ -190,6 +190,33 @@ address,name,auto_name,source,confidence,evidence,file
 2090F,GripSetupScreen,sub_2090F,new,high,"start-up screen when GrIP pads are connected (GRIPCON / RGRIPCON art): pick the buttons that shoot and pass on each pad (SetGripButtonMap / GetGripButtonMap, kept in byte_17CA54), Enter to go on",src/front/pad_setup/pad_setup.asm
 21478,UpdateJoystickTest,sub_21478,new,medium,"joystick test screen, each frame: lights the arrow of the direction the tested pad points (byte_151778) and blinks it",src/front/pad_setup/pad_setup.asm
 21596,JoystickTestScreen,sub_21596,new,medium,"joystick test screen (BKGD, arrows LT00-LT71, buttons BT00-BT02): shows the pad's direction lit up while it is moved, mouse or pad on the buttons",src/front/pad_setup/pad_setup.asm
+2A502,ClearSlotUser,sub_2A502,new,high,"(slot): no user on that controller slot (word_160ACC entry 21h bytes: user id, name ""no user"" text)",src/front/users/users.asm
+2A52F,ClearSlotUsers,sub_2A52F,new,high,no user on any of the 4 controller slots,src/front/users/users.asm
+2A5B5,UserRecordRating,sub_2A5B5,new,low,"adds up a user record's counts (x3, 16.16) for its rating",src/front/users/users.asm
+2A645,CreateUserRecord,sub_2A645,new,high,(path): creates an empty user record file (11Ch bytes of zeros),src/front/users/users.asm
+2A692,DeleteUser,sub_2A692,new,high,"(&index, n): asks to confirm, deletes the user's files and takes the user out of LOCAL.NDX and off any controller slot",src/front/users/users.asm
+2A804,NewUser,sub_2A804,new,high,"(&index): asks for a name (EditText), creates the user's record file (id as %08d) and adds the user to LOCAL.NDX; a message when it cannot",src/front/users/users.asm
+2A963,DrawUserList,sub_2A963,new,high,"draws a page of user names (10 a page) with the selected one highlighted, shortening names that do not fit",src/front/users/users.asm
+2AA81,GetUserName,sub_2AA81,new,high,"(index, id, out): copies the user's name; 0 when the id is not in the index",src/front/users/users.asm
+2AABB,LoadUserIndex,sub_2AABB,new,high,"(&index): loads LOCAL.NDX, or makes a new one with the two default users",src/front/users/users.asm
+2AB63,ScrollUserList,sub_2AB63,new,low,keeps the selected line of the user list on its page (scroll up or down),src/front/users/users.asm
+2AB8F,PickUsersScreen,sub_2AB8F,new,medium,"the screen that puts users on the controller slots: user list with slider (ulxn/ulxh/ulyn/ulyh, slid, slu/sld arrows, ball cursor), new user, delete user",src/front/users/users.asm
+2B4B9,UpdateUserRecords,sub_2B4B9,new,medium,"after a game: for every controller slot with a user, reads the user's record, adds the game (result, goals, power play, ...) and writes it back",src/front/users/users.asm
+2B945,CompareUsersByName,sub_2B945,new,high,qsort comparator of the user records screen: by name,src/front/users/users.asm
+2B95D,CompareUsersByRating,sub_2B95D,new,medium,"qsort comparator: by rating (urate), then name",src/front/users/users.asm
+2B99B,CompareUsersByRecord,sub_2B99B,new,medium,"qsort comparator: by points from the won / lost / tied record (upts) of the shown game type, then name",src/front/users/users.asm
+2BAD2,CompareUsersByGoalsFor,sub_2BAD2,new,medium,"qsort comparator: by goals for (ugf), then name",src/front/users/users.asm
+2BB14,CompareUsersByGoalsAgainst,sub_2BB14,new,medium,"qsort comparator: by goals against (uga, fewest first), then name",src/front/users/users.asm
+2BB56,CompareUsersByPowerPlay,sub_2BB56,new,medium,"qsort comparator: by power play % (upp: goals / chances), then name",src/front/users/users.asm
+2BC05,CompareUsersByPenaltyKill,sub_2BC05,new,medium,"qsort comparator: by penalty kill % (upk), then name",src/front/users/users.asm
+2BCC8,CompareUsersByTeam,sub_2BCC8,new,medium,qsort comparator: by favourite team (uteam),src/front/users/users.asm
+2BCE3,CompareUsersByOpponent,sub_2BCE3,new,medium,qsort comparator: by favourite opponent (uopp),src/front/users/users.asm
+2BCED,CompareUsersByShutouts,sub_2BCED,new,medium,"qsort comparator: by shutouts (uso), then name",src/front/users/users.asm
+2BD2F,CompareUsersByStreak,sub_2BD2F,new,medium,"qsort comparator: by current streak (ustreak) or, on that column, longest streak (ulstreak), then name",src/front/users/users.asm
+2BDD2,DrawUserRecords,sub_2BDD2,new,medium,"draws the user records table (BKGD, column titles TXT%d) a page at a time: per column type a number, a record (w-l-t), a percentage (%3d.%1d), a team name",src/front/users/users.asm
+2C31A,LoadUserRecords,sub_2C31A,new,medium,reads every user's record file into the tables of the user records screen,src/front/users/users.asm
+2C65C,ExportUserRecords,sub_2C65C,new,medium,asks for a file name (EditText) and writes the user records table to it as text (fprintf),src/front/users/users.asm
+2CB9D,UserRecordsScreen,sub_2CB9D,new,medium,"the user records screen: allocates the column tables (uname, urate, upts, ugf, uga, upp, upk, uso, ustreak, ulstreak, uteam, uopp, usort), LoadUserRecords, sorts by the picked column (qsort), DrawUserRecords, export",src/front/users/users.asm
 2E95C,StartPreGame,sub_2E95C,95PC,medium,"its call lines up with the NHL95PC call in SetupDemoGame, and its address keeps the NHL95PC module order",src/engine/threestars/threestars.asm
 2EA39,assintrostand,,95PC,medium,NHL95PC 4842A (sem): C:428; C:809,
 2EAEB,assintroline,sub_2EAEB,95PC,high,"asstab entry 38, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/threestars/threestars.asm

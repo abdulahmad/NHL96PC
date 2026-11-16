@@ -9,7 +9,7 @@ extern dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70, dword_11DF74, dwo
 extern mousey, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48, optflags, dword_17CBE7
 extern dword_17D162, dword_17D267, dword_17D564, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0
 extern dword_1843B4, fputchar, gameopts, sub_6CF0D_6, sprintf_, GetInputDevices, LinkSync, LinkSyncWithMessage
-extern ModemChat, LoadTeamLogo, LoadPackedFile, sub_2A502, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E
+extern ModemChat, LoadTeamLogo, LoadPackedFile, ClearSlotUser, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF
 extern sub_64054, sub_64296, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_68BFA, sub_68C8F
 extern sub_68E31, sub_69A94, sub_69A9B, sub_6CF0D, sub_6CF1B, sub_6D350, sub_6D828, sub_6DB5C
@@ -594,7 +594,7 @@ sub_6E332:
 .32:
         movsx ebx, word [byte ebp-04h]
         mov eax, ebx
-        call sub_2A502
+        call ClearSlotUser
         mov word [nosplit ebx*8+word_17D562], 1
         mov eax, dword [dword_17D588]
         movsx edx, word [nosplit ebx*8+word_17D562]
@@ -1188,7 +1188,7 @@ sub_6F056:
         mov word [dword esi+word_17D562], 1
         mov eax, edx
         mov word [dword esi+word_17D560], 1
-        call sub_2A502
+        call ClearSlotUser
         jmp short .6
 .3:
         mov ebx, dword [gameopts]

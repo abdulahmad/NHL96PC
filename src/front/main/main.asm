@@ -9,7 +9,7 @@ extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, off_11D3DC
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
 extern str_HardwareBeforeRunningHOC, str_IhreHardwareZuKonfigurie, str_LDON, str_LEAS, str_Lgo, str_LNEW, str_LNHL, str_LNPA
 extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_, strlen_, GripSetupScreen
-extern sub_2A52F, sub_2CB9D, sub_57F0A, sub_583B8, sub_625F7, sub_62ED9, sub_63076, sub_63955
+extern ClearSlotUsers, UserRecordsScreen, sub_57F0A, sub_583B8, sub_625F7, sub_62ED9, sub_63076, sub_63955
 extern sub_63B0C, sub_63B6A, sub_63DC4, sub_64E54, sub_64E64, sub_66589, sub_689D1, sub_68C33
 extern sub_6941E, sub_699D0, sub_6A5EB, sub_6A675, sub_73BA5, sub_771F0, sub_77292, sub_77355
 extern sub_7BA57, sub_88509, sub_A4961, sub_A4FD7, sub_AB758, sub_ABF4C, sub_AC868, sub_ADA50
@@ -180,7 +180,7 @@ RunFrontEnd:
         call sub_73BA5
         jmp short .17
 .10:
-        call sub_2CB9D
+        call UserRecordsScreen
         jmp short .17
 .11:
         call sub_583B8
@@ -614,7 +614,7 @@ StartUp:
         call GripSetupScreen
 .5:
         call sub_63076
-        call sub_2A52F
+        call ClearSlotUsers
         push ModemGameClose
         call sub_E04D0
         add esp, byte 4

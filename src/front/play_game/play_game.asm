@@ -15,7 +15,7 @@ extern PeriodOver, PickThreeStars, PollControllers, PostGameScreens, PullGoalie,
 extern RunInGameMenu, seed, SetupDemoGame, SetupGame, SetupTeamLines, SetViewRect, SlotButtons, str_FhiL2
 extern str_FhiR2, str_GhiL, str_GhiR, str_GloL5, str_GloR5, str_PAL, strcpy_, MessageBox
 extern BlankForFadeIn, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, FreeStatsTables, EndGameCleanup, InitGameTeams
-extern sub_2B4B9, sub_3A6F3, sub_4B59F, sub_5358E, sub_58A58, sub_59188, sub_5A572, sub_5AF42
+extern UpdateUserRecords, sub_3A6F3, sub_4B59F, sub_5358E, sub_58A58, sub_59188, sub_5A572, sub_5AF42
 extern sub_612BC, sub_62311, sub_625F7, sub_62ED9, sub_62F90, sub_63A5B, sub_63B0C, sub_63DC4
 extern sub_689D1, sub_68A10, sub_68C33, sub_68E31, sub_68E72, sub_68F82, sub_6904C, sub_692E9
 extern sub_69312, sub_6934E, sub_695CB, sub_6986B, sub_69A9B, sub_6A5EB, sub_77355, sub_AA664
@@ -755,7 +755,7 @@ GameLoop_gameovercall:
         mov dword [InGameMenuRequest], 3
         call RunInGameMenu
         call PickThreeStars
-        call sub_2B4B9
+        call UpdateUserRecords
 .1:
         mov eax, 3
         call sub_63A5B

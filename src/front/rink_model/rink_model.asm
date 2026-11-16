@@ -42,46 +42,46 @@ extern dword_15E8C0, dword_15E8C4, dword_15E8C8, dword_15E8CC, dword_15E8D0, dwo
 extern dword_15E8E0, dword_15E8E4, dword_15E8E8, dword_15E8EC, dword_15E8F0, dword_15E8F4, dword_15E8F8, dword_15E8FC
 extern dword_15E900, dword_15EA04, dword_15EA08, dword_1770B7, dword_1770BB, dword_1770BF, dword_1770C3, dword_1770C7
 extern dword_1770CB, dword_1770CF, dword_1797FC, dword_179800, dword_1798E4, dword_1798E8, dword_17997C, dword_179AC8
-extern dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_190E94, dword_190E98, FatalError, FileClose
-extern FileCreate, FileWriteAt, gameopts, GetPressedDevice, GetTicks, LoadPackedFile, mousex, mousey
-extern PBnum, PutBlock, qword_110786, qword_11078E, randomd0, SetDrawBitmap, SortCords, sprintf_
-extern str_B00, str_B0DD, str_B1DD, str_B2DD, str_B3DD, str_B4DD, str_B5DD, str_B6DD
-extern str_B7DD, str_B8DD, str_B9DD, str_Back, str_Benchbk, str_Benchbot, str_Benchdiv, str_Benchx
-extern str_Benchz0, str_Benchz1, str_Bkgd26, str_Boardback, str_Botboards, str_C00, str_C01, str_C02
-extern str_C03, str_Center, str_Crease, str_CrowdD, str_Crud, str_Door00, str_Door01, str_Door02
-extern str_Door10, str_Door11, str_Door12, str_DoorZ0, str_DoorZ1, str_EMPTYFSH, str_Faceoff0, str_Faceoff1
-extern str_Faceoff2, str_Faceoff3, str_Faceoff4, str_Faceoff5, str_Faceoff6, str_Faceoff7, str_FatBlueLines, str_FatRedLines
-extern str_Flatboards, str_FSH2, str_Glass, str_Glassline, str_Glite0, str_Glite1, str_Goal02, str_Goal12
-extern str_Grnlite, str_Gt002d, str_Gt004, str_Gt007, str_Gt102d, str_Gt202d, str_Gt302, str_Gt302d
-extern str_Gt305, str_HALFFSH, str_Ice, str_ICE2, str_IceFsh, str_IceLine, str_Icelogo, str_ICELOGO2
-extern str_Left1, str_Left2, str_Lites, str_Maxx, str_Maxz, str_Minx, str_Minz, str_Net
-extern str_Pbench0D, str_Pbench1D, str_Penback, str_Penbot, str_Penbox0D, str_Penbox1D, str_Penboxt0, str_Penboxt1
-extern str_Penboxz0, str_Penboxz1, str_Pipe, str_Puck, str_Puckshad, str_R02d, str_Redlite, str_Right1
-extern str_Right2, str_Rink, str_Rlite0, str_Rlite1, str_Rlxh, str_Rlxn, str_Rlyh, str_Rlyn
-extern str_Rsd0, str_Rsd1, str_Rubber, str_Rubberside, str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink
-extern str_SideNotFoundInStands, str_STAND, str_STAND2ND, str_STANDS, str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2
-extern str_ThinRedLines, str_Top, str_Topboards, str_WALL, str_Wedge, str_WHD0, str_Zamboni, str_Zambpath
-extern strcat_, strcpy_, sub_1E643, sub_49300, sub_4B38C, sub_4B4F3, sub_59349, sub_625AA
-extern sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_69A94, sub_69A9B, sub_77355, sub_873AE
-extern sub_87DD6, sub_8805A, sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AC868
-extern sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00, sub_B0494, sub_B049E, sub_B20D0
-extern sub_B31C0, sub_B74B0, sub_B7810, sub_B78C0, sub_B78DC, sub_B79C8, sub_B79E0, sub_B7A70
-extern sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928, sub_B9A18, sub_B9B34, sub_B9B70
-extern sub_B9BB0, sub_B9BD0, sub_B9C08, sub_B9C3C, sub_B9C70, sub_BA2F0, sub_BA344, sub_BA3D0
-extern sub_BA420, sub_BA4F0, sub_BA55C, sub_BA5D0, sub_BB384, sub_BB470, sub_BB570, sub_BB924
-extern sub_BB9C4, sub_BBAA0, sub_BBB70, sub_BBBD0, sub_BBBF0, sub_BBC04, sub_BBC14, sub_BBC80
-extern sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0, sub_BC3F4, sub_BC5C0, sub_BC674
-extern sub_BC760, sub_BC7F0, sub_BC838, sub_BD86C, sub_BD9AC, sub_BE6E0, sub_BE8AC, sub_BE926
-extern sub_DD6C4, sub_DD8B0, sub_DD8C8, sub_DD908, sub_DD960, sub_DDB68, sub_E04E0, sub_E0520
-extern sub_E0898, sub_E0959, sub_E1575, sub_E162A, unk_1175BD, unk_117605, unk_11764D, unk_1176AD
-extern unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48, unk_158F50, unk_158F68, unk_158F70
-extern unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024, unk_15903C, unk_159108, unk_159148
-extern unk_159190, unk_1591D8, unk_159238, unk_159338, unk_159368, unk_159398, unk_1593F8, unk_159458
-extern unk_159500, unk_159508, unk_159510, unk_159518, unk_159520, unk_159528, unk_159F58, unk_15AE88
-extern unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450, unk_15DB38, unk_15DF20, unk_15E020
-extern unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8, unk_15E534, unk_15E5A0, unk_15E618
-extern unk_15E88C, unk_15E904, unk_165258, unk_165354, unpack, vecdist, word_114CE0, word_158D74
-extern word_15E472, word_160ACC, word_176FB8, word_176FDA, word_176FFC, word_17704C, word_17706E
+extern dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_190E94, dword_190E98, FatalError, gameopts
+extern GetTicks, LoadPackedFile, mousex, mousey, PBnum, PutBlock, qword_110786, qword_11078E
+extern randomd0, SetDrawBitmap, SortCords, sprintf_, str_B00, str_B0DD, str_B1DD, str_B2DD
+extern str_B3DD, str_B4DD, str_B5DD, str_B6DD, str_B7DD, str_B8DD, str_B9DD, str_Back
+extern str_Benchbk, str_Benchbot, str_Benchdiv, str_Benchx, str_Benchz0, str_Benchz1, str_Bkgd26, str_Boardback
+extern str_Botboards, str_C00, str_C01, str_C02, str_C03, str_Center, str_Crease, str_CrowdD
+extern str_Crud, str_Door00, str_Door01, str_Door02, str_Door10, str_Door11, str_Door12, str_DoorZ0
+extern str_DoorZ1, str_EMPTYFSH, str_Faceoff0, str_Faceoff1, str_Faceoff2, str_Faceoff3, str_Faceoff4, str_Faceoff5
+extern str_Faceoff6, str_Faceoff7, str_FatBlueLines, str_FatRedLines, str_Flatboards, str_FSH2, str_Glass, str_Glassline
+extern str_Glite0, str_Glite1, str_Goal02, str_Goal12, str_Grnlite, str_Gt002d, str_Gt004, str_Gt007
+extern str_Gt102d, str_Gt202d, str_Gt302, str_Gt302d, str_Gt305, str_HALFFSH, str_Ice, str_ICE2
+extern str_IceFsh, str_IceLine, str_Icelogo, str_ICELOGO2, str_Left1, str_Left2, str_Lites, str_Maxx
+extern str_Maxz, str_Minx, str_Minz, str_Net, str_Pbench0D, str_Pbench1D, str_Penback, str_Penbot
+extern str_Penbox0D, str_Penbox1D, str_Penboxt0, str_Penboxt1, str_Penboxz0, str_Penboxz1, str_Pipe, str_Puck
+extern str_Puckshad, str_R02d, str_Redlite, str_Right1, str_Right2, str_Rink, str_Rlite0, str_Rlite1
+extern str_Rlxh, str_Rlxn, str_Rlyh, str_Rlyn, str_Rsd0, str_Rsd1, str_Rubber, str_Rubberside
+extern str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink, str_SideNotFoundInStands, str_STAND, str_STAND2ND, str_STANDS
+extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_Top, str_Topboards, str_WALL
+extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, sub_1E643, sub_49300
+extern sub_4B38C, sub_4B4F3, sub_59349, sub_625AA, sub_64721, sub_64F59, sub_66373, sub_68AB1
+extern sub_69A94, sub_69A9B, sub_873AE, sub_87DD6, sub_8805A, sub_AA988, sub_AAA40, sub_AADA4
+extern sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
+extern sub_B0494, sub_B049E, sub_B20D0, sub_B31C0, sub_B74B0, sub_B7810, sub_B78C0, sub_B78DC
+extern sub_B79C8, sub_B79E0, sub_B7A70, sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928
+extern sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9BD0, sub_B9C08, sub_B9C3C, sub_B9C70
+extern sub_BA2F0, sub_BA344, sub_BA3D0, sub_BA420, sub_BA4F0, sub_BA55C, sub_BA5D0, sub_BB384
+extern sub_BB470, sub_BB570, sub_BB924, sub_BB9C4, sub_BBAA0, sub_BBB70, sub_BBBD0, sub_BBBF0
+extern sub_BBC04, sub_BBC14, sub_BBC80, sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0
+extern sub_BC3F4, sub_BC5C0, sub_BC674, sub_BC760, sub_BC7F0, sub_BC838, sub_BD86C, sub_BD9AC
+extern sub_BE6E0, sub_BE8AC, sub_BE926, sub_DD6C4, sub_DD8B0, sub_DD8C8, sub_DD908, sub_DD960
+extern sub_DDB68, sub_E04E0, sub_E0520, sub_E0898, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
+extern unk_117605, unk_11764D, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
+extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
+extern unk_15903C, unk_159108, unk_159148, unk_159190, unk_1591D8, unk_159238, unk_159338, unk_159368
+extern unk_159398, unk_1593F8, unk_159458, unk_159500, unk_159508, unk_159510, unk_159518, unk_159520
+extern unk_159528, unk_159F58, unk_15AE88, unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450
+extern unk_15DB38, unk_15DF20, unk_15E020, unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8
+extern unk_15E534, unk_15E5A0, unk_15E618, unk_15E88C, unk_15E904, unk_165258, unk_165354, unpack
+extern vecdist, word_114CE0, word_158D74, word_15E472, word_176FB8, word_176FDA, word_176FFC, word_17704C
+extern word_17706E
 global unk_21984, sub_21990, sub_21B35, sub_21BC9, sub_21BC9_19, sub_21BE3, sub_21C1A, sub_21C1A_E1
 global sub_21D14, sub_21E3E, sub_2207E, sub_220FB, sub_22159, sub_22159_4F, sub_221AE, sub_22268
 global sub_22299, sub_22299_AC, sub_2234B, sub_223BA, sub_2242A, sub_22494, sub_224AE, sub_224AE_8
@@ -103,8 +103,6 @@ global sub_28C50, sub_28D97, sub_2929F, sub_2976B, sub_297A8, sub_297C9, sub_297
 global jpt_299EC, sub_29A14, sub_29A14_27, sub_29A14_3F, sub_29A14_5A, sub_29A14_75, sub_29A14_90, sub_29A14_AB
 global sub_29A14_C3, sub_29A14_DB, sub_29A14_F3, sub_29A14_10B, jpt_29B77, sub_29B9F, sub_29B9F_64F, sub_29B9F_66F
 global sub_29B9F_68C, sub_29B9F_6AA, sub_29B9F_6C8, sub_29B9F_6FD, sub_29B9F_71E, sub_29B9F_73F, sub_29B9F_761, sub_29B9F_799
-global unk_2A3D6, unk_2A3E2, unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, unk_2A482, sub_2A502
-global sub_2A52F, sub_2A5B5, sub_2A645
 unk_21984:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
@@ -10926,209 +10924,6 @@ sub_29B9F_799:
         pop ebp
         pop edi
         pop esi
-        pop edx
-        pop ecx
-        pop ebx
-        ret
-unk_2A3D6:
-        db 00h,00h,02h,00h,00h,00h,03h,00h,00h,00h,04h,00h
-unk_2A3E2:
-        db 00h,00h,01h,00h,00h,080h,01h,00h,00h,00h,00h,00h
-unk_2A3EE:
-        db 00h,00h,01h,00h,00h,080h,01h,00h
-unk_2A3F6:
-        db 00h,00h,01h,00h,00h,040h,01h,00h,00h,080h,01h,00h
-unk_2A402:
-        db 095h,00h,00h,00h,0BDh,01h,00h,00h,01Ah,01h,00h,00h,0BDh,01h,00h,00h
-        db 01Ah,01h,00h,00h,0D2h,01h,00h,00h,095h,00h,00h,00h,0D2h,01h,00h,00h
-        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_2A442:
-        db 064h,01h,00h,00h,0BDh,01h,00h,00h,0E9h,01h,00h,00h,0BDh,01h,00h,00h
-        db 0E9h,01h,00h,00h,0D2h,01h,00h,00h,064h,01h,00h,00h,0D2h,01h,00h,00h
-        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_2A482:
-        db 033h,00h,00h,00h,037h,00h,00h,00h,045h,00h,00h,00h,037h,00h,00h,00h
-        db 045h,00h,00h,00h,049h,00h,00h,00h,033h,00h,00h,00h,049h,00h,00h,00h
-        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-        db 034h,02h,00h,00h,037h,00h,00h,00h,045h,02h,00h,00h,037h,00h,00h,00h
-        db 045h,02h,00h,00h,049h,00h,00h,00h,034h,02h,00h,00h,049h,00h,00h,00h
-        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-;-----------------------------------------------------------------------------
-; sub_2A502                                                       2A502  96 PC
-;-----------------------------------------------------------------------------
-sub_2A502:
-        push ebx
-        push edx
-        imul edx, eax, byte 21h
-        mov word [dword edx+word_160ACC], 0
-        add edx, word_160ACC
-        mov eax, 62h
-        lea ebx, [byte edx+02h]
-        call sub_77355
-        mov edx, eax
-        mov eax, ebx
-        call strcpy_
-        pop edx
-        pop ebx
-        ret
-;-----------------------------------------------------------------------------
-; sub_2A52F                                                       2A52F  96 PC
-;-----------------------------------------------------------------------------
-sub_2A52F:
-        push ebx
-        push ecx
-        push edx
-        mov ecx, word_160ACC
-        xor ebx, ebx
-        inc ecx
-        inc ecx
-.1:
-        imul eax, ebx, byte 21h
-        mov word [dword eax+word_160ACC], 0
-        mov eax, 62h
-        call sub_77355
-        mov edx, eax
-        mov eax, ecx
-        inc ebx
-        call strcpy_
-        add ecx, byte 21h
-        cmp ebx, byte 4
-        jl short .1
-        pop edx
-        pop ecx
-        pop ebx
-        ret
-.2:
-        call GetPressedDevice
-        test eax, eax
-        jne short .3
-        call sub_69A9B
-        jmp short .2
-.3:
-        call sub_69A9B
-        call GetPressedDevice
-        test eax, eax
-        jne short .3
-        ret
-        push ebx
-        push ecx
-        mov ebx, eax
-        xor eax, eax
-        imul edx, byte 21h
-.4:
-        movsx ecx, word [dword eax+word_160ACC]
-        cmp ecx, ebx
-        jne short .5
-        cmp eax, edx
-        je short .5
-        mov eax, 1
-        pop ecx
-        pop ebx
-        ret
-.5:
-        add eax, byte 21h
-        cmp eax, 84h
-        jl short .4
-        xor eax, eax
-        pop ecx
-        pop ebx
-        ret
-;-----------------------------------------------------------------------------
-; sub_2A5B5                                                       2A5B5  96 PC
-;-----------------------------------------------------------------------------
-sub_2A5B5:
-        push ebx
-        push ecx
-        push edx
-        push esi
-        mov ebx, eax
-        mov edx, ebx
-        mov eax, dword [eax]
-        lea esi, [byte ebx+06h]
-        add eax, dword [byte ebx+04h]
-.1:
-        movsx ecx, word [byte edx+08h]
-        add eax, ecx
-        movsx ecx, word [byte edx+0Eh]
-        add eax, ecx
-        movsx ecx, word [byte edx+01Ah]
-        add eax, ecx
-        movsx ecx, word [byte edx+020h]
-        add eax, ecx
-        movsx ecx, word [byte edx+026h]
-        add eax, ecx
-        movsx ecx, word [byte edx+014h]
-        inc edx
-        inc edx
-        add eax, ecx
-        cmp edx, esi
-        jne short .1
-        movsx edx, word [byte ebx+02Ch]
-        add eax, edx
-        movsx edx, word [byte ebx+02Eh]
-        add eax, edx
-        mov edx, ebx
-        lea ecx, [byte ebx+070h]
-.2:
-        add edx, byte 4
-        add eax, dword [byte edx+02Ch]
-        add eax, dword [dword edx+09Ch]
-        cmp edx, ecx
-        jne short .2
-        mov edx, ebx
-        lea ecx, [byte ebx+04h]
-.3:
-        movsx ebx, word [dword edx+0110h]
-        add eax, ebx
-        movsx ebx, word [dword edx+0114h]
-        inc edx
-        inc edx
-        add eax, ebx
-        cmp edx, ecx
-        jne short .3
-        mov edx, 3
-        imul edx
-        add eax, 8000h
-        adc edx, byte 0
-        shrd eax, edx, 10h
-        pop esi
-        pop edx
-        pop ecx
-        pop ebx
-        ret
-;-----------------------------------------------------------------------------
-; sub_2A645                                                       2A645  96 PC
-;-----------------------------------------------------------------------------
-sub_2A645:
-        push ebx
-        push ecx
-        push edx
-        push edi
-        enter 120h, 0
-        lea edx, [byte ebp-04h]
-        mov ecx, 1
-        call FileCreate
-        test eax, eax
-        jne short .1
-        mov ecx, 11Ch
-        lea edi, [dword ebp-0120h]
-        lea edx, [dword ebp-0120h]
-        rep stosb
-        xor ebx, ebx
-        mov ecx, 11Ch
-        mov eax, dword [byte ebp-04h]
-        call FileWriteAt
-        mov ecx, eax
-        lea eax, [byte ebp-04h]
-        call FileClose
-.1:
-        mov eax, ecx
-        leave
-        pop edi
         pop edx
         pop ecx
         pop ebx

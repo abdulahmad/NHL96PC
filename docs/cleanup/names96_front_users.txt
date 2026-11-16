@@ -1,0 +1,74 @@
+# NHL 96 PC users (user records): LOCAL.NDX of user names, per-user record files, the records screen. PC-only.
+sub_2A502 ClearSlotUser {confidence=high} (slot): no user on that controller slot (word_160ACC entry 21h bytes: user id, name "no user" text)
+sub_2A52F ClearSlotUsers {confidence=high} no user on any of the 4 controller slots
+sub_2A5B5 UserRecordRating {confidence=low} adds up a user record's counts (x3, 16.16) for its rating
+sub_2A645 CreateUserRecord {confidence=high} (path): creates an empty user record file (11Ch bytes of zeros)
+sub_2A692 DeleteUser {confidence=high} (&index, n): asks to confirm, deletes the user's files and takes the user out of LOCAL.NDX and off any controller slot
+sub_2A804 NewUser {confidence=high} (&index): asks for a name (EditText), creates the user's record file (id as %08d) and adds the user to LOCAL.NDX; a message when it cannot
+sub_2A804_159 NewUser_159 {no_record} shared exit
+sub_2A963 DrawUserList {confidence=high} draws a page of user names (10 a page) with the selected one highlighted, shortening names that do not fit
+sub_2AA81 GetUserName {confidence=high} (index, id, out): copies the user's name; 0 when the id is not in the index
+sub_2AABB LoadUserIndex {confidence=high} (&index): loads LOCAL.NDX, or makes a new one with the two default users
+sub_2AB63 ScrollUserList {confidence=low} keeps the selected line of the user list on its page (scroll up or down)
+sub_2AB8F PickUsersScreen {confidence=medium} the screen that puts users on the controller slots: user list with slider (ulxn/ulxh/ulyn/ulyh, slid, slu/sld arrows, ball cursor), new user, delete user
+sub_2B4B9 UpdateUserRecords {confidence=medium} after a game: for every controller slot with a user, reads the user's record, adds the game (result, goals, power play, ...) and writes it back
+sub_2B4B9_47F UpdateUserRecords_47F {no_record} shared epilogue
+sub_2B4B9_486 UpdateUserRecords_ret {no_record} shared ret
+sub_2B945 CompareUsersByName {confidence=high} qsort comparator of the user records screen: by name
+sub_2B95D CompareUsersByRating {confidence=medium} qsort comparator: by rating (urate), then name
+sub_2B99B CompareUsersByRecord {confidence=medium} qsort comparator: by points from the won / lost / tied record (upts) of the shown game type, then name
+sub_2B99B_127 CompareUsersByRecord_127 {no_record} shared tail
+sub_2B99B_12C CompareUsersByRecord_12C {no_record} shared tail
+sub_2B99B_131 CompareUsersByRecord_ret {no_record} shared ret
+sub_2BAD2 CompareUsersByGoalsFor {confidence=medium} qsort comparator: by goals for (ugf), then name
+sub_2BB14 CompareUsersByGoalsAgainst {confidence=medium} qsort comparator: by goals against (uga, fewest first), then name
+sub_2BB56 CompareUsersByPowerPlay {confidence=medium} qsort comparator: by power play % (upp: goals / chances), then name
+sub_2BC05 CompareUsersByPenaltyKill {confidence=medium} qsort comparator: by penalty kill % (upk), then name
+sub_2BCC8 CompareUsersByTeam {confidence=medium} qsort comparator: by favourite team (uteam)
+sub_2BCC8_8 CompareUsersByTeam_8 {no_record} shared body
+sub_2BCE3 CompareUsersByOpponent {confidence=medium} qsort comparator: by favourite opponent (uopp)
+sub_2BCED CompareUsersByShutouts {confidence=medium} qsort comparator: by shutouts (uso), then name
+sub_2BD2F CompareUsersByStreak {confidence=medium} qsort comparator: by current streak (ustreak) or, on that column, longest streak (ulstreak), then name
+sub_2BDD2 DrawUserRecords {confidence=medium} draws the user records table (BKGD, column titles TXT%d) a page at a time: per column type a number, a record (w-l-t), a percentage (%3d.%1d), a team name
+sub_2C31A LoadUserRecords {confidence=medium} reads every user's record file into the tables of the user records screen
+sub_2C65C ExportUserRecords {confidence=medium} asks for a file name (EditText) and writes the user records table to it as text (fprintf)
+sub_2CB9D UserRecordsScreen {confidence=medium} the user records screen: allocates the column tables (uname, urate, upts, ugf, uga, upp, upk, uso, ustreak, ulstreak, uteam, uopp, usort), LoadUserRecords, sorts by the picked column (qsort), DrawUserRecords, export
+sub_2BDD2_23B DrawUserRecords_23B {no_record}
+sub_2BDD2_267 DrawUserRecords_267 {no_record}
+sub_2BDD2_27F DrawUserRecords_27F {no_record}
+sub_2BDD2_29B DrawUserRecords_29B {no_record}
+sub_2BDD2_2BD DrawUserRecords_2BD {no_record}
+sub_2BDD2_2C4 DrawUserRecords_2C4 {no_record}
+sub_2BDD2_2CB DrawUserRecords_2CB {no_record}
+sub_2BDD2_2D2 DrawUserRecords_2D2 {no_record}
+sub_2BDD2_2D9 DrawUserRecords_2D9 {no_record}
+sub_2BDD2_2FC DrawUserRecords_2FC {no_record}
+sub_2BDD2_395 DrawUserRecords_395 {no_record}
+sub_2BDD2_3F0 DrawUserRecords_3F0 {no_record}
+sub_2CB9D_A1A UserRecordsScreen_A1A {no_record}
+sub_2CB9D_A2B UserRecordsScreen_A2B {no_record}
+sub_2CB9D_A7B UserRecordsScreen_A7B {no_record}
+sub_2CB9D_A84 UserRecordsScreen_A84 {no_record}
+sub_2CB9D_A8D UserRecordsScreen_A8D {no_record}
+sub_2CB9D_A96 UserRecordsScreen_A96 {no_record}
+sub_2CB9D_A9F UserRecordsScreen_A9F {no_record}
+sub_2CB9D_AA8 UserRecordsScreen_AA8 {no_record}
+sub_2CB9D_AB1 UserRecordsScreen_AB1 {no_record}
+sub_2CB9D_ABA UserRecordsScreen_ABA {no_record}
+sub_2CB9D_AC3 UserRecordsScreen_AC3 {no_record}
+sub_2CB9D_ACC UserRecordsScreen_ACC {no_record}
+sub_2CB9D_AD5 UserRecordsScreen_AD5 {no_record}
+sub_2CB9D_B4F UserRecordsScreen_B4F {no_record}
+sub_2CB9D_B73 UserRecordsScreen_B73 {no_record}
+sub_2CB9D_B93 UserRecordsScreen_B93 {no_record}
+sub_2CB9D_C6C UserRecordsScreen_C6C {no_record}
+sub_2CB9D_C75 UserRecordsScreen_C75 {no_record}
+sub_2CB9D_C7E UserRecordsScreen_C7E {no_record}
+sub_2CB9D_C87 UserRecordsScreen_C87 {no_record}
+sub_2CB9D_C90 UserRecordsScreen_C90 {no_record}
+sub_2CB9D_C99 UserRecordsScreen_C99 {no_record}
+sub_2CB9D_CA2 UserRecordsScreen_CA2 {no_record}
+sub_2CB9D_CAB UserRecordsScreen_CAB {no_record}
+sub_2CB9D_CB4 UserRecordsScreen_CB4 {no_record}
+sub_2CB9D_CBD UserRecordsScreen_CBD {no_record}
+sub_2CB9D_CC6 UserRecordsScreen_CC6 {no_record}

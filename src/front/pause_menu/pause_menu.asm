@@ -19,7 +19,7 @@ extern dword_17D574, dword_17D57C, dword_17D580, dword_1843AC, dword_1843B0, dwo
 extern hmtmstruct, sprintf_, strcat_, strcpy_, GetInputDevices, InitSlotTable, ResetInputSlots, LinkSync
 extern ModemChat, GameStatsScreen, NameIndexNew, NameIndexLoad, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText
 extern MessageBox, LoadTeamLogo, FileCreate, FileClose, FileWriteAt, MakeDirPath, LoadSeasonStats, LoadPlayoffStats
-extern LoadExhibitionStats, LoadModemStats, FreeStatsTables, sub_2AB8F, sub_3A6F3, SaveGameState, sub_5360D, sub_5439F
+extern LoadExhibitionStats, LoadModemStats, FreeStatsTables, PickUsersScreen, sub_3A6F3, SaveGameState, sub_5360D, sub_5439F
 extern sub_564A4, sub_5A572, sub_5B0F9, CloseTextOverlay, sub_60777, sub_612BC, sub_621D9, sub_62201
 extern sub_6225D, sub_62285, sub_62311, sub_625F7, sub_62ED9, sub_63998, sub_63A5B, sub_63B0C
 extern sub_63DC4, sub_63F79, sub_640D3, sub_64103, sub_641D4, sub_6423E, sub_64296, sub_64721
@@ -3002,7 +3002,7 @@ sub_6CF1B:
         jl near .2
         mov edx, dword [byte ebp-058h]
         mov eax, dword [byte ebp-054h]
-        call sub_2AB8F
+        call PickUsersScreen
         mov eax, dword [byte ebp-024h]
         mov dword [byte ebp-034h], eax
         imul eax, byte 6

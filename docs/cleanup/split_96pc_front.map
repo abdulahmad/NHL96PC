@@ -27,3 +27,6 @@ cut EndGameCleanup front/game_teams The teams of a game: rosters and lines from 
 rename front/front_201CD front/pad_setup GrIP pad set-up screen and the joystick test screen (96 PC).
 cut sub_21990 front/rink_model 3D rink: the ice and boards model, its textures and the software 3D renderer of the 96 rink view (96 PC; to be split as it gets named).
 rename front/rink_model front/rink_model
+# step 5: front_2A692, the users part of rink_model's tail
+cut unk_2A3D6 front/users User records: LOCAL.NDX of user names, the user record files, picking users for the controllers, the user records screen (96 PC).
+rename front/front_2A692 front/users

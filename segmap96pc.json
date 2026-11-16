@@ -203,7 +203,7 @@
   {
    "obj": 1,
    "start": 137604,
-   "end": 173714,
+   "end": 173014,
    "module": "front_rink_model",
    "file": "front/rink_model/rink_model.asm",
    "desc": "3D rink: the ice and boards model, its textures and the software 3D renderer of the 96 rink view (96 PC; to be split as it gets named).",
@@ -211,12 +211,14 @@
    "group": "front"
   },
   {
-   "start": 173714,
-   "end": 186841,
-   "module": "front_2A692",
    "obj": 1,
-   "file": "front/front_2A692.asm",
-   "note": "placeholder"
+   "start": 173014,
+   "end": 186841,
+   "module": "front_users",
+   "file": "front/users/users.asm",
+   "desc": "User records: LOCAL.NDX of user names, the user record files, picking users for the controllers, the user records screen (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 186841,

@@ -26,13 +26,13 @@ extern AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap,
 extern FindShape, TextSetFont, GsPhoneNumber, GsModemInit, ControlPicksItems, ControlPicksSlotPoints, ControlPicksHotspots, ControlSetupRowY
 extern ControlSetupColumnX, str_N_ControlSetupScreen, str_R, str_F, SlotsTwoPlayer, BaudChoices, GsComPort, GsBaudIndex
 extern GsDirectLink, GsWaitForCall, GsLinkOption, GsDialMode, WriteGlobalSet
-global DrawOnOffSlider, jpt_7130F, PollOptionKeys, PollOptionKeys_94, PollOptionKeys_B6, PollOptionKeys_D5, PollOptionKeys_F6, PollOptionKeys_117
-global PollOptionKeys_138, PollOptionKeys_156, PollOptionKeys_174, PollOptionKeys_192, ControlPicksJumpTable, jpt_715AF, jpt_715D3, ControlPicksScreen
+global DrawOnOffSlider, PollOptionKeysJumpTable, PollOptionKeys, PollOptionKeys_94, PollOptionKeys_B6, PollOptionKeys_D5, PollOptionKeys_F6, PollOptionKeys_117
+global PollOptionKeys_138, PollOptionKeys_156, PollOptionKeys_174, PollOptionKeys_192, ControlPicksJumpTable, ControlPicksSlotJumpTable, ControlPicksButtonJumpTable, ControlPicksScreen
 global ControlPicksScreen_124, ControlPicksScreen_12E, ControlPicksScreen_13B, ControlPicksScreen_145, ControlPicksScreen_14F, ControlPicksScreen_159, ControlPicksScreen_163, ControlPicksScreen_16D
 global ControlPicksScreen_177, ControlPicksScreen_657, ControlPicksScreen_67C, ControlPicksScreen_69B, ControlPicksScreen_6BC, ControlPicksScreen_6DD, ControlPicksScreen_6FE, ControlPicksScreen_71C
 global ControlPicksScreen_73A, ControlPicksScreen_758, ControlPicksScreen_84D, ControlPicksScreen_96B, ControlPicksScreen_AF2, ControlPicksScreen_B00, ControlPicksScreen_B50, ControlPicksScreen_B57
 global ControlSetupScreen, RunControlSetup, ModemSettingsLabelPos, ModemSettingsHotspots, ModemDialLabelPos, ModemDialHotspots, ModemSettingsScreen, ModemSettingsScreen_D42
-global ModemSettingsScreen_D49, ModemWaitIdle, DrawPhoneNumber, jpt_7510E, ModemDialScreen, ModemDialScreen_75A, ModemDialScreen_81F, ModemDialScreen_8DB
+global ModemSettingsScreen_D49, ModemWaitIdle, DrawPhoneNumber, ModemDialChoiceJumpTable, ModemDialScreen, ModemDialScreen_75A, ModemDialScreen_81F, ModemDialScreen_8DB
 global ModemDialScreen_9DA, ModemDialScreen_AB2, ModemDialScreen_BB5, ModemDialScreen_BC1, ModemDialScreen_BD2, RunModemSetup, LinkSetupScreen
 ;-----------------------------------------------------------------------------
 ; DrawOnOffSlider                              711ED  96 PC, medium confidence
@@ -143,7 +143,7 @@ DrawOnOffSlider:
         pop edi
         pop esi
         ret
-jpt_7130F:
+PollOptionKeysJumpTable:
         dd PollOptionKeys_94
         dd PollOptionKeys_B6
         dd PollOptionKeys_D5
@@ -201,7 +201,7 @@ PollOptionKeys:
         cmp dword [byte ebp-0Ch], byte 8
         ja near PollOptionKeys_192.5
         mov esi, dword [byte ebp-0Ch]
-        jmp dword [nosplit cs:esi*4+jpt_7130F]
+        jmp dword [nosplit cs:esi*4+PollOptionKeysJumpTable]
 PollOptionKeys_94:
         test byte [ControlPickFlags], 1
         sete al
@@ -335,7 +335,7 @@ ControlPicksJumpTable:
         dd ControlPicksScreen_163
         dd ControlPicksScreen_16D
         dd ControlPicksScreen_177
-jpt_715AF:
+ControlPicksSlotJumpTable:
         dd ControlPicksScreen_657
         dd ControlPicksScreen_67C
         dd ControlPicksScreen_69B
@@ -345,7 +345,7 @@ jpt_715AF:
         dd ControlPicksScreen_71C
         dd ControlPicksScreen_73A
         dd ControlPicksScreen_758
-jpt_715D3:
+ControlPicksButtonJumpTable:
         dd ControlPicksScreen_84D
         dd ControlPicksScreen_96B
         dd ControlPicksScreen_AF2
@@ -737,7 +737,7 @@ ControlPicksScreen_177:
         cmp dword [byte ebp+05Ah], byte 8
         ja near ControlPicksScreen_758.14
         mov eax, dword [byte ebp+05Ah]
-        jmp dword [nosplit cs:eax*4+jpt_715AF]
+        jmp dword [nosplit cs:eax*4+ControlPicksSlotJumpTable]
 ControlPicksScreen_657:
         test byte [ControlPickFlags], 1
         sete al
@@ -869,7 +869,7 @@ ControlPicksScreen_758:
         sub eax, byte 9
         cmp eax, byte 3
         ja near ControlPicksScreen_B00.30
-        jmp dword [nosplit cs:eax*4+jpt_715D3]
+        jmp dword [nosplit cs:eax*4+ControlPicksButtonJumpTable]
 ControlPicksScreen_84D:
         mov eax, dword [ControlPickFlags]
         shl eax, 13h
@@ -4173,7 +4173,7 @@ DrawPhoneNumber:
         jl near .1
         leave
         jmp near ModemSettingsScreen_D49
-jpt_7510E:
+ModemDialChoiceJumpTable:
         dd ModemDialScreen_75A
         dd ModemDialScreen_81F
         dd ModemDialScreen_8DB
@@ -4609,7 +4609,7 @@ ModemDialScreen:
         cmp dword [byte ebp+066h], byte 0Ah
         ja near ModemDialScreen_BD2.36
         mov eax, dword [byte ebp+066h]
-        jmp dword [nosplit cs:eax*4+jpt_7510E]
+        jmp dword [nosplit cs:eax*4+ModemDialChoiceJumpTable]
 ModemDialScreen_75A:
         cmp word [GsWaitForCall], byte 0
         je near ModemDialScreen_BD2.36

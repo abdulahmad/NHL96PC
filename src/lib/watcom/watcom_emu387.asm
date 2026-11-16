@@ -7,7 +7,7 @@ extern AdpcmLeftSample, AdpcmRightSample, AdpcmLeftIndex, AdpcmRightIndex, EmuOp
 extern Hook387Save, EmuZeroTbyte, EmuRegRing, EmuRegLastSlot, EmuRegSlots, EmuRegTagMasks
 extern EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 global __hook387, __init_80x87, __unhook387, EmuDispatchD9RegJumpTable, EmuFtstFxamJumpTable, EmuSignOpsJumpTable, EmuLogOpsJumpTable, EmuRemOpsJumpTable
-global jpt_D398A, EmuDispatchDBRegJumpTable, jpt_D3C1C, jpt_D3DD1, RoundToDouble_32, RoundToDouble_49, RoundToDouble_84, jpt_D3A13_2C
+global EmuFucomppJumpTable, EmuDispatchDBRegJumpTable, EmuFcomppJumpTable, EmuDispatchDFRegJumpTable, RoundToDouble_32, RoundToDouble_49, RoundToDouble_84, jpt_D3A13_2C
 global jpt_D3DD1_20, jpt_D3DD1_69, jpt_D3DD1_CE, jpt_D3DD1_F8, jpt_D3DD1_110, EmuAdd_7, Emu387LdToInt_3, Emu387IntToLd_8
 global EmuTan_E, EmuTrapExit, RoundToSingle, RoundToDouble, RaiseFpuError, EaEax, EaEcx, EaEdx
 global EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8, EaEdxDisp8
@@ -1719,8 +1719,8 @@ EmuRemOpsJumpTable:
 ; X87 emulator: FUCOMPP
 ;-----------------------------------------------------------------------------
 EmuFucompp:
-        jmp dword [nosplit cs:ebx*4+jpt_D398A]
-jpt_D398A:
+        jmp dword [nosplit cs:ebx*4+EmuFucomppJumpTable]
+EmuFucomppJumpTable:
         dd EmuReservedOp
         dd .1
         dd EmuReservedOp
@@ -1934,8 +1934,8 @@ EmuFmulp:
 ; X87 emulator: FCOMPP
 ;-----------------------------------------------------------------------------
 EmuFcompp:
-        jmp dword [nosplit cs:ebx*4+jpt_D3C1C]
-jpt_D3C1C:
+        jmp dword [nosplit cs:ebx*4+EmuFcomppJumpTable]
+EmuFcomppJumpTable:
         dd EmuReservedOp
         dd .1
         dd EmuReservedOp
@@ -2040,8 +2040,8 @@ EmuFdivp:
 ; X87 emulator: dispatches the DF register group (FSTSW AX)
 ;-----------------------------------------------------------------------------
 EmuDispatchDFReg:
-        jmp dword [nosplit cs:ebx*4+jpt_D3DD1]
-jpt_D3DD1:
+        jmp dword [nosplit cs:ebx*4+EmuDispatchDFRegJumpTable]
+EmuDispatchDFRegJumpTable:
         dd jpt_D3DD1_110.6
         dd EmuReservedOp
         dd EmuReservedOp

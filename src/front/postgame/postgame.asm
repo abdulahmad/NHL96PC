@@ -29,8 +29,8 @@ extern hmtmOneTimers, hmtmOneTimerGoals, hmtmBreakaways, hmtmBreakawayGoals, hmt
 extern hmpasscmp, awtmPwrGoals, awtmPwrPlays, awtmPPShots, awtmPwrPlayTime, awtmPenalties, awtmPenMin, awtmATOP
 extern awscore, awtmSHGoals, awtmFaceoffsWon, awtmOneTimers, awtmOneTimerGoals, awtmBreakaways, awtmBreakawayGoals, awtmPenShots
 extern awtmPenShotGoals, awtmChecks, awpassatt, awpasscmp, StarPoints, starpl
-global DrawGameStats, DrawGameStats_DD0, DrawGameStats_DD1, GameStatsScreen, GameStatsScreen_722, jpt_15A72, AnimateStarsScreen, AnimateStarsScreen_D3
-global AnimateStarsScreen_E7, AnimateStarsScreen_114, AnimateStarsScreen_121, jpt_15E83, ThreeStarsScreen, ThreeStarsScreen_8CF, ThreeStarsScreen_91F, ThreeStarsScreen_928
+global DrawGameStats, DrawGameStats_DD0, DrawGameStats_DD1, GameStatsScreen, GameStatsScreen_722, AnimateStarsJumpTable, AnimateStarsScreen, AnimateStarsScreen_D3
+global AnimateStarsScreen_E7, AnimateStarsScreen_114, AnimateStarsScreen_121, ThreeStarsChoiceJumpTable, ThreeStarsScreen, ThreeStarsScreen_8CF, ThreeStarsScreen_91F, ThreeStarsScreen_928
 global ThreeStarsScreen_936, PostGameScreens
 ;-----------------------------------------------------------------------------
 ; DrawGameStats                                1456D  96 PC, medium confidence
@@ -1408,7 +1408,7 @@ GameStatsScreen_722:
         lea esp, [dword ebp+082h]
         pop ebp
         jmp near DrawGameStats_DD1
-jpt_15A72:
+AnimateStarsJumpTable:
         dd AnimateStarsScreen_E7
         dd AnimateStarsScreen_E7
         dd AnimateStarsScreen_D3
@@ -1479,7 +1479,7 @@ AnimateStarsScreen:
         cmp ax, 6
         ja short AnimateStarsScreen_E7
         movzx eax, ax
-        jmp dword [nosplit cs:eax*4+jpt_15A72]
+        jmp dword [nosplit cs:eax*4+AnimateStarsJumpTable]
 AnimateStarsScreen_D3:
         mov eax, 0FD70h
         mov edx, dword [StarsSlideStep]
@@ -1677,7 +1677,7 @@ AnimateStarsScreen_121:
         pop ecx
         pop ebx
         ret
-jpt_15E83:
+ThreeStarsChoiceJumpTable:
         dd ThreeStarsScreen_8CF
         dd ThreeStarsScreen_91F
         dd ThreeStarsScreen_928
@@ -2287,7 +2287,7 @@ ThreeStarsScreen:
         cmp dword [byte ebp+046h], byte 3
         ja near ThreeStarsScreen_936.15
         mov eax, dword [byte ebp+046h]
-        jmp dword [nosplit cs:eax*4+jpt_15E83]
+        jmp dword [nosplit cs:eax*4+ThreeStarsChoiceJumpTable]
 ThreeStarsScreen_8CF:
         mov ax, word [SlotsTwoPlayer]
         xor ah, ah

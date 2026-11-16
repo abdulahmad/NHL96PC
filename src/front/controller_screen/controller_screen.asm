@@ -24,7 +24,7 @@ global ControllerSlotDefaults, ControllerColumnDefaults, ControllerUsersPanel, N
 global NextControllerDevice_199, NextControllerDevice_240, NextControllerDevice_2E7, NextControllerDevice_38E, NextControllerDevice_435, NextControllerDevice_4D0, ScanControllers, DeviceIconCodes
 global DeviceIconJumpTable, DeviceIconShape, DeviceIconShape_51, DeviceIconShape_5D, DeviceIconShape_69, DeviceIconShape_75, DeviceIconShape_81, DeviceIconShape_8D
 global DeviceIconShape_99, DeviceIconShape_A5, DeviceIconShape_CB, DrawControllerIcons, SetControllerColumn, SetControllerIcon, SetControllerIcon_F9, DrawControllerColumns
-global jpt_6F02E, jpt_6F042, ControllerScreen, ControllerScreen_11AB, ControllerScreen_149D, ControllerScreen_14E4, ControllerScreen_1503, ControllerScreen_1548
+global ControllerScreenItemJumpTable, ControllerScreenModeJumpTable, ControllerScreen, ControllerScreen_11AB, ControllerScreen_149D, ControllerScreen_14E4, ControllerScreen_1503, ControllerScreen_1548
 global ControllerScreen_15D1, ControllerScreen_168B, ControllerScreen_16B0, ControllerScreen_16D6, RunControllerScreen, ControlPicksSlotPoints, ControlPicksHotspots, ControlSetupRowY
 global ControlSetupColumnX, str_N_ControlSetupScreen, str_R, str_F
 ;-----------------------------------------------------------------------------
@@ -2569,13 +2569,13 @@ DrawControllerColumns:
 .53:
         call SetControllerColumn
         jmp near SetControllerIcon_F9
-jpt_6F02E:
+ControllerScreenItemJumpTable:
         dd ControllerScreen_11AB
         dd ControllerScreen_149D
         dd ControllerScreen_14E4
         dd ControllerScreen_1503
         dd ControllerScreen_11AB
-jpt_6F042:
+ControllerScreenModeJumpTable:
         dd ControllerScreen_1548
         dd ControllerScreen_15D1
         dd ControllerScreen_168B
@@ -3726,7 +3726,7 @@ ControllerScreen:
         dec ecx
         shl eax, 3
         imul ecx, byte 66h
-        jmp dword [nosplit cs:edx*4+jpt_6F02E]
+        jmp dword [nosplit cs:edx*4+ControllerScreenItemJumpTable]
 ControllerScreen_11AB:
         cmp esi, byte 1
         jne near .60
@@ -3984,7 +3984,7 @@ ControllerScreen_1503:
         mov eax, dword [optflags]
         add ebx, 2710h
         and eax, byte 70h
-        jmp dword [nosplit cs:edx*4+jpt_6F042]
+        jmp dword [nosplit cs:edx*4+ControllerScreenModeJumpTable]
 ControllerScreen_1548:
         cmp eax, byte 30h
         je near ControllerScreen_16D6.76

@@ -19,7 +19,7 @@ extern FreeMemBlock, CreateBitmap, TintRect, DrawRectOutline, FreeBitmap, SetScr
 extern KeyIsDown, KbdGetKey, FindShape, LinkConfig, LinkCfgInit, LinkCfgDial, LinkBlockBuffer, LinkMsgQueue
 extern LinkValueQueue, LinkInputQueue, LinkRemoteQueue, LinkAckReply, GsPhoneNumber, GsModemInit, ModemGameOpts, SlotsTwoPlayer
 extern ControllerScreenMode, LinkSyncWord, BaudRateTable, ChatLocalLen, ChatRemoteLen, GsComPort, GsDirectLink, GsWaitForCall
-global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, jpt_1278E
+global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, LinkGameMessageJumpTable
 global LinkGameMessage_18, LinkExchangeValues, ModemGameConnect, ShowLinkWaitBox, HideLinkWaitBox, LinkSyncTimedOut, LinkSyncPoint, LinkSync
 global LinkSyncWithMessage, ModemGameClose, ModemGameQuit, LinkResyncInput, LinkExchangeInput, ModemChat, ThreeStarsRowY, ThreeStarsNameY
 global ThreeStarsScales, str_N, ThreeStarsHotspots
@@ -420,7 +420,7 @@ LinkGameMessage:
         sub esp, 8
         mov dword [byte ebp-04h], eax
         jmp short LinkGameMessage_18
-jpt_1278E:
+LinkGameMessageJumpTable:
         dd LinkGameMessage_18.4
         dd LinkGameMessage_18.2
         dd LinkGameMessage_18.6
@@ -438,7 +438,7 @@ LinkGameMessage_18:
         xor eax, eax
         mov al, byte [byte ebp-08h]
         shl eax, 2
-        jmp dword [dword cs:eax+jpt_1278E]
+        jmp dword [dword cs:eax+LinkGameMessageJumpTable]
 .1:
         mov ebx, 6
         mov edx, dword [byte ebp-04h]

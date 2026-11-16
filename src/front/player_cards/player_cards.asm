@@ -38,7 +38,7 @@ global ExportPlayerCard_32A, ExportPlayerCard_330, ExportPlayerCard_336, ExportP
 global ExportPlayerCard_492, ExportPlayerCard_498, ExportPlayerCard_49E, ExportPlayerCard_4A4, ExportPlayerCard_4AA, ExportPlayerCard_4B0, ExportPlayerCard_4B6, ExportPlayerCard_703
 global ExportPlayerCard_71D, ExportPlayerCard_723, ExportPlayerCard_729, ExportPlayerCard_72F, ExportPlayerCard_735, ExportPlayerCard_73B, ExportPlayerCard_741, ExportPlayerCard_747
 global ExportPlayerCard_74D, ExportPlayerCard_860, ExportPlayerCard_87B, ExportPlayerCard_881, ExportPlayerCard_887, ExportPlayerCard_88D, ExportPlayerCard_893, ExportPlayerCard_899
-global ExportPlayerCard_89F, ExportPlayerCard_8A5, ExportPlayerCard_8AB, ScaleBlock, PlayerRatingsHotspots, PlayerRatingsTabHotspots, PlayerRatingsNavLinks, jpt_93E46
+global ExportPlayerCard_89F, ExportPlayerCard_8A5, ExportPlayerCard_8AB, ScaleBlock, PlayerRatingsHotspots, PlayerRatingsTabHotspots, PlayerRatingsNavLinks, PlayerRatingsChoiceJumpTable
 PlayerCardSlideHotspots:
         db 018h,01h,00h,00h,064h,00h,00h,00h,068h,01h,00h,00h,064h,00h,00h,00h
         db 068h,01h,00h,00h,0AAh,00h,00h,00h,018h,01h,00h,00h,0AAh,00h,00h,00h
@@ -4340,7 +4340,7 @@ PlayerRatingsNavLinks:
         db 0Dh,0Fh,02h,0Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 0Dh,010h,02h,0Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 011h,02h,011h,08h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-jpt_93E46:
+PlayerRatingsChoiceJumpTable:
         dd PlayerRatingsScreen_E11
         dd PlayerRatingsScreen_E3B
         dd PlayerRatingsScreen_E44

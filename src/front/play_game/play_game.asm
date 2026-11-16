@@ -24,16 +24,16 @@ extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, W
 extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
 extern FindShape, SeasonUserRecords, PlayoffHeader, ModemGameOpts, SavedGameOpts, SlotsTwoPlayer, PauseRequested
 extern bannermsg, bannertimer, PeriodEventCount, GameEventFlags
-global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
+global PlayGameModeJumpTable, PlayGameStatsLoadJumpTable, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
 global GameLoop_E, GameLoop_18, GameLoop_38, GameLoop_inputcheck, GameLoop_hotkeyscall, GameLoop_hotkeyscall_5, GameLoop_menucall, GameLoop_menucall_A
 global GameLoop_nextperiodcall, GameLoop_nextperiodcall_6C, GameLoop_gameovercall, RunDemoGame, PlayGame, PlayGame_initslotscall, PlayGame_menucall, PlayGame_menucall_42
-jpt_168DA:
+PlayGameModeJumpTable:
         dd PlayMenuGame_75
         dd PlayMenuGame_85
         dd PlayMenuGame_9F
         dd PlayMenuGame_AF
-jpt_168EA:
+PlayGameStatsLoadJumpTable:
         dd PlayMenuGame_243
         dd PlayMenuGame_25F
         dd PlayMenuGame_26B
@@ -77,7 +77,7 @@ PlayMenuGame:
         mov dword [AttractResetFlag], 0
         cmp eax, byte 3
         ja short PlayMenuGame_AF.2
-        jmp dword [nosplit cs:eax*4+jpt_168DA]
+        jmp dword [nosplit cs:eax*4+PlayGameModeJumpTable]
 PlayMenuGame_75:
         xor edx, edx
         xor eax, eax
@@ -189,7 +189,7 @@ PlayMenuGame_AF:
         shr eax, 1Dh
         cmp eax, byte 3
         ja short PlayMenuGame_280.10
-        jmp dword [nosplit cs:eax*4+jpt_168EA]
+        jmp dword [nosplit cs:eax*4+PlayGameStatsLoadJumpTable]
 PlayMenuGame_243:
         test esi, esi
         jl short .9

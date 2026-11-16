@@ -7,7 +7,7 @@ extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_1
 extern DrawArtHotspot, CreateBitmap, FreeBitmap, DrawArtOpaqueHotspot, SetScreenTarget
 global InitVScrollBar, InitVScrollBar_217, InitHScrollBar, InitHScrollBar_207, InitHScrollBar_337, ScrollBarRet, ScrollBarUp, ScrollBarDown
 global ScrollBarPageUp, ScrollBarPageUp_B, ScrollBarPageUp_14, ScrollBarPageUp_19, ScrollBarPageDown, FreeScrollBar, SetScrollBarPos, DrawScrollBar
-global ScrollBarToMouse, DaysInMonth, CalendarDayShades, jpt_7D568
+global ScrollBarToMouse, DaysInMonth, CalendarDayShades, CalendarChoiceJumpTable
 ;-----------------------------------------------------------------------------
 ; InitVScrollBar                               7CCB8  96 PC, medium confidence
 ; (bar, ...): a vertical scroll bar (type 1) for a list area
@@ -722,7 +722,7 @@ CalendarDayShades:
         db 033h,033h,0B3h,03Eh,0CDh,0CCh,0CCh,03Eh,033h,033h,0B3h,03Eh,0CDh,0CCh,0CCh,03Eh
         db 0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh
         db 0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh
-jpt_7D568:
+CalendarChoiceJumpTable:
         dd CalendarScreen_13D3
         dd CalendarScreen_13E4
         dd CalendarScreen_153A

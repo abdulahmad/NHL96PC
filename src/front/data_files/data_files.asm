@@ -7,16 +7,16 @@ extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock
 extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, LoadFileData, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 extern OpenResourceArchive, GetResourceArchiveName, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle
 extern LoadPackedHandleQuiet, DataDirPath, ArtArchivePaths, str_X_SetArtArchive, DataFilePath, unpack, DataLibIds
-global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
-global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, SelectDataLibrary, SelectDataLibrary_32
+global MakeDataPathArtJumpTable, MakeDataPathCopyJumpTable, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
+global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, MakeDataPathArchiveJumpTable, MakeDirPath, SelectDataLibraryJumpTable, SelectDataLibrary, SelectDataLibrary_32
 global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadDataFileFlag0, LoadDataFileHandle, LoadPackedFile
 global LoadDataFileLib, MakeDatabasePath
-jpt_1E3C8:
+MakeDataPathArtJumpTable:
         dd MakeDataPath_63
         dd MakeDataPath_42
         dd MakeDataPath_4A
         dd MakeDataPath_50
-jpt_1E3D8:
+MakeDataPathCopyJumpTable:
         dd MakeDataPath_101
         dd MakeDataPath_E0
         dd MakeDataPath_E8
@@ -47,7 +47,7 @@ MakeDataPath:
         add ebx, ArtArchivePaths
         cmp edx, byte 3
         ja short MakeDataPath_63
-        jmp dword [dword cs:eax+jpt_1E3C8]
+        jmp dword [dword cs:eax+MakeDataPathArtJumpTable]
 MakeDataPath_42:
         test byte [byte ebx+012h], 1
 .1:
@@ -104,7 +104,7 @@ MakeDataPath_63:
 .6:
         cmp edx, byte 3
         ja short MakeDataPath_101
-        jmp dword [dword cs:eax+jpt_1E3D8]
+        jmp dword [dword cs:eax+MakeDataPathCopyJumpTable]
 MakeDataPath_E0:
         test byte [byte edi+012h], 1
 .7:
@@ -159,7 +159,7 @@ MakeDataPath_101:
         pop ecx
         pop ebx
         ret
-jpt_1E54A:
+MakeDataPathArchiveJumpTable:
         dd .6
         dd .1
         dd .3
@@ -175,7 +175,7 @@ jpt_1E54A:
         add ecx, edx
         cmp eax, byte 3
         ja short .6
-        jmp dword [nosplit cs:eax*4+jpt_1E54A]
+        jmp dword [nosplit cs:eax*4+MakeDataPathArchiveJumpTable]
 .1:
         test byte [byte ecx+012h], 1
 .2:
@@ -250,7 +250,7 @@ MakeDirPath:
         pop esi
         pop ecx
         ret
-jpt_1E633:
+SelectDataLibraryJumpTable:
         dd SelectDataLibrary_54
         dd SelectDataLibrary_32
         dd SelectDataLibrary_3A
@@ -276,7 +276,7 @@ SelectDataLibrary:
         and eax, byte 3
         cmp eax, byte 3
         ja short SelectDataLibrary_54
-        jmp dword [nosplit cs:eax*4+jpt_1E633]
+        jmp dword [nosplit cs:eax*4+SelectDataLibraryJumpTable]
 SelectDataLibrary_32:
         test byte [byte ebx+012h], 1
 .1:

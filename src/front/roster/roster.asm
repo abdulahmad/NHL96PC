@@ -33,7 +33,7 @@ extern SaveFileBlock, DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TickDea
 extern RosterRecords, RosterHotspots, str_X_RosterScreen, RosterKeyTable, str_Punct_CreatePlayerScreen, CreateSkaterNavLinks, CreateGoalieNavLinks
 global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScreen, DrawRosterTeams, DrawRosterTeams_17B, FormatRosterLine, FormatRosterLine_26D
 global DrawRosterPlayerInfo, RosterSlotStatus, CountRosterSlots, FindRosterSlot, ListRosterPlayers, ValidateRoster, EditPlayerName, EditPlayerName_131
-global ConfirmTrade, ResetTeamLines, CycleLoadingArt, jpt_9ADF0, jpt_9AE04, CreatePlayerScreen, CreatePlayerScreen_6BE, CreatePlayerScreen_71A
+global ConfirmTrade, ResetTeamLines, CycleLoadingArt, CreatePlayerChoiceJumpTable, CreatePlayerFieldJumpTable, CreatePlayerScreen, CreatePlayerScreen_6BE, CreatePlayerScreen_71A
 global CreatePlayerScreen_8D1, CreatePlayerScreen_8DA, CreatePlayerScreen_8E3, CreatePlayerScreen_8EC, CreatePlayerScreen_8F5, CreatePlayerScreen_BD2, CreatePlayerScreen_CF7, CreatePlayerScreen_DBB
 global DrawCreatePlayerRow, RatingBar, CreatePlayerLimits, CreatePlayerRatings, CompareRankA, CompareRankB, SortTeamRatings, TeamRankScoring
 global TeamRankScoring_48, TeamRankScoring_4A, TeamRankSkating, TeamRankOffence, TeamRankDefence, TeamRankGoalie, ComputeTeamRanks
@@ -4319,13 +4319,13 @@ CycleLoadingArt:
         pop ecx
         pop ebx
         ret
-jpt_9ADF0:
+CreatePlayerChoiceJumpTable:
         dd CreatePlayerScreen_6BE
         dd CreatePlayerScreen_71A
         dd CreatePlayerScreen_BD2
         dd CreatePlayerScreen_CF7
         dd CreatePlayerScreen_DBB
-jpt_9AE04:
+CreatePlayerFieldJumpTable:
         dd CreatePlayerScreen_8D1
         dd CreatePlayerScreen_8DA
         dd CreatePlayerScreen_8E3
@@ -4895,7 +4895,7 @@ CreatePlayerScreen_71A:
         cmp dword [byte ebp+04Ah], byte 4
         ja short CreatePlayerScreen_8F5.22
         mov eax, dword [byte ebp+04Ah]
-        jmp dword [nosplit cs:eax*4+jpt_9AE04]
+        jmp dword [nosplit cs:eax*4+CreatePlayerFieldJumpTable]
 CreatePlayerScreen_8D1:
         mov eax, dword [byte ebp+032h]
         mov byte [byte eax+02h], 43h
@@ -5196,7 +5196,7 @@ CreatePlayerScreen_BD2:
         cmp dword [byte ebp+056h], byte 4
         ja near CreatePlayerScreen_DBB.40
         mov eax, dword [byte ebp+056h]
-        jmp dword [nosplit cs:eax*4+jpt_9ADF0]
+        jmp dword [nosplit cs:eax*4+CreatePlayerChoiceJumpTable]
 CreatePlayerScreen_CF7:
         mov byte [byte ebp+016h], 0
 .30:

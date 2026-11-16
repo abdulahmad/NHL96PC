@@ -24,7 +24,7 @@ extern KeyIsDown, FindShape, ClearClipRect, vecdist, WaitRetrace, WaitRetraceEdg
 extern MenuViewStored, MenuLinkActive, MenuClipActive, MenuInputPaused, MenuInputReady, MenuStarted, MenuViewSaved, MenuCursorX
 extern MenuCursorY, MenuCursorShown, MenuMouseMode, MenuStartSelection
 global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, SetGameBackdrop, GetSavedViewSize, RunMenu, SetMenuMouse
-global MainMenuHotspots, jpt_66539, jpt_66549, jpt_66569, jpt_66579, MainMenuScreen, MainMenuScreen_B4, MainMenuScreen_C9
+global MainMenuHotspots, MainMenuModeArtJumpTable, MainMenuChoiceJumpTable, MainMenuModeButtonJumpTable, MainMenuModeResultJumpTable, MainMenuScreen, MainMenuScreen_B4, MainMenuScreen_C9
 global MainMenuScreen_DE, MainMenuScreen_F3, MainMenuScreen_621, MainMenuScreen_671, MainMenuScreen_6FC, MainMenuScreen_724, MainMenuScreen_74C, MainMenuScreen_774
 global MainMenuScreen_8A9, MainMenuScreen_8B5, MainMenuScreen_92D, MainMenuScreen_939, MainMenuScreen_996, MainMenuScreen_9EE, MainMenuScreen_A0B, MainMenuScreen_A14
 global MainMenuScreen_A1D, MainMenuScreen_A26
@@ -2348,12 +2348,12 @@ MainMenuHotspots:
         db 018h,02h,00h,00h,00h,01h,00h,00h,023h,02h,00h,00h,05h,01h,00h,00h
         db 023h,02h,00h,00h,010h,01h,00h,00h,018h,02h,00h,00h,016h,01h,00h,00h
         db 0A8h,01h,00h,00h,016h,01h,00h,00h,09Dh,01h,00h,00h,0Fh,01h,00h,00h
-jpt_66539:
+MainMenuModeArtJumpTable:
         dd MainMenuScreen_B4
         dd MainMenuScreen_C9
         dd MainMenuScreen_DE
         dd MainMenuScreen_F3
-jpt_66549:
+MainMenuChoiceJumpTable:
         dd MainMenuScreen_621
         dd MainMenuScreen_774
         dd MainMenuScreen_8A9
@@ -2362,12 +2362,12 @@ jpt_66549:
         dd MainMenuScreen_939
         dd MainMenuScreen_996
         dd MainMenuScreen_9EE
-jpt_66569:
+MainMenuModeButtonJumpTable:
         dd MainMenuScreen_671
         dd MainMenuScreen_6FC
         dd MainMenuScreen_724
         dd MainMenuScreen_74C
-jpt_66579:
+MainMenuModeResultJumpTable:
         dd MainMenuScreen_A0B
         dd MainMenuScreen_A14
         dd MainMenuScreen_A1D
@@ -2424,7 +2424,7 @@ MainMenuScreen:
         mov dword [byte ebp+072h], 0FFFFFFFFh
         cmp eax, byte 3
         ja short MainMenuScreen_F3.2
-        jmp dword [nosplit cs:eax*4+jpt_66539]
+        jmp dword [nosplit cs:eax*4+MainMenuModeArtJumpTable]
 MainMenuScreen_B4:
         push str_Bt013
         push esi
@@ -2716,7 +2716,7 @@ MainMenuScreen_F3:
         cmp dword [byte ebp+06Ah], byte 7
         ja near MainMenuScreen_A26.28
         mov eax, dword [byte ebp+06Ah]
-        jmp dword [nosplit cs:eax*4+jpt_66549]
+        jmp dword [nosplit cs:eax*4+MainMenuChoiceJumpTable]
 MainMenuScreen_621:
         mov edx, dword [optflags]
         mov eax, dword [optflags]
@@ -2739,7 +2739,7 @@ MainMenuScreen_621:
         shr eax, 1Dh
         cmp eax, byte 3
         ja near MainMenuScreen_671.14
-        jmp dword [nosplit cs:eax*4+jpt_66569]
+        jmp dword [nosplit cs:eax*4+MainMenuModeButtonJumpTable]
 MainMenuScreen_671:
         push str_Bt013
         push dword [byte ebp+076h]
@@ -2998,7 +2998,7 @@ MainMenuScreen_9EE:
         shr eax, 1Dh
         cmp eax, byte 3
         ja short MainMenuScreen_A26.27
-        jmp dword [nosplit cs:eax*4+jpt_66579]
+        jmp dword [nosplit cs:eax*4+MainMenuModeResultJumpTable]
 MainMenuScreen_A0B:
         mov dword [byte ebp+072h], 1
         jmp short MainMenuScreen_A26.28

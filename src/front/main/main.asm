@@ -17,10 +17,10 @@ extern UnpackTo, TextSetColor, SetupMemoryPool, NumLockOff, InstallHotkeys, Near
 extern SetTextMode, SetPaletteEntries8, ReadPaletteEntries8, InitMouse, InstallKeyboardHandler, KbdGetKey, AddExitHandler, FindShape
 extern bcopy, InstallBreakHandler, TextSetFont, str_0_LoadTeamLogo, str_Punct_CheckGameDirs, str_RunSetupFirstDe, str_EscToDosDe, DataDirPath
 extern SystemInfo, DefaultFont, str_WesternConference2, PaletteShadow
-global jpt_1B046, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
+global LoadTeamLogoJumpTable, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
 global LoadTeamLogo_ret, RunFrontEnd, ReturnTrue, CheckFreeMemory, CheckGameDirs, InitHardware, StartUp, ShutDown
 global ShutDown_51, StartUp_ret, main_
-jpt_1B046:
+LoadTeamLogoJumpTable:
         dd LoadTeamLogo_6D
         dd LoadTeamLogo_3B
         dd LoadTeamLogo_45
@@ -54,7 +54,7 @@ LoadTeamLogo:
         lea eax, [byte esi-01Ch]
         cmp eax, byte 5
         ja short LoadTeamLogo_6D
-        jmp dword [nosplit cs:eax*4+jpt_1B046]
+        jmp dword [nosplit cs:eax*4+LoadTeamLogoJumpTable]
 LoadTeamLogo_3B:
         lea edi, [byte ebp-08h]
         mov esi, str_LNPA

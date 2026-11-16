@@ -9,7 +9,7 @@ extern SkaterCardFlash, GoalieCardFlash, SkaterFlashTime, GoalieFlashTime, Skate
 extern RatingsGoalieShown, RatingsSkaterShown, TeamStatsBitmap, PlayerRecPtrs, PlayerHeightPtrs, PlayerWeightPtrs, RatingsPlayerId, RosterFirstNamePtrs
 extern RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, BackgroundShapes, RatingsCardBmp, RatingsGoalieOrder, GoalieCardRemap
 extern SkaterCardRemap, RatingsDimRemap, RatingsShownId, FadeOut, FadePalette, FillMusicStream, FillRect
-extern FreeScrollBar, GetLangText, GetTicks, InitMenuItems, InitVScrollBar, jpt_93E46, LoadPackedFile, RatingsTabNames
+extern FreeScrollBar, GetLangText, GetTicks, InitMenuItems, InitVScrollBar, PlayerRatingsChoiceJumpTable, LoadPackedFile, RatingsTabNames
 extern OpenScreen, optflags, PutBlock, F64_2p54_DrawRatingsName, F64_0p454545_DrawRatingsName, RatingBar, RunMenu, ScrollBarDown
 extern ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScrollBarPos, SetTextColors, SetTickDeadline, SlideCardLeft
 extern SlideCardRight, SlideInSideBar, SoundSecondsToBytes, sprintf_, str_003, str_Ard3, str_BALL4, str_Ban2
@@ -918,7 +918,7 @@ PlayerRatingsScreen:
         cmp dword [byte ebp+066h], byte 8
         ja near PlayerRatingsScreen_E71.48
         mov eax, dword [byte ebp+066h]
-        jmp dword [nosplit cs:eax*4+jpt_93E46]
+        jmp dword [nosplit cs:eax*4+PlayerRatingsChoiceJumpTable]
 PlayerRatingsScreen_E11:
         cmp dword [dword ebp-01BB6h], 2AF7h
         jg short PlayerRatingsScreen_E71

@@ -21,7 +21,7 @@ extern PlayoffDivLeaders, PlayoffSimTeams, PlayoffWildCards, FinalTeamHome, Fina
 extern PlayoffsActive, PlayoffFlags, BackgroundShapes, PlayoffTreeLabels, TreeLineShift
 extern PlayoffTreeLines, PlayoffSlotLogos, PlayoffSlotFlags, TreeBackBmp, TreeScrollStep
 extern statspalshape, TreeViewBmp, TreeScrollY, TreeScrollTarget, TreeScrollPos, gameopts
-extern jpt_A4FB7, TeamCityNames, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame, NameIndexNew
+extern PlayoffMenuJumpTable, TeamCityNames, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame, NameIndexNew
 extern NameIndexLoad, NameIndexSave, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText, MessageBox, ShowProgressBox
 extern UpdateProgressBox, HideProgressBox, LoadTeamLogo, FileCopy, MakeDataPath, MakeDirPath, LoadPackedFile, LoadDataFileLib
 extern LoadSeasonStats, LoadPlayoffStats, GameOptionsScreen, ReadPlayoffDbHeader, DeleteSeasonDb, OpenScreen, SlideInTitleBar, SlideInSideBar
@@ -102,7 +102,7 @@ RunPlayoffMenus_A6:
         mov ecx, 8
         mov edi, PlayoffMenuCommands
         repne scasw
-        jmp dword [nosplit cs:ecx*4+jpt_A4FB7]
+        jmp dword [nosplit cs:ecx*4+PlayoffMenuJumpTable]
 RunPlayoffMenus_CD:
         mov eax, esi
         call PlayoffSetupScreen

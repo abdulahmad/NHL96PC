@@ -33,10 +33,10 @@ extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, S
 extern TextSetFont, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu, str_F_InGameMenu, PauseMenuBoxX
 extern PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, SeasonUserRecords, PlayoffHeader, OverlayRemap, PauseTextBuf
 extern UpdateCamera, SlotsTwoPlayer, PauseRequested, clockticks, PauseMenuOpen, PauseFrameDrawn, hmscore, awscore
-global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, jpt_6B476, SaveGameFile
-global SaveGameFile_59, SaveGameFile_60, SaveGameFile_6C, SaveGameFile_81, jpt_6B878, PauseMenu, PauseMenu_66B, PauseMenu_6F1
+global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, SaveGameFileJumpTable, SaveGameFile
+global SaveGameFile_59, SaveGameFile_60, SaveGameFile_6C, SaveGameFile_81, PauseMenuChoiceJumpTable, PauseMenu, PauseMenu_66B, PauseMenu_6F1
 global PauseMenu_6FD, PauseMenu_724, PauseMenu_730, PauseMenu_73C, PauseMenu_748, PauseToFrontEnd, PauseBackToGame, PauseBackToGame_28A
-global LoadModeStatsJumpTable, LoadModeStats, LoadCurrentSeasonStats, LoadPlayoffOrSeasonStats, jpt_6C680, PauseGame, PauseGame_375, PauseGame_3A3
+global LoadModeStatsJumpTable, LoadModeStats, LoadCurrentSeasonStats, LoadPlayoffOrSeasonStats, PauseGameChoiceJumpTable, PauseGame, PauseGame_375, PauseGame_3A3
 global PauseGame_47F, PauseGame_5F4, PauseGame_611, PauseGame_620
 ;-----------------------------------------------------------------------------
 ; RunInGameMenu                                6A7D3  96 PC, medium confidence
@@ -1029,7 +1029,7 @@ RunPausedFrame:
 .4:
         mov edi, ebx
         jmp short .3
-jpt_6B476:
+SaveGameFileJumpTable:
         dd SaveGameFile_59
         dd SaveGameFile_60
         dd SaveGameFile_6C
@@ -1065,7 +1065,7 @@ SaveGameFile:
         jne near SaveGameFile_81.14
         cmp eax, byte 3
         ja short SaveGameFile_81.2
-        jmp dword [nosplit cs:eax*4+jpt_6B476]
+        jmp dword [nosplit cs:eax*4+SaveGameFileJumpTable]
 SaveGameFile_59:
         call LoadExhibitionStats
         jmp short SaveGameFile_81.2
@@ -1320,7 +1320,7 @@ SaveGameFile_81:
         sete al
         movzx eax, al
         jmp near DrawPauseFrame_9C2
-jpt_6B878:
+PauseMenuChoiceJumpTable:
         dd PauseMenu_66B
         dd PauseMenu_6F1
         dd PauseMenu_6FD
@@ -1703,7 +1703,7 @@ PauseMenu:
         cmp dword [byte ebp+07Ah], byte 6
         ja near PauseMenu_748.25
         mov eax, dword [byte ebp+07Ah]
-        jmp dword [nosplit cs:eax*4+jpt_6B878]
+        jmp dword [nosplit cs:eax*4+PauseMenuChoiceJumpTable]
 PauseMenu_66B:
         mov eax, 2
         call GetLangText
@@ -2254,7 +2254,7 @@ LoadPlayoffOrSeasonStats:
         jne short LoadCurrentSeasonStats
         mov eax, dword [RosterFileHandle]
         jmp near LoadPlayoffStats
-jpt_6C680:
+PauseGameChoiceJumpTable:
         dd PauseGame_375
         dd PauseGame_3A3
         dd PauseGame_47F
@@ -2493,7 +2493,7 @@ PauseGame:
         mov dword [byte ebp-010h], eax
         cmp eax, byte 5
         ja near PauseGame_620
-        jmp dword [nosplit cs:eax*4+jpt_6C680]
+        jmp dword [nosplit cs:eax*4+PauseGameChoiceJumpTable]
 PauseGame_375:
         call PauseToFrontEnd
 .12:

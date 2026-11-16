@@ -10,7 +10,7 @@ extern HotkeyFuncTable, PrintfSavedEbx, PrintfSavedEcx, PrintfSavedEdx, PrintfSa
 extern TickWaitTarget, FractionRowCount, joyenablemask, SoundOnHook, SoundOffHook, SoundToggleHook, MusicOnHook, MusicOffHook
 extern MusicToggleHook, FractionRowTable, printf_, sprintf_, ClearScreenColour, ShowMessageBox, ReadJoystickPorts, AddExitHandler
 extern SavedTextColumns
-global jpt_E1B6F, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, SetupRectFill_C, SetupRectFill_5A, SetupRectFill_164
+global SetupRectFillJumpTable, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, SetupRectFill_C, SetupRectFill_5A, SetupRectFill_164
 global jpt_E1B6F_40, jpt_E1BCE_D2, jpt_E1CBA_DF, jpt_E1DA4_14A, jpt_E1DA4_1DA, jpt_E1F8A_145, jpt_E1F8A_153, jpt_E1F8A_1AC
 global jpt_E1F8A_1BF, jpt_E1F8A_27E, SetHotkey_5B, SetHotkey_81, SetupRectFillBlend, SetupRectFill, DispatchHotkey, SetHotkey
 global PrintfSaveRegs, SaveTextMode, RestoreTextMode, AngleFromDelta, SinLookup, CosLookup, DebugLineCount, ReadKeyPadBits
@@ -189,8 +189,8 @@ SetupRectFill_5A:
 SetupRectFill_164:
         mov ebx, dword [byte ebp-04h]
         je short jpt_E1B6F_40
-        jmp dword [nosplit cs:ebx*4+jpt_E1B6F]
-jpt_E1B6F:
+        jmp dword [nosplit cs:ebx*4+SetupRectFillJumpTable]
+SetupRectFillJumpTable:
         dd jpt_E1B6F_40
         dd jpt_E1DA4_1DA
         dd jpt_E1CBA_DF

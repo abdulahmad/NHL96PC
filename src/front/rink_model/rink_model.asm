@@ -96,7 +96,7 @@ global DrawSpriteAtVertex, DrawSpriteAtVertex_55, DrawGoalLight, DrawGoalLight_A
 global DrawBoardTopLines_24C, DrawStandsSides, DrawKickplates, DrawRinkFloor, DrawGlassShards, DrawSideGlass, DrawBoardSegments, DrawBoardSegments_2C
 global DrawRinkFrontParts, DrawRinkFrontParts_194, DrawRinkFrontParts_19A, DrawRinkFrontParts_1A0, DrawRinkFrontParts_1A3, DrawRinkFrontParts_1A4, DrawPuckModel, DrawPuckShadowModel
 global PlacePuckModels, DrawZamboni, DrawZamboni_41, LoadZamboni, FreeZamboni, MoveZamboni, DrawGoalNet, PlaceGoalNet
-global BuildRinkSides, BuildRinkSides_602, SetIceLogoTexture, FreeStandsArt, FreeStandsArt_21, jpt_25EA3, LoadStandsArt, LoadStandsArt_25
+global BuildRinkSides, BuildRinkSides_602, SetIceLogoTexture, FreeStandsArt, FreeStandsArt_21, LoadStandsArtJumpTable, LoadStandsArt, LoadStandsArt_25
 global LoadStandsArt_32, LoadStandsArt_3F, LoadStandsArt_61, LoadStandsArt_11B, BlendPaletteToGrey, LoadRinkModel, FreeRinkModel, SetViewCamera
 global DrawIceBackPoly, DrawIceMarkings, DrawRinkModels, DrawRinkPlayers, DrawBenchPlayers, DrawBenchPlayers_F1, DrawBenchPlayers_F6, DrawBenchSide
 global DrawPenaltyBoxPlayers, OpenPenaltyBoxDoor, OpenPenaltyBoxDoor_87, ClosePenaltyBoxDoor, SetPenaltyBoxDoor, DrawBenchArea, DrawPenaltyBoxSide, DrawRinkBack
@@ -6228,7 +6228,7 @@ FreeStandsArt_21:
         pop ecx
         pop ebx
         ret
-jpt_25EA3:
+LoadStandsArtJumpTable:
         dd LoadStandsArt_3F
         dd LoadStandsArt_25
         dd LoadStandsArt_32
@@ -6251,7 +6251,7 @@ LoadStandsArt:
         lea eax, [byte edx+01h]
         cmp eax, byte 3
         ja short LoadStandsArt_61.2
-        jmp dword [nosplit cs:eax*4+jpt_25EA3]
+        jmp dword [nosplit cs:eax*4+LoadStandsArtJumpTable]
 LoadStandsArt_25:
         push dword [StandsArtLoaded]
         push str_EMPTYFSH

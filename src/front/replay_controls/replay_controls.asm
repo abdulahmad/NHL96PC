@@ -73,7 +73,7 @@ extern SlotsTwoPlayer, ControllerScreenMode, GoalNetFrames, str_Punct_DrawReplay
 extern ReplayObjX, ReplayObjY, ReplayObjZ, ReplayObjFrame
 extern ReplayObjAttr
 extern ReplayFramesShown
-global jpt_56470, DrawReplayObjects_391, DrawReplayCounter_231, DrawReplayCounter_232, ReplayCameraUpdate_42, ReplayCameraUpdate_82, ReplayCameraUpdate_C2, ReplayCameraUpdate_102
+global ReplayChoiceJumpTable, DrawReplayObjects_391, DrawReplayCounter_231, DrawReplayCounter_232, ReplayCameraUpdate_42, ReplayCameraUpdate_82, ReplayCameraUpdate_C2, ReplayCameraUpdate_102
 global ReplayCameraUpdate_142, ReplayCameraAim, ReplayScreen_D18, ReplayScreen_D42, ReplayScreen_D83, ReplayScreen_E86, ReplayScreen_ECF, ReplayScreen_F5C
 global ReplayScreen_FF6, ReplayScreen_10E1, ReplayScreen_1110, ReplayScreen_122D, ReplayScreen_1255, ReplayScreen_161B, StartReplay, EndReplay
 global StepReplay, ReplayCameraMatrix, DrawReplayObjects, DrawReplayShadows, DrawReplayPlayers, DrawReplayCounter, DrawReplayClock, DrawReplayView
@@ -2499,7 +2499,7 @@ PickReplayPlayer:
 .1:
         pop edx
         ret
-jpt_56470:
+ReplayChoiceJumpTable:
         dd ReplayScreen_D18
         dd ReplayScreen_D42
         dd ReplayScreen_D83
@@ -3271,7 +3271,7 @@ ReplayScreen:
         cmp dword [byte ebp-01Ch], byte 0Ch
         ja near ReplayScreen_E86
         mov eax, dword [byte ebp-01Ch]
-        jmp dword [nosplit cs:eax*4+jpt_56470]
+        jmp dword [nosplit cs:eax*4+ReplayChoiceJumpTable]
 ReplayScreen_D18:
         mov dword [ReplayFrameDelta], 0
         mov dword [ReplayCamFollow], 0Eh

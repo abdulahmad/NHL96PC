@@ -39,9 +39,9 @@ global UserRatingScaleTwoToFour, UserRatingScaleOneToOneHalf, UserRatingScalePai
 global ClearSlotUsers, UserRecordRating, CreateUserRecord, DeleteUser, NewUser, NewUser_159, DrawUserList, GetUserName
 global LoadUserIndex, ScrollUserList, PickUsersScreen, UpdateUserRecords, UpdateUserRecords_47F, UpdateUserRecords_ret, CompareUsersByName, CompareUsersByRating
 global CompareUsersByRecord, CompareUsersByRecord_127, CompareUsersByRecord_12C, CompareUsersByRecord_ret, CompareUsersByGoalsFor, CompareUsersByGoalsAgainst, CompareUsersByPowerPlay, CompareUsersByPenaltyKill
-global CompareUsersByTeam, CompareUsersByTeam_8, CompareUsersByOpponent, CompareUsersByShutouts, CompareUsersByStreak, jpt_2BDA2, DrawUserRecords, DrawUserRecords_23B
+global CompareUsersByTeam, CompareUsersByTeam_8, CompareUsersByOpponent, CompareUsersByShutouts, CompareUsersByStreak, DrawUserRecordsJumpTable, DrawUserRecords, DrawUserRecords_23B
 global DrawUserRecords_267, DrawUserRecords_27F, DrawUserRecords_29B, DrawUserRecords_2BD, DrawUserRecords_2C4, DrawUserRecords_2CB, DrawUserRecords_2D2, DrawUserRecords_2D9
-global DrawUserRecords_2FC, DrawUserRecords_395, DrawUserRecords_3F0, LoadUserRecords, ExportUserRecords, jpt_2CB19, jpt_2CB2D, jpt_2CB65
+global DrawUserRecords_2FC, DrawUserRecords_395, DrawUserRecords_3F0, LoadUserRecords, ExportUserRecords, UserRecordsChoiceJumpTable, UserRecordsScrollUpJumpTable, UserRecordsScrollDownJumpTable
 global UserRecordsScreen, UserRecordsScreen_A1A, UserRecordsScreen_A2B, UserRecordsScreen_A7B, UserRecordsScreen_A84, UserRecordsScreen_A8D, UserRecordsScreen_A96, UserRecordsScreen_A9F
 global UserRecordsScreen_AA8, UserRecordsScreen_AB1, UserRecordsScreen_ABA, UserRecordsScreen_AC3, UserRecordsScreen_ACC, UserRecordsScreen_AD5, UserRecordsScreen_B4F, UserRecordsScreen_B73
 global UserRecordsScreen_B93, UserRecordsScreen_C6C, UserRecordsScreen_C75, UserRecordsScreen_C7E, UserRecordsScreen_C87, UserRecordsScreen_C90, UserRecordsScreen_C99, UserRecordsScreen_CA2
@@ -2168,7 +2168,7 @@ CompareUsersByStreak:
         pop ecx
         pop ebx
         ret
-jpt_2BDA2:
+DrawUserRecordsJumpTable:
         dd DrawUserRecords_23B
         dd DrawUserRecords_267
         dd DrawUserRecords_27F
@@ -2357,7 +2357,7 @@ DrawUserRecords:
         add eax, dword [byte ebp-0Ch]
         cmp eax, byte 0Bh
         ja near DrawUserRecords_3F0.23
-        jmp dword [nosplit cs:eax*4+jpt_2BDA2]
+        jmp dword [nosplit cs:eax*4+DrawUserRecordsJumpTable]
 DrawUserRecords_23B:
         mov eax, dword [UserLongStreakColumn]
         add eax, dword [byte ebp-01Ch]
@@ -3270,13 +3270,13 @@ ExportUserRecords:
         mov eax, esi
         call fclose_
         jmp near NewUser_159
-jpt_2CB19:
+UserRecordsChoiceJumpTable:
         dd UserRecordsScreen_A1A
         dd UserRecordsScreen_A2B
         dd UserRecordsScreen_B4F
         dd UserRecordsScreen_B73
         dd UserRecordsScreen_B93
-jpt_2CB2D:
+UserRecordsScrollUpJumpTable:
         dd UserRecordsScreen_A7B
         dd UserRecordsScreen_A84
         dd UserRecordsScreen_A8D
@@ -3291,7 +3291,7 @@ jpt_2CB2D:
         dd UserRecordsScreen_AC3
         dd UserRecordsScreen_ACC
         dd UserRecordsScreen_AD5
-jpt_2CB65:
+UserRecordsScrollDownJumpTable:
         dd UserRecordsScreen_C6C
         dd UserRecordsScreen_C75
         dd UserRecordsScreen_C7E
@@ -3932,7 +3932,7 @@ UserRecordsScreen:
         cmp dword [byte ebp+02Ah], byte 4
         ja near UserRecordsScreen_B93.31
         mov eax, dword [byte ebp+02Ah]
-        jmp dword [nosplit cs:eax*4+jpt_2CB19]
+        jmp dword [nosplit cs:eax*4+UserRecordsChoiceJumpTable]
 UserRecordsScreen_A1A:
         call SlideInSideBar
         mov dword [byte ebp+02Eh], 0
@@ -3957,7 +3957,7 @@ UserRecordsScreen_A2B:
         inc eax
         cmp eax, byte 0Dh
         ja near UserRecordsScreen_AD5.25
-        jmp dword [nosplit cs:eax*4+jpt_2CB2D]
+        jmp dword [nosplit cs:eax*4+UserRecordsScrollUpJumpTable]
 UserRecordsScreen_A7B:
         mov dword [byte ebp+052h], CompareUsersByName
         jmp short UserRecordsScreen_AD5.25
@@ -4118,7 +4118,7 @@ UserRecordsScreen_B93:
         inc eax
         cmp eax, byte 0Dh
         ja near UserRecordsScreen_CC6.39
-        jmp dword [nosplit cs:eax*4+jpt_2CB65]
+        jmp dword [nosplit cs:eax*4+UserRecordsScrollDownJumpTable]
 UserRecordsScreen_C6C:
         mov dword [byte ebp+056h], CompareUsersByName
         jmp short UserRecordsScreen_CC6.39

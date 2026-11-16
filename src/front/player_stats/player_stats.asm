@@ -46,12 +46,12 @@ extern str_Punct_ExportPlayerStats, CompareButtonDef, PlayerStatsItems, PlayerSt
 extern PlayerStatsVScroll, PlayerStatsNavLinks, str_U_PlayerStatsScreen, PlayerStatsColumnLabels, UpdateProgressBox, SlotsTwoPlayer, hmscore, PlayerStatColFlags
 
 
-global AnimatePlayerStatsButton, AnimatePlayerStatsButtons, ComparePlayerNames, ComparePlayerStatRows, ShowPlayerStatsTitle, jpt_8C4AB, jpt_8C4BB, jpt_8C4CB
-global jpt_8C50B, PlayerStatsScreen, PlayerStatsScreen_FF0, PlayerStatsScreen_1008, PlayerStatsScreen_1020, PlayerStatsScreen_1038, PlayerStatsScreen_13B5, PlayerStatsScreen_13BC
+global AnimatePlayerStatsButton, AnimatePlayerStatsButtons, ComparePlayerNames, ComparePlayerStatRows, ShowPlayerStatsTitle, PlayerStatsSortJumpTable, PlayerStatsModeJumpTable, PlayerStatsChoiceJumpTable
+global PlayerStatsSortResetJumpTable, PlayerStatsScreen, PlayerStatsScreen_FF0, PlayerStatsScreen_1008, PlayerStatsScreen_1020, PlayerStatsScreen_1038, PlayerStatsScreen_13B5, PlayerStatsScreen_13BC
 global PlayerStatsScreen_13D1, PlayerStatsScreen_13DD, PlayerStatsScreen_1630, PlayerStatsScreen_1641, PlayerStatsScreen_1693, PlayerStatsScreen_18F3, PlayerStatsScreen_1C1D, PlayerStatsScreen_1C3D
 global PlayerStatsScreen_1D23, PlayerStatsScreen_1D52, PlayerStatsScreen_1DCF, PlayerStatsScreen_1E07, PlayerStatsScreen_1E55, PlayerStatsScreen_1E90, PlayerStatsScreen_1EEB, PlayerStatsScreen_1F0E
 global PlayerStatsScreen_1F1B, PlayerStatsScreen_1FAF, PlayerStatsScreen_1FBA, PlayerStatsScreen_1FC5, FillSkaterStatRows, FillSkaterStatRows_37A, FillSkaterStatRows_387, FillGoalieStatRows
-global DrawPlayerStatsTable, CountPlayerStatRows, FindPlayerStatRow, jpt_8F5A3, ExportPlayerStats, ExportPlayerStats_146, ExportPlayerStats_171, ExportPlayerStats_178
+global DrawPlayerStatsTable, CountPlayerStatRows, FindPlayerStatRow, ExportPlayerStatsJumpTable, ExportPlayerStats, ExportPlayerStats_146, ExportPlayerStats_171, ExportPlayerStats_178
 global ExportPlayerStats_17F, BuildPlayerStatRows
 ;-----------------------------------------------------------------------------
 ; AnimatePlayerStatsButton                        8BF56  96 PC, low confidence
@@ -523,17 +523,17 @@ ShowPlayerStatsTitle:
         pop ecx
         pop ebx
         ret
-jpt_8C4AB:
+PlayerStatsSortJumpTable:
         dd PlayerStatsScreen_FF0
         dd PlayerStatsScreen_1008
         dd PlayerStatsScreen_1020
         dd PlayerStatsScreen_1038
-jpt_8C4BB:
+PlayerStatsModeJumpTable:
         dd PlayerStatsScreen_13B5
         dd PlayerStatsScreen_13D1
         dd PlayerStatsScreen_13BC
         dd PlayerStatsScreen_13DD
-jpt_8C4CB:
+PlayerStatsChoiceJumpTable:
         dd PlayerStatsScreen_1630
         dd PlayerStatsScreen_1641
         dd PlayerStatsScreen_1693
@@ -550,7 +550,7 @@ jpt_8C4CB:
         dd PlayerStatsScreen_1F0E
         dd PlayerStatsScreen_1F0E
         dd PlayerStatsScreen_1F1B
-jpt_8C50B:
+PlayerStatsSortResetJumpTable:
         dd PlayerStatsScreen_1C3D
         dd PlayerStatsScreen_1D23
         dd PlayerStatsScreen_1D52
@@ -1602,7 +1602,7 @@ PlayerStatsScreen:
         mov dword [PlayerStatsItems+1A8h], 4
         cmp eax, byte 3
         ja short PlayerStatsScreen_1038.56
-        jmp dword [nosplit cs:eax*4+jpt_8C4AB]
+        jmp dword [nosplit cs:eax*4+PlayerStatsSortJumpTable]
 PlayerStatsScreen_FF0:
         mov eax, dword [PlayerStatsButtonPos]
         mov dword [PlayerStatsItems+1B2h], eax
@@ -1817,7 +1817,7 @@ PlayerStatsScreen_1038:
         shr eax, 1Dh
         cmp eax, byte 3
         ja short PlayerStatsScreen_13DD.58
-        jmp dword [nosplit cs:eax*4+jpt_8C4BB]
+        jmp dword [nosplit cs:eax*4+PlayerStatsModeJumpTable]
 PlayerStatsScreen_13B5:
         call LoadExhibitionStats
         jmp short PlayerStatsScreen_13DD.58
@@ -1980,7 +1980,7 @@ PlayerStatsScreen_13DD:
         cmp dword [byte ebp+03Eh], byte 0Fh
         ja near PlayerStatsScreen_1FC5.107
         mov eax, dword [byte ebp+03Eh]
-        jmp dword [nosplit cs:eax*4+jpt_8C4CB]
+        jmp dword [nosplit cs:eax*4+PlayerStatsChoiceJumpTable]
 PlayerStatsScreen_1630:
         call SlideInSideBar
         mov dword [byte ebp+036h], 0A410h
@@ -2357,7 +2357,7 @@ PlayerStatsScreen_1C1D:
         mov dword [RatingsPlayerId], 3E7h
         cmp eax, byte 3
         ja near PlayerStatsScreen_1F1B.104
-        jmp dword [nosplit cs:eax*4+jpt_8C50B]
+        jmp dword [nosplit cs:eax*4+PlayerStatsSortResetJumpTable]
 PlayerStatsScreen_1C3D:
         cmp dword [PlayerStatsGoalies], byte 0
         je near .92
@@ -3918,7 +3918,7 @@ FindPlayerStatRow:
         pop edi
         pop esi
         ret
-jpt_8F5A3:
+ExportPlayerStatsJumpTable:
         dd ExportPlayerStats_146
         dd ExportPlayerStats_171
         dd ExportPlayerStats_178
@@ -4027,7 +4027,7 @@ ExportPlayerStats:
         add esp, byte 8
         cmp esi, byte 3
         ja near ExportPlayerStats_17F.11
-        jmp dword [nosplit cs:esi*4+jpt_8F5A3]
+        jmp dword [nosplit cs:esi*4+ExportPlayerStatsJumpTable]
 ExportPlayerStats_146:
         mov eax, 0F8h
         call GetLangText

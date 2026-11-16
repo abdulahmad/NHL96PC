@@ -14,7 +14,7 @@ extern TeamStatsBitmap, optflags, PlayoffTreeData, SeasonType, SeasonPlayoffs, S
 extern SeasonGamePending, CalCellBmp, CalCellHiliteBmp, CalBtnUpBmp, CalBtnDownBmp, CalCellGameBmp
 extern CalBtnHiliteBmp, CalHeaderBmp, CalDayBmp, CalPageBmp, CalSimWeekBmp, CalFrameBmp, CalFrameDownBmp
 extern CalSelectedDay, CalFrameUpBmp, CalFrameAltDownBmp, CalSimDayBmp, CalFrameAltUpBmp, CalSimRestBmp, CalFrameAltBmp, gameopts
-extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFileLib, LoadSeasonStats, OpenScreen
+extern CalendarChoiceJumpTable, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFileLib, LoadSeasonStats, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, DrawArt, DrawShape
 extern PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect, FillRect, DrawRectOutline, FreeBitmap
@@ -1474,7 +1474,7 @@ CalendarScreen:
         cmp dword [byte ebp-016h], byte 5
         ja near CalendarScreen_1B6C.50
         mov eax, dword [byte ebp-016h]
-        jmp dword [nosplit cs:eax*4+jpt_7D568]
+        jmp dword [nosplit cs:eax*4+CalendarChoiceJumpTable]
 CalendarScreen_13D3:
         call SlideInSideBar
         mov dword [byte ebp-01Eh], 2712h

@@ -41,8 +41,8 @@ global CameraAim_AB, CameraAim_229, CamView232, CamView233, CamView234, CamView2
 global CamView236_1E7, CamView236_20D, CamView236_403, CamView238, CamView239, CamView23A, CamShot23E, CamShot23F
 global CamShot23F_44, CamShot240, CamShot240_56, CamShot242, CamShot242_126, CamShot242_209, CamShot242_269, CamShot242_278
 global CamShot242_279, CamShot245, CamShot246, CamShot247, CamShot244, CamShot23D, CamShot23B, CamShot23B_B3
-global CamShot23C, CloseTextOverlay, EndCameraShot, SetGameViewSize, jpt_609B6, ReadHotKeys, ReadHotKeys_6FB, ReadHotKeys_748
-global ReadHotKeys_78C, ReadHotKeys_7CF, jpt_61290, UpdateCamera, UpdateCamera_174, UpdateCamera_2CE, UpdateCamera_35B, UpdateCamera_3BE
+global CamShot23C, CloseTextOverlay, EndCameraShot, SetGameViewSize, MarkerToggleJumpTable, ReadHotKeys, ReadHotKeys_6FB, ReadHotKeys_748
+global ReadHotKeys_78C, ReadHotKeys_7CF, UpdateCameraModeJumpTable, UpdateCamera, UpdateCamera_174, UpdateCamera_2CE, UpdateCamera_35B, UpdateCamera_3BE
 global UpdateCamera_41F, UpdateCamera_480, UpdateCamera_4E1, UpdateCamera_544, UpdateCamera_5A7, UpdateCamera_604, UpdateCamera_667, CameraFacing
 global randomd0, vtoa
 ;-----------------------------------------------------------------------------
@@ -3745,7 +3745,7 @@ SetGameViewSize:
         shl eax, 0Eh
         or dword [GsOptions], eax
         jmp near CamShot242_278
-jpt_609B6:
+MarkerToggleJumpTable:
         dd ReadHotKeys_6FB
         dd ReadHotKeys_748
         dd ReadHotKeys_78C
@@ -4194,7 +4194,7 @@ ReadHotKeys:
         mov eax, dword [MarkerToggle]
         cmp eax, byte 3
         ja near ReadHotKeys_7CF.38
-        jmp dword [nosplit cs:eax*4+jpt_609B6]
+        jmp dword [nosplit cs:eax*4+MarkerToggleJumpTable]
 ReadHotKeys_6FB:
         mov edx, dword [CamShotSaved]
         mov eax, CameraViewTable+19Eh
@@ -4291,7 +4291,7 @@ ReadHotKeys_7CF:
 .42:
         mov dword [TimedPanelState], 0
         jmp near CamShot242_279
-jpt_61290:
+UpdateCameraModeJumpTable:
         dd UpdateCamera_174
         dd UpdateCamera_480
         dd UpdateCamera_41F
@@ -4400,7 +4400,7 @@ UpdateCamera:
         mov eax, dword [edx]
         cmp eax, byte 0Ah
         ja near UpdateCamera_174.13
-        jmp dword [nosplit cs:eax*4+jpt_61290]
+        jmp dword [nosplit cs:eax*4+UpdateCameraModeJumpTable]
 UpdateCamera_174:
         mov al, byte [gmode]
         and al, 1

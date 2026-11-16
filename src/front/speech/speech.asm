@@ -12,7 +12,7 @@ extern DosSeekFile, SpeechStarting, TeamPairClips, SpeechQueueHead, SpeechQueueT
 extern SpeechActiveCount, SpeechPlaying
 global FindClipIndex, FindClipIndex_55, FindClipIndex_56, FindTeamPairClip, FindTeamPairClip_85, ResetSpeechChannels, OpenSpeechBanks, InitSpeech
 global ShutdownSpeech, FreeSpeechBuffer, RestoreSpeechBuffer, RestoreSpeechBuffer_32, SetSpeechVolume, SpeechBusy, QueueSpeechClip, CountRecordGame
-global RecordPctClip, RecordStreakClips, PaMasksFrom12Bits, jpt_6799B, PaMasksFrom9Bits, jpt_679E7, jpt_67A13, jpt_67A43
+global RecordPctClip, RecordStreakClips, PaMasksFrom12Bits, PaLongMaskJumpTable, PaMasksFrom9Bits, PaShortMaskJumpTable, PaClipJumpTable, PaClipGroupJumpTable
 global PaEvent, PaEvent_50, PaEvent_64, PaEvent_CD, PaEvent_1B4, PaEvent_1C6, PaEvent_1D8, PaEvent_1DF
 global PaEvent_1E6, PaEvent_1ED, PaEvent_1F4, PaEvent_1FB, PaEvent_202, PaEvent_209, PaEvent_20E, PaEvent_231
 global PaEvent_2AD, PaEvent_2B7, PaEvent_2C1, PaEvent_2CB, PaEvent_2DC, PaEvent_307, PaEvent_31C, PaEvent_334
@@ -944,7 +944,7 @@ RecordStreakClips:
 PaMasksFrom12Bits:
         db 0FFh,0Fh,0FFh,07h,0FFh,03h,0FFh,01h,0FFh,00h,07Fh,00h,03Fh,00h,01Fh,00h
         db 0Fh,00h,07h,00h,03h,00h,01h,00h,00h,00h
-jpt_6799B:
+PaLongMaskJumpTable:
         dd FindClipIndex_55
         dd PaEvent_47B
         dd PaEvent_5BD
@@ -962,7 +962,7 @@ jpt_6799B:
 PaMasksFrom9Bits:
         db 0FFh,01h,0FFh,00h,07Fh,00h,03Fh,00h,01Fh,00h,0Fh,00h,07h,00h,03h,00h
         db 01h,00h,00h,00h
-jpt_679E7:
+PaShortMaskJumpTable:
         dd PaEvent_20E
         dd PaEvent_1B4
         dd PaEvent_1C6
@@ -974,7 +974,7 @@ jpt_679E7:
         dd PaEvent_202
         dd PaEvent_209
         dd PaEvent_1D8
-jpt_67A13:
+PaClipJumpTable:
         dd PaEvent_2AD
         dd PaEvent_2B7
         dd PaEvent_2C1
@@ -987,7 +987,7 @@ jpt_67A13:
         dd PaEvent_34C
         dd PaEvent_388
         dd PaEvent_3B0
-jpt_67A43:
+PaClipGroupJumpTable:
         dd PaEvent_61F
         dd PaEvent_6BB
         dd PaEvent_71D
@@ -1000,7 +1000,7 @@ jpt_67A43:
 ; PaEvent                                                         67A63  96 PC
 ; The play-by-play announcer: (event bit, args...) from PostGoalEvent,
 ; PostPenaltyEvent, ClockTick (100h, end of period), the three stars and the
-; screens; jump table jpt_6799B by event, each case queues clips
+; screens; jump table PaLongMaskJumpTable by event, each case queues clips
 ;-----------------------------------------------------------------------------
 PaEvent:
         push ebx
@@ -1023,7 +1023,7 @@ PaEvent:
         repne scasw
         lea eax, [byte ebp+020h]
         add eax, byte 4
-        jmp dword [nosplit cs:ecx*4+jpt_6799B]
+        jmp dword [nosplit cs:ecx*4+PaLongMaskJumpTable]
 PaEvent_50:
         cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
@@ -1147,7 +1147,7 @@ PaEvent_CD:
         mov ecx, 0Bh
         mov edi, PaMasksFrom9Bits
         repne scasw
-        jmp dword [nosplit cs:ecx*4+jpt_679E7]
+        jmp dword [nosplit cs:ecx*4+PaShortMaskJumpTable]
 PaEvent_1B4:
         call rand_
         mov ebx, 2
@@ -1240,7 +1240,7 @@ PaEvent_231:
         cmp ax, 0Bh
         ja near FindClipIndex_55
         movzx eax, ax
-        jmp dword [nosplit cs:eax*4+jpt_67A13]
+        jmp dword [nosplit cs:eax*4+PaClipJumpTable]
 PaEvent_2AD:
         mov edx, 140h
         jmp near PaEvent_965.91
@@ -1522,7 +1522,7 @@ PaEvent_5BD:
         lea eax, [byte edx+04h]
         mov edx, dword [byte ebp-028h]
         add edx, 10Eh
-        jmp dword [nosplit cs:esi*4+jpt_67A43]
+        jmp dword [nosplit cs:esi*4+PaClipGroupJumpTable]
 PaEvent_61F:
         mov edx, eax
         mov eax, dword [byte eax-04h]

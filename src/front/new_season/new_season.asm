@@ -22,11 +22,11 @@ extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonM
 extern TintRect, FreeBitmap, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, DrawArtKeyedAtOrigin
 extern PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, SixTeamGrid
 extern SevenTeamGrid, str_WesternConference2, SeasonUserRecords, SeasonUserName, PlayoffHeader, UpdateProgressBox
-global NewSeasonDefaultOptions, NewSeasonHotspots, CompareGrey, SortGreyColors, jpt_7761E, jpt_77632, NewSeasonScreen, NewSeasonScreen_5FB
+global NewSeasonDefaultOptions, NewSeasonHotspots, CompareGrey, SortGreyColors, NewSeasonChoiceJumpTable, NewSeasonOptionJumpTable, NewSeasonScreen, NewSeasonScreen_5FB
 global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonScreen_7F2, NewSeasonScreen_8AF, NewSeasonScreen_8BB, NewSeasonScreen_8CB, NewSeasonScreen_8E0
 global NewSeasonScreen_9A9, NewSeasonScreen_9AA, SetGreyPalette, DrawSeasonTeams, CreateSeason, EditSeasonName, EditSeasonName_D3, EditSeasonName_E0
 global WriteSeasonBlock, WriteSeasonHeader, MakeSeasonDbPath, MakeSeasonDbPath_51, MakePlayoffDbPath, MakePlayoffDbPath_15F, ResetSeasonFiles, str_Punct
-global SeasonMenuHotspots, StandingsHotspots, SimPlayoffBracketOrder, jpt_794CB, jpt_794EF
+global SeasonMenuHotspots, StandingsHotspots, SimPlayoffBracketOrder, SeasonMenuChoiceJumpTable, SeasonMenuLastJumpTable
 NewSeasonDefaultOptions:
         db 05h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,03h,00h,00h,00h
         db 04h,00h,00h,00h,00h,00h,00h,00h
@@ -144,13 +144,13 @@ SortGreyColors:
         pop ecx
         pop ebx
         ret
-jpt_7761E:
+NewSeasonChoiceJumpTable:
         dd NewSeasonScreen_5FB
         dd NewSeasonScreen_8AF
         dd NewSeasonScreen_8BB
         dd NewSeasonScreen_8CB
         dd NewSeasonScreen_8E0
-jpt_77632:
+NewSeasonOptionJumpTable:
         dd NewSeasonScreen_768
         dd NewSeasonScreen_798
         dd NewSeasonScreen_7C5
@@ -518,7 +518,7 @@ NewSeasonScreen:
         cmp dword [byte ebp+066h], byte 4
         ja near NewSeasonScreen_8E0.24
         mov eax, dword [byte ebp+066h]
-        jmp dword [nosplit cs:eax*4+jpt_7761E]
+        jmp dword [nosplit cs:eax*4+NewSeasonChoiceJumpTable]
 NewSeasonScreen_5FB:
         imul esi, dword [byte ebp+072h], byte 9
         push byte 0
@@ -637,7 +637,7 @@ NewSeasonScreen_5FB:
         cmp dword [byte ebp+072h], byte 3
         ja near NewSeasonScreen_7F2.17
         mov eax, dword [byte ebp+072h]
-        jmp dword [nosplit cs:eax*4+jpt_77632]
+        jmp dword [nosplit cs:eax*4+NewSeasonOptionJumpTable]
 NewSeasonScreen_768:
         push str_Bt014
         push dword [byte ebp+062h]
@@ -2400,7 +2400,7 @@ StandingsHotspots:
         db 0E6h,00h,00h,00h,07Fh,00h,00h,00h,0DAh,00h,00h,00h,078h,00h,00h,00h
 SimPlayoffBracketOrder:
         db 00h,02h,04h,06h,07h,05h,03h,01h
-jpt_794CB:
+SeasonMenuChoiceJumpTable:
         dd SeasonMenuScreen_794
         dd SeasonMenuScreen_7AC
         dd SeasonMenuScreen_C68
@@ -2410,7 +2410,7 @@ jpt_794CB:
         dd SeasonMenuScreen_AF7
         dd SeasonMenuScreen_B7E
         dd SeasonMenuScreen_C05
-jpt_794EF:
+SeasonMenuLastJumpTable:
         dd SeasonMenuScreen_9D7
         dd SeasonMenuScreen_A07
         dd SeasonMenuScreen_A34

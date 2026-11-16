@@ -21,7 +21,7 @@ extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, Draw
 extern FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
 extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, SetColourRemap, GetColourRemap, FindShape, ClearClipRect, TextSetFont
 extern str_PreGameBlank, str_WesternConference2, ThreeCardColumnsX, ThreeCardRowsY, TwoCardColumnsX, TwoCardRowsY, SlotsTwoPlayer
-global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
+global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, PreGameScreensJumpTable
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
 ;-----------------------------------------------------------------------------
 ; PreGameMatchupScreen                            849D5  96 PC, low confidence
@@ -3167,7 +3167,7 @@ PreGameCardsC:
         call StopSpeech
         mov eax, dword [byte ebp+06Eh]
         jmp near PreGameMatchupScreen_4E6
-jpt_87328:
+PreGameScreensJumpTable:
         dd PreGameScreens_24
         dd PreGameScreens_44
         dd PreGameScreens_4B
@@ -3198,7 +3198,7 @@ PreGameScreens_24:
         lea eax, [byte edx-01h]
         cmp eax, byte 4
         ja short .2
-        jmp dword [nosplit cs:eax*4+jpt_87328]
+        jmp dword [nosplit cs:eax*4+PreGameScreensJumpTable]
 PreGameScreens_44:
         call PreGameTeamsScreen
         jmp short PreGameScreens_24.1

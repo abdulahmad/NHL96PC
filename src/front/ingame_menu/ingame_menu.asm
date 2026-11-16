@@ -37,7 +37,7 @@ extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, FreeColou
 extern FindShape, ClearClipRect, TextSetFont, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu
 extern str_F_InGameMenu, PauseMenuBoxX, PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, OverlayRemap, InGameMenuWork
 extern InGameTimeText, InGameScoreText, UpdateCamera, SlotsTwoPlayer, PauseRequested, InGameMenuDrawn, hmscore, awscore
-global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, jpt_A25B5
+global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, InGameMenuChoiceJumpTable
 global InGameMenu, InGameMenu_A9C, InGameMenu_ABD, InGameMenu_D17, InGameMenu_F31, InGameMenu_F42, InGameMenu_FA8
 ;-----------------------------------------------------------------------------
 ; DrawInGameMenuFrame                          A17D5  96 PC, medium confidence
@@ -994,7 +994,7 @@ InGameReturnMenu:
         lea esp, [dword ebp+082h]
         pop ebp
         jmp near RedrawInGameMenu_7D
-jpt_A25B5:
+InGameMenuChoiceJumpTable:
         dd InGameMenu_ABD
         dd InGameMenu_A9C
         dd InGameMenu_D17
@@ -1675,7 +1675,7 @@ InGameMenu_A9C:
         cmp dword [byte ebp-018h], byte 5
         ja near InGameMenu_ABD.50
         mov eax, dword [byte ebp-018h]
-        jmp dword [nosplit cs:eax*4+jpt_A25B5]
+        jmp dword [nosplit cs:eax*4+InGameMenuChoiceJumpTable]
 InGameMenu_ABD:
         cmp dword [gameresult], byte 1
         je short InGameMenu_A9C

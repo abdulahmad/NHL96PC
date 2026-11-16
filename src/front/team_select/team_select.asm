@@ -14,7 +14,7 @@ extern str_Bkgd24, str_HaBck0, str_HaBck1, str_Ldat, str_Pal10, str_Rk02d2, str_
 extern str_Rul2, str_Rul3, str_Set0, str_Set1, str_Set2, str_Swt02, str_Swt1, str_SwtD
 extern GameOptionsScreen, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
 extern SetScreenTarget, FindShape, str_WesternConference2, TeamSelectY
-global str_H, DrawHomeTeamPanel, DrawHomeTeamPanel_151, DrawHomeTeamPanel_15D, DrawAwayTeamPanel, jpt_764F4, TeamSelectScreen, TeamSelectScreen_863
+global str_H, DrawHomeTeamPanel, DrawHomeTeamPanel_151, DrawHomeTeamPanel_15D, DrawAwayTeamPanel, TeamSelectJumpTable, TeamSelectScreen, TeamSelectScreen_863
 global TeamSelectScreen_91E, TeamSelectScreen_9C0, TeamSelectScreen_A66, TeamSelectScreen_AFC, TeamSelectScreen_BAA, TeamSelectScreen_BB3, TeamSelectScreen_BD7, TeamSelectScreen_BE5
 str_H:
         db 068h,00h,00h,00h,02h,01h,00h,00h,07Ch,00h,00h,00h,0EEh,00h,00h,00h
@@ -269,7 +269,7 @@ DrawAwayTeamPanel:
         push eax
         mov eax, dword [AwayPanelName]
         jmp near DrawHomeTeamPanel_151
-jpt_764F4:
+TeamSelectJumpTable:
         dd TeamSelectScreen_863
         dd TeamSelectScreen_91E
         dd TeamSelectScreen_9C0
@@ -740,7 +740,7 @@ TeamSelectScreen:
         mov eax, dword [GsTeamSelect]
         and esi, 0FFFE0FFFh
         and eax, 0FFC1FFFFh
-        jmp dword [nosplit cs:edx*4+jpt_764F4]
+        jmp dword [nosplit cs:edx*4+TeamSelectJumpTable]
 TeamSelectScreen_863:
         test dword [GsTeamSelect], 1F000h
         jne short .4

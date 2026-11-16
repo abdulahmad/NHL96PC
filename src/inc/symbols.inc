@@ -597,8 +597,8 @@
 ;  79303  SeasonMenuHotspots                       front/new_season/new_season.asm              1
 ;  79483  StandingsHotspots                        front/new_season/new_season.asm              1
 ;  794C3  SimPlayoffBracketOrder                   front/new_season/new_season.asm              1
-;  794CB  jpt_794CB                                front/new_season/new_season.asm              1
-;  794EF  jpt_794EF                                front/new_season/new_season.asm              1
+;  794CB  SeasonMenuChoiceJumpTable                front/new_season/new_season.asm              1
+;  794EF  SeasonMenuLastJumpTable                  front/new_season/new_season.asm              1
 ;  79C93  SeasonMenuScreen_794                     front/season_menu/season_menu.asm            1
 ;  79CAB  SeasonMenuScreen_7AC                     front/season_menu/season_menu.asm            1
 ;  79D57  SeasonMenuScreen_858                     front/season_menu/season_menu.asm            1
@@ -627,7 +627,7 @@
 ;  7D49C  ScrollBarToMouse                         front/scroll_bar/scroll_bar.asm              6
 ;  7D4F4  DaysInMonth                              front/scroll_bar/scroll_bar.asm              1
 ;  7D500  CalendarDayShades                        front/scroll_bar/scroll_bar.asm              1
-;  7D568  jpt_7D568                                front/scroll_bar/scroll_bar.asm              1
+;  7D568  CalendarChoiceJumpTable                  front/scroll_bar/scroll_bar.asm              1
 ;  7D580  CalendarScreen                           front/calendar/calendar.asm                  1
 ;  7E953  CalendarScreen_13D3                      front/calendar/calendar.asm                  1
 ;  7E964  CalendarScreen_13E4                      front/calendar/calendar.asm                  1
@@ -663,7 +663,7 @@
 ;  93BE6  PlayerRatingsHotspots                    front/player_cards/player_cards.asm          1
 ;  93CA6  PlayerRatingsTabHotspots                 front/player_cards/player_cards.asm          1
 ;  93D26  PlayerRatingsNavLinks                    front/player_cards/player_cards.asm          1
-;  93E46  jpt_93E46                                front/player_cards/player_cards.asm          1
+;  93E46  PlayerRatingsChoiceJumpTable             front/player_cards/player_cards.asm          1
 ;  93E6A  PlayerRatingsScreen                      front/player_ratings/player_ratings.asm      2
 ;  94C7B  PlayerRatingsScreen_E11                  front/player_ratings/player_ratings.asm      1
 ;  94CA5  PlayerRatingsScreen_E3B                  front/player_ratings/player_ratings.asm      1
@@ -693,7 +693,7 @@
 ;  A4F79  PlayoffSetupOptionRows                   front/modem_teams/modem_teams.asm            1
 ;  A4F89  PlayoffSeedPairs                         front/modem_teams/modem_teams.asm            1
 ;  A4FA9  PlayoffMenuCommands                      front/modem_teams/modem_teams.asm            1
-;  A4FB7  jpt_A4FB7                                front/modem_teams/modem_teams.asm            1
+;  A4FB7  PlayoffMenuJumpTable                     front/modem_teams/modem_teams.asm            1
 ;  A4FD7  RunPlayoffMenus                          front/playoff/playoff.asm                    1
 ;  A504A  RunPlayoffMenus_73                       front/playoff/playoff.asm                    1
 ;  A5060  RunPlayoffMenus_89                       front/playoff/playoff.asm                    1

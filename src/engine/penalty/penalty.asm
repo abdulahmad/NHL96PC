@@ -83,7 +83,7 @@ AddPenalty:
 ;-----------------------------------------------------------------------------
 ; AddPenalty2                                         501EC  94G penalty94.asm
 ; Call penalty pen on player p (not in a replay, sflags bit 7, or with
-; word_CBC44): outside a penalty shot raise the banner (penbannertab[pen],
+; SortPending set): outside a penalty shot raise the banner (penbannertab[pen],
 ; timer 50h unless none 6); major penalties (pen >= 7) raise the crowd (+400
 ; up to 800; flag 40h side: CwdExciteLvl +20 and sound 7Dh, else A0h). Then
 ; the penalty goes into the first free PenBuf slot (pen, SCnum); a penalty

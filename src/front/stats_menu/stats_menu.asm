@@ -31,11 +31,11 @@ extern PlayerCardScreen, PlayerRatingsScreen, AllocMemBlock, FreeMemBlock, Creat
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtKeyed, SetScreenTarget, FillRectColor, FindShape, TickDeadlinePassed, str_Punct_ExportTeamStats
 extern str_DashExport, str_Punct_DumpSaveTimes, UpdateProgressBox, CdSpeedTested, TeamMovieTextIds, TeamHomePoints, TeamPowerPlayPct, TeamPenaltyKillPct
 extern TeamPoints, TeamRoadPoints, TeamPointsPct
-global StatsMenuItemMap, jpt_884F1, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
+global StatsMenuItemMap, RunStatsMenuJumpTable, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
 global RunStatsMenu_1AD, PlayTeamMovie, GetTeamMovieText, str_U, TeamStatsColumnLabels, TeamStatsNavLinks, CompareTeamStatRows, AnimateTeamStatsButton
-global AnimateTeamStatsButtons, jpt_88DE1, jpt_88DF9, TeamStatsScreen, TeamStatsScreen_8FE, TeamStatsScreen_916, TeamStatsScreen_92E, TeamStatsScreen_946
-global TeamStatsScreen_957, TeamStatsScreen_96F, TeamStatsScreen_132A, TeamStatsScreen_134F, TeamStatsScreen_136C, TeamStatsScreen_1380, DrawTeamStatsTable, jpt_8A844
-global CopyTeamStatName, CopyTeamStatName_82, CopyTeamStatName_89, CopyTeamStatName_90, CopyTeamStatName_97, FindTeamStatRow, jpt_8A9A0, ExportTeamStats
+global AnimateTeamStatsButtons, TeamStatsColumnJumpTable, TeamStatsItemJumpTable, TeamStatsScreen, TeamStatsScreen_8FE, TeamStatsScreen_916, TeamStatsScreen_92E, TeamStatsScreen_946
+global TeamStatsScreen_957, TeamStatsScreen_96F, TeamStatsScreen_132A, TeamStatsScreen_134F, TeamStatsScreen_136C, TeamStatsScreen_1380, DrawTeamStatsTable, CopyTeamStatNameJumpTable
+global CopyTeamStatName, CopyTeamStatName_82, CopyTeamStatName_89, CopyTeamStatName_90, CopyTeamStatName_97, FindTeamStatRow, ExportTeamStatsJumpTable, ExportTeamStats
 global ExportTeamStats_117, ExportTeamStats_11E, ExportTeamStats_125, ExportTeamStats_12C, BuildTeamStatTables, BuildTeamStatTables_265, BuildTeamStatTables_266, DumpSaveTimes
 global CheckExportName, PlayerStatsNavLinks, str_U_PlayerStatsScreen, PlayerStatsColumnLabels
 StatsMenuItemMap:
@@ -43,7 +43,7 @@ StatsMenuItemMap:
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,03h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
         db 04h,00h,05h,00h,06h,00h,07h,00h,08h,00h,0FFh,0FFh,0FFh,0FFh,09h,00h
         db 0FFh,0FFh,0FFh,0FFh
-jpt_884F1:
+RunStatsMenuJumpTable:
         dd RunStatsMenu_25
         dd RunStatsMenu_13E
         dd RunStatsMenu_104
@@ -139,7 +139,7 @@ RunStatsMenu_104:
         sub esi, 0A410h
         cmp esi, byte 5
         ja near RunStatsMenu_1AD.10
-        jmp dword [nosplit cs:esi*4+jpt_884F1]
+        jmp dword [nosplit cs:esi*4+RunStatsMenuJumpTable]
 RunStatsMenu_13E:
         mov ecx, dword [byte ebp-040h]
         mov edx, RatingsPlayerId
@@ -603,14 +603,14 @@ AnimateTeamStatsButtons:
         pop edi
         pop esi
         ret 14h
-jpt_88DE1:
+TeamStatsColumnJumpTable:
         dd TeamStatsScreen_92E
         dd TeamStatsScreen_946
         dd TeamStatsScreen_96F
         dd TeamStatsScreen_957
         dd TeamStatsScreen_8FE
         dd TeamStatsScreen_916
-jpt_88DF9:
+TeamStatsItemJumpTable:
         dd TeamStatsScreen_132A
         dd TeamStatsScreen_134F
         dd TeamStatsScreen_1380
@@ -1155,7 +1155,7 @@ TeamStatsScreen:
         ja near TeamStatsScreen_96F.23
         mov eax, dword [byte ebp-012h]
         add eax, 1FEh
-        jmp dword [nosplit cs:edx*4+jpt_88DE1]
+        jmp dword [nosplit cs:edx*4+TeamStatsColumnJumpTable]
 TeamStatsScreen_8FE:
         mov edx, dword [TeamStatsButtonPos+28h]
         mov dword [byte eax+01Ah], edx
@@ -1816,7 +1816,7 @@ TeamStatsScreen_96F:
         mov dword [byte ebp+01Eh], 63h
         cmp eax, byte 3
         ja near .45
-        jmp dword [nosplit cs:eax*4+jpt_88DF9]
+        jmp dword [nosplit cs:eax*4+TeamStatsItemJumpTable]
 TeamStatsScreen_132A:
         mov dword [StatsMenuItems], 1
         lea edx, [byte ebp+0Eh]
@@ -2378,7 +2378,7 @@ DrawTeamStatsTable:
         pop edi
         pop esi
         ret 10h
-jpt_8A844:
+CopyTeamStatNameJumpTable:
         dd CopyTeamStatName_82
         dd CopyTeamStatName_90
         dd CopyTeamStatName_89
@@ -2445,7 +2445,7 @@ CopyTeamStatName:
         xor ebx, ebx
         cmp ecx, byte 3
         ja short CopyTeamStatName_97.9
-        jmp dword [nosplit cs:ecx*4+jpt_8A844]
+        jmp dword [nosplit cs:ecx*4+CopyTeamStatNameJumpTable]
 CopyTeamStatName_82:
         mov edi, 1
         jmp short CopyTeamStatName_97.9
@@ -2561,7 +2561,7 @@ FindTeamStatRow:
         pop edi
         pop esi
         ret
-jpt_8A9A0:
+ExportTeamStatsJumpTable:
         dd ExportTeamStats_117
         dd ExportTeamStats_11E
         dd ExportTeamStats_12C
@@ -2658,7 +2658,7 @@ ExportTeamStats:
         cmp dword [byte ebp-048h], byte 3
         ja short ExportTeamStats_12C.7
         mov eax, dword [byte ebp-048h]
-        jmp dword [nosplit cs:eax*4+jpt_8A9A0]
+        jmp dword [nosplit cs:eax*4+ExportTeamStatsJumpTable]
 ExportTeamStats_117:
         mov eax, 119h
         jmp short ExportTeamStats.3

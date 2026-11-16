@@ -17,9 +17,9 @@ extern str_Swt12, str_SwtD2, GameOptionsScreen, RunPlayoffMenus_102, RunPlayoffM
 extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, str_WesternConference2, ModemGameOpts, SlotsTwoPlayer
 extern ModemPanelY
-global str_B, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
+global str_B, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, ModemTeamSelectJumpTable, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
-global RunModemGameSetup, PlayoffSetupKeyTable, str_Z, PlayoffSeriesLabels, PlayoffSetupOptionRows, PlayoffSeedPairs, PlayoffMenuCommands, jpt_A4FB7
+global RunModemGameSetup, PlayoffSetupKeyTable, str_Z, PlayoffSeriesLabels, PlayoffSetupOptionRows, PlayoffSeedPairs, PlayoffMenuCommands, PlayoffMenuJumpTable
 str_B:
         db 062h,00h,00h,00h,0E4h,00h,00h,00h,077h,00h,00h,00h,0CFh,00h,00h,00h
         db 077h,00h,00h,00h,0F9h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -273,7 +273,7 @@ DrawModemAwayPanel:
         push eax
         mov eax, dword [ModemAwayName]
         jmp near DrawModemHomePanel_151
-jpt_A3CD4:
+ModemTeamSelectJumpTable:
         dd ModemTeamSelectScreen_7F1
         dd ModemTeamSelectScreen_8AC
         dd ModemTeamSelectScreen_94E
@@ -728,7 +728,7 @@ ModemTeamSelectScreen:
         mov eax, dword [ModemGameOpts+1]
         and edx, 0FFFE0FFFh
         and eax, 0FFC1FFFFh
-        jmp dword [nosplit cs:esi*4+jpt_A3CD4]
+        jmp dword [nosplit cs:esi*4+ModemTeamSelectJumpTable]
 ModemTeamSelectScreen_7F1:
         test dword [ModemGameOpts+1], 1F000h
         jne short .5
@@ -1168,7 +1168,7 @@ PlayoffSeedPairs:
         db 03h,00h,00h,00h,06h,00h,00h,00h,04h,00h,00h,00h,05h,00h,00h,00h
 PlayoffMenuCommands:
         db 0A4h,0A5h,0A3h,0A5h,0A2h,0A5h,0A1h,0A5h,0A0h,0A5h,09Fh,0A5h,00h,00h
-jpt_A4FB7:
+PlayoffMenuJumpTable:
         dd RunPlayoffMenus_A6
         dd RunPlayoffMenus_115
         dd RunPlayoffMenus_CD

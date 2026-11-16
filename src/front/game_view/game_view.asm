@@ -56,12 +56,12 @@ extern hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
 extern awtmap
 global DrawScaledSprite, DrawScaledSprite_1E2, BuildShadeMatch, BuildShadeLut, AllocShadeLut, AllocShadeLut_5A, LoadIceLogo, FullViewClip
 global DimGameView, InitGameView, InitGameView_709, InitGameView_70A, FreeGameView, DrawRosterName, DrawRosterNumber, DrawRinkSprite
-global DrawPlayerSprite, DrawSpriteShadow, jpt_5960F, DrawControlMarker, DrawControlMarker_26, DrawControlMarker_2F, DrawControlMarker_38, DrawControlMarker_41
+global DrawPlayerSprite, DrawSpriteShadow, DrawControlMarkerJumpTable, DrawControlMarker, DrawControlMarker_26, DrawControlMarker_2F, DrawControlMarker_38, DrawControlMarker_41
 global DrawPuckSprite, SpinPuckModel, PlaceGoalNets, PlaceGoalNets_65, PlaceGoalNets_71, PlaceGoalNets_E0, PlaceGoalNets_20B, DrawPlayerShadows
 global DrawPlayers, DrawPlayerMarkers, DrawRinkView, DrawGameFrame, DrawPanelLogo, OpenOverlayPanel, DrawOverlayCaption, DrawOverlayCaption_D7
 global DrawOverlayCaption_DC, DrawOverlayCaption_E1, ResetGameOverlays, DrawTimedPanel, DrawGameClock, DrawPenaltyClock, DrawPowerPlayPanel, DrawPlayerPctPanel
-global DrawClockPanel, DrawTimeLeftPanel, jpt_5BD6D, GetPeriodText, GetPeriodText_1F, GetPeriodText_3C, GetPeriodText_59, GetPeriodText_86
-global jpt_5BE45, DrawScorePanel, DrawScorePanel_689, DrawScorePanel_690, DrawScorePanel_697, DrawScorePanel_69E, DrawEventPanel, DrawPlayerNamePanel
+global DrawClockPanel, DrawTimeLeftPanel, GetPeriodTextJumpTable, GetPeriodText, GetPeriodText_1F, GetPeriodText_3C, GetPeriodText_59, GetPeriodText_86
+global ScorePanelPeriodJumpTable, DrawScorePanel, DrawScorePanel_689, DrawScorePanel_690, DrawScorePanel_697, DrawScorePanel_69E, DrawEventPanel, DrawPlayerNamePanel
 global DrawPenaltyEventPanel, DrawGoalEventPanel, QueueOverlayPanel, DrawGameOverlays, DrawLineEnergyBar, DrawLineChangeBox, DrawLineChangeBoxes, NearNetZeroVec
 global CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, unk_5D591_84, str_D_SetGameViewSize
 global ViewSizeWidths, ViewSizeHeights
@@ -1440,7 +1440,7 @@ DrawSpriteShadow:
         pop edi
         pop esi
         ret 4
-jpt_5960F:
+DrawControlMarkerJumpTable:
         dd DrawControlMarker_26
         dd DrawControlMarker_2F
         dd DrawControlMarker_38
@@ -1462,7 +1462,7 @@ DrawControlMarker:
         je short DrawControlMarker_41.2
         cmp eax, byte 3
         ja short DrawControlMarker_41.1
-        jmp dword [nosplit cs:eax*4+jpt_5960F]
+        jmp dword [nosplit cs:eax*4+DrawControlMarkerJumpTable]
 DrawControlMarker_26:
         movsx esi, byte [ReplayFrameState+10Eh]
         jmp short DrawControlMarker_41.1
@@ -4464,7 +4464,7 @@ DrawTimeLeftPanel:
         call DrawColorTextRight
         mov eax, 1
         jmp near InitGameView_709
-jpt_5BD6D:
+GetPeriodTextJumpTable:
         dd GetPeriodText_1F
         dd GetPeriodText_3C
         dd GetPeriodText_59
@@ -4481,7 +4481,7 @@ GetPeriodText:
         cmp ax, 3
         ja near GetPeriodText_86.7
         movzx eax, ax
-        jmp dword [nosplit cs:eax*4+jpt_5BD6D]
+        jmp dword [nosplit cs:eax*4+GetPeriodTextJumpTable]
 GetPeriodText_1F:
         cmp dword [ViewDirty], byte 0
         je short .1
@@ -4536,7 +4536,7 @@ GetPeriodText_86:
         pop edx
         pop ebx
         ret
-jpt_5BE45:
+ScorePanelPeriodJumpTable:
         dd DrawScorePanel_689
         dd DrawScorePanel_690
         dd DrawScorePanel_697
@@ -4998,7 +4998,7 @@ DrawScorePanel:
         cmp ax, 3
         ja short DrawScorePanel_69E.23
         movzx eax, ax
-        jmp dword [nosplit cs:eax*4+jpt_5BE45]
+        jmp dword [nosplit cs:eax*4+ScorePanelPeriodJumpTable]
 DrawScorePanel_689:
         mov eax, 85h
         jmp short DrawScorePanel_69E.22

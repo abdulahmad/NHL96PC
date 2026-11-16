@@ -7,7 +7,7 @@ extern StreamWalk, StreamHandle, FatalError, str_CDSTREAM, str_DelstreamSTREAMNO
 extern str_StreamreaderILLEGALCHUNK, strcmp_, strncpy_, RemoveTimerCallback, AllocMemBlock, FreeMemBlock, CdOpenStream, CdCloseFile
 extern CdRead, CdSeek, DriveLetterIndex, IsCdDrive, DetectMscdex, TicksSinceLast, bcopy
 global CdStreamInit, CdStreamOpen, CdStreamOpen_2B, CdStreamOpenDefault, setstreamspeed, delstream, CdStreamStart, CdStreamQueue
-global CdStreamSeek, CdStreamSyncTime, CdStreamInitSecondary, CdStreamOpenSecondary, jpt_1CB20, CdStreamService, CdStreamService_18, CdStreamService_2E
+global CdStreamSeek, CdStreamSyncTime, CdStreamInitSecondary, CdStreamOpenSecondary, CdStreamServiceJumpTable, CdStreamService, CdStreamService_18, CdStreamService_2E
 global CdStreamService_3C, CdStreamService_95, CdStreamService_EC, CdStreamService_129, CdStreamService_34E, CdStreamService_456, CdStreamService_5F4, CdStreamService_6BE
 global CdStreamService_7C1, CdStreamService_914, CdStreamTimerTick, CdStreamSkipMarks, CdStreamContigData, CdStreamSpaceLeft, CdStreamNextPacket, CdStreamFreePacket
 ;-----------------------------------------------------------------------------
@@ -492,7 +492,7 @@ CdStreamOpenSecondary:
         push eax
         call CdStreamInitSecondary
         jmp near CdStreamOpen_2B
-jpt_1CB20:
+CdStreamServiceJumpTable:
         dd CdStreamService_3C
         dd CdStreamService_129
         dd CdStreamService_34E
@@ -524,7 +524,7 @@ CdStreamService_18:
         dec edx
         cmp edx, byte 0Ch
         ja short CdStreamService_18
-        jmp dword [nosplit cs:edx*4+jpt_1CB20]
+        jmp dword [nosplit cs:edx*4+CdStreamServiceJumpTable]
 CdStreamService_2E:
         mov dword [dword eax+0EFh], 0
         leave

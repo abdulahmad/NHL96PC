@@ -12,7 +12,7 @@ extern TeamDivisions, TeamConferenceIds, SeasonTeamOrder, SeasonMenuLast, Matchu
 extern PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonOver, SeasonDay, SeasonGamePending, SeasonRandomSeed, PlayoffGameOpts
 extern PlayoffSlotTeams, PlayoffSimTeams, statsbgshapes, SeasonMenuActive, FadeOut, FadePalette, FileClose, FileOpenRead
 extern FillBox, FillMusicStream, FreeScrollBar, FreeStatsTables, gameopts, GetLangText, HideMessage, HideProgressBox
-extern InitMenuItems, InitVScrollBar, jpt_794CB, jpt_794EF, LoadPackedFile, LoadSeasonStats, MakeDirPath, MakePlayoffDbPath
+extern InitMenuItems, InitVScrollBar, SeasonMenuChoiceJumpTable, SeasonMenuLastJumpTable, LoadPackedFile, LoadSeasonStats, MakeDirPath, MakePlayoffDbPath
 extern MakeSeasonDbPath, MessageBox, MusicDone, NameIndexFree, NameIndexId, NameIndexLoad, NameIndexPath, NameIndexRemove
 extern NameIndexSave, NewSeasonScreen, OpenScreen, PlayMenuGame, PlayMusic, PutBlock, qsort_, ResetSeasonFiles
 extern RunControllerScreen, RunMenu, ScrollBarDown, ScrollBarUp, SetDrawBitmap, SetGreyPalette, SetScreenColors, SetScrollBarPos
@@ -33,7 +33,7 @@ extern TextSetFont, TickDeadlinePassed, str_WesternConference2, SeasonUserRecord
 extern SeasonMenuHotspots, StandingsHotspots, SimPlayoffBracketOrder, UpdateProgressBox
 global SeasonMenuScreen, SeasonMenuScreen_794, SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61
 global SeasonMenuScreen_ADF, SeasonMenuScreen_AEB, SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, SeasonMenuScreen_D9C, StandingsScreen
-global CompareTeamPoints, DrawStandings, SimulateRestOfSeason, str_T_PickIndexEntryScreen, SeasonMenuCommands, jpt_7BA27, RunSeasonMenus, RunSeasonMenus_6E
+global CompareTeamPoints, DrawStandings, SimulateRestOfSeason, str_T_PickIndexEntryScreen, SeasonMenuCommands, SeasonMenuCommandJumpTable, RunSeasonMenus, RunSeasonMenus_6E
 global RunSeasonMenus_CB, RunSeasonMenus_D2, RunSeasonMenus_138, RunSeasonMenus_182, RunSeasonMenus_189, RunSeasonMenus_1E1, RunSeasonMenus_224, RunSeasonMenus_238
 global RunSeasonMenus_24E, RunSeasonMenus_25A, RunSeasonMenus_533, PickIndexEntryScreen, DrawIndexEntries
 ;-----------------------------------------------------------------------------
@@ -495,7 +495,7 @@ SeasonMenuScreen:
         cmp dword [byte ebp+066h], byte 8
         ja near SeasonMenuScreen_C68
         mov eax, dword [byte ebp+066h]
-        jmp dword [nosplit cs:eax*4+jpt_794CB]
+        jmp dword [nosplit cs:eax*4+SeasonMenuChoiceJumpTable]
 SeasonMenuScreen_794:
         mov dword [byte ebp+06Eh], 2710h
         mov dword [SeasonMenuLast], 0FFFFFFFFh
@@ -672,7 +672,7 @@ SeasonMenuScreen_858:
         mov eax, dword [SeasonMenuLast]
         cmp eax, byte 3
         ja near SeasonMenuScreen_A61.30
-        jmp dword [nosplit cs:eax*4+jpt_794EF]
+        jmp dword [nosplit cs:eax*4+SeasonMenuLastJumpTable]
 SeasonMenuScreen_9D7:
         push str_Bt015
         push dword [byte ebp+072h]
@@ -2707,7 +2707,7 @@ str_T_PickIndexEntryScreen:
 SeasonMenuCommands:
         db 0A1h,0A5h,03h,027h,02h,027h,01h,027h,00h,027h,0FFh,026h,0FEh,026h,0FDh,026h
         db 0FCh,026h,0FBh,026h,00h,00h
-jpt_7BA27:
+SeasonMenuCommandJumpTable:
         dd RunSeasonMenus_CB
         dd RunSeasonMenus_25A
         dd RunSeasonMenus_138
@@ -2824,7 +2824,7 @@ RunSeasonMenus_138:
         mov ecx, 0Ch
         mov edi, SeasonMenuCommands
         repne scasw
-        jmp dword [nosplit cs:ecx*4+jpt_7BA27]
+        jmp dword [nosplit cs:ecx*4+SeasonMenuCommandJumpTable]
 RunSeasonMenus_182:
         call StandingsScreen
         jmp short RunSeasonMenus_138.5

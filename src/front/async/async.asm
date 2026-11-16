@@ -10,7 +10,7 @@ extern SetTickDeadline, str_ASYNC, str_ASYNCFILE, str_AsyncreaderNOFILESPECIFI, 
 extern str_SetasyncspeedSFILEISTOOS2, strcmp_, strncpy_, RemoveTimerCallback, AllocMemBlockLockedChecked, AllocMemBlock, FreeMemBlock, PushMemDescriptorLocked
 extern CdOpenStream, CdHandleEntry, CdCloseFile, CdRead, CdSeek, TicksSinceLast, DosCloseFile, DosReadFile
 extern DosSeekFile, AsyncHeader, WaitTickDeadline
-global setasyncspeed, setasyncspeed_ret, AsyncInit, AsyncClose, AsyncRequestOpen, AsyncRequestSection, AsyncCancelRequest, jpt_1BE62
+global setasyncspeed, setasyncspeed_ret, AsyncInit, AsyncClose, AsyncRequestOpen, AsyncRequestSection, AsyncCancelRequest, AsyncReaderStateJumpTable
 global asyncreader, asyncreader_B, asyncreader_34D, asyncreader_3EF, asyncreader_614, AsyncTimerTick, AsyncTimerTick_45, AsyncRequestDone
 global getasyncblock
 ;-----------------------------------------------------------------------------
@@ -482,7 +482,7 @@ AsyncCancelRequest:
         mov dword [dword eax+097h], 0FFFFFFFFh
         pop ebp
         ret
-jpt_1BE62:
+AsyncReaderStateJumpTable:
         dd asyncreader_B
         dd asyncreader_34D
         dd asyncreader_3EF
@@ -806,7 +806,7 @@ asyncreader_3EF:
         dec eax
         cmp eax, byte 3
         ja short .29
-        jmp dword [nosplit cs:eax*4+jpt_1BE62]
+        jmp dword [nosplit cs:eax*4+AsyncReaderStateJumpTable]
 .30:
         mov eax, dword [AsyncReqUser]
         mov edx, dword [AsyncDestPos]

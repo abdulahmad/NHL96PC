@@ -3611,8 +3611,8 @@ SetPlList:
 ; setpersonel                      48F65  94G collide94.asm, medium confidence
 ; Set the personnel of team t: clear newpos / newpnum of the team's 6 sort
 ; objects, build PlList (SetPlList: pnum per wanted player, -1 none, the new
-; positions at PlList+6 = byte_E038A). Pass 1: a wanted player already on the
-; ice keeps his sort object (newpos from the list, newpnum = pnum). Pass 2:
+; positions at PlListPositions). Pass 1: a wanted player already on the
+; ice keeps its sort object (newpos from the list, newpnum = pnum). Pass 2:
 ; each remaining wanted player takes the last free sort object (newpnum < 0),
 ; stopping at the first one with a position; a sort object without a position
 ; (off the ice) first gets assignment assbenchwait and position 5. Used

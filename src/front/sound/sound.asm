@@ -17,8 +17,8 @@ extern StopCrowdChannels, DetectSoundDriver, SetSoundMixMode, SndCloseDriver, Ti
 extern SpeechStarting, CdSpeed, SpeechOpen, lastsfx, CrowdHeld, CdSpeedChecked, SpeechPlaying
 global StopAllSfx, StopAllSfx_8D, StopAllSfx_BA, StopAllSfx_BF, StopAllSfx_F7, PlaySfxOr, PlaySfx, Crowd_Noise
 global CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdPause, CrowdResume, CrowdFadeOut, sfx, sfx_3B
-global CrowdReaction, PlayArenaClip, ArenaClipService, ArenaClipReady, StartArenaClip, StopArenaClip, GetSoundCard, jpt_693BF
-global TestCdSpeed, jpt_694A1, StartSoundCard, StartSoundCard_23, StartSoundCard_2A, StartSoundCard_31, StartSoundCard_38, StartSoundCard_3F
+global CrowdReaction, PlayArenaClip, ArenaClipService, ArenaClipReady, StartArenaClip, StopArenaClip, GetSoundCard, GetSoundCardJumpTable
+global TestCdSpeed, StartSoundCardJumpTable, StartSoundCard, StartSoundCard_23, StartSoundCard_2A, StartSoundCard_31, StartSoundCard_38, StartSoundCard_3F
 global StartGameSound, EndGameSound, ShutdownSound, SoundSecondsToBytes, SoundIdle, SpeechService, SpeechService_58, SpeechService_6B
 ;-----------------------------------------------------------------------------
 ; StopAllSfx                                   68D25  96 PC, medium confidence
@@ -380,8 +380,8 @@ CrowdFadeOut:
 ; sfx                               69105  94G middle94.asm, medium confidence
 ; Play sound effect id (remembered in lastsfx): while speech plays only 9Ch
 ; passes (and in a replay only with oneminsaid); A0h/A1h not on sound devices
-; 4/8; 7Dh raises crowdlevel by 500; AAh on device 4 starts sample
-; dword_ED7A4; 90h also plays 91h (both on device 4).
+; 4/8; 7Dh raises crowdlevel by 500; AAh on device 4 starts the arena
+; sample stream; 90h also plays 91h (both on device 4).
 ;-----------------------------------------------------------------------------
 sfx:
         push ecx
@@ -646,7 +646,7 @@ StopArenaClip:
 GetSoundCard:
         mov eax, dword [sndcard]
         ret
-jpt_693BF:
+GetSoundCardJumpTable:
         dd .4
         dd .5
         dd .1
@@ -659,7 +659,7 @@ jpt_693BF:
         dec eax
         cmp eax, byte 4
         ja short .6
-        jmp dword [nosplit cs:eax*4+jpt_693BF]
+        jmp dword [nosplit cs:eax*4+GetSoundCardJumpTable]
 .1:
         mov dword [edx], 1
         pop edx
@@ -728,7 +728,7 @@ TestCdSpeed:
 .3:
         mov word [CdSpeedChecked], 1
         jmp near FindTeamPairClip_85
-jpt_694A1:
+StartSoundCardJumpTable:
         dd StartSoundCard_23
         dd StartSoundCard_2A
         dd StartSoundCard_31
@@ -753,7 +753,7 @@ StartSoundCard:
         dec eax
         cmp eax, byte 5
         ja short StartSoundCard_3F.1
-        jmp dword [nosplit cs:eax*4+jpt_694A1]
+        jmp dword [nosplit cs:eax*4+StartSoundCardJumpTable]
 StartSoundCard_23:
         mov esi, 3
         jmp short StartSoundCard_3F.1

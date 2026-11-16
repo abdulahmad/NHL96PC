@@ -5,7 +5,7 @@ section s_2D9D9 progbits alloc exec nowrite align=1
 extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin, byte_164920
 extern byte_164CE0, textline1, textline2, textline3, textline4, textline5, byte_17CA5D, CloseTextOverlay
 extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, dword_114B90, dword_114B94, dword_114B98, dword_114B9C
-extern dword_114F16, gameresult, dword_118E89, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
+extern dword_114F16, gameresult, PreGameSkateOn, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
 extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, gwgteam, gwgplayer, dword_177108
 extern dword_179918, dword_179920, dword_179924, dword_179DBD, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
@@ -20,8 +20,8 @@ extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, 
 extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
 extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
 extern str_V_DrawOverlayPanels, hmplstats, hmplattr, exhstate, AwSortCords, unk_164E7C, unk_165354, unk_17D3E8
-extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, RefStep, word_118E9F
-extern word_118EA3, CupShown, IntroStandSpots, word_11D604, word_1515E4, word_156E6E, hmglstats_w2, word_157AFC
+extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, RefStep, energywarn_aw
+extern lcblink_aw, CupShown, IntroStandSpots, word_11D604, word_1515E4, word_156E6E, hmglstats_w2, word_157AFC
 extern hmglstats_w8, hmglstats_w14, word_1647CA, hmscore, hmtmtouch1, hmtmpdst, awscore, word_176BB8
 extern starpl, yc1
 global RunPreGameSkate, RunPreGameSkate_450, RunPreGameSkate_451, RunLineupLoop, LineupLoopFrame, FillPanelEdge, FillPanelEdge_5C, DrawPanelBorder
@@ -51,7 +51,7 @@ RunPreGameSkate:
         mov word [fox], 0
         mov word [foy], 0
         shl eax, 0Fh
-        mov dword [dword_118E89], 0
+        mov dword [PreGameSkateOn], 0
         shr eax, 1Bh
         mov dword [lineuptime], 334h
         mov ax, word [nosplit eax*4+word_11D604]
@@ -301,9 +301,9 @@ RunPreGameSkate:
         mov word [word_1178B4], 0
         mov word [word_1178A2], 0
         mov word [yc1], 0
-        mov word [word_118EA3], 0
+        mov word [lcblink_aw], 0
         mov word [lcblink], 0
-        mov word [word_118E9F], 0
+        mov word [energywarn_aw], 0
         mov word [energywarn], 0
 RunPreGameSkate_450:
         leave

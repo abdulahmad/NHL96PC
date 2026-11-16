@@ -21,7 +21,7 @@ extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
 extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
 extern FindShape, exhstate, SeasonUserRecords, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
-extern bannermsg, word_119113, word_1515E4, PeriodEventCount, GameEventFlags
+extern bannermsg, bannertimer, word_1515E4, PeriodEventCount, GameEventFlags
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
 global GameLoop_E, GameLoop_18, GameLoop_38, GameLoop_inputcheck, GameLoop_hotkeyscall, GameLoop_hotkeyscall_5, GameLoop_menucall, GameLoop_menucall_A
@@ -533,12 +533,12 @@ RunSimFrames:
         movsx eax, word [bannermsg]
         cmp eax, byte 0FFFFFFFFh
         je short .6
-        cmp word [word_119113], byte 0
+        cmp word [bannertimer], byte 0
         jle short .6
-        dec word [word_119113]
-        cmp word [word_119113], byte 0
+        dec word [bannertimer]
+        cmp word [bannertimer], byte 0
         jg short .6
-        mov word [word_119113], 0
+        mov word [bannertimer], 0
         mov word [bannermsg], 0FFFFh
 .6:
         cmp dword [dword_11B310], byte 0FFFFFFFFh

@@ -12,8 +12,8 @@ extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshot
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, PlaySfxOr, PlaySfx
 extern sfx, CrowdReaction, GetLangText, SortIndices, vecdist, awlinetab, hmlinetab, gmode2
-extern word_1178F4, refsignal, RefStep, word_1178FA, Penaltytimer, gsp, clockticks, word_118E8F
-extern word_1190E7, word_1190E9, ovltimer, word_11910F, bannermsg, word_119113, Pencntdwn2, word_11A224
+extern word_1178F4, refsignal, RefStep, word_1178FA, Penaltytimer, gsp, clockticks, SortPending
+extern PenShotStartX, PenShotStartY, ovltimer, injurystop, bannermsg, bannertimer, Pencntdwn2, word_11A224
 extern penbannertab, hmscore, hmtmap, awscore, awtmap, regd1, PerTimeTotal, LastTouchTeam
 extern PassDistY, StoppageFlag, LastPlayerTouch
 global AddPenalty, ClearPenaltyBuffer, CountShotOnGoal, QuickShotChk, SetupPenaltyShot, ShotLaneOpen, chkatop, chkprogress
@@ -96,7 +96,7 @@ AddPenalty2:
         push esi
         mov ebx, eax
         mov ecx, edx
-        cmp word [word_118E8F], byte 0
+        cmp word [SortPending], byte 0
         jne near .15
         cmp dword [penshotstart], byte 0
         jne short .1
@@ -112,7 +112,7 @@ AddPenalty2:
         je short .1
         cmp eax, byte 7
         je short .1
-        mov word [word_119113], 0C8h
+        mov word [bannertimer], 0C8h
 .1:
         movsx eax, cx
         cmp eax, byte 7
@@ -612,7 +612,7 @@ InProgress:
         mov word [Penaltytimer], bx
         mov bl, byte [dword eax+PenBuf_pl]
         mov byte [dword eax+PenBuf], bl
-        cmp word [word_118E8F], byte 0
+        cmp word [SortPending], byte 0
         je near .12
         cmp edx, byte 7
         jne near .1
@@ -870,7 +870,7 @@ InProgress_71B:
         je short .46
         mov word [Pencntdwn2], 0FFFFh
         mov eax, dword [puckc]
-        mov word [word_118E8F], 1
+        mov word [SortPending], 1
         or byte [gmode2], 4
         mov byte [eax], 0FFh
         mov eax, dword [PtrPuckFlags]
@@ -885,7 +885,7 @@ InProgress_71B:
         mov word [byte eax+026h], 1C20h
         mov byte [byte_1178F9], 0FFh
         mov word [refsignal], 0
-        cmp word [word_119113], byte 0
+        cmp word [bannertimer], byte 0
         jne short InProgress_7EE
         mov word [bannermsg], 0FFFFh
 InProgress_7EE:
@@ -1119,7 +1119,7 @@ checkfornewpen:
         push ebx
         push ecx
         push edx
-        cmp word [word_118E8F], byte 0
+        cmp word [SortPending], byte 0
         jne near .16
         xor edx, edx
         jmp near .15
@@ -1162,7 +1162,7 @@ checkfornewpen:
         mov word [refsignal], 28h
         cmp eax, byte 0FFFFFFFFh
         je short .4
-        mov word [word_119113], 0C8h
+        mov word [bannertimer], 0C8h
 .4:
         movsx eax, dx
         call Stop4Pen
@@ -1190,7 +1190,7 @@ checkfornewpen:
         jle short .8
         mov word [Pencntdwn], ax
 .8:
-        cmp word [word_11910F], byte 0
+        cmp word [injurystop], byte 0
         je short .9
         mov word [Pencntdwn], 140h
 .9:
@@ -1831,9 +1831,9 @@ SetupPenaltyShot:
         call assreplace
         imul ebx, dword [penshotplayer], dword 0A0h
         add ebx, SortCords
-        mov ax, word [word_1190E7]
+        mov ax, word [PenShotStartX]
         mov word [byte ebx+02h], ax
-        mov ax, word [word_1190E9]
+        mov ax, word [PenShotStartY]
         mov word [byte ebx+06h], ax
         mov al, byte [byte ebx+044h]
         and al, 80h

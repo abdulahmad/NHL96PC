@@ -2,94 +2,94 @@
 bits 32
 %include "hockey.inc"
 section s_118E82 progbits alloc noexec write align=1
-global priolist, apl, byte_11916A, crowdlevel, dword_118E89, dword_119173, penshotfox, penshotteam
+global priolist, apl, lldisp, crowdlevel, PreGameSkateOn, onetimerflag, penshotfox, penshotteam
 global energywarn, introskipped, lcblink, lcboxon, lcline, coachlinetab, penshotctl, penshotplayer
-global shotongoal, unk_118EB9, unk_118EC9, unk_118EE9, unk_118EF9, unk_118F09, unk_118F19, unk_118F29
-global unk_118F39, unk_118F49, unk_118F59, unk_118F69, ds2list, word_118E8F, exitgame, gameover
-global word_118E95, word_118E9F, word_118EA3, lcblinktime, word_118EA7, lcsel, word_118EAB, word_118EAF
-global lctimer, word_118EB3, word_118EB7, word_118FAF, word_118FB1, word_1190D7, puckfaceoff2_ptab, word_1190E7
-global word_1190E9, ovltimer, refhitcount, word_11910F, bannermsg, word_119113, Pencntdwn2, word_119117
-global word_11911F, word_119127, lldispodd, word_11916B
+global shotongoal, CoachRotateFour, CoachRotateThree, CoachRotateThreeTop, CoachRotateFourEven, CoachRotateFourMixed, CoachRotateThreeEven, CoachSpecialUnits
+global CoachRotateTwo, CoachRotateTwoDeep, CoachRotateFourShort, CoachRotateThreeShort, ds2list, SortPending, exitgame, gameover
+global PerTimeTab, energywarn_aw, lcblink_aw, lcblinktime, lcblinktime_aw, lcsel, lcsel_aw, lcline_aw
+global lctimer, lctimer_aw, lcboxon_aw, ObjInitFrame, ObjInitAttr, FaceoffDotX, puckfaceoff2_ptab, PenShotStartX
+global PenShotStartY, ovltimer, refhitcount, injurystop, bannermsg, bannertimer, Pencntdwn2, ControlMarkerFrames
+global ControlMarkerAltFrames, GoalNetFrames, lldispodd, ltack
 priolist:
         db 00h,01h,02h,04h,03h,05h,06h
-dword_118E89:
+PreGameSkateOn:
         db 00h,00h,00h,00h,00h,00h
-word_118E8F:
+SortPending:
         db 00h,00h
 exitgame:
         db 01h,00h
 gameover:
         db 01h,00h
-word_118E95:
+PerTimeTab:
         db 02Ch,01h,058h,02h,0B0h,04h,0B0h,04h
 energywarn:
         db 00h,00h
-word_118E9F:
+energywarn_aw:
         db 00h,00h
 lcblink:
         db 00h,00h
-word_118EA3:
+lcblink_aw:
         db 00h,00h
 lcblinktime:
         db 00h,00h
-word_118EA7:
+lcblinktime_aw:
         db 00h,00h
 lcsel:
         db 00h,00h
-word_118EAB:
+lcsel_aw:
         db 00h,00h
 lcline:
         db 00h,00h
-word_118EAF:
+lcline_aw:
         db 00h,00h
 lctimer:
         db 00h,00h
-word_118EB3:
+lctimer_aw:
         db 00h,00h
 lcboxon:
         db 00h,00h
-word_118EB7:
+lcboxon_aw:
         db 00h,00h
-unk_118EB9:
+CoachRotateFour:
         db 02h,01h,00h,03h,00h,03h,02h,01h,03h,02h,01h,00h,01h,00h,03h,02h
-unk_118EC9:
+CoachRotateThree:
         db 01h,02h,03h,0FFh,02h,00h,03h,0FFh,00h,01h,03h,0FFh,00h,01h,02h,0FFh
         db 01h,02h,03h,0FFh,02h,00h,03h,0FFh,03h,00h,01h,0FFh,00h,01h,02h,0FFh
-unk_118EE9:
+CoachRotateThreeTop:
         db 02h,01h,00h,0FFh,00h,02h,01h,0FFh,01h,02h,00h,0FFh,01h,00h,02h,0FFh
-unk_118EF9:
+CoachRotateFourEven:
         db 02h,01h,00h,03h,00h,01h,02h,03h,03h,02h,01h,00h,01h,00h,03h,02h
-unk_118F09:
+CoachRotateFourMixed:
         db 02h,01h,00h,03h,00h,01h,03h,02h,03h,02h,01h,00h,01h,00h,03h,02h
-unk_118F19:
+CoachRotateThreeEven:
         db 02h,01h,00h,0FFh,00h,01h,02h,0FFh,02h,01h,00h,0FFh,01h,00h,02h,0FFh
-unk_118F29:
+CoachSpecialUnits:
         db 05h,04h,0FFh,0FFh,04h,05h,0FFh,0FFh,04h,05h,0FFh,0FFh,04h,05h,0FFh,0FFh
-unk_118F39:
+CoachRotateTwo:
         db 01h,00h,0FFh,0FFh,00h,01h,0FFh,0FFh,00h,01h,0FFh,0FFh,00h,01h,0FFh,0FFh
-unk_118F49:
+CoachRotateTwoDeep:
         db 01h,02h,0FFh,0FFh,02h,00h,0FFh,0FFh,00h,01h,0FFh,0FFh,00h,01h,02h,0FFh
-unk_118F59:
+CoachRotateFourShort:
         db 01h,02h,03h,0FFh,02h,03h,00h,0FFh,03h,00h,01h,0FFh,00h,01h,02h,0FFh
-unk_118F69:
+CoachRotateThreeShort:
         db 01h,02h,0FFh,0FFh,00h,02h,0FFh,0FFh,00h,01h,0FFh,0FFh,00h,01h,02h,0FFh
 coachlinetab:
-        dd unk_118EB9
-        dd unk_118EC9
-        dd unk_118EE9
-        dd unk_118EF9
-        dd unk_118F09
-        dd unk_118F19
-        dd unk_118F29
-        dd unk_118F39
-        dd unk_118F49
-        dd unk_118F59
-        dd unk_118F69
+        dd CoachRotateFour
+        dd CoachRotateThree
+        dd CoachRotateThreeTop
+        dd CoachRotateFourEven
+        dd CoachRotateFourMixed
+        dd CoachRotateThreeEven
+        dd CoachSpecialUnits
+        dd CoachRotateTwo
+        dd CoachRotateTwoDeep
+        dd CoachRotateFourShort
+        dd CoachRotateThreeShort
 ds2list:
         db 056h,0FFh,0F1h,0FFh,00h,00h,0FFh,0FFh,00h,00h
-word_118FAF:
+ObjInitFrame:
         db 08h,00h
-word_118FB1:
+ObjInitAttr:
         db 04h,00h,029h,00h,080h,00h,056h,0FFh,0E2h,0FFh,00h,00h,0FFh,0FFh,00h,00h
         db 08h,00h,04h,00h,029h,00h,080h,00h,056h,0FFh,0D3h,0FFh,00h,00h,0FFh,0FFh
         db 00h,00h,08h,00h,04h,00h,029h,00h,080h,00h,056h,0FFh,0C4h,0FFh,00h,00h
@@ -109,13 +109,13 @@ word_118FB1:
         db 01h,00h,00h,00h,00h,00h,00h,00h,0FFh,0FFh,00h,00h,03h,00h,03h,00h
         db 019h,00h,04h,00h,0F1h,0FFh,00h,00h,00h,00h,0FFh,0FFh,00h,00h,08h,00h
         db 04h,00h,01Eh,00h,00h,00h
-word_1190D7:
+FaceoffDotX:
         db 00h,00h
 puckfaceoff2_ptab:
         db 0A8h,0FEh,0D9h,0FFh,0CFh,0FFh,027h,00h,0CFh,0FFh,0C2h,0FFh,0F7h,0FFh
-word_1190E7:
+PenShotStartX:
         db 00h,00h
-word_1190E9:
+PenShotStartY:
         db 0F8h,0FFh,03Eh,00h,0F7h,0FFh,00h,00h,0C0h,0FFh
 apl:
         db 00h,01h,02h,03h,04h,05h,06h,00h,00h,01h,05h,03h,04h,02h,00h,00h
@@ -124,19 +124,19 @@ ovltimer:
         db 0FFh,0FFh
 refhitcount:
         db 00h,00h
-word_11910F:
+injurystop:
         db 00h,00h
 bannermsg:
         db 0FFh,0FFh
-word_119113:
+bannertimer:
         db 00h,00h
 Pencntdwn2:
         db 0FFh,0FFh
-word_119117:
+ControlMarkerFrames:
         db 0EDh,0Eh,0EEh,0Eh,0EFh,0Eh,0F0h,0Eh
-word_11911F:
+ControlMarkerAltFrames:
         db 0F1h,0Eh,0F2h,0Eh,0F3h,0Eh,0F4h,0Eh
-word_119127:
+GoalNetFrames:
         db 0F5h,0Eh,0DBh,0Eh,0DCh,0Eh,0DDh,0Eh,0DAh,0Eh,0D9h,0Eh,0DAh,0Eh,0DDh,0Eh
         db 0DCh,0Eh,0E0h,0Eh,0E1h,0Eh,0E2h,0Eh,0DFh,0Eh,0DEh,0Eh,0DFh,0Eh,0E2h,0Eh
         db 0E1h,0Eh,0E5h,0Eh,0E6h,0Eh,0E7h,0Eh,0E4h,0Eh,0E3h,0Eh,0E4h,0Eh,0E7h,0Eh
@@ -144,15 +144,15 @@ word_119127:
         db 0EBh,0Eh
 lldispodd:
         db 00h
-byte_11916A:
+lldisp:
         db 00h
-word_11916B:
+ltack:
         db 00h,00h
 crowdlevel:
         db 00h,00h
 introskipped:
         db 00h,00h,00h,00h
-dword_119173:
+onetimerflag:
         db 00h,00h,00h,00h
 shotongoal:
         db 00h,00h,00h,00h

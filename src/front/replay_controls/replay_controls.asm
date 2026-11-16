@@ -20,7 +20,7 @@ extern byte_1779B4, byte_177A18, byte_177A19, byte_177A1A, byte_177A7E, byte_177
 extern byte_177AE5, byte_177AE6, byte_177B4A, byte_177B4B, byte_177B4C, byte_177BB0, byte_177BB1, byte_177BB2
 extern byte_177C15, byte_177C16, byte_177C7A, byte_177C7C, byte_177DAC, byte_177DAD, byte_177DAF, byte_177E12
 extern byte_178247, byte_178288, byte_17CA5D, crowdlevel, curperiod, dword_1150D4, dword_1150D8, dword_1175B5
-extern dword_1175B9, dword_1176E1, dword_118E89, dword_11A3F8, dword_11A3FC, dword_11A400, dword_11A404, dword_11A408
+extern dword_1175B9, dword_1176E1, PreGameSkateOn, dword_11A3F8, dword_11A3FC, dword_11A400, dword_11A404, dword_11A408
 extern dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, dword_11B294
 extern dword_11B314, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330
 extern dword_11B374, dword_11B9F4, dword_11BC24, ModeLinear, dword_11D1A8, dword_11D1AC, dword_11F5C0, dword_11F5C4
@@ -67,7 +67,7 @@ extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, F
 extern SetViewFov, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, str_Punct_ReplayScreen, str_0_SaveHighlight, unk_122344, exhstate, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
-extern word_114CE0, word_114CE4, word_119127, str_Punct_DrawReplayCounter, word_11A410, word_11A414, regd0, regd1
+extern word_114CE0, word_114CE4, GoalNetFrames, str_Punct_DrawReplayCounter, word_11A410, word_11A414, regd0, regd1
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
 extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
 extern word_177508, word_17750A, word_177CB6, word_177D1C, word_1781FC
@@ -907,7 +907,7 @@ DrawReplayObjects:
         movsx esi, byte [byte_1770A6]
         mov ecx, dword [nosplit esi*8+dword_179800]
         mov ebx, dword [nosplit esi*8+dword_1797FC]
-        movsx esi, word [word_119127]
+        movsx esi, word [GoalNetFrames]
         sar ecx, 10h
         sar ebx, 10h
         mov edx, dword [nosplit esi*4+dword_152FEC]
@@ -920,7 +920,7 @@ DrawReplayObjects:
         push edx
         mov edx, dword [nosplit esi*8+dword_1797FC]
         sar edx, 10h
-        movsx esi, word [word_119127]
+        movsx esi, word [GoalNetFrames]
         push edx
         push dword [nosplit esi*4+dword_152FEC]
         push eax
@@ -978,7 +978,7 @@ DrawReplayObjects:
         sar eax, 10h
         jmp short .12
 .10:
-        cmp dword [dword_118E89], byte 0
+        cmp dword [PreGameSkateOn], byte 0
         je short .13
         cmp dword [dword_179978], byte 0
         je short .11

@@ -9,7 +9,7 @@ extern byte_1770D7, byte_1796AC, byte_1796BF, byte_1796C0, byte_1796DC, byte_179
 extern byte_17970B, byte_17970D, byte_179712, byte_179713, byte_179715, byte_17971B, byte_17971C, byte_179722
 extern byte_179723, byte_17972D, byte_179733, byte_179743, byte_17974B, byte_179759, byte_17975A, byte_179763
 extern byte_179764, byte_1798A4, byte_179CB8, byte_179CB9, byte_179DC1, byte_179E06, byte_17CA5D, CloseTextOverlay
-extern curperiod, dword_1176E5, dword_118E89, ZonesDirty, playsuspended, dword_11A3F8, ReplayRemoteShape, dword_11B238
+extern curperiod, dword_1176E5, PreGameSkateOn, ZonesDirty, playsuspended, dword_11A3F8, ReplayRemoteShape, dword_11B238
 extern dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294, dword_11B298
 extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC, dword_11B300
 extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328
@@ -47,7 +47,7 @@ extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, Se
 extern TextSetFont, unk_111024, OverlayPanelQueue, unk_122320, hmteamrec, unk_157FF8, awteamrec, unk_158313
 extern exhstate, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
-extern HomeControlSlot, clockticks, bannermsg, word_119117, word_11911F, word_119127, word_11B274, ovlstep
+extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, word_11B274, ovlstep
 extern word_1515B5, word_1647A8, word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A
 extern word_16514C, hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
 extern awtmap, word_17709C
@@ -1491,7 +1491,7 @@ DrawControlMarker_41:
         call JoyButtonMap
         mov edx, dword [byte ebp-010h]
         shl edx, 4
-        movsx eax, word [dword edx+eax*2+word_119127]
+        movsx eax, word [dword edx+eax*2+GoalNetFrames]
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [dword_11B32C]
         mov dword [byte ebp-04h], 2
@@ -1507,11 +1507,11 @@ DrawControlMarker_41:
         cmp esi, edx
         jne short .5
         mov eax, dword [byte ebp-010h]
-        movsx eax, word [nosplit eax*2+word_11911F]
+        movsx eax, word [nosplit eax*2+ControlMarkerAltFrames]
         jmp short .6
 .5:
         mov eax, dword [byte ebp-010h]
-        movsx eax, word [nosplit eax*2+word_119117]
+        movsx eax, word [nosplit eax*2+ControlMarkerFrames]
 .6:
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [nosplit esi*8+dword_179800]
@@ -1568,7 +1568,7 @@ DrawControlMarker_41:
         call JoyButtonMap
         mov edx, dword [byte ebp-010h]
         shl edx, 4
-        movsx eax, word [dword edx+eax*2+word_119127]
+        movsx eax, word [dword edx+eax*2+GoalNetFrames]
         add esp, byte 4
         mov dword [byte ebp-0Ch], eax
         test byte [byte ebp-04h], 8
@@ -1813,7 +1813,7 @@ PlaceGoalNets_71:
         movsx edx, byte [edx]
         mov ecx, dword [nosplit edx*8+dword_179800]
         mov ebx, dword [nosplit edx*8+dword_1797FC]
-        movsx edx, word [word_119127]
+        movsx edx, word [GoalNetFrames]
         sar ecx, 10h
         sar ebx, 10h
         mov edx, dword [nosplit edx*4+dword_152FEC]
@@ -1828,7 +1828,7 @@ PlaceGoalNets_71:
         push ebx
         sar edx, 10h
         push edx
-        movsx edx, word [word_119127]
+        movsx edx, word [GoalNetFrames]
         push dword [nosplit edx*4+dword_152FEC]
         push eax
         call DrawArtScaledHotspot
@@ -1884,7 +1884,7 @@ PlaceGoalNets_E0:
         movsx ebx, word [byte ebp-01Ch]
         jmp short .8
 .6:
-        cmp dword [dword_118E89], byte 0
+        cmp dword [PreGameSkateOn], byte 0
         je short .9
         mov al, byte [gmode]
         and al, 80h

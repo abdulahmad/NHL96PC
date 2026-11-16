@@ -4,12 +4,12 @@ bits 32
 section s_465BA progbits alloc exec nowrite align=1
 extern AddPenalty, ChkGoalies, ClearPenaltyBuffer, CwdExciteLvl, InGameMenuRequest, LineChangeReq, OOlist, OOlistpos
 extern PBnum, Pencntdwn, PlList, ReadJoy1, SortCords, assinsert, assreplace, awtmgoalie
-extern awtmstruct, byte_1178C8, priolist, byte_11916A, HotList, HotList_y, HotStickList, HotStickList_y
+extern awtmstruct, byte_1178C8, priolist, lldisp, HotList, HotList_y, HotStickList, HotStickList_y
 extern byte_119FF0, byte_119FF7, byte_11A028, awroster, byte_164797, byte_16479B, byte_1647E0, byte_164920
 extern byte_164CE0, hmtmpbox, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtmcoachmode, HmRosterMap, awtmpbox
 extern awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode, AwRosterMap, LinePlayersAway, PenBuf, PenBuf_pl
 extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, curperiod, hmslotcount
-extern awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, dword_119173, penshotteam, AwayGoalsPeriod
+extern awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, onetimerflag, penshotteam, AwayGoalsPeriod
 extern HomeGoalsPeriod, PassTargetLocked, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn, playsuspended, dword_11A004
 extern dword_11A3F8, dword_11B23C, dword_11D3A6, dword_11D674, dword_164806, dword_164816, dword_164956, dword_164D16
 extern dword_165166, dword_16516A, dword_165240, dword_165244, CrowdExciteTotal, hmtmnear, hmtmcoachenergy, hmtmlines
@@ -29,9 +29,9 @@ extern ds2list, hmplstats, awplstats, hmglstats, awglstats, hmglattr, awglattr, 
 extern awplattr, awlinetab, hmteamrec, awteamrec, hmlinetab, AwSortCords, unk_165258, unk_165354
 extern unk_176D0C, unk_176E9C, vtoa, word_1178A0, word_1178A2, VisTeam, word_1178B4, yc1
 extern ltx, fodir1, fodir2, gmode2, HomeControlSlot, slotteam, word_1178F4, RefStep
-extern gsp, clockticks, dirtab, dirtab_y, word_118E8F, exitgame, gameover, word_118E95
-extern word_118E9F, word_118EA3, word_118EAF, word_118EB7, ovltimer, bannermsg, word_119113, lldispodd
-extern word_11916B, word_119FF8, word_11A008, word_11A01A, word_11A0D9, lastsfx, puckcross, word_16479E
+extern gsp, clockticks, dirtab, dirtab_y, SortPending, exitgame, gameover, PerTimeTab
+extern energywarn_aw, lcblink_aw, lcline_aw, lcboxon_aw, ovltimer, bannermsg, bannertimer, lldispodd
+extern ltack, word_119FF8, word_11A008, word_11A01A, word_11A0D9, lastsfx, puckcross, word_16479E
 extern word_1647B6, word_1647E4, word_165144, word_165146, word_165148, PeriodEventCount, hmscore, hmtmline
 extern hmtmlcnt, hmtmextra, hmtmap, hmtmnearpl, HmChaserList, awscore, awtmline, awtmlcnt
 extern awtmextra, awtmnearpl, AwChaserList, regd4, regd5, LastShooterTeam, regd0, regd1
@@ -2006,7 +2006,7 @@ Goal_1FC:
         je short .41
         inc word [byte ebx+020h]
 .41:
-        cmp dword [dword_119173], byte 0
+        cmp dword [onetimerflag], byte 0
         je short .42
         inc word [byte ebx+01Ch]
 .42:
@@ -2102,7 +2102,7 @@ Goal_1FC:
         mov word [foy], 0
 .52:
         mov dword [shotongoal], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
 .53:
         mov edi, 6
         mov ebx, dword [dword ebx+012Eh]
@@ -3033,13 +3033,13 @@ GetPeriodTime:
         mov edx, dword [optflags]
         shr eax, 1Eh
         and edx, byte 70h
-        mov ax, word [nosplit eax*2+word_118E95]
+        mov ax, word [nosplit eax*2+PerTimeTab]
         cmp edx, byte 20h
         je short .1
         movsx edx, word [gsp]
         cmp edx, byte 2
         jle short .1
-        mov ax, word [word_118E95]
+        mov ax, word [PerTimeTab]
 .1:
         pop edx
         ret
@@ -3072,13 +3072,13 @@ ResetClock:
         mov edx, dword [optflags]
         shr eax, 1Eh
         and edx, byte 70h
-        mov ax, word [nosplit eax*2+word_118E95]
+        mov ax, word [nosplit eax*2+PerTimeTab]
         cmp edx, byte 20h
         je short .1
         movsx edx, word [gsp]
         cmp edx, byte 2
         jle short .1
-        mov ax, word [word_118E95]
+        mov ax, word [PerTimeTab]
         jmp short .1
 ;-----------------------------------------------------------------------------
 ; ClearSortCords                               4899C  95 PC, medium confidence
@@ -3785,7 +3785,7 @@ StartPer:
 .2:
         mov byte [goalevent], 0FFh
         mov word [bannermsg], 0FFFFh
-        mov word [word_119113], 0
+        mov word [bannertimer], 0
         mov word [ovltimer], 0FFFFh
         mov dword [penshotmode], 0
         mov dword [penshotlive], 0
@@ -4203,12 +4203,12 @@ periodicevents:
         mov word [yc1], ax
         call clockcont_0
 .1:
-        cmp word [word_118E8F], byte 0
+        cmp word [SortPending], byte 0
         jne near .8
-        dec byte [byte_11916A]
-        cmp byte [byte_11916A], 0
+        dec byte [lldisp]
+        cmp byte [lldisp], 0
         jge near .8
-        add byte [byte_11916A], 18h
+        add byte [lldisp], 18h
         xor byte [lldispodd], 1
         call ChkGoalies
         mov ax, word [CwdExciteLvl]
@@ -5599,7 +5599,7 @@ cleargamevars:
         mov byte [collflag], 0
         mov word [threat], 0
         mov word [lldispodd], 0
-        mov word [word_11916B], 0
+        mov word [ltack], 0
         mov word [lastsfx], 0FFFFh
         mov byte [gmode], 0
         mov word [sflags], 0
@@ -6199,13 +6199,13 @@ Intermission:
 ;-----------------------------------------------------------------------------
 PeriodOver:
         push edx
-        mov word [word_118E9F], 0
+        mov word [energywarn_aw], 0
         mov word [energywarn], 0
-        mov word [word_118EA3], 0
+        mov word [lcblink_aw], 0
         mov word [lcblink], 0
-        mov word [word_118EAF], 0FFFFh
+        mov word [lcline_aw], 0FFFFh
         mov word [lcline], 0FFFFh
-        mov word [word_118EB7], 0
+        mov word [lcboxon_aw], 0
         movsx eax, word [exitgame]
         mov word [lcboxon], 0
         cmp eax, byte 0FFFFFFFFh

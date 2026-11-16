@@ -10,9 +10,9 @@ extern optblock, passplayer, Pencntdwn, Pencntdwn2, penshotlive, penshotmode, pe
 extern puckx, pucky, refhitcount, regd0, regd1, regd2, ResetClock, SetSPA
 extern SetupTeamLines, shotongoal, shotontarget, SortCords, StartGame, StartPreGame, EmptyRoutine, TextSetColor
 extern SetScreenTarget, threat, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178F4, refsignal
-extern RefStep, word_1178FA, Penaltytimer, word_118E8F, word_118E9F, word_118EA3, lcblinktime, word_118EA7
-extern lcsel, word_118EAB, word_118EAF, lctimer, word_118EB3, word_118EB7, word_1190D7, puckfaceoff2_ptab
-extern ovltimer, word_11910F, word_119113, PeriodEventCount, GameEventFlags, hmtmap, awtmap, regd4
+extern RefStep, word_1178FA, Penaltytimer, SortPending, energywarn_aw, lcblink_aw, lcblinktime, lcblinktime_aw
+extern lcsel, lcsel_aw, lcline_aw, lctimer, lctimer_aw, lcboxon_aw, FaceoffDotX, puckfaceoff2_ptab
+extern ovltimer, injurystop, bannertimer, PeriodEventCount, GameEventFlags, hmtmap, awtmap, regd4
 extern word_176B68, SpeechPatchNext, joysampling, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B7A
 extern word_176B7E
 global BlankForFadeIn, PlacePlayersAtStart, SetupGame, SetupDemoGame, ResetGameVars
@@ -101,7 +101,7 @@ PlacePlayersAtStart:
         add eax, eax
         mov word [regd4], ax
         cwde
-        mov dx, word [nosplit eax*2+word_1190D7]
+        mov dx, word [nosplit eax*2+FaceoffDotX]
         mov ax, word [nosplit eax*2+puckfaceoff2_ptab]
         mov word [regd0], dx
         mov word [regd1], ax
@@ -275,32 +275,32 @@ ResetGameVars:
         mov word [word_1178AC], 0
         mov word [lastplayer], 0
         mov word [VisTeam], 0
-        mov word [word_118E8F], 0
+        mov word [SortPending], 0
         mov word [word_1178FA], 0
         mov word [refsignal], 0
         mov word [word_1178F4], 0
-        mov word [word_118EA7], 0
+        mov word [lcblinktime_aw], 0
         mov word [lcblinktime], 0
-        mov word [word_118EA3], 0
+        mov word [lcblink_aw], 0
         mov word [lcblink], 0
-        mov word [word_118E9F], 0
+        mov word [energywarn_aw], 0
         mov word [energywarn], 0
         mov word [GameEventFlags], 0
         mov word [LineChangeLine], 0
         mov word [PeriodEventCount], 0
         mov word [LineChangeReq], 0
-        mov word [word_118EB7], 0
+        mov word [lcboxon_aw], 0
         mov word [lcboxon], 0
-        mov word [word_118EB3], 0
+        mov word [lctimer_aw], 0
         mov word [lctimer], 0
-        mov word [word_118EAF], 0
+        mov word [lcline_aw], 0
         mov word [lcline], 0
-        mov word [word_118EAB], 0
+        mov word [lcsel_aw], 0
         mov word [lcsel], 0
         mov dword [dword_164748], 0
         mov dword [dword_164744], 0
-        mov word [word_119113], 0
-        mov word [word_11910F], 0
+        mov word [bannertimer], 0
+        mov word [injurystop], 0
         mov word [refhitcount], 0
         mov dword [penshotmode], 0
         mov dword [penshotlive], 0

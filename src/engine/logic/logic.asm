@@ -7,7 +7,7 @@ extern OOlist, PBnum, PenShotAssign, Pencntdwn, PuckIChk, RemoveFromLines, SortC
 extern byte_1178C8, Endfaceoff_ftab_m1, byte_119FF0, byte_157B95, byte_157DA2, byte_1647E3, byte_16514E, OffsideCalled
 extern PenBuf, PenBuf_pl, byte_176B83, iflags, icingPlayer, goalevent, byte_176B9E, byte_176B9F
 extern check4bench, chk4lc, chk4pass, crowdlevel, hmslotcount, awslotcount, HomeEbenPlayer, AwayEbenPlayer
-extern dword_119173, penshotteam, sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir
+extern onetimerflag, penshotteam, sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir
 extern OneTimerPasser, PuckChasers, PuckChaserPlayer, ScoreCelebrating, str_wildcard, dword_119E8E, ShootoutPathData_y, dword_16523C
 extern dword_165240, dword_165244, dword_165248, dword_16524C, hmtmnear, awtmnear, findpc, fox
 extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcblink
@@ -21,7 +21,7 @@ extern PuckInNet, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, End
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, ExtraAttackerSpots
 extern str_Q, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
 extern fodir2, gmode2, HomeControlSlot, RefStep, word_1178FA, gsp, clockticks, dirtab
-extern dirtab_y, word_117AA2, lcblinktime, lcsel, lctimer, ovltimer, word_11910F, PuckCarrySpotX
+extern dirtab_y, word_117AA2, lcblinktime, lcsel, lctimer, ovltimer, injurystop, PuckCarrySpotX
 extern PuckCarrySpotY, ScoreCelebrateAnims, refsigdir, word_119E44, word_119EBA, puckcross2, puckcross6, word_16479E
 extern word_1647A2, word_1647B6, word_1647DA, word_1650A6, word_165144, hmscore, hmtmap, awscore
 extern awtmap, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, regd4, regd0, regd1
@@ -1776,13 +1776,13 @@ assnearest:
         mov ax, word [dword esi+086h]
         cmp ax, word [passplayer]
         jne short .3
-        cmp dword [dword_119173], byte 0
+        cmp dword [onetimerflag], byte 0
         jne short .2
         cmp dword [OneTimerPasser], byte 0
         je short .3
 .2:
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
 .3:
         mov eax, dword [puckc]
         movsx ax, byte [eax]
@@ -2693,9 +2693,9 @@ donothing:
         movzx eax, al
         test eax, eax
         jne near assrefgoalpa_83E
-        cmp word [word_11910F], byte 0
+        cmp word [injurystop], byte 0
         je near .4
-        movsx edi, word [word_11910F]
+        movsx edi, word [injurystop]
         movsx eax, word [dword esi+086h]
         sub edi, byte 10h
         cmp eax, edi
@@ -5288,7 +5288,7 @@ assrefatdot:
         mov eax, ebx
         call SetSPA
 .1:
-        cmp word [word_11910F], byte 0
+        cmp word [injurystop], byte 0
         jne near .8
         cmp word [gameclock], byte 0
         jne short .2
@@ -6106,7 +6106,7 @@ assrefwhistle:
         and byte [byte ebx+044h], 0FDh
         jmp near .8
 .1:
-        cmp word [word_11910F], byte 0
+        cmp word [injurystop], byte 0
         jne short .3
         cmp word [gameclock], byte 0
         jne short .2
@@ -6529,7 +6529,7 @@ assrefgoalpa:
         and byte [byte ebx+044h], 0FDh
         jmp near .21
 .16:
-        cmp word [word_11910F], byte 0
+        cmp word [injurystop], byte 0
         jne short .18
         cmp word [gameclock], byte 0
         jne short .17

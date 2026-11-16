@@ -4544,26 +4544,60 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1179C4,asstab,off_1179C4,95PC,high,"the assignment routine table: the routines already named sit at the same 14 indices as in NHL95PC asstab (assshoot 18, asspassrec 19, pucknorm 24, puckfaceoff 27 ...)",src/data/engine/penalty_data_01.asm
 118E81,LinePickOrderFrom1,byte_118E81,new,medium,same code as in the next game,src/data/engine/penalty_data_01.asm
 118E82,priolist,byte_118E82,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+118E89,PreGameSkateOn,dword_118E89,new,low,Set while the pre-game skate runs; cleared by the three stars setup and saved with the game state,src/data/engine/hockey_data_01.asm
+118E8F,SortPending,word_118E8F,new,low,Set when the sprite sort order must be rebuilt at the next faceoff; puckfaceoff re-sorts and clears it,src/data/engine/hockey_data_01.asm
 118E91,exitgame,word_118E91,95PC,high,set once by SetExitGame,src/data/engine/hockey_data_01.asm
 118E93,gameover,word_118E93,95PC,high,set once by GameOver,src/data/engine/hockey_data_01.asm
+118E95,PerTimeTab,word_118E95,new,low,"Period length in seconds for each period length option (300, 600, 1200, 1200)",src/data/engine/hockey_data_01.asm
 118E9D,energywarn,,95PC,medium,NHL95PC CBC52 (refset): referenced by the same 3 matched functions,
+118E9F,energywarn_aw,word_118E9F,new,low,Away counterpart of energywarn,src/data/engine/hockey_data_01.asm
 118EA1,lcblink,,95PC,medium,NHL95PC CBC56 (refset): referenced by the same 3 matched functions,
+118EA3,lcblink_aw,word_118EA3,new,low,Away counterpart of lcblink,src/data/engine/hockey_data_01.asm
 118EA5,lcblinktime,word_118EA5,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+118EA7,lcblinktime_aw,word_118EA7,new,low,Away counterpart of lcblinktime,src/data/engine/hockey_data_01.asm
 118EA9,lcsel,word_118EA9,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+118EAB,lcsel_aw,word_118EAB,new,low,Away counterpart of lcsel,src/data/engine/hockey_data_01.asm
 118EAD,lcline,,95PC,medium,NHL95PC CBC62 (refset): referenced by the same 4 matched functions,
+118EAF,lcline_aw,word_118EAF,new,low,Away counterpart of lcline,src/data/engine/hockey_data_01.asm
 118EB1,lctimer,word_118EB1,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+118EB3,lctimer_aw,word_118EB3,new,low,Away counterpart of lctimer,src/data/engine/hockey_data_01.asm
 118EB5,lcboxon,,95PC,medium,NHL95PC CBC6A (refset): referenced by the same 2 matched functions,
+118EB7,lcboxon_aw,word_118EB7,new,low,Away counterpart of lcboxon,src/data/engine/hockey_data_01.asm
+118EB9,CoachRotateFour,unk_118EB9,new,low,coachlinetab row set: next-line choices for a four-line rotation,src/data/engine/hockey_data_01.asm
+118EC9,CoachRotateThree,unk_118EC9,new,low,"coachlinetab row set: next-line choices for a three-line rotation, with the power-play rows after it",src/data/engine/hockey_data_01.asm
+118EE9,CoachRotateThreeTop,unk_118EE9,new,low,"coachlinetab row set: three lines, top line first",src/data/engine/hockey_data_01.asm
+118EF9,CoachRotateFourEven,unk_118EF9,new,low,"coachlinetab row set: four lines, even rotation",src/data/engine/hockey_data_01.asm
+118F09,CoachRotateFourMixed,unk_118F09,new,low,"coachlinetab row set: four lines, mixed rotation",src/data/engine/hockey_data_01.asm
+118F19,CoachRotateThreeEven,unk_118F19,new,low,"coachlinetab row set: three lines, even rotation",src/data/engine/hockey_data_01.asm
+118F29,CoachSpecialUnits,unk_118F29,new,low,coachlinetab row set: special team units only (lines 4 and 5),src/data/engine/hockey_data_01.asm
+118F39,CoachRotateTwo,unk_118F39,new,low,coachlinetab row set: two lines only,src/data/engine/hockey_data_01.asm
+118F49,CoachRotateTwoDeep,unk_118F49,new,low,coachlinetab row set: two lines with the third line as backup,src/data/engine/hockey_data_01.asm
+118F59,CoachRotateFourShort,unk_118F59,new,low,"coachlinetab row set: four lines, short shifts",src/data/engine/hockey_data_01.asm
+118F69,CoachRotateThreeShort,unk_118F69,new,low,"coachlinetab row set: three lines, short shifts",src/data/engine/hockey_data_01.asm
 118F79,coachlinetab,off_118F79,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 118FA5,ds2list,unk_118FA5,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+118FAF,ObjInitFrame,word_118FAF,new,low,"Object start table (16 bytes per object, after ds2list): frame word copied to object +82h by LoadGameState",src/data/engine/hockey_data_01.asm
+118FB1,ObjInitAttr,word_118FB1,new,low,Object start table: attribute word copied to object +84h by LoadGameState,src/data/engine/hockey_data_01.asm
+1190D7,FaceoffDotX,word_1190D7,new,low,"Faceoff dot positions: x of each (x, y) pair; puckfaceoff2_ptab is the y column",src/data/engine/hockey_data_01.asm
 1190D9,puckfaceoff2_ptab,word_1190D9,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+1190E7,PenShotStartX,word_1190E7,new,low,Penalty shot start x of the shooter,src/data/engine/hockey_data_01.asm
+1190E9,PenShotStartY,word_1190E9,new,low,"Penalty shot start y of the shooter, then the goalie spot",src/data/engine/hockey_data_01.asm
 1190F3,apl,byte_1190F3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 11910B,ovltimer,word_11910B,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 11910D,refhitcount,,95PC,medium,NHL95PC CBEC2 (refset): referenced by the same 2 matched functions,
+11910F,injurystop,word_11910F,new,low,Play stopped for an injury (setInjuryType sets it; the faceoff code clears it),src/data/engine/hockey_data_01.asm
 119111,bannermsg,word_119111,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+119113,bannertimer,word_119113,new,low,Frames left to show the banner message (50h when set),src/data/engine/hockey_data_01.asm
 119115,Pencntdwn2,,95PC,medium,NHL95PC CC0B0 (refset): referenced by the same 3 matched functions,
+119117,ControlMarkerFrames,word_119117,new,low,Shape ids of the controlled-player marker animation,src/data/engine/hockey_data_01.asm
+11911F,ControlMarkerAltFrames,word_11911F,new,low,Shape ids of the second controlled-player marker animation,src/data/engine/hockey_data_01.asm
+119127,GoalNetFrames,word_119127,new,low,"Shape ids of the goal net views, by camera angle",src/data/engine/hockey_data_01.asm
 119169,lldispodd,word_119169,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+11916A,lldisp,byte_11916A,new,low,Line display countdown (periodicevents reloads it with 18h),src/data/engine/hockey_data_01.asm
+11916B,ltack,word_11916B,new,low,"Last touch acknowledged (shot and pass code), saved with the game state",src/data/engine/hockey_data_01.asm
 11916D,crowdlevel,,95PC,medium,NHL95PC CC0DE (refset): referenced by the same 3 matched functions,
 11916F,introskipped,,95PC,medium,NHL95PC CC0F0 (refset): referenced by the same 3 matched functions,
+119173,onetimerflag,dword_119173,new,low,Set while the current shot is a one-timer (pass straight to a shot),src/data/engine/hockey_data_01.asm
 119177,shotongoal,,95PC,medium,NHL95PC CC0F8 (refset): referenced by the same 5 matched functions,
 11917B,penshotplayer,,95PC,medium,NHL95PC CC0FC (refset): referenced by the same 10 matched functions,
 11917F,penshotfox,dword_11917F,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm

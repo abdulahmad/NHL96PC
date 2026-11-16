@@ -6,7 +6,7 @@ extern Acheck, AddPenalty, CompLine, CountShotOnGoal, CwdExciteLvl, OOlist, OOli
 extern QuickShotChk, RemoveFromLines, ShotLaneOpen, SortCords, a2touchpuck, assinsert, assreplace, awtmstruct
 extern byte_115115, byte_115117, byte_1175A7, byte_1178C8, byte_16514E, byte_16514F, OffsideCalled, PenBuf
 extern PenBuf_pl, iflags, byte_176BA5, byte_176BA7, collflag, crowdlevel, hmslotcount, awslotcount
-extern dword_119173, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn
+extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn
 extern dword_119F90, nethit, dword_15E844, dword_16516E, dword_165172, dword_179D70, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, puckvy, puckc
 extern PtrPuckFlags, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
@@ -18,7 +18,7 @@ extern GameEventStub, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, Ca
 extern sfx, CrowdReaction, IntSqrt, vecdist, threat, AwSortCords, HmFightFlags, AwFightFlags
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, VisTeam, word_1178AC, word_1178AE, word_1178B4
 extern yc1, gmode2, HomeControlSlot, gsp, clockticks, dirtab, dirtab_y, refhitcount
-extern word_11910F, bannermsg, word_119113, word_11916B, blockspd, blockspd_y, word_119FB8, shotsets
+extern injurystop, bannermsg, bannertimer, ltack, blockspd, blockspd_y, word_119FB8, shotsets
 extern word_119FCA, puckcross, word_1647A2, word_165144, word_16514A, word_16514C, hmtmap, awtmap
 extern regd4, regd5, LastShooterTeam, regd0, regd1, Ylist, SpeechPatchNext, PerTimeTotal
 extern lastimpact
@@ -1539,7 +1539,7 @@ checkob:
         xor edx, eax
         je near chk4pass_4F6
         mov word [bannermsg], 5
-        mov word [word_119113], 0
+        mov word [bannertimer], 0
         jmp near chk4pass_4F6
 .14:
         movsx eax, dx
@@ -1549,7 +1549,7 @@ checkob:
         and byte [gmode2], 7Fh
         cmp eax, byte 5
         jne near chk4pass_4F6
-        cmp word [word_119113], byte 0
+        cmp word [bannertimer], byte 0
         jne near chk4pass_4F6
         mov word [bannermsg], 0FFFFh
         jmp near chk4pass_4F6
@@ -2839,7 +2839,7 @@ dopass:
         mov ebx, eax
         mov dword [OneTimerPasser], 0
         mov eax, dword [puckc]
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
         and byte [sflags], 0FBh
         mov byte [eax], 0FFh
         mov word [byte ebx+03Eh], 10h
@@ -3093,7 +3093,7 @@ CompPass:
         mov ecx, edx
         mov dword [OneTimerPasser], 0
         mov eax, dword [puckc]
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
         and byte [sflags], 0FBh
         mov byte [eax], 0FFh
         mov word [byte ebx+03Eh], 10h
@@ -4870,7 +4870,7 @@ setInjuryType:
 .4:
         mov ax, word [dword esi+086h]
         add eax, 10h
-        mov word [word_11910F], ax
+        mov word [injurystop], ax
         movsx eax, word [dword esi+086h]
         movsx ebx, word [PerTimeTotal]
         mov dword [dword_179D70], eax
@@ -6585,7 +6585,7 @@ puckglue:
         jne short .1
         call EndPenaltyShot
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
         mov dword [shotongoal], 0
 .1:
         mov byte [byte ecx+035h], 0FFh
@@ -8129,7 +8129,7 @@ doshot:
         mov dl, byte [byte esi+05Ch]
         mov byte [byte eax+05Ch], dl
         mov eax, dword [PtrPuckFlags]
-        mov dl, byte [dword_119173]
+        mov dl, byte [onetimerflag]
         mov byte [byte eax+05Fh], dl
         movsx eax, word [byte esi+038h]
         cmp eax, 0DDh
@@ -8547,10 +8547,10 @@ doshot:
         mov eax, 1Eh
         jmp short .54
 .53:
-        cmp word [word_11916B], byte 0
+        cmp word [ltack], byte 0
         sete al
         movzx ax, al
-        mov word [word_11916B], ax
+        mov word [ltack], ax
         mov eax, 1Dh
 .54:
         cwde
@@ -9027,7 +9027,7 @@ checkgoal:
         call puckflip
         call EndPenaltyShot
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
         mov dword [shotongoal], 0
         leave
         pop edi
@@ -9211,7 +9211,7 @@ wallcoll:
         call EndPenaltyShot
 .14:
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
         mov dword [shotongoal], 0
         jmp near .28
 .15:
@@ -9503,7 +9503,7 @@ wallcollb:
         mov word [dword esi+0B2h], 0FFFFh
         call EndPenaltyShot
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
         mov dword [shotongoal], 0
 .15:
         leave
@@ -10108,10 +10108,10 @@ checkcx:
         cmp ax, word [dword ecx+086h]
         jne short .10
 .9:
-        cmp word [word_11916B], byte 0
+        cmp word [ltack], byte 0
         sete al
         movzx ax, al
-        mov word [word_11916B], ax
+        mov word [ltack], ax
         mov eax, 1Dh
         call PlaySfx
 .10:

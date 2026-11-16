@@ -5,7 +5,7 @@ section s_38070 progbits alloc exec nowrite align=1
 extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, byte_114B4C
 extern lchoicetab, assonetimer_blade_y, byte_119F4B, byte_119F5A, byte_119F5B, byte_164741, byte_16507A, InputState
 extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
-extern dword_119173, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
+extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
 extern dword_164744, dword_164748, dword_164750, PtrPuckZone, dword_1797B4, gameclock, gameopts, gmode
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, puckvy, puckc, PtrPuckFlags
 extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
@@ -1713,9 +1713,9 @@ doinput:
         jne short .27
         cmp byte [edx], 0
         jge short .27
-        mov dword [dword_119173], 1
+        mov dword [onetimerflag], 1
 .27:
-        cmp dword [dword_119173], byte 0
+        cmp dword [onetimerflag], byte 0
         je near .54
 .28:
         mov ax, word [PtrPuckZone]
@@ -1764,7 +1764,7 @@ doinput:
         movsx edx, word [dword eax+086h]
         movsx eax, cx
         call SetControlledPlayer
-        mov dword [dword_119173], 1
+        mov dword [onetimerflag], 1
         pop edi
         pop esi
         pop ecx
@@ -1989,7 +1989,7 @@ doinput:
         movsx eax, si
         test eax, eax
         je short .48
-        mov dword [dword_119173], 1
+        mov dword [onetimerflag], 1
         jmp short .48
 .47:
         mov ax, word [regd1]
@@ -2001,7 +2001,7 @@ doinput:
         mov eax, ebx
         call burst
 .48:
-        cmp dword [dword_119173], byte 0
+        cmp dword [onetimerflag], byte 0
         jne near .28
 .49:
         cmp dword [playsuspended], byte 0
@@ -2348,14 +2348,14 @@ assonetimer:
         call assexitjump
 .6:
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
         pop esi
         pop edx
         pop ecx
         pop ebx
         ret
 .7:
-        cmp dword [dword_119173], byte 0
+        cmp dword [onetimerflag], byte 0
         je near .27
         movsx edx, word [byte ebx+038h]
         cmp edx, 10Dh
@@ -2390,7 +2390,7 @@ assonetimer:
         mov word [byte ebx+038h], 129h
 .11:
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
 .12:
         mov ax, word [byte ebx+036h]
         xor ah, ah
@@ -2834,7 +2834,7 @@ ReceivePass:
         call assexitjump
 .10:
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
 .11:
         pop edx
         pop ecx
@@ -2862,7 +2862,7 @@ asspassrec:
         test eax, eax
         je short .1
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
         mov eax, esi
         and byte [byte esi+044h], 0FEh
         call assexitjump
@@ -2918,11 +2918,11 @@ asspassrec:
         call OneTimerChk
         test eax, eax
         je short .6
-        mov dword [dword_119173], 1
+        mov dword [onetimerflag], 1
 .6:
         mov ax, word [regd1]
         and al, 0AFh
-        cmp dword [dword_119173], byte 0
+        cmp dword [onetimerflag], byte 0
         je short .7
         mov word [regd1], ax
         jmp short .2
@@ -2999,7 +2999,7 @@ asspassrec:
         call assexitjump
         mov eax, dword [puckc]
         mov dword [OneTimerPasser], 0
-        mov dword [dword_119173], 0
+        mov dword [onetimerflag], 0
         movsx dx, byte [eax]
         cmp dx, word [dword esi+086h]
         jne short .16

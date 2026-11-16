@@ -4,7 +4,7 @@ bits 32
 section s_4DED8 progbits alloc exec nowrite align=1
 extern awtmstruct, byte_1178C8, awroster, byte_15864E, byte_15864F, byte_158650, pad2dev, pad1dev
 extern PenBuf, iflags, curevent, byte_17CC37, collflag, curperiod, dword_114F16, dword_1150D8
-extern dword_118E89, dword_119173, penshotfox, penshotteam, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
+extern PreGameSkateOn, onetimerflag, penshotfox, penshotteam, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
 extern sopathend, sopathpoint, pspathside, pspathdir, dword_11B364, dword_151B84, hmtmlines, hmtmplattr
 extern hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmlines, awtmplattr
 extern awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec, awtmsort, ReplayBufferTop, dword_17CB2F
@@ -20,9 +20,9 @@ extern LoadGameRosters, InitBenchSprites, ResetPeriodState, UnlinkJump, threat, 
 extern awplstats, hmglstats, awglstats, hmglattr, awglattr, hmplattr, awplattr, awlinetab
 extern hmteamrec, awteamrec, hmlinetab, AwSortCords, SeasonUserRecords, unk_17CED5, VisTeam, word_1178AC
 extern word_1178AE, word_1178B4, ltx, HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_1178F4
-extern refsignal, RefStep, word_1178FA, Penaltytimer, clockticks, word_118E8F, word_118E9F, word_118EA3
-extern lcblinktime, word_118EA7, lcsel, word_118EAB, word_118EAF, lctimer, word_118EB3, word_118EB7
-extern word_118FAF, word_118FB1, ovltimer, word_11910F, bannermsg, word_119113, lldispodd, word_11916B
+extern refsignal, RefStep, word_1178FA, Penaltytimer, clockticks, SortPending, energywarn_aw, lcblink_aw
+extern lcblinktime, lcblinktime_aw, lcsel, lcsel_aw, lcline_aw, lctimer, lctimer_aw, lcboxon_aw
+extern ObjInitFrame, ObjInitAttr, ovltimer, injurystop, bannermsg, bannertimer, lldispodd, ltack
 extern SavedGameMode, word_11B274, ovlstep, lastsfx, word_16474C, word_16474E, word_164792, puckcross
 extern PeriodEventCount, GameEventFlags, AwBackupGoalieMarks, fofdata2, SavedPlayerWords, word_176B7C, PerTimeTotal
 extern LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, yc1
@@ -257,11 +257,11 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_118E89]
+        mov dx, word [PreGameSkateOn]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118E8F]
+        mov dx, word [SortPending]
         mov word [eax], dx
         inc eax
         inc eax
@@ -281,7 +281,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_11910F]
+        mov dx, word [injurystop]
         mov word [eax], dx
         inc eax
         inc eax
@@ -293,7 +293,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_119113]
+        mov dx, word [bannertimer]
         mov word [eax], dx
         inc eax
         inc eax
@@ -353,7 +353,7 @@ SaveGameState:
         inc eax
         mov dl, byte [byte_15864E]
         mov byte [eax], dl
-        mov dl, byte [dword_119173]
+        mov dl, byte [onetimerflag]
         mov byte [byte eax+01h], dl
         inc eax
         inc eax
@@ -367,7 +367,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118E9F]
+        mov dx, word [energywarn_aw]
         mov word [eax], dx
         inc eax
         inc eax
@@ -375,7 +375,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118EA3]
+        mov dx, word [lcblink_aw]
         mov word [eax], dx
         inc eax
         inc eax
@@ -383,7 +383,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118EA7]
+        mov dx, word [lcblinktime_aw]
         mov word [eax], dx
         inc eax
         inc eax
@@ -391,7 +391,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118EAB]
+        mov dx, word [lcsel_aw]
         mov word [eax], dx
         inc eax
         inc eax
@@ -399,7 +399,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118EAF]
+        mov dx, word [lcline_aw]
         mov word [eax], dx
         inc eax
         inc eax
@@ -407,7 +407,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118EB3]
+        mov dx, word [lctimer_aw]
         mov word [eax], dx
         inc eax
         inc eax
@@ -415,7 +415,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118EB7]
+        mov dx, word [lcboxon_aw]
         mov word [eax], dx
         inc eax
         inc eax
@@ -443,7 +443,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_11916B]
+        mov dx, word [ltack]
         mov word [eax], dx
         inc eax
         inc eax
@@ -958,11 +958,11 @@ LoadGameState:
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_118E89], edx
+        mov dword [PreGameSkateOn], edx
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118E8F], dx
+        mov word [SortPending], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -982,7 +982,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_11910F], dx
+        mov word [injurystop], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -994,7 +994,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_119113], dx
+        mov word [bannertimer], dx
         mov edx, dword [eax]
         add eax, byte 8
         mov dword [seed], edx
@@ -1058,7 +1058,7 @@ LoadGameState:
         movsx edx, byte [byte eax+01h]
         inc eax
         inc eax
-        mov dword [dword_119173], edx
+        mov dword [onetimerflag], edx
         mov dl, byte [eax]
         mov byte [collflag], dl
         mov dl, byte [byte eax+01h]
@@ -1072,7 +1072,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118E9F], dx
+        mov word [energywarn_aw], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1080,7 +1080,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118EA3], dx
+        mov word [lcblink_aw], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1088,7 +1088,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118EA7], dx
+        mov word [lcblinktime_aw], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1096,7 +1096,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118EAB], dx
+        mov word [lcsel_aw], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1104,7 +1104,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118EAF], dx
+        mov word [lcline_aw], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1112,7 +1112,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118EB3], dx
+        mov word [lctimer_aw], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1120,7 +1120,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118EB7], dx
+        mov word [lcboxon_aw], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1148,7 +1148,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_11916B], dx
+        mov word [ltack], dx
         mov dx, word [eax]
         mov word [lastsfx], dx
         inc eax
@@ -1404,9 +1404,9 @@ LoadGameState:
 .24:
         mov ecx, dword [byte ebp+07Eh]
         mov word [dword eax+086h], cx
-        mov cx, word [dword edx+word_118FAF]
+        mov cx, word [dword edx+ObjInitFrame]
         mov word [dword eax+082h], cx
-        mov cx, word [dword edx+word_118FB1]
+        mov cx, word [dword edx+ObjInitAttr]
         mov word [dword eax+084h], cx
         mov cl, byte [byte eax+044h]
         and cl, 40h

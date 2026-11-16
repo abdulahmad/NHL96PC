@@ -61,7 +61,7 @@ extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDon
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
 extern GetLangText, PickIndexEntryScreen, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlock, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, FillRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont
-extern sub_B0CA8, sub_B2B0C, SetAaPalLut, DrawArtAaScaledInt, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot
+extern FreeColourLookup, sub_B2B0C, SetAaPalLut, DrawArtAaScaledInt, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot
 extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, sub_BEAE4
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, sub_E0584, SetViewScreenOrigin
 extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
@@ -4120,7 +4120,7 @@ WatchHighlight:
         call StopMusic
         call FreeFrontEndArt
         call FreeStatsTables
-        call sub_B0CA8
+        call FreeColourLookup
         test byte [byte_17CA5D], 20h
         jne short .1
         push dword [dword_152F54]

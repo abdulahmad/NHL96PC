@@ -1,0 +1,21 @@
+sub_B1121 SerialOpen {confidence=medium,source=new} opens a serial port: sets its UART, installs its interrupt handler and adds the exit handler
+sub_B1294 SerialDropDtr {confidence=low,source=new} drops DTR on a serial port to hang up
+sub_B12AF SerialCarrier {confidence=medium,source=new} returns the carrier detect bit of a serial port
+sub_B13BB SerialTxFree {confidence=medium,source=new} returns the free room in a serial port's transmit buffer
+sub_B1451 SerialRead {confidence=medium,source=new} reads up to n bytes from a serial port's receive buffer and returns the count
+sub_B147A SerialReadWait {confidence=low,source=new} waits until n bytes are in a serial port's receive buffer, then reads them
+sub_B151E SerialFlushRx {confidence=medium,source=new} empties a serial port's receive buffer
+sub_B153D SerialIsrCom1 {confidence=low,source=new} serial interrupt handler for the first port
+sub_B153D_9 SerialIsrCom2 {confidence=low,source=new} serial interrupt handler for the second port
+sub_B153D_12 SerialIsrCom3 {confidence=low,source=new} serial interrupt handler for the third port
+sub_B153D_1B SerialIsrCom4 {confidence=low,source=new} serial interrupt handler for the fourth port, and the body all four share
+sub_B1830 LinkCrc16 {confidence=low,source=new} works out the 16-bit CRC of a packet
+sub_B1C0E CloseFile {confidence=low,source=new} closes a file handle through __close_
+sub_C4DE0 LoadFileCached {confidence=low,source=new} returns a file from the file cache, or loads it (shape banks unpacked)
+sub_B049E LoadFileData {confidence=low,source=new} loads a file through the cache and returns its data pointer
+sub_B049E_D LoadFileDataFlags {confidence=low,source=new} loads a file through the cache with flags and returns its data pointer
+sub_B0CA8 FreeColourLookup {confidence=low,source=new} frees the 15-bit colour lookup table
+sub_B0CCC BuildInverseTable {confidence=low,source=new} builds the 15-bit inverse colour table in slices ("inversetbl")
+sub_B0D98 ExpandPalette {confidence=low,source=new} converts a 6-bit palette to 8-bit RGBA entries
+sub_B0E68 BuildInverseFromPalette {confidence=low,source=new} converts a palette to 8-bit entries and builds the inverse colour table from it
+sub_B0F7C CreateColourLookup {confidence=low,source=new} builds the 15-bit colour lookup table for the current palette

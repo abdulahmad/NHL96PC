@@ -4,11 +4,12 @@ bits 32
 section s_C4DE0 progbits alloc exec nowrite align=1
 extern str_FshVshQfsQvs, str_Vsh, str_Qvs, stricmp_, sub_AB834, sub_ABF88, FindCachedFile, LoadPackedCore
 extern sub_D0360, sub_D0440, sub_D0640
-global sub_C4DE0
+global LoadFileCached
 ;-----------------------------------------------------------------------------
-; sub_C4DE0                                                            C4DE0  
+; LoadFileCached                                  C4DE0  96 PC, low confidence
+; Returns a file from the file cache, or loads it (shape banks unpacked)
 ;-----------------------------------------------------------------------------
-sub_C4DE0:
+LoadFileCached:
         push esi
         push edi
         push ebp

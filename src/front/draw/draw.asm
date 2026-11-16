@@ -6,7 +6,7 @@ extern ClearChain4, dword_11D18C, dword_11D190, dword_11D194, dword_11D198, dwor
 extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, BackBufferWidth
 extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, sub_ADA50
-extern sub_ADA80, TextSetColor, sub_B0CA8, sub_B0F7C, sub_B2B0C, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
+extern sub_ADA80, TextSetColor, FreeColourLookup, CreateColourLookup, sub_B2B0C, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
 extern SetAaPalLut, DrawArtAaScaledInt, TranslatePixels, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
 extern SetClipRect, bcopy, FillMem, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
@@ -962,9 +962,9 @@ SetScreenPalette:
         push edx
         push esi
         mov esi, eax
-        call sub_B0CA8
+        call FreeColourLookup
         push esi
-        call sub_B0F7C
+        call CreateColourLookup
         add esp, byte 4
         mov dword [dword_1219A4], eax
         mov eax, esi

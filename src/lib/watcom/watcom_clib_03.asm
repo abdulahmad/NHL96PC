@@ -9,17 +9,17 @@ extern InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTab
 extern InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 extern InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
 extern isatty_, SerialPortTable, off_11FD5C, off_11FD60, AllocMemLocked, FreeMemBlock, LoadDataFileExt, DosGetVector
-extern DosSetVector, sub_C4DE0, sub_DD87C, AddExitHandler, DosOpenReadOnly, DosCloseFile, unk_11FD54, SerialPorts
+extern DosSetVector, LoadFileCached, sub_DD87C, AddExitHandler, DosOpenReadOnly, DosCloseFile, unk_11FD54, SerialPorts
 extern unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, word_11FD68
 extern SerialBaudDivisors, word_120EC0
-global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, LoadResourceData_8, sub_B049E_D, sub_B12AF_75, SerialWrite_5
-global sub_B147A_1A, sub_B153D_9, sub_B153D_12, sub_B153D_1B, sub_B153D_85, unk_B15DE_10, med3__4F, lseek_
+global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, LoadResourceData_8, LoadFileDataFlags, SerialCarrier_75, SerialWrite_5
+global SerialReadWait_1A, SerialIsrCom2, SerialIsrCom3, SerialIsrCom4, SerialIsrCom1_85, unk_B15DE_10, med3__4F, lseek_
 global med3_, open_, qsort_, rand_, read_, sopen_, srand_, strlen_
-global strncmp_, strstr_, GetRandState, DosFileInfo, LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E
-global InverseTableSlice, InverseTablePass, InverseTableScan, InverseTableFill, sub_B0CA8, sub_B0CCC, sub_B0D98, sub_B0E68
-global sub_B0F7C, SerialConfigure, sub_B1121, SerialClose, SerialCloseAll, SerialSetBaud, SerialRaiseDtr, sub_B1294
-global sub_B12AF, SerialWrite, sub_B13BB, SerialFlushTx, SerialWaitTxEmpty, sub_B1451, sub_B147A, sub_B151E
-global sub_B153D, atoi_, sub_B1830, sub_B1C0E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
+global strncmp_, strstr_, GetRandState, DosFileInfo, LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, LoadFileData
+global InverseTableSlice, InverseTablePass, InverseTableScan, InverseTableFill, FreeColourLookup, BuildInverseTable, ExpandPalette, BuildInverseFromPalette
+global CreateColourLookup, SerialConfigure, SerialOpen, SerialClose, SerialCloseAll, SerialSetBaud, SerialRaiseDtr, SerialDropDtr
+global SerialCarrier, SerialWrite, SerialTxFree, SerialFlushTx, SerialWaitTxEmpty, SerialRead, SerialReadWait, SerialFlushRx
+global SerialIsrCom1, atoi_, LinkCrc16, CloseFile, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 global unk_B15DE
 ;-----------------------------------------------------------------------------
 ; GetRandState                                                    B03F2  96 PC
@@ -108,7 +108,7 @@ LoadResourceData_8:
         push eax
         push dword [byte ebp+0Ch]
         push dword [byte ebp+08h]
-        call sub_C4DE0
+        call LoadFileCached
         add esp, byte 0Ch
         leave
         ret
@@ -120,23 +120,28 @@ LoadResourceDataShared:
         push ebp
         LD mov, ebp, esp
         mov eax, 1
-        jmp short sub_B049E_D
+        jmp short LoadFileDataFlags
 ;-----------------------------------------------------------------------------
-; sub_B049E                                                            B049E  
+; LoadFileData                                    B049E  96 PC, low confidence
+; Loads a file through the cache and returns its data pointer
 ;-----------------------------------------------------------------------------
-sub_B049E:
+LoadFileData:
         push ebp
         LD mov, ebp, esp
         LD xor, eax, eax
-        jmp short sub_B049E_D
+        jmp short LoadFileDataFlags
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+010h]
-sub_B049E_D:
+;-----------------------------------------------------------------------------
+; LoadFileDataFlags                               B04AB  96 PC, low confidence
+; Loads a file through the cache with flags and returns its data pointer
+;-----------------------------------------------------------------------------
+LoadFileDataFlags:
         push eax
         push dword [byte ebp+0Ch]
         push dword [byte ebp+08h]
-        call sub_C4DE0
+        call LoadFileCached
         add esp, byte 0Ch
         LD or, eax, eax
         je short .1
@@ -144,7 +149,7 @@ sub_B049E_D:
 .1:
         leave
         ret
-        jmp near sub_C4DE0
+        jmp near LoadFileCached
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; InverseTableSlice                               B04D0  96 PC, low confidence
@@ -766,9 +771,10 @@ InverseTableFill:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B0CA8                                                            B0CA8  
+; FreeColourLookup                                B0CA8  96 PC, low confidence
+; Frees the 15-bit colour lookup table
 ;-----------------------------------------------------------------------------
-sub_B0CA8:
+FreeColourLookup:
         push ebx
         push ecx
         push edx
@@ -787,9 +793,10 @@ sub_B0CA8:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B0CCC                                                            B0CCC  
+; BuildInverseTable                               B0CCC  96 PC, low confidence
+; Builds the 15-bit inverse colour table in slices ("inversetbl")
 ;-----------------------------------------------------------------------------
-sub_B0CCC:
+BuildInverseTable:
         push esi
         push edi
         push ebp
@@ -873,9 +880,10 @@ sub_B0CCC:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B0D98                                                            B0D98  
+; ExpandPalette                                   B0D98  96 PC, low confidence
+; Converts a 6-bit palette to 8-bit RGBA entries
 ;-----------------------------------------------------------------------------
-sub_B0D98:
+ExpandPalette:
         push esi
         push edi
         push ebp
@@ -963,9 +971,11 @@ sub_B0D98:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B0E68                                                            B0E68  
+; BuildInverseFromPalette                         B0E68  96 PC, low confidence
+; Converts a palette to 8-bit entries and builds the inverse colour table
+; from it
 ;-----------------------------------------------------------------------------
-sub_B0E68:
+BuildInverseFromPalette:
         push esi
         push edi
         sub esp, byte 4
@@ -1069,29 +1079,30 @@ sub_B0E68:
         mov edx, dword [dword esp+0408h]
         push edx
         push dword 100h
-        call sub_B0E68
+        call BuildInverseFromPalette
         add esp, byte 0Ch
         mov eax, esp
         push eax
-        call sub_B0CCC
+        call BuildInverseTable
         add esp, byte 4
         add esp, 400h
         ret
 ;-----------------------------------------------------------------------------
-; sub_B0F7C                                                            B0F7C  
+; CreateColourLookup                              B0F7C  96 PC, low confidence
+; Builds the 15-bit colour lookup table for the current palette
 ;-----------------------------------------------------------------------------
-sub_B0F7C:
+CreateColourLookup:
         sub esp, 400h
         mov eax, esp
         push eax
         mov edx, dword [dword esp+0408h]
         push edx
         push dword 100h
-        call sub_B0D98
+        call ExpandPalette
         add esp, byte 0Ch
         mov eax, esp
         push eax
-        call sub_B0CCC
+        call BuildInverseTable
         add esp, byte 4
         add esp, 400h
         ret
@@ -1114,7 +1125,7 @@ sub_B0F7C:
         add esp, byte 0Ch
         mov eax, esp
         push eax
-        call sub_B0CCC
+        call BuildInverseTable
         add esp, byte 4
         mov dword [dword_1219A4], eax
         test eax, eax
@@ -1255,9 +1266,11 @@ SerialConfigure:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_B1121                                                            B1121  
+; SerialOpen                                   B1121  96 PC, medium confidence
+; Opens a serial port: sets its UART, installs its interrupt handler and adds
+; the exit handler
 ;-----------------------------------------------------------------------------
-sub_B1121:
+SerialOpen:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFFCh
@@ -1411,9 +1424,10 @@ SerialRaiseDtr:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_B1294                                                            B1294  
+; SerialDropDtr                                   B1294  96 PC, low confidence
+; Drops DTR on a serial port to hang up
 ;-----------------------------------------------------------------------------
-sub_B1294:
+SerialDropDtr:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -1426,9 +1440,10 @@ sub_B1294:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_B12AF                                                            B12AF  
+; SerialCarrier                                B12AF  96 PC, medium confidence
+; Returns the carrier detect bit of a serial port
 ;-----------------------------------------------------------------------------
-sub_B12AF:
+SerialCarrier:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -1477,7 +1492,7 @@ sub_B12AF:
         cmp eax, dword [byte ebp+0Ch]
         jge short SerialWrite_5
         LD xor, ax, ax
-sub_B12AF_75:
+SerialCarrier_75:
         pop edi
         pop esi
         leave
@@ -1497,7 +1512,7 @@ SerialWrite_5:
         pushf
         mov ecx, dword [byte ebp+0Ch]
         LD or, ecx, ecx
-        jle short sub_B12AF_75
+        jle short SerialCarrier_75
         mov esi, dword [byte ebp+010h]
         mov edi, dword [byte ebx+024h]
         mov edx, dword [byte ebx+01Ch]
@@ -1560,9 +1575,10 @@ SerialWrite_5:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_B13BB                                                            B13BB  
+; SerialTxFree                                 B13BB  96 PC, medium confidence
+; Returns the free room in a serial port's transmit buffer
 ;-----------------------------------------------------------------------------
-sub_B13BB:
+SerialTxFree:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -1617,7 +1633,7 @@ SerialWaitTxEmpty:
         mov ecx, dword [byte ebx+03Ch]
         mov dword [byte ebp+0Ch], ecx
 .2:
-        jmp short sub_B147A_1A
+        jmp short SerialReadWait_1A
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFFCh
@@ -1627,16 +1643,18 @@ SerialWaitTxEmpty:
         mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov ecx, dword [byte ebp+0Ch]
         cmp ecx, dword [byte ebx+03Ch]
-        jle short sub_B147A_1A
+        jle short SerialReadWait_1A
         LD xor, eax, eax
         pop esi
         pop edi
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_B1451                                                            B1451  
+; SerialRead                                   B1451  96 PC, medium confidence
+; Reads up to n bytes from a serial port's receive buffer and returns the
+; count
 ;-----------------------------------------------------------------------------
-sub_B1451:
+SerialRead:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFFCh
@@ -1654,13 +1672,14 @@ sub_B1451:
         ret
 .1:
         cmp ecx, dword [byte ebp+0Ch]
-        jle short sub_B147A_1A
+        jle short SerialReadWait_1A
         mov ecx, dword [byte ebp+0Ch]
-        jmp short sub_B147A_1A
+        jmp short SerialReadWait_1A
 ;-----------------------------------------------------------------------------
-; sub_B147A                                                            B147A  
+; SerialReadWait                                  B147A  96 PC, low confidence
+; Waits until n bytes are in a serial port's receive buffer, then reads them
 ;-----------------------------------------------------------------------------
-sub_B147A:
+SerialReadWait:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFFCh
@@ -1672,7 +1691,7 @@ sub_B147A:
 .1:
         cmp ecx, dword [byte ebx+03Ch]
         jg short .1
-sub_B147A_1A:
+SerialReadWait_1A:
         cld
         mov dword [byte ebp+0Ch], ecx
         LD or, ecx, ecx
@@ -1748,9 +1767,10 @@ sub_B147A_1A:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_B151E                                                            B151E  
+; SerialFlushRx                                B151E  96 PC, medium confidence
+; Empties a serial port's receive buffer
 ;-----------------------------------------------------------------------------
-sub_B151E:
+SerialFlushRx:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -1764,21 +1784,34 @@ sub_B151E:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_B153D                                                            B153D  
+; SerialIsrCom1                                   B153D  96 PC, low confidence
+; Serial interrupt handler for the first port
 ;-----------------------------------------------------------------------------
-sub_B153D:
+SerialIsrCom1:
         push ebx
         lea ebx, [SerialPorts]
-        jmp short sub_B153D_1B.1
-sub_B153D_9:
+        jmp short SerialIsrCom4.1
+;-----------------------------------------------------------------------------
+; SerialIsrCom2                                   B1546  96 PC, low confidence
+; Serial interrupt handler for the second port
+;-----------------------------------------------------------------------------
+SerialIsrCom2:
         push ebx
         lea ebx, [unk_1201B6]
-        jmp short sub_B153D_1B.1
-sub_B153D_12:
+        jmp short SerialIsrCom4.1
+;-----------------------------------------------------------------------------
+; SerialIsrCom3                                   B154F  96 PC, low confidence
+; Serial interrupt handler for the third port
+;-----------------------------------------------------------------------------
+SerialIsrCom3:
         push ebx
         lea ebx, [unk_120602]
-        jmp short sub_B153D_1B.1
-sub_B153D_1B:
+        jmp short SerialIsrCom4.1
+;-----------------------------------------------------------------------------
+; SerialIsrCom4                                   B1558  96 PC, low confidence
+; Serial interrupt handler for the fourth port, and the body all four share
+;-----------------------------------------------------------------------------
+SerialIsrCom4:
         push ebx
         lea ebx, [unk_120A4E]
 .1:
@@ -1798,7 +1831,7 @@ sub_B153D_1B:
         LD xor, eax, eax
         in al, dx
         test al, 1
-        je short sub_B153D_85.2
+        je short SerialIsrCom1_85.2
         jmp short unk_B15DE_10
         db 01Fh,05Fh,05Eh,05Ah,059h,058h,03Bh,01Dh
         dd SerialPortTable
@@ -1815,7 +1848,10 @@ sub_B153D_1B:
         db 00h,00h,05Bh,0EAh
         dd unk_120A58 wrt ..gotoff
         db 00h,00h
-sub_B153D_85:
+;-----------------------------------------------------------------------------
+; SerialIsrCom1_85                                                     B15C2  
+;-----------------------------------------------------------------------------
+SerialIsrCom1_85:
         mov dx, word [byte ebx+08h]
         or dx, byte 2
         LD xor, eax, eax
@@ -1856,7 +1892,7 @@ unk_B15DE_10:
         je short .3
         jmp short .12
 .3:
-        jmp short sub_B153D_85
+        jmp short SerialIsrCom1_85
 .4:
         test al, 1
         je short .5
@@ -1884,12 +1920,12 @@ unk_B15DE_10:
         mov esi, dword [byte ebx+018h]
 .7:
         mov dword [byte ebx+020h], esi
-        jmp near sub_B153D_85
+        jmp near SerialIsrCom1_85
 .8:
         cmp ecx, byte 0FFFFFFFFh
         jne short .9
         mov dword [byte ebx+028h], ecx
-        jmp near sub_B153D_85
+        jmp near SerialIsrCom1_85
 .9:
         and dx, byte 0FFF8h
         or dx, byte 4
@@ -1899,7 +1935,7 @@ unk_B15DE_10:
 .10:
         out dx, al
 .11:
-        jmp near sub_B153D_85
+        jmp near SerialIsrCom1_85
 .12:
         and dx, byte 0FFF8h
         or dx, byte 5
@@ -1938,7 +1974,7 @@ unk_B15DE_10:
         jle short .16
         add dword [byte ebx+040h], 10000h
 .16:
-        jmp near sub_B153D_85
+        jmp near SerialIsrCom1_85
 ;-----------------------------------------------------------------------------
 ; strstr_                                                       B16C9  library
 ;-----------------------------------------------------------------------------
@@ -2161,9 +2197,10 @@ strncmp_:
         jmp short .1
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B1830                                                            B1830  
+; LinkCrc16                                       B1830  96 PC, low confidence
+; Works out the 16-bit CRC of a packet
 ;-----------------------------------------------------------------------------
-sub_B1830:
+LinkCrc16:
         push esi
         mov ebx, dword [byte esp+08h]
         mov esi, dword [byte esp+0Ch]
@@ -2597,9 +2634,10 @@ read_:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_B1C0E                                                            B1C0E  
+; CloseFile                                       B1C0E  96 PC, low confidence
+; Closes a file handle through __close_
 ;-----------------------------------------------------------------------------
-sub_B1C0E:
+CloseFile:
         jmp near __close_
 ;-----------------------------------------------------------------------------
 ; byteswap_                                                     B1C13  library

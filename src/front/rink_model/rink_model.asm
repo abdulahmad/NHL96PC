@@ -64,7 +64,7 @@ extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectD
 extern PlayerSpriteFrame, PuckInNet, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos
 extern AllocMemBlock, FreeMemBlock, sub_AC868, CreateBitmap, sub_AD620, sub_AD824, FreeBitmap, UnpackedSize
-extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, NearestColour, LoadFileToBlockShared, FileSizeByName, SetRinkView, TransformRinkPoints
+extern LoadResourceDataShared, LoadFileData, OpenArtArchiveErr, NearestColour, LoadFileToBlockShared, FileSizeByName, SetRinkView, TransformRinkPoints
 extern ProjectRinkObject, FillTexturePoly, FillTexturePolyClipped, OriFlatPoly, FillFloorPlane, DrawTexturedPolyArgs, OriFindMaterial, OriLoadShapes
 extern OriSetMaterialRgb, OriSetMaterialTexture, OriSetMaterialDrawFn, FixedLerp, FixedDivide, AddVec3, SubVec3, OriScaleVector
 extern PerspScale, ProjectPoint, ProjectPointList, AngleOfVector, SinInterp, CosInterp, FillPolyIndexed, DrawPerspQuad
@@ -5212,7 +5212,7 @@ LoadZamboni:
         mov dword [dword_15E7E4], eax
         add eax, byte 2Ch
         push eax
-        call sub_B049E
+        call LoadFileData
         mov ebx, 4
         mov edx, 20h
         add esp, byte 8

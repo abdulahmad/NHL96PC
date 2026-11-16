@@ -1254,29 +1254,49 @@ B0430,DosFileInfo,sub_B0430,new,low,"opens a file to learn whether it exists and
 B0474,LoadResourceBlockShared,sub_B0474,new,low,loads a resource file in shared mode and returns its memory block,src/lib/watcom/watcom_clib_03.asm
 B047B,LoadResourceData,sub_B047B,new,low,loads a resource file and returns its data pointer,src/lib/watcom/watcom_clib_03.asm
 B0494,LoadResourceDataShared,sub_B0494,new,low,loads a resource file in shared mode and returns its data pointer,src/lib/watcom/watcom_clib_03.asm
+B049E,LoadFileData,sub_B049E,new,low,loads a file through the cache and returns its data pointer,src/lib/watcom/watcom_clib_03.asm
+B04AB,LoadFileDataFlags,,new,low,loads a file through the cache with flags and returns its data pointer,src/lib/watcom/watcom_clib_03.asm
 B04D0,InverseTableSlice,sub_B04D0,new,low,builds one slice of the inverse colour table,src/lib/watcom/watcom_clib_03.asm
 B06E8,InverseTablePass,sub_B06E8,new,low,runs one pass of the inverse colour table,src/lib/watcom/watcom_clib_03.asm
 B086C,InverseTableScan,sub_B086C,new,low,scans the colours for the inverse table,src/lib/watcom/watcom_clib_03.asm
 B0B10,InverseTableFill,sub_B0B10,new,low,fills the inverse colour table,src/lib/watcom/watcom_clib_03.asm
+B0CA8,FreeColourLookup,sub_B0CA8,new,low,frees the 15-bit colour lookup table,src/lib/watcom/watcom_clib_03.asm
+B0CCC,BuildInverseTable,sub_B0CCC,new,low,"builds the 15-bit inverse colour table in slices (""inversetbl"")",src/lib/watcom/watcom_clib_03.asm
+B0D98,ExpandPalette,sub_B0D98,new,low,converts a 6-bit palette to 8-bit RGBA entries,src/lib/watcom/watcom_clib_03.asm
+B0E68,BuildInverseFromPalette,sub_B0E68,new,low,converts a palette to 8-bit entries and builds the inverse colour table from it,src/lib/watcom/watcom_clib_03.asm
+B0F7C,CreateColourLookup,sub_B0F7C,new,low,builds the 15-bit colour lookup table for the current palette,src/lib/watcom/watcom_clib_03.asm
 B1004,_dos_getdate_,,WATCOM,high,IDA FLIRT library signature,
 B101F,_dos_gettime_,,WATCOM,high,IDA FLIRT library signature,
 B103C,SerialConfigure,sub_B103C,new,low,"serial port: sets the port's address, interrupt and buffers",src/lib/watcom/watcom_clib_03.asm
+B1121,SerialOpen,sub_B1121,new,medium,"opens a serial port: sets its UART, installs its interrupt handler and adds the exit handler",src/lib/watcom/watcom_clib_03.asm
 B11F8,SerialClose,sub_B11F8,new,low,serial port: disables the port and restores its interrupt,src/lib/watcom/watcom_clib_03.asm
 B1241,SerialCloseAll,sub_B1241,new,low,serial port: closes both ports,src/lib/watcom/watcom_clib_03.asm
 B1255,SerialSetBaud,sub_B1255,new,low,serial port: sets the baud rate,src/lib/watcom/watcom_clib_03.asm
 B1279,SerialRaiseDtr,sub_B1279,new,low,serial port: raises DTR,src/lib/watcom/watcom_clib_03.asm
+B1294,SerialDropDtr,sub_B1294,new,low,drops DTR on a serial port to hang up,src/lib/watcom/watcom_clib_03.asm
+B12AF,SerialCarrier,sub_B12AF,new,medium,returns the carrier detect bit of a serial port,src/lib/watcom/watcom_clib_03.asm
 B1328,SerialWrite,sub_B1328,new,low,serial port: puts bytes in the send buffer and starts sending,src/lib/watcom/watcom_clib_03.asm
+B13BB,SerialTxFree,sub_B13BB,new,medium,returns the free room in a serial port's transmit buffer,src/lib/watcom/watcom_clib_03.asm
 B13D2,SerialFlushTx,sub_B13D2,new,low,serial port: empties the send buffer,src/lib/watcom/watcom_clib_03.asm
 B13F1,SerialWaitTxEmpty,sub_B13F1,new,low,serial port: waits until the send buffer is empty or the time runs out,src/lib/watcom/watcom_clib_03.asm
+B1451,SerialRead,sub_B1451,new,medium,reads up to n bytes from a serial port's receive buffer and returns the count,src/lib/watcom/watcom_clib_03.asm
+B147A,SerialReadWait,sub_B147A,new,low,"waits until n bytes are in a serial port's receive buffer, then reads them",src/lib/watcom/watcom_clib_03.asm
+B151E,SerialFlushRx,sub_B151E,new,medium,empties a serial port's receive buffer,src/lib/watcom/watcom_clib_03.asm
+B153D,SerialIsrCom1,sub_B153D,new,low,serial interrupt handler for the first port,src/lib/watcom/watcom_clib_03.asm
+B1546,SerialIsrCom2,,new,low,serial interrupt handler for the second port,src/lib/watcom/watcom_clib_03.asm
+B154F,SerialIsrCom3,,new,low,serial interrupt handler for the third port,src/lib/watcom/watcom_clib_03.asm
+B1558,SerialIsrCom4,,new,low,"serial interrupt handler for the fourth port, and the body all four share",src/lib/watcom/watcom_clib_03.asm
 B16C9,strstr_,,WATCOM,high,IDA FLIRT library signature,
 B178B,atoi_,sub_B178B,WATCOM,low,IDA FLIRT library signature (wa32rtd/wa32rt_),src/lib/watcom/watcom_clib_03.asm
 B17E2,strlen_,,WATCOM,high,IDA FLIRT library signature,
 B17FB,strncmp_,,WATCOM,high,IDA FLIRT library signature,
+B1830,LinkCrc16,sub_B1830,new,low,works out the 16-bit CRC of a packet,src/lib/watcom/watcom_clib_03.asm
 B186C,open_,,WATCOM,high,IDA FLIRT library signature,
 B1890,sopen_,,WATCOM,high,IDA FLIRT library signature,
 B1A55,__set_binary_,,WATCOM,high,IDA FLIRT library signature,
 B1ABA,lseek_,,WATCOM,high,IDA FLIRT library signature,
 B1AFB,read_,,WATCOM,high,IDA FLIRT library signature,
+B1C0E,CloseFile,sub_B1C0E,new,low,closes a file handle through __close_,src/lib/watcom/watcom_clib_03.asm
 B1C13,byteswap_,,WATCOM,high,IDA FLIRT library signature,
 B1C39,med3_,,WATCOM,high,IDA FLIRT library signature,
 B1C91,qsort_,,WATCOM,high,IDA FLIRT library signature,
@@ -1644,6 +1664,7 @@ C4AFC,RefPackSize,sub_C4AFC,new,low,returns the unpacked size from a RefPack hea
 C4C6C,GetPalette,sub_C4C6C,new,medium,"reads palette entries (start, count, dst) from the VGA DAC, or through the hooked reader",src/lib/watcom/watcom_clib_12.asm
 C4CCC,ArtBitDepth,sub_C4CCC,new,medium,returns the bits per pixel of an art from its type byte,src/lib/watcom/watcom_clib_12.asm
 C4D80,PixelToRgb,sub_C4D80,new,low,converts a screen pixel value at the current depth to a 24-bit RGB colour,src/lib/watcom/watcom_clib_12.asm
+C4DE0,LoadFileCached,sub_C4DE0,new,low,"returns a file from the file cache, or loads it (shape banks unpacked)",src/lib/ea/ea_shapes_02.asm
 C4EA1,isatty_,,WATCOM,high,IDA FLIRT library signature,
 C4EBF,_dosret0_,,WATCOM,high,IDA FLIRT library signature,
 C4ECB,__set_errno_dos_,,WATCOM,high,IDA FLIRT library signature,

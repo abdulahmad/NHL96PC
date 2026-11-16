@@ -4,7 +4,7 @@ bits 32
 section s_1E3C8 progbits alloc exec nowrite align=1
 extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
 extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock, MemLargestFreeLocked, UnpackedSize
-extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
+extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, LoadFileData, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 extern OpenResourceArchive, GetResourceArchiveName, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle
 extern LoadPackedHandleQuiet, DataDirPath, unk_1151A7, unk_115333, DataFilePath, unpack, word_11512D
 global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
@@ -526,7 +526,7 @@ LoadPackedFile:
         jmp near LoadDataFile_1B
 ;-----------------------------------------------------------------------------
 ; LoadDataFileLib                                 1E8E9  96 PC, low confidence
-; LoadDataFile through the other library loader (LoadResourceDataShared -> sub_C4DE0, flag
+; LoadDataFile through the other library loader (LoadResourceDataShared -> LoadFileCached, flag
 ; 1)
 ;-----------------------------------------------------------------------------
 LoadDataFileLib:
@@ -548,7 +548,7 @@ LoadDataFileLib:
         call MakeDataPath
         push ebx
         push DataFilePath
-        call sub_B049E
+        call LoadFileData
         jmp near LoadDataFile_1B
         push ebx
         push ecx

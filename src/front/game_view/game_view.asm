@@ -39,7 +39,7 @@ extern DrawWholeRink, BeginShadowDraw, DrawShadowSpriteAt, DrawOverlayPanels, Pl
 extern DrawDirtyZones, ZoneRect, AddZone, CopyZonesToScreen, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
 extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, DrawArt
-extern sub_AAADC, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, TextSetColor, sub_B0CA8, sub_B0F7C
+extern sub_AAADC, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, TextSetColor, FreeColourLookup, CreateColourLookup
 extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, MultiplyMatrix
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
 extern FixedInverse, sub_BE960, sub_BEF44, FlipArtHorizontal, SetScreenTarget, SetRemapTable, sub_DD908, SetBlitSource
@@ -615,9 +615,9 @@ InitGameView:
         push edi
         enter 100h, 0
         call LoadGameSprites
-        call sub_B0CA8
+        call FreeColourLookup
         push unk_16443C
-        call sub_B0F7C
+        call CreateColourLookup
         mov edx, unk_16443C
         add esp, byte 4
         mov dword [dword_1219A4], eax
@@ -1050,7 +1050,7 @@ FreeGameView:
         jne short .1
         call FreeStandsArt
         call FreeRinkModel
-        call sub_B0CA8
+        call FreeColourLookup
         push dword [dword_1798E8]
         call FreeMemBlock
         add esp, byte 4

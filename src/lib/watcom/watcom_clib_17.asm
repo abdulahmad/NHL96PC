@@ -11,7 +11,7 @@ extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dwo
 extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, MemViewer, MemViewerOpenAlt, SetHotkey_5B
 extern SetHotkey_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, DrawArtRemapFunc, sprintf_
 extern DrawShapeCore, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
-extern FreeBitmap, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
+extern FreeBitmap, SetTextOrigin, LoadFileData, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
 extern JoystickCalibrateScreen, ShowKeyboardOn, sub_CFE8C, SaveScreenshot, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
 extern MouseReadMotion, sub_DFA98, bcopy, SaveDrawState, RestoreDrawState, SetHotkey, IntrStubs, SavedStackSegment
 global __CHK, __GRO, __STK, __int386x_, ShowPointer, PointerService, __CommonInit_, IsTextModeWidth
@@ -996,7 +996,7 @@ InitPointer:
         push byte 0
         mov ebx, dword [off_14FAD0]
         push ebx
-        call sub_B049E
+        call LoadFileData
         add esp, byte 8
         mov dword [dword_1A10D8], eax
         test eax, eax
@@ -1009,7 +1009,7 @@ InitPointer:
         push byte 0
         lea eax, [byte esp+04h]
         push eax
-        call sub_B049E
+        call LoadFileData
         add esp, byte 8
         mov dword [dword_1A10D8], eax
 .3:

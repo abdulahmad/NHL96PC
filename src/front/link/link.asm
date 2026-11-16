@@ -12,9 +12,9 @@ extern dword_115098, dword_151D48, dword_151D4C, dword_151D50, dword_151D54, dwo
 extern dword_152148, dword_15214C, dword_152150, dword_15291C, off_114F1C, off_114F24, str_0123456789abcdefghijklmn, str_22
 extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01
 extern str_ATX3, str_ATX4, str_ATZS760S1155, str_ctl06, str_feP, str_newline, str_T, strcat_
-extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, SerialConfigure, sub_B1121, SerialClose
-extern SerialSetBaud, SerialRaiseDtr, sub_B1294, sub_B12AF, SerialWrite, sub_B13BB, SerialFlushTx, SerialWaitTxEmpty
-extern sub_B1451, sub_B147A, sub_B151E, atoi_, sub_B1830, str_Punct_ModemSendCommand, str_AT, unk_151B88
+extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, SerialConfigure, SerialOpen, SerialClose
+extern SerialSetBaud, SerialRaiseDtr, SerialDropDtr, SerialCarrier, SerialWrite, SerialTxFree, SerialFlushTx, SerialWaitTxEmpty
+extern SerialRead, SerialReadWait, SerialFlushRx, atoi_, LinkCrc16, str_Punct_ModemSendCommand, str_AT, unk_151B88
 extern unk_152748, unk_152798, unk_1527C0, unk_152938, unk_152944, WaitTicks
 global ModemInitDefault, ModemInit, ModemHangup, ModemHangup_30, ModemHangup_54, ModemDial, ModemAutoAnswer, ModemWaitConnect
 global ModemReadResult, ModemSendCommand, ModemAttention, LinkCopyBytes, LinkRxPut, LinkRxPeek_none, LinkRxCopy, LinkCheckPacket
@@ -690,7 +690,7 @@ LinkRxCopy:
 ;-----------------------------------------------------------------------------
 ; LinkCheckPacket                                                 17C68  96 PC
 ; Checks a received packet's sequence fields and its checksum (bytes 4-5,
-; sub_B1830 over the packet); 1 when good
+; LinkCrc16 over the packet); 1 when good
 ;-----------------------------------------------------------------------------
 LinkCheckPacket:
         push ebx
@@ -719,7 +719,7 @@ LinkCheckPacket:
         push eax
         mov byte [byte eax+05h], 0
         or esi, ebx
-        call sub_B1830
+        call LinkCrc16
         add esp, byte 8
         cmp esi, eax
         jne short .3
@@ -927,7 +927,7 @@ LinkFirstMissingRx:
         push eax
         push edx
         push dword [dword_11500C]
-        call sub_B1451
+        call SerialRead
         add esp, byte 0Ch
         mov edx, eax
         test eax, eax
@@ -1141,7 +1141,7 @@ LinkStoreRxMessage:
 ;-----------------------------------------------------------------------------
 ; LinkCarrierOK                                                   1812E  96 PC
 ; 1 on a direct (null-modem) link, else the modem's carrier detect
-; (sub_B12AF)
+; (SerialCarrier)
 ;-----------------------------------------------------------------------------
 LinkCarrierOK:
         push ebx
@@ -1156,7 +1156,7 @@ LinkCarrierOK:
         ret
 .1:
         push eax
-        call sub_B12AF
+        call SerialCarrier
         add esp, byte 4
         pop edx
         pop ecx
@@ -1183,7 +1183,7 @@ LinkTxRoom:
         push esi
         mov esi, eax
         push dword [dword_11500C]
-        call sub_B13BB
+        call SerialTxFree
         add esp, byte 4
         cmp eax, esi
         setge al
@@ -1315,7 +1315,7 @@ LinkTimerTick:
         jmp short .5
 .4:
         push eax
-        call sub_B12AF
+        call SerialCarrier
         add esp, byte 4
 .5:
         test eax, eax
@@ -1456,7 +1456,7 @@ LinkOpen:
         add esp, byte 8
 .2:
         push dword [dword_11500C]
-        call sub_B1121
+        call SerialOpen
         add esp, byte 4
         push byte 3
         push byte 0
@@ -1483,7 +1483,7 @@ LinkOpen:
         ret
 .3:
         push dword [dword_11500C]
-        call sub_B151E
+        call SerialFlushRx
         add esp, byte 4
         mov eax, dword [dword_115068]
         mov dword [dword_115068], 64h
@@ -1625,7 +1625,7 @@ LinkClose:
         add esp, byte 4
 .1:
         push dword [dword_11500C]
-        call sub_B1294
+        call SerialDropDtr
         add esp, byte 4
         push dword [dword_11500C]
         call SerialClose
@@ -1699,7 +1699,7 @@ LinkBuildDataPacket:
         mov eax, ebx
 ;-----------------------------------------------------------------------------
 ; LinkSetChecksum                                                 187A8  96 PC
-; (packet, length): writes the packet checksum (sub_B1830) into bytes 4-5
+; (packet, length): writes the packet checksum (LinkCrc16) into bytes 4-5
 ;-----------------------------------------------------------------------------
 LinkSetChecksum:
         push ebx
@@ -1710,7 +1710,7 @@ LinkSetChecksum:
         mov byte [byte eax+04h], 0
         push eax
         mov byte [byte eax+05h], 0
-        call sub_B1830
+        call LinkCrc16
         mov byte [byte esi+04h], al
         movzx eax, ax
         sar eax, 8
@@ -1752,7 +1752,7 @@ LinkRequestResend:
         push dword [dword_11500C]
         inc dword [dword eax+dword_151D54]
         mov byte [dword edx+byte_151B8E], 0
-        call sub_B13BB
+        call SerialTxFree
         add esp, byte 4
         cmp eax, byte 6
         setge al
@@ -1794,7 +1794,7 @@ LinkSendAck:
         push ecx
         push edx
         push dword [dword_11500C]
-        call sub_B13BB
+        call SerialTxFree
         add esp, byte 4
         cmp eax, byte 6
         setge al
@@ -1836,7 +1836,7 @@ LinkSendMessage:
         mov edi, eax
         mov dword [byte ebp-04h], edx
         push dword [dword_11500C]
-        call sub_B13BB
+        call SerialTxFree
         add esp, byte 4
         cmp eax, byte 0Ch
         setge al
@@ -1965,7 +1965,7 @@ LinkReceive:
         push unk_152944
         push dword 100h
         push dword [dword_11500C]
-        call sub_B1451
+        call SerialRead
         add esp, byte 0Ch
         mov edx, eax
         test eax, eax
@@ -2066,7 +2066,7 @@ LinkReceive:
         jmp short .10
 .9:
         push eax
-        call sub_B12AF
+        call SerialCarrier
         add esp, byte 4
 .10:
         test eax, eax
@@ -2247,13 +2247,13 @@ LinkRequestMissing:
         push edx
         push eax
         mov dword [dword_11500C], eax
-        call sub_B1121
+        call SerialOpen
         jmp near LinkClose_53
         push ebx
         push ecx
         push edx
         push dword [dword_11500C]
-        call sub_B13BB
+        call SerialTxFree
         add esp, byte 4
         cmp eax, byte 25h
         jl short .6
@@ -2273,7 +2273,7 @@ LinkRequestMissing:
         push byte_152A44
         push byte 25h
         push dword [dword_11500C]
-        call sub_B147A
+        call SerialReadWait
         add esp, byte 0Ch
         mov byte [dword eax+byte_152A44], 0
         pop edx

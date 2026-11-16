@@ -18,7 +18,7 @@ extern dword_11EF10, dword_11EF80, PlayoffSparkleSoundOn, FrontEndScreenBmp, Mat
 extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, PlayoffGameOpts, cddriveptr, PlayoffRound, PlayoffTreeShape, RosterFileHandle
 extern dword_17D166, dword_17D16A, PlayoffFormatTeams, dword_17D1D6, dword_17D1DA, dword_17D1DE, dword_17D1E2, dword_17D1E6
 extern dword_17D1EA, dword_17D202, dword_17D20A, dword_17D252, dword_17D256, dword_17D25A, dword_17D25E, cupseries
-extern dword_17D267, dword_17D26B, dword_18210C, dword_1845FC, dword_184600, dword_18460C, dword_184610, dword_1846F4
+extern dword_17D267, dword_17D26B, BackgroundShapes, dword_1845FC, dword_184600, dword_18460C, dword_184610, dword_1846F4
 extern dword_1846FC, dword_184700, dword_18470C, dword_184710, dword_184ABC, dword_184ADC, dword_184AFC, dword_184B00
 extern dword_184B04, dword_184B08, dword_184B0C, dword_184B10, dword_184B14, PlayoffTeamCount, PlayoffFormat, gameopts
 extern jpt_A4FB7, TeamCityNames, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame, NameIndexNew
@@ -418,7 +418,7 @@ PlayoffSetupScreen:
         mov dword [byte ebp+03Ah], 7
         call LoadPackedFile
         lea edx, [dword ebp-01A8Ah]
-        mov dword [dword_18210C], eax
+        mov dword [BackgroundShapes], eax
         mov eax, 26h
         mov dword [byte ebp+036h], 0
         call InitMenuItems
@@ -467,13 +467,13 @@ PlayoffSetupScreen:
         add esp, byte 10h
         push byte 0
         push str_1GM0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push eax
         push str_1GM0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
@@ -485,21 +485,21 @@ PlayoffSetupScreen:
         call SetDrawBitmap
         add esp, byte 4
         push str_1GM0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
         push eax
         push str_1GM0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd25
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -509,7 +509,7 @@ PlayoffSetupScreen:
         push byte 0
         lea eax, [dword ebp-096h]
         push eax
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -630,13 +630,13 @@ PlayoffSetupScreen:
         push str_1GM0
         mov dword [dword ebp-0BAEh], eax
         lea eax, [dword ebp-06A6h]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0BB8h], eax
         call FindShape
         add esp, byte 8
         push str_1GM0
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0BA6h], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -734,28 +734,28 @@ PlayoffSetupScreen:
         push str_BT005
         lea eax, [dword ebp-0766h]
         mov dword [dword ebp-0134Eh], 6
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0134Ah], eax
         call FindShape
         add esp, byte 8
         push str_BT019
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-01344h], eax
         call FindShape
         add esp, byte 8
         push str_BT027
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-01340h], eax
         call FindShape
         add esp, byte 8
         push str_BT005
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0133Ch], eax
         call FindShape
         add esp, byte 8
         push str_BT005
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-01338h], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -770,28 +770,28 @@ PlayoffSetupScreen:
         push str_BT107
         mov dword [dword ebp-01320h], eax
         lea eax, [dword ebp-0726h]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-012E4h], eax
         call FindShape
         add esp, byte 8
         push str_BT117
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-012DEh], eax
         call FindShape
         add esp, byte 8
         push str_BT123
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-012DAh], eax
         call FindShape
         add esp, byte 8
         push str_BT107
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-012D6h], eax
         call FindShape
         add esp, byte 8
         push str_BT107
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-012D2h], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -806,28 +806,28 @@ PlayoffSetupScreen:
         push str_BT205
         mov dword [dword ebp-012BAh], eax
         lea eax, [dword ebp-06E6h]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0127Eh], eax
         call FindShape
         add esp, byte 8
         push str_BT212
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-01278h], eax
         call FindShape
         add esp, byte 8
         push str_BT22
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-01274h], eax
         call FindShape
         add esp, byte 8
         push str_BT205
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-01270h], eax
         call FindShape
         add esp, byte 8
         push str_BT205
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0126Ch], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -841,7 +841,7 @@ PlayoffSetupScreen:
         mov dword [dword ebp-01254h], eax
         call SetScreenTarget
         push str_Bkgd25
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -866,7 +866,7 @@ PlayoffSetupScreen:
         mov esi, BottomBarArt+56h
         push str_Pal18
         rep movsb
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         lea edi, [byte eax+010h]
         add esp, byte 8
@@ -911,7 +911,7 @@ PlayoffSetupScreen:
         push dword 0FFFFFF6Ah
         push dword 0FFFFFF29h
         push str_Bkgd25
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -1062,7 +1062,7 @@ PlayoffSetupScreen:
         push dword 0FFFFFF6Ah
         push dword 0FFFFFF29h
         push str_Bkgd25
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -1127,7 +1127,7 @@ PlayoffSetupScreen:
         push dword 0FFFFFF6Ah
         push dword 0FFFFFF29h
         push str_Bkgd25
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -1142,13 +1142,13 @@ PlayoffSetupScreen:
 .37:
         call SetScreenTarget
         push str_1GM0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_1GM0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
@@ -1187,13 +1187,13 @@ PlayoffSetupScreen:
 .39:
         call SetScreenTarget
         push str_1GM0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_1GM0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
@@ -1226,7 +1226,7 @@ PlayoffSetupScreen:
         call EditPlayoffName
         jmp near .33
 .42:
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FreeMemBlock
         add esp, byte 4
         cmp dword [byte ebp+04Ah], byte 0
@@ -1556,7 +1556,7 @@ DrawPlayoffSlotLogo:
         neg eax
         push eax
         push str_Bkgd25
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -1733,7 +1733,7 @@ DrawPlayoffTeamList:
 .2:
         push eax
         push str_Bkgd25
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax

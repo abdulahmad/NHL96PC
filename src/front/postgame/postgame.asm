@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 extern BottomBarArt
 section s_1456D progbits alloc exec nowrite align=1
-extern awtmstruct, byte_11FA2F, TitleTextStyle, byte_1820F1, StarsSlideFrom, StarsSlideTo, StarsSlideTarget, StarsSpritePath
+extern awtmstruct, byte_11FA2F, TitleTextStyle, StatsFromGame, StarsSlideFrom, StarsSlideTo, StarsSlideTarget, StarsSpritePath
 extern StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsTimerA, StarsTimerFace, StarsTimerName, StarsTimerCard
 extern seasondb, dword_11F5C0, StarsBgBmp, StarsSaveBmp, StarsFaceBmps, StarsCardBmps, StarsPanelBmp, StarsNameBmps
 extern StarsTitleBmp, StarsAnimStep, StarsCardBmp, StarsShapeFile, StarsSlideX, StarsSlideY, StarsSlideStep, dword_152F58
@@ -2383,7 +2383,7 @@ PostGameScreens:
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
-        mov byte [byte_1820F1], 0
+        mov byte [StatsFromGame], 0
         shr eax, 1Bh
 .3:
         cmp eax, 0A410h

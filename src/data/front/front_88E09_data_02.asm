@@ -6,40 +6,40 @@ extern str_FLM0, str_FLM1, str_FLM2, str_FLM3, str_FLM4, str_FLM5, str_FLM6, str
 extern str_0410, str_0707, str_0177, str_1230, str_2314, str_2309, str_0427, str_2293
 extern str_1931, str_0109, str_1688, str_1404, str_2316, str_1033, str_0509, str_0844
 extern str_1227, str_2409, str_1720, str_0009, str_0834
-global byte_11E700, byte_11E844, byte_11E852, dword_11E624, dword_11E664, StatsMenuItems, dword_11E66C, dword_11E670
-global dword_11E674, dword_11E678, dword_11E67C, dword_11E684, dword_11E6AC, dword_11E6B4, dword_11E75A, dword_11E75E
-global dword_11E7E0, dword_11E85B, dword_11E87F, dword_11E883, dword_11E887, dword_11E88B, off_11E6E0, off_11E764
-global unk_11E71A
-dword_11E624:
+global TeamHasCompare, SkaterRatingOrder, GoalieRatingOrder, TeamStatTextIds, TeamStatsPlayoffs, StatsMenuItems, StatsMenuChoice, RosterDbPtrs
+global PlayerStatsGoalies, RosterPlayerIds, SkaterColTextIds, SkaterCardTextIds, GoalieColTextIds, GoalieCardTextIds, PlayerStatsSort, PlayerStatsSeason
+global SkaterRatingTextIds, GoalieRatingTextIds, CardView, CardSliding, CardArtLoaded, CardRemapOn, CardFlameFrames, CardPhotoNames
+global CompareButtonDef
+TeamStatTextIds:
         db 01h,01h,00h,00h,02h,01h,00h,00h,03h,01h,00h,00h,04h,01h,00h,00h
         db 05h,01h,00h,00h,06h,01h,00h,00h,07h,01h,00h,00h,08h,01h,00h,00h
         db 09h,01h,00h,00h,0Ah,01h,00h,00h,0Bh,01h,00h,00h,0Ch,01h,00h,00h
         db 0Dh,01h,00h,00h,0Eh,01h,00h,00h,0Fh,01h,00h,00h,010h,01h,00h,00h
-dword_11E664:
+TeamStatsPlayoffs:
         db 00h,00h,00h,00h
 StatsMenuItems:
         db 04h,00h,00h,00h
-dword_11E66C:
+StatsMenuChoice:
         db 00h,00h,00h,00h
-dword_11E670:
+RosterDbPtrs:
         db 00h,00h,00h,00h
-dword_11E674:
+PlayerStatsGoalies:
         db 00h,00h,00h,00h
-dword_11E678:
+RosterPlayerIds:
         db 00h,00h,00h,00h
-dword_11E67C:
+SkaterColTextIds:
         db 0DAh,00h,00h,00h,0DBh,00h,00h,00h
-dword_11E684:
+SkaterCardTextIds:
         db 0DCh,00h,00h,00h,0DDh,00h,00h,00h,0DEh,00h,00h,00h,0DFh,00h,00h,00h
         db 0E0h,00h,00h,00h,0E1h,00h,00h,00h,0E2h,00h,00h,00h,0E3h,00h,00h,00h
         db 0E4h,00h,00h,00h,0E5h,00h,00h,00h
-dword_11E6AC:
+GoalieColTextIds:
         db 0E6h,00h,00h,00h,0E7h,00h,00h,00h
-dword_11E6B4:
+GoalieCardTextIds:
         db 0E8h,00h,00h,00h,0E9h,00h,00h,00h,0EAh,00h,00h,00h,0EBh,00h,00h,00h
         db 0ECh,00h,00h,00h,0EDh,00h,00h,00h,0EEh,00h,00h,00h,0EFh,00h,00h,00h
         db 0F0h,00h,00h,00h,0F1h,00h,00h,00h,0F2h,00h,00h,00h
-off_11E6E0:
+CardFlameFrames:
         dd str_FLM0
         dd str_FLM1
         dd str_FLM2
@@ -48,19 +48,19 @@ off_11E6E0:
         dd str_FLM5
         dd str_FLM6
         dd str_FLM7
-byte_11E700:
+TeamHasCompare:
         db 01h,00h,00h,00h,01h,00h,01h,00h,00h,00h,00h,00h,01h,00h,00h,00h
         db 01h,01h,01h,01h,01h,00h,00h,01h,00h,00h
-unk_11E71A:
+CompareButtonDef:
         db 026h,02h,00h,00h,046h,00h,00h,00h,076h,02h,00h,00h,046h,00h,00h,00h
         db 076h,02h,00h,00h,082h,00h,00h,00h,026h,02h,00h,00h,082h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_11E75A:
+PlayerStatsSort:
         db 00h,00h,00h,00h
-dword_11E75E:
+PlayerStatsSeason:
         db 00h,00h,00h,00h,00h,00h
-off_11E764:
+CardPhotoNames:
         dd str_0410
         dd str_0707
         dd str_0177
@@ -85,7 +85,7 @@ off_11E764:
         db 099h,00h,00h,00h,09Ah,00h,00h,00h,09Bh,00h,00h,00h,09Ch,00h,00h,00h
         db 09Dh,00h,00h,00h,09Eh,00h,00h,00h,09Fh,00h,00h,00h,0A0h,00h,00h,00h
         db 0A1h,00h,00h,00h,0A2h,00h,00h,00h
-dword_11E7E0:
+SkaterRatingTextIds:
         db 0A3h,00h,00h,00h,0A4h,00h,00h,00h,0A5h,00h,00h,00h,0A6h,00h,00h,00h
         db 0A7h,00h,00h,00h,0A8h,00h,00h,00h,0A9h,00h,00h,00h,0AAh,00h,00h,00h
         db 0ABh,00h,00h,00h,0ACh,00h,00h,00h,0ADh,00h,00h,00h,0AEh,00h,00h,00h
@@ -93,19 +93,19 @@ dword_11E7E0:
         db 0B3h,00h,00h,00h,0B4h,00h,00h,00h,0B6h,00h,00h,00h,0B7h,00h,00h,00h
         db 0B8h,00h,00h,00h,0B9h,00h,00h,00h,0BAh,00h,00h,00h,0BBh,00h,00h,00h
         db 0B5h,00h,00h,00h
-byte_11E844:
+SkaterRatingOrder:
         db 01h,02h,04h,05h,06h,07h,09h,0Ah,0Bh,0Ch,0Dh,0Eh,013h,014h
-byte_11E852:
+GoalieRatingOrder:
         db 01h,02h,03h,04h,06h,07h,0Ah,0Bh,010h
-dword_11E85B:
+GoalieRatingTextIds:
         db 0BCh,00h,00h,00h,0BDh,00h,00h,00h,0BEh,00h,00h,00h,0BFh,00h,00h,00h
         db 0C1h,00h,00h,00h,0C2h,00h,00h,00h,0C3h,00h,00h,00h,0C4h,00h,00h,00h
         db 0C0h,00h,00h,00h
-dword_11E87F:
+CardView:
         db 00h,00h,00h,00h
-dword_11E883:
+CardSliding:
         db 00h,00h,00h,00h
-dword_11E887:
+CardArtLoaded:
         db 01h,00h,00h,00h
-dword_11E88B:
+CardRemapOn:
         db 01h,00h,00h,00h,00h

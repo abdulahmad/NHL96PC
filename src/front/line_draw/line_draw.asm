@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_873AE progbits alloc exec nowrite align=1
 extern LinePattern, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_1228FC
-extern dword_17DC18, dword_17DC1C, LineSteep, dword_17DC24, dword_17DC28, LineErrX, LineErrStepY, LineErrStepX
-extern dword_17DC38, dword_17DC3C, LineX, dword_17DC44, dword_17DC48, dword_17DC4C, dword_17DC50, LineStepY
-extern LineErrY, LineColor, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C, PlotPixel, SetClipWindow
+extern LineClipRight, LineClipBottom, LineSteep, LineClipTop, LineClipLeft, LineErrX, LineErrStepY, LineErrStepX
+extern LineDeltaX, LineDeltaY, LineX, LineSpanRight, LineSpanBottom, LineSpanTop, LineSpanLeft, LineStepY
+extern LineErrY, LineColor, LineEndX, LineEndY, LineUserClipBottom, LineUserClipTop, PlotPixel, SetClipWindow
 extern str_AALIAS, AllocMemBlock, FillRectClipped, NearestColour, FixedLerp, PlotPixelClipped
 global BuildAntiAliasTable, ClipLineY, ClipLineX, DrawLineYPlot, DrawLineYPlot_186, DrawLineYPlot_187, DrawLineY, DrawLineXPlot
 global DrawLineX, DrawFixedLine, DrawFixedLineClip
@@ -109,14 +109,14 @@ BuildAntiAliasTable:
         ret 4
 ;-----------------------------------------------------------------------------
 ; ClipLineY                                       874AE  96 PC, low confidence
-; Clips the current line to the view's top and bottom (dword_17DC1C / 17DC24)
+; Clips the current line to the view's top and bottom (LineClipBottom / 17DC24)
 ;-----------------------------------------------------------------------------
 ClipLineY:
         push ebx
         push ecx
         push edx
-        mov eax, dword [dword_17DC64]
-        cmp eax, dword [dword_17DC24]
+        mov eax, dword [LineEndY]
+        cmp eax, dword [LineClipTop]
         jge short .2
 .1:
         xor eax, eax
@@ -126,11 +126,11 @@ ClipLineY:
         ret
 .2:
         mov eax, dword [LineStepY]
-        cmp eax, dword [dword_17DC1C]
+        cmp eax, dword [LineClipBottom]
         jge short .1
-        cmp eax, dword [dword_17DC24]
+        cmp eax, dword [LineClipTop]
         jge short .3
-        mov ebx, dword [dword_17DC24]
+        mov ebx, dword [LineClipTop]
         sub ebx, eax
         mov eax, dword [LineErrY]
         mov edx, ebx
@@ -139,27 +139,27 @@ ClipLineY:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov edx, ebx
-        add dword [dword_17DC50], eax
+        add dword [LineSpanLeft], eax
         mov eax, dword [LineErrStepY]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        add dword [dword_17DC44], eax
-        mov eax, dword [dword_17DC24]
+        add dword [LineSpanRight], eax
+        mov eax, dword [LineClipTop]
         mov dword [LineStepY], eax
 .3:
-        mov eax, dword [dword_17DC64]
-        cmp eax, dword [dword_17DC1C]
+        mov eax, dword [LineEndY]
+        cmp eax, dword [LineClipBottom]
         jle short .4
-        mov eax, dword [dword_17DC1C]
-        mov dword [dword_17DC64], eax
+        mov eax, dword [LineClipBottom]
+        mov dword [LineEndY], eax
 .4:
-        mov eax, dword [dword_17DC50]
-        cmp eax, dword [dword_17DC28]
+        mov eax, dword [LineSpanLeft]
+        cmp eax, dword [LineClipLeft]
         jl short .5
-        mov eax, dword [dword_17DC44]
-        cmp eax, dword [dword_17DC18]
+        mov eax, dword [LineSpanRight]
+        cmp eax, dword [LineClipRight]
         jl short .6
 .5:
         mov eax, 1
@@ -168,14 +168,14 @@ ClipLineY:
         xor eax, eax
 .7:
         mov dword [LineSteep], eax
-        mov eax, dword [dword_17DC44]
-        cmp eax, dword [dword_17DC28]
+        mov eax, dword [LineSpanRight]
+        cmp eax, dword [LineClipLeft]
         jge near .8
         cmp dword [LineErrStepY], byte 0
         jle near .1
-        mov eax, dword [dword_17DC28]
+        mov eax, dword [LineClipLeft]
         mov ebx, dword [LineErrStepY]
-        sub eax, dword [dword_17DC44]
+        sub eax, dword [LineSpanRight]
         cdq
         idiv ebx
         mov ecx, eax
@@ -187,12 +187,12 @@ ClipLineY:
         add eax, ecx
         add dword [LineStepY], eax
         mov ebx, dword [LineStepY]
-        cmp ebx, dword [dword_17DC1C]
+        cmp ebx, dword [LineClipBottom]
         jge near .1
-        cmp ebx, dword [dword_17DC24]
+        cmp ebx, dword [LineClipTop]
         jl near .1
-        mov ebx, dword [dword_17DC28]
-        mov dword [dword_17DC44], ebx
+        mov ebx, dword [LineClipLeft]
+        mov dword [LineSpanRight], ebx
         mov ebx, dword [LineErrY]
         mov edx, eax
         mov eax, ebx
@@ -201,15 +201,15 @@ ClipLineY:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov dword [LineSteep], 1
-        add dword [dword_17DC50], eax
+        add dword [LineSpanLeft], eax
 .8:
-        mov eax, dword [dword_17DC50]
-        cmp eax, dword [dword_17DC18]
+        mov eax, dword [LineSpanLeft]
+        cmp eax, dword [LineClipRight]
         jl near .9
         cmp dword [LineErrY], byte 0
         jge near .1
-        mov eax, dword [dword_17DC18]
-        sub eax, dword [dword_17DC50]
+        mov eax, dword [LineClipRight]
+        sub eax, dword [LineSpanLeft]
         mov ebx, dword [LineErrY]
         inc eax
         cdq
@@ -223,9 +223,9 @@ ClipLineY:
         add eax, ecx
         add dword [LineStepY], eax
         mov ebx, dword [LineStepY]
-        cmp ebx, dword [dword_17DC1C]
+        cmp ebx, dword [LineClipBottom]
         jge near .1
-        cmp ebx, dword [dword_17DC24]
+        cmp ebx, dword [LineClipTop]
         jl near .1
         mov ebx, dword [LineErrStepY]
         mov edx, eax
@@ -234,11 +234,11 @@ ClipLineY:
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        add dword [dword_17DC44], eax
-        mov eax, dword [dword_17DC18]
+        add dword [LineSpanRight], eax
+        mov eax, dword [LineClipRight]
         dec eax
         mov dword [LineSteep], 1
-        mov dword [dword_17DC50], eax
+        mov dword [LineSpanLeft], eax
 .9:
         mov eax, 1
         pop edx
@@ -247,14 +247,14 @@ ClipLineY:
         ret
 ;-----------------------------------------------------------------------------
 ; ClipLineX                                       876A1  96 PC, low confidence
-; Clips the current line to the view's left and right (dword_17DC18 / 17DC28)
+; Clips the current line to the view's left and right (LineClipRight / 17DC28)
 ;-----------------------------------------------------------------------------
 ClipLineX:
         push ebx
         push ecx
         push edx
-        mov eax, dword [dword_17DC60]
-        cmp eax, dword [dword_17DC28]
+        mov eax, dword [LineEndX]
+        cmp eax, dword [LineClipLeft]
         jge short .2
 .1:
         xor eax, eax
@@ -264,11 +264,11 @@ ClipLineX:
         ret
 .2:
         mov eax, dword [LineX]
-        cmp eax, dword [dword_17DC18]
+        cmp eax, dword [LineClipRight]
         jge short .1
-        cmp eax, dword [dword_17DC28]
+        cmp eax, dword [LineClipLeft]
         jge short .3
-        mov ebx, dword [dword_17DC28]
+        mov ebx, dword [LineClipLeft]
         sub ebx, eax
         mov eax, dword [LineErrStepX]
         mov edx, ebx
@@ -277,27 +277,27 @@ ClipLineX:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov edx, ebx
-        add dword [dword_17DC4C], eax
+        add dword [LineSpanTop], eax
         mov eax, dword [LineErrX]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        add dword [dword_17DC48], eax
-        mov eax, dword [dword_17DC28]
+        add dword [LineSpanBottom], eax
+        mov eax, dword [LineClipLeft]
         mov dword [LineX], eax
 .3:
-        mov eax, dword [dword_17DC60]
-        cmp eax, dword [dword_17DC18]
+        mov eax, dword [LineEndX]
+        cmp eax, dword [LineClipRight]
         jle short .4
-        mov eax, dword [dword_17DC18]
-        mov dword [dword_17DC60], eax
+        mov eax, dword [LineClipRight]
+        mov dword [LineEndX], eax
 .4:
-        mov eax, dword [dword_17DC4C]
-        cmp eax, dword [dword_17DC24]
+        mov eax, dword [LineSpanTop]
+        cmp eax, dword [LineClipTop]
         jl short .5
-        mov eax, dword [dword_17DC48]
-        cmp eax, dword [dword_17DC1C]
+        mov eax, dword [LineSpanBottom]
+        cmp eax, dword [LineClipBottom]
         jl short .6
 .5:
         mov eax, 1
@@ -306,14 +306,14 @@ ClipLineX:
         xor eax, eax
 .7:
         mov dword [LineSteep], eax
-        mov eax, dword [dword_17DC48]
-        cmp eax, dword [dword_17DC24]
+        mov eax, dword [LineSpanBottom]
+        cmp eax, dword [LineClipTop]
         jge near .8
         cmp dword [LineErrX], byte 0
         jle near .1
-        mov eax, dword [dword_17DC24]
+        mov eax, dword [LineClipTop]
         mov ebx, dword [LineErrX]
-        sub eax, dword [dword_17DC48]
+        sub eax, dword [LineSpanBottom]
         cdq
         idiv ebx
         mov ecx, eax
@@ -325,12 +325,12 @@ ClipLineX:
         add eax, ecx
         add dword [LineX], eax
         mov ebx, dword [LineX]
-        cmp ebx, dword [dword_17DC18]
+        cmp ebx, dword [LineClipRight]
         jge near .1
-        cmp ebx, dword [dword_17DC28]
+        cmp ebx, dword [LineClipLeft]
         jl near .1
-        mov ebx, dword [dword_17DC24]
-        mov dword [dword_17DC48], ebx
+        mov ebx, dword [LineClipTop]
+        mov dword [LineSpanBottom], ebx
         mov ebx, dword [LineErrStepX]
         mov edx, eax
         mov eax, ebx
@@ -339,15 +339,15 @@ ClipLineX:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov dword [LineSteep], 1
-        add dword [dword_17DC4C], eax
+        add dword [LineSpanTop], eax
 .8:
-        mov eax, dword [dword_17DC4C]
-        cmp eax, dword [dword_17DC1C]
+        mov eax, dword [LineSpanTop]
+        cmp eax, dword [LineClipBottom]
         jl near .9
         cmp dword [LineErrStepX], byte 0
         jge near .1
-        mov eax, dword [dword_17DC1C]
-        sub eax, dword [dword_17DC4C]
+        mov eax, dword [LineClipBottom]
+        sub eax, dword [LineSpanTop]
         mov ebx, dword [LineErrStepX]
         inc eax
         cdq
@@ -361,9 +361,9 @@ ClipLineX:
         add eax, ecx
         add dword [LineX], eax
         mov ebx, dword [LineX]
-        cmp ebx, dword [dword_17DC18]
+        cmp ebx, dword [LineClipRight]
         jge near .1
-        cmp ebx, dword [dword_17DC28]
+        cmp ebx, dword [LineClipLeft]
         jl near .1
         mov ebx, dword [LineErrX]
         mov edx, eax
@@ -372,11 +372,11 @@ ClipLineX:
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        add dword [dword_17DC48], eax
-        mov eax, dword [dword_17DC1C]
+        add dword [LineSpanBottom], eax
+        mov eax, dword [LineClipBottom]
         dec eax
         mov dword [LineSteep], 1
-        mov dword [dword_17DC4C], eax
+        mov dword [LineSpanTop], eax
 .9:
         mov eax, 1
         pop edx
@@ -396,10 +396,10 @@ DrawLineYPlot:
         mov dword [byte ebp-04h], eax
 .1:
         mov eax, dword [LineStepY]
-        cmp eax, dword [dword_17DC64]
+        cmp eax, dword [LineEndY]
         jge near DrawLineYPlot_186
-        mov edi, dword [dword_17DC44]
-        mov esi, dword [dword_17DC50]
+        mov edi, dword [LineSpanRight]
+        mov esi, dword [LineSpanLeft]
         movsx eax, word [DrawClipLeft]
         sar esi, 10h
         sar edi, 10h
@@ -421,14 +421,14 @@ DrawLineYPlot:
         cmp edi, eax
         jge near DrawLineYPlot_186
 .4:
-        mov eax, dword [dword_17DC50]
+        mov eax, dword [LineSpanLeft]
         mov edx, 10000h
         and eax, 0FFFFh
         sub edx, eax
         mov eax, edx
         sar eax, 0Ch
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_17DC44]
+        mov eax, dword [LineSpanRight]
         and eax, 0FFFFh
         sar eax, 0Ch
         mov dword [byte ebp-08h], eax
@@ -500,10 +500,10 @@ DrawLineYPlot:
         add esp, byte 0Ch
 .9:
         mov eax, dword [LineErrY]
-        add dword [dword_17DC50], eax
+        add dword [LineSpanLeft], eax
         mov eax, dword [LineErrStepY]
-        add dword [dword_17DC44], eax
-        mov eax, dword [dword_17DC3C]
+        add dword [LineSpanRight], eax
+        mov eax, dword [LineDeltaY]
         inc dword [byte ebp-04h]
         add dword [LineStepY], eax
         jmp near .1
@@ -528,23 +528,23 @@ DrawLineY:
         shl edi, 2
 .1:
         mov eax, dword [LineStepY]
-        cmp eax, dword [dword_17DC64]
+        cmp eax, dword [LineEndY]
         jge short DrawLineYPlot_186
-        mov eax, dword [dword_17DC44]
-        cmp eax, dword [dword_17DC18]
+        mov eax, dword [LineSpanRight]
+        cmp eax, dword [LineClipRight]
         jge short DrawLineYPlot_186
         mov edx, eax
         and edx, 0FFFFh
-        mov eax, dword [dword_17DC50]
+        mov eax, dword [LineSpanLeft]
         sar edx, 0Ch
-        cmp eax, dword [dword_17DC28]
+        cmp eax, dword [LineClipLeft]
         jl short DrawLineYPlot_186
-        mov ebx, dword [dword_17DC44]
+        mov ebx, dword [LineSpanRight]
         sar eax, 10h
         sar ebx, 10h
         mov dword [byte ebp-08h], eax
         sub ebx, eax
-        mov eax, dword [dword_17DC50]
+        mov eax, dword [LineSpanLeft]
         mov esi, 10000h
         and eax, 0FFFFh
         mov ecx, dword [dword_1228FC]
@@ -589,11 +589,11 @@ DrawLineY:
         mov byte [eax], dl
 .7:
         mov eax, dword [LineErrY]
-        add dword [dword_17DC50], eax
+        add dword [LineSpanLeft], eax
         mov eax, dword [LineErrStepY]
         inc dword [byte ebp-04h]
-        add dword [dword_17DC44], eax
-        mov eax, dword [dword_17DC3C]
+        add dword [LineSpanRight], eax
+        mov eax, dword [LineDeltaY]
         add edi, byte 4
         add dword [LineStepY], eax
         jmp near .1
@@ -609,10 +609,10 @@ DrawLineXPlot:
         sar edi, 10h
 .1:
         mov eax, dword [LineX]
-        cmp eax, dword [dword_17DC60]
+        cmp eax, dword [LineEndX]
         jge near DrawLineYPlot_186
-        mov eax, dword [dword_17DC48]
-        mov esi, dword [dword_17DC4C]
+        mov eax, dword [LineSpanBottom]
+        mov esi, dword [LineSpanTop]
         sar eax, 10h
         sar esi, 10h
         mov dword [byte ebp-04h], eax
@@ -635,14 +635,14 @@ DrawLineXPlot:
         cmp eax, dword [byte ebp-04h]
         jle near DrawLineYPlot_186
 .4:
-        mov eax, dword [dword_17DC4C]
+        mov eax, dword [LineSpanTop]
         mov edx, 10000h
         and eax, 0FFFFh
         sub edx, eax
         mov eax, edx
         sar eax, 0Ch
         mov dword [byte ebp-08h], eax
-        mov eax, dword [dword_17DC48]
+        mov eax, dword [LineSpanBottom]
         and eax, 0FFFFh
         sar eax, 0Ch
         mov dword [byte ebp-0Ch], eax
@@ -723,10 +723,10 @@ DrawLineXPlot:
         add esp, byte 0Ch
 .9:
         mov eax, dword [LineErrStepX]
-        add dword [dword_17DC4C], eax
+        add dword [LineSpanTop], eax
         mov eax, dword [LineErrX]
-        add dword [dword_17DC48], eax
-        mov eax, dword [dword_17DC38]
+        add dword [LineSpanBottom], eax
+        mov eax, dword [LineDeltaX]
         inc edi
         add dword [LineX], eax
         jmp near .1
@@ -741,18 +741,18 @@ DrawLineX:
         sar edi, 10h
 .1:
         mov eax, dword [LineX]
-        cmp eax, dword [dword_17DC60]
+        cmp eax, dword [LineEndX]
         jge near DrawLineYPlot_187
-        mov eax, dword [dword_17DC48]
-        cmp eax, dword [dword_17DC1C]
+        mov eax, dword [LineSpanBottom]
+        cmp eax, dword [LineClipBottom]
         jge near DrawLineYPlot_187
-        mov eax, dword [dword_17DC4C]
-        cmp eax, dword [dword_17DC24]
+        mov eax, dword [LineSpanTop]
+        cmp eax, dword [LineClipTop]
         jl near DrawLineYPlot_187
         mov ecx, 10000h
-        mov esi, dword [dword_17DC48]
-        mov ebx, dword [dword_17DC48]
-        mov edx, dword [dword_17DC4C]
+        mov esi, dword [LineSpanBottom]
+        mov ebx, dword [LineSpanBottom]
+        mov edx, dword [LineSpanTop]
         sar eax, 10h
         and esi, 0FFFFh
         and edx, 0FFFFh
@@ -809,10 +809,10 @@ DrawLineX:
         mov byte [eax], dl
 .7:
         mov eax, dword [LineErrStepX]
-        add dword [dword_17DC4C], eax
+        add dword [LineSpanTop], eax
         mov eax, dword [LineErrX]
-        add dword [dword_17DC48], eax
-        mov eax, dword [dword_17DC38]
+        add dword [LineSpanBottom], eax
+        mov eax, dword [LineDeltaX]
         inc edi
         add dword [LineX], eax
         jmp near .1
@@ -835,26 +835,26 @@ DrawFixedLine:
         jl near .17
         mov eax, edi
         sub eax, dword [byte ebp+010h]
-        mov dword [dword_17DC38], eax
+        mov dword [LineDeltaX], eax
         mov eax, esi
         sub eax, dword [byte ebp+014h]
-        mov dword [dword_17DC3C], eax
-        cmp dword [dword_17DC38], byte 0
+        mov dword [LineDeltaY], eax
+        cmp dword [LineDeltaX], byte 0
         jl short .1
-        mov eax, dword [dword_17DC38]
+        mov eax, dword [LineDeltaX]
         jmp short .2
 .1:
-        mov eax, dword [dword_17DC38]
+        mov eax, dword [LineDeltaX]
         neg eax
 .2:
         cmp eax, 10000h
         jge short .5
-        cmp dword [dword_17DC3C], byte 0
+        cmp dword [LineDeltaY], byte 0
         jl short .3
-        mov eax, dword [dword_17DC3C]
+        mov eax, dword [LineDeltaY]
         jmp short .4
 .3:
-        mov eax, dword [dword_17DC3C]
+        mov eax, dword [LineDeltaY]
         neg eax
 .4:
         cmp eax, 10000h
@@ -864,20 +864,20 @@ DrawFixedLine:
         add edx, byte 4
         mov byte [LinePattern], al
         mov dword [LineColor], edx
-        cmp dword [dword_17DC3C], byte 0
+        cmp dword [LineDeltaY], byte 0
         jl short .6
-        mov ecx, dword [dword_17DC3C]
+        mov ecx, dword [LineDeltaY]
         jmp short .7
 .6:
-        mov ecx, dword [dword_17DC3C]
+        mov ecx, dword [LineDeltaY]
         neg ecx
 .7:
-        cmp dword [dword_17DC38], byte 0
+        cmp dword [LineDeltaX], byte 0
         jl short .8
-        mov edx, dword [dword_17DC38]
+        mov edx, dword [LineDeltaX]
         jmp short .9
 .8:
-        mov edx, dword [dword_17DC38]
+        mov edx, dword [LineDeltaX]
         neg edx
 .9:
         mov eax, dword [byte ebp+028h]
@@ -886,16 +886,16 @@ DrawFixedLine:
         sar ebx, 1
         cmp ecx, edx
         jle near .13
-        mov ecx, dword [dword_17DC3C]
+        mov ecx, dword [LineDeltaY]
         sar ecx, 10h
         cdq
         add ecx, ecx
         idiv ecx
         mov ecx, eax
-        cmp dword [dword_17DC3C], byte 0
+        cmp dword [LineDeltaY], byte 0
         jge short .10
         mov eax, dword [byte ebp+014h]
-        mov dword [dword_17DC64], eax
+        mov dword [LineEndY], eax
         mov eax, dword [byte ebp+028h]
         cdq
         LD sub, eax, edx
@@ -904,31 +904,31 @@ DrawFixedLine:
         mov dword [LineStepY], esi
         sub edx, eax
         add edi, eax
-        mov dword [dword_17DC50], edx
-        mov dword [dword_17DC44], edi
+        mov dword [LineSpanLeft], edx
+        mov dword [LineSpanRight], edi
         jmp short .11
 .10:
         mov eax, dword [byte ebp+014h]
         mov dword [LineStepY], eax
         mov eax, dword [byte ebp+010h]
         sub eax, ebx
-        mov dword [dword_17DC50], eax
+        mov dword [LineSpanLeft], eax
         mov eax, dword [byte ebp+010h]
         add eax, ebx
-        mov dword [dword_17DC64], esi
-        mov dword [dword_17DC44], eax
+        mov dword [LineEndY], esi
+        mov dword [LineSpanRight], eax
 .11:
-        mov ebx, dword [dword_17DC3C]
-        mov eax, dword [dword_17DC38]
+        mov ebx, dword [LineDeltaY]
+        mov eax, dword [LineDeltaX]
         sar ebx, 10h
         cdq
         idiv ebx
-        mov dword [dword_17DC38], eax
+        mov dword [LineDeltaX], eax
         sub eax, ecx
         mov dword [LineErrY], eax
-        mov eax, dword [dword_17DC38]
+        mov eax, dword [LineDeltaX]
         add ecx, eax
-        mov dword [dword_17DC3C], 10000h
+        mov dword [LineDeltaY], 10000h
         mov dword [LineErrStepY], ecx
         call ClipLineY
         test eax, eax
@@ -938,11 +938,11 @@ DrawFixedLine:
         call DrawLineYPlot
 .12:
         mov eax, dword [LineStepY]
-        cmp eax, dword [dword_17DC64]
+        cmp eax, dword [LineEndY]
         jge near .17
         call DrawLineY
         mov eax, dword [LineStepY]
-        cmp eax, dword [dword_17DC64]
+        cmp eax, dword [LineEndY]
         jge near .17
         call DrawLineYPlot
         pop ebp
@@ -950,47 +950,47 @@ DrawFixedLine:
         pop esi
         ret
 .13:
-        mov ecx, dword [dword_17DC38]
+        mov ecx, dword [LineDeltaX]
         sar ecx, 10h
         cdq
         add ecx, ecx
         idiv ecx
         mov ecx, eax
-        cmp dword [dword_17DC38], byte 0
+        cmp dword [LineDeltaX], byte 0
         jge short .14
         mov eax, dword [byte ebp+010h]
-        mov dword [dword_17DC60], eax
+        mov dword [LineEndX], eax
         mov eax, dword [byte ebp+028h]
         mov edx, esi
         sar eax, 1
         mov dword [LineX], edi
         sub edx, eax
         add esi, eax
-        mov dword [dword_17DC4C], edx
-        mov dword [dword_17DC48], esi
+        mov dword [LineSpanTop], edx
+        mov dword [LineSpanBottom], esi
         jmp short .15
 .14:
         mov eax, dword [byte ebp+010h]
         mov dword [LineX], eax
         mov eax, dword [byte ebp+014h]
         sub eax, ebx
-        mov dword [dword_17DC4C], eax
+        mov dword [LineSpanTop], eax
         mov eax, dword [byte ebp+014h]
         add eax, ebx
-        mov dword [dword_17DC60], edi
-        mov dword [dword_17DC48], eax
+        mov dword [LineEndX], edi
+        mov dword [LineSpanBottom], eax
 .15:
-        mov ebx, dword [dword_17DC38]
-        mov eax, dword [dword_17DC3C]
+        mov ebx, dword [LineDeltaX]
+        mov eax, dword [LineDeltaY]
         sar ebx, 10h
         cdq
         idiv ebx
-        mov dword [dword_17DC3C], eax
+        mov dword [LineDeltaY], eax
         sub eax, ecx
         mov dword [LineErrStepX], eax
-        mov eax, dword [dword_17DC3C]
+        mov eax, dword [LineDeltaY]
         add ecx, eax
-        mov dword [dword_17DC38], 10000h
+        mov dword [LineDeltaX], 10000h
         mov dword [LineErrX], ecx
         call ClipLineX
         test eax, eax
@@ -1000,11 +1000,11 @@ DrawFixedLine:
         call DrawLineXPlot
 .16:
         mov eax, dword [LineX]
-        cmp eax, dword [dword_17DC60]
+        cmp eax, dword [LineEndX]
         jge short .17
         call DrawLineX
         mov eax, dword [LineX]
-        cmp eax, dword [dword_17DC60]
+        cmp eax, dword [LineEndX]
         jge short .17
         call DrawLineXPlot
 .17:
@@ -1031,26 +1031,26 @@ DrawFixedLineClip:
         jl near .31
         mov eax, ebx
         sub eax, dword [byte ebp+010h]
-        mov dword [dword_17DC38], eax
+        mov dword [LineDeltaX], eax
         mov eax, esi
         sub eax, edi
-        mov dword [dword_17DC3C], eax
-        cmp dword [dword_17DC38], byte 0
+        mov dword [LineDeltaY], eax
+        cmp dword [LineDeltaX], byte 0
         jl short .1
-        mov eax, dword [dword_17DC38]
+        mov eax, dword [LineDeltaX]
         jmp short .2
 .1:
-        mov eax, dword [dword_17DC38]
+        mov eax, dword [LineDeltaX]
         neg eax
 .2:
         cmp eax, 10000h
         jge short .5
-        cmp dword [dword_17DC3C], byte 0
+        cmp dword [LineDeltaY], byte 0
         jl short .3
-        mov eax, dword [dword_17DC3C]
+        mov eax, dword [LineDeltaY]
         jmp short .4
 .3:
-        mov eax, dword [dword_17DC3C]
+        mov eax, dword [LineDeltaY]
         neg eax
 .4:
         cmp eax, 10000h
@@ -1060,60 +1060,60 @@ DrawFixedLineClip:
         add edx, byte 4
         mov byte [LinePattern], al
         mov dword [LineColor], edx
-        cmp dword [dword_17DC3C], byte 0
+        cmp dword [LineDeltaY], byte 0
         jl short .6
-        mov edx, dword [dword_17DC3C]
+        mov edx, dword [LineDeltaY]
         jmp short .7
 .6:
-        mov edx, dword [dword_17DC3C]
+        mov edx, dword [LineDeltaY]
         neg edx
 .7:
-        cmp dword [dword_17DC38], byte 0
+        cmp dword [LineDeltaX], byte 0
         jl short .8
-        mov ecx, dword [dword_17DC38]
+        mov ecx, dword [LineDeltaX]
         jmp short .9
 .8:
-        mov ecx, dword [dword_17DC38]
+        mov ecx, dword [LineDeltaX]
         neg ecx
 .9:
         mov eax, dword [byte ebp+028h]
         sub eax, dword [byte ebp+024h]
         cmp edx, ecx
         jle near .22
-        mov ecx, dword [dword_17DC3C]
+        mov ecx, dword [LineDeltaY]
         cdq
         sar ecx, 10h
         idiv ecx
         mov dword [byte ebp-08h], eax
-        cmp dword [dword_17DC3C], byte 0
+        cmp dword [LineDeltaY], byte 0
         jge short .12
         mov dword [LineStepY], esi
-        mov dword [dword_17DC64], edi
+        mov dword [LineEndY], edi
         cmp dword [byte ebp+02Ch], byte 0
         je short .10
         mov eax, ebx
         sub eax, dword [byte ebp+028h]
-        mov dword [dword_17DC50], eax
+        mov dword [LineSpanLeft], eax
         mov eax, dword [byte ebp-08h]
         mov dword [LineErrStepY], 0
         mov dword [LineErrY], eax
-        mov dword [dword_17DC44], ebx
+        mov dword [LineSpanRight], ebx
         neg dword [LineErrY]
         jmp near .20
 .10:
         mov eax, dword [byte ebp+028h]
         add eax, ebx
         mov dword [LineErrY], 0
-        mov dword [dword_17DC44], eax
+        mov dword [LineSpanRight], eax
         mov eax, dword [byte ebp-08h]
-        mov dword [dword_17DC50], ebx
+        mov dword [LineSpanLeft], ebx
 .11:
         mov dword [LineErrStepY], eax
         jmp near .20
 .12:
-        cmp dword [dword_17DC6C], byte 0
+        cmp dword [LineUserClipTop], byte 0
         jne short .13
-        cmp dword [dword_17DC68], byte 0
+        cmp dword [LineUserClipBottom], byte 0
         je near .18
 .13:
         movsx eax, word [DrawClipBottom]
@@ -1161,40 +1161,40 @@ DrawFixedLineClip:
         add esp, byte 10h
         movsx eax, word [DrawClipTop]
         shl eax, 10h
-        mov dword [dword_17DC24], eax
+        mov dword [LineClipTop], eax
         movsx eax, word [DrawClipBottom]
         shl eax, 10h
-        mov dword [dword_17DC1C], eax
+        mov dword [LineClipBottom], eax
 .18:
         mov dword [LineStepY], edi
-        mov dword [dword_17DC64], esi
+        mov dword [LineEndY], esi
         cmp dword [byte ebp+02Ch], byte 0
         je short .19
         mov eax, dword [byte ebp+010h]
-        mov dword [dword_17DC50], eax
+        mov dword [LineSpanLeft], eax
         add eax, dword [byte ebp+024h]
-        mov dword [dword_17DC44], eax
+        mov dword [LineSpanRight], eax
         mov eax, dword [byte ebp-08h]
         mov dword [LineErrY], 0
         jmp near .11
 .19:
         mov eax, dword [byte ebp+010h]
         sub eax, dword [byte ebp+024h]
-        mov dword [dword_17DC50], eax
+        mov dword [LineSpanLeft], eax
         mov eax, dword [byte ebp-08h]
         mov dword [LineErrStepY], 0
         mov dword [LineErrY], eax
         mov eax, dword [byte ebp+010h]
         neg dword [LineErrY]
-        mov dword [dword_17DC44], eax
+        mov dword [LineSpanRight], eax
 .20:
-        mov ebx, dword [dword_17DC3C]
-        mov eax, dword [dword_17DC38]
+        mov ebx, dword [LineDeltaY]
+        mov eax, dword [LineDeltaX]
         sar ebx, 10h
         cdq
         idiv ebx
-        mov dword [dword_17DC3C], 10000h
-        mov dword [dword_17DC38], eax
+        mov dword [LineDeltaY], 10000h
+        mov dword [LineDeltaX], eax
         add dword [LineErrY], eax
         add dword [LineErrStepY], eax
         call ClipLineY
@@ -1205,69 +1205,69 @@ DrawFixedLineClip:
         call DrawLineYPlot
 .21:
         mov eax, dword [LineStepY]
-        cmp eax, dword [dword_17DC64]
+        cmp eax, dword [LineEndY]
         jge near .30
         call DrawLineY
         mov eax, dword [LineStepY]
-        cmp eax, dword [dword_17DC64]
+        cmp eax, dword [LineEndY]
         jge near .30
         call DrawLineYPlot
         jmp near .30
 .22:
-        mov ecx, dword [dword_17DC38]
+        mov ecx, dword [LineDeltaX]
         cdq
         sar ecx, 10h
         idiv ecx
-        cmp dword [dword_17DC38], byte 0
+        cmp dword [LineDeltaX], byte 0
         jge short .25
         mov edx, dword [byte ebp+010h]
         mov dword [LineX], ebx
-        mov dword [dword_17DC60], edx
+        mov dword [LineEndX], edx
         cmp dword [byte ebp+02Ch], byte 0
         je short .23
         mov dword [LineErrStepX], 0
         mov edx, dword [byte ebp+028h]
-        mov dword [dword_17DC4C], esi
+        mov dword [LineSpanTop], esi
         add edx, esi
         jmp short .27
 .23:
         mov dword [LineErrX], 0
         mov edx, esi
         mov dword [LineErrStepX], eax
-        mov dword [dword_17DC48], esi
+        mov dword [LineSpanBottom], esi
         sub edx, dword [byte ebp+028h]
 .24:
         neg dword [LineErrStepX]
-        mov dword [dword_17DC4C], edx
+        mov dword [LineSpanTop], edx
         jmp short .28
 .25:
         mov edx, dword [byte ebp+010h]
-        mov dword [dword_17DC60], ebx
+        mov dword [LineEndX], ebx
         mov dword [LineX], edx
         cmp dword [byte ebp+02Ch], byte 0
         je short .26
         mov dword [LineErrX], 0
         mov edx, edi
         mov dword [LineErrStepX], eax
-        mov dword [dword_17DC48], edi
+        mov dword [LineSpanBottom], edi
         sub edx, dword [byte ebp+024h]
         jmp short .24
 .26:
         mov dword [LineErrStepX], 0
         mov edx, dword [byte ebp+024h]
-        mov dword [dword_17DC4C], edi
+        mov dword [LineSpanTop], edi
         add edx, edi
 .27:
         mov dword [LineErrX], eax
-        mov dword [dword_17DC48], edx
+        mov dword [LineSpanBottom], edx
 .28:
-        mov ebx, dword [dword_17DC38]
-        mov eax, dword [dword_17DC3C]
+        mov ebx, dword [LineDeltaX]
+        mov eax, dword [LineDeltaY]
         sar ebx, 10h
         cdq
         idiv ebx
-        mov dword [dword_17DC38], 10000h
-        mov dword [dword_17DC3C], eax
+        mov dword [LineDeltaX], 10000h
+        mov dword [LineDeltaY], eax
         add dword [LineErrStepX], eax
         add dword [LineErrX], eax
         call ClipLineX
@@ -1278,11 +1278,11 @@ DrawFixedLineClip:
         call DrawLineXPlot
 .29:
         mov eax, dword [LineX]
-        cmp eax, dword [dword_17DC60]
+        cmp eax, dword [LineEndX]
         jge short .30
         call DrawLineX
         mov eax, dword [LineX]
-        cmp eax, dword [dword_17DC60]
+        cmp eax, dword [LineEndX]
         jge short .30
         call DrawLineXPlot
 .30:
@@ -1297,13 +1297,13 @@ DrawFixedLineClip:
         call SetClipWindow
         movsx eax, word [DrawClipTop]
         shl eax, 10h
-        mov dword [dword_17DC68], 0
-        mov dword [dword_17DC24], eax
+        mov dword [LineUserClipBottom], 0
+        mov dword [LineClipTop], eax
         movsx eax, word [DrawClipBottom]
-        mov dword [dword_17DC6C], 0
+        mov dword [LineUserClipTop], 0
         shl eax, 10h
         add esp, byte 10h
-        mov dword [dword_17DC1C], eax
+        mov dword [LineClipBottom], eax
 .31:
         leave
         pop edi
@@ -1312,8 +1312,8 @@ DrawFixedLineClip:
         push ebp
         mov ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_17DC6C], eax
+        mov dword [LineUserClipTop], eax
         mov eax, dword [byte ebp+0Ch]
-        mov dword [dword_17DC68], eax
+        mov dword [LineUserClipBottom], eax
         pop ebp
         ret

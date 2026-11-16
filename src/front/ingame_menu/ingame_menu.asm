@@ -4,7 +4,7 @@ bits 32
 extern TeamRosterPtrs
 section s_A17D5 progbits alloc exec nowrite align=1
 extern AwayClinchesSeries, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
-extern byte_11D91C, byte_11FA2F, byte_1820F1, byte_1843CC, byte_18444E, byte_184451
+extern MenuFrameColours, byte_11FA2F, StatsFromGame, byte_1843CC, byte_18444E, byte_184451
 extern byte_1844B4, byte_1844B6, byte_18451B, byte_184580, byte_184581, byte_184583, byte_1845E6, byte_1845E7
 extern byte_1845E8, byte_18464C, byte_18464E, byte_18464F, byte_1846C4, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdFadeOut, CrowdNoiseReset, CrowdReaction, curperiod, DrawArtOpaque, DrawBox, DrawColorTextCentred
@@ -79,8 +79,8 @@ DrawInGameMenuFrame:
         je near .15
         mov eax, dword [dword_152F4C]
         call SetAaPalLut
-        movzx edx, byte [byte_11D91C+1]
-        movzx eax, byte [byte_11D91C]
+        movzx edx, byte [MenuFrameColours+1]
+        movzx eax, byte [MenuFrameColours]
         mov dword [LastPaletteMode], 0FFFFFFFFh
         call SetTextColors
         push byte 0
@@ -177,9 +177,9 @@ DrawInGameMenuFrame:
         call DrawBox
         push dword [NameFont]
         call TextSetFont
-        movzx edx, byte [byte_11D91C+1]
+        movzx edx, byte [MenuFrameColours+1]
         add esp, byte 4
-        movzx eax, byte [byte_11D91C]
+        movzx eax, byte [MenuFrameColours]
         call SetTextColors
         test byte [GsOptions+1], 20h
         je short .4
@@ -306,9 +306,9 @@ DrawInGameMenuFrame:
         call DrawBox
         push dword [NameFont]
         call TextSetFont
-        movzx edx, byte [byte_11D91C+1]
+        movzx edx, byte [MenuFrameColours+1]
         add esp, byte 4
-        movzx eax, byte [byte_11D91C]
+        movzx eax, byte [MenuFrameColours]
         call SetTextColors
         test byte [GsOptions+1], 20h
         je short .8
@@ -359,9 +359,9 @@ DrawInGameMenuFrame:
         call DrawBox
         push dword [NameFont]
         call TextSetFont
-        movzx edx, byte [byte_11D91C+1]
+        movzx edx, byte [MenuFrameColours+1]
         add esp, byte 4
-        movzx eax, byte [byte_11D91C]
+        movzx eax, byte [MenuFrameColours]
         call SetTextColors
         movsx eax, word [gsp]
         cmp eax, byte 3
@@ -1706,7 +1706,7 @@ InGameMenu_ABD:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         lea ebx, [byte ebp-020h]
         push byte 0
         mov eax, 54h
@@ -1926,7 +1926,7 @@ InGameMenu_D17:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         lea ebx, [byte ebp-020h]
         push byte 0
         mov eax, 14Bh
@@ -1977,7 +1977,7 @@ InGameMenu_D17:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         lea ebx, [byte ebp-020h]
         push edx
         mov eax, 208h
@@ -2004,7 +2004,7 @@ InGameMenu_F42:
         mov edx, eax
         test eax, eax
         je near InGameMenu_ABD.50
-        mov byte [byte_1820F1], 0
+        mov byte [StatsFromGame], 0
         call OpenFrontEndFromGame
         cmp edx, byte 2
         jne short .70
@@ -2146,7 +2146,7 @@ InGameMenu_FA8:
         mov ecx, 1Eh
 .83:
         mov eax, 139h
-        mov ebx, byte_11D91C
+        mov ebx, MenuFrameColours
         call GetLangText
         mov edx, eax
         xor eax, eax
@@ -2178,7 +2178,7 @@ InGameMenu_FA8:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         lea ebx, [byte ebp-020h]
         push byte 0
         mov eax, 60h
@@ -2211,7 +2211,7 @@ InGameMenu_FA8:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         lea ebx, [byte ebp-020h]
         push byte 0
         mov eax, 61h

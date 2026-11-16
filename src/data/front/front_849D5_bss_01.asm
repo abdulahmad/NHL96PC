@@ -2,38 +2,37 @@
 bits 32
 %include "hockey.inc"
 section s_17DB7C nobits alloc noexec write align=1
-global byte_17DC14, byte_17DC15, byte_17DC16, byte_17DC17, LinePattern, dword_17DB7C, dword_17DBC0, dword_17DBC4
-global dword_17DC0C, dword_17DC10, dword_17DC18, dword_17DC1C, LineSteep, dword_17DC24, dword_17DC28, LineErrX
-global LineErrStepY, LineErrStepX, dword_17DC38, dword_17DC3C, LineX, dword_17DC44, dword_17DC48, dword_17DC4C
-global dword_17DC50, LineStepY, LineErrY, LineColor, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C
-global dword_17DC74, dword_17DC78
-dword_17DB7C:
+global CardsSpeechPending, TeamsSpeechPending, AwayCardsSpeechPending, MatchupSpeechPending, LinePattern, RightLogoFrames, LeftLogoFrames
+global LogoSpinFrame, LogoSpinTime, LineClipRight, LineClipBottom, LineSteep, LineClipTop, LineClipLeft, LineErrX
+global LineErrStepY, LineErrStepX, LineDeltaX, LineDeltaY, LineX, LineSpanRight, LineSpanBottom, LineSpanTop
+global LineSpanLeft, LineStepY, LineErrY, LineColor, LineEndX, LineEndY, LineUserClipBottom, LineUserClipTop
+global StatsButtonArt
+RightLogoFrames:
         resb 68
-dword_17DBC0:
         resb 4
-dword_17DBC4:
+LeftLogoFrames:
         resb 72
-dword_17DC0C:
+LogoSpinFrame:
         resb 4
-dword_17DC10:
+LogoSpinTime:
         resb 4
-byte_17DC14:
+CardsSpeechPending:
         resb 1
-byte_17DC15:
+TeamsSpeechPending:
         resb 1
-byte_17DC16:
+AwayCardsSpeechPending:
         resb 1
-byte_17DC17:
+MatchupSpeechPending:
         resb 1
-dword_17DC18:
+LineClipRight:
         resb 4
-dword_17DC1C:
+LineClipBottom:
         resb 4
 LineSteep:
         resb 4
-dword_17DC24:
+LineClipTop:
         resb 4
-dword_17DC28:
+LineClipLeft:
         resb 4
 LineErrX:
         resb 4
@@ -41,19 +40,19 @@ LineErrStepY:
         resb 4
 LineErrStepX:
         resb 4
-dword_17DC38:
+LineDeltaX:
         resb 4
-dword_17DC3C:
+LineDeltaY:
         resb 4
 LineX:
         resb 4
-dword_17DC44:
+LineSpanRight:
         resb 4
-dword_17DC48:
+LineSpanBottom:
         resb 4
-dword_17DC4C:
+LineSpanTop:
         resb 4
-dword_17DC50:
+LineSpanLeft:
         resb 4
 LineStepY:
         resb 4
@@ -61,17 +60,16 @@ LineErrY:
         resb 4
 LineColor:
         resb 4
-dword_17DC60:
+LineEndX:
         resb 4
-dword_17DC64:
+LineEndY:
         resb 4
-dword_17DC68:
+LineUserClipBottom:
         resb 4
-dword_17DC6C:
+LineUserClipTop:
         resb 4
 LinePattern:
         resb 4
-dword_17DC74:
+StatsButtonArt:
         resb 4
-dword_17DC78:
         resb 4

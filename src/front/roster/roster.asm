@@ -4,14 +4,14 @@ bits 32
 extern BottomBarArt
 extern SeasonUsers
 section s_971E9 progbits alloc exec nowrite align=1
-extern __CHP, __STOSD, AutoSetLines, byte_11E844, byte_11E852, TitleTextStyle, SeasonUserSlot
-extern byte_17EBF0, byte_182296, byte_1843B8, DrawColorText, DrawColorTextRight, DrawFrameAt, DrawScrollBar
+extern __CHP, __STOSD, AutoSetLines, SkaterRatingOrder, GoalieRatingOrder, TitleTextStyle, SeasonUserSlot
+extern PlayerPosCodes, byte_182296, byte_1843B8, DrawColorText, DrawColorTextRight, DrawFrameAt, DrawScrollBar
 extern F32_0p001, F32_0p0208333, F32_0p00333333, F32_390, F32_0p005, F32_100, F32_neg50, F32_0p002
 extern F32_0p0111111, F32_0p1, F32_0p0142857, F32_0p0333333, F32_58, F32_90, F32_0p01, F32_347
 extern dword_1174E4, dword_1174EC, statsplayoffs, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514
-extern dword_11E670, dword_11E678, dword_11E7E0, dword_11E85B, dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown
-extern dword_11E904, TeamStatsBitmap, PlayoffTreeData, RosterFileHandle, dword_17EEF0, dword_17FDF0, dword_17FDF4
-extern dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_182140, dword_182144, dword_1822B8
+extern RosterDbPtrs, RosterPlayerIds, SkaterRatingTextIds, GoalieRatingTextIds, dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown
+extern dword_11E904, TeamStatsBitmap, PlayoffTreeData, RosterFileHandle, PlayerRecPtrs, PlayerHeightPtrs, PlayerWeightPtrs
+extern RosterFirstNamePtrs, RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, dword_182140, dword_182144, dword_1822B8
 extern dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, RosterBackFile, dword_183024, dword_1843B0, dword_1843B4
 extern EditText, FadeOut, FadePalette, FillBox, FillRect, FreeScrollBar, gameopts, GetLangText
 extern GetTeamNameArt, InitMenuItems, InitVScrollBar, LoadExhibitionStats, LoadModemStats, LoadPackedFile, LoadSeasonStats, LoadTeamLogo
@@ -59,25 +59,25 @@ RunRosterScreens:
         push byte 0
         push dword 0E0h
         push str_DBPTRs2
-        mov dword [dword_11E670], eax
+        mov dword [RosterDbPtrs], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0E0h
         push str_Player2
-        mov dword [dword_1820E4], eax
+        mov dword [RosterPlayerPtrs], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0E0h
         push str_FName2
-        mov dword [dword_1820AC], eax
+        mov dword [RosterFirstNamePtrs], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0E0h
         push str_LName2
-        mov dword [dword_1820EC], eax
+        mov dword [RosterLastNamePtrs], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
@@ -86,10 +86,10 @@ RunRosterScreens:
         mov dword [byte ebp-04h], 0
         push str_Profiles2
         mov dword [byte ebp-08h], 0
-        mov dword [dword_1820E8], eax
+        mov dword [RosterProfilePtrs], eax
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_1820B0], eax
+        mov dword [RosterJerseyPtrs], eax
 .1:
         push byte 0
         push dword 0C00h
@@ -98,7 +98,7 @@ RunRosterScreens:
         mov edx, dword [byte ebp-08h]
         add esp, byte 0Ch
         add dword [byte ebp-08h], byte 4
-        mov dword [dword edx+dword_17FDF0], eax
+        mov dword [dword edx+PlayerHeightPtrs], eax
         cmp dword [byte ebp-08h], byte 8
         jne short .1
         mov dword [dword_11E8F8], 1
@@ -154,38 +154,38 @@ RunRosterScreens:
         call PlayerRatingsScreen
         jmp near .2
 .9:
-        push dword [dword_11E670]
+        push dword [RosterDbPtrs]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_1820E4]
+        push dword [RosterPlayerPtrs]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_1820AC]
+        push dword [RosterFirstNamePtrs]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_1820EC]
+        push dword [RosterLastNamePtrs]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_1820E8]
+        push dword [RosterProfilePtrs]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_1820B0]
+        push dword [RosterJerseyPtrs]
         xor esi, esi
         call FreeMemBlock
         add esp, byte 4
 .10:
-        push dword [dword esi+dword_17FDF0]
+        push dword [dword esi+PlayerHeightPtrs]
         call FreeMemBlock
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 8
         jne short .10
-        mov dword [dword_11E670], 0
-        cmp dword [dword_11E678], byte 0
+        mov dword [RosterDbPtrs], 0
+        cmp dword [RosterPlayerIds], byte 0
         je short RunRosterScreens_230
-        push dword [dword_11E678]
+        push dword [RosterPlayerIds]
         call FreeMemBlock
-        mov dword [dword_11E678], 0
+        mov dword [RosterPlayerIds], 0
         add esp, byte 4
 RunRosterScreens_230:
         leave
@@ -2648,7 +2648,7 @@ RosterScreen:
         jge near .129
         jmp short .154
 .156:
-        cmp dword [dword_11E678], byte 0
+        cmp dword [RosterPlayerIds], byte 0
         jne short .157
         push byte 0
         push dword 0E0h
@@ -2656,14 +2656,14 @@ RosterScreen:
         push eax
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_11E678], eax
+        mov dword [RosterPlayerIds], eax
 .157:
         mov dword [byte ebp+072h], unk_182294
         xor ebx, ebx
         xor edx, edx
         mov dword [byte ebp+06Eh], ebx
 .158:
-        mov eax, dword [dword_11E678]
+        mov eax, dword [RosterPlayerIds]
         mov dword [edx+eax], ebx
         mov eax, dword [byte ebp+06Eh]
         cmp dword [dword eax+ebp-0E4Ah], byte 0FFFFFFFFh
@@ -2678,50 +2678,50 @@ RosterScreen:
         mov eax, dword [byte ebp+06Eh]
         cmp dword [dword eax+ebp-0E4Ah], 0A5F0h
         jbe short .159
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         mov dword [edx+eax], 0FFFFFFFFh
         jmp short .160
 .159:
         mov ecx, dword [byte ebp+04Ah]
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         mov ecx, dword [dword ecx+dword_1822BC]
         mov dword [edx+eax], ecx
 .160:
         imul eax, ebx, byte 3Ch
         mov esi, dword [byte ebp+072h]
-        mov ecx, dword [dword_1820B0]
+        mov ecx, dword [RosterJerseyPtrs]
         add esi, byte 30h
         mov dword [ecx+edx], esi
         mov ecx, dword [byte ebp+072h]
         mov esi, dword [byte ebp+072h]
-        mov dword [dword edx+dword_17EEF0], ecx
-        mov ecx, dword [dword_1820AC]
+        mov dword [dword edx+PlayerRecPtrs], ecx
+        mov ecx, dword [RosterFirstNamePtrs]
         inc esi
         mov dword [ecx+edx], esi
         mov esi, dword [byte ebp+072h]
-        mov ecx, dword [dword_1820EC]
+        mov ecx, dword [RosterLastNamePtrs]
         add esi, byte 3
         mov dword [ecx+edx], esi
         mov esi, dword [byte ebp+072h]
-        mov ecx, dword [dword_1820E8]
+        mov ecx, dword [RosterProfilePtrs]
         add esi, byte 13h
         mov dword [ecx+edx], esi
         mov cl, byte [dword eax+byte_182296]
-        mov byte [dword ebx+byte_17EBF0], cl
-        mov ecx, dword [dword_1820E4]
+        mov byte [dword ebx+PlayerPosCodes], cl
+        mov ecx, dword [RosterPlayerPtrs]
         mov eax, dword [dword eax+dword_1822B8]
         mov dword [ecx+edx], eax
         mov ecx, dword [byte ebp+072h]
-        mov eax, dword [dword_17FDF0]
+        mov eax, dword [PlayerHeightPtrs]
         add ecx, byte 38h
         mov dword [edx+eax], ecx
         mov ecx, dword [byte ebp+072h]
-        mov eax, dword [dword_17FDF4]
+        mov eax, dword [PlayerWeightPtrs]
         add ecx, byte 39h
         mov dword [edx+eax], ecx
         jmp short .162
 .161:
-        mov byte [dword ebx+byte_17EBF0], 58h
+        mov byte [dword ebx+PlayerPosCodes], 58h
 .162:
         add dword [byte ebp+06Eh], byte 25h
         add dword [byte ebp+072h], byte 3Ch
@@ -2735,7 +2735,7 @@ RosterScreen:
         mov edx, 70h
         mov dword [byte ebp+07Ah], eax
 .163:
-        mov eax, dword [dword_11E678]
+        mov eax, dword [RosterPlayerIds]
         mov dword [edx+eax], ebx
         mov eax, dword [byte ebp+076h]
         cmp dword [dword eax+ebp-01662h], byte 0FFFFFFFFh
@@ -2750,50 +2750,50 @@ RosterScreen:
         mov eax, dword [byte ebp+076h]
         cmp dword [dword eax+ebp-01662h], 0A5F0h
         jbe short .164
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         mov dword [edx+eax], 0FFFFFFFFh
         jmp short .165
 .164:
         mov ecx, dword [byte ebp+04Eh]
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         mov ecx, dword [dword ecx+dword_1822BC]
         mov dword [edx+eax], ecx
 .165:
         imul eax, ebx, byte 3Ch
         mov esi, dword [byte ebp+07Ah]
-        mov ecx, dword [dword_1820B0]
+        mov ecx, dword [RosterJerseyPtrs]
         add esi, byte 30h
         mov dword [ecx+edx], esi
         mov ecx, dword [byte ebp+07Ah]
         mov esi, dword [byte ebp+07Ah]
-        mov dword [dword edx+dword_17EEF0], ecx
-        mov ecx, dword [dword_1820AC]
+        mov dword [dword edx+PlayerRecPtrs], ecx
+        mov ecx, dword [RosterFirstNamePtrs]
         inc esi
         mov dword [ecx+edx], esi
         mov esi, dword [byte ebp+07Ah]
-        mov ecx, dword [dword_1820EC]
+        mov ecx, dword [RosterLastNamePtrs]
         add esi, byte 3
         mov dword [ecx+edx], esi
         mov esi, dword [byte ebp+07Ah]
-        mov ecx, dword [dword_1820E8]
+        mov ecx, dword [RosterProfilePtrs]
         add esi, byte 13h
         mov dword [ecx+edx], esi
         mov cl, byte [dword eax+byte_182296]
-        mov byte [dword ebx+byte_17EBF0], cl
-        mov ecx, dword [dword_1820E4]
+        mov byte [dword ebx+PlayerPosCodes], cl
+        mov ecx, dword [RosterPlayerPtrs]
         mov eax, dword [dword eax+dword_1822B8]
         mov dword [ecx+edx], eax
         mov ecx, dword [byte ebp+07Ah]
-        mov eax, dword [dword_17FDF0]
+        mov eax, dword [PlayerHeightPtrs]
         add ecx, byte 38h
         mov dword [edx+eax], ecx
         mov ecx, dword [byte ebp+07Ah]
-        mov eax, dword [dword_17FDF4]
+        mov eax, dword [PlayerWeightPtrs]
         add ecx, byte 39h
         mov dword [edx+eax], ecx
         jmp short .167
 .166:
-        mov byte [dword ebx+byte_17EBF0], 58h
+        mov byte [dword ebx+PlayerPosCodes], 58h
 .167:
         add dword [byte ebp+076h], byte 25h
         add dword [byte ebp+07Ah], byte 3Ch
@@ -5377,11 +5377,11 @@ CreatePlayerScreen_DBB:
         sar eax, 1
         cmp dword [byte ebp+04Ah], byte 4
         je short .41
-        movsx ebx, byte [dword eax+byte_11E844]
+        movsx ebx, byte [dword eax+SkaterRatingOrder]
         lea eax, [byte ebp-036h]
         jmp short .42
 .41:
-        movsx ebx, byte [dword eax+byte_11E852]
+        movsx ebx, byte [dword eax+GoalieRatingOrder]
         lea eax, [byte ebp-01Eh]
 .42:
         add ebx, eax
@@ -5558,21 +5558,21 @@ DrawCreatePlayerRow:
         mov ebx, edx
         cmp dword [byte ebp-034h], byte 4
         jne short .4
-        mov eax, dword [dword edi+dword_11E85B]
+        mov eax, dword [dword edi+GoalieRatingTextIds]
         call GetLangText
         mov edx, eax
         lea eax, [byte ebp-030h]
         call strcpy_
-        movsx eax, byte [dword esi+byte_11E852]
+        movsx eax, byte [dword esi+GoalieRatingOrder]
         add eax, dword [byte ebp-03Ch]
         jmp short .5
 .4:
-        mov eax, dword [dword edi+dword_11E7E0]
+        mov eax, dword [dword edi+SkaterRatingTextIds]
         call GetLangText
         mov edx, eax
         lea eax, [byte ebp-030h]
         call strcpy_
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         add eax, dword [byte ebp-038h]
 .5:
         movsx eax, byte [eax]
@@ -5746,11 +5746,11 @@ CreatePlayerLimits:
 .3:
         cmp edi, byte 4
         je short .4
-        movsx esi, byte [dword ecx+byte_11E844]
+        movsx esi, byte [dword ecx+SkaterRatingOrder]
         add esi, dword [byte ebp-010h]
         jmp short .5
 .4:
-        movsx esi, byte [dword ecx+byte_11E852]
+        movsx esi, byte [dword ecx+GoalieRatingOrder]
         add esi, dword [byte ebp-0Ch]
 .5:
         mov eax, ecx

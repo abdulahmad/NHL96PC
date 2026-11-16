@@ -5,7 +5,7 @@ extern TeamRosterPtrs
 extern SeasonUsers
 extern GsOptions
 section s_6A7D3 progbits alloc exec nowrite align=1
-extern awtmstruct, byte_11D91C, byte_11FA2F, CloseTextOverlay, ControllerScreen, CopyBitmap
+extern awtmstruct, MenuFrameColours, byte_11FA2F, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox, DrawColorTextCentred, DrawFrameAt
 extern DrawGameClock, DrawGameFrame, dword_1150D4, gameresult, dword_1174EC, statsplayoffs, dword_1174F4, ReplayRemoteShape
 extern ViewLeft, str_D_DrawGameFrame, LastPaletteMode, InMenuOverlay, PauseRedraw, dword_11F5C0, dword_11F5C4, dword_152F4C
@@ -1724,7 +1724,7 @@ PauseMenu_66B:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         mov ebx, dword_17D4FC
         push byte 0
         mov eax, 1D2h
@@ -1872,7 +1872,7 @@ PauseMenu_748:
         mov ecx, 1Eh
         push eax
         mov eax, 139h
-        mov ebx, byte_11D91C
+        mov ebx, MenuFrameColours
         call GetLangText
         mov edx, eax
         xor eax, eax
@@ -1904,7 +1904,7 @@ PauseMenu_748:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         mov ebx, dword_17D4FC
         push byte 0
         mov eax, 60h
@@ -1937,7 +1937,7 @@ PauseMenu_748:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         mov ebx, dword_17D4FC
         push byte 0
         mov eax, 61h
@@ -2558,7 +2558,7 @@ PauseGame_3A3:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         mov ebx, dword_17D4FC
         push byte 0
         mov eax, 1D4h
@@ -2641,7 +2641,7 @@ PauseGame_47F:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         mov ebx, dword_17D4FC
         push byte 0
         mov eax, 14Bh
@@ -2678,7 +2678,7 @@ PauseGame_47F:
         mov eax, dword [dword_11F5C0]
         sar eax, 1
         push eax
-        mov ecx, byte_11D91C
+        mov ecx, MenuFrameColours
         mov ebx, dword_17D4FC
         push edx
         mov eax, 208h

@@ -5,7 +5,7 @@ section s_BA3D0 progbits alloc exec nowrite align=1
 extern FatalError, str_ORIINST, str_INVMATRX, str_Ori, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, NearClipZ
 extern dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, NearPlaneZ, ScreenWidth, DrawClipLeft
 extern DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_1228FC, ViewCentreX, ViewCentreY, dword_123ABC
-extern dword_123AC0, AtanTable, str_Punct_AngleOfVector, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_1956B0
+extern dword_123AC0, AtanTable, str_Punct_AngleOfVector, LineClipRight, LineClipBottom, LineClipTop, LineClipLeft, dword_1956B0
 extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC, dword_198388
 extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
 extern dword_1983B4, ScaledRowBuffer, min_, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs
@@ -299,22 +299,22 @@ FillPolyIndexed:
         cmp esi, edx
         jl short .1
 .6:
-        cmp ebx, dword [dword_17DC28]
+        cmp ebx, dword [LineClipLeft]
         jl near .56
         mov eax, dword [byte esp+0Ch]
-        cmp eax, dword [dword_17DC18]
+        cmp eax, dword [LineClipRight]
         jg near .56
-        mov edi, dword [dword_17DC24]
+        mov edi, dword [LineClipTop]
         cmp ebp, edi
         jl near .56
         mov eax, dword [byte esp+01Ch]
-        cmp eax, dword [dword_17DC1C]
+        cmp eax, dword [LineClipBottom]
         jg near .56
         cmp eax, edi
         jge short .7
         mov dword [byte esp+01Ch], edi
 .7:
-        cmp ebp, dword [dword_17DC1C]
+        cmp ebp, dword [LineClipBottom]
         mov eax, dword [byte esp+08h]
         mov esi, dword [byte esp+018h]
         mov dword [byte esp+044h], eax
@@ -377,18 +377,18 @@ FillPolyIndexed:
         cmp ebp, eax
         jge short .15
 .10:
-        cmp ebp, dword [dword_17DC24]
+        cmp ebp, dword [LineClipTop]
         jle short .14
-        cmp ebp, dword [dword_17DC1C]
+        cmp ebp, dword [LineClipBottom]
         jge short .16
-        mov edx, dword [dword_17DC28]
+        mov edx, dword [LineClipLeft]
         lea eax, [byte esi+04h]
         cmp edi, edx
         jge short .11
         mov dword [esi], edx
         jmp short .13
 .11:
-        mov ecx, dword [dword_17DC18]
+        mov ecx, dword [LineClipRight]
         cmp edi, ecx
         jl short .12
         lea edx, [byte ecx-01h]
@@ -479,18 +479,18 @@ FillPolyIndexed:
         cmp ebp, eax
         jge short .24
 .19:
-        cmp ebp, dword [dword_17DC24]
+        cmp ebp, dword [LineClipTop]
         jle short .23
-        cmp ebp, dword [dword_17DC1C]
+        cmp ebp, dword [LineClipBottom]
         jge short .25
-        mov edx, dword [dword_17DC28]
+        mov edx, dword [LineClipLeft]
         lea eax, [byte esi+04h]
         cmp edi, edx
         jge short .20
         mov dword [esi], edx
         jmp short .22
 .20:
-        mov ecx, dword [dword_17DC18]
+        mov ecx, dword [LineClipRight]
         cmp edi, ecx
         jl short .21
         lea edx, [byte ecx-01h]

@@ -2,152 +2,98 @@
 bits 32
 %include "hockey.inc"
 section s_17DC7C nobits alloc noexec write align=1
-global dword_17DC7C, dword_17DC80, dword_17DD34, dword_17DD38, dword_17DD3C, dword_17DD40, dword_17DD44, dword_17DD48
-global dword_17DD4C, dword_17DD50, dword_17DD54, dword_17DD58, dword_17DD5C, dword_17DD60, dword_17DD64, dword_17DD68
-global dword_17DD6C, dword_17DD70, dword_17DD74, dword_17DD78, dword_17DD7C, dword_17DD80, dword_17DD8C, dword_17DD90
-global dword_17DD94, dword_17DD98, dword_17DD9C, dword_17DDA0, dword_17DDA4, dword_17DDA8, dword_17DDAC, dword_17DDB0
-global dword_17DF14, dword_17DF18, dword_17DF1C, dword_17DF94, dword_17DF98, dword_17DF9C, dword_17DFA0, dword_17DFA4
-global dword_17DFA8, dword_17DFAC, dword_17DFB0, dword_17DFB4, dword_17DFB8, dword_17DFBC, dword_17DFC0, dword_17DFC4
-global dword_17DFC8, dword_17E3A4, dword_17E3B4, dword_17E3B8, dword_17E3BC, dword_17E3C0, dword_17E3C4, dword_17E3C8
-global dword_17E3CC, dword_17E3D0, dword_17E3D4, dword_17E3D8, dword_17E3DC, dword_17E3E0, dword_17E8FC, dword_17E9D0
-global word_17E894, word_17E8C8, word_17E900, word_17E934, word_17E968, word_17E99C
-dword_17DC7C:
+global TeamStatsTabArt, TeamStatsTabLit, TeamStatsButtonPos
+
+
+global TeamStatsButtonBmps
+global TeamStatsHeaderArt, TeamStatRows, TeamStatRowValues
+
+global TeamStatColumns
+global TeamStatSortColumn, PlayerStatsButtonArt
+global TeamHomePoints, TeamPowerPlayPct, TeamPenaltyKillPct, TeamPoints, TeamRoadPoints, TeamPointsPct
         resb 4
-dword_17DC80:
         resb 180
-dword_17DD34:
+TeamStatsTabArt:
         resb 4
-dword_17DD38:
+TeamStatsTabLit:
         resb 4
-dword_17DD3C:
+TeamStatsButtonPos:
         resb 4
-dword_17DD40:
         resb 4
-dword_17DD44:
         resb 4
-dword_17DD48:
         resb 4
-dword_17DD4C:
         resb 4
-dword_17DD50:
         resb 4
-dword_17DD54:
         resb 4
-dword_17DD58:
         resb 4
-dword_17DD5C:
         resb 4
-dword_17DD60:
         resb 4
-dword_17DD64:
         resb 4
-dword_17DD68:
         resb 4
-dword_17DD6C:
         resb 4
-dword_17DD70:
         resb 4
-dword_17DD74:
         resb 4
-dword_17DD78:
         resb 4
-dword_17DD7C:
         resb 4
-dword_17DD80:
         resb 12
-dword_17DD8C:
         resb 4
-dword_17DD90:
         resb 4
-dword_17DD94:
+TeamStatsButtonBmps:
         resb 4
-dword_17DD98:
         resb 4
-dword_17DD9C:
         resb 4
-dword_17DDA0:
         resb 4
-dword_17DDA4:
         resb 4
-dword_17DDA8:
         resb 4
-dword_17DDAC:
         resb 4
-dword_17DDB0:
         resb 356
-dword_17DF14:
+TeamStatsHeaderArt:
         resb 4
-dword_17DF18:
         resb 4
-dword_17DF1C:
         resb 120
-dword_17DF94:
+TeamStatRows:
         resb 4
-dword_17DF98:
         resb 4
-dword_17DF9C:
         resb 4
-dword_17DFA0:
         resb 4
-dword_17DFA4:
+TeamStatRowValues:
         resb 4
-dword_17DFA8:
         resb 4
-dword_17DFAC:
         resb 4
-dword_17DFB0:
         resb 4
-dword_17DFB4:
         resb 4
-dword_17DFB8:
         resb 4
-dword_17DFBC:
         resb 4
-dword_17DFC0:
         resb 4
-dword_17DFC4:
         resb 4
-dword_17DFC8:
         resb 988
-dword_17E3A4:
+TeamStatColumns:
         resb 16
-dword_17E3B4:
         resb 4
-dword_17E3B8:
         resb 4
-dword_17E3BC:
         resb 4
-dword_17E3C0:
         resb 4
-dword_17E3C4:
         resb 4
-dword_17E3C8:
         resb 4
-dword_17E3CC:
         resb 4
-dword_17E3D0:
         resb 4
-dword_17E3D4:
         resb 4
-dword_17E3D8:
         resb 4
-dword_17E3DC:
         resb 4
-dword_17E3E0:
         resb 1204
-word_17E894:
+TeamHomePoints:
         resb 52
-word_17E8C8:
+TeamPowerPlayPct:
         resb 52
-dword_17E8FC:
+TeamStatSortColumn:
         resb 4
-word_17E900:
+TeamPenaltyKillPct:
         resb 52
-word_17E934:
+TeamPoints:
         resb 52
-word_17E968:
+TeamRoadPoints:
         resb 52
-word_17E99C:
+TeamPointsPct:
         resb 52
-dword_17E9D0:
+PlayerStatsButtonArt:
         resb 4

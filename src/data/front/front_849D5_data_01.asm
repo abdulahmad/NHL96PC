@@ -6,7 +6,7 @@ global str_Bkgd13, str_04d2, str_SCHEDULE2, str_BKGD14, str_Xlate, str_FSH3, str
 global str_Card, str_Plyr, str_LG02d, str_SS3, str_MightyDucksOfAnaheim, str_DSS, str_PALS, str_D2
 global str_CS3, str_AALIAS, str_Menupicks, str_Bkgd15, str_Pal20, str_SD2, str_SEA0, str_CON0
 global str_WES0, str_PRN0, str_PRN1, str_PRN2, str_LGR0, str_LGR1, str_LGR2, str_dbgSpace
-global unk_112523, str_000, str_SEA2, str_PLY2, str_LEA, str_DIV, str_CON, str_WES
+global str_PreGameBlank, str_000, str_SEA2, str_PLY2, str_LEA, str_DIV, str_CON, str_WES
 global str_EAS, str_PAC, str_NOR, str_CEN, str_ATL
 str_dbgSpace:
         db 020h,00h
@@ -39,7 +39,7 @@ str_MightyDucksOfAnaheim:
         db 041h,06Eh,061h,068h,065h,069h,06Dh,00h
 str_DSS:
         db 023h,025h,064h,020h,025h,073h,020h,025h,073h,00h
-unk_112523:
+str_PreGameBlank:
         db 00h
 str_PALS:
         db 050h,041h,04Ch,053h,00h

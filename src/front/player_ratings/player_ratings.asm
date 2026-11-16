@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_93E6A progbits alloc exec nowrite align=1
-extern __CHP, byte_11E844, byte_11E852, byte_17EBF0, byte_17EC0C, DrawColorText, DrawColorTextCentred, DrawColorTextRight
-extern DrawLeagueLogo, DrawScrollBar, dword_11E670, dword_11E678, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B
+extern __CHP, SkaterRatingOrder, GoalieRatingOrder, PlayerPosCodes, RatingsPosCodes, DrawColorText, DrawColorTextCentred, DrawColorTextRight
+extern DrawLeagueLogo, DrawScrollBar, RosterDbPtrs, RosterPlayerIds, SkaterCardTextIds, GoalieCardTextIds, SkaterRatingTextIds, GoalieRatingTextIds
 extern dword_11E890, dword_11E894, dword_11E898, dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC
-extern RatingsGoalieShown, RatingsSkaterShown, TeamStatsBitmap, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820AC
-extern dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_18210C, dword_182128, RatingsGoalieOrder, dword_182130
+extern RatingsGoalieShown, RatingsSkaterShown, TeamStatsBitmap, PlayerRecPtrs, PlayerHeightPtrs, PlayerWeightPtrs, RatingsPlayerId, RosterFirstNamePtrs
+extern RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, BackgroundShapes, dword_182128, RatingsGoalieOrder, dword_182130
 extern dword_182134, dword_182138, dword_18213C, dword_182140, FadeOut, FadePalette, FillMusicStream, FillRect
 extern FreeScrollBar, GetLangText, GetTicks, InitMenuItems, InitVScrollBar, jpt_93E46, LoadPackedFile, off_11E8B0
 extern OpenScreen, optflags, PutBlock, F64_2p54_DrawRatingsName, F64_0p454545_DrawRatingsName, RatingBar, RunMenu, ScrollBarDown
@@ -57,16 +57,16 @@ PlayerRatingsScreen:
         mov dword [RatingsSkaterShown], 0FFFFFFFFh
         test ebx, ebx
         je short .1
-        mov dword [dword_181EAC], 0
+        mov dword [RatingsPlayerId], 0
 .1:
         mov dword [byte ebp+066h], 0
         mov dword [byte ebp+042h], 0
         xor edx, edx
         jmp short .4
 .2:
-        mov eax, dword [dword_11E678]
+        mov eax, dword [RosterPlayerIds]
         mov eax, dword [edx+eax]
-        cmp eax, dword [dword_181EAC]
+        cmp eax, dword [RatingsPlayerId]
         jne short .3
         mov eax, dword [byte ebp+042h]
         mov dword [byte ebp+03Ah], eax
@@ -123,8 +123,8 @@ PlayerRatingsScreen:
         mov byte [dword eax+0FFh], 0FFh
         mov eax, dword [dword_182130]
         mov byte [dword eax+0FFh], 0FFh
-        mov eax, dword [dword_181EAC]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        mov eax, dword [RatingsPlayerId]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 47h
         sete al
         movzx eax, al
@@ -180,16 +180,16 @@ PlayerRatingsScreen:
 .8:
         xor edx, edx
         call LoadPackedFile
-        mov dword [dword_18210C], eax
+        mov dword [BackgroundShapes], eax
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         mov dword [byte ebp+042h], 0
         push str_Pal24
         mov dword [byte ebp+046h], 0
         xor edi, edi
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [byte ebp+05Eh], eax
         call FindShape
         add eax, byte 10h
@@ -212,13 +212,13 @@ PlayerRatingsScreen:
         add esp, byte 10h
         push byte 0
         push str_RAT02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push eax
         push str_RAT02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
@@ -230,21 +230,21 @@ PlayerRatingsScreen:
         call SetDrawBitmap
         add esp, byte 4
         push str_RAT02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
         push eax
         push str_RAT02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -254,7 +254,7 @@ PlayerRatingsScreen:
         push byte 0
         lea eax, [byte ebp+032h]
         push eax
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -343,7 +343,7 @@ PlayerRatingsScreen:
         jle short .18
         push str_HD023
 .17:
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -353,7 +353,7 @@ PlayerRatingsScreen:
         cmp dword [dword ebp-01BBEh], byte 0
         je short .19
         push str_Ban2
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -365,19 +365,19 @@ PlayerRatingsScreen:
         mov ebx, dword [byte ebp+05Ah]
         call OpenScreen
         xor edx, edx
-        mov eax, dword [dword_181EAC]
+        mov eax, dword [RatingsPlayerId]
         call LoadRatingsPicture
         cmp dword [dword ebp-01BBAh], byte 0
         je short .20
         mov ecx, 1
-        mov eax, dword [dword_181EAC]
+        mov eax, dword [RatingsPlayerId]
         mov ebx, dword [byte ebp+05Ah]
         add eax, byte 1Ch
         jmp short .21
 .20:
         mov ecx, 1
         mov ebx, dword [byte ebp+05Ah]
-        mov eax, dword [dword_181EAC]
+        mov eax, dword [RatingsPlayerId]
 .21:
         mov edx, ecx
         call LoadRatingsPicture
@@ -391,12 +391,12 @@ PlayerRatingsScreen:
         call SlideCardRight
         push dword [dword_182130]
         call SetColourRemap
-        mov esi, dword [dword_181EAC]
+        mov esi, dword [RatingsPlayerId]
         add esp, byte 4
         cmp dword [dword ebp-01BBAh], byte 0
         je short .22
         lea eax, [byte esi+01Ch]
-        mov dword [dword_181EAC], eax
+        mov dword [RatingsPlayerId], eax
 .22:
         mov edx, 0Ah
         mov ebx, dword [RatingsGoalieOrder]
@@ -405,7 +405,7 @@ PlayerRatingsScreen:
         call SlideCardRight
         mov dword [dword_11E890], 0
         mov dword [dword_11E894], 0
-        mov dword [dword_181EAC], esi
+        mov dword [RatingsPlayerId], esi
         call SetScreenTarget
         push byte 68h
         mov eax, dword [dword_182128]
@@ -429,7 +429,7 @@ PlayerRatingsScreen:
         cmp dword [byte ebp+042h], byte 1Ch
         jge short .26
         mov eax, dword [byte ebp+042h]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 58h
         jne short .23
         jmp short .26
@@ -438,17 +438,17 @@ PlayerRatingsScreen:
         mov dword [byte ebp+042h], eax
 .26:
         push str_BALL4
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_S1
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -468,7 +468,7 @@ PlayerRatingsScreen:
         cmp dword [byte ebp+042h], byte 38h
         jge short .29
         mov eax, dword [byte ebp+042h]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 58h
         jne short .27
 .29:
@@ -487,17 +487,17 @@ PlayerRatingsScreen:
         mov dword [byte ebp+042h], 2C4h
 .32:
         push str_BALL4
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_S22
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -508,17 +508,17 @@ PlayerRatingsScreen:
         lea eax, [dword ebp-073Eh]
         call InitVScrollBar
         push str_BALL4
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_S32
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -537,7 +537,7 @@ PlayerRatingsScreen:
         lea eax, [dword ebp-04CEh]
         call SetScrollBarPos
         mov edx, dword [byte ebp+03Ah]
-        mov eax, dword [dword_11E678]
+        mov eax, dword [RosterPlayerIds]
         mov edx, dword [eax+edx*4]
         lea eax, [dword ebp-073Eh]
         call SetScrollBarPos
@@ -548,13 +548,13 @@ PlayerRatingsScreen:
         push str_RAT02
         mov dword [dword ebp-0F94h], eax
         mov eax, dword [byte ebp-012h]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0F90h], eax
         call FindShape
         add esp, byte 8
         push str_RAT02
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0F88h], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -574,88 +574,88 @@ PlayerRatingsScreen:
         mov dword [dword ebp-0F34h], eax
         push str_S1up
         rep movsb
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push str_S1ug
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0E62h], eax
         call FindShape
         add esp, byte 8
         push str_S1up
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0E5Eh], eax
         call FindShape
         add esp, byte 8
         push str_S1up
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0E56h], eax
         call FindShape
         add esp, byte 8
         push str_S1dw
         movsx eax, word [byte eax+0Eh]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0E52h], eax
         call FindShape
         add esp, byte 8
         push str_S1dg
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0D30h], eax
         call FindShape
         add esp, byte 8
         push str_S1dw
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0D2Ch], eax
         call FindShape
         add esp, byte 8
         push str_S1dw
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0D24h], eax
         call FindShape
         add esp, byte 8
         push str_S2up
         movsx eax, word [byte eax+0Eh]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0D20h], eax
         call FindShape
         add esp, byte 8
         push str_S2ug
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0C64h], eax
         call FindShape
         add esp, byte 8
         push str_S2up
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0C60h], eax
         call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         mov dword [dword ebp-0C58h], eax
         push str_S2up
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push str_S2dw
         movsx eax, word [byte eax+0Eh]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0C54h], eax
         call FindShape
         add esp, byte 8
         push str_S2dg
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0B32h], eax
         call FindShape
         add esp, byte 8
         push str_S2dw
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0B2Eh], eax
         call FindShape
         add esp, byte 8
         push str_S2dw
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0B26h], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -666,28 +666,28 @@ PlayerRatingsScreen:
         push str_TR00
         mov dword [dword ebp-0AD6h], 6
         lea eax, [dword ebp-096h]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0AD2h], eax
         call FindShape
         add esp, byte 8
         push str_TR01
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0ACCh], eax
         call FindShape
         add esp, byte 8
         push str_TR02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0AC8h], eax
         call FindShape
         add esp, byte 8
         push str_TR00
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0AC4h], eax
         call FindShape
         add esp, byte 8
         push str_TR00
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0AC0h], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -703,49 +703,49 @@ PlayerRatingsScreen:
         mov dword [dword ebp-0F9Ah], eax
 .33:
         push str_S3up
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push str_S3ug
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0A66h], eax
         call FindShape
         add esp, byte 8
         push str_S3up
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0A62h], eax
         call FindShape
         add esp, byte 8
         push str_S3ug
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0A5Ah], eax
         call FindShape
         add esp, byte 8
         push str_S3dw
         movsx eax, word [byte eax+0Eh]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0A56h], eax
         call FindShape
         add esp, byte 8
         push str_S3dg
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0934h], eax
         call FindShape
         add esp, byte 8
         push str_S3dw
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0930h], eax
         call FindShape
         add esp, byte 8
         push str_S3dw
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0928h], eax
         call FindShape
         mov ebx, dword [dword ebp-05E2h]
         mov edx, dword [byte ebp+066h]
-        mov ecx, dword [dword_18210C]
+        mov ecx, dword [BackgroundShapes]
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push dword [byte ebp+052h]
@@ -755,8 +755,8 @@ PlayerRatingsScreen:
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-04AAh]
         mov ebx, dword [dword ebp-05E2h]
-        mov edx, dword [dword_11E678]
-        push dword [dword_18210C]
+        mov edx, dword [RosterPlayerIds]
+        push dword [BackgroundShapes]
         mov ecx, dword [edx+eax*4]
         push byte 0
         mov edx, dword [byte ebp+066h]
@@ -764,12 +764,12 @@ PlayerRatingsScreen:
         call DrawRatingBars
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-071Ah]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         shl eax, 2
         push byte 1
         cmp dword [dword ebp-01BBAh], byte 0
         je short .34
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov ecx, dword [byte edx+eax+070h]
         jmp short .35
 .34:
@@ -780,7 +780,7 @@ PlayerRatingsScreen:
         mov eax, dword [byte ebp+06Ah]
         call DrawRatingBars
         mov eax, dword [dword ebp-04AAh]
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov ebx, dword [byte ebp+04Ah]
         mov edx, dword [edx+eax*4]
         xor eax, eax
@@ -796,7 +796,7 @@ PlayerRatingsScreen:
         shl eax, 2
         cmp dword [dword ebp-01BBAh], byte 0
         je short .36
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov edx, dword [byte edx+eax+070h]
         jmp short .37
 .36:
@@ -872,11 +872,11 @@ PlayerRatingsScreen:
         jmp near PlayerRatingsScreen_E71.72
 .44:
         mov edx, dword [dword ebp-04AAh]
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         cmp dword [eax+edx*4], byte 0FFFFFFFFh
         je near PlayerRatingsScreen_E71.72
         mov eax, dword [dword ebp-071Ah]
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         cmp dword [byte edx+eax*4+070h], byte 0FFFFFFFFh
         je near PlayerRatingsScreen_E71.72
         mov dword [byte ebp+042h], 0
@@ -890,13 +890,13 @@ PlayerRatingsScreen:
 .45:
         call SetScreenTarget
         push str_RAT02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_RAT02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
@@ -959,13 +959,13 @@ PlayerRatingsScreen_E71:
 .49:
         call SetScreenTarget
         push str_RAT02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_RAT02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
@@ -993,13 +993,13 @@ PlayerRatingsScreen_E71:
         mov ebx, dword [dword ebp-05E2h]
         mov edx, dword [byte ebp+066h]
         mov eax, dword [byte ebp+06Ah]
-        mov ecx, dword [dword_18210C]
+        mov ecx, dword [BackgroundShapes]
         call DrawRatingsTitle
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-04AAh]
         mov ebx, dword [dword ebp-05E2h]
-        mov edx, dword [dword_11E678]
-        push dword [dword_18210C]
+        mov edx, dword [RosterPlayerIds]
+        push dword [BackgroundShapes]
         mov ecx, dword [edx+eax*4]
         push byte 0
         mov edx, dword [byte ebp+066h]
@@ -1007,12 +1007,12 @@ PlayerRatingsScreen_E71:
         call DrawRatingBars
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-071Ah]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         shl eax, 2
         push byte 1
         cmp dword [dword ebp-01BBAh], byte 0
         je short .53
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov ecx, dword [byte edx+eax+070h]
 .52:
         mov ebx, dword [dword ebp-05E2h]
@@ -1052,7 +1052,7 @@ PlayerRatingsScreen_E71:
         cmp dword [dword ebp-01BBAh], byte 0
         je short .61
         mov eax, dword [dword ebp-04AAh]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 47h
         jne short .60
         mov dword [byte ebp+06Ah], 1
@@ -1063,7 +1063,7 @@ PlayerRatingsScreen_E71:
         cmp edx, dword [dword ebp-04AAh]
         je near .72
         mov eax, dword [dword ebp-04AAh]
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         cmp dword [edx+eax*4], byte 0FFFFFFFFh
         jne short .62
         mov eax, dword [byte ebp-016h]
@@ -1103,9 +1103,9 @@ PlayerRatingsScreen_E71:
 .67:
         mov eax, dword [dword ebp-04AAh]
         push dword [byte ebp+052h]
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov ebx, dword [dword ebp-05E2h]
-        mov ecx, dword [dword_18210C]
+        mov ecx, dword [BackgroundShapes]
         mov eax, dword [edx+eax*4]
         mov edx, dword [byte ebp+066h]
         mov dword [dword_18213C], eax
@@ -1114,8 +1114,8 @@ PlayerRatingsScreen_E71:
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-04AAh]
         mov ebx, dword [dword ebp-05E2h]
-        mov edx, dword [dword_11E678]
-        push dword [dword_18210C]
+        mov edx, dword [RosterPlayerIds]
+        push dword [BackgroundShapes]
         mov ecx, dword [edx+eax*4]
         push byte 0
         mov edx, dword [byte ebp+066h]
@@ -1123,12 +1123,12 @@ PlayerRatingsScreen_E71:
         call DrawRatingBars
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-071Ah]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         shl eax, 2
         push byte 1
         cmp dword [dword ebp-01BBAh], byte 0
         je short .68
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov ecx, dword [byte edx+eax+070h]
         jmp short .69
 .68:
@@ -1144,7 +1144,7 @@ PlayerRatingsScreen_E71:
         lea eax, [dword ebp-0606h]
         call DrawRatingsList
         mov eax, dword [dword ebp-04AAh]
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov ebx, dword [byte ebp+04Ah]
         mov edx, dword [edx+eax*4]
 .70:
@@ -1202,7 +1202,7 @@ PlayerRatingsScreen_E71:
         cmp edx, dword [dword ebp-071Ah]
         je near .72
         mov eax, dword [dword ebp-071Ah]
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         cmp dword [byte edx+eax*4+070h], byte 0FFFFFFFFh
         jne short .80
         cmp dword [dword ebp-01BBEh], byte 0
@@ -1219,7 +1219,7 @@ PlayerRatingsScreen_E71:
         cmp dword [dword ebp-01BBAh], byte 0
         je short .82
         mov eax, dword [dword ebp-071Ah]
-        movsx eax, byte [dword eax+byte_17EC0C]
+        movsx eax, byte [dword eax+RatingsPosCodes]
         cmp eax, byte 47h
         jne short .81
         mov dword [byte ebp+06Ah], 1
@@ -1260,7 +1260,7 @@ PlayerRatingsScreen_E71:
         shl eax, 2
         cmp dword [dword ebp-01BBAh], byte 0
         je short .88
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov eax, dword [byte edx+eax+070h]
         jmp short .89
 .88:
@@ -1269,15 +1269,15 @@ PlayerRatingsScreen_E71:
         push dword [byte ebp+052h]
         mov ebx, dword [dword ebp-05E2h]
         mov edx, dword [byte ebp+066h]
-        mov ecx, dword [dword_18210C]
+        mov ecx, dword [BackgroundShapes]
         mov dword [dword_182140], eax
         mov eax, dword [byte ebp+06Ah]
         call DrawRatingsTitle
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-04AAh]
         mov ebx, dword [dword ebp-05E2h]
-        mov edx, dword [dword_11E678]
-        push dword [dword_18210C]
+        mov edx, dword [RosterPlayerIds]
+        push dword [BackgroundShapes]
         mov ecx, dword [edx+eax*4]
         push byte 0
         mov edx, dword [byte ebp+066h]
@@ -1285,12 +1285,12 @@ PlayerRatingsScreen_E71:
         call DrawRatingBars
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-071Ah]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         shl eax, 2
         push byte 1
         cmp dword [dword ebp-01BBAh], byte 0
         je short .90
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov ecx, dword [byte edx+eax+070h]
         jmp short .91
 .90:
@@ -1310,7 +1310,7 @@ PlayerRatingsScreen_E71:
         shl eax, 2
         cmp dword [dword ebp-01BBAh], byte 0
         je short .92
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov edx, dword [byte edx+eax+070h]
         jmp short .93
 .92:
@@ -1354,20 +1354,20 @@ PlayerRatingsScreen_E71:
         call sprintf_
         add esp, byte 0Ch
         push str_TR00
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_TR00
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
         lea eax, [byte ebp+032h]
         push eax
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -1390,7 +1390,7 @@ PlayerRatingsScreen_E71:
         mov dword [dword_11E894], 1
         mov dword [RatingsSkaterShown], eax
         call GetTicks
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov dword [dword_11E89C], eax
         mov dword [dword_11E898], eax
         mov eax, dword [dword ebp-04AAh]
@@ -1399,7 +1399,7 @@ PlayerRatingsScreen_E71:
         mov dword [dword_18213C], eax
         mov eax, dword [dword ebp-071Ah]
         mov ebx, dword [dword ebp-05E2h]
-        mov ecx, dword [dword_18210C]
+        mov ecx, dword [BackgroundShapes]
         mov eax, dword [byte edx+eax*4+070h]
         mov edx, dword [byte ebp+066h]
         mov dword [dword_182140], eax
@@ -1408,8 +1408,8 @@ PlayerRatingsScreen_E71:
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-04AAh]
         mov ebx, dword [dword ebp-05E2h]
-        mov edx, dword [dword_11E678]
-        push dword [dword_18210C]
+        mov edx, dword [RosterPlayerIds]
+        push dword [BackgroundShapes]
         mov ecx, dword [edx+eax*4]
         push byte 0
         mov edx, dword [byte ebp+066h]
@@ -1417,12 +1417,12 @@ PlayerRatingsScreen_E71:
         call DrawRatingBars
         push dword [byte ebp+04Eh]
         mov eax, dword [dword ebp-071Ah]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         shl eax, 2
         push byte 1
         cmp dword [dword ebp-01BBAh], byte 0
         je short .101
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov ecx, dword [byte edx+eax+070h]
         jmp short .102
 .101:
@@ -1439,7 +1439,7 @@ PlayerRatingsScreen_E71:
         call DrawRatingsList
         mov edx, dword [dword ebp-071Ah]
         add edx, dword [byte ebp+076h]
-        mov eax, dword [dword_11E678]
+        mov eax, dword [RosterPlayerIds]
         shl edx, 2
         mov ebx, dword [byte ebp+04Ah]
         mov edx, dword [edx+eax]
@@ -1451,7 +1451,7 @@ PlayerRatingsScreen_E71:
         push dword [byte eax+02Ch]
         call PutBlock
         mov edx, dword [dword ebp-04AAh]
-        mov eax, dword [dword_11E678]
+        mov eax, dword [RosterPlayerIds]
         mov ebx, dword [byte ebp+04Ah]
         add esp, byte 0Ch
         mov edx, dword [eax+edx*4]
@@ -1486,7 +1486,7 @@ PlayerRatingsScreen_E71:
         push dword [dword_182138]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+052h]
@@ -1526,9 +1526,9 @@ PlayerRatingsScreen_E71:
         mov eax, 3
         call FadeOut
         mov eax, dword [dword ebp-04AAh]
-        mov edx, dword [dword_11E678]
+        mov edx, dword [RosterPlayerIds]
         mov eax, dword [edx+eax*4]
-        mov dword [dword_181EAC], eax
+        mov dword [RatingsPlayerId], eax
         lea esp, [dword ebp+082h]
         pop ebp
         pop edi
@@ -1592,14 +1592,14 @@ DrawRatingBars:
         cmp dword [byte ebp-03Ch], byte 0
         je short .3
         mov eax, dword [byte ebp-014h]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 47h
         je short .4
 .3:
         cmp dword [byte ebp-03Ch], byte 0
         jne near DrawRatingBars_73E.105
         mov eax, dword [byte ebp-014h]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 47h
         je near DrawRatingBars_73E.105
 .4:
@@ -1608,15 +1608,15 @@ DrawRatingBars:
         test esi, esi
         jne near .24
         mov edx, dword [byte ebp-014h]
-        movsx edx, byte [dword edx+byte_17EBF0]
+        movsx edx, byte [dword edx+PlayerPosCodes]
         cmp edx, byte 47h
         je short .5
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         call StatsDb2Record
         jmp short .6
 .5:
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         call StatsDb2Record
 .6:
@@ -1628,7 +1628,7 @@ DrawRatingBars:
 .7:
         push byte 16h
         mov edx, 64h
-        movsx eax, byte [dword esi+byte_11E852]
+        movsx eax, byte [dword esi+GoalieRatingOrder]
 .8:
         xor ecx, ecx
         xor ebx, ebx
@@ -1650,7 +1650,7 @@ DrawRatingBars:
         mov ebx, 1
         mov edx, 0Fh
         push dword 95h
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         xor ecx, ecx
 .11:
         push dword [byte ebp-0Ch]
@@ -1664,7 +1664,7 @@ DrawRatingBars:
         push byte 16h
         mov edx, 0Fh
         push byte 9
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         push dword 96h
         xor ecx, ecx
         xor ebx, ebx
@@ -1677,17 +1677,17 @@ DrawRatingBars:
         push byte 16h
         mov ebx, 1
         mov edx, 64h
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         jmp near .23
 .14:
         cmp esi, byte 0Dh
         je short .15
         push byte 16h
         mov edx, 64h
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         jmp near .8
 .15:
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         movzx eax, byte [edi+eax]
         cmp eax, byte 6
         jle short .16
@@ -1731,7 +1731,7 @@ DrawRatingBars:
         cmp esi, dword [byte ebp-028h]
         jge near DrawRatingBars_73E.105
         mov eax, dword [byte ebp-014h]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 47h
         jne near .10
         cmp dword [byte ebp+010h], byte 0
@@ -1739,7 +1739,7 @@ DrawRatingBars:
         push byte 16h
         mov ebx, 1
         mov edx, 64h
-        movsx eax, byte [dword esi+byte_11E852]
+        movsx eax, byte [dword esi+GoalieRatingOrder]
 .23:
         xor ecx, ecx
         push byte 9
@@ -1748,7 +1748,7 @@ DrawRatingBars:
         jmp near .9
 .24:
         mov edx, dword [byte ebp-014h]
-        movsx edx, byte [dword edx+byte_17EBF0]
+        movsx edx, byte [dword edx+PlayerPosCodes]
         cmp edx, byte 47h
         jne near DrawRatingBars_4C1.64
         cmp esi, byte 3
@@ -1765,22 +1765,22 @@ DrawRatingBars:
         jb short .31
         jmp short .27
 .26:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDataBBRecord
         jmp short .30
 .27:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb1Record
         jmp short .30
 .28:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsData4Record
         jmp short .30
 .29:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb5Record
 .30:
@@ -2074,22 +2074,22 @@ DrawRatingBars_4C1:
         jb short .71
         jmp short .67
 .66:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDataBBRecord
         jmp short .70
 .67:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb1Record
         jmp short .70
 .68:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsData4Record
         jmp short .70
 .69:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb5Record
 .70:
@@ -2395,7 +2395,7 @@ DrawRatingsTitle:
         jmp short .2
 .1:
         mov ebx, esi
-        mov eax, dword [dword ecx+dword_11E85B]
+        mov eax, dword [dword ecx+GoalieRatingTextIds]
         xor edx, edx
         call GetLangText
         call DrawColorText
@@ -2410,7 +2410,7 @@ DrawRatingsTitle:
         jmp short .5
 .4:
         mov ebx, esi
-        mov eax, dword [dword ecx+dword_11E7E0]
+        mov eax, dword [dword ecx+SkaterRatingTextIds]
         xor edx, edx
         call GetLangText
         call DrawColorText
@@ -2427,7 +2427,7 @@ DrawRatingsTitle:
         jmp short .8
 .7:
         mov ebx, esi
-        mov eax, dword [dword ecx+dword_11E6B4]
+        mov eax, dword [dword ecx+GoalieCardTextIds]
         xor edx, edx
         call GetLangText
         call DrawColorText
@@ -2442,7 +2442,7 @@ DrawRatingsTitle:
         jmp short .11
 .10:
         mov ebx, esi
-        mov eax, dword [dword ecx+dword_11E684]
+        mov eax, dword [dword ecx+SkaterCardTextIds]
         xor edx, edx
         call GetLangText
         call DrawColorText
@@ -2497,7 +2497,7 @@ LoadRatingsPicture:
         push eax
         mov ecx, 4
         call sprintf_
-        mov eax, dword [dword_1820B0]
+        mov eax, dword [RosterJerseyPtrs]
         add esp, byte 8
         lea edi, [byte ebp-018h]
         mov esi, dword [eax+esi*4]
@@ -2687,7 +2687,7 @@ SwitchRatingsCard:
         mov eax, dword [dword_18213C]
         mov ebx, dword [dword_11E898]
         add esp, byte 4
-        mov dword [dword_181EAC], eax
+        mov dword [RatingsPlayerId], eax
         mov eax, dword [dword_11E890]
         add ebx, byte 1Eh
         cmp eax, byte 2
@@ -2734,7 +2734,7 @@ SwitchRatingsCard:
         add eax, byte 32h
         cmp esi, eax
         jle near .8
-        mov eax, dword [dword_181EAC]
+        mov eax, dword [RatingsPlayerId]
         xor ecx, ecx
         xor ebx, ebx
         xor edx, edx
@@ -2773,7 +2773,7 @@ SwitchRatingsCard:
         mov eax, dword [dword_182140]
         mov ebx, dword [dword_11E89C]
         add esp, byte 4
-        mov dword [dword_181EAC], eax
+        mov dword [RatingsPlayerId], eax
         mov eax, dword [dword_11E894]
         add ebx, byte 1Eh
         cmp eax, byte 2
@@ -2821,7 +2821,7 @@ SwitchRatingsCard:
         cmp esi, eax
         jle near .16
         mov edx, 1
-        mov eax, dword [dword_181EAC]
+        mov eax, dword [RatingsPlayerId]
         xor ecx, ecx
         xor ebx, ebx
         call LoadRatingsPicture
@@ -2858,10 +2858,10 @@ SwitchRatingsCard:
         call SetColourRemap
         mov eax, dword [dword_18213C]
         add esp, byte 4
-        mov dword [dword_181EAC], eax
+        mov dword [RatingsPlayerId], eax
         cmp dword [dword_11E890], byte 2
         jne short .17
-        mov eax, dword [nosplit eax*4+dword_17EEF0]
+        mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         mov edx, dword [dword_182128]
         movsx eax, byte [eax]
         call DrawLeagueLogo
@@ -2874,10 +2874,10 @@ SwitchRatingsCard:
         add esp, byte 0Ch
 .17:
         mov eax, dword [dword_182140]
-        mov dword [dword_181EAC], eax
+        mov dword [RatingsPlayerId], eax
         cmp dword [dword_11E894], byte 2
         jne short .18
-        mov eax, dword [nosplit eax*4+dword_17EEF0]
+        mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         mov edx, dword [RatingsGoalieOrder]
         movsx eax, byte [eax]
         call DrawLeagueLogo
@@ -2939,17 +2939,17 @@ DrawRatingsList:
         test edx, edx
         jne short .5
         push str_BALL4
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_S32
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -2958,17 +2958,17 @@ DrawRatingsList:
         jmp near .8
 .5:
         push str_BALL4
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_S32
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -2979,17 +2979,17 @@ DrawRatingsList:
         test edx, edx
         jne short .7
         push str_BALL4
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_S32
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -2998,17 +2998,17 @@ DrawRatingsList:
         jmp short .8
 .7:
         push str_BALL4
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_S32
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -3051,17 +3051,17 @@ DrawRatingsName:
         push dword 0FFFFFE75h
 .2:
         push str_Bkgd18
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         call PutBlock
         add esp, byte 0Ch
-        mov ebx, dword [dword_1820E8]
+        mov ebx, dword [RosterProfilePtrs]
         mov eax, esi
         push dword [ebx+eax*4]
-        mov ebx, dword [dword_1820EC]
-        mov edx, dword [dword_1820AC]
+        mov ebx, dword [RosterLastNamePtrs]
+        mov edx, dword [RosterFirstNamePtrs]
         push dword [ebx+eax*4]
         mov eax, dword [edx+eax*4]
         movzx eax, byte [eax]
@@ -3075,7 +3075,7 @@ DrawRatingsName:
         mov edx, 64h
         lea eax, [byte ebp-034h]
         call DrawColorTextCentred
-        mov al, byte [dword esi+byte_17EBF0]
+        mov al, byte [dword esi+PlayerPosCodes]
         cmp al, 47h
         jb short .3
         jbe short .4
@@ -3121,11 +3121,11 @@ DrawRatingsName:
         xor edx, edx
         call DrawColorText
         mov eax, esi
-        movsx edx, byte [dword esi+byte_17EBF0]
+        movsx edx, byte [dword esi+PlayerPosCodes]
         shl eax, 2
         cmp edx, byte 47h
         jne short .12
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         call StatsDb2Record
         movzx eax, byte [eax]
@@ -3137,7 +3137,7 @@ DrawRatingsName:
         mov eax, 0CEh
         jmp short .14
 .12:
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         call StatsDb2Record
         movzx eax, byte [eax]
@@ -3156,7 +3156,7 @@ DrawRatingsName:
         shl eax, 2
         test byte [optflags], 0Ch
         jne short .15
-        mov ebx, dword [dword_17FDF0]
+        mov ebx, dword [PlayerHeightPtrs]
         mov ebx, dword [ebx+eax]
         movzx ebx, byte [ebx]
         mov eax, ebx
@@ -3169,7 +3169,7 @@ DrawRatingsName:
         idiv ecx
         jmp short .16
 .15:
-        mov edx, dword [dword_17FDF0]
+        mov edx, dword [PlayerHeightPtrs]
         mov eax, dword [edx+eax]
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax
@@ -3202,13 +3202,13 @@ DrawRatingsName:
         shl eax, 2
         test byte [optflags], 0Ch
         jne short .17
-        mov edx, dword [dword_17FDF4]
+        mov edx, dword [PlayerWeightPtrs]
         mov eax, dword [edx+eax]
         movzx eax, byte [eax]
         push eax
         jmp short .18
 .17:
-        mov edx, dword [dword_17FDF4]
+        mov edx, dword [PlayerWeightPtrs]
         mov eax, dword [edx+eax]
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax

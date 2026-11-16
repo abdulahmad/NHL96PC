@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_903B5 progbits alloc exec nowrite align=1
-extern __CHP, asc_1129CF, str_S_ExportPlayerCard, byte_11E844, byte_11E852, TitleTextStyle, SeasonUserTeam, SaveFileName
-extern byte_17EBF0, byte_182124, CheckExportName, DrawColorText, DrawColorTextCentred, DrawFrameAt, DrawScrollBar, F32_0p5_ScaleBlock
-extern dword_11E670, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B, dword_11E87F, dword_11E883, dword_11E887
-extern dword_11E88B, TeamStatsBitmap, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820A0, dword_1820A4
-extern dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_1820F4, dword_1820F8
-extern dword_1820FC, dword_182100, dword_182104, dword_182108, dword_18210C, dword_182110, dword_182114, dword_182118
-extern dword_18211C, dword_182120, EditText, FadeOut, FadePalette, fclose_, FillMusicStream, FillRect
+extern __CHP, asc_1129CF, str_S_ExportPlayerCard, SkaterRatingOrder, GoalieRatingOrder, TitleTextStyle, SeasonUserTeam, SaveFileName
+extern PlayerPosCodes, CardTitleShown, CheckExportName, DrawColorText, DrawColorTextCentred, DrawFrameAt, DrawScrollBar, F32_0p5_ScaleBlock
+extern RosterDbPtrs, SkaterCardTextIds, GoalieCardTextIds, SkaterRatingTextIds, GoalieRatingTextIds, CardView, CardSliding, CardArtLoaded
+extern CardRemapOn, TeamStatsBitmap, PlayerRecPtrs, PlayerHeightPtrs, PlayerWeightPtrs, RatingsPlayerId, TitleBlinkFrame, PlayerCardArt
+extern EditLinesBuffer, RosterFirstNamePtrs, RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, CardRemapTable, CardPhotoBmp
+extern CardRemapPlain, CardSlideFrom, CardSlideTo, CardJerseyNumber, BackgroundShapes, CardSlideBmp, CardRemapIndex, CardTitleTime
+extern CardXlatTable, CardSlideStep, EditText, FadeOut, FadePalette, fclose_, FillMusicStream, FillRect
 extern fopen_, fprintf_, FreeScrollBar, GetLangText, GetTeamMovieText, GetTicks, HideProgressBox, InitHScrollBar
-extern InitMenuItems, LoadPackedFile, LoadTeamLogo, memcmp_, MessageBox, MusicDone, off_11E6E0, off_11E764
+extern InitMenuItems, LoadPackedFile, LoadTeamLogo, memcmp_, MessageBox, MusicDone, CardFlameFrames, CardPhotoNames
 extern OpenScreen, optflags, PlayMusic, PutBlock, F64_0p1_SlideCardLeft, F64_0p1_SlideCardRight, F64_2p54_DrawPlayerCardName, F64_0p454545_DrawPlayerCardName
 extern F64_0p1_ScaleBlock, RunMenu, ScrollBarDown, ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScreenPalette
 extern SetScrollBarPos, SetTextColors, SetTickDeadline, ShowProgressBox, SlideInSideBar, SoundSecondsToBytes, sprintf_, str_002
@@ -85,7 +85,7 @@ ShowPlayerCardTitle:
         push ecx
         push edx
         push esi
-        cmp byte [byte_182124], 0
+        cmp byte [CardTitleShown], 0
         je near .2
         push byte 0
         push byte 46h
@@ -99,34 +99,34 @@ ShowPlayerCardTitle:
         push byte 0FFFFFF9Ch
         push dword 0FFFFFEE8h
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         call PutBlock
         add esp, byte 0Ch
         call GetTicks
-        mov edx, dword [dword_182118]
+        mov edx, dword [CardTitleTime]
         add edx, byte 0Ah
         cmp eax, edx
         jle short .1
-        inc dword [dword_1820A0]
+        inc dword [TitleBlinkFrame]
         call GetTicks
-        mov dword [dword_182118], eax
+        mov dword [CardTitleTime], eax
 .1:
-        mov eax, dword [dword_1820A0]
+        mov eax, dword [TitleBlinkFrame]
         mov ebx, 8
         cdq
         idiv ebx
-        push dword [nosplit edx*4+off_11E6E0]
-        push dword [dword_18210C]
-        mov dword [dword_1820A0], edx
+        push dword [nosplit edx*4+CardFlameFrames]
+        push dword [BackgroundShapes]
+        mov dword [TitleBlinkFrame], edx
         call FindShape
         add esp, byte 8
         push byte 0
         push byte 0
         push eax
-        mov dword [dword_1820A4], eax
+        mov dword [PlayerCardArt], eax
         call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
@@ -157,17 +157,17 @@ SwitchPlayerCard:
         call ShowPlayerCardTitle
         call GetTicks
         mov esi, eax
-        cmp dword [dword_11E88B], byte 0
+        cmp dword [CardRemapOn], byte 0
         je short .1
-        push dword [dword_1820F4]
+        push dword [CardRemapTable]
         jmp short .2
 .1:
-        push dword [dword_1820FC]
+        push dword [CardRemapPlain]
 .2:
         call SetColourRemap
         add esp, byte 4
-        mov edx, dword [dword_182114]
-        mov eax, dword [dword_11E87F]
+        mov edx, dword [CardRemapIndex]
+        mov eax, dword [CardView]
         add edx, byte 1Eh
         cmp eax, byte 2
         jb short .3
@@ -182,87 +182,87 @@ SwitchPlayerCard:
         jle short .4
         mov ecx, 1
         mov edx, 0Ah
-        mov ebx, dword [dword_182120]
-        mov eax, dword [dword_182110]
+        mov ebx, dword [CardSlideStep]
+        mov eax, dword [CardSlideBmp]
         call SlideCardLeft
         call GetTicks
-        mov dword [dword_11E87F], 2
-        mov dword [dword_182114], eax
+        mov dword [CardView], 2
+        mov dword [CardRemapIndex], eax
         jmp near .8
 .4:
         mov eax, esi
-        sub eax, dword [dword_182114]
+        sub eax, dword [CardRemapIndex]
         mov esi, 3
         cdq
         idiv esi
         mov ecx, 1
-        mov ebx, dword [dword_182120]
-        mov esi, dword [dword_182110]
+        mov ebx, dword [CardSlideStep]
+        mov esi, dword [CardSlideBmp]
         mov edx, eax
         mov eax, esi
         call SlideCardLeft
         jmp near .8
 .5:
-        mov eax, dword [dword_182114]
+        mov eax, dword [CardRemapIndex]
         add eax, byte 32h
         cmp esi, eax
         jle near .9
         mov ecx, 1
-        mov ebx, dword [dword_182100]
-        mov edx, dword [dword_182104]
-        mov eax, dword [dword_181EAC]
+        mov ebx, dword [CardSlideFrom]
+        mov edx, dword [CardSlideTo]
+        mov eax, dword [RatingsPlayerId]
         call LoadPlayerCardArt
         call GetTicks
-        mov dword [dword_11E87F], 3
-        mov dword [dword_182114], eax
+        mov dword [CardView], 3
+        mov dword [CardRemapIndex], eax
         jmp short .9
 .6:
         cmp esi, edx
         jle short .7
         mov ecx, 1
         mov edx, 0Ah
-        mov ebx, dword [dword_182120]
-        mov eax, dword [dword_182110]
+        mov ebx, dword [CardSlideStep]
+        mov eax, dword [CardSlideBmp]
         call SlideCardRight
         call GetTicks
-        mov dword [dword_11E87F], 0
-        mov dword [dword_182114], eax
+        mov dword [CardView], 0
+        mov dword [CardRemapIndex], eax
         jmp short .8
 .7:
         mov ecx, 1
         mov edx, 0Ah
-        mov ebx, dword [dword_182120]
-        mov eax, dword [dword_182110]
+        mov ebx, dword [CardSlideStep]
+        mov eax, dword [CardSlideBmp]
         call SlideCardRight
 .8:
         call SetScreenTarget
         push byte 5Dh
-        mov eax, dword [dword_182120]
+        mov eax, dword [CardSlideStep]
         push byte 61h
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
 .9:
-        cmp dword [dword_11E87F], byte 2
+        cmp dword [CardView], byte 2
         jne near .10
         push byte 0
         push dword 0B1h
         push dword 0A0h
         call CreateBitmap
         mov esi, eax
-        mov eax, dword [dword_181EAC]
-        mov eax, dword [nosplit eax*4+dword_17EEF0]
+        mov eax, dword [RatingsPlayerId]
+        mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         add esp, byte 0Ch
         mov edx, esi
         movsx eax, byte [eax]
         call DrawLeagueLogo
-        push dword [dword_182120]
+        push dword [CardSlideStep]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0FFFFFFA3h
         push byte 0FFFFFF9Fh
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -278,7 +278,7 @@ SwitchPlayerCard:
         add esp, byte 4
         call SetScreenTarget
         push byte 5Dh
-        mov eax, dword [dword_182120]
+        mov eax, dword [CardSlideStep]
         push byte 61h
         push dword [byte eax+02Ch]
         call PutBlock
@@ -308,7 +308,7 @@ DrawLeagueLogo:
         add esp, byte 0Ch
         lea eax, [byte ebp-010h]
         push eax
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], 0
@@ -363,8 +363,8 @@ SlideCardLeft:
         push dword 0A0h
         call CreateBitmap
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_181EAC]
-        mov eax, dword [nosplit eax*4+dword_17EEF0]
+        mov eax, dword [RatingsPlayerId]
+        mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         add esp, byte 0Ch
         mov edx, dword [byte ebp-0Ch]
         movsx eax, byte [eax]
@@ -375,7 +375,7 @@ SlideCardLeft:
         push byte 0FFFFFFA3h
         push byte 0FFFFFF9Fh
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -392,15 +392,15 @@ SlideCardLeft:
         add esp, byte 4
         jmp short .2
 .1:
-        mov eax, dword [dword_181EAC]
-        mov eax, dword [nosplit eax*4+dword_17EEF0]
+        mov eax, dword [RatingsPlayerId]
+        mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         mov edx, ebx
         movsx eax, byte [eax]
         call DrawLeagueLogo
 .2:
         test edi, edi
         je short .7
-        cmp dword [dword_11E883], byte 0
+        cmp dword [CardSliding], byte 0
         je short .3
         cmp dword [byte ebp-08h], byte 0
         jne short .4
@@ -412,7 +412,7 @@ SlideCardLeft:
         push byte 1
         jmp short .6
 .4:
-        cmp dword [dword_11E88B], byte 0
+        cmp dword [CardRemapOn], byte 0
         je short .5
         fild dword [byte ebp-04h]
         fmul qword [F64_0p1_SlideCardLeft]
@@ -457,8 +457,8 @@ SlideCardRight:
         push dword 0A0h
         call CreateBitmap
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_181EAC]
-        mov eax, dword [nosplit eax*4+dword_17EEF0]
+        mov eax, dword [RatingsPlayerId]
+        mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         add esp, byte 0Ch
         mov edx, dword [byte ebp-0Ch]
         movsx eax, byte [eax]
@@ -469,7 +469,7 @@ SlideCardRight:
         push byte 0FFFFFFA3h
         push byte 0FFFFFF9Fh
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -486,15 +486,15 @@ SlideCardRight:
         add esp, byte 4
         jmp short .2
 .1:
-        mov eax, dword [dword_181EAC]
-        mov eax, dword [nosplit eax*4+dword_17EEF0]
+        mov eax, dword [RatingsPlayerId]
+        mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         mov edx, ebx
         movsx eax, byte [eax]
         call DrawLeagueLogo
 .2:
         test edi, edi
         je short .7
-        cmp dword [dword_11E883], byte 0
+        cmp dword [CardSliding], byte 0
         je short .3
         cmp dword [byte ebp-08h], byte 0
         jne short .4
@@ -505,7 +505,7 @@ SlideCardRight:
         push byte 1
         jmp short .6
 .4:
-        cmp dword [dword_11E88B], byte 0
+        cmp dword [CardRemapOn], byte 0
         je short .5
         fild dword [byte ebp-04h]
         push byte 33h
@@ -561,14 +561,14 @@ PlayerCardScreen:
         push dword 0F1h
         rep movsd
         push dword 0ADh
-        mov dword [dword_1820A4], 0
-        mov dword [dword_1820F8], 0
+        mov dword [PlayerCardArt], 0
+        mov dword [CardPhotoBmp], 0
         call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push byte 3Dh
         push dword 0C5h
-        mov dword [dword_182120], eax
+        mov dword [CardSlideStep], eax
         call CreateBitmap
         add esp, byte 0Ch
         push byte 0
@@ -592,7 +592,7 @@ PlayerCardScreen:
         push byte 0
         push dword 100h
         push str_XTbl
-        mov dword [dword_18211C], eax
+        mov dword [CardXlatTable], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
@@ -600,13 +600,13 @@ PlayerCardScreen:
         mov dword [byte ebp-024h], 0
         push str_XTbl
         mov dword [byte ebp-020h], 0
-        mov dword [dword_1820F4], eax
+        mov dword [CardRemapTable], eax
         call AllocMemBlock
         lea edx, [dword ebp-0850h]
-        mov dword [dword_1820FC], eax
+        mov dword [CardRemapPlain], eax
         mov eax, dword [dword ebp-0860h]
         add esp, byte 0Ch
-        mov dword [dword_182100], eax
+        mov dword [CardSlideFrom], eax
         mov eax, 0Ah
         mov ebx, dword [dword ebp-0858h]
         call InitMenuItems
@@ -643,11 +643,11 @@ PlayerCardScreen:
         mov dword [dword ebp-047Ch], 82h
         push byte 0
         mov edx, eax
-        mov dword [dword_18210C], eax
+        mov dword [BackgroundShapes], eax
         lea eax, [dword ebp-0110h]
         push str_PHT0
         mov dword [dword ebp-04A6h], eax
-        mov eax, dword [dword_1820A4]
+        mov eax, dword [PlayerCardArt]
         push edx
         mov dword [dword ebp-04A0h], eax
         mov dword [dword ebp-049Ch], eax
@@ -657,7 +657,7 @@ PlayerCardScreen:
         movsx eax, word [byte eax+06h]
         push eax
         push str_PHT0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
@@ -669,21 +669,21 @@ PlayerCardScreen:
         call SetDrawBitmap
         add esp, byte 4
         push str_PHT0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
         push eax
         push str_PHT0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -691,17 +691,17 @@ PlayerCardScreen:
         add esp, byte 0Ch
         call SetScreenTarget
         push str_HBAL3
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_SLDH2
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -712,44 +712,44 @@ PlayerCardScreen:
         lea eax, [dword ebp-0454h]
         call InitHScrollBar
         push str_AR004
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push str_AR014
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-069Eh], eax
         call FindShape
         add esp, byte 8
         push str_AR004
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-069Ah], eax
         call FindShape
         add esp, byte 8
         push str_AR004
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0692h], eax
         call FindShape
         add esp, byte 8
         push str_AR104
         movsx eax, word [byte eax+0Eh]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-068Eh], eax
         call FindShape
         add esp, byte 8
         push str_AR114
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-056Ch], eax
         call FindShape
         add esp, byte 8
         push str_AR104
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0568h], eax
         call FindShape
         add esp, byte 8
         push str_AR104
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0560h], eax
         call FindShape
         mov edx, dword [byte ebp-01Ch]
@@ -761,28 +761,28 @@ PlayerCardScreen:
         mov eax, 0FFFFFFFBh
         call SelectDataLibrary
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push str_Pal23
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov edi, eax
         call FindShape
         add esp, byte 8
         mov dword [byte ebp-020h], 0
         add eax, byte 10h
         push edi
-        mov dword [dword_182104], eax
+        mov dword [CardSlideTo], eax
         mov esi, eax
         call DrawArtOpaqueAtOwnPos
         mov al, byte [byte ebp-020h]
         add esp, byte 4
         add al, 42h
 .5:
-        mov edx, dword [dword_1820F4]
+        mov edx, dword [CardRemapTable]
         add edx, dword [byte ebp-020h]
         mov byte [edx], al
-        mov edx, dword [dword_1820FC]
+        mov edx, dword [CardRemapPlain]
         add edx, dword [byte ebp-020h]
         mov ah, byte [byte ebp-020h]
         inc dword [byte ebp-020h]
@@ -790,14 +790,14 @@ PlayerCardScreen:
         inc al
         cmp dword [byte ebp-020h], 100h
         jl short .5
-        mov eax, dword [dword_1820F4]
+        mov eax, dword [CardRemapTable]
         mov dword [byte ebp-020h], 0
         mov byte [dword eax+0FFh], 0FFh
         mov al, byte [byte ebp-020h]
         mov ah, 7
         mul ah
         mov dl, al
-        mov ebx, dword [dword_182104]
+        mov ebx, dword [CardSlideTo]
         neg dl
         lea eax, [dword ebx+0AEh]
         add dl, 3Fh
@@ -818,7 +818,7 @@ PlayerCardScreen:
         inc eax
         cmp eax, edx
         jne short .7
-        mov eax, dword [dword_182104]
+        mov eax, dword [CardSlideTo]
         call SetScreenColors
         cmp dword [dword ebp-0860h], 3E7h
         jle short .8
@@ -831,7 +831,7 @@ PlayerCardScreen:
         jle short .10
         push str_HD00
 .9:
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -857,18 +857,18 @@ PlayerCardScreen:
         inc eax
         cmp eax, esi
         jne short .12
-        mov eax, dword [dword_182104]
+        mov eax, dword [CardSlideTo]
         call SetScreenPalette
         push str_RAT0
         mov dword [dword ebp-0840h], 8
         lea eax, [dword ebp-029Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-083Ch], eax
         call FindShape
         add esp, byte 8
         push str_RAT0
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-082Ah], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -883,28 +883,28 @@ PlayerCardScreen:
         push str_PRN02
         mov dword [dword ebp-0812h], eax
         lea eax, [dword ebp-031Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-07D6h], eax
         call FindShape
         add esp, byte 8
         push str_PRN12
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-07D0h], eax
         call FindShape
         add esp, byte 8
         push str_PRN22
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-07CCh], eax
         call FindShape
         add esp, byte 8
         push str_PRN02
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-07C8h], eax
         call FindShape
         add esp, byte 8
         push str_PRN02
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-07C4h], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -925,28 +925,28 @@ PlayerCardScreen:
         push str_CMP0
         mov dword [dword ebp-0774h], 6
         lea eax, [dword ebp-02DCh]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0770h], eax
         call FindShape
         add esp, byte 8
         push str_CMP1
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-076Ah], eax
         call FindShape
         add esp, byte 8
         push str_CMP2
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0766h], eax
         call FindShape
         add esp, byte 8
         push str_CMP0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0762h], eax
         call FindShape
         add esp, byte 8
         push str_CMP0
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-075Eh], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -966,13 +966,13 @@ PlayerCardScreen:
         rep movsb
         lea eax, [dword ebp-025Ch]
         mov dword [dword ebp-0510h], 4
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-050Ch], eax
         call FindShape
         add esp, byte 8
         push str_PHT0
         movsx eax, word [byte eax+0Ch]
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-04FAh], eax
         call FindShape
         movsx eax, word [byte eax+0Eh]
@@ -986,7 +986,7 @@ PlayerCardScreen:
         mov eax, dword [dword ebp-0430h]
         shl eax, 2
         add eax, dword [dword ebp-0854h]
-        mov edx, dword [dword_1820A8]
+        mov edx, dword [EditLinesBuffer]
         mov eax, dword [eax]
         mov eax, dword [edx+eax*4]
         movsx eax, byte [eax]
@@ -1003,35 +1003,35 @@ PlayerCardScreen:
         mov eax, dword [byte eax+02Ch]
         jmp near .16
 .14:
-        cmp dword [dword_11E887], byte 1
+        cmp dword [CardArtLoaded], byte 1
         jne short .15
         push str_PHT0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push str_PHT1
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0506h], eax
         call FindShape
         add esp, byte 8
         push str_PHT2
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0502h], eax
         call FindShape
         add esp, byte 8
         jmp short .16
 .15:
         push str_CRD0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push str_CRD1
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0506h], eax
         call FindShape
         add esp, byte 8
         push str_CRD2
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0502h], eax
         call FindShape
         add esp, byte 8
@@ -1045,13 +1045,13 @@ PlayerCardScreen:
 .18:
         push byte 0
         push str_PLY0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push eax
         push str_PLY0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
@@ -1070,21 +1070,21 @@ PlayerCardScreen:
         call SetDrawBitmap
         add esp, byte 4
         push str_PLY0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
         push eax
         push str_PLY0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -1094,7 +1094,7 @@ PlayerCardScreen:
         push byte 0
         lea eax, [byte ebp-04Ch]
         push eax
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -1147,27 +1147,27 @@ PlayerCardScreen:
         mov eax, dword [byte ebp-070h]
         mov dword [dword ebp-0836h], eax
         mov eax, dword [byte ebp-06Ch]
-        push dword [dword_1820F4]
+        push dword [CardRemapTable]
         mov dword [dword ebp-0832h], eax
         call SetColourRemap
         mov eax, dword [dword ebp-0858h]
         mov ebx, dword [dword ebp-0860h]
-        mov edx, dword [dword_182104]
+        mov edx, dword [CardSlideTo]
         add esp, byte 4
         xor ecx, ecx
         mov eax, dword [eax]
         call LoadPlayerCardArt
         mov ecx, 1
         mov edx, 0Ah
-        mov ebx, dword [dword_182120]
-        mov eax, dword [dword_182110]
+        mov ebx, dword [CardSlideStep]
+        mov eax, dword [CardSlideBmp]
         call SlideCardRight
-        push dword [dword_1820FC]
+        push dword [CardRemapPlain]
         call SetColourRemap
         add esp, byte 4
         call SetScreenTarget
         push byte 5Dh
-        mov eax, dword [dword_182120]
+        mov eax, dword [CardSlideStep]
         push byte 61h
         push dword [byte eax+02Ch]
         call PutBlock
@@ -1178,7 +1178,7 @@ PlayerCardScreen:
         mov ebx, dword [byte ebp-030h]
         add esp, byte 0Ch
         mov edx, dword [eax]
-        mov eax, dword [dword_18210C]
+        mov eax, dword [BackgroundShapes]
         call DrawPlayerCardName
         lea eax, [dword ebp-0454h]
         call DrawScrollBar
@@ -1187,7 +1187,7 @@ PlayerCardScreen:
         mov ecx, dword [byte ebp-02Ch]
         add eax, dword [dword ebp-0854h]
         push dword [dword ebp-0860h]
-        mov ebx, dword [dword_18210C]
+        mov ebx, dword [BackgroundShapes]
         mov edx, dword [eax]
         mov eax, dword [byte ebp-024h]
         xor esi, esi
@@ -1205,7 +1205,7 @@ PlayerCardScreen:
         cmp esi, 3FCh
         jne short .23
         mov ebx, 3
-        mov edx, dword [dword_182104]
+        mov edx, dword [CardSlideTo]
         xor eax, eax
         call FadePalette
         lea eax, [dword ebp-021Ch]
@@ -1284,7 +1284,7 @@ PlayerCardScreen:
         cmp dword [dword ebp-0860h], byte 2Ah
         jne short .34
         mov edx, dword [eax]
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         cmp dword [eax+edx*4], byte 0FFFFFFFFh
         je near .64
 .34:
@@ -1294,13 +1294,13 @@ PlayerCardScreen:
         lea edi, [byte eax+010h]
 .35:
         push str_PLY0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_PLY0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
@@ -1343,13 +1343,13 @@ PlayerCardScreen:
         lea edi, [byte eax+010h]
 .41:
         push str_PLY0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_PLY0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
@@ -1372,7 +1372,7 @@ PlayerCardScreen:
         push dword [dword ebp-0860h]
         add eax, dword [dword ebp-0854h]
         mov ecx, dword [byte ebp-02Ch]
-        mov ebx, dword [dword_18210C]
+        mov ebx, dword [BackgroundShapes]
         mov edx, dword [eax]
         mov eax, dword [byte ebp-024h]
         call DrawPlayerCardStats
@@ -1418,7 +1418,7 @@ PlayerCardScreen:
         shl eax, 2
         add eax, dword [dword ebp-0854h]
         mov edx, dword [eax]
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         cmp dword [eax+edx*4], byte 0FFFFFFFFh
         jne short .49
         mov edx, dword [byte ebp-024h]
@@ -1434,7 +1434,7 @@ PlayerCardScreen:
         mov ecx, dword [dword ebp-0860h]
         mov ebx, dword [byte ebp-030h]
         mov edx, dword [eax]
-        mov eax, dword [dword_18210C]
+        mov eax, dword [BackgroundShapes]
         call DrawPlayerCardName
         lea eax, [dword ebp-0454h]
         mov edx, dword [byte ebp-024h]
@@ -1448,26 +1448,26 @@ PlayerCardScreen:
         mov ecx, dword [byte ebp-02Ch]
         add eax, dword [dword ebp-0854h]
         push dword [dword ebp-0860h]
-        mov ebx, dword [dword_18210C]
+        mov ebx, dword [BackgroundShapes]
         mov edx, dword [eax]
         mov eax, dword [byte ebp-024h]
         call DrawPlayerCardStats
-        cmp dword [dword_11E87F], byte 0
+        cmp dword [CardView], byte 0
         jne short .50
-        mov dword [dword_11E87F], 1
+        mov dword [CardView], 1
         call GetTicks
-        mov dword [dword_182114], eax
+        mov dword [CardRemapIndex], eax
 .50:
-        cmp dword [dword_11E87F], byte 2
+        cmp dword [CardView], byte 2
         jne short .51
         call GetTicks
-        mov dword [dword_182114], eax
+        mov dword [CardRemapIndex], eax
 .51:
-        cmp dword [dword_11E87F], byte 3
+        cmp dword [CardView], byte 3
         jne short .54
-        mov dword [dword_11E87F], 1
+        mov dword [CardView], 1
         call GetTicks
-        mov edx, dword [dword_182114]
+        mov edx, dword [CardRemapIndex]
         add edx, byte 1Eh
         cmp eax, edx
         jle short .52
@@ -1476,12 +1476,12 @@ PlayerCardScreen:
 .52:
         sub eax, byte 1Eh
 .53:
-        mov dword [dword_182114], eax
+        mov dword [CardRemapIndex], eax
 .54:
         mov eax, dword [dword ebp-0430h]
         shl eax, 2
         add eax, dword [dword ebp-0854h]
-        mov edx, dword [dword_1820A8]
+        mov edx, dword [EditLinesBuffer]
         mov eax, dword [eax]
         mov eax, dword [edx+eax*4]
         movsx eax, byte [eax]
@@ -1497,35 +1497,35 @@ PlayerCardScreen:
         mov eax, dword [byte eax+02Ch]
         jmp near .57
 .55:
-        cmp dword [dword_11E887], byte 1
+        cmp dword [CardArtLoaded], byte 1
         jne short .56
         push str_PHT0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push str_PHT1
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0506h], eax
         call FindShape
         add esp, byte 8
         push str_PHT2
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0502h], eax
         call FindShape
         add esp, byte 8
         jmp short .57
 .56:
         push str_CRD0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push str_CRD1
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0506h], eax
         call FindShape
         add esp, byte 8
         push str_CRD2
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0502h], eax
         call FindShape
         add esp, byte 8
@@ -1539,17 +1539,17 @@ PlayerCardScreen:
         mov dword [edx], eax
         jmp near .64
 .58:
-        mov edx, dword [dword_1820A8]
+        mov edx, dword [EditLinesBuffer]
         mov eax, dword [eax]
         mov eax, dword [edx+eax*4]
         movsx eax, byte [eax]
         cmp eax, byte 4Eh
         je near .64
-        cmp dword [dword_11E87F], byte 3
+        cmp dword [CardView], byte 3
         jne short .60
-        mov dword [dword_11E87F], 1
+        mov dword [CardView], 1
         call GetTicks
-        mov edx, dword [dword_182114]
+        mov edx, dword [CardRemapIndex]
         add edx, byte 1Eh
         cmp eax, edx
         jle short .59
@@ -1559,28 +1559,28 @@ PlayerCardScreen:
         sub eax, byte 1Eh
         jmp short .61
 .60:
-        cmp dword [dword_11E87F], byte 0
+        cmp dword [CardView], byte 0
         jne short .62
-        mov dword [dword_11E87F], 1
+        mov dword [CardView], 1
         call GetTicks
 .61:
-        mov dword [dword_182114], eax
+        mov dword [CardRemapIndex], eax
 .62:
-        cmp dword [dword_11E887], byte 1
+        cmp dword [CardArtLoaded], byte 1
         jne near .66
         push str_CRD0
-        push dword [dword_18210C]
-        mov dword [dword_11E887], 0
+        push dword [BackgroundShapes]
+        mov dword [CardArtLoaded], 0
         call FindShape
         add esp, byte 8
         push str_CRD1
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0506h], eax
         call FindShape
         add esp, byte 8
         push str_CRD2
 .63:
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0502h], eax
         call FindShape
         add esp, byte 8
@@ -1592,7 +1592,7 @@ PlayerCardScreen:
         je near .69
         cmp dword [byte ebp-028h], byte 9
         je near .69
-        cmp byte [byte_182124], 0
+        cmp byte [CardTitleShown], 0
         jne near .25
         mov ebx, dword [byte ebp-04h]
         lea edx, [dword ebp-021Ch]
@@ -1609,19 +1609,19 @@ PlayerCardScreen:
         jmp near .27
 .66:
         push str_PHT0
-        push dword [dword_18210C]
-        mov dword [dword_11E887], 1
+        push dword [BackgroundShapes]
+        mov dword [CardArtLoaded], 1
         call FindShape
         add esp, byte 8
         push str_PHT1
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov dword [dword ebp-0506h], eax
         call FindShape
         add esp, byte 8
         push str_PHT2
         jmp near .63
 .67:
-        cmp byte [byte_182124], 0
+        cmp byte [CardTitleShown], 0
         jne short .68
         mov dword [byte ebp-028h], 0FFFFFFFFh
         jmp near .64
@@ -1632,7 +1632,7 @@ PlayerCardScreen:
         push dword 0FFFFFF74h
         push dword 0FFFFFE93h
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -1671,7 +1671,7 @@ PlayerCardScreen:
         push dword [dword ebp-0860h]
         add eax, dword [dword ebp-0854h]
         mov ecx, dword [byte ebp-02Ch]
-        mov ebx, dword [dword_18210C]
+        mov ebx, dword [BackgroundShapes]
         mov edx, dword [eax]
         mov eax, dword [byte ebp-024h]
         call DrawPlayerCardStats
@@ -1683,14 +1683,14 @@ PlayerCardScreen:
 .70:
         mov eax, 3
         call FadeOut
-        cmp dword [dword_1820F8], byte 0
+        cmp dword [CardPhotoBmp], byte 0
         je short .71
-        push dword [dword_1820F8]
+        push dword [CardPhotoBmp]
         call FreeMemBlock
         add esp, byte 4
 .71:
         mov dword [byte ebp-020h], 0
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         mov edi, 24h
         call FreeMemBlock
         add esp, byte 4
@@ -1708,13 +1708,13 @@ PlayerCardScreen:
         add edi, byte 24h
         cmp dword [byte ebp-020h], byte 3
         jl short .72
-        push dword [dword_18211C]
+        push dword [CardXlatTable]
         call FreeBitmap
         add esp, byte 4
         push dword [byte ebp-038h]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_182120]
+        push dword [CardSlideStep]
         call FreeBitmap
         add esp, byte 4
         push dword [byte ebp-034h]
@@ -1726,10 +1726,10 @@ PlayerCardScreen:
         push dword [byte ebp-030h]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_1820F4]
+        push dword [CardRemapTable]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_1820FC]
+        push dword [CardRemapPlain]
         call FreeMemBlock
         add esp, byte 4
         lea eax, [dword ebp-0454h]
@@ -1894,17 +1894,17 @@ DrawPlayerCardStats:
         mov edx, dword [byte ebp-06h]
         mov dword [byte ebp+016h], 0
         mov eax, dword [byte ebp-06h]
-        movsx edx, byte [dword edx+byte_17EBF0]
+        movsx edx, byte [dword edx+PlayerPosCodes]
         shl eax, 2
         cmp edx, byte 47h
         jne short .1
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb1Record
         mov esi, eax
         jmp short .2
 .1:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb1Record
         mov edi, eax
@@ -1933,7 +1933,7 @@ DrawPlayerCardStats:
         jmp near DrawPlayerCardStats_847.96
 .4:
         mov eax, dword [byte ebp-06h]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 47h
         jne near DrawPlayerCardStats_241.23
         cmp dword [dword ebp+08Eh], 3E8h
@@ -1972,19 +1972,19 @@ DrawPlayerCardStats:
 .8:
         cmp dword [byte ebp+05Ah], byte 0
         jne short .12
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
         call StatsDb1Record
         jmp short .11
 .9:
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
         call StatsDataBBRecord
         jmp short .11
 .10:
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
         call StatsData4Record
@@ -1993,7 +1993,7 @@ DrawPlayerCardStats:
 .12:
         cmp dword [dword ebp+08Eh], 3E7h
         jle short .13
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+01Ah]
         mov eax, dword [eax]
         call StatsDb5Record
@@ -2005,7 +2005,7 @@ DrawPlayerCardStats:
         mov dword [byte ebp+01Eh], eax
 .14:
         mov ebx, ecx
-        mov eax, dword [dword edi+dword_11E6B4]
+        mov eax, dword [dword edi+GoalieCardTextIds]
         xor edx, edx
         call GetLangText
         call DrawColorText
@@ -2151,19 +2151,19 @@ DrawPlayerCardStats_241:
 .27:
         cmp dword [byte ebp+05Eh], byte 0
         jne short .31
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
         call StatsDb1Record
         jmp short .30
 .28:
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
         call StatsDataBBRecord
         jmp short .30
 .29:
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
         call StatsData4Record
@@ -2172,7 +2172,7 @@ DrawPlayerCardStats_241:
 .31:
         cmp dword [dword ebp+08Eh], 3E7h
         jle short .32
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+022h]
         mov eax, dword [eax]
         call StatsDb5Record
@@ -2184,7 +2184,7 @@ DrawPlayerCardStats_241:
         mov dword [byte ebp+026h], eax
 .33:
         mov ebx, ecx
-        mov eax, dword [dword esi+dword_11E684]
+        mov eax, dword [dword esi+SkaterCardTextIds]
         xor edx, edx
         call GetLangText
         call DrawColorText
@@ -2283,7 +2283,7 @@ DrawPlayerCardStats_423:
         jmp near DrawPlayerCardStats_241.26
 .41:
         mov eax, dword [byte ebp-06h]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 47h
         jne near DrawPlayerCardStats_664.60
         cmp dword [dword ebp+08Eh], 3E8h
@@ -2322,19 +2322,19 @@ DrawPlayerCardStats_423:
 .45:
         cmp dword [byte ebp+062h], byte 0
         jne short .49
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
         call StatsDb1Record
         jmp short .48
 .46:
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
         call StatsDataBBRecord
         jmp short .48
 .47:
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
         call StatsData4Record
@@ -2343,7 +2343,7 @@ DrawPlayerCardStats_423:
 .49:
         cmp dword [dword ebp+08Eh], 3E7h
         jle short .50
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+02Ah]
         mov eax, dword [eax]
         call StatsDb5Record
@@ -2355,7 +2355,7 @@ DrawPlayerCardStats_423:
         mov dword [byte ebp+02Eh], eax
 .51:
         mov ebx, ecx
-        mov eax, dword [dword edi+dword_11E6B4]
+        mov eax, dword [dword edi+GoalieCardTextIds]
         xor edx, edx
         call GetLangText
         call DrawColorText
@@ -2501,19 +2501,19 @@ DrawPlayerCardStats_664:
 .64:
         cmp dword [byte ebp+066h], byte 0
         jne short .68
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
         call StatsDb1Record
         jmp short .67
 .65:
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
         call StatsDataBBRecord
         jmp short .67
 .66:
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
         call StatsData4Record
@@ -2522,7 +2522,7 @@ DrawPlayerCardStats_664:
 .68:
         cmp dword [dword ebp+08Eh], 3E7h
         jle short .69
-        mov eax, dword [dword_11E670]
+        mov eax, dword [RosterDbPtrs]
         add eax, dword [byte ebp+032h]
         mov eax, dword [eax]
         call StatsDb5Record
@@ -2534,7 +2534,7 @@ DrawPlayerCardStats_664:
         mov dword [byte ebp+03Ah], eax
 .70:
         mov ebx, esi
-        mov eax, dword [dword ecx+dword_11E684]
+        mov eax, dword [dword ecx+SkaterCardTextIds]
         xor edx, edx
         call GetLangText
         call DrawColorText
@@ -2635,17 +2635,17 @@ DrawPlayerCardStats_847:
         mov edx, dword [byte ebp-06h]
         mov dword [byte ebp+056h], 0
         mov eax, dword [byte ebp-06h]
-        movsx edx, byte [dword edx+byte_17EBF0]
+        movsx edx, byte [dword edx+PlayerPosCodes]
         shl eax, 2
         cmp edx, byte 47h
         jne short .79
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         mov dword [byte ebp+012h], 9
         call StatsDb2Record
         jmp short .80
 .79:
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         mov dword [byte ebp+012h], 0Eh
         call StatsDb2Record
@@ -2661,17 +2661,17 @@ DrawPlayerCardStats_847:
         jmp near .95
 .81:
         mov eax, dword [byte ebp-06h]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 47h
         jne short .82
         mov eax, dword [byte ebp+03Eh]
         mov ebx, dword [byte ebp+016h]
-        mov eax, dword [dword eax+dword_11E85B]
+        mov eax, dword [dword eax+GoalieRatingTextIds]
         jmp short .84
 .82:
         cmp esi, byte 0Dh
         jne short .83
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         add eax, dword [byte ebp+0Eh]
         movzx eax, byte [eax]
         cmp eax, byte 7
@@ -2679,20 +2679,20 @@ DrawPlayerCardStats_847:
 .83:
         mov eax, dword [byte ebp+03Eh]
         mov ebx, dword [byte ebp+016h]
-        mov eax, dword [dword eax+dword_11E7E0]
+        mov eax, dword [dword eax+SkaterRatingTextIds]
 .84:
         mov edx, dword [byte ebp+056h]
         call GetLangText
         call DrawColorText
 .85:
         mov eax, dword [byte ebp-06h]
-        movsx eax, byte [dword eax+byte_17EBF0]
+        movsx eax, byte [dword eax+PlayerPosCodes]
         cmp eax, byte 47h
         jne short .87
         push byte 3Ah
         mov edx, 19h
         mov ecx, edi
-        movsx eax, byte [dword esi+byte_11E852]
+        movsx eax, byte [dword esi+GoalieRatingOrder]
 .86:
         push byte 0Ah
         add eax, dword [byte ebp+0Eh]
@@ -2709,7 +2709,7 @@ DrawPlayerCardStats_847:
         mov edx, 0Fh
         mov ecx, edi
         push byte 0Ah
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         push dword 82h
         xor ebx, ebx
         add eax, dword [byte ebp+0Eh]
@@ -2722,10 +2722,10 @@ DrawPlayerCardStats_847:
         push byte 3Ah
         mov edx, 19h
         mov ecx, edi
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         jmp short .86
 .89:
-        movsx eax, byte [dword esi+byte_11E844]
+        movsx eax, byte [dword esi+SkaterRatingOrder]
         add eax, dword [byte ebp+0Eh]
         movzx eax, byte [eax]
         cmp eax, byte 6
@@ -2789,16 +2789,16 @@ LoadPlayerCardArt:
         push edx
         push ebx
         push ecx
-        cmp dword [dword_1820F8], byte 0
+        cmp dword [CardPhotoBmp], byte 0
         je short .1
-        push dword [dword_1820F8]
+        push dword [CardPhotoBmp]
         call FreeMemBlock
         add esp, byte 4
 .1:
-        cmp dword [dword_11E887], byte 1
+        cmp dword [CardArtLoaded], byte 1
         jne near .4
         mov edi, dword [byte ebp-02Ch]
-        mov eax, dword [dword_1820A8]
+        mov eax, dword [EditLinesBuffer]
         shl edi, 2
         mov eax, dword [edi+eax]
         movsx eax, byte [eax]
@@ -2806,7 +2806,7 @@ LoadPlayerCardArt:
         je near .4
         mov eax, 0FFFFFFFBh
         call SelectDataLibrary
-        mov eax, dword [dword_1820A8]
+        mov eax, dword [EditLinesBuffer]
         mov ecx, 4
         mov esi, dword [edi+eax]
         lea edi, [byte ebp-028h]
@@ -2819,9 +2819,9 @@ LoadPlayerCardArt:
         lea eax, [byte ebp-028h]
         push eax
         call LoadResourceDataShared
-        mov dword [dword_11E883], 0
+        mov dword [CardSliding], 0
         add esp, byte 8
-        mov dword [dword_1820F8], eax
+        mov dword [CardPhotoBmp], eax
         test eax, eax
         je short .2
         push str_Card2
@@ -2829,23 +2829,23 @@ LoadPlayerCardArt:
         call FindShape
         add esp, byte 8
 .2:
-        mov dword [dword_182110], eax
-        cmp dword [dword_182110], byte 0
+        mov dword [CardSlideBmp], eax
+        cmp dword [CardSlideBmp], byte 0
         je short .3
         push str_Ard2
-        push dword [dword_1820F8]
+        push dword [CardPhotoBmp]
         call FindShape
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp-04h], eax
 .3:
-        mov dword [dword_11E88B], 1
+        mov dword [CardRemapOn], 1
         jmp near .7
 .4:
         mov eax, 0FFFFFFF8h
         call SelectDataLibrary
         mov eax, dword [byte ebp-02Ch]
-        mov edx, dword [dword_1820B0]
+        mov edx, dword [RosterJerseyPtrs]
         mov ecx, 4
         lea edi, [byte ebp-028h]
         mov esi, dword [edx+eax*4]
@@ -2856,7 +2856,7 @@ LoadPlayerCardArt:
         call strcat_
         lea eax, [byte ebp-028h]
         push eax
-        mov dword [dword_11E883], 1
+        mov dword [CardSliding], 1
         call DosFileInfo
         add esp, byte 4
         test eax, eax
@@ -2868,7 +2868,7 @@ LoadPlayerCardArt:
         add esp, byte 8
         push str_Plyr2
         push eax
-        mov dword [dword_1820F8], eax
+        mov dword [CardPhotoBmp], eax
         call FindShape
         add esp, byte 8
         push str_Pal23
@@ -2880,15 +2880,15 @@ LoadPlayerCardArt:
         add esp, byte 8
         push str_Card2
         push eax
-        mov dword [dword_1820F8], eax
+        mov dword [CardPhotoBmp], eax
         call FindShape
         add esp, byte 8
         push str_Ard2
 .6:
-        push dword [dword_1820F8]
-        mov dword [dword_182110], eax
+        push dword [CardPhotoBmp]
+        mov dword [CardSlideBmp], eax
         call FindShape
-        mov dword [dword_11E88B], 1
+        mov dword [CardRemapOn], 1
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp-04h], eax
@@ -2903,7 +2903,7 @@ LoadPlayerCardArt:
         mov byte [dword edx+0C5h], bl
         cmp eax, esi
         jne short .8
-        cmp dword [dword_11E883], byte 1
+        cmp dword [CardSliding], byte 1
         jne near .13
         mov eax, str_WesternConference2
         mov edx, dword [byte ebp-030h]
@@ -2915,13 +2915,13 @@ LoadPlayerCardArt:
         mov byte [dword edx+01F1h], bl
         cmp eax, esi
         jne short .9
-        push dword [dword_18211C]
+        push dword [CardXlatTable]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
         push byte 0
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -2938,7 +2938,7 @@ LoadPlayerCardArt:
         jle short .12
         push str_HD00
 .11:
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -2946,7 +2946,7 @@ LoadPlayerCardArt:
         add esp, byte 4
 .12:
         mov eax, dword [byte ebp-02Ch]
-        mov eax, dword [nosplit eax*4+dword_17EEF0]
+        mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         mov ecx, 0Ah
         movsx eax, byte [eax]
         xor ebx, ebx
@@ -2956,13 +2956,13 @@ LoadPlayerCardArt:
         call DrawFrameAt
         jmp short .14
 .13:
-        push dword [dword_18211C]
+        push dword [CardXlatTable]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
         push byte 0
         push str_Bkgd17
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -2971,7 +2971,7 @@ LoadPlayerCardArt:
         push byte 14h
         push byte 0Ah
         push str_DNRS
-        push dword [dword_18210C]
+        push dword [BackgroundShapes]
         call FindShape
         add esp, byte 8
         push eax
@@ -2980,15 +2980,15 @@ LoadPlayerCardArt:
 .14:
         call SetScreenTarget
         push byte 0
-        mov eax, dword [dword_18211C]
+        mov eax, dword [CardXlatTable]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
         mov eax, dword [byte ebp-02Ch]
-        mov eax, dword [nosplit eax*4+dword_17EEF0]
+        mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         movsx eax, byte [eax]
-        mov dword [dword_182108], eax
+        mov dword [CardJerseyNumber], eax
         cmp dword [byte ebp-038h], byte 0
         je short .15
         push dword [byte ebp-030h]
@@ -3024,13 +3024,13 @@ DrawPlayerCardName:
         add esp, byte 8
         push eax
         call PutBlock
-        mov eax, dword [dword_1820E8]
+        mov eax, dword [RosterProfilePtrs]
         add esp, byte 0Ch
         mov ebx, esi
         push dword [eax+ebx*4]
-        mov eax, dword [dword_1820EC]
+        mov eax, dword [RosterLastNamePtrs]
         push dword [eax+ebx*4]
-        mov eax, dword [dword_1820AC]
+        mov eax, dword [RosterFirstNamePtrs]
         mov eax, dword [eax+ebx*4]
         movzx eax, byte [eax]
         push eax
@@ -3046,7 +3046,7 @@ DrawPlayerCardName:
         mov edx, 62h
         lea eax, [byte ebp-038h]
         call DrawColorTextCentred
-        mov al, byte [dword esi+byte_17EBF0]
+        mov al, byte [dword esi+PlayerPosCodes]
         cmp al, 47h
         jb short .1
         jbe short .2
@@ -3092,11 +3092,11 @@ DrawPlayerCardName:
         xor edx, edx
         call DrawColorText
         mov eax, esi
-        movsx edx, byte [dword esi+byte_17EBF0]
+        movsx edx, byte [dword esi+PlayerPosCodes]
         shl eax, 2
         cmp edx, byte 47h
         jne short .10
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         call StatsDb2Record
         movzx eax, byte [eax]
@@ -3108,7 +3108,7 @@ DrawPlayerCardName:
         mov eax, 0CEh
         jmp short .12
 .10:
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax]
         call StatsDb2Record
         movzx eax, byte [eax]
@@ -3127,7 +3127,7 @@ DrawPlayerCardName:
         shl eax, 2
         test byte [optflags], 0Ch
         jne short .13
-        mov ebx, dword [dword_17FDF0]
+        mov ebx, dword [PlayerHeightPtrs]
         mov ebx, dword [ebx+eax]
         movzx ebx, byte [ebx]
         mov eax, ebx
@@ -3140,7 +3140,7 @@ DrawPlayerCardName:
         idiv ecx
         jmp short .14
 .13:
-        mov edx, dword [dword_17FDF0]
+        mov edx, dword [PlayerHeightPtrs]
         mov eax, dword [edx+eax]
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax
@@ -3173,13 +3173,13 @@ DrawPlayerCardName:
         shl eax, 2
         test byte [optflags], 0Ch
         jne short .15
-        mov edx, dword [dword_17FDF4]
+        mov edx, dword [PlayerWeightPtrs]
         mov eax, dword [edx+eax]
         movzx eax, byte [eax]
         push eax
         jmp short .16
 .15:
-        mov edx, dword [dword_17FDF4]
+        mov edx, dword [PlayerWeightPtrs]
         mov eax, dword [edx+eax]
         movzx ax, byte [eax]
         mov dword [byte ebp-04h], eax
@@ -3205,27 +3205,27 @@ DrawPlayerCardName:
         push byte 65h
         push dword [byte edi+02Ch]
         call PutBlock
-        mov byte [byte_182124], 0
+        mov byte [CardTitleShown], 0
         mov ecx, esi
         add esp, byte 0Ch
         shl ecx, 2
         xor esi, esi
 .17:
-        mov eax, dword [dword_1820B0]
+        mov eax, dword [RosterJerseyPtrs]
         mov ebx, 4
-        mov edx, dword [dword esi+off_11E764]
+        mov edx, dword [dword esi+CardPhotoNames]
         mov eax, dword [ecx+eax]
         call memcmp_
         test eax, eax
         jne short .18
         cmp dword [byte ebp-08h], byte 0
         jne short .18
-        mov byte [byte_182124], 1
+        mov byte [CardTitleShown], 1
 .18:
         add esi, byte 4
         cmp esi, byte 54h
         jne short .17
-        cmp byte [byte_182124], 0
+        cmp byte [CardTitleShown], 0
         jne short .19
         push byte 0
         push byte 46h
@@ -3392,12 +3392,12 @@ ExportPlayerCard:
         push esi
         call fprintf_
         mov eax, dword [byte ebp-048h]
-        mov edx, dword [dword_1820E8]
+        mov edx, dword [RosterProfilePtrs]
         add esp, byte 8
         push dword [edx+eax*4]
-        mov edx, dword [dword_1820EC]
+        mov edx, dword [RosterLastNamePtrs]
         push dword [edx+eax*4]
-        mov edx, dword [dword_1820AC]
+        mov edx, dword [RosterFirstNamePtrs]
         mov eax, dword [edx+eax*4]
         movzx eax, byte [eax]
         push eax
@@ -3405,7 +3405,7 @@ ExportPlayerCard:
         push esi
         call fprintf_
         mov eax, dword [byte ebp-048h]
-        mov al, byte [dword eax+byte_17EBF0]
+        mov al, byte [dword eax+PlayerPosCodes]
         add esp, byte 14h
         cmp al, 47h
         jb short .4
@@ -3448,24 +3448,24 @@ ExportPlayerCard:
         add esp, byte 8
         mov edx, dword [byte ebp-048h]
         mov eax, dword [byte ebp-048h]
-        movsx edx, byte [dword edx+byte_17EBF0]
+        movsx edx, byte [dword edx+PlayerPosCodes]
         shl eax, 2
         cmp edx, byte 47h
         jne near ExportPlayerCard_4B6.46
         cmp dword [byte ebp-04Ch], 3E7h
         jle short .12
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb5Record
         jmp short .13
 .12:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb1Record
 .13:
         mov ebx, eax
         mov eax, dword [byte ebp-048h]
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax*4]
         call StatsDb2Record
         push asc_1129CF
@@ -3475,7 +3475,7 @@ ExportPlayerCard:
         call fprintf_
         add esp, byte 8
 .14:
-        mov eax, dword [dword edx+dword_11E6B4]
+        mov eax, dword [dword edx+GoalieCardTextIds]
         call GetLangText
         push eax
         push esi
@@ -3489,7 +3489,7 @@ ExportPlayerCard:
 .16:
         call fprintf_
         add esp, byte 8
-        mov eax, dword [dword ecx+dword_11E6B4]
+        mov eax, dword [dword ecx+GoalieCardTextIds]
         call GetLangText
         call strlen_
         mov dword [byte ebp-018h], eax
@@ -3787,7 +3787,7 @@ ExportPlayerCard_4B6:
         call fprintf_
         add esp, byte 8
 .39:
-        mov eax, dword [dword edx+dword_11E85B]
+        mov eax, dword [dword edx+GoalieRatingTextIds]
         call GetLangText
         push eax
         push str_S_ExportPlayerCard
@@ -3804,7 +3804,7 @@ ExportPlayerCard_4B6:
         call fprintf_
         add esp, byte 8
 .41:
-        mov eax, dword [dword ecx+dword_11E85B]
+        mov eax, dword [dword ecx+GoalieRatingTextIds]
         call GetLangText
         call strlen_
         mov dword [byte ebp-018h], eax
@@ -3814,7 +3814,7 @@ ExportPlayerCard_4B6:
         jb short .40
         test ebx, ebx
         je short .42
-        movsx eax, byte [dword ebx+byte_11E852]
+        movsx eax, byte [dword ebx+GoalieRatingOrder]
         add eax, dword [byte ebp-010h]
         movzx eax, byte [eax]
         add eax, byte 5
@@ -3848,18 +3848,18 @@ ExportPlayerCard_4B6:
 .46:
         cmp dword [byte ebp-04Ch], 3E7h
         jle short .47
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb5Record
         jmp short .48
 .47:
-        mov edx, dword [dword_11E670]
+        mov edx, dword [RosterDbPtrs]
         mov eax, dword [edx+eax]
         call StatsDb1Record
 .48:
         mov ebx, eax
         mov eax, dword [byte ebp-048h]
-        mov edx, dword [dword_1820E4]
+        mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax*4]
         call StatsDb2Record
         push asc_1129CF
@@ -3869,7 +3869,7 @@ ExportPlayerCard_4B6:
         call fprintf_
         add esp, byte 8
 .49:
-        mov eax, dword [dword edx+dword_11E684]
+        mov eax, dword [dword edx+SkaterCardTextIds]
         call GetLangText
         push eax
         push esi
@@ -3883,7 +3883,7 @@ ExportPlayerCard_4B6:
 .51:
         call fprintf_
         add esp, byte 8
-        mov eax, dword [dword edi+dword_11E684]
+        mov eax, dword [dword edi+SkaterCardTextIds]
         call GetLangText
         call strlen_
         mov dword [byte ebp-018h], eax
@@ -4165,7 +4165,7 @@ ExportPlayerCard_8AB:
         call fprintf_
         add esp, byte 8
 .72:
-        mov eax, dword [dword edi+dword_11E7E0]
+        mov eax, dword [dword edi+SkaterRatingTextIds]
         call GetLangText
         push eax
         push str_S_ExportPlayerCard
@@ -4182,7 +4182,7 @@ ExportPlayerCard_8AB:
         call fprintf_
         add esp, byte 8
 .74:
-        mov eax, dword [dword ecx+dword_11E7E0]
+        mov eax, dword [dword ecx+SkaterRatingTextIds]
         call GetLangText
         call strlen_
         mov dword [byte ebp-04h], eax
@@ -4192,14 +4192,14 @@ ExportPlayerCard_8AB:
         jb short .73
         cmp ebx, byte 0Bh
         je short .75
-        movsx eax, byte [dword ebx+byte_11E844]
+        movsx eax, byte [dword ebx+SkaterRatingOrder]
         add eax, dword [byte ebp-01Ch]
         movzx eax, byte [eax]
         shl eax, 2
         add eax, byte 28h
         jmp short .76
 .75:
-        movsx eax, byte [dword ebx+byte_11E844]
+        movsx eax, byte [dword ebx+SkaterRatingOrder]
         add eax, dword [byte ebp-01Ch]
         movzx eax, byte [eax]
         imul eax, byte 64h

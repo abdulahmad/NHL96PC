@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_11D74F progbits alloc noexec write align=1
-global InGameMenuRequest, DivisionTeamStarts, byte_11D91C, ControllerSlotX, ControllerSlotY, InMenuOverlay
+global InGameMenuRequest, DivisionTeamStarts, MenuFrameColours, ControllerSlotX, ControllerSlotY, InMenuOverlay
 global PauseRedraw, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu, str_F_InGameMenu, PauseMenuBoxX
 global PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, PauseMenuOpen, PauseFrameDrawn
         db 00h,07h,00h,00h,00h
@@ -56,7 +56,7 @@ ControllerSlotX:
         db 00h,00h,00h,00h
 ControllerSlotY:
         db 00h,00h,00h,00h,00h,00h,00h,00h
-byte_11D91C:
+MenuFrameColours:
         db 030h
         db 00h,041h
 InMenuOverlay:

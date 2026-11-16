@@ -42,7 +42,7 @@ extern BenchLineModel, dword_15E8C4, dword_15E8C8, dword_15E8CC, dword_15E8D0, d
 extern dword_15E8E0, dword_15E8E4, RinkSidesModel, dword_15E8EC, dword_15E8F0, dword_15E8F4, dword_15E8F8, dword_15E8FC
 extern dword_15E900, dword_15EA04, dword_15EA08, dword_1770B7, dword_1770BB, dword_1770BF, dword_1770C3, dword_1770C7
 extern dword_1770CB, dword_1770CF, SpriteScreenX, SpriteScreenY, RubberFaceBmp, RubberSideBmp, ShowMarkers, SpriteFrameIds
-extern dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, TexturePageBase, TextureDetail, FatalError, gameopts
+extern LineClipRight, LineClipBottom, LineClipTop, LineClipLeft, TexturePageBase, TextureDetail, FatalError, gameopts
 extern GetTicks, LoadPackedFile, mousex, mousey, PBnum, PutBlock, F64_0p00138889, F64_65536
 extern randomd0, SetDrawBitmap, SortCords, sprintf_, str_B00, str_B0DD, str_B1DD, str_B2DD
 extern str_B3DD, str_B4DD, str_B5DD, str_B6DD, str_B7DD, str_B8DD, str_B9DD, str_Back
@@ -10126,16 +10126,16 @@ DrawZamboniScene:
 SetRinkClipWindow:
         movsx eax, word [DrawClipLeft]
         shl eax, 10h
-        mov dword [dword_17DC28], eax
+        mov dword [LineClipLeft], eax
         movsx eax, word [DrawClipRight]
         shl eax, 10h
-        mov dword [dword_17DC18], eax
+        mov dword [LineClipRight], eax
         movsx eax, word [DrawClipTop]
         shl eax, 10h
-        mov dword [dword_17DC24], eax
+        mov dword [LineClipTop], eax
         movsx eax, word [DrawClipBottom]
         shl eax, 10h
-        mov dword [dword_17DC1C], eax
+        mov dword [LineClipBottom], eax
         ret
 ;-----------------------------------------------------------------------------
 ; LoadShadowRemap                                 297A8  96 PC, low confidence

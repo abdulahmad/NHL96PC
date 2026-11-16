@@ -3657,6 +3657,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1124FB,str_SS3,asc_1124FB,95PC,high,string '%s %s',src/data/front/front_849D5_data_01.asm
 112501,str_MightyDucksOfAnaheim,asc_112501,95PC,high,string 'Mighty Ducks of Anaheim',src/data/front/front_849D5_data_01.asm
 112519,str_DSS,asc_112519,new,high,string '#%d %s %s',src/data/front/front_849D5_data_01.asm
+112523,str_PreGameBlank,unk_112523,new,low,empty caption on the player cards screen,src/data/front/front_849D5_data_01.asm
 112524,str_PALS,asc_112524,new,high,string 'PALS',src/data/front/front_849D5_data_01.asm
 112529,str_D2,asc_112529,new,high,string '#%d',src/data/front/front_849D5_data_01.asm
 11252D,str_CS3,asc_11252D,new,high,string '%c %s',src/data/front/front_849D5_data_01.asm
@@ -3715,6 +3716,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 112633,str_Punct_ExportTeamStats,unk_112633,new,high,"string ""\n""",src/data/front/front_88E09_data_01.asm
 112635,str_dbgD,asc_112635,95PC,high,string '%d ',src/data/front/front_88E09_data_01.asm
 112639,str_D8,asc_112639,new,high,string '.%d ',src/data/front/front_88E09_data_01.asm
+11263E,str_DashExport,unk_11263E,new,low,dash shown for a missing stat in the export,src/data/front/front_88E09_data_01.asm
 112640,str_SavetimeOut,asc_112640,new,high,string 'savetime.out',src/data/front/front_88E09_data_01.asm
 11264D,str_D42,asc_11264D,new,high,string '[%d][4] = {',src/data/front/front_88E09_data_01.asm
 112659,str_spDDDD,asc_112659,new,high,"string '  {%d,%d,%d,%d}, '",src/data/front/front_88E09_data_01.asm
@@ -3799,6 +3801,8 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 112824,F64_2p54,qword_112824,new,high,double constant 2.54,src/data/front/front_8C3DD_data_01.asm
 11282C,str_Wt3,unk_11282C,new,high,string 'wt',src/data/front/front_8C3DD_data_01.asm
 11282F,str_Punct_ExportPlayerStats,unk_11282F,new,high,"string ""\n""",src/data/front/front_8C3DD_data_01.asm
+112831,str_FiveSpaces,asc_112831,new,low,five spaces,src/data/front/front_8C3DD_data_01.asm
+112837,str_FourSpaces,asc_112837,new,low,four spaces,src/data/front/front_8C3DD_data_01.asm
 11283C,F64_2p54_ExportPlayerStats,qword_11283C,new,high,double constant 2.54,src/data/front/front_8C3DD_data_01.asm
 112844,F64_0p454545_ExportPlayerStats,qword_112844,new,high,double constant 0.4545454545,src/data/front/front_8C3DD_data_01.asm
 11284C,str_0410,unk_11284C,new,high,string '0410',src/data/front/front_8C3DD_data_01.asm
@@ -4987,6 +4991,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11D89C,PauseMenuTextIdsAlt,unk_11D89C,new,low,pause menu text ids when the option bit is set,src/data/front/front_77642_data_02.asm
 11D910,ControllerSlotX,dword_11D910,new,low,controller screen slot x position,src/data/front/front_77642_data_02.asm
 11D914,ControllerSlotY,dword_11D914,new,low,controller screen slot y position,src/data/front/front_77642_data_02.asm
+11D91C,MenuFrameColours,byte_11D91C,new,low,in-game menu frame colours,src/data/front/front_77642_data_02.asm
 11D91F,InMenuOverlay,dword_11D91F,new,low,set while a menu overlays the game,src/data/front/front_77642_data_02.asm
 11D923,PauseRedraw,dword_11D923,new,low,pause screen needs redrawing,src/data/front/front_77642_data_02.asm
 11D927,PauseMenuOpen,word_11D927,new,low,pause menu is open,src/data/front/front_77642_data_02.asm
@@ -5038,7 +5043,31 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11E4C4,SimTeamFactors,dword_11E4C4,new,low,team factors for simulated games,src/data/front/front_77642_data_03.asm
 11E514,SimPlayerOrder,dword_11E514,new,low,player order for simulated games,src/data/front/front_77642_data_03.asm
 11E5FC,TeamMovieTextIds,word_11E5FC,new,low,text ids for team movies,src/data/front/front_77642_data_03.asm
+11E624,TeamStatTextIds,dword_11E624,new,low,team stats column text ids,src/data/front/front_88E09_data_02.asm
+11E664,TeamStatsPlayoffs,dword_11E664,new,low,team stats show the playoffs,src/data/front/front_88E09_data_02.asm
 11E668,StatsMenuItems,dword_11E668,new,low,stats menu items,src/data/front/front_88E09_data_02.asm
+11E66C,StatsMenuChoice,dword_11E66C,new,low,stats menu choice,src/data/front/front_88E09_data_02.asm
+11E670,RosterDbPtrs,dword_11E670,new,low,roster database pointers,src/data/front/front_88E09_data_02.asm
+11E674,PlayerStatsGoalies,dword_11E674,new,low,player stats show goalies,src/data/front/front_88E09_data_02.asm
+11E678,RosterPlayerIds,dword_11E678,new,low,id of each roster player,src/data/front/front_88E09_data_02.asm
+11E67C,SkaterColTextIds,dword_11E67C,new,low,skater stats column text ids,src/data/front/front_88E09_data_02.asm
+11E684,SkaterCardTextIds,dword_11E684,new,low,skater card stat text ids,src/data/front/front_88E09_data_02.asm
+11E6AC,GoalieColTextIds,dword_11E6AC,new,low,goalie stats column text ids,src/data/front/front_88E09_data_02.asm
+11E6B4,GoalieCardTextIds,dword_11E6B4,new,low,goalie card stat text ids,src/data/front/front_88E09_data_02.asm
+11E6E0,CardFlameFrames,off_11E6E0,new,low,flame animation frame names for the card title,src/data/front/front_88E09_data_02.asm
+11E700,TeamHasCompare,byte_11E700,new,low,teams that have a compare button,src/data/front/front_88E09_data_02.asm
+11E71A,CompareButtonDef,unk_11E71A,new,low,compare button definition,src/data/front/front_88E09_data_02.asm
+11E75A,PlayerStatsSort,dword_11E75A,new,low,player stats sort column,src/data/front/front_88E09_data_02.asm
+11E75E,PlayerStatsSeason,dword_11E75E,new,low,player stats show the season,src/data/front/front_88E09_data_02.asm
+11E764,CardPhotoNames,off_11E764,new,low,special player card photo names,src/data/front/front_88E09_data_02.asm
+11E7E0,SkaterRatingTextIds,dword_11E7E0,new,low,skater rating text ids,src/data/front/front_88E09_data_02.asm
+11E844,SkaterRatingOrder,byte_11E844,new,low,order of skater ratings on the card,src/data/front/front_88E09_data_02.asm
+11E852,GoalieRatingOrder,byte_11E852,new,low,order of goalie ratings on the card,src/data/front/front_88E09_data_02.asm
+11E85B,GoalieRatingTextIds,dword_11E85B,new,low,goalie rating text ids,src/data/front/front_88E09_data_02.asm
+11E87F,CardView,dword_11E87F,new,low,player card view,src/data/front/front_88E09_data_02.asm
+11E883,CardSliding,dword_11E883,new,low,player card is sliding,src/data/front/front_88E09_data_02.asm
+11E887,CardArtLoaded,dword_11E887,new,low,player card art is loaded,src/data/front/front_88E09_data_02.asm
+11E88B,CardRemapOn,dword_11E88B,new,low,player card colour remap is on,src/data/front/front_88E09_data_02.asm
 11E8FC,RatingsGoalieShown,dword_11E8FC,new,low,goalie shown on the ratings page,src/data/front/front_93E6A_data_02.asm
 11E900,RatingsSkaterShown,dword_11E900,new,low,skater shown on the ratings page,src/data/front/front_93E6A_data_02.asm
 11E970,str_B_DrawLinesPanel,dword_11E970,new,high,"string ""B""",src/data/front/front_93E6A_data_02.asm
@@ -5951,7 +5980,9 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1792AC,ShadeLutPtrs,dword_1792AC,new,low,Shade lookup table pointers,src/data/front/front_584A0_bss_01.asm
 1796AC,PalUsedFlags,byte_1796AC,new,low,Palette entries used by the game view sprites (InitGameView marks them),src/data/front/front_584A0_bss_01.asm
 1797AC,LineBoxOpen,dword_1797AC,new,low,"Line change box open, per team",src/data/front/front_584A0_bss_01.asm
+1797B0,LineBoxShown,dword_1797B0,new,low,line change box shown last (-1 for none),src/data/front/front_584A0_bss_01.asm
 1797B4,LineBoxChoice,dword_1797B4,new,low,"Line change box choice, per team",src/data/front/front_584A0_bss_01.asm
+1797B8,LineBoxTimer,dword_1797B8,new,low,line change box display timer,src/data/front/front_584A0_bss_01.asm
 1797BC,LineBoxBmps,dword_1797BC,new,low,Line change box bitmaps,src/data/front/front_584A0_bss_01.asm
 1797DC,LineEnergyBmps,dword_1797DC,new,low,Line change energy bar bitmaps,src/data/front/front_584A0_bss_01.asm
 1797F4,ViewScrollX,dword_1797F4,new,low,Game view scroll x (16.16),src/data/front/front_584A0_bss_01.asm
@@ -6246,15 +6277,100 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 17DA58,SimAwayStatsBufs,dword_17DA58,new,low,away stat buffers for simulated games,src/data/front/front_81EEA_bss_01.asm
 17DA60,SimAwaySetBufs,dword_17DA60,new,low,away game set buffers for simulated games,src/data/front/front_81EEA_bss_01.asm
 17DAE0,SimLineCounts,byte_17DAE0,new,low,line appearance counts for simulated games,src/data/front/front_81EEA_bss_01.asm
+17DB7C,RightLogoFrames,dword_17DB7C,new,low,frames of the right team logo animation on the pre-game screen,src/data/front/front_849D5_bss_01.asm
+17DBC4,LeftLogoFrames,dword_17DBC4,new,low,frames of the left team logo animation on the pre-game screen,src/data/front/front_849D5_bss_01.asm
+17DC0C,LogoSpinFrame,dword_17DC0C,new,low,current spinning logo frame,src/data/front/front_849D5_bss_01.asm
+17DC10,LogoSpinTime,dword_17DC10,new,low,tick count for the next spinning logo frame,src/data/front/front_849D5_bss_01.asm
+17DC14,CardsSpeechPending,byte_17DC14,new,low,announcer line due on the home player cards screen,src/data/front/front_849D5_bss_01.asm
+17DC15,TeamsSpeechPending,byte_17DC15,new,low,announcer line due on the teams screen,src/data/front/front_849D5_bss_01.asm
+17DC16,AwayCardsSpeechPending,byte_17DC16,new,low,announcer line due on the away player cards screen,src/data/front/front_849D5_bss_01.asm
+17DC17,MatchupSpeechPending,byte_17DC17,new,low,announcer line due on the match-up screen,src/data/front/front_849D5_bss_01.asm
+17DC18,LineClipRight,dword_17DC18,new,low,line clip right edge (16.16),src/data/front/front_849D5_bss_01.asm
+17DC1C,LineClipBottom,dword_17DC1C,new,low,line clip bottom edge (16.16),src/data/front/front_849D5_bss_01.asm
 17DC20,LineSteep,dword_17DC20,new,low,set when the line is steeper than 45 degrees,src/data/front/front_849D5_bss_01.asm
+17DC24,LineClipTop,dword_17DC24,new,low,line clip top edge (16.16),src/data/front/front_849D5_bss_01.asm
+17DC28,LineClipLeft,dword_17DC28,new,low,line clip left edge (16.16),src/data/front/front_849D5_bss_01.asm
 17DC2C,LineErrX,dword_17DC2C,new,low,error term of a shallow line,src/data/front/front_849D5_bss_01.asm
 17DC30,LineErrStepY,dword_17DC30,new,low,error step of a steep line,src/data/front/front_849D5_bss_01.asm
 17DC34,LineErrStepX,dword_17DC34,new,low,error step of a shallow line,src/data/front/front_849D5_bss_01.asm
+17DC38,LineDeltaX,dword_17DC38,new,low,line x distance (16.16),src/data/front/front_849D5_bss_01.asm
+17DC3C,LineDeltaY,dword_17DC3C,new,low,line y distance (16.16),src/data/front/front_849D5_bss_01.asm
 17DC40,LineX,dword_17DC40,new,low,current x of the line being drawn,src/data/front/front_849D5_bss_01.asm
+17DC44,LineSpanRight,dword_17DC44,new,low,right edge of a steep line's span (16.16),src/data/front/front_849D5_bss_01.asm
+17DC48,LineSpanBottom,dword_17DC48,new,low,bottom edge of a flat line's span (16.16),src/data/front/front_849D5_bss_01.asm
+17DC4C,LineSpanTop,dword_17DC4C,new,low,top edge of a flat line's span (16.16),src/data/front/front_849D5_bss_01.asm
+17DC50,LineSpanLeft,dword_17DC50,new,low,left edge of a steep line's span (16.16),src/data/front/front_849D5_bss_01.asm
 17DC54,LineStepY,dword_17DC54,new,low,y step of the line being drawn,src/data/front/front_849D5_bss_01.asm
 17DC58,LineErrY,dword_17DC58,new,low,error term of a steep line,src/data/front/front_849D5_bss_01.asm
 17DC5C,LineColor,dword_17DC5C,new,low,colour of the line being drawn,src/data/front/front_849D5_bss_01.asm
+17DC60,LineEndX,dword_17DC60,new,low,line end x (16.16),src/data/front/front_849D5_bss_01.asm
+17DC64,LineEndY,dword_17DC64,new,low,line end y (16.16),src/data/front/front_849D5_bss_01.asm
+17DC68,LineUserClipBottom,dword_17DC68,new,low,caller line clip bottom (0 for the view),src/data/front/front_849D5_bss_01.asm
+17DC6C,LineUserClipTop,dword_17DC6C,new,low,caller line clip top (0 for the view),src/data/front/front_849D5_bss_01.asm
 17DC70,LinePattern,byte_17DC70,new,low,dot pattern of the line being drawn,src/data/front/front_849D5_bss_01.asm
+17DC74,StatsButtonArt,dword_17DC74,new,low,"team stats screen button bitmaps, released and pressed",src/data/front/front_849D5_bss_01.asm
+17DD34,TeamStatsTabArt,dword_17DD34,new,low,team stats tab bitmap per column pair,src/data/front/front_88E09_bss_01.asm
+17DD38,TeamStatsTabLit,dword_17DD38,new,low,"team stats tab bitmap, highlighted",src/data/front/front_88E09_bss_01.asm
+17DD3C,TeamStatsButtonPos,dword_17DD3C,new,low,team stats button positions,src/data/front/front_88E09_bss_01.asm
+17DD94,TeamStatsButtonBmps,dword_17DD94,new,low,team stats button bitmaps built for the screen,src/data/front/front_88E09_bss_01.asm
+17DF14,TeamStatsHeaderArt,dword_17DF14,new,low,team stats column header bitmaps,src/data/front/front_88E09_bss_01.asm
+17DF94,TeamStatRows,dword_17DF94,new,low,team stats table rows (28h bytes per team),src/data/front/front_88E09_bss_01.asm
+17DFA4,TeamStatRowValues,dword_17DFA4,new,low,stat values within each team stats row,src/data/front/front_88E09_bss_01.asm
+17E3A4,TeamStatColumns,dword_17E3A4,new,low,team stats column descriptors,src/data/front/front_88E09_bss_01.asm
+17E894,TeamHomePoints,word_17E894,new,low,home points per team,src/data/front/front_88E09_bss_01.asm
+17E8C8,TeamPowerPlayPct,word_17E8C8,new,low,power play percentage per team (tenths),src/data/front/front_88E09_bss_01.asm
+17E8FC,TeamStatSortColumn,dword_17E8FC,new,low,column the team stats table is sorted by,src/data/front/front_88E09_bss_01.asm
+17E900,TeamPenaltyKillPct,word_17E900,new,low,penalty kill percentage per team (tenths),src/data/front/front_88E09_bss_01.asm
+17E934,TeamPoints,word_17E934,new,low,points per team,src/data/front/front_88E09_bss_01.asm
+17E968,TeamRoadPoints,word_17E968,new,low,road points per team,src/data/front/front_88E09_bss_01.asm
+17E99C,TeamPointsPct,word_17E99C,new,low,points percentage per team (tenths),src/data/front/front_88E09_bss_01.asm
+17E9D0,PlayerStatsButtonArt,dword_17E9D0,new,low,player stats screen button bitmaps,src/data/front/front_88E09_bss_01.asm
+17EA50,PlayerStatsTabArt,dword_17EA50,new,low,player stats tab bitmap per column pair,src/data/front/front_8C3DD_bss_01.asm
+17EA54,PlayerStatsTabLit,dword_17EA54,new,low,"player stats tab bitmap, highlighted",src/data/front/front_8C3DD_bss_01.asm
+17EA58,PlayerStatsButtonPos,dword_17EA58,new,low,player stats button positions,src/data/front/front_8C3DD_bss_01.asm
+17EA90,PlayerStatsButtonBmps,dword_17EA90,new,low,player stats button bitmaps built for the screen,src/data/front/front_8C3DD_bss_01.asm
+17EB90,PlayerStatsHeaderArt,dword_17EB90,new,low,player stats column header bitmaps,src/data/front/front_8C3DD_bss_01.asm
+17EBF0,PlayerPosCodes,byte_17EBF0,new,low,position letter of each roster player,src/data/front/front_8C3DD_bss_01.asm
+17EC0C,RatingsPosCodes,byte_17EC0C,new,low,position letter of each player on the ratings screen,src/data/front/front_8C3DD_bss_01.asm
+17EEF0,PlayerRecPtrs,dword_17EEF0,new,low,pointer to each roster player's record,src/data/front/front_8C3DD_bss_01.asm
+17FAEF,PlayerRowTeam,byte_17FAEF,new,low,team of each player stats row,src/data/front/front_8C3DD_bss_01.asm
+17FAF0,PlayerRowShown,byte_17FAF0,new,low,player stats row is shown,src/data/front/front_8C3DD_bss_01.asm
+17FDF0,PlayerHeightPtrs,dword_17FDF0,new,low,pointers to each player's height,src/data/front/front_8C3DD_bss_01.asm
+17FDF4,PlayerWeightPtrs,dword_17FDF4,new,low,pointers to each player's weight,src/data/front/front_8C3DD_bss_01.asm
+17FDF8,PlayerStatsItems,unk_17FDF8,new,low,player stats screen items (66h bytes each),src/data/front/front_8C3DD_bss_01.asm
+180128,PlayerStatsHScroll,unk_180128,new,low,player stats horizontal scroll bar,src/data/front/front_8C3DD_bss_01.asm
+1802C0,PlayerStatsVScroll,unk_1802C0,new,low,player stats vertical scroll bar,src/data/front/front_8C3DD_bss_01.asm
+181EA4,TitleBlinkTime,dword_181EA4,new,low,tick count for the next title frame,src/data/front/front_8C3DD_bss_01.asm
+181EA8,PlayerStatsShapes,dword_181EA8,new,low,player stats screen shape file,src/data/front/front_8C3DD_bss_01.asm
+181EAC,RatingsPlayerId,dword_181EAC,new,low,player shown on the ratings screen,src/data/front/front_8C3DD_bss_01.asm
+181EB0,PlayerStatsRowCount,dword_181EB0,new,low,number of player stats rows,src/data/front/front_8C3DD_bss_01.asm
+181EB4,PlayerStatColFlags,word_181EB4,new,low,player stats column flags,src/data/front/front_8C3DD_bss_01.asm
+182098,PlayerStatRowsUsed,dword_182098,new,low,player stats rows filled,src/data/front/front_8C3DD_bss_01.asm
+18209C,PlayerStatsMode,dword_18209C,new,low,player stats screen mode,src/data/front/front_8C3DD_bss_01.asm
+1820A0,TitleBlinkFrame,dword_1820A0,new,low,current title frame,src/data/front/front_8C3DD_bss_01.asm
+1820A4,PlayerCardArt,dword_1820A4,new,low,player card art file,src/data/front/front_8C3DD_bss_01.asm
+1820A8,EditLinesBuffer,dword_1820A8,new,low,line editor work buffer,src/data/front/front_8C3DD_bss_01.asm
+1820AC,RosterFirstNamePtrs,dword_1820AC,new,low,pointers to each roster player's first name,src/data/front/front_8C3DD_bss_01.asm
+1820B0,RosterJerseyPtrs,dword_1820B0,new,low,pointers to each roster player's jersey field,src/data/front/front_8C3DD_bss_01.asm
+1820B4,StatColumnPtrs,dword_1820B4,new,low,pointer arrays for each player stats column,src/data/front/front_8C3DD_bss_01.asm
+1820E4,RosterPlayerPtrs,dword_1820E4,new,low,pointers to each roster player's entry,src/data/front/front_8C3DD_bss_01.asm
+1820E8,RosterProfilePtrs,dword_1820E8,new,low,pointers to each roster player's profile,src/data/front/front_8C3DD_bss_01.asm
+1820EC,RosterLastNamePtrs,dword_1820EC,new,low,pointers to each roster player's last name,src/data/front/front_8C3DD_bss_01.asm
+1820F0,PlayerStatsCompare,byte_1820F0,new,low,player stats compare button is shown,src/data/front/front_8C3DD_bss_01.asm
+1820F1,StatsFromGame,byte_1820F1,new,low,stats screens opened from a game,src/data/front/front_8C3DD_bss_01.asm
+1820F4,CardRemapTable,dword_1820F4,new,low,player card colour remap table,src/data/front/front_8C3DD_bss_01.asm
+1820F8,CardPhotoBmp,dword_1820F8,new,low,player card photo bitmap,src/data/front/front_8C3DD_bss_01.asm
+1820FC,CardRemapPlain,dword_1820FC,new,low,player card plain colour remap,src/data/front/front_8C3DD_bss_01.asm
+182100,CardSlideFrom,dword_182100,new,low,player card slide start,src/data/front/front_8C3DD_bss_01.asm
+182104,CardSlideTo,dword_182104,new,low,player card slide end,src/data/front/front_8C3DD_bss_01.asm
+182108,CardJerseyNumber,dword_182108,new,low,jersey number of the player on the card,src/data/front/front_8C3DD_bss_01.asm
+18210C,BackgroundShapes,dword_18210C,new,low,background shape file,src/data/front/front_8C3DD_bss_01.asm
+182110,CardSlideBmp,dword_182110,new,low,player card slide bitmap,src/data/front/front_8C3DD_bss_01.asm
+182114,CardRemapIndex,dword_182114,new,low,player card remap index,src/data/front/front_8C3DD_bss_01.asm
+182118,CardTitleTime,dword_182118,new,low,tick count for the next card title frame,src/data/front/front_8C3DD_bss_01.asm
+18211C,CardXlatTable,dword_18211C,new,low,player card colour translation table,src/data/front/front_8C3DD_bss_01.asm
+182120,CardSlideStep,dword_182120,new,low,player card slide step,src/data/front/front_8C3DD_bss_01.asm
+182124,CardTitleShown,byte_182124,new,low,player card title has been shown,src/data/front/front_8C3DD_bss_01.asm
 18212C,RatingsGoalieOrder,dword_18212C,new,low,goalie order on the ratings page,src/data/front/front_93E6A_bss_01.asm
 183020,RosterBackFile,dword_183020,new,low,roster back art file,src/data/front/front_971E9_bss_01.asm
 184398,LinesTeamText,dword_184398,new,low,lines team text,src/data/front/front_9CFE3_bss_01.asm

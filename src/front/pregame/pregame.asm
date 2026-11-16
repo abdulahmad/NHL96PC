@@ -4,11 +4,11 @@ bits 32
 extern SimWork
 extern BottomBarArt
 section s_849D5 progbits alloc exec nowrite align=1
-extern BlackPalette, byte_11FA2F, PlayoffTeams, byte_17D262, byte_17DC14, byte_17DC15, byte_17DC16
-extern byte_17DC17, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, dword_1174E4, statsplayoffs
+extern BlackPalette, byte_11FA2F, PlayoffTeams, byte_17D262, CardsSpeechPending, TeamsSpeechPending, AwayCardsSpeechPending
+extern MatchupSpeechPending, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, dword_1174E4, statsplayoffs
 extern dword_1174F8, dword_117518, TeamConferenceIds, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, MenuBoxStyle
 extern PlayoffTreeData, SeasonType, SeasonDay, SeasonGamePending, PlayoffGameOpts, cddriveptr, PlayoffRound, PlayoffTreeShape
-extern dword_17D1E2, dword_17D26B, dword_17DB7C, dword_17DBC0, dword_17DBC4, dword_17DC0C, dword_17DC10, FadeOut
+extern dword_17D1E2, dword_17D26B, RightLogoFrames, LeftLogoFrames, LogoSpinFrame, LogoSpinTime, FadeOut
 extern FadePalette, FileClose, FileOpenRead, FillMusicStream, gameopts, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LoadPackedFile, LoadTeamLogo, MakeSeasonDbPath, ModemChat, MouseRead, mousex
 extern mousey, TeamCityNames, TeamNicknames, OpenScreen, optflags, PaEvent, PutBlock, RemapScreenColors
@@ -20,7 +20,7 @@ extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, s
 extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
 extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, SetColourRemap, GetColourRemap, FindShape, ClearClipRect, TextSetFont
-extern unk_112523, str_WesternConference2, unk_849C1, unk_849C7, unk_849CB, unk_849D1, SlotsTwoPlayer
+extern str_PreGameBlank, str_WesternConference2, unk_849C1, unk_849C7, unk_849CB, unk_849D1, SlotsTwoPlayer
 global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
 ;-----------------------------------------------------------------------------
@@ -287,7 +287,7 @@ PreGameMatchupScreen:
 .9:
         mov edx, 1
 .10:
-        cmp byte [byte_17DC17], 0
+        cmp byte [MatchupSpeechPending], 0
         je short .13
         mov eax, dword [gameopts]
         mov ebx, dword [byte eax+01h]
@@ -313,7 +313,7 @@ PreGameMatchupScreen:
         push esi
         push byte 8
         call PaEvent
-        mov byte [byte_17DC17], 0
+        mov byte [MatchupSpeechPending], 0
         add esp, byte 18h
 .13:
         call SoundIdle
@@ -396,31 +396,31 @@ PreGameMatchupScreen_4E6:
         ret
 ;-----------------------------------------------------------------------------
 ; CycleScreenPalettes                             84EC8  96 PC, low confidence
-; Every 8 ticks steps through 12h palettes (dword_17DBC4, dword_17DB7C)
+; Every 8 ticks steps through 12h palettes (LeftLogoFrames, RightLogoFrames)
 ;-----------------------------------------------------------------------------
 CycleScreenPalettes:
         push ebx
         push ecx
         push edx
         call GetTicks
-        cmp eax, dword [dword_17DC10]
+        cmp eax, dword [LogoSpinTime]
         jle short .1
-        mov eax, dword [dword_17DC0C]
+        mov eax, dword [LogoSpinFrame]
         inc eax
         mov ebx, 12h
         cdq
         idiv ebx
-        push dword [nosplit edx*4+dword_17DBC4]
-        mov dword [dword_17DC0C], edx
+        push dword [nosplit edx*4+LeftLogoFrames]
+        mov dword [LogoSpinFrame], edx
         call PutBlockAtOwnPos
-        mov eax, dword [dword_17DC0C]
+        mov eax, dword [LogoSpinFrame]
         add esp, byte 4
-        push dword [nosplit eax*4+dword_17DB7C]
+        push dword [nosplit eax*4+RightLogoFrames]
         call PutBlockAtOwnPos
         add esp, byte 4
         call GetTicks
         add eax, byte 8
-        mov dword [dword_17DC10], eax
+        mov dword [LogoSpinTime], eax
 .1:
         pop edx
         pop ecx
@@ -701,7 +701,7 @@ PreGameTeamsScreen:
         xor edx, edx
         call CopyBitmap
         mov edx, dword [byte ebp+076h]
-        mov dword [dword edx+dword_17DBC0], eax
+        mov dword [dword edx+LeftLogoFrames-4], eax
         mov eax, dword [byte edi+02Ch]
         mov word [byte eax+0Ch], 19Dh
         mov eax, dword [byte edi+02Ch]
@@ -778,8 +778,8 @@ PreGameTeamsScreen:
         add esp, byte 4
         call GetTicks
         dec eax
-        mov dword [dword_17DC0C], 11h
-        mov dword [dword_17DC10], eax
+        mov dword [LogoSpinFrame], 11h
+        mov dword [LogoSpinTime], eax
         call CycleScreenPalettes
         mov ax, word [SlotsTwoPlayer]
         xor ah, ah
@@ -830,7 +830,7 @@ PreGameTeamsScreen:
         call FadePalette
         mov eax, 1
         call LinkSync
-        cmp byte [byte_17DC15], 0
+        cmp byte [TeamsSpeechPending], 0
         je near .56
         mov ecx, 0Bh
         lea edi, [byte ebp+016h]
@@ -1112,7 +1112,7 @@ PreGameTeamsScreen:
         call PaEvent
         add esp, byte 14h
 .55:
-        mov byte [byte_17DC15], 0
+        mov byte [TeamsSpeechPending], 0
 .56:
         call SoundIdle
         cmp dword [byte ebp+046h], byte 0
@@ -1184,10 +1184,10 @@ PreGameTeamsScreen:
         je near .56
         xor esi, esi
 .63:
-        push dword [dword esi+dword_17DBC4]
+        push dword [dword esi+LeftLogoFrames]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17DB7C]
+        push dword [dword esi+RightLogoFrames]
         add esi, byte 4
         call FreeMemBlock
         add esp, byte 4
@@ -1835,7 +1835,7 @@ PreGameCardsA:
         mov eax, 1EEh
         jmp near .20
 .24:
-        push unk_112523
+        push str_PreGameBlank
         lea eax, [byte ebp+0Eh]
         push eax
         call sprintf_
@@ -1944,7 +1944,7 @@ PreGameCardsA:
         mov eax, 1EEh
         jmp near .27
 .31:
-        push unk_112523
+        push str_PreGameBlank
         lea eax, [byte ebp+0Eh]
         push eax
         call sprintf_
@@ -2003,13 +2003,13 @@ PreGameCardsA:
         call FadePalette
         mov eax, 1
         call LinkSync
-        cmp byte [byte_17DC14], 0
+        cmp byte [CardsSpeechPending], 0
         je short .34
         push dword [byte ebp+03Eh]
         push dword [byte ebp+042h]
         push dword 200h
         call PaEvent
-        mov byte [byte_17DC14], 0
+        mov byte [CardsSpeechPending], 0
         add esp, byte 0Ch
 .34:
         call SoundIdle
@@ -2556,11 +2556,11 @@ PreGameCardsB:
         call FadePalette
         mov eax, 1
         call LinkSync
-        cmp byte [byte_17DC16], 0
+        cmp byte [AwayCardsSpeechPending], 0
         je short .7
         push byte 1
         call PaEvent
-        mov byte [byte_17DC16], 0
+        mov byte [AwayCardsSpeechPending], 0
         add esp, byte 4
 .7:
         call SoundIdle
@@ -3181,10 +3181,10 @@ jpt_87328:
 PreGameScreens:
         push edx
         mov edx, 1
-        mov byte [byte_17DC16], 1
-        mov byte [byte_17DC14], 1
-        mov byte [byte_17DC15], 1
-        mov byte [byte_17DC17], 1
+        mov byte [AwayCardsSpeechPending], 1
+        mov byte [CardsSpeechPending], 1
+        mov byte [TeamsSpeechPending], 1
+        mov byte [MatchupSpeechPending], 1
         jmp short PreGameScreens_24.2
 PreGameScreens_24:
         call PreGameMatchupScreen

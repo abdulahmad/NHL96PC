@@ -20,7 +20,7 @@ extern DrawClipBottom, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0,
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC
 extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, DrawFrameCount
 extern GameViewPanelIds
-extern ShadeMatchFrom1, ShadeMatch, ShadeLutPtrs, LineBoxOpen, dword_1797B0, LineBoxChoice, dword_1797B8, LineBoxBmps
+extern ShadeMatchFrom1, ShadeMatch, ShadeLutPtrs, LineBoxOpen, LineBoxShown, LineBoxChoice, LineBoxTimer, LineBoxBmps
 extern LineEnergyBmps, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY, OverlayPanelOn, EventPanelLines, ClockDrawnTime
 extern ClockDrawnPeriod, ClockBmp, ViewDirty, RubberFaceBmp, RubberSideBmp, ViewBrightness, IceLogoBmp, ShadeLutCount
 extern ShadeLutBlock, PanelBaseY, PenaltyClockWidth, GameViewBlock, ClockFont, LineBoxDrawn, GoalFrameCount, ClockPanelBmp
@@ -979,9 +979,9 @@ InitGameView:
 .13:
         call LoadPackedFile
         mov dword [FrontShapeFile], eax
-        mov dword [dword_1797B8], 0
+        mov dword [LineBoxTimer], 0
         mov dword [LineBoxChoice], 0
-        mov dword [dword_1797B0], 0FFFFFFFFh
+        mov dword [LineBoxShown], 0FFFFFFFFh
         mov eax, 14h
         mov dword [LineBoxOpen], 0FFFFFFFFh
         call InitZoneManager

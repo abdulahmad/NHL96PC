@@ -6,7 +6,7 @@ global str_TEA0, str_TEA1, str_TEA2, str_AR30, str_AR31, str_AR20, str_AR21, str
 global str_AR012, str_AR102, str_AR112, str_HED2, str_HED1, str_VERT, str_VBAL, str_HORZ
 global str_HBAL, str_D5, str_10002, str_03d, str_DDD4, str_DD2, str_dbgD, str_D8
 global str_SavetimeOut, str_D42, str_spDDDD, str_TXT, F64_0p1, str_D7, str_Wt2, str_S2
-global str_Space2, str_Punct_ExportTeamStats, unk_11263E, str_Punct_DumpSaveTimes, str_FLM0, str_FLM1, str_FLM2, str_FLM3
+global str_Space2, str_Punct_ExportTeamStats, str_DashExport, str_Punct_DumpSaveTimes, str_FLM0, str_FLM1, str_FLM2, str_FLM3
 global str_FLM4, str_FLM5, str_FLM6, str_FLM7, str_DEF, str_ALL, str_FOR, str_GOL
 global str_PLR, str_PLY3, str_ROK, str_SEA3
 str_TEA0:
@@ -67,7 +67,7 @@ str_dbgD:
         db 025h,064h,020h,00h
 str_D8:
         db 02Eh,025h,064h,020h,00h
-unk_11263E:
+str_DashExport:
         db 02Dh,00h
 str_SavetimeOut:
         db 073h,061h,076h,065h,074h,069h,06Dh,065h,02Eh,06Fh,075h,074h,00h

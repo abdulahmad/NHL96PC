@@ -6,8 +6,8 @@ global PalUsedFlags
 
 
 global OverlayPanelId, OverlayQueueLen, OverlayQueue, GameViewPanelIds
-global ShadeMatchFrom1, ShadeMatch, ShadeLutPtrs, LineBoxOpen, dword_1797B0
-global LineBoxChoice, dword_1797B8, LineBoxBmps, LineEnergyBmps, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY
+global ShadeMatchFrom1, ShadeMatch, ShadeLutPtrs, LineBoxOpen, LineBoxShown
+global LineBoxChoice, LineBoxTimer, LineBoxBmps, LineEnergyBmps, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY
 global OverlayPanelOn, EventPanelLines, ClockDrawnTime, ClockDrawnPeriod, ClockBmp, ViewDirty, RubberFaceBmp, RubberSideBmp
 global ViewBrightness, IceLogoBmp, ShadeLutCount, ShadeLutBlock, PanelBaseY, PenaltyClockWidth, GameViewBlock, ClockFont
 global LineBoxDrawn, GoalFrameCount, ClockPanelBmp, NameFont, NamePanelBmp, OverlayBmp, LineBoxBmp, PanelWidth
@@ -61,11 +61,11 @@ PalUsedFlags:
         resb 72
 LineBoxOpen:
         resb 4
-dword_1797B0:
+LineBoxShown:
         resb 4
 LineBoxChoice:
         resb 4
-dword_1797B8:
+LineBoxTimer:
         resb 4
 LineBoxBmps:
         resb 32

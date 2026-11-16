@@ -1,0 +1,191 @@
+sub_BF950 SpeechQueueService {confidence=medium,source=new} speech queue tick: starts the next queued clip on the other speech channel when the current one is nearly done
+sub_BF9FE ClearSpeechSlot {confidence=medium,source=new} clears one speech queue slot
+sub_BFA05 ResetSpeechQueue {confidence=medium,source=new} empties the speech queue and selects the first speech channel
+sub_BFA45 OpenSpeechQueue {confidence=medium,source=new} sets up the speech queue on two sound channels with a volume
+sub_BFA45_90 SetSpeechQueueVolume {confidence=medium,source=new} sets the speech queue volume and applies it to the playing channel
+sub_BFAF5 AddSpeechQueueClip {confidence=medium,source=new} adds a clip to the speech queue with the percentage of it left when the next clip starts
+sub_BFB53 SpeechQueueBusy {confidence=medium,source=new} returns 1 while the speech queue is playing, -1 if it is not open
+sub_BFB74 StartSpeechQueue {confidence=medium,source=new} starts playing the speech queue
+sub_BFB7C FlushSpeechQueue {confidence=medium,source=new} stops both speech channels and empties the queue
+sub_BFBE3 CloseSpeechQueue {confidence=medium,source=new} stops both speech channels and closes the speech queue
+sub_BFC16 FadeChannelVolume {confidence=medium,source=new} starts a volume fade on a sound channel towards a target over a number of ticks
+sub_BFC91 SetChannelVolume {confidence=medium,source=new} sets a sound channel's volume (0-127) and updates the mixer
+sub_BFDB8 SetChannelBend {confidence=medium,source=new} sets a sound channel's pitch bend (0-127) and updates its playback rate
+sub_BFE4C StopSoundChannel {confidence=medium,source=new} stops a sound channel; stopping the stream channel also frees its packets
+sub_BFF52 ChannelSamplesLeft {confidence=medium,source=new} returns how many samples a sound channel has left to play
+sub_BFF8F ChannelIdle {confidence=medium,source=new} returns 1 when a sound channel is not playing
+sub_BFFCE OpenAudioStream {confidence=medium,source=new} reads an audio stream header packet and sets up the stream channel
+sub_C011D QueueStreamPacket {confidence=medium,source=new} appends a packet to the audio stream packet list
+sub_C01C9 AudioStreamCallback {confidence=medium,source=new} mixer callback: hands the next stream packet's samples to the mixer
+sub_C0252 InitAudioStream {confidence=medium,source=new} resets the audio stream state before a new stream
+sub_C02D6 StartAudioStream {confidence=medium,source=new} starts the stream channel once its header has been read
+sub_C03EA AudioStreamActive {confidence=medium,source=new} returns 1 while an audio stream is open
+sub_C03F8 FlushAudioStream {confidence=medium,source=new} marks every queued stream packet as free
+sub_C0423 AudioStreamPosition {confidence=medium,source=new} returns the queued stream length in bytes, samples or time
+sub_C04AE AudioStreamPacketsPlayed {confidence=medium,source=new} returns how many stream packets have played
+sub_C04C3 RegisterSfxBank {confidence=medium,source=new} adds a loaded sound effect bank and fixes up its sample pointers
+sub_C0578 UnregisterSfxBank {confidence=medium,source=new} removes one sound effect bank, or all of them for -1
+sub_C0603 PlaySfxFull {confidence=medium,source=new} plays a sound effect at full volume, centred
+sub_C061E PlaySfxVolume {confidence=medium,source=new} plays a sound effect at a volume, centred
+sub_C0641 PlaySfxPanned {confidence=medium,source=new} plays a sound effect with pan, volume and pitch; stereo effects use two channels
+sub_C0727 StartSfxChannel {confidence=medium,source=new} picks a free channel and starts one sound effect sample on it
+sub_C08DA RandomSpread {confidence=medium,source=new} returns a random value between minus and plus the given range
+sub_C08F5 PauseCrowdChannels {confidence=medium,source=new} stops the crowd channels and marks the crowd paused
+sub_C0902 ResumeCrowdChannels {confidence=medium,source=new} restarts the crowd channels and fades them in over a number of ticks
+sub_C0944 SetCrowdLayerLevels {confidence=medium,source=new} sets each crowd layer's volume and bend from the crowd excitement and intensity
+sub_C0AD7 SetCrowdRampRate {confidence=medium,source=new} works out how fast the crowd excitement moves towards its goal
+sub_C0BCD CrowdService {confidence=medium,source=new} crowd tick: fades the crowd volume and moves excitement and intensity
+sub_C0D7E TriggerCrowdEvent {confidence=medium,source=new} raises the crowd excitement for an event and plays its sound effect
+sub_C0E2D SetCrowdIntensity {confidence=medium,source=new} sets the crowd intensity target (0-127)
+sub_C0E3C CloseCrowdSound {confidence=medium,source=new} stops the crowd and unloads its bank
+sub_C0E49 LoadCrowdBank {confidence=medium,source=new} copies a crowd bank header and sets up its layers
+sub_C0F09 SetCrowdVolume {confidence=medium,source=new} sets the crowd volume (0-127)
+sub_C0F30 StartCrowdSound {confidence=medium,source=new} starts every crowd layer at a volume and plays the opening crowd event
+sub_C1008 StopCrowdChannels {confidence=medium,source=new} stops every crowd layer channel
+unk_C1041 WssBasePorts {confidence=medium,source=new} base ports probed for a Windows Sound System card
+sub_C1051 StartChannelSample {confidence=medium,source=new} hands a channel's sample to the mixer with its format, rate and pan volumes
+sub_C1104 ChannelPanVolumes {confidence=medium,source=new} returns a channel's left and right volumes from its pan and gain
+sub_C1183 PanVolumes {confidence=medium,source=new} returns left and right volumes for a pan and volume
+sub_C11EF SplitStereoPan {confidence=medium,source=new} works out the two pans and volumes for a stereo sound effect
+sub_C12C8 BendSampleRate {confidence=medium,source=new} applies a pitch bend to a sample rate
+sub_C1322 PickOutputRate {confidence=medium,source=new} rounds a sample rate to the nearest standard output rate within the card's limit
+sub_C13B1 DetectBlasterCard {confidence=medium,source=new} reads the BLASTER variable and the DSP version to pick a Sound Blaster driver
+sub_C1410 DetectWssCard {confidence=medium,source=new} probes the usual ports for a Windows Sound System card
+sub_C144B DetectSoundDriver {confidence=medium,source=new} picks a sound driver: Sound Blaster, Gravis or Windows Sound System
+jpt_C1490 SndErrorTextJumpTable {confidence=medium,source=new} jump table for the sound library error text switch
+sub_C1614 AllocSoundChannel {confidence=medium,source=new} picks a free channel from a mask, or the lowest priority one
+sub_C17C6 SetSoundMixMode {confidence=low,source=new} stores the mix mode and passes it to the mixer
+sub_C1811 CallDriverService {confidence=medium,source=new} calls the current driver's service entry
+sub_C181F SndCloseDriver {confidence=medium,source=new} closes the current driver, removes the timer and frees every channel and bank
+sub_C187A NullDriverOpen {confidence=medium,source=new} entry for the no-card driver: succeeds
+sub_C187C NullDriverReturn {confidence=medium,source=new} entry for the no-card driver: does nothing
+sub_C187D NullDriverQuery {confidence=medium,source=new} entry for the no-card driver: returns -1
+sub_C1882 NullDriverEnd {confidence=medium,source=new} entry for the no-card driver: does nothing
+sub_C1A2C TgvDecodeDeltaFrame {confidence=medium,source=new} decodes a TGV video delta frame with its Huffman coded blocks
+sub_C1D48 TgvDecodeKeyFrame {confidence=medium,source=new} decodes a TGV video key frame
+sub_C1FC0 TgvAllocDecoder {confidence=medium,source=new} allocates and clears a TGV video decoder
+sub_C1FEC TgvDecodeFrame {confidence=medium,source=new} decodes one TGV video frame chunk, key or delta
+sub_C204C TgvFreeDecoder {confidence=medium,source=new} frees a TGV video decoder and its buffers
+sub_C20E0 TgvShowFrameRate {confidence=medium,source=new} counts frames and prints the playback rate and average
+sub_C2268 TgvResetFrameRate {confidence=medium,source=new} resets the frame rate counters
+sub_C2290 TgvBlitFrame {confidence=medium,source=new} copies a decoded TGV frame to the screen, clipped
+sub_C2440 DisableInterrupts {confidence=high,source=new} disables interrupts
+sub_C2442 EnableInterrupts {confidence=high,source=new} enables interrupts
+sub_C24D0 CopyRowKeyed {confidence=medium,source=new} row copier that skips colour 0FFh pixels
+sub_C2500 DrawArtKeyed {confidence=medium,source=new} draws art, skipping colour 0FFh when keyed drawing is on
+sub_C254C DrawArtKeyedAtOrigin {confidence=medium,source=new} draws art at its own origin, skipping colour 0FFh when keyed drawing is on
+sub_C2600 PutBlockKeyed {confidence=medium,source=new} puts a block, skipping colour 0FFh when keyed drawing is on
+sub_C27A4 PrintScreenInt {confidence=medium,source=new} calls the BIOS print screen interrupt
+dword_123BB0 SpeechQueueWrite {confidence=medium,source=new} speech queue write index
+dword_123BB4 SpeechQueueRead {confidence=medium,source=new} speech queue read index
+byte_123BB8 SpeechQueuePlaying {confidence=medium,source=new} set while the speech queue plays
+dword_123BB9 SpeechQueueVolume {confidence=medium,source=new} speech queue volume
+dword_123BBD SpeechChannelA {confidence=medium,source=new} first speech channel
+dword_123BC1 SpeechChannelB {confidence=medium,source=new} second speech channel
+dword_123BC5 SpeechChannelCur {confidence=medium,source=new} speech channel now playing
+dword_123B10 SpeechQueue {confidence=medium,source=new} speech queue: 20 slots of clip and lead samples
+dword_123B14 SpeechQueueLead {confidence=medium,source=new} samples left when the next queued clip starts, per slot
+byte_1248D0 SpeechQueueOpen {confidence=medium,source=new} set while the speech queue is open
+dword_123BCC StreamState {confidence=medium,source=new} audio stream state: 0 closed, 2 playing, 3 waiting for its header
+dword_123BD0 StreamChannel {confidence=medium,source=new} audio stream sound channel
+dword_123BD4 StreamFrameBytes {confidence=medium,source=new} audio stream bytes per sample frame
+dword_123BD8 StreamSampleRate {confidence=medium,source=new} audio stream sample rate
+dword_123BDC StreamVolume {confidence=medium,source=new} audio stream volume
+dword_123BE0 StreamOwner {confidence=low,source=new} value passed when the audio stream was set up
+dword_123BE4 StreamHeader {confidence=medium,source=new} audio stream header
+dword_123BE8 StreamPacketsPlayed {confidence=medium,source=new} audio stream packets played
+dword_123BEC StreamSampleScale {confidence=medium,source=new} audio stream sample size factor
+dword_19B68C StreamPacketHead {confidence=medium,source=new} first queued audio stream packet
+dword_19B688 StreamPacketTail {confidence=medium,source=new} last queued audio stream packet
+dword_123BF0 SfxBanks {confidence=medium,source=new} loaded sound effect banks
+dword_1A0DA0 SfxTable {confidence=medium,source=new} sound effect records by number
+dword_1A0DA4 SfxTableNext {confidence=medium,source=new} sound effect table from the second entry, for stereo pairs
+unk_1A0B20 SndChannels {confidence=medium,source=new} sound channel records, 16 of 28h bytes
+byte_1A0B2B SndChannelType {confidence=medium,source=new} sound channel type: 1 effect, 2 stream
+dword_1A0B2C SndChannelRate {confidence=medium,source=new} sound channel base sample rate
+byte_1A0B31 SndChannelBendRange {confidence=low,source=new} sound channel pitch bend range
+byte_1A0B36 SndChannelActive {confidence=medium,source=new} set while a sound channel plays
+byte_1A0B37 SndChannelSfx {confidence=medium,source=new} sound effect number a channel plays
+byte_1A0B44 SndChannelVolume {confidence=medium,source=new} sound channel volume
+byte_1A0B46 SndChannelGain {confidence=low,source=new} sound channel output gain
+byte_1A0B47 SndChannelPan {confidence=medium,source=new} sound channel pan
+byte_1248DA SndMasterVolume {confidence=medium,source=new} master volume for every sound channel
+byte_123C04 CrowdLoaded {confidence=medium,source=new} set once a crowd bank is loaded
+byte_123C05 CrowdPaused {confidence=medium,source=new} set while the crowd is paused
+byte_1248D1 CrowdPlaying {confidence=medium,source=new} set while the crowd layers play
+dword_123C06 CrowdVolume {confidence=medium,source=new} crowd volume
+dword_123C0A CrowdIntensityGoal {confidence=medium,source=new} crowd intensity target
+dword_123C0E CrowdRampMode {confidence=medium,source=new} crowd excitement ramp: 0 rising to an event, 1 holding, 2 drifting
+dword_123C12 CrowdEvent {confidence=medium,source=new} current crowd event
+dword_123C16 CrowdFadeStep {confidence=medium,source=new} crowd fade-in step
+dword_123C1A CrowdFadeGoal {confidence=medium,source=new} crowd fade-in target volume
+dword_123C1E CrowdFadeLevel {confidence=medium,source=new} crowd fade-in level
+byte_123C22 VolumeCurve {confidence=medium,source=new} volume curve, 128 steps
+dword_123C9E CrowdLastBendStore {confidence=low,source=new} store index for each layer's last bend (one entry ahead)
+dword_123CA2 CrowdLastBend {confidence=medium,source=new} last bend sent for each crowd layer
+dword_123CAE CrowdLastVolumeStore {confidence=low,source=new} store index for each layer's last volume (one entry ahead)
+dword_123CB2 CrowdLastVolume {confidence=medium,source=new} last volume sent for each crowd layer
+dword_123CC2 CrowdTicks {confidence=medium,source=new} crowd tick count
+dword_123CC8 SndMixMode {confidence=low,source=new} sound mix mode
+dword_123CCC StereoPanCurve {confidence=medium,source=new} stereo spread percentages near the pan edges
+dword_123D5C NextSndChannel {confidence=medium,source=new} channel the next search starts at
+dword_123D60 SndTimerAdded {confidence=medium,source=new} set once the sound timer is added
+dword_123D64 SndExitHandlerAdded {confidence=medium,source=new} set once the sound exit handler is added
+off_123CE0 SndDriverTable {confidence=medium,source=new} driver entries (open, close, service, query, end) for each sound card
+off_123CE4 SndDriverClose {confidence=medium,source=new} driver close entry
+off_123CE8 SndDriverService {confidence=medium,source=new} driver service entry
+off_123CEC SndDriverQuery {confidence=medium,source=new} driver query entry
+off_123D68 SndCardNameNone {confidence=medium,source=new} card name: none
+off_123D6C SndCardNameSb10 {confidence=medium,source=new} card name: Sound Blaster 1.0
+off_123D70 SndCardNameSb15 {confidence=medium,source=new} card name: Sound Blaster 1.5
+off_123D74 SndCardNameSb20 {confidence=medium,source=new} card name: Sound Blaster 2.0
+off_123D78 SndCardNameSbPro10 {confidence=medium,source=new} card name: Sound Blaster Pro 1.0
+off_123D7C SndCardNameSbPro20 {confidence=medium,source=new} card name: Sound Blaster Pro 2.0
+off_123D80 SndCardNameSb16 {confidence=medium,source=new} card name: Sound Blaster 16
+off_123D84 SndCardNameGus {confidence=medium,source=new} card name: Gravis UltraSound
+off_123D88 SndCardNameWss {confidence=medium,source=new} card name: Windows Sound System
+dword_1248D6 SndMaxRate {confidence=medium,source=new} highest output rate the card allows
+dword_123D8C TgvFrames {confidence=medium,source=new} frames since the last rate report
+dword_123D90 TgvTotalFrames {confidence=medium,source=new} frames counted for the average rate
+dword_123D94 TgvRateTicks {confidence=medium,source=new} ticks at the last rate report
+dword_123D98 TgvTotalTicks {confidence=medium,source=new} ticks counted for the average rate
+dword_123D9C TgvFrameRate {confidence=medium,source=new} last frame rate
+dword_123DA0 TgvFirstPeriod {confidence=low,source=new} first rate period length
+dword_1210C0 RowCopyFunc {confidence=medium,source=new} routine that copies one row when drawing art
+dword_1228F4 KeyedDraw {confidence=medium,source=new} set to skip colour 0FFh when drawing art
+unk_19B6A4 CrowdBank {confidence=medium,source=new} copy of the crowd bank header
+unk_19B720 CrowdLayers {confidence=medium,source=new} crowd layer records, 74h bytes each
+dword_19B6BC CrowdExcitement {confidence=medium,source=new} crowd excitement
+dword_19B6C0 CrowdIntensityLevel {confidence=medium,source=new} crowd intensity, moving towards its target
+dword_19B6C4 CrowdExcitementGoal {confidence=medium,source=new} crowd excitement the ramp is heading for
+dword_19B6C8 CrowdLayerCount {confidence=medium,source=new} number of crowd layers
+dword_19B6CC CrowdEventCount {confidence=medium,source=new} number of crowd events
+dword_19B6D0 CrowdDriftRange {confidence=medium,source=new} range of random crowd excitement goals
+dword_19B6D4 CrowdDriftRiseTime {confidence=medium,source=new} time to drift up
+dword_19B6D8 CrowdDriftFallTime {confidence=medium,source=new} time to drift down
+dword_19B6DC CrowdStartEvent {confidence=medium,source=new} crowd event played when the crowd starts
+dword_19B6E0 CrowdCurveRise {confidence=medium,source=new} rise time for each crowd curve
+dword_19B6E4 CrowdCurveFall {confidence=medium,source=new} fall time for each crowd curve
+dword_19B690 CrowdExcitementWhole {confidence=medium,source=new} crowd excitement, whole part
+dword_19B694 CrowdIntensityCopy {confidence=medium,source=new} crowd intensity used in the mix
+dword_19B698 CrowdMixLevel {confidence=medium,source=new} combined crowd level
+dword_19B69C CrowdIntensityTerm {confidence=medium,source=new} weighted intensity part of the crowd level
+dword_19B6A0 CrowdExcitementTerm {confidence=medium,source=new} weighted excitement part of the crowd level
+dword_19B6B4 CrowdExcitementWeight {confidence=medium,source=new} weight of excitement in the crowd level
+dword_19B6B8 CrowdIntensityWeight {confidence=medium,source=new} weight of intensity in the crowd level
+dword_19B724 CrowdLayerSample {confidence=medium,source=new} crowd layer sample
+byte_19B734 CrowdLayerPriority {confidence=medium,source=new} crowd layer channel priority
+byte_19B739 CrowdLayerVolume {confidence=medium,source=new} crowd layer volume
+dword_19B760 CrowdLayerData {confidence=medium,source=new} crowd layer sample data
+dword_19B770 CrowdLayerChannel {confidence=medium,source=new} crowd layer sound channel
+dword_19B774 CrowdLayerCurVolume {confidence=medium,source=new} crowd layer volume now
+dword_19B778 CrowdLayerCurBend {confidence=medium,source=new} crowd layer bend now
+dword_19B77C CrowdLayerThreshold {confidence=medium,source=new} crowd level where a layer starts to rise
+dword_19B784 CrowdLayerMinVolume {confidence=medium,source=new} crowd layer quietest volume
+dword_19B788 CrowdLayerMaxVolume {confidence=medium,source=new} crowd layer loudest volume
+dword_19B8F0 CrowdEvents {confidence=medium,source=new} crowd event records, 14h bytes each
+dword_19B8F4 CrowdEventRaise {confidence=medium,source=new} excitement a crowd event adds
+dword_19B8F8 CrowdEventCap {confidence=medium,source=new} highest excitement a crowd event reaches
+dword_19B8FC CrowdEventCurve {confidence=medium,source=new} rise curve of a crowd event
+dword_19B900 CrowdEventSfx {confidence=medium,source=new} sound effect a crowd event plays
+dword_19BA30 CrowdRampRate {confidence=medium,source=new} crowd excitement change per tick

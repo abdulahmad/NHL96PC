@@ -4,7 +4,7 @@ bits 32
 section s_689D1 progbits alloc exec nowrite align=1
 extern byte_11D1DE, byte_11D20A, CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, CdStreamSyncTime, delstream, dword_11D1D2
 extern dword_11D232, dword_11D236, dword_17C604, FindClipIndex_56, globalset, MakeDataPath, SetTickDeadline, sndcard
-extern sub_BFC16, sub_BFC91, sub_BFE4C, sub_BFF8F, sub_C0252, sub_C02D6, FeedAudioStream, sub_C0423
+extern FadeChannelVolume, SetChannelVolume, StopSoundChannel, ChannelIdle, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamPosition
 extern TicksSinceLast, TickDeadlinePassed
 global StopMusic, QueueCurrentMusic, QueueMusic, FillMusicStream, CloseMusic, OpenMusicStream, SetMusicVolume, PlayMusic
 global FadeOutMusic, MusicDone, FeedMusicStream, SyncMusicStream
@@ -21,7 +21,7 @@ StopMusic:
         test byte [byte_11D1DE], 4
         je short .1
         mov eax, dword [dword_17C604]
-        call sub_BFE4C
+        call StopSoundChannel
         mov dword [byte_11D1DE], 0FFFFFFFBh
 .1:
         mov dword [byte_11D1DE], 0
@@ -61,7 +61,7 @@ QueueMusic:
         test byte [byte_11D1DE], 4
         je short .2
         mov eax, dword [dword_17C604]
-        call sub_BFE4C
+        call StopSoundChannel
         mov dword [byte_11D1DE], 0FFFFFFFBh
 .2:
         push byte_11D20A
@@ -70,7 +70,7 @@ QueueMusic:
         call CdStreamQueue
         add esp, byte 8
         mov eax, dword [dword_11D1D2]
-        call sub_C0252
+        call InitAudioStream
         or byte [byte_11D1DE], 1
         mov dword [dword_17C604], eax
 .3:
@@ -103,7 +103,7 @@ FillMusicStream:
         xor esi, esi
 .2:
         xor eax, eax
-        call sub_C0423
+        call AudioStreamPosition
         cmp eax, edi
         jge short .5
         cmp esi, 0C8h
@@ -151,7 +151,7 @@ CloseMusic:
         test byte [byte_11D1DE], 4
         je short .1
         mov eax, dword [dword_17C604]
-        call sub_BFE4C
+        call StopSoundChannel
         mov dword [byte_11D1DE], 0FFFFFFFBh
 .1:
         mov dword [byte_11D1DE], 0
@@ -202,7 +202,7 @@ SetMusicVolume:
         shr eax, 19h
         lea edx, [byte eax+028h]
         mov eax, dword [dword_17C604]
-        call sub_BFC91
+        call SetChannelVolume
 .1:
         pop edx
         ret
@@ -216,13 +216,13 @@ PlayMusic:
         jl short .1
         test byte [byte_11D1DE], 1
         je short .1
-        call sub_C02D6
+        call StartAudioStream
         mov eax, dword [globalset]
         shl eax, 14h
         shr eax, 19h
         lea edx, [byte eax+028h]
         mov eax, dword [dword_17C604]
-        call sub_BFC91
+        call SetChannelVolume
         or byte [byte_11D1DE], 6
 .1:
         pop edx
@@ -246,7 +246,7 @@ FadeOutMusic:
         mov eax, dword [dword_17C604]
         mov edx, ecx
         add ecx, byte 0Ah
-        call sub_BFC16
+        call FadeChannelVolume
         push ecx
         call SetTickDeadline
         add esp, byte 4
@@ -275,7 +275,7 @@ MusicDone:
         test byte [byte_11D1DE], 4
         je short .1
         mov eax, dword [dword_17C604]
-        call sub_BFF8F
+        call ChannelIdle
         test eax, eax
         sete al
         movzx eax, al
@@ -296,7 +296,7 @@ FeedMusicStream:
         test byte [byte_11D1DE], 1
         je short .2
         mov eax, dword [dword_17C604]
-        call sub_BFF8F
+        call ChannelIdle
         test eax, eax
         jne short .2
         push dword [dword_11D1D2]

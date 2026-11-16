@@ -6,8 +6,8 @@ extern _dos_gettime_, AsyncCancelRequest, AsyncClose, AsyncInit, asyncreader, As
 extern byte_17C60C, byte_17CA1D, dword_11D23E, dword_11D242, dword_11D376, dword_11D37A, dword_11D37E, dword_11D38A
 extern dword_11D38E, dword_17C4A0, dword_17C4A4, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
 extern dword_17C5D0, dword_17C5FC, dword_17C600, GetTicks, globalset, MakeDataPath, optflags, rand_
-extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, sub_BFA45, sub_BFA45_90
-extern sub_BFAF5, sub_BFB53, sub_BFB74, sub_BFB7C, sub_BFBE3, DosOpenReadOnly, DosCloseFile, sub_E07CC
+extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, OpenSpeechQueue, SetSpeechQueueVolume
+extern AddSpeechQueueClip, SpeechQueueBusy, StartSpeechQueue, FlushSpeechQueue, CloseSpeechQueue, DosOpenReadOnly, DosCloseFile, sub_E07CC
 extern DosSeekFile, word_11D23A, word_11D356, word_11D382, word_11D384, word_11D386, word_11D388, word_17C49C
 extern word_17C49E, word_17C63E, word_17C640
 global FindClipIndex, FindClipIndex_55, FindClipIndex_56, FindTeamPairClip, FindTeamPairClip_85, ResetSpeechChannels, OpenSpeechBanks, InitSpeech
@@ -340,7 +340,7 @@ InitSpeech:
         mov ecx, 120h
         mov eax, 0Eh
         mov edi, word_17C49C
-        call sub_BFA45
+        call OpenSpeechQueue
         mov dword [dword_11D37E], 0FFFFFFFFh
         mov byte [byte_17C60C], 0
         mov dword [dword_17C5BC], 0
@@ -397,7 +397,7 @@ ShutdownSpeech:
         jl short .2
         cmp dword [dword_11D37E], byte 0
         jl short .2
-        call sub_BFB53
+        call SpeechQueueBusy
         test eax, eax
         jne short .1
         cmp word [word_11D386], byte 0
@@ -417,7 +417,7 @@ ShutdownSpeech:
         call FreeMemBlock
         add esp, byte 4
 .4:
-        call sub_BFBE3
+        call CloseSpeechQueue
         cmp dword [dword_11D37A], byte 0
         je short .5
         push dword [dword_11D37A]
@@ -493,7 +493,7 @@ SetSpeechVolume:
         mov eax, 57h
 .2:
         add eax, byte 28h
-        jmp near sub_BFA45_90
+        jmp near SetSpeechQueueVolume
 ;-----------------------------------------------------------------------------
 ; SpeechBusy                                                      6755B  96 PC
 ; 1 while the driver plays speech or clips are queued (word_11D386)
@@ -505,7 +505,7 @@ SpeechBusy:
         jl short .2
         cmp dword [dword_11D37E], byte 0
         jl short .2
-        call sub_BFB53
+        call SpeechQueueBusy
         test eax, eax
         jne short .1
         cmp word [word_11D386], byte 0
@@ -2104,7 +2104,7 @@ StopSpeech:
         jl short .2
         cmp dword [dword_11D37E], byte 0
         jl short .2
-        call sub_BFB53
+        call SpeechQueueBusy
         test eax, eax
         jne short .1
         cmp word [word_11D386], byte 0
@@ -2114,7 +2114,7 @@ StopSpeech:
 .2:
         test esi, esi
         je short .3
-        call sub_BFB7C
+        call FlushSpeechQueue
 .3:
         mov ecx, 120h
         mov edi, word_17C49C
@@ -2160,7 +2160,7 @@ StopSpeech:
         je short .8
         cmp word [word_11D386], byte 0
         je short .8
-        call sub_BFB53
+        call SpeechQueueBusy
         test eax, eax
         je near .11
 .8:
@@ -2198,8 +2198,8 @@ StopSpeech:
         imul esi, byte 14h
         mov edx, dword [dword_17C5FC]
         mov eax, dword [dword esi+dword_17C5C8]
-        call sub_BFAF5
-        call sub_BFB74
+        call AddSpeechQueueClip
+        call StartSpeechQueue
         call GetTicks
         add dword [dword esi+dword_17C5D0], eax
         jmp short .11

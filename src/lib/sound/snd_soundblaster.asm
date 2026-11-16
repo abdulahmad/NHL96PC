@@ -2,38 +2,38 @@
 bits 32
 %include "hockey.inc"
 section s_CE06B progbits alloc exec nowrite align=1
-extern str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, byte_123988
-extern byte_1248D0, byte_1248D1, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064
-extern byte_14F065, byte_14F066, byte_14F067, byte_14F070, byte_1A0FD4, byte_1A0FD5, CpuType, dword_1210C0
-extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, dword_1228F4, DrawDestBuffer, dword_1228FC
-extern dword_123BCC, dword_123BD0, dword_1248D2, dword_14F01C, dword_14F020, GusDriverIsOpen, dword_14F034, dword_14F038
-extern dword_14F03C, dword_14F040, dword_14F044, dword_14F048, dword_14F04C, dword_14F050, dword_14F058, dword_14F05C
-extern dword_14F060, GusStreamRefillB, dword_1A0FB0, dword_1A0FB4, DacTimerRate, dword_1A0FBC, DacTimerDivisor, dword_1A0FC4
-extern dword_1A0FC8, dword_1A0FCC, dword_1A0FD8, GusDriverDmaBuf, dword_1A0FE0, dword_1A0FE4, dword_1A0FE8, dword_1A0FF0
-extern dword_1A0FF4, dword_1A0FF8, dword_1A0FFC, dword_1A1004, dword_1A100A, dword_1A1010, dword_1A1014, dword_1A1018
-extern dword_1A101C, dword_1A1020, dword_1A1024, dword_1A1028, dword_1A1030, dword_1A1034, dword_1A1038, dword_1A103C
-extern dword_1A1040, dword_1A1044, dword_1A1048, dword_1A104C, dword_1A1052, dword_1A1058, dword_1A105C, dword_1A1060
-extern dword_1A1064, dword_1A1068, dword_1A106C, dword_1A1070, dword_1A1074, dword_1A1078, dword_1A107C, dword_1A1084
-extern dword_1A108A, getenv_, unk_D79E5_2, unk_D7A02_2, sub_AB798, FreeMemBlock, atoi_, DrawArtOpaque
-extern sub_BF950, sub_BFC91, sub_BFE4C, sub_C03F8, sub_C0BCD, sub_C1322, sub_C1811, sub_CBEB7
+extern str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, ColourRemap
+extern SpeechQueueOpen, CrowdPlaying, WssFormatBits, WssMixFormat, WssBytesPerFrame, SbProMixFormat, SbProFrameBytes, Sb16DspCommand
+extern Sb16DspModeByte, Sb16MixFormat, Sb16FrameBytes, SndTickBusy, GusConfigGf1Irq, GusConfigMidiIrq, CpuType, RowCopyFunc
+extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, KeyedDraw, DrawDestBuffer, dword_1228FC
+extern StreamState, StreamChannel, SndTickHold, WssDmaAlloc, WssRunning, GusDriverIsOpen, GusDmaAlloc, GusEnvRead
+extern GusCardFound, SbRunning, SbDmaAlloc, SbProRunning, SbProDmaAlloc, SbProChannels, Sb16Running, Sb16DmaAlloc
+extern Sb16Mode, GusStreamRefillB, WssBlockSamples, WssHalfBuffer, DacTimerRate, WssDmaChannel, DacTimerDivisor, WssDmaBuffer
+extern WssRate, WssDmaPos, GusStreamMem, GusDriverDmaBuf, SbHalfBuffer, SbDmaSize, SbRate, SbDma
+extern SbIrq, SbDmaBuffer, SbVersion, SbOldIrqOffset, SbDmaPos, SbProRealOldOffset, SbProRealOldSegment, SbProRealHandler
+extern SbProBlockSamples, SbProHalfBuffer, SbProDmaSize, SbProRate, SbProDma, SbProOldFilter, SbProIrq, SbProDmaBuffer
+extern SbProOldStereo, SbProVersion, SbProPort, SbProOldIrqOffset, SbProDmaPos, Sb16BlockSamples, Sb16DmaSize, Sb16HalfBuffer
+extern Sb16Rate, Sb16HighDma, Sb16ActiveDma, Sb16LowDma, Sb16Irq, Sb16DmaBuffer, Sb16Version, Sb16OldIrqOffset
+extern Sb16DmaPos, getenv_, SbProIsr, Sb16Isr, sub_AB798, FreeMemBlock, atoi_, DrawArtOpaque
+extern SpeechQueueService, SetChannelVolume, StopSoundChannel, FlushAudioStream, CrowdService, PickOutputRate, CallDriverService, sub_CBEB7
 extern MixerFillBuffer, MixerStopChannel, ReturnArg, TimerCalibrate, TimerRestore, sub_D5BB1, sub_D5E50, sub_D5E7D
 extern IrqAck, IrqVector, IrqUnmask, IrqMask, IrqSetHandler, sub_D6027, sub_D60D2, GusGetEnvConfig
 extern GusProbePort, GusOpen, GusClose, GusMemAlloc, sub_D703C, GusStreamBusy, GusServiceStream, GusStartStream
-extern sub_D7970, sub_D79CC, sub_D7A44, bcopy, unk_1A0B20, unk_1A0FEC, unk_1A102C, unk_D796A
-extern unk_D796C, unk_D796E, unk_D79E3, unk_D79E5, unk_D7A00, unk_D7A02, unk_F0000, unk_F000D
+extern SbIsrSingle, SbIsrAutoInit, sub_D7A44, bcopy, SndChannels, SbHighDma, SbProHighDma, SbIsrPicPort
+extern SbIsrAckPort, SbIsrWritePort, SbProIsrPicPort, SbProIsrAckPort, Sb16IsrPicPort, Sb16IsrAckPort, unk_F0000, unk_F000D
 extern unk_F001A, unk_F0027, word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort
-extern SbWritePort, word_1A0FD0, word_1A0FD2, word_1A1000, word_1A1008, word_1A1050, word_1A1080, word_1A1088
-global jpt_CE396, sub_CE3B6_57, sub_CE3B6_68, sub_CE3B6_79, sub_CE3B6_85, sub_CE3B6_96, sub_CE3B6_A2, sub_CE3B6_AE
-global sub_CE3B6_BD, sub_CE3B6_218, sub_CE65F_1, sub_CE65F_7, sub_CE65F_D, sub_CEA28_1, sub_CEA28_7, sub_CEA28_D
-global sub_CEC5D_1, sub_CEC5D_7, sub_CEC5D_A, sub_CF078_1, sub_CF078_7, sub_CF078_D, sub_CF587_1, sub_CF587_7
-global sub_CF587_D, sub_CFA64_34, sub_CFB14_34, ParseHexValue, ParseBlasterEnv, sub_CE1DA, SbWaitRead, sub_CE220
-global sub_CE254, sub_CE285, SbResetDsp, sub_CE2E8, sub_CE31C, sub_CE3B6, sub_CE5D5, sub_CE60C
-global sub_CE647, sub_CE65F, sub_CE672, sub_CE709, sub_CE780, sub_CE7C4, sub_CE90E, sub_CE980
-global GusDriverUpdate, sub_CEA10, sub_CEA28, sub_CEA3B, sub_CEB8D, sub_CEC0A, sub_CEC45, sub_CEC5D
-global sub_CEC6D, sub_CEDDE, sub_CEFEE, sub_CF025, sub_CF060, sub_CF078, sub_CF08B, sub_CF255
-global sub_CF2D8, sub_CF4CD, sub_CF534, sub_CF56F, sub_CF587, sub_CF59A, sub_CF68D, sub_CF6C9
-global sub_CF6ED, TgvCopyBlock, TgvFillBlock, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, sub_CFCF8
-global unk_CE368, unk_CE378, unk_CE388
+extern SbWritePort, GusConfig, GusConfigPort, SbPort, SbOldIrqSelector, SbProOldIrqSelector, Sb16Port, Sb16OldIrqSelector
+global WssOpenJumpTable, WssOpen_57, WssOpen_68, WssOpen_79, WssOpen_85, WssOpen_96, WssOpen_A2, WssOpen_AE
+global WssOpen_BD, WssOpen_218, WssQueryRate, WssQueryFormat, WssQueryNone, GusQueryRate, GusQueryFormat, GusQueryNone
+global SbQueryRate, SbQueryFormat, SbQueryNone, SbProQueryRate, SbProQueryFormat, SbProQueryNone, Sb16QueryRate, Sb16QueryFormat
+global Sb16QueryNone, DrawArtKeyedRows, PutBlockKeyedRows, ParseHexValue, ParseBlasterEnv, SbDelay, SbWaitRead, SbWriteDsp
+global SbProSetStereo, SbProSetFilter, SbResetDsp, SbDspVersion, SbSetTimeConstant, WssOpen, WssClose, WssService
+global WssQuery, WssEnd, WssSetupCard, WssProbePort, GusDetect, GusStart, GusDriverOpen, GusDriverClose
+global GusDriverUpdate, GusDriverQuery, GusDriverEnd, SbOpen, SbClose, SbService, SbQuery, SbEnd
+global SbStartDma, SbProOpen, SbProClose, SbProService, SbProQuery, SbProEnd, SbProStartDma, SbProStopDma
+global Sb16Open, Sb16Close, Sb16Service, Sb16Query, Sb16End, Sb16StartDma, Sb16StopDma, SndTimerCallback
+global SndTimerTick, TgvCopyBlock, TgvFillBlock, GatherPlaneBytes, DrawArtKeyedAt, PutBlockKeyedAt, CopyRowKeyedRemap, DrawArtKeyedRemap
+global WssProbePorts, WssDmaConfigBits, WssRateOffsets
 ;-----------------------------------------------------------------------------
 ; ParseHexValue                                   CE06B  96 PC, low confidence
 ; Parses a hexadecimal setting value
@@ -193,9 +193,10 @@ ParseBlasterEnv:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE1DA                                                            CE1DA  
+; SbDelay                                      CE1DA  96 PC, medium confidence
+; Short delay: reads the Sound Blaster status port 100 times
 ;-----------------------------------------------------------------------------
-sub_CE1DA:
+SbDelay:
         push ebx
         push edx
         mov ebx, 64h
@@ -238,9 +239,10 @@ SbWaitRead:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE220                                                            CE220  
+; SbWriteDsp                                   CE220  96 PC, medium confidence
+; Waits for the Sound Blaster DSP to be ready and writes a byte to it
 ;-----------------------------------------------------------------------------
-sub_CE220:
+SbWriteDsp:
         push ebx
         push ecx
         push edx
@@ -269,9 +271,11 @@ sub_CE220:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE254                                                            CE254  
+; SbProSetStereo                               CE254  96 PC, medium confidence
+; Sets the Sound Blaster Pro stereo bit in mixer register 0Eh and returns the
+; old one
 ;-----------------------------------------------------------------------------
-sub_CE254:
+SbProSetStereo:
         push ebx
         push ecx
         push edx
@@ -294,9 +298,11 @@ sub_CE254:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE285                                                            CE285  
+; SbProSetFilter                               CE285  96 PC, medium confidence
+; Sets the Sound Blaster Pro output filter bit in mixer register 0Eh and
+; returns the old one
 ;-----------------------------------------------------------------------------
-sub_CE285:
+SbProSetFilter:
         push ebx
         push ecx
         push edx
@@ -345,12 +351,13 @@ SbResetDsp:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE2E8                                                            CE2E8  
+; SbDspVersion                                 CE2E8  96 PC, medium confidence
+; Asks the DSP for its version number
 ;-----------------------------------------------------------------------------
-sub_CE2E8:
+SbDspVersion:
         push edx
         mov eax, 0E1h
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .3
         call SbWaitRead
@@ -371,9 +378,10 @@ sub_CE2E8:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE31C                                                            CE31C  
+; SbSetTimeConstant                            CE31C  96 PC, medium confidence
+; Sets the DSP time constant for a sample rate and channel count
 ;-----------------------------------------------------------------------------
-sub_CE31C:
+SbSetTimeConstant:
         push ebx
         cmp eax, 0FA0h
         jl short .1
@@ -392,37 +400,39 @@ sub_CE31C:
         mov edx, 10000h
         sub edx, eax
         mov eax, 40h
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .3
         mov eax, edx
         sar eax, 8
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .3
         xor eax, eax
 .3:
         pop ebx
         ret
-unk_CE368:
+WssProbePorts:
         db 030h,05h,00h,00h,04h,06h,00h,00h,080h,0Eh,00h,00h,040h,0Fh,00h,00h
-unk_CE378:
+WssDmaConfigBits:
         db 011h,00h,00h,00h,012h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,013h,00h,00h,00h
-unk_CE388:
+WssRateOffsets:
         db 0C8h,096h,084h,067h,0A6h,040h,04h,029h,095h,015h,0C4h,09h,00h,00h
-jpt_CE396:
-        dd sub_CE3B6_BD
-        dd sub_CE3B6_57
-        dd sub_CE3B6_68
-        dd sub_CE3B6_79
-        dd sub_CE3B6_85
-        dd sub_CE3B6_96
-        dd sub_CE3B6_A2
-        dd sub_CE3B6_AE
+WssOpenJumpTable:
+        dd WssOpen_BD
+        dd WssOpen_57
+        dd WssOpen_68
+        dd WssOpen_79
+        dd WssOpen_85
+        dd WssOpen_96
+        dd WssOpen_A2
+        dd WssOpen_AE
 ;-----------------------------------------------------------------------------
-; sub_CE3B6                                                            CE3B6  
+; WssOpen                                      CE3B6  96 PC, medium confidence
+; Windows Sound System driver open: picks the rate, allocates the DMA buffer
+; and starts output
 ;-----------------------------------------------------------------------------
-sub_CE3B6:
+WssOpen:
         push ebx
         push ecx
         push edx
@@ -440,58 +450,58 @@ sub_CE3B6:
 .2:
         mov edx, 0AC44h
         mov eax, 157Ch
-        call sub_C1322
-        mov dword [dword_1A0FC8], eax
+        call PickOutputRate
+        mov dword [WssRate], eax
         sub eax, 157Ch
         cmp eax, 96C8h
-        ja near sub_CE3B6_BD
+        ja near WssOpen_BD
         mov ecx, 8
-        mov edi, unk_CE388
+        mov edi, WssRateOffsets
         repne scasw
-        jmp dword [nosplit cs:ecx*4+jpt_CE396]
-sub_CE3B6_57:
+        jmp dword [nosplit cs:ecx*4+WssOpenJumpTable]
+WssOpen_57:
         mov dword [DacTimerRate], 801h
         mov ebx, 8
-        jmp short sub_CE3B6_BD
-sub_CE3B6_68:
+        jmp short WssOpen_BD
+WssOpen_68:
         mov dword [DacTimerRate], 800h
 .3:
         mov ebx, 4
-        jmp short sub_CE3B6_BD
-sub_CE3B6_79:
+        jmp short WssOpen_BD
+WssOpen_79:
         mov dword [DacTimerRate], 803h
-        jmp short sub_CE3B6_68.3
-sub_CE3B6_85:
+        jmp short WssOpen_68.3
+WssOpen_85:
         mov dword [DacTimerRate], 802h
 .4:
         mov ebx, 2
-        jmp short sub_CE3B6_BD
-sub_CE3B6_96:
+        jmp short WssOpen_BD
+WssOpen_96:
         mov dword [DacTimerRate], 807h
-        jmp short sub_CE3B6_85.4
-sub_CE3B6_A2:
+        jmp short WssOpen_85.4
+WssOpen_A2:
         mov dword [DacTimerRate], 806h
-        jmp short sub_CE3B6_AE.5
-sub_CE3B6_AE:
+        jmp short WssOpen_AE.5
+WssOpen_AE:
         mov dword [DacTimerRate], 80Bh
 .5:
         mov ebx, 1
-sub_CE3B6_BD:
+WssOpen_BD:
         lea ecx, [esi+esi*2]
-        movzx eax, byte [dword ecx+byte_14F024]
+        movzx eax, byte [dword ecx+WssFormatBits]
         or dword [DacTimerRate], eax
         mov eax, 400h
         cdq
         idiv ebx
-        mov dword [dword_1A0FB0], eax
-        movzx eax, byte [dword ecx+byte_14F026]
+        mov dword [WssBlockSamples], eax
+        movzx eax, byte [dword ecx+WssBytesPerFrame]
         imul ebx, eax
         mov eax, 2000h
         cdq
         idiv ebx
         mov dword [DacTimerDivisor], eax
         shr eax, 1
-        mov dword [dword_1A0FB4], eax
+        mov dword [WssHalfBuffer], eax
         mov eax, dword [DacTimerDivisor]
         push dword 200h
         add eax, eax
@@ -499,75 +509,75 @@ sub_CE3B6_BD:
         push str_DMABUFFER
         call sub_AB798
         add esp, byte 0Ch
-        mov dword [dword_1A0FC4], eax
+        mov dword [WssDmaBuffer], eax
         test eax, eax
         jne short .6
-        mov dword [dword_14F01C], eax
+        mov dword [WssDmaAlloc], eax
         mov eax, 0FFFFFFFAh
-        jmp near sub_CE3B6_218
+        jmp near WssOpen_218
 .6:
         mov ecx, eax
         mov ebx, 10000h
         and ecx, 0FFFFh
         sub ebx, dword [DacTimerDivisor]
-        mov dword [dword_14F01C], eax
+        mov dword [WssDmaAlloc], eax
         cmp ecx, ebx
         jbe short .7
         and eax, 0F0000h
         add eax, 10000h
-        mov dword [dword_1A0FC4], eax
+        mov dword [WssDmaBuffer], eax
 .7:
-        call sub_CE672
+        call WssSetupCard
         mov edi, eax
         test eax, eax
         jge short .8
-        push dword [dword_14F01C]
+        push dword [WssDmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F01C], 0
+        mov dword [WssDmaAlloc], 0
         add esp, byte 4
         mov eax, edi
-        jmp near sub_CE3B6_218
+        jmp near WssOpen_218
 .8:
-        push dword [dword_1A0FB0]
+        push dword [WssBlockSamples]
         sar eax, 10h
         lea esi, [esi+esi*2]
-        push dword [dword_1A0FC8]
-        mov dword [dword_1A0FBC], eax
-        movzx eax, byte [dword esi+byte_14F025]
+        push dword [WssRate]
+        mov dword [WssDmaChannel], eax
+        movzx eax, byte [dword esi+WssMixFormat]
         push eax
         call sub_CBEB7
         add esp, byte 0Ch
-        push dword [dword_1A0FC4]
+        push dword [WssDmaBuffer]
         mov dword [byte ebp-04h], eax
         call MixerFillBuffer
-        mov eax, dword [dword_1A0FC4]
+        mov eax, dword [WssDmaBuffer]
         add esp, byte 4
-        add eax, dword [dword_1A0FB4]
+        add eax, dword [WssHalfBuffer]
         push eax
         call MixerFillBuffer
         add esp, byte 4
-        push dword [dword_1A0FC4]
+        push dword [WssDmaBuffer]
         push edi
         call TimerCalibrate
         mov esi, eax
         add esp, byte 8
         test eax, eax
         jg short .9
-        push dword [dword_14F01C]
+        push dword [WssDmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F01C], 0
+        mov dword [WssDmaAlloc], 0
         add esp, byte 4
         mov eax, esi
-        jmp short sub_CE3B6_218
+        jmp short WssOpen_218
 .9:
         push byte 7Fh
         call sub_D5BB1
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_14F020], 1
+        mov dword [WssRunning], 1
         shl eax, 10h
         add esp, byte 4
         or al, 0Ch
-sub_CE3B6_218:
+WssOpen_218:
         leave
         pop edi
         pop esi
@@ -576,41 +586,44 @@ sub_CE3B6_218:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE5D5                                                            CE5D5  
+; WssClose                                     CE5D5  96 PC, medium confidence
+; Windows Sound System driver close
 ;-----------------------------------------------------------------------------
-sub_CE5D5:
+WssClose:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_14F01C], byte 0
+        cmp dword [WssDmaAlloc], byte 0
         je short .1
         call TimerRestore
-        push dword [dword_14F01C]
+        push dword [WssDmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F01C], 0
+        mov dword [WssDmaAlloc], 0
         add esp, byte 4
 .1:
-        mov dword [dword_14F020], 0
+        mov dword [WssRunning], 0
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE60C                                                            CE60C  
+; WssService                                   CE60C  96 PC, medium confidence
+; Windows Sound System driver service: refills the half of the DMA buffer
+; just played
 ;-----------------------------------------------------------------------------
-sub_CE60C:
+WssService:
         push ebx
         push ecx
         push edx
-        mov edx, dword [dword_1A0FBC]
-        mov eax, dword [dword_1A0FB4]
+        mov edx, dword [WssDmaChannel]
+        mov eax, dword [WssHalfBuffer]
         call IrqAck
-        mov dword [dword_1A0FCC], eax
+        mov dword [WssDmaPos], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
-        cmp dword [dword_14F020], byte 0
+        cmp dword [WssRunning], byte 0
         je short .1
-        mov edx, dword [dword_1A0FC4]
+        mov edx, dword [WssDmaBuffer]
         add eax, edx
         push eax
         call MixerFillBuffer
@@ -621,43 +634,52 @@ sub_CE60C:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE647                                                            CE647  
+; WssQuery                                     CE647  96 PC, medium confidence
+; Windows Sound System driver query: card id, rate or format flags
 ;-----------------------------------------------------------------------------
-sub_CE647:
+WssQuery:
         cmp eax, byte 5
         jb short .1
-        jbe short sub_CE65F_1
+        jbe short WssQueryRate
         cmp eax, byte 6
-        je short sub_CE65F_7
-        jmp short sub_CE65F_D
+        je short WssQueryFormat
+        jmp short WssQueryNone
 .1:
         cmp eax, byte 3
-        jne short sub_CE65F_D
+        jne short WssQueryNone
         mov eax, 2000h
-sub_CE65F:
+;-----------------------------------------------------------------------------
+; WssEnd                                       CE65F  96 PC, medium confidence
+; Windows Sound System driver end entry: does nothing
+;-----------------------------------------------------------------------------
+WssEnd:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE65F_1                                                          CE660  
+; WssQueryRate                                 CE660  96 PC, medium confidence
+; Query answer: output rate
 ;-----------------------------------------------------------------------------
-sub_CE65F_1:
-        mov eax, dword [dword_1A0FC8]
+WssQueryRate:
+        mov eax, dword [WssRate]
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE65F_7                                                          CE666  
+; WssQueryFormat                               CE666  96 PC, medium confidence
+; Query answer: 16-bit stereo
 ;-----------------------------------------------------------------------------
-sub_CE65F_7:
+WssQueryFormat:
         mov eax, 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE65F_D                                                          CE66C  
+; WssQueryNone                                 CE66C  96 PC, medium confidence
+; Query answer: unknown query
 ;-----------------------------------------------------------------------------
-sub_CE65F_D:
+WssQueryNone:
         mov eax, 0FFFFFFFFh
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE672                                                            CE672  
+; WssSetupCard                                 CE672  96 PC, medium confidence
+; Finds the Windows Sound System card and sets its DMA channel from WSSDMA
 ;-----------------------------------------------------------------------------
-sub_CE672:
+WssSetupCard:
         push ebx
         push ecx
         push edx
@@ -665,14 +687,14 @@ sub_CE672:
         push edi
         enter 20h, 0
         lea edi, [byte ebp-010h]
-        mov esi, unk_CE368
+        mov esi, WssProbePorts
         movsd
         movsd
         movsd
         movsd
         mov ecx, 0FFFFFFFFh
         lea edi, [byte ebp-020h]
-        mov esi, unk_CE378
+        mov esi, WssDmaConfigBits
         mov ebx, 1
         xor edx, edx
         movsd
@@ -681,7 +703,7 @@ sub_CE672:
         movsd
 .1:
         mov eax, dword [byte edx+ebp-010h]
-        call sub_CE709
+        call WssProbePort
         test eax, eax
         jne short .2
         mov ecx, dword [byte edx+ebp-010h]
@@ -694,7 +716,7 @@ sub_CE672:
         cmp ecx, byte 0FFFFFFFFh
         jne short .4
         mov eax, 0FFFFFFFBh
-        jmp near sub_CE3B6_218
+        jmp near WssOpen_218
 .4:
         mov eax, str_WSSDMA
         call getenv_
@@ -711,7 +733,7 @@ sub_CE672:
         jne short .7
 .6:
         mov eax, 0FFFFFFF7h
-        jmp near sub_CE3B6_218
+        jmp near WssOpen_218
 .7:
         mov edx, ecx
         mov eax, dword [byte ebp+ebx*4-020h]
@@ -719,11 +741,12 @@ sub_CE672:
         mov eax, ebx
         shl eax, 10h
         or eax, ecx
-        jmp near sub_CE3B6_218
+        jmp near WssOpen_218
 ;-----------------------------------------------------------------------------
-; sub_CE709                                                            CE709  
+; WssProbePort                                 CE709  96 PC, medium confidence
+; Checks for a Windows Sound System card at a base port
 ;-----------------------------------------------------------------------------
-sub_CE709:
+WssProbePort:
         push ebx
         push ecx
         push edx
@@ -793,31 +816,34 @@ sub_CE709:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE780                                                            CE780  
+; GusDetect                                    CE780  96 PC, medium confidence
+; Reads the Gravis settings and probes the card
 ;-----------------------------------------------------------------------------
-sub_CE780:
-        mov eax, word_1A0FD0
+GusDetect:
+        mov eax, GusConfig
         call GusGetEnvConfig
         test eax, eax
         jne short .1
         mov eax, 0FFFFFFFEh
         ret
 .1:
-        movzx eax, word [word_1A0FD2]
-        mov dword [dword_14F038], 1
+        movzx eax, word [GusConfigPort]
+        mov dword [GusEnvRead], 1
         call GusProbePort
         test eax, eax
         jne short .2
         mov eax, 0FFFFFFFBh
         ret
 .2:
-        mov dword [dword_14F03C], 1
+        mov dword [GusCardFound], 1
         mov eax, 1
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE7C4                                                            CE7C4  
+; GusStart                                     CE7C4  96 PC, medium confidence
+; Allocates the Gravis DMA buffer, opens the card and starts the output
+; stream
 ;-----------------------------------------------------------------------------
-sub_CE7C4:
+GusStart:
         push ebx
         push ecx
         push edx
@@ -831,7 +857,7 @@ sub_CE7C4:
         mov dword [GusDriverDmaBuf], eax
         test eax, eax
         jne short .1
-        mov dword [dword_14F034], eax
+        mov dword [GusDmaAlloc], eax
         mov eax, 0FFFFFFFAh
         pop edx
         pop ecx
@@ -840,7 +866,7 @@ sub_CE7C4:
 .1:
         mov edx, eax
         and edx, 0FFFFh
-        mov dword [dword_14F034], eax
+        mov dword [GusDmaAlloc], eax
         cmp edx, 0F000h
         jle short .2
         and eax, 0F0000h
@@ -849,11 +875,11 @@ sub_CE7C4:
 .2:
         cmp dword [GusDriverIsOpen], byte 0
         jne near .10
-        cmp dword [dword_14F03C], byte 0
+        cmp dword [GusCardFound], byte 0
         jne short .6
-        cmp dword [dword_14F038], byte 0
+        cmp dword [GusEnvRead], byte 0
         jne short .4
-        mov eax, word_1A0FD0
+        mov eax, GusConfig
         call GusGetEnvConfig
         test eax, eax
         jne short .3
@@ -863,9 +889,9 @@ sub_CE7C4:
         pop ebx
         ret
 .3:
-        mov dword [dword_14F038], 1
+        mov dword [GusEnvRead], 1
 .4:
-        movzx eax, word [word_1A0FD2]
+        movzx eax, word [GusConfigPort]
         call GusProbePort
         test eax, eax
         jne short .5
@@ -875,24 +901,24 @@ sub_CE7C4:
         pop ebx
         ret
 .5:
-        mov dword [dword_14F03C], 1
+        mov dword [GusCardFound], 1
 .6:
-        movzx eax, byte [byte_1A0FD4]
-        mov word [word_1A0FD0], 1Ch
+        movzx eax, byte [GusConfigGf1Irq]
+        mov word [GusConfig], 1Ch
         cmp eax, byte 7
         jle short .8
-        movzx eax, byte [byte_1A0FD5]
+        movzx eax, byte [GusConfigMidiIrq]
         cmp eax, byte 7
         jg short .7
-        mov al, byte [byte_1A0FD5]
-        mov ah, byte [byte_1A0FD4]
-        mov byte [byte_1A0FD5], ah
-        mov byte [byte_1A0FD4], al
+        mov al, byte [GusConfigMidiIrq]
+        mov ah, byte [GusConfigGf1Irq]
+        mov byte [GusConfigMidiIrq], ah
+        mov byte [GusConfigGf1Irq], al
         jmp short .8
 .7:
-        mov byte [byte_1A0FD4], 5
+        mov byte [GusConfigGf1Irq], 5
 .8:
-        mov eax, word_1A0FD0
+        mov eax, GusConfig
         call GusOpen
         test eax, eax
         je short .9
@@ -908,7 +934,7 @@ sub_CE7C4:
         push dword 1000h
         push eax
         push dword [GusDriverDmaBuf]
-        mov dword [dword_1A0FD8], eax
+        mov dword [GusStreamMem], eax
         call GusStartStream
         add esp, byte 0Ch
 .10:
@@ -919,33 +945,34 @@ sub_CE7C4:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE90E                                                            CE90E  
+; GusDriverOpen                                CE90E  96 PC, medium confidence
+; Gravis driver open
 ;-----------------------------------------------------------------------------
-sub_CE90E:
+GusDriverOpen:
         push ebx
         push ecx
         push edx
-        mov eax, word_1A0FD0
+        mov eax, GusConfig
         call GusGetEnvConfig
         test eax, eax
         jne short .1
         mov eax, 0FFFFFFFEh
         jmp short .3
 .1:
-        movzx eax, word [word_1A0FD2]
-        mov dword [dword_14F038], 1
+        movzx eax, word [GusConfigPort]
+        mov dword [GusEnvRead], 1
         call GusProbePort
         test eax, eax
         jne short .2
         mov eax, 0FFFFFFFBh
         jmp short .3
 .2:
-        mov dword [dword_14F03C], 1
+        mov dword [GusCardFound], 1
         mov eax, 1
 .3:
         test eax, eax
         jle short .4
-        call sub_CE7C4
+        call GusStart
         test eax, eax
         jl short .4
         push dword 200h
@@ -961,25 +988,26 @@ sub_CE90E:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE980                                                            CE980  
+; GusDriverClose                               CE980  96 PC, medium confidence
+; Gravis driver close
 ;-----------------------------------------------------------------------------
-sub_CE980:
+GusDriverClose:
         push ebx
         push ecx
         push edx
         cmp dword [GusDriverIsOpen], byte 0
         je short .1
         call GusClose
-        mov dword [dword_14F038], 0
-        mov dword [dword_14F03C], 0
+        mov dword [GusEnvRead], 0
+        mov dword [GusCardFound], 0
         mov dword [GusDriverIsOpen], 0
 .1:
-        cmp dword [dword_14F034], byte 0
+        cmp dword [GusDmaAlloc], byte 0
         je short .2
         call sub_D703C
-        push dword [dword_14F034]
+        push dword [GusDmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F034], 0
+        mov dword [GusDmaAlloc], 0
         add esp, byte 4
 .2:
         pop edx
@@ -1013,50 +1041,60 @@ GusDriverUpdate:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEA10                                                            CEA10  
+; GusDriverQuery                               CEA10  96 PC, medium confidence
+; Gravis driver query: card id, rate or format flags
 ;-----------------------------------------------------------------------------
-sub_CEA10:
+GusDriverQuery:
         cmp eax, byte 5
         jb short .1
-        jbe short sub_CEA28_1
+        jbe short GusQueryRate
         cmp eax, byte 6
-        je short sub_CEA28_7
-        jmp short sub_CEA28_D
+        je short GusQueryFormat
+        jmp short GusQueryNone
 .1:
         cmp eax, byte 3
-        jne short sub_CEA28_D
+        jne short GusQueryNone
         mov eax, 800h
-sub_CEA28:
+;-----------------------------------------------------------------------------
+; GusDriverEnd                                 CEA28  96 PC, medium confidence
+; Gravis driver end entry: does nothing
+;-----------------------------------------------------------------------------
+GusDriverEnd:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEA28_1                                                          CEA29  
+; GusQueryRate                                 CEA29  96 PC, medium confidence
+; Query answer: output rate
 ;-----------------------------------------------------------------------------
-sub_CEA28_1:
+GusQueryRate:
         mov eax, 5622h
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEA28_7                                                          CEA2F  
+; GusQueryFormat                               CEA2F  96 PC, medium confidence
+; Query answer: format flags
 ;-----------------------------------------------------------------------------
-sub_CEA28_7:
+GusQueryFormat:
         mov eax, 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEA28_D                                                          CEA35  
+; GusQueryNone                                 CEA35  96 PC, medium confidence
+; Query answer: unknown query
 ;-----------------------------------------------------------------------------
-sub_CEA28_D:
+GusQueryNone:
         mov eax, 0FFFFFFFFh
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEA3B                                                            CEA3B  
+; SbOpen                                       CEA3B  96 PC, medium confidence
+; Sound Blaster driver open: reads BLASTER, allocates the DMA buffer and
+; starts output
 ;-----------------------------------------------------------------------------
-sub_CEA3B:
+SbOpen:
         push ebx
         push ecx
         push edx
         mov edx, 5622h
         mov eax, 0FA0h
-        call sub_C1322
-        mov dword [dword_1A0FE8], eax
+        call PickOutputRate
+        mov dword [SbRate], eax
         cmp eax, 157Ch
         ja short .1
         mov ebx, 4
@@ -1072,46 +1110,46 @@ sub_CEA3B:
         mov eax, 200h
         cdq
         idiv ebx
-        mov dword [dword_1A0FE0], eax
+        mov dword [SbHalfBuffer], eax
         mov eax, 400h
         cdq
         idiv ebx
-        mov ecx, unk_1A0FEC
-        mov ebx, dword_1A0FF0
-        mov edx, dword_1A0FF4
-        mov dword [dword_1A0FE4], eax
-        mov eax, word_1A1000
+        mov ecx, SbHighDma
+        mov ebx, SbDma
+        mov edx, SbIrq
+        mov dword [SbDmaSize], eax
+        mov eax, SbPort
         call ParseBlasterEnv
         test eax, eax
         jl near .8
-        cmp dword [dword_1A0FF4], byte 7
+        cmp dword [SbIrq], byte 7
         jle short .4
-        mov word [unk_D796A], 0A0h
+        mov word [SbIsrPicPort], 0A0h
         jmp short .5
 .4:
-        mov word [unk_D796A], 20h
+        mov word [SbIsrPicPort], 20h
 .5:
-        mov ax, word [word_1A1000]
+        mov ax, word [SbPort]
         add eax, 0Eh
-        mov word [unk_D796C], ax
-        mov ax, word [word_1A1000]
+        mov word [SbIsrAckPort], ax
+        mov ax, word [SbPort]
         add eax, 0Ch
-        mov word [unk_D796E], ax
-        call sub_CE2E8
-        mov dword [dword_1A0FFC], eax
+        mov word [SbIsrWritePort], ax
+        call SbDspVersion
+        mov dword [SbVersion], eax
         cmp eax, byte 0FFFFFFFFh
         je near .8
-        mov eax, dword [dword_1A0FE4]
+        mov eax, dword [SbDmaSize]
         push dword 200h
         add eax, eax
         push eax
         push str_DMABUFFER3
         call sub_AB798
         add esp, byte 0Ch
-        mov dword [dword_1A0FF8], eax
+        mov dword [SbDmaBuffer], eax
         test eax, eax
         jne short .6
-        mov dword [dword_14F044], eax
+        mov dword [SbDmaAlloc], eax
         mov eax, 0FFFFFFFFh
         pop edx
         pop ecx
@@ -1121,21 +1159,21 @@ sub_CEA3B:
         mov edx, eax
         mov ebx, 10000h
         and edx, 0FFFFh
-        sub ebx, dword [dword_1A0FE4]
-        mov dword [dword_14F044], eax
+        sub ebx, dword [SbDmaSize]
+        mov dword [SbDmaAlloc], eax
         cmp edx, ebx
         jbe short .7
         and eax, 0F0000h
         add eax, 10000h
-        mov dword [dword_1A0FF8], eax
+        mov dword [SbDmaBuffer], eax
 .7:
-        call sub_CEC6D
+        call SbStartDma
         cmp eax, byte 0FFFFFFFFh
         je short .8
-        push dword [dword_1A0FE0]
-        push dword [dword_1A0FE8]
+        push dword [SbHalfBuffer]
+        push dword [SbRate]
         push byte 10h
-        mov dword [dword_14F040], 1
+        mov dword [SbRunning], 1
         call sub_CBEB7
         add esp, byte 0Ch
         shl eax, 10h
@@ -1145,55 +1183,58 @@ sub_CEA3B:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEB8D                                                            CEB8D  
+; SbClose                                      CEB8D  96 PC, medium confidence
+; Sound Blaster driver close: stops DMA and restores the interrupt
 ;-----------------------------------------------------------------------------
-sub_CEB8D:
+SbClose:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_14F044], byte 0
+        cmp dword [SbDmaAlloc], byte 0
         je short .2
-        cmp dword [dword_1A0FFC], 200h
+        cmp dword [SbVersion], 200h
         jl short .1
         mov eax, 0DAh
-        call sub_CE220
+        call SbWriteDsp
 .1:
-        mov eax, dword [dword_1A0FF0]
+        mov eax, dword [SbDma]
         call sub_D5E50
         mov eax, 0D3h
-        call sub_CE220
-        mov eax, dword [dword_1A0FF4]
+        call SbWriteDsp
+        mov eax, dword [SbIrq]
         call IrqMask
-        mov cx, word [word_1A1008]
-        mov ebx, dword [dword_1A1004]
-        mov eax, dword [dword_1A0FF4]
+        mov cx, word [SbOldIrqSelector]
+        mov ebx, dword [SbOldIrqOffset]
+        mov eax, dword [SbIrq]
         call IrqSetHandler
-        push dword [dword_14F044]
+        push dword [SbDmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F044], 0
+        mov dword [SbDmaAlloc], 0
         add esp, byte 4
 .2:
-        mov dword [dword_14F040], 0
+        mov dword [SbRunning], 0
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEC0A                                                            CEC0A  
+; SbService                                    CEC0A  96 PC, medium confidence
+; Sound Blaster driver service: refills the half of the DMA buffer just
+; played
 ;-----------------------------------------------------------------------------
-sub_CEC0A:
+SbService:
         push ebx
         push ecx
         push edx
-        mov edx, dword [dword_1A0FF0]
-        mov eax, dword [dword_1A0FE0]
+        mov edx, dword [SbDma]
+        mov eax, dword [SbHalfBuffer]
         call IrqAck
-        mov dword [dword_1A100A], eax
+        mov dword [SbDmaPos], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
-        cmp dword [dword_14F040], byte 0
+        cmp dword [SbRunning], byte 0
         je short .1
-        mov edx, dword [dword_1A0FF8]
+        mov edx, dword [SbDmaBuffer]
         add eax, edx
         push eax
         call MixerFillBuffer
@@ -1204,43 +1245,52 @@ sub_CEC0A:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEC45                                                            CEC45  
+; SbQuery                                      CEC45  96 PC, medium confidence
+; Sound Blaster driver query: DSP version, rate or format flags
 ;-----------------------------------------------------------------------------
-sub_CEC45:
+SbQuery:
         cmp eax, byte 5
         jb short .1
-        jbe short sub_CEC5D_1
+        jbe short SbQueryRate
         cmp eax, byte 6
-        je short sub_CEC5D_7
-        jmp short sub_CEC5D_A
+        je short SbQueryFormat
+        jmp short SbQueryNone
 .1:
         cmp eax, byte 3
-        jne short sub_CEC5D_A
-        mov eax, dword [dword_1A0FFC]
-sub_CEC5D:
+        jne short SbQueryNone
+        mov eax, dword [SbVersion]
+;-----------------------------------------------------------------------------
+; SbEnd                                        CEC5D  96 PC, medium confidence
+; Sound Blaster driver end entry: does nothing
+;-----------------------------------------------------------------------------
+SbEnd:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEC5D_1                                                          CEC5E  
+; SbQueryRate                                  CEC5E  96 PC, medium confidence
+; Query answer: output rate
 ;-----------------------------------------------------------------------------
-sub_CEC5D_1:
-        mov eax, dword [dword_1A0FE8]
+SbQueryRate:
+        mov eax, dword [SbRate]
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEC5D_7                                                          CEC64  
+; SbQueryFormat                                CEC64  96 PC, medium confidence
+; Query answer: 8-bit mono
 ;-----------------------------------------------------------------------------
-sub_CEC5D_7:
+SbQueryFormat:
         xor eax, eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEC5D_A                                                          CEC67  
+; SbQueryNone                                  CEC67  96 PC, medium confidence
+; Query answer: unknown query
 ;-----------------------------------------------------------------------------
-sub_CEC5D_A:
+SbQueryNone:
         mov eax, 0FFFFFFFFh
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEC6D                                                            CEC6D  
+; SbStartDma                                   CEC6D  96 PC, medium confidence
+; Resets the DSP, hooks the interrupt and starts DMA output
 ;-----------------------------------------------------------------------------
-sub_CEC6D:
+SbStartDma:
         push ebx
         push ecx
         push edx
@@ -1248,49 +1298,49 @@ sub_CEC6D:
         cmp eax, byte 0FFFFFFFFh
         je near .8
         mov edx, 1
-        mov eax, dword [dword_1A0FE8]
-        call sub_CE31C
+        mov eax, dword [SbRate]
+        call SbSetTimeConstant
         cmp eax, byte 0FFFFFFFFh
         je near .8
         mov eax, 0D1h
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je near .8
         xor eax, eax
         jmp short .2
 .1:
-        mov edx, dword [dword_1A0FF8]
+        mov edx, dword [SbDmaBuffer]
         mov byte [edx+eax], 80h
         inc eax
 .2:
-        cmp eax, dword [dword_1A0FE4]
+        cmp eax, dword [SbDmaSize]
         jb short .1
-        mov eax, dword [dword_1A0FF4]
+        mov eax, dword [SbIrq]
         call IrqMask
-        cmp dword [dword_1A0FFC], 200h
+        cmp dword [SbVersion], 200h
         jge short .3
-        mov ebx, sub_D7970
+        mov ebx, SbIsrSingle
         jmp short .4
 .3:
-        mov ebx, sub_D79CC
+        mov ebx, SbIsrAutoInit
 .4:
-        mov eax, dword [dword_1A0FF4]
+        mov eax, dword [SbIrq]
         mov ecx, cs
         call IrqSetHandler
-        mov word [word_1A1008], dx
-        mov dword [dword_1A1004], eax
+        mov word [SbOldIrqSelector], dx
+        mov dword [SbOldIrqOffset], eax
         call IrqVector
-        mov eax, dword [dword_1A0FF4]
+        mov eax, dword [SbIrq]
         mov ecx, 58h
         call IrqUnmask
-        mov ebx, dword [dword_1A0FE4]
-        mov edx, dword [dword_1A0FF8]
-        mov eax, dword [dword_1A0FF0]
+        mov ebx, dword [SbDmaSize]
+        mov edx, dword [SbDmaBuffer]
+        mov eax, dword [SbDma]
         call sub_D5E7D
-        cmp dword [dword_1A0FFC], 200h
+        cmp dword [SbVersion], 200h
         jge short .5
         mov eax, 14h
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         jne short .6
         pop edx
@@ -1299,22 +1349,22 @@ sub_CEC6D:
         ret
 .5:
         mov eax, 48h
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .8
 .6:
         mov eax, 0FFh
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .8
         mov eax, 0FFh
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .8
-        cmp dword [dword_1A0FFC], 200h
+        cmp dword [SbVersion], 200h
         jl short .7
         mov eax, 1Ch
-        call sub_CE220
+        call SbWriteDsp
 .7:
         xor eax, eax
 .8:
@@ -1325,44 +1375,46 @@ sub_CEC6D:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_1A0FFC], 200h
+        cmp dword [SbVersion], 200h
         jl short .9
         mov eax, 0DAh
-        call sub_CE220
+        call SbWriteDsp
 .9:
-        mov eax, dword [dword_1A0FF0]
+        mov eax, dword [SbDma]
         call sub_D5E50
         mov eax, 0D3h
-        call sub_CE220
-        mov eax, dword [dword_1A0FF4]
+        call SbWriteDsp
+        mov eax, dword [SbIrq]
         call IrqMask
-        mov cx, word [word_1A1008]
-        mov ebx, dword [dword_1A1004]
-        mov eax, dword [dword_1A0FF4]
+        mov cx, word [SbOldIrqSelector]
+        mov ebx, dword [SbOldIrqOffset]
+        mov eax, dword [SbIrq]
         call IrqSetHandler
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEDDE                                                            CEDDE  
+; SbProOpen                                    CEDDE  96 PC, medium confidence
+; Sound Blaster Pro driver open: reads BLASTER, allocates the DMA buffer and
+; starts output
 ;-----------------------------------------------------------------------------
-sub_CEDDE:
+SbProOpen:
         push ebx
         push ecx
         push edx
-        mov dword [dword_14F050], eax
+        mov dword [SbProChannels], eax
         cmp eax, byte 1
         jg short .1
         test eax, eax
         jge short .2
 .1:
-        mov dword [dword_14F050], 1
+        mov dword [SbProChannels], 1
 .2:
         mov edx, 5622h
         mov eax, 0FA0h
-        call sub_C1322
-        mov dword [dword_1A1028], eax
+        call PickOutputRate
+        mov dword [SbProRate], eax
         cmp eax, 157Ch
         ja short .3
         mov ebx, 4
@@ -1378,33 +1430,33 @@ sub_CEDDE:
         mov eax, 200h
         cdq
         idiv ebx
-        mov dword [dword_1A101C], eax
-        mov eax, dword [dword_14F050]
-        movzx eax, byte [nosplit eax*2+byte_14F055]
+        mov dword [SbProBlockSamples], eax
+        mov eax, dword [SbProChannels]
+        movzx eax, byte [nosplit eax*2+SbProFrameBytes]
         imul ebx, eax
         mov eax, 800h
         cdq
         idiv ebx
-        mov ecx, unk_1A102C
-        mov ebx, dword_1A1030
-        mov dword [dword_1A1024], eax
+        mov ecx, SbProHighDma
+        mov ebx, SbProDma
+        mov dword [SbProDmaSize], eax
         shr eax, 1
-        mov edx, dword_1A1038
-        mov dword [dword_1A1020], eax
-        mov eax, dword_1A1048
+        mov edx, SbProIrq
+        mov dword [SbProHalfBuffer], eax
+        mov eax, SbProPort
         call ParseBlasterEnv
         test eax, eax
         jl near .16
-        cmp dword [dword_1A1038], byte 7
+        cmp dword [SbProIrq], byte 7
         jle short .6
-        mov word [unk_D79E3], 0A0h
+        mov word [SbProIsrPicPort], 0A0h
         jmp short .7
 .6:
-        mov word [unk_D79E3], 20h
+        mov word [SbProIsrPicPort], 20h
 .7:
-        mov ax, word [dword_1A1048]
+        mov ax, word [SbProPort]
         add eax, 0Eh
-        mov word [unk_D79E5], ax
+        mov word [SbProIsrAckPort], ax
         call SbResetDsp
         test eax, eax
         jge short .8
@@ -1414,8 +1466,8 @@ sub_CEDDE:
         pop ebx
         ret
 .8:
-        call sub_CE2E8
-        mov dword [dword_1A1044], eax
+        call SbDspVersion
+        mov dword [SbProVersion], eax
         cmp eax, 300h
         jge short .9
         mov eax, 0FFFFFFFCh
@@ -1424,17 +1476,17 @@ sub_CEDDE:
         pop ebx
         ret
 .9:
-        mov eax, dword [dword_1A1024]
+        mov eax, dword [SbProDmaSize]
         push dword 200h
         add eax, eax
         push eax
         push str_DMABUF
         call sub_AB798
         add esp, byte 0Ch
-        mov dword [dword_1A103C], eax
+        mov dword [SbProDmaBuffer], eax
         test eax, eax
         jne short .10
-        mov dword [dword_14F04C], eax
+        mov dword [SbProDmaAlloc], eax
         mov eax, 0FFFFFFFAh
         pop edx
         pop ecx
@@ -1444,51 +1496,51 @@ sub_CEDDE:
         mov edx, eax
         mov ebx, 10000h
         and edx, 0FFFFh
-        sub ebx, dword [dword_1A1024]
-        mov dword [dword_14F04C], eax
+        sub ebx, dword [SbProDmaSize]
+        mov dword [SbProDmaAlloc], eax
         cmp edx, ebx
         jbe short .11
         and eax, 0F0000h
         add eax, 10000h
-        mov dword [dword_1A103C], eax
+        mov dword [SbProDmaBuffer], eax
 .11:
-        push dword [dword_1A101C]
-        mov eax, dword [dword_14F050]
-        push dword [dword_1A1028]
-        movzx eax, byte [nosplit eax*2+byte_14F054]
+        push dword [SbProBlockSamples]
+        mov eax, dword [SbProChannels]
+        push dword [SbProRate]
+        movzx eax, byte [nosplit eax*2+SbProMixFormat]
         push eax
         call sub_CBEB7
         mov ebx, eax
         add esp, byte 0Ch
         test eax, eax
         jge short .13
-        cmp dword [dword_14F04C], byte 0
+        cmp dword [SbProDmaAlloc], byte 0
         je short .12
-        call sub_CF255
-        push dword [dword_14F04C]
+        call SbProStopDma
+        push dword [SbProDmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F04C], 0
+        mov dword [SbProDmaAlloc], 0
         add esp, byte 4
 .12:
-        mov dword [dword_14F048], 0
+        mov dword [SbProRunning], 0
         mov eax, 0FFFFFFF8h
         pop edx
         pop ecx
         pop ebx
         ret
 .13:
-        call sub_CF08B
+        call SbProStartDma
         test eax, eax
         jge short .15
-        cmp dword [dword_14F04C], byte 0
+        cmp dword [SbProDmaAlloc], byte 0
         je short .14
-        call sub_CF255
-        push dword [dword_14F04C]
+        call SbProStopDma
+        push dword [SbProDmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F04C], 0
+        mov dword [SbProDmaAlloc], 0
         add esp, byte 4
 .14:
-        mov dword [dword_14F048], 0
+        mov dword [SbProRunning], 0
         mov eax, 0FFFFFFF9h
         pop edx
         pop ecx
@@ -1497,7 +1549,7 @@ sub_CEDDE:
 .15:
         mov eax, ebx
         shl eax, 10h
-        mov dword [dword_14F048], 1
+        mov dword [SbProRunning], 1
         or al, 4
 .16:
         pop edx
@@ -1505,41 +1557,44 @@ sub_CEDDE:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CEFEE                                                            CEFEE  
+; SbProClose                                   CEFEE  96 PC, medium confidence
+; Sound Blaster Pro driver close
 ;-----------------------------------------------------------------------------
-sub_CEFEE:
+SbProClose:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_14F04C], byte 0
+        cmp dword [SbProDmaAlloc], byte 0
         je short .1
-        call sub_CF255
-        push dword [dword_14F04C]
+        call SbProStopDma
+        push dword [SbProDmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F04C], 0
+        mov dword [SbProDmaAlloc], 0
         add esp, byte 4
 .1:
-        mov dword [dword_14F048], 0
+        mov dword [SbProRunning], 0
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF025                                                            CF025  
+; SbProService                                 CF025  96 PC, medium confidence
+; Sound Blaster Pro driver service: refills the half of the DMA buffer just
+; played
 ;-----------------------------------------------------------------------------
-sub_CF025:
+SbProService:
         push ebx
         push ecx
         push edx
-        mov edx, dword [dword_1A1030]
-        mov eax, dword [dword_1A1020]
+        mov edx, dword [SbProDma]
+        mov eax, dword [SbProHalfBuffer]
         call IrqAck
-        mov dword [dword_1A1052], eax
+        mov dword [SbProDmaPos], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
-        cmp dword [dword_14F048], byte 0
+        cmp dword [SbProRunning], byte 0
         je short .1
-        mov edx, dword [dword_1A103C]
+        mov edx, dword [SbProDmaBuffer]
         add eax, edx
         push eax
         call MixerFillBuffer
@@ -1550,155 +1605,165 @@ sub_CF025:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF060                                                            CF060  
+; SbProQuery                                   CF060  96 PC, medium confidence
+; Sound Blaster Pro driver query: DSP version, rate or format flags
 ;-----------------------------------------------------------------------------
-sub_CF060:
+SbProQuery:
         cmp eax, byte 5
         jb short .1
-        jbe short sub_CF078_1
+        jbe short SbProQueryRate
         cmp eax, byte 6
-        je short sub_CF078_7
-        jmp short sub_CF078_D
+        je short SbProQueryFormat
+        jmp short SbProQueryNone
 .1:
         cmp eax, byte 3
-        jne short sub_CF078_D
-        mov eax, dword [dword_1A1044]
-sub_CF078:
+        jne short SbProQueryNone
+        mov eax, dword [SbProVersion]
+;-----------------------------------------------------------------------------
+; SbProEnd                                     CF078  96 PC, medium confidence
+; Sound Blaster Pro driver end entry: does nothing
+;-----------------------------------------------------------------------------
+SbProEnd:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF078_1                                                          CF079  
+; SbProQueryRate                               CF079  96 PC, medium confidence
+; Query answer: output rate
 ;-----------------------------------------------------------------------------
-sub_CF078_1:
-        mov eax, dword [dword_1A1028]
+SbProQueryRate:
+        mov eax, dword [SbProRate]
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF078_7                                                          CF07F  
+; SbProQueryFormat                             CF07F  96 PC, medium confidence
+; Query answer: format flags
 ;-----------------------------------------------------------------------------
-sub_CF078_7:
+SbProQueryFormat:
         mov eax, 4
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF078_D                                                          CF085  
+; SbProQueryNone                               CF085  96 PC, medium confidence
+; Query answer: unknown query
 ;-----------------------------------------------------------------------------
-sub_CF078_D:
+SbProQueryNone:
         mov eax, 0FFFFFFFFh
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF08B                                                            CF08B  
+; SbProStartDma                                CF08B  96 PC, medium confidence
+; Hooks the interrupt, sets stereo and the filter and starts high speed DMA
+; output
 ;-----------------------------------------------------------------------------
-sub_CF08B:
+SbProStartDma:
         push ebx
         push ecx
         push edx
-        push dword [dword_1A103C]
+        push dword [SbProDmaBuffer]
         call MixerFillBuffer
-        mov eax, dword [dword_1A103C]
+        mov eax, dword [SbProDmaBuffer]
         add esp, byte 4
-        add eax, dword [dword_1A1020]
+        add eax, dword [SbProHalfBuffer]
         push eax
         call MixerFillBuffer
         add esp, byte 4
-        mov eax, dword [dword_1A1038]
-        mov ebx, unk_D79E5_2
+        mov eax, dword [SbProIrq]
+        mov ebx, SbProIsr
         call IrqMask
         mov ecx, cs
-        mov eax, dword [dword_1A1038]
+        mov eax, dword [SbProIrq]
         call IrqSetHandler
-        mov word [word_1A1050], dx
-        mov dword [dword_1A104C], eax
-        cmp dword [dword_1A1038], byte 8
+        mov word [SbProOldIrqSelector], dx
+        mov dword [SbProOldIrqOffset], eax
+        cmp dword [SbProIrq], byte 8
         jge short .2
-        cmp dword [dword_1A1048], 220h
+        cmp dword [SbProPort], 220h
         jne short .1
         push byte 20h
-        mov edx, dword_1A1014
+        mov edx, SbProRealOldSegment
         mov ebx, unk_F0000
         jmp short .4
 .1:
         push byte 20h
-        mov edx, dword_1A1014
+        mov edx, SbProRealOldSegment
         mov ebx, unk_F000D
         jmp short .4
 .2:
-        cmp dword [dword_1A1048], 220h
+        cmp dword [SbProPort], 220h
         jne short .3
         push byte 20h
-        mov edx, dword_1A1014
+        mov edx, SbProRealOldSegment
         mov ebx, unk_F001A
         jmp short .4
 .3:
         push byte 20h
-        mov edx, dword_1A1014
+        mov edx, SbProRealOldSegment
         mov ebx, unk_F0027
 .4:
-        push dword_1A1010
-        mov eax, dword [dword_1A1038]
+        push SbProRealOldOffset
+        mov eax, dword [SbProIrq]
         mov ecx, cs
         call sub_D6027
-        mov dword [dword_1A1018], eax
+        mov dword [SbProRealHandler], eax
         call IrqVector
-        mov eax, dword [dword_1A1038]
+        mov eax, dword [SbProIrq]
         call IrqUnmask
         mov eax, 0D1h
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je near .8
-        cmp dword [dword_14F050], byte 1
+        cmp dword [SbProChannels], byte 1
         jne short .6
         mov eax, 2
         mov ecx, 48h
         mov ebx, 1
-        call sub_CE254
-        mov edx, dword [dword_1A103C]
-        mov dword [dword_1A1040], eax
-        mov eax, dword [dword_1A1030]
+        call SbProSetStereo
+        mov edx, dword [SbProDmaBuffer]
+        mov dword [SbProOldStereo], eax
+        mov eax, dword [SbProDma]
         call sub_D5E7D
         mov eax, 14h
-        call sub_CE220
+        call SbWriteDsp
         xor eax, eax
-        call sub_CE220
+        call SbWriteDsp
         xor eax, eax
-        call sub_CE220
+        call SbWriteDsp
         mov eax, 91h
         xor edx, edx
-        call sub_CE220
+        call SbWriteDsp
 .5:
         inc edx
-        call sub_CE1DA
+        call SbDelay
         cmp edx, 3E8h
         jl short .5
 .6:
         mov ecx, 18h
-        mov ebx, dword [dword_1A1024]
-        mov edx, dword [dword_1A103C]
-        mov eax, dword [dword_1A1030]
+        mov ebx, dword [SbProDmaSize]
+        mov edx, dword [SbProDmaBuffer]
+        mov eax, dword [SbProDma]
         call sub_D5E7D
-        mov edx, dword [dword_14F050]
-        mov eax, dword [dword_1A1028]
+        mov edx, dword [SbProChannels]
+        mov eax, dword [SbProRate]
         inc edx
-        call sub_CE31C
+        call SbSetTimeConstant
         cmp eax, byte 0FFFFFFFFh
         je short .8
-        cmp dword [dword_14F050], byte 1
+        cmp dword [SbProChannels], byte 1
         jne short .7
         mov eax, 20h
-        call sub_CE285
-        mov dword [dword_1A1034], eax
+        call SbProSetFilter
+        mov dword [SbProOldFilter], eax
 .7:
         mov eax, 48h
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .8
         mov eax, 0FFh
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .8
         mov eax, 0FFh
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .8
         mov eax, 90h
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .8
         xor eax, eax
@@ -1708,61 +1773,64 @@ sub_CF08B:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF255                                                            CF255  
+; SbProStopDma                                 CF255  96 PC, medium confidence
+; Stops DMA, restores the mixer bits and the interrupt
 ;-----------------------------------------------------------------------------
-sub_CF255:
+SbProStopDma:
         push ebx
         push ecx
         push edx
-        mov eax, dword [dword_1A1030]
+        mov eax, dword [SbProDma]
         call sub_D5E50
         call SbResetDsp
         mov eax, 0D3h
-        call sub_CE220
-        cmp dword [dword_14F050], byte 1
+        call SbWriteDsp
+        cmp dword [SbProChannels], byte 1
         jne short .1
-        mov eax, dword [dword_1A1040]
-        call sub_CE254
-        mov eax, dword [dword_1A1034]
-        call sub_CE285
+        mov eax, dword [SbProOldStereo]
+        call SbProSetStereo
+        mov eax, dword [SbProOldFilter]
+        call SbProSetFilter
 .1:
-        mov cx, word [word_1A1050]
-        mov ebx, dword [dword_1A104C]
-        mov eax, dword [dword_1A1038]
+        mov cx, word [SbProOldIrqSelector]
+        mov ebx, dword [SbProOldIrqOffset]
+        mov eax, dword [SbProIrq]
         call IrqSetHandler
-        cmp dword [dword_1A1018], byte 0
+        cmp dword [SbProRealHandler], byte 0
         je short .2
-        mov ecx, dword [dword_1A1018]
-        mov ebx, dword [dword_1A1010]
-        mov edx, dword [dword_1A1014]
-        mov eax, dword [dword_1A1038]
+        mov ecx, dword [SbProRealHandler]
+        mov ebx, dword [SbProRealOldOffset]
+        mov edx, dword [SbProRealOldSegment]
+        mov eax, dword [SbProIrq]
         call sub_D60D2
 .2:
-        mov eax, dword [dword_1A1038]
+        mov eax, dword [SbProIrq]
         call IrqMask
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF2D8                                                            CF2D8  
+; Sb16Open                                     CF2D8  96 PC, medium confidence
+; Sound Blaster 16 driver open: reads BLASTER, allocates the DMA buffer and
+; starts output
 ;-----------------------------------------------------------------------------
-sub_CF2D8:
+Sb16Open:
         push ebx
         push ecx
         push edx
-        mov dword [dword_14F060], eax
+        mov dword [Sb16Mode], eax
         cmp eax, byte 2
         jg short .1
         test eax, eax
         jge short .2
 .1:
-        mov dword [dword_14F060], 2
+        mov dword [Sb16Mode], 2
 .2:
         mov edx, 0AC44h
         mov eax, 157Ch
-        call sub_C1322
-        mov dword [dword_1A1064], eax
+        call PickOutputRate
+        mov dword [Sb16Rate], eax
         cmp eax, 157Ch
         ja short .3
         mov ebx, 8
@@ -1783,76 +1851,76 @@ sub_CF2D8:
         mov eax, 400h
         cdq
         idiv ebx
-        mov dword [dword_1A1058], eax
-        mov eax, dword [dword_14F060]
-        movzx eax, byte [nosplit eax*4+byte_14F067]
+        mov dword [Sb16BlockSamples], eax
+        mov eax, dword [Sb16Mode]
+        movzx eax, byte [nosplit eax*4+Sb16FrameBytes]
         imul ebx, eax
         mov eax, 2000h
         cdq
         idiv ebx
-        mov ecx, dword_1A1068
-        mov ebx, dword_1A1070
-        mov dword [dword_1A105C], eax
+        mov ecx, Sb16HighDma
+        mov ebx, Sb16LowDma
+        mov dword [Sb16DmaSize], eax
         shr eax, 1
-        mov edx, dword_1A1074
-        mov dword [dword_1A1060], eax
-        mov eax, word_1A1080
+        mov edx, Sb16Irq
+        mov dword [Sb16HalfBuffer], eax
+        mov eax, Sb16Port
         call ParseBlasterEnv
         test eax, eax
         jl near .17
-        cmp dword [dword_14F060], byte 2
+        cmp dword [Sb16Mode], byte 2
         jne short .7
-        mov eax, dword [dword_1A1068]
-        mov dword [dword_1A106C], eax
-        mov ax, word [word_1A1080]
+        mov eax, dword [Sb16HighDma]
+        mov dword [Sb16ActiveDma], eax
+        mov ax, word [Sb16Port]
         add eax, 0Fh
         jmp short .8
 .7:
-        mov eax, dword [dword_1A1070]
-        mov dword [dword_1A106C], eax
-        mov ax, word [word_1A1080]
+        mov eax, dword [Sb16LowDma]
+        mov dword [Sb16ActiveDma], eax
+        mov ax, word [Sb16Port]
         add eax, 0Eh
 .8:
-        mov word [unk_D7A02], ax
-        cmp dword [dword_1A1074], byte 7
+        mov word [Sb16IsrAckPort], ax
+        cmp dword [Sb16Irq], byte 7
         jle short .9
-        mov word [unk_D7A00], 0A0h
+        mov word [Sb16IsrPicPort], 0A0h
         jmp short .10
 .9:
-        mov word [unk_D7A00], 20h
+        mov word [Sb16IsrPicPort], 20h
 .10:
-        call sub_CE2E8
-        mov dword [dword_1A107C], eax
+        call SbDspVersion
+        mov dword [Sb16Version], eax
         cmp eax, 400h
         jl near .15
-        mov eax, dword [dword_1A105C]
+        mov eax, dword [Sb16DmaSize]
         push dword 200h
         add eax, eax
         push eax
         push str_DMABUF2
         call sub_AB798
         add esp, byte 0Ch
-        mov dword [dword_1A1078], eax
+        mov dword [Sb16DmaBuffer], eax
         test eax, eax
         jne short .11
-        mov dword [dword_14F05C], eax
+        mov dword [Sb16DmaAlloc], eax
         jmp near .15
 .11:
         mov edx, eax
         mov ebx, 10000h
         and edx, 0FFFFh
-        sub ebx, dword [dword_1A105C]
-        mov dword [dword_14F05C], eax
+        sub ebx, dword [Sb16DmaSize]
+        mov dword [Sb16DmaAlloc], eax
         cmp edx, ebx
         jbe short .12
         and eax, 0F0000h
         add eax, 10000h
-        mov dword [dword_1A1078], eax
+        mov dword [Sb16DmaBuffer], eax
 .12:
-        push dword [dword_1A1058]
-        mov eax, dword [dword_14F060]
-        push dword [dword_1A1064]
-        movzx eax, byte [nosplit eax*4+byte_14F066]
+        push dword [Sb16BlockSamples]
+        mov eax, dword [Sb16Mode]
+        push dword [Sb16Rate]
+        movzx eax, byte [nosplit eax*4+Sb16MixFormat]
         push eax
         call sub_CBEB7
         mov ebx, eax
@@ -1860,15 +1928,15 @@ sub_CF2D8:
         test eax, eax
         jge short .16
 .13:
-        cmp dword [dword_14F05C], byte 0
+        cmp dword [Sb16DmaAlloc], byte 0
         je short .14
-        call sub_CF68D
-        push dword [dword_14F05C]
+        call Sb16StopDma
+        push dword [Sb16DmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F05C], 0
+        mov dword [Sb16DmaAlloc], 0
         add esp, byte 4
 .14:
-        mov dword [dword_14F058], 0
+        mov dword [Sb16Running], 0
 .15:
         mov eax, 0FFFFFFFFh
         pop edx
@@ -1876,12 +1944,12 @@ sub_CF2D8:
         pop ebx
         ret
 .16:
-        call sub_CF59A
+        call Sb16StartDma
         cmp eax, byte 0FFFFFFFFh
         je short .13
         mov eax, ebx
         shl eax, 10h
-        mov dword [dword_14F058], 1
+        mov dword [Sb16Running], 1
         or al, 0Ch
 .17:
         pop edx
@@ -1889,50 +1957,53 @@ sub_CF2D8:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF4CD                                                            CF4CD  
+; Sb16Close                                    CF4CD  96 PC, medium confidence
+; Sound Blaster 16 driver close
 ;-----------------------------------------------------------------------------
-sub_CF4CD:
+Sb16Close:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_14F05C], byte 0
+        cmp dword [Sb16DmaAlloc], byte 0
         je short .1
-        mov eax, dword [dword_1A106C]
+        mov eax, dword [Sb16ActiveDma]
         call sub_D5E50
-        mov eax, dword [dword_1A1074]
+        mov eax, dword [Sb16Irq]
         call IrqMask
-        mov cx, word [word_1A1088]
-        mov ebx, dword [dword_1A1084]
-        mov eax, dword [dword_1A1074]
+        mov cx, word [Sb16OldIrqSelector]
+        mov ebx, dword [Sb16OldIrqOffset]
+        mov eax, dword [Sb16Irq]
         call IrqSetHandler
         mov eax, 0D9h
-        call sub_CE220
-        push dword [dword_14F05C]
+        call SbWriteDsp
+        push dword [Sb16DmaAlloc]
         call FreeMemBlock
-        mov dword [dword_14F05C], 0
+        mov dword [Sb16DmaAlloc], 0
         add esp, byte 4
 .1:
-        mov dword [dword_14F058], 0
+        mov dword [Sb16Running], 0
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF534                                                            CF534  
+; Sb16Service                                  CF534  96 PC, medium confidence
+; Sound Blaster 16 driver service: refills the half of the DMA buffer just
+; played
 ;-----------------------------------------------------------------------------
-sub_CF534:
+Sb16Service:
         push ebx
         push ecx
         push edx
-        mov edx, dword [dword_1A106C]
-        mov eax, dword [dword_1A1060]
+        mov edx, dword [Sb16ActiveDma]
+        mov eax, dword [Sb16HalfBuffer]
         call IrqAck
-        mov dword [dword_1A108A], eax
+        mov dword [Sb16DmaPos], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
-        cmp dword [dword_14F058], byte 0
+        cmp dword [Sb16Running], byte 0
         je short .1
-        mov edx, dword [dword_1A1078]
+        mov edx, dword [Sb16DmaBuffer]
         add eax, edx
         push eax
         call MixerFillBuffer
@@ -1943,96 +2014,105 @@ sub_CF534:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF56F                                                            CF56F  
+; Sb16Query                                    CF56F  96 PC, medium confidence
+; Sound Blaster 16 driver query: DSP version, rate or format flags
 ;-----------------------------------------------------------------------------
-sub_CF56F:
+Sb16Query:
         cmp eax, byte 5
         jb short .1
-        jbe short sub_CF587_1
+        jbe short Sb16QueryRate
         cmp eax, byte 6
-        je short sub_CF587_7
-        jmp short sub_CF587_D
+        je short Sb16QueryFormat
+        jmp short Sb16QueryNone
 .1:
         cmp eax, byte 3
-        jne short sub_CF587_D
-        mov eax, dword [dword_1A107C]
-sub_CF587:
+        jne short Sb16QueryNone
+        mov eax, dword [Sb16Version]
+;-----------------------------------------------------------------------------
+; Sb16End                                      CF587  96 PC, medium confidence
+; Sound Blaster 16 driver end entry: does nothing
+;-----------------------------------------------------------------------------
+Sb16End:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF587_1                                                          CF588  
+; Sb16QueryRate                                CF588  96 PC, medium confidence
+; Query answer: output rate
 ;-----------------------------------------------------------------------------
-sub_CF587_1:
-        mov eax, dword [dword_1A1064]
+Sb16QueryRate:
+        mov eax, dword [Sb16Rate]
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF587_7                                                          CF58E  
+; Sb16QueryFormat                              CF58E  96 PC, medium confidence
+; Query answer: format flags
 ;-----------------------------------------------------------------------------
-sub_CF587_7:
+Sb16QueryFormat:
         mov eax, 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF587_D                                                          CF594  
+; Sb16QueryNone                                CF594  96 PC, medium confidence
+; Query answer: unknown query
 ;-----------------------------------------------------------------------------
-sub_CF587_D:
+Sb16QueryNone:
         mov eax, 0FFFFFFFFh
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF59A                                                            CF59A  
+; Sb16StartDma                                 CF59A  96 PC, medium confidence
+; Hooks the interrupt and starts auto-init DMA output at the rate
 ;-----------------------------------------------------------------------------
-sub_CF59A:
+Sb16StartDma:
         push ebx
         push ecx
         push edx
-        push dword [dword_1A1078]
+        push dword [Sb16DmaBuffer]
         call MixerFillBuffer
-        mov eax, dword [dword_1A1078]
+        mov eax, dword [Sb16DmaBuffer]
         add esp, byte 4
-        add eax, dword [dword_1A1060]
+        add eax, dword [Sb16HalfBuffer]
         push eax
         call MixerFillBuffer
         add esp, byte 4
-        mov eax, dword [dword_1A1074]
-        mov ebx, unk_D7A02_2
+        mov eax, dword [Sb16Irq]
+        mov ebx, Sb16Isr
         call IrqMask
         mov ecx, cs
-        mov eax, dword [dword_1A1074]
+        mov eax, dword [Sb16Irq]
         call IrqSetHandler
-        mov word [word_1A1088], dx
-        mov dword [dword_1A1084], eax
+        mov word [Sb16OldIrqSelector], dx
+        mov dword [Sb16OldIrqOffset], eax
         call IrqVector
-        mov eax, dword [dword_1A1074]
+        mov eax, dword [Sb16Irq]
         mov ecx, 18h
         call IrqUnmask
-        mov ebx, dword [dword_1A105C]
-        mov edx, dword [dword_1A1078]
-        mov eax, dword [dword_1A106C]
+        mov ebx, dword [Sb16DmaSize]
+        mov edx, dword [Sb16DmaBuffer]
+        mov eax, dword [Sb16ActiveDma]
         call sub_D5E7D
         mov eax, 41h
-        call sub_CE220
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .1
-        mov eax, dword [dword_1A1064]
+        mov eax, dword [Sb16Rate]
         shr eax, 8
-        call sub_CE220
-        mov eax, dword [dword_1A1064]
+        call SbWriteDsp
+        mov eax, dword [Sb16Rate]
         and eax, 0FFh
-        call sub_CE220
-        mov eax, dword [dword_14F060]
-        movzx eax, byte [nosplit eax*4+byte_14F064]
-        call sub_CE220
+        call SbWriteDsp
+        mov eax, dword [Sb16Mode]
+        movzx eax, byte [nosplit eax*4+Sb16DspCommand]
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .1
-        mov eax, dword [dword_14F060]
-        movzx eax, byte [nosplit eax*4+byte_14F065]
-        call sub_CE220
-        cmp eax, byte 0FFFFFFFFh
-        je short .1
-        mov eax, 0FFh
-        call sub_CE220
+        mov eax, dword [Sb16Mode]
+        movzx eax, byte [nosplit eax*4+Sb16DspModeByte]
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .1
         mov eax, 0FFh
-        call sub_CE220
+        call SbWriteDsp
+        cmp eax, byte 0FFFFFFFFh
+        je short .1
+        mov eax, 0FFh
+        call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
         je short .1
         xor eax, eax
@@ -2042,64 +2122,69 @@ sub_CF59A:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF68D                                                            CF68D  
+; Sb16StopDma                                  CF68D  96 PC, medium confidence
+; Stops DMA and restores the interrupt
 ;-----------------------------------------------------------------------------
-sub_CF68D:
+Sb16StopDma:
         push ebx
         push ecx
         push edx
-        mov eax, dword [dword_1A106C]
+        mov eax, dword [Sb16ActiveDma]
         call sub_D5E50
-        mov eax, dword [dword_1A1074]
+        mov eax, dword [Sb16Irq]
         call IrqMask
-        mov cx, word [word_1A1088]
-        mov ebx, dword [dword_1A1084]
-        mov eax, dword [dword_1A1074]
+        mov cx, word [Sb16OldIrqSelector]
+        mov ebx, dword [Sb16OldIrqOffset]
+        mov eax, dword [Sb16Irq]
         call IrqSetHandler
         mov eax, 0D9h
-        call sub_CE220
+        call SbWriteDsp
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF6C9                                                            CF6C9  
+; SndTimerCallback                             CF6C9  96 PC, medium confidence
+; Sound timer callback: runs the sound tick unless it is already running or
+; held
 ;-----------------------------------------------------------------------------
-sub_CF6C9:
-        cmp byte [byte_14F070], 0
+SndTimerCallback:
+        cmp byte [SndTickBusy], 0
         jne short .1
-        cmp dword [dword_1248D2], byte 0
+        cmp dword [SndTickHold], byte 0
         jne short .1
-        inc byte [byte_14F070]
-        call sub_CF6ED
-        dec byte [byte_14F070]
+        inc byte [SndTickBusy]
+        call SndTimerTick
+        dec byte [SndTickBusy]
 .1:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CF6ED                                                            CF6ED  
+; SndTimerTick                                 CF6ED  96 PC, medium confidence
+; Sound tick: services speech, crowd, the stream, channel fades and time
+; limits, then the driver
 ;-----------------------------------------------------------------------------
-sub_CF6ED:
+SndTimerTick:
         push ebx
         push ecx
         push edx
         push esi
-        cmp byte [byte_1248D0], 0
+        cmp byte [SpeechQueueOpen], 0
         je short .1
-        call sub_BF950
+        call SpeechQueueService
 .1:
-        cmp byte [byte_1248D1], 0
+        cmp byte [CrowdPlaying], 0
         je short .2
-        call sub_C0BCD
+        call CrowdService
 .2:
-        cmp dword [dword_123BCC], byte 1
+        cmp dword [StreamState], byte 1
         jne short .3
-        push dword [dword_123BD0]
+        push dword [StreamChannel]
         call MixerStopChannel
         add esp, byte 4
-        mov dword [dword_123BCC], 0
-        call sub_C03F8
+        mov dword [StreamState], 0
+        call FlushAudioStream
 .3:
-        mov ebx, unk_1A0B20
+        mov ebx, SndChannels
         xor esi, esi
 .4:
         movzx edx, byte [byte ebx+016h]
@@ -2130,11 +2215,11 @@ sub_CF6ED:
         mov edx, dword [byte ecx+01Ch]
         mov eax, esi
         sar edx, 10h
-        call sub_BFC91
+        call SetChannelVolume
         jmp short .9
 .8:
         mov eax, esi
-        call sub_BFE4C
+        call StopSoundChannel
 .9:
         cmp dword [byte ecx+04h], byte 0
         jl short .10
@@ -2142,13 +2227,13 @@ sub_CF6ED:
         cmp dword [byte ecx+04h], byte 0
         jge short .10
         mov eax, esi
-        call sub_BFE4C
+        call StopSoundChannel
 .10:
         inc esi
         add ebx, byte 28h
         cmp esi, byte 10h
         jl short .4
-        call sub_C1811
+        call CallDriverService
         pop esi
         pop edx
         pop ecx
@@ -2307,9 +2392,10 @@ TgvFillBlock:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_CF918                                                            CF918  
+; GatherPlaneBytes                             CF918  96 PC, medium confidence
+; Copies every fourth byte of a row, for one video plane
 ;-----------------------------------------------------------------------------
-sub_CF918:
+GatherPlaneBytes:
         push ecx
         cmp dword [CpuType], byte 0
         je near .7
@@ -2449,11 +2535,12 @@ sub_CF918:
         sub ax, word [byte esi+0Ah]
         cwde
         mov dword [byte ebp-08h], eax
-        jmp short sub_CFA64_34
+        jmp short DrawArtKeyedRows
 ;-----------------------------------------------------------------------------
-; sub_CFA64                                                            CFA64  
+; DrawArtKeyedAt                               CFA64  96 PC, medium confidence
+; Draws art at a position without clipping, skipping colour 0FFh
 ;-----------------------------------------------------------------------------
-sub_CFA64:
+DrawArtKeyedAt:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFECh
@@ -2465,7 +2552,7 @@ sub_CFA64:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_CFA64_34
+        jmp short DrawArtKeyedRows
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFECh
@@ -2477,7 +2564,11 @@ sub_CFA64:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_CFA64_34:
+;-----------------------------------------------------------------------------
+; DrawArtKeyedRows                             CFA98  96 PC, medium confidence
+; Row loop that draws art skipping colour 0FFh
+;-----------------------------------------------------------------------------
+DrawArtKeyedRows:
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
         add ebx, dword [DrawDestBuffer]
@@ -2535,11 +2626,12 @@ sub_CFA64_34:
         sub ax, word [byte esi+0Ah]
         cwde
         mov dword [byte ebp-08h], eax
-        jmp short sub_CFB14_34
+        jmp short PutBlockKeyedRows
 ;-----------------------------------------------------------------------------
-; sub_CFB14                                                            CFB14  
+; PutBlockKeyedAt                              CFB14  96 PC, medium confidence
+; Puts a block at a position, clipped, skipping colour 0FFh
 ;-----------------------------------------------------------------------------
-sub_CFB14:
+PutBlockKeyedAt:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -2551,7 +2643,7 @@ sub_CFB14:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_CFB14_34
+        jmp short PutBlockKeyedRows
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE8h
@@ -2563,7 +2655,11 @@ sub_CFB14:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_CFB14_34:
+;-----------------------------------------------------------------------------
+; PutBlockKeyedRows                            CFB48  96 PC, medium confidence
+; Clipped row loop that puts a block skipping colour 0FFh
+;-----------------------------------------------------------------------------
+PutBlockKeyedRows:
         mov ebx, dword [byte ebp-08h]
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
@@ -2657,7 +2753,7 @@ sub_CFB14_34:
         jae short .9
         mov bl, byte [esi]
         inc esi
-        mov bl, byte [dword ebx+byte_123988]
+        mov bl, byte [dword ebx+ColourRemap]
         cmp bl, 0FFh
         je short .8
         mov byte [edi], bl
@@ -2668,9 +2764,9 @@ sub_CFB14_34:
 .10:
         mov ax, word [esi]
         LD mov, bl, al
-        mov al, byte [dword ebx+byte_123988]
+        mov al, byte [dword ebx+ColourRemap]
         LD mov, bl, ah
-        mov ah, byte [dword ebx+byte_123988]
+        mov ah, byte [dword ebx+ColourRemap]
         cmp al, 0FFh
         jne short .15
 .11:
@@ -2695,9 +2791,9 @@ sub_CFB14_34:
 .14:
         mov ax, word [esi]
         LD mov, bl, al
-        mov al, byte [dword ebx+byte_123988]
+        mov al, byte [dword ebx+ColourRemap]
         LD mov, bl, ah
-        mov ah, byte [dword ebx+byte_123988]
+        mov ah, byte [dword ebx+ColourRemap]
         cmp al, 0FFh
         je short .11
 .15:
@@ -2725,9 +2821,10 @@ sub_CFB14_34:
         jmp short .12
         db 00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_CFCC0                                                            CFCC0  
+; CopyRowKeyedRemap                            CFCC0  96 PC, medium confidence
+; Row copier that remaps colours and skips colour 0FFh
 ;-----------------------------------------------------------------------------
-sub_CFCC0:
+CopyRowKeyedRemap:
         push esi
         mov ebx, dword [byte esp+0Ch]
         mov esi, dword [byte esp+010h]
@@ -2740,7 +2837,7 @@ sub_CFCC0:
         xor ebx, ebx
         mov bl, byte [edx]
         xor ecx, ecx
-        mov bl, byte [dword ebx+byte_123988]
+        mov bl, byte [dword ebx+ColourRemap]
         mov cl, bl
         inc edx
         cmp ecx, 0FFh
@@ -2755,15 +2852,17 @@ sub_CFCC0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_CFCF8                                                            CFCF8  
+; DrawArtKeyedRemap                            CFCF8  96 PC, medium confidence
+; Draws art through the colour remap, skipping colour 0FFh when keyed drawing
+; is on
 ;-----------------------------------------------------------------------------
-sub_CFCF8:
+DrawArtKeyedRemap:
         push esi
         push edi
         mov edx, dword [byte esp+0Ch]
         mov ebx, dword [byte esp+010h]
         mov eax, dword [byte esp+014h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push eax
         push ebx
@@ -2776,13 +2875,13 @@ sub_CFCF8:
 .1:
         push eax
         push ebx
-        mov esi, sub_CFCC0
+        mov esi, CopyRowKeyedRemap
         push edx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call DrawArtOpaque
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -2790,7 +2889,7 @@ sub_CFCF8:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov ecx, dword [dword_1228F4]
+        mov ecx, dword [KeyedDraw]
         mov edx, dword [byte ebx+0Ah]
         mov eax, dword [byte ebx+0Ch]
         sar edx, 10h
@@ -2808,13 +2907,13 @@ sub_CFCF8:
 .2:
         push eax
         push edx
-        mov esi, sub_CFCC0
+        mov esi, CopyRowKeyedRemap
         push ebx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call DrawArtOpaque
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -2832,7 +2931,7 @@ sub_CFCF8:
         sar edx, 10h
         sub ecx, edx
         mov edx, ecx
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .3
         push edx
         push ebx
@@ -2845,13 +2944,13 @@ sub_CFCF8:
 .3:
         push edx
         push ebx
-        mov esi, sub_CFCC0
+        mov esi, CopyRowKeyedRemap
         push eax
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call DrawArtOpaque
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret

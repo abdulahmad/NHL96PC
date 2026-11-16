@@ -13,8 +13,8 @@ extern GusStreamLoopHi, GusStreamStartHi, GusStreamEndLo, GusStreamEndHi, GusBas
 extern GusVoiceSelectPort, GusRegSelectPort, GusDataLowPort, GusDataHighPort, GusDramPort, GusDramSize, GusIrqFlags, GusActiveVoices
 global GusGetEnvConfig, GusProbePort, GusStopDmaAndTimers, GusUnhookIrqs, GusHookIrqs, GusOpenCard, GusStopAllVoices, GusOpen
 global GusClose, GusSetIrqDmaLatches, GusResetVoices, GusPokeBlock, GusPeekBlock, GusSizeDram, GusMemAlloc, sub_D703C
-global GusStreamBusy, GusRefillStreamChannel, GusStreamVoiceIrq, GusServiceStream, GusStartStream, GusStopStreamVoices, sub_D7970, unk_D796A
-global unk_D796C, unk_D796E
+global GusStreamBusy, GusRefillStreamChannel, GusStreamVoiceIrq, GusServiceStream, GusStartStream, GusStopStreamVoices, SbIsrSingle, SbIsrPicPort
+global SbIsrAckPort, SbIsrWritePort
 ;-----------------------------------------------------------------------------
 ; GusGetEnvConfig                                 D6120  96 PC, low confidence
 ; Reads the ULTRASND environment variable and parses base port, DMA channels
@@ -2164,27 +2164,28 @@ GusStopStreamVoices:
         pop ebp
         popf
         ret
-unk_D796A:
+SbIsrPicPort:
         db 00h,00h
-unk_D796C:
+SbIsrAckPort:
         db 00h,00h
-unk_D796E:
+SbIsrWritePort:
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_D7970                                                            D7970  
+; SbIsrSingle                                  D7970  96 PC, medium confidence
+; Sound Blaster interrupt handler for single-cycle DMA
 ;-----------------------------------------------------------------------------
-sub_D7970:
+SbIsrSingle:
         pusha
         push ds
         db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:0C796Ah]
-        dd unk_D796A
+        dd SbIsrPicPort
         out 20h, al
         db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Ch]
-        dd unk_D796C
+        dd SbIsrAckPort
         in al, dx
         mov ah, 14h
         db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Eh]
-        dd unk_D796E
+        dd SbIsrWritePort
         mov ecx, 2710h
 .1:
         in al, dx
@@ -2194,7 +2195,7 @@ sub_D7970:
         out dx, al
         mov ah, 0FFh
         db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Eh]
-        dd unk_D796E
+        dd SbIsrWritePort
         mov ecx, 2710h
 .2:
         in al, dx
@@ -2204,7 +2205,7 @@ sub_D7970:
         out dx, al
         mov ah, 0FFh
         db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Eh]
-        dd unk_D796E
+        dd SbIsrWritePort
         mov ecx, 2710h
 .3:
         in al, dx

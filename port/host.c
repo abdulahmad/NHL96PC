@@ -57,8 +57,8 @@ void sndinit_test(void)
         int drv = atoi(c) > 1 ? atoi(c) : 5;
         r = gcall(SYM_SndSetDriver, drv, 0xFFFFFFFFu, 0, 0);
         printf("driver %d init -> %d, current driver %d\n", drv, (int)r, *(int32_t *)GAME_ADDR(ORIG_SND_DRIVER));
-        printf("image at %p; sb16: version %x, dmabuf %08x/%08x, buffer len %d\n", (void *)GAME_ADDR(0x10000), *(int32_t *)GAME_ADDR(SYM_dword_1A107C),
-               *(uint32_t *)GAME_ADDR(SYM_dword_1A1078), *(uint32_t *)GAME_ADDR(SYM_dword_14F05C), *(int32_t *)GAME_ADDR(SYM_dword_1A105C));
+        printf("image at %p; sb16: version %x, dmabuf %08x/%08x, buffer len %d\n", (void *)GAME_ADDR(0x10000), *(int32_t *)GAME_ADDR(SYM_Sb16Version),
+               *(uint32_t *)GAME_ADDR(SYM_Sb16DmaBuffer), *(uint32_t *)GAME_ADDR(SYM_Sb16DmaAlloc), *(int32_t *)GAME_ADDR(SYM_Sb16DmaSize));
         alog("sndinit: SndSetDriver(%d) -> %d, snddriver %d", drv, (int)r, *(int32_t *)GAME_ADDR(ORIG_SND_DRIVER));
     }
     fflush(stdout);

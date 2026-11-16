@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_19B654 nobits alloc noexec write align=1
-global byte_19B734, byte_19B739, dword_19B654, dword_19B66C, dword_19B670, dword_19B688, dword_19B68C, dword_19B690
-global dword_19B694, dword_19B698, dword_19B69C, dword_19B6A0, dword_19B6B4, dword_19B6B8, dword_19B6BC, dword_19B6C0
-global dword_19B6C4, dword_19B6C8, dword_19B6CC, dword_19B6D0, dword_19B6D4, dword_19B6D8, dword_19B6DC, dword_19B6E0
-global dword_19B6E4, dword_19B724, unk_19B6A4, unk_19B720, word_19B676
+global CrowdLayerPriority, CrowdLayerVolume, dword_19B654, dword_19B66C, dword_19B670, StreamPacketTail, StreamPacketHead, CrowdExcitementWhole
+global CrowdIntensityCopy, CrowdMixLevel, CrowdIntensityTerm, CrowdExcitementTerm, CrowdExcitementWeight, CrowdIntensityWeight, CrowdExcitement, CrowdIntensityLevel
+global CrowdExcitementGoal, CrowdLayerCount, CrowdEventCount, CrowdDriftRange, CrowdDriftRiseTime, CrowdDriftFallTime, CrowdStartEvent, CrowdCurveRise
+global CrowdCurveFall, CrowdLayerSample, CrowdBank, CrowdLayers, word_19B676
 dword_19B654:
         resb 24
 dword_19B66C:
@@ -14,53 +14,53 @@ dword_19B670:
         resb 6
 word_19B676:
         resb 18
-dword_19B688:
+StreamPacketTail:
         resb 4
-dword_19B68C:
+StreamPacketHead:
         resb 4
-dword_19B690:
+CrowdExcitementWhole:
         resb 4
-dword_19B694:
+CrowdIntensityCopy:
         resb 4
-dword_19B698:
+CrowdMixLevel:
         resb 4
-dword_19B69C:
+CrowdIntensityTerm:
         resb 4
-dword_19B6A0:
+CrowdExcitementTerm:
         resb 4
-unk_19B6A4:
+CrowdBank:
         resb 16
-dword_19B6B4:
+CrowdExcitementWeight:
         resb 4
-dword_19B6B8:
+CrowdIntensityWeight:
         resb 4
-dword_19B6BC:
+CrowdExcitement:
         resb 4
-dword_19B6C0:
+CrowdIntensityLevel:
         resb 4
-dword_19B6C4:
+CrowdExcitementGoal:
         resb 4
-dword_19B6C8:
+CrowdLayerCount:
         resb 4
-dword_19B6CC:
+CrowdEventCount:
         resb 4
-dword_19B6D0:
+CrowdDriftRange:
         resb 4
-dword_19B6D4:
+CrowdDriftRiseTime:
         resb 4
-dword_19B6D8:
+CrowdDriftFallTime:
         resb 4
-dword_19B6DC:
+CrowdStartEvent:
         resb 4
-dword_19B6E0:
+CrowdCurveRise:
         resb 4
-dword_19B6E4:
+CrowdCurveFall:
         resb 60
-unk_19B720:
+CrowdLayers:
         resb 4
-dword_19B724:
+CrowdLayerSample:
         resb 16
-byte_19B734:
+CrowdLayerPriority:
         resb 5
-byte_19B739:
+CrowdLayerVolume:
         resb 39

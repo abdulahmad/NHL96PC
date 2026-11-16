@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_AA988 progbits alloc exec nowrite align=1
 extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dword_11F9B8, RowTable
-extern dword_1210C0, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
-extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
-extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, sub_C24D0, sub_C3A48, ResetMemLock
+extern RowCopyFunc, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
+extern KeyedDraw, dword_1228FC, dword_122930, dword_123934, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
+extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, sub_C3A48, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, sub_DE4C7, sub_DE643, sub_DE7DB
 extern sub_DE97C, sub_DE9F3, sub_DEB94, bcopy, sub_E193C, sub_E1956
 global PutBlock_25F, sub_AAF28_132, DrawShapeAtOwnPos, sub_AA9CC, sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock
@@ -98,7 +98,7 @@ sub_AAA40:
         mov edx, dword [byte esp+0Ch]
         mov ebx, dword [byte esp+010h]
         mov eax, dword [byte esp+014h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push eax
         push ebx
@@ -111,13 +111,13 @@ sub_AAA40:
 .1:
         push eax
         push ebx
-        mov esi, sub_C24D0
+        mov esi, CopyRowKeyed
         push edx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -129,7 +129,7 @@ sub_AAA8C:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov ecx, dword [dword_1228F4]
+        mov ecx, dword [KeyedDraw]
         mov edx, dword [byte ebx+0Ah]
         mov eax, dword [byte ebx+0Ch]
         sar edx, 10h
@@ -147,13 +147,13 @@ sub_AAA8C:
 .1:
         push eax
         push edx
-        mov esi, sub_C24D0
+        mov esi, CopyRowKeyed
         push ebx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -175,7 +175,7 @@ sub_AAADC:
         sar edx, 10h
         sub ecx, edx
         mov edx, ecx
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push edx
         push ebx
@@ -188,13 +188,13 @@ sub_AAADC:
 .1:
         push edx
         push ebx
-        mov esi, sub_C24D0
+        mov esi, CopyRowKeyed
         push eax
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -209,7 +209,7 @@ PutBlock:
         sub esp, byte 24h
         mov eax, dword [byte esp+034h]
         mov esi, dword [byte esp+038h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         mov edx, dword [byte esp+03Ch]
         push edx
@@ -323,7 +323,7 @@ PutBlock:
         add eax, esi
         push eax
         push edi
-        call dword [dword_1210C0]
+        call dword [RowCopyFunc]
         add esp, byte 0Ch
         mov edx, dword [byte esp+014h]
         mov ebx, dword [byte esp+018h]
@@ -356,7 +356,7 @@ PutBlock:
         push ebp
         push eax
         push edi
-        call dword [dword_1210C0]
+        call dword [RowCopyFunc]
         add esp, byte 0Ch
         mov ecx, dword [byte esp+010h]
         add edi, ebp
@@ -371,7 +371,7 @@ PutBlock:
         push edi
         mov dword [byte esp+01Ch], ecx
         mov esi, ebp
-        call dword [dword_1210C0]
+        call dword [RowCopyFunc]
         add esp, byte 0Ch
         add edi, ebp
         jmp short .12
@@ -380,7 +380,7 @@ PutBlock:
         push edx
         push eax
         push edi
-        call dword [dword_1210C0]
+        call dword [RowCopyFunc]
         add esp, byte 0Ch
         mov ebx, dword [byte esp+020h]
         mov esi, dword [byte esp+08h]
@@ -489,7 +489,7 @@ sub_AADE8:
         mov edx, dword [byte esp+0Ch]
         mov ebx, dword [byte esp+010h]
         mov eax, dword [byte esp+014h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .4
         push eax
         push ebx
@@ -505,10 +505,10 @@ sub_AADE8:
         mov esi, sub_AADE8
         push edx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -516,7 +516,7 @@ sub_AADE8:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov ecx, dword [dword_1228F4]
+        mov ecx, dword [KeyedDraw]
         mov edx, dword [byte ebx+0Ah]
         mov eax, dword [byte ebx+0Ch]
         sar edx, 10h
@@ -537,10 +537,10 @@ sub_AADE8:
         mov esi, sub_AADE8
         push ebx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -558,7 +558,7 @@ sub_AADE8:
         sar edx, 10h
         sub ecx, edx
         mov edx, ecx
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .6
         push edx
         push ebx
@@ -574,10 +574,10 @@ sub_AADE8:
         mov esi, sub_AADE8
         push eax
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -592,7 +592,7 @@ sub_AAF28:
         sub esp, byte 10h
         mov eax, dword [byte esp+020h]
         mov edi, dword [byte esp+024h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         mov esi, dword [byte esp+028h]
         push esi
@@ -743,7 +743,7 @@ sub_AB0A8:
         sub esp, byte 10h
         mov eax, dword [byte esp+020h]
         mov edi, dword [byte esp+024h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         mov esi, dword [byte esp+028h]
         push esi

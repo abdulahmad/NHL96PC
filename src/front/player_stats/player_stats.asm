@@ -41,7 +41,7 @@ extern str_LocalSort, str_Pal21, str_Player, str_PLR0, str_PlusMinus, str_Profil
 extern str_SEA02, str_Shot, str_SLDH, str_SLDV, str_Space, str_StatDBPTRs, str_Stats, str_VBAL2
 extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRecord, StatsDb5Record
 extern StatsDb1Record, sub_AAA40, AllocMemBlock, FreeMemBlock, sub_AD35C, TintRows, sub_AD620, sub_ADBEC
-extern DosFileInfo, sub_B2C54, sub_B2C70, sub_C2500, SetScreenTarget, sub_E04E0, TextSetFont, TickDeadlinePassed
+extern DosFileInfo, sub_B2C54, sub_B2C70, DrawArtKeyed, SetScreenTarget, sub_E04E0, TextSetFont, TickDeadlinePassed
 extern unk_11282F, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
 extern unk_1802C0, unk_8B87F, unk_8BD9F, unk_8BF1F, UpdateProgressBox, word_114CE0, word_1656E8, word_181EB4
 extern word_181EB6, word_181EB8, word_181EBA, word_181EBC, word_181EBE, word_181EC0, word_181EC2, word_181EC4
@@ -1300,7 +1300,7 @@ PlayerStatsScreen:
         push eax
         inc dword [byte ebp+07Eh]
         add dword [byte ebp+052h], byte 4
-        call sub_C2500
+        call DrawArtKeyed
         add esp, byte 0Ch
         cmp dword [byte ebp+07Eh], byte 8
         jl near .30
@@ -1959,7 +1959,7 @@ PlayerStatsScreen_13DD:
         push dword [dword esi+dword_17FE22]
         push dword [dword esi+dword_17FE1E]
         push dword [dword esi+dword_17FE12]
-        call sub_C2500
+        call DrawArtKeyed
         add esp, byte 0Ch
 .66:
         add esi, byte 66h

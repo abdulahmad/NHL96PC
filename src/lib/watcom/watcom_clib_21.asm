@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_DCC25 progbits alloc exec nowrite align=1
-extern __CHP, RemapTable, byte_123988, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow
-extern DblMinusMaxHigh, dword_1210C0, dword_1228F4, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, PutBlock
+extern __CHP, RemapTable, ColourRemap, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow
+extern DblMinusMaxHigh, RowCopyFunc, KeyedDraw, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, PutBlock
 extern DrawArtOpaque, sub_BF02C, sub_BF034, sub_BF04B, TranslatePixels, sub_DF6A7, sub_DF810, bcopy
 extern Scale10Count
 global _Scale10V_, _Scale_, __Bin2String, __CmpBigInt, __Nan_Inf_, __Rnd2Int, __cvt_, floor_
@@ -602,7 +602,7 @@ sub_DD120:
         mov edx, dword [byte esp+0Ch]
         mov ebx, dword [byte esp+010h]
         mov eax, dword [byte esp+014h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push eax
         push ebx
@@ -618,10 +618,10 @@ sub_DD120:
         mov esi, sub_DD580
         push edx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -629,7 +629,7 @@ sub_DD120:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov ecx, dword [dword_1228F4]
+        mov ecx, dword [KeyedDraw]
         mov edx, dword [byte ebx+0Ah]
         mov eax, dword [byte ebx+0Ch]
         sar edx, 10h
@@ -650,10 +650,10 @@ sub_DD120:
         mov esi, sub_DD580
         push ebx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -671,7 +671,7 @@ sub_DD120:
         sar edx, 10h
         sub ecx, edx
         mov edx, ecx
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .3
         push edx
         push ebx
@@ -687,10 +687,10 @@ sub_DD120:
         mov esi, sub_DD580
         push eax
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -765,7 +765,7 @@ sub_DD2A0:
         sar eax, 10h
         imul eax, edx
         push eax
-        push byte_123988
+        push ColourRemap
         lea eax, [byte ebx+010h]
         push eax
         call TranslatePixels
@@ -799,7 +799,7 @@ sub_DD2A0:
         imul edx, ebx
         add esp, byte 8
         push edx
-        push byte_123988
+        push ColourRemap
         add eax, byte 10h
         push eax
         call TranslatePixels
@@ -1097,7 +1097,7 @@ sub_DD580:
         mov edx, dword [byte esp+0Ch]
         mov ebx, dword [byte esp+010h]
         mov eax, dword [byte esp+014h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .5
         push eax
         push ebx
@@ -1113,10 +1113,10 @@ sub_DD580:
         mov esi, sub_DD580
         push edx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call DrawArtOpaque
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -1124,7 +1124,7 @@ sub_DD580:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov ecx, dword [dword_1228F4]
+        mov ecx, dword [KeyedDraw]
         mov edx, dword [byte ebx+0Ah]
         mov eax, dword [byte ebx+0Ch]
         sar edx, 10h
@@ -1145,10 +1145,10 @@ sub_DD580:
         mov esi, sub_DD580
         push ebx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call DrawArtOpaque
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -1166,7 +1166,7 @@ sub_DD580:
         sar edx, 10h
         sub ecx, edx
         mov edx, ecx
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .7
         push edx
         push ebx
@@ -1182,10 +1182,10 @@ sub_DD580:
         mov esi, sub_DD580
         push eax
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call DrawArtOpaque
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret

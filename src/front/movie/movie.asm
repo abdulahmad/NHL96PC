@@ -9,8 +9,8 @@ extern dword_17C974, dword_17C978, dword_17C97C, dword_17C980, dword_17C984, dwo
 extern dword_17C994, dword_17C998, dword_17C99C, FadeOutMusic, FillMusicStream, GetPressedDevice, GetSoundCard, GetTicks
 extern globalset, MakeDataPath, OpenMusicStream, PlayMusic, QueueCurrentMusic, SetClipWindow, SetCrtcStart, setstreamspeed
 extern SoundSecondsToBytes, StopMusic, str_TEMP, FadeOut, SetGraphicsMode, SetScreenMode, AllocMemBlock, FreeMemBlock
-extern sub_BFE4C, sub_C0252, sub_C02D6, FeedAudioStream, sub_C03EA, sub_C0423, sub_C04AE, sub_C1FC0
-extern sub_C1FEC, sub_C204C, sub_C2268, sub_C2290, sub_C2440, sub_C2442, sub_DD830, bcopy
+extern StopSoundChannel, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamActive, AudioStreamPosition, AudioStreamPacketsPlayed, TgvAllocDecoder
+extern TgvDecodeFrame, TgvFreeDecoder, TgvResetFrameRate, TgvBlitFrame, DisableInterrupts, EnableInterrupts, sub_DD830, bcopy
 extern tgvpalpending, unk_17C644, WaitRetrace, WaitTicks
 global TgvClock, TgvOpen, TgvOpen_F9, PlayTGV, TgvNextFrame, TgvPlayFrames, PlayMovie, PlayMovieFile
 ;-----------------------------------------------------------------------------
@@ -28,12 +28,12 @@ TgvClock:
         je short .1
         cmp dword [dword_17C964], byte 0
         jne short .1
-        call sub_C03EA
+        call AudioStreamActive
         test eax, eax
         je short .1
         call GetTicks
         mov dword [dword_11D3C4], eax
-        call sub_C04AE
+        call AudioStreamPacketsPlayed
         mov dword [dword_11D3C0], eax
         pop edx
         pop ecx
@@ -72,7 +72,7 @@ TgvOpen:
         push esi
         push edi
         mov edi, eax
-        call sub_C1FC0
+        call TgvAllocDecoder
         push byte 20h
         push dword 35C60h
         push str_TEMP
@@ -103,11 +103,11 @@ TgvOpen:
         cmp dword [dword_17C984], byte 0
         je short .1
         mov eax, dword [dword_17C99C]
-        call sub_C0252
+        call InitAudioStream
 .1:
         call TgvClock
         mov dword [dword_17C970], eax
-        call sub_C2268
+        call TgvResetFrameRate
         mov dword [dword_17C980], 0
         mov dword [tgvpalpending], 0
         mov dword [dword_17C964], 0
@@ -146,7 +146,7 @@ PlayTGV:
         je short .2
 .1:
         mov eax, dword [dword_17C974]
-        call sub_BFE4C
+        call StopSoundChannel
         push byte 1
         call WaitTicks
         add esp, byte 4
@@ -159,7 +159,7 @@ PlayTGV:
         cmp eax, 640h
         setge al
         movzx edx, al
-        call sub_C03EA
+        call AudioStreamActive
         mov ebx, edx
         test eax, eax
         je short .7
@@ -184,7 +184,7 @@ PlayTGV:
         or byte [byte_17C95C], 4
 .8:
         mov eax, dword [dword_17C974]
-        call sub_BFE4C
+        call StopSoundChannel
         push byte 1
         call WaitTicks
         add esp, byte 4
@@ -244,7 +244,7 @@ TgvNextFrame:
 .5:
         push dword [dword_17C98C]
         push dword [dword_17C994]
-        call sub_C1FEC
+        call TgvDecodeFrame
         add esp, byte 8
         mov dword [dword_17C980], eax
         cmp dword [tgvpalpending], byte 0
@@ -329,10 +329,10 @@ TgvNextFrame:
         cmp dword [dword_17C968], byte 0
         jne short .19
         mov eax, 2
-        call sub_C0423
+        call AudioStreamPosition
         cmp eax, 20000h
         jle short .19
-        call sub_C02D6
+        call StartAudioStream
         mov dword [dword_17C968], 1
         mov dword [dword_17C974], eax
         jmp short .18
@@ -506,11 +506,11 @@ TgvPlayFrames:
         push eax
         push dword [byte ebp-08h]
         push esi
-        call sub_C2290
+        call TgvBlitFrame
         add esp, byte 0Ch
         cmp dword [tgvpalpending], byte 0
         je short .2
-        call sub_C2440
+        call DisableInterrupts
 .2:
         mov eax, dword [byte ebp-04h]
         imul eax, dword [dword_11F5C4]
@@ -530,7 +530,7 @@ TgvPlayFrames:
         push byte 0
         call sub_DD830
         add esp, byte 0Ch
-        call sub_C2442
+        call EnableInterrupts
         mov dword [tgvpalpending], 0
 .3:
         xor byte [byte ebp-04h], 1
@@ -595,7 +595,7 @@ PlayMovie:
         mov dword [dword_17C948], 0
         call SetGraphicsMode
         push dword [dword_17C994]
-        call sub_C204C
+        call TgvFreeDecoder
         add esp, byte 4
         mov eax, esi
         pop esi

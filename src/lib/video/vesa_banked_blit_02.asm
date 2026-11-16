@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_DE084 progbits alloc exec nowrite align=1
 extern RemapTable, VesaBankShift, dword_11FD50, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0
-extern dword_1228F4, DrawDestBuffer, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
+extern KeyedDraw, DrawDestBuffer, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
 global VesaSetBankJumpTable, jpt_DEC90, jpt_DEDBC, jpt_DF09B, PlotPixel_8, PlotPixelClipped_C, sub_DE247_3A, jpt_DE3F8_27
 global sub_DE4C7_32, sub_DE643_32, sub_DE7DB_32, sub_DE97C_C, sub_DE9F3_32, sub_DEB94_C, sub_DEB94_AA, sub_DEC41_4
 global jpt_DEC90_DA, sub_DED6D_4, sub_DEEE3_32, sub_DEFD7_3A, sub_DF6A7_32, sub_DF810_34, sub_DE084, PlotPixel
@@ -71,7 +71,7 @@ PlotPixel:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
 PlotPixel_8:
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .2
         mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
@@ -119,7 +119,7 @@ PlotPixelClipped:
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
 PlotPixelClipped_C:
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .2
         mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
@@ -140,7 +140,7 @@ PlotPixelClipped_C:
         jne short .1
         mov byte [edx], bl
         ret
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .4
         push ecx
         mov ecx, dword [DrawDestBuffer]
@@ -1034,7 +1034,7 @@ sub_DE97C:
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
 sub_DE97C_C:
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .2
         mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
@@ -1264,7 +1264,7 @@ sub_DEB94:
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
 sub_DEB94_C:
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .2
         mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]

@@ -9,7 +9,7 @@ extern BackBufferWidth, _STACKLOW, __amblksiz, dword_14FAD8, CMainArgv, dword_1A
 extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
 extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, sub_D7DB0_30, sub_D7DB0_238, sub_E2335_5B
-extern sub_E2335_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, off_14FAD4, sprintf_
+extern sub_E2335_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, DrawArtRemapFunc, sprintf_
 extern DrawShapeCore, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
 extern sub_ADBEC, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
 extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
@@ -241,7 +241,7 @@ sub_D0848:
         mov eax, dword [dword_1A10C8]
         mov esi, dword [nosplit eax*4+dword_1A109C]
         push esi
-        call dword [off_14FAD4]
+        call dword [DrawArtRemapFunc]
         add esp, byte 0Ch
         mov eax, esp
         push eax

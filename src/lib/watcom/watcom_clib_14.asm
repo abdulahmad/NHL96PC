@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_CA835 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, __init_80x87, __unhook387, __8087, FpuType, _Extender, Is8087, __real87
-extern byte_1248DA, dword_11F5C0, dword_11F5C4, dword_11F5C8, FpuFlags, FpuSystemFlags, OldFpuVectorOffset, snddriver
+extern SndMasterVolume, dword_11F5C0, dword_11F5C4, dword_11F5C8, FpuFlags, FpuSystemFlags, OldFpuVectorOffset, snddriver
 extern MixerVolumeLookup, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8, dword_144FAC, dword_144FB0, dword_144FB4
 extern dword_144FB8, dword_144FBC, dword_144FC0, dword_144FC4, dword_144FC8, dword_144FCC, dword_144FD0, dword_144FD4
 extern dword_144FD8, dword_144FDC, dword_144FE0, dword_144FE4, dword_144FE8, dword_144FEC, dword_144FF0, dword_144FF4
@@ -11,8 +11,8 @@ extern dword_144FF8, dword_144FFC, dword_145000, dword_145004, dword_145008, dwo
 extern dword_145018, MixerReady, dword_14EFA0, MixerOutputRate, Mixer16Bit, dword_14EFAC, MixerChunkSamples, MixerChunkLeft
 extern dword_14EFB8, dword_14EFBC, MixerLoopLength, MixerLoopLimit, MixerLoopStart, dword_14EFD0, dword_14EFD4, dword_14EFD8
 extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, sub_AADA4, FreeMemBlock, sub_ABF88, sub_AD2B4
-extern RestoreDS, sub_C01C9, sub_C1051, sub_C1183, sub_CE1DA, SbWaitRead, InitFloatFormat, FormatFloat
-extern SetScreenTarget, unk_146F9C, unk_1A0B20, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
+extern RestoreDS, AudioStreamCallback, StartChannelSample, PanVolumes, SbDelay, SbWaitRead, InitFloatFormat, FormatFloat
+extern SetScreenTarget, unk_146F9C, SndChannels, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
 extern word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
 global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, MixerChunkLength_4A, MixerChunkLength_8F
 global MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, sub_CCB41_3AE, sub_CCB41_7BC, sub_CCB41_BC7, sub_CCB41_F65, sub_CCB41_1372
@@ -314,7 +314,7 @@ sub_CAA80:
         ret
 .5:
         imul edx, byte 28h
-        add edx, unk_1A0B20
+        add edx, SndChannels
         mov dword [edx], 0
         mov byte [byte edx+017h], 0FFh
         mov dword [byte edx+04h], 0FFFFFFFFh
@@ -339,7 +339,7 @@ sub_CAA80:
         mov al, byte [byte ebp-04h]
         mov byte [byte esi+01Ch], al
         mov eax, esi
-        call sub_C1051
+        call StartChannelSample
         mov eax, dword [byte ebp-04h]
         leave
         pop esi
@@ -390,12 +390,12 @@ sub_CAB78:
         push ecx
         push edx
         imul eax, byte 28h
-        mov ebx, unk_1A0B20
+        mov ebx, SndChannels
         add ebx, eax
         movsx ecx, byte [byte ebx+025h]
         movsx eax, byte [byte ebx+024h]
         imul ecx, eax
-        movsx eax, byte [byte_1248DA]
+        movsx eax, byte [SndMasterVolume]
         imul eax, ecx
         mov ecx, 3F01h
         cdq
@@ -414,7 +414,7 @@ sub_CABA9:
         push ebp
         mov ebp, esp
         imul eax, dword [byte ebp+0Ch], byte 28h
-        add eax, unk_1A0B20
+        add eax, SndChannels
         mov byte [byte eax+016h], 0
         mov dword [byte eax+04h], 0FFFFFFFFh
         mov dword [eax], 0
@@ -1012,7 +1012,7 @@ sub_CC17B:
         je short .1
         push dword [byte ebp+010h]
         push dword [byte ebp+0Ch]
-        call sub_C1183
+        call PanVolumes
         add esp, byte 8
         movzx ebx, ax
         shr eax, 10h
@@ -1290,7 +1290,7 @@ MixerChunkLength_8F:
         push eax
         lea eax, [byte esi+014h]
         push eax
-        call sub_C01C9
+        call AudioStreamCallback
         add esp, byte 8
         cmp dword [byte esi+014h], byte 0
         je short .8
@@ -1423,7 +1423,7 @@ MixerChunkLength_21B:
         push eax
         lea eax, [byte esi+038h]
         push eax
-        call sub_C01C9
+        call AudioStreamCallback
         add esp, byte 8
         cmp dword [byte esi+038h], byte 0
         je short .21
@@ -2905,7 +2905,7 @@ sub_CDFE2:
         mov al, 1
         movzx edx, word [word_1A0FA8]
         out dx, al
-        call sub_CE1DA
+        call SbDelay
         movzx edx, word [word_1A0FA8]
         xor al, al
         out dx, al

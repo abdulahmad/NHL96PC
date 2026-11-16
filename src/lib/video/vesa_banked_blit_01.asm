@@ -2,60 +2,63 @@
 bits 32
 %include "hockey.inc"
 section s_D79CC progbits alloc exec nowrite align=1
-extern _FtoS_, byte_123988, dword_1228F0, DrawDestBuffer, dword_1228FC, forcedecpt_, unk_D796A, unk_D796C
-global _EFG_Format_, unk_D79E5_2, unk_D7A02_2, sub_D7A44_34, sub_D79CC, sub_D7A44, unk_D79E3, unk_D79E5
-global unk_D7A00, unk_D7A02
+extern _FtoS_, ColourRemap, dword_1228F0, DrawDestBuffer, dword_1228FC, forcedecpt_, SbIsrPicPort, SbIsrAckPort
+global _EFG_Format_, SbProIsr, Sb16Isr, sub_D7A44_34, SbIsrAutoInit, sub_D7A44, SbProIsrPicPort, SbProIsrAckPort
+global Sb16IsrPicPort, Sb16IsrAckPort
 ;-----------------------------------------------------------------------------
-; sub_D79CC                                                            D79CC  
+; SbIsrAutoInit                                D79CC  96 PC, medium confidence
+; Sound Blaster interrupt handler for auto-init DMA
 ;-----------------------------------------------------------------------------
-sub_D79CC:
+SbIsrAutoInit:
         push eax
         push edx
         db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:0C796Ah]
-        dd unk_D796A
+        dd SbIsrPicPort
         out 20h, al
         db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Ch]
-        dd unk_D796C
+        dd SbIsrAckPort
         in al, dx
         pop edx
         pop eax
         iret
-unk_D79E3:
+SbProIsrPicPort:
         db 00h,00h
-unk_D79E5:
+SbProIsrAckPort:
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; unk_D79E5_2                                                          D79E7  
+; SbProIsr                                     D79E7  96 PC, medium confidence
+; Sound Blaster Pro interrupt handler
 ;-----------------------------------------------------------------------------
-unk_D79E5_2:
+SbProIsr:
         push eax
         push edx
         mov al, 20h
         db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C79E3h]
-        dd unk_D79E3
+        dd SbProIsrPicPort
         out dx, al
         db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C79E5h]
-        dd unk_D79E5
+        dd SbProIsrAckPort
         in al, dx
         pop edx
         pop eax
         iret
-unk_D7A00:
+Sb16IsrPicPort:
         db 00h,00h
-unk_D7A02:
+Sb16IsrAckPort:
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; unk_D7A02_2                                                          D7A04  
+; Sb16Isr                                      D7A04  96 PC, medium confidence
+; Sound Blaster 16 interrupt handler
 ;-----------------------------------------------------------------------------
-unk_D7A02_2:
+Sb16Isr:
         push eax
         push edx
         db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C7A02h]
-        dd unk_D7A02
+        dd Sb16IsrAckPort
         in al, dx
         mov al, 20h
         db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C7A00h]
-        dd unk_D7A00
+        dd Sb16IsrPicPort
         out dx, al
         pop edx
         pop eax
@@ -126,7 +129,7 @@ sub_D7A44_34:
 .2:
         mov al, byte [esi]
         inc esi
-        mov al, byte [dword eax+byte_123988]
+        mov al, byte [dword eax+ColourRemap]
         cmp al, 0FFh
         je short .3
         mov byte [edi], al

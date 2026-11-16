@@ -16,7 +16,7 @@ extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFi
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, sub_AAA40, sub_AAA8C
 extern PutBlock, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
-extern OpenArtArchiveErr, sub_B2C54, sub_BF120, sub_C2600, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584
+extern OpenArtArchiveErr, sub_B2C54, sub_BF120, PutBlockKeyed, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
 global unk_7FF77
@@ -2738,7 +2738,7 @@ DrawCalendar:
 .15:
         call LoadTeamLogo
         push eax
-        call sub_C2600
+        call PutBlockKeyed
         add esp, byte 0Ch
         movzx eax, byte [byte esi+03h]
         fld dword [byte ebp+eax*4-036h]
@@ -2757,7 +2757,7 @@ DrawCalendar:
 .18:
         call LoadTeamLogo
         push eax
-        call sub_C2600
+        call PutBlockKeyed
         add esp, byte 0Ch
         movzx eax, byte [byte esi+02h]
         fld dword [byte ebp+eax*4-036h]

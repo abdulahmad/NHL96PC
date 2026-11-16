@@ -23,7 +23,7 @@ extern str_S5, str_SD4, str_SEA4, str_SLDH2, str_Wt4, str_XTbl, strcat_, strlen_
 extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, sub_AAA40
 extern sub_AADA4, BlitShapeAt, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADBEC, DosFileInfo, LoadResourceDataShared
-extern sub_B2C54, sub_B2C70, sub_C2600, SetScreenTarget, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed
+extern sub_B2C54, sub_B2C70, PutBlockKeyed, SetScreenTarget, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed
 extern unk_1129C2, unk_1129E4, unk_1129F7, unk_152C44, UpdateProgressBox
 global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
 global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
@@ -4281,7 +4281,7 @@ ScaleBlock:
         push dword [byte ebp+020h]
         push dword [byte ebp-08h]
         push dword [byte edi+02Ch]
-        call sub_C2600
+        call PutBlockKeyed
         fld1
         fdiv dword [byte ebp+018h]
         inc dword [byte ebp-08h]

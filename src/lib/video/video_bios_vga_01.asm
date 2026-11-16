@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_DD6C4 progbits alloc exec nowrite align=1
-extern RemapTable, byte_123988, dword_11F5A0, ScreenWidth, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight
+extern RemapTable, ColourRemap, dword_11F5A0, ScreenWidth, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight
 extern ScreenHeight, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, BlitColumnOffsets, BlitSourcePtr, RetraceTimeout
 extern dword_1248C8, sub_ADA50, FillRectSpans, SetupRectFill, unk_18584C
 global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, sub_DD7B8, sub_DD800
@@ -294,7 +294,7 @@ sub_DD908:
         LD mov, ebp, esp
         push esi
         push edi
-        mov edi, byte_123988
+        mov edi, ColourRemap
         mov esi, dword [byte ebp+08h]
         mov ecx, 40h
         rep movsd
@@ -311,7 +311,7 @@ sub_DD920:
         push esi
         push edi
         mov edi, dword [byte ebp+08h]
-        mov esi, byte_123988
+        mov esi, ColourRemap
         mov ecx, 40h
         rep movsd
         pop edi
@@ -323,7 +323,7 @@ sub_DD920:
         push esi
         push edi
         mov esi, dword [byte ebp+010h]
-        mov edi, byte_123988
+        mov edi, ColourRemap
         add edi, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+0Ch]
 .1:
@@ -473,27 +473,27 @@ sub_DDA44:
         mov ebx, dword [edx]
         mov al, byte [ebx+esi]
         mov ebx, dword [byte edx+04h]
-        mov al, byte [dword eax+byte_123988]
+        mov al, byte [dword eax+ColourRemap]
         cmp al, 0FFh
         je short .2
         mov byte [edi], al
 .2:
         mov al, byte [ebx+esi]
         mov ebx, dword [byte edx+08h]
-        mov al, byte [dword eax+byte_123988]
+        mov al, byte [dword eax+ColourRemap]
         cmp al, 0FFh
         je short .3
         mov byte [byte edi+01h], al
 .3:
         mov al, byte [ebx+esi]
         mov ebx, dword [byte edx+0Ch]
-        mov al, byte [dword eax+byte_123988]
+        mov al, byte [dword eax+ColourRemap]
         cmp al, 0FFh
         je short .4
         mov byte [byte edi+02h], al
 .4:
         mov al, byte [ebx+esi]
-        mov al, byte [dword eax+byte_123988]
+        mov al, byte [dword eax+ColourRemap]
         cmp al, 0FFh
         je short .5
         mov byte [byte edi+03h], al
@@ -508,7 +508,7 @@ sub_DDA44:
 .7:
         mov ebx, dword [edx]
         mov al, byte [ebx+esi]
-        mov al, byte [dword eax+byte_123988]
+        mov al, byte [dword eax+ColourRemap]
         cmp al, 0FFh
         je short .8
         mov byte [edi], al
@@ -535,7 +535,7 @@ sub_DDA44:
 .10:
         mov ebx, dword [edx]
         mov al, byte [ebx+esi]
-        mov al, byte [dword eax+byte_123988]
+        mov al, byte [dword eax+ColourRemap]
         add edx, byte 4
         mov byte [edi], al
         sub ecx, byte 1
@@ -597,7 +597,7 @@ sub_DDB68:
 .1:
         mov ebx, dword [edx]
         mov al, byte [ebx+esi]
-        mov al, byte [dword eax+byte_123988]
+        mov al, byte [dword eax+ColourRemap]
         add edx, byte 4
         cmp al, 0FEh
         jb short .2

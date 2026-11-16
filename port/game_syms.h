@@ -32,11 +32,11 @@
 #define SYM___CMain                 0xC59F8u   /* lib/watcom/watcom_clib_13.asm */
 #define SYM___InitRtns              0xC5A48u   /* lib/watcom/watcom_clib_13.asm */
 #define SYM_ParseBlasterEnv         0xCE0A9u   /* lib/sound/snd_soundblaster.asm */
-#define SYM_sub_CE2E8               0xCE2E8u   /* lib/sound/snd_soundblaster.asm */
-#define SYM_sub_CEA3B               0xCEA3Bu   /* lib/sound/snd_soundblaster.asm */
-#define SYM_sub_CEDDE               0xCEDDEu   /* lib/sound/snd_soundblaster.asm */
-#define SYM_sub_CF2D8               0xCF2D8u   /* lib/sound/snd_soundblaster.asm */
-#define SYM_sub_CF59A               0xCF59Au   /* lib/sound/snd_soundblaster.asm */
+#define SYM_SbDspVersion            0xCE2E8u   /* lib/sound/snd_soundblaster.asm */
+#define SYM_SbOpen                  0xCEA3Bu   /* lib/sound/snd_soundblaster.asm */
+#define SYM_SbProOpen               0xCEDDEu   /* lib/sound/snd_soundblaster.asm */
+#define SYM_Sb16Open                0xCF2D8u   /* lib/sound/snd_soundblaster.asm */
+#define SYM_Sb16StartDma            0xCF59Au   /* lib/sound/snd_soundblaster.asm */
 #define SYM___hook387               0xD5666u   /* lib/watcom/watcom_emu387.asm */
 #define SYM___unhook387             0xD5730u   /* lib/watcom/watcom_emu387.asm */
 #define SYM___setenvp_              0xD7C08u   /* lib/watcom/watcom_clib_18.asm */
@@ -81,7 +81,7 @@
 #define SYM__osminor                0x124434u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM_dword_1248C8            0x1248C8u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM_snddriver               0x1248CCu   /* data/lib/video/video_bios_vga_03_data_01.asm */
-#define SYM_dword_14F05C            0x14F05Cu   /* data/lib/sound/snd_soundblaster_data_02.asm */
+#define SYM_Sb16DmaAlloc            0x14F05Cu   /* data/lib/sound/snd_soundblaster_data_02.asm */
 #define SYM__environ                0x14F09Cu   /* data/lib/sound/snd_soundblaster_data_02.asm */
 #define SYM____env_mask             0x14F0A0u   /* data/lib/sound/snd_soundblaster_data_02.asm */
 #define SYM_SlotTable               0x1515B4u   /* data/front/front_10010_bss_01.asm */
@@ -93,9 +93,9 @@
 #define SYM_optblock                0x17CA20u   /* data/front/front_10010_bss_02.asm */
 #define SYM_optblock_end            0x17CA75u   /* data/front/front_10010_bss_02.asm */
 #define SYM_timercallbacks          0x18566Cu   /* data/lib/lib_A8B9B_bss_01.asm */
-#define SYM_dword_1A105C            0x1A105Cu   /* data/lib/sound/snd_soundblaster_bss_01.asm */
-#define SYM_dword_1A1078            0x1A1078u   /* data/lib/sound/snd_soundblaster_bss_01.asm */
-#define SYM_dword_1A107C            0x1A107Cu   /* data/lib/sound/snd_soundblaster_bss_01.asm */
+#define SYM_Sb16DmaSize             0x1A105Cu   /* data/lib/sound/snd_soundblaster_bss_01.asm */
+#define SYM_Sb16DmaBuffer           0x1A1078u   /* data/lib/sound/snd_soundblaster_bss_01.asm */
+#define SYM_Sb16Version             0x1A107Cu   /* data/lib/sound/snd_soundblaster_bss_01.asm */
 #define SYM_StartupStack            0x1A1258u   /* data/lib/ea/ea_debug_02_bss_01.asm */
 
 #endif

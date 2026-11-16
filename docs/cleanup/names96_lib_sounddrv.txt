@@ -1,0 +1,159 @@
+sub_CE1DA SbDelay {confidence=medium,source=new} short delay: reads the Sound Blaster status port 100 times
+sub_CE220 SbWriteDsp {confidence=medium,source=new} waits for the Sound Blaster DSP to be ready and writes a byte to it
+sub_CE254 SbProSetStereo {confidence=medium,source=new} sets the Sound Blaster Pro stereo bit in mixer register 0Eh and returns the old one
+sub_CE285 SbProSetFilter {confidence=medium,source=new} sets the Sound Blaster Pro output filter bit in mixer register 0Eh and returns the old one
+sub_CE2E8 SbDspVersion {confidence=medium,source=new} asks the DSP for its version number
+sub_CE31C SbSetTimeConstant {confidence=medium,source=new} sets the DSP time constant for a sample rate and channel count
+unk_CE368 WssProbePorts {confidence=medium,source=new} base ports probed for a Windows Sound System card
+unk_CE378 WssDmaConfigBits {confidence=medium,source=new} Windows Sound System configuration value for each DMA channel
+unk_CE388 WssRateOffsets {confidence=medium,source=new} supported Windows Sound System rates, less 5500
+jpt_CE396 WssOpenJumpTable {confidence=medium,source=new} jump table for the rate switch in the Windows Sound System open
+sub_CE3B6 WssOpen {confidence=medium,source=new} Windows Sound System driver open: picks the rate, allocates the DMA buffer and starts output
+sub_CE5D5 WssClose {confidence=medium,source=new} Windows Sound System driver close
+sub_CE60C WssService {confidence=medium,source=new} Windows Sound System driver service: refills the half of the DMA buffer just played
+sub_CE647 WssQuery {confidence=medium,source=new} Windows Sound System driver query: card id, rate or format flags
+sub_CE65F WssEnd {confidence=medium,source=new} Windows Sound System driver end entry: does nothing
+sub_CE65F_1 WssQueryRate {confidence=medium,source=new} query answer: output rate
+sub_CE65F_7 WssQueryFormat {confidence=medium,source=new} query answer: 16-bit stereo
+sub_CE65F_D WssQueryNone {confidence=medium,source=new} query answer: unknown query
+sub_CE672 WssSetupCard {confidence=medium,source=new} finds the Windows Sound System card and sets its DMA channel from WSSDMA
+sub_CE709 WssProbePort {confidence=medium,source=new} checks for a Windows Sound System card at a base port
+sub_CE780 GusDetect {confidence=medium,source=new} reads the Gravis settings and probes the card
+sub_CE7C4 GusStart {confidence=medium,source=new} allocates the Gravis DMA buffer, opens the card and starts the output stream
+sub_CE90E GusDriverOpen {confidence=medium,source=new} Gravis driver open
+sub_CE980 GusDriverClose {confidence=medium,source=new} Gravis driver close
+sub_CEA10 GusDriverQuery {confidence=medium,source=new} Gravis driver query: card id, rate or format flags
+sub_CEA28 GusDriverEnd {confidence=medium,source=new} Gravis driver end entry: does nothing
+sub_CEA28_1 GusQueryRate {confidence=medium,source=new} query answer: output rate
+sub_CEA28_7 GusQueryFormat {confidence=medium,source=new} query answer: format flags
+sub_CEA28_D GusQueryNone {confidence=medium,source=new} query answer: unknown query
+sub_CEA3B SbOpen {confidence=medium,source=new} Sound Blaster driver open: reads BLASTER, allocates the DMA buffer and starts output
+sub_CEB8D SbClose {confidence=medium,source=new} Sound Blaster driver close: stops DMA and restores the interrupt
+sub_CEC0A SbService {confidence=medium,source=new} Sound Blaster driver service: refills the half of the DMA buffer just played
+sub_CEC45 SbQuery {confidence=medium,source=new} Sound Blaster driver query: DSP version, rate or format flags
+sub_CEC5D SbEnd {confidence=medium,source=new} Sound Blaster driver end entry: does nothing
+sub_CEC5D_1 SbQueryRate {confidence=medium,source=new} query answer: output rate
+sub_CEC5D_7 SbQueryFormat {confidence=medium,source=new} query answer: 8-bit mono
+sub_CEC5D_A SbQueryNone {confidence=medium,source=new} query answer: unknown query
+sub_CEC6D SbStartDma {confidence=medium,source=new} resets the DSP, hooks the interrupt and starts DMA output
+sub_CEDDE SbProOpen {confidence=medium,source=new} Sound Blaster Pro driver open: reads BLASTER, allocates the DMA buffer and starts output
+sub_CEFEE SbProClose {confidence=medium,source=new} Sound Blaster Pro driver close
+sub_CF025 SbProService {confidence=medium,source=new} Sound Blaster Pro driver service: refills the half of the DMA buffer just played
+sub_CF060 SbProQuery {confidence=medium,source=new} Sound Blaster Pro driver query: DSP version, rate or format flags
+sub_CF078 SbProEnd {confidence=medium,source=new} Sound Blaster Pro driver end entry: does nothing
+sub_CF078_1 SbProQueryRate {confidence=medium,source=new} query answer: output rate
+sub_CF078_7 SbProQueryFormat {confidence=medium,source=new} query answer: format flags
+sub_CF078_D SbProQueryNone {confidence=medium,source=new} query answer: unknown query
+sub_CF08B SbProStartDma {confidence=medium,source=new} hooks the interrupt, sets stereo and the filter and starts high speed DMA output
+sub_CF255 SbProStopDma {confidence=medium,source=new} stops DMA, restores the mixer bits and the interrupt
+sub_CF2D8 Sb16Open {confidence=medium,source=new} Sound Blaster 16 driver open: reads BLASTER, allocates the DMA buffer and starts output
+sub_CF4CD Sb16Close {confidence=medium,source=new} Sound Blaster 16 driver close
+sub_CF534 Sb16Service {confidence=medium,source=new} Sound Blaster 16 driver service: refills the half of the DMA buffer just played
+sub_CF56F Sb16Query {confidence=medium,source=new} Sound Blaster 16 driver query: DSP version, rate or format flags
+sub_CF587 Sb16End {confidence=medium,source=new} Sound Blaster 16 driver end entry: does nothing
+sub_CF587_1 Sb16QueryRate {confidence=medium,source=new} query answer: output rate
+sub_CF587_7 Sb16QueryFormat {confidence=medium,source=new} query answer: format flags
+sub_CF587_D Sb16QueryNone {confidence=medium,source=new} query answer: unknown query
+sub_CF59A Sb16StartDma {confidence=medium,source=new} hooks the interrupt and starts auto-init DMA output at the rate
+sub_CF68D Sb16StopDma {confidence=medium,source=new} stops DMA and restores the interrupt
+sub_CF6C9 SndTimerCallback {confidence=medium,source=new} sound timer callback: runs the sound tick unless it is already running or held
+sub_CF6ED SndTimerTick {confidence=medium,source=new} sound tick: services speech, crowd, the stream, channel fades and time limits, then the driver
+sub_CF918 GatherPlaneBytes {confidence=medium,source=new} copies every fourth byte of a row, for one video plane
+sub_CFA64 DrawArtKeyedAt {confidence=medium,source=new} draws art at a position without clipping, skipping colour 0FFh
+sub_CFA64_34 DrawArtKeyedRows {confidence=medium,source=new} row loop that draws art skipping colour 0FFh
+sub_CFB14 PutBlockKeyedAt {confidence=medium,source=new} puts a block at a position, clipped, skipping colour 0FFh
+sub_CFB14_34 PutBlockKeyedRows {confidence=medium,source=new} clipped row loop that puts a block skipping colour 0FFh
+sub_CFCC0 CopyRowKeyedRemap {confidence=medium,source=new} row copier that remaps colours and skips colour 0FFh
+sub_CFCF8 DrawArtKeyedRemap {confidence=medium,source=new} draws art through the colour remap, skipping colour 0FFh when keyed drawing is on
+off_14FAD4 DrawArtRemapFunc {confidence=low,source=new} routine used to draw remapped art
+byte_123988 ColourRemap {confidence=medium,source=new} colour remap table, 256 entries
+sub_D7970 SbIsrSingle {confidence=medium,source=new} Sound Blaster interrupt handler for single-cycle DMA
+sub_D79CC SbIsrAutoInit {confidence=medium,source=new} Sound Blaster interrupt handler for auto-init DMA
+unk_D796A SbIsrPicPort {confidence=medium,source=new} interrupt controller port the Sound Blaster handler acknowledges
+unk_D796C SbIsrAckPort {confidence=medium,source=new} DSP port the Sound Blaster handler reads to acknowledge
+unk_D796E SbIsrWritePort {confidence=low,source=new} DSP write port for the Sound Blaster handler
+unk_D79E3 SbProIsrPicPort {confidence=medium,source=new} interrupt controller port the Sound Blaster Pro handler acknowledges
+unk_D79E5 SbProIsrAckPort {confidence=medium,source=new} DSP port the Sound Blaster Pro handler reads to acknowledge
+unk_D79E5_2 SbProIsr {confidence=medium,source=new} Sound Blaster Pro interrupt handler
+unk_D7A00 Sb16IsrPicPort {confidence=medium,source=new} interrupt controller port the Sound Blaster 16 handler acknowledges
+unk_D7A02 Sb16IsrAckPort {confidence=medium,source=new} DSP port the Sound Blaster 16 handler reads to acknowledge
+unk_D7A02_2 Sb16Isr {confidence=medium,source=new} Sound Blaster 16 interrupt handler
+dword_14F01C WssDmaAlloc {confidence=medium,source=new} Windows Sound System DMA buffer allocation
+dword_14F020 WssRunning {confidence=medium,source=new} set while Windows Sound System output runs
+byte_14F024 WssFormatBits {confidence=medium,source=new} Windows Sound System format bits for each channel mode (3 byte rows)
+byte_14F025 WssMixFormat {confidence=medium,source=new} mixer format for each channel mode
+byte_14F026 WssBytesPerFrame {confidence=medium,source=new} bytes per sample frame for each channel mode
+dword_1A0FB0 WssBlockSamples {confidence=low,source=new} samples per Windows Sound System block
+dword_1A0FB4 WssHalfBuffer {confidence=medium,source=new} half the Windows Sound System DMA buffer
+dword_1A0FBC WssDmaChannel {confidence=medium,source=new} Windows Sound System DMA channel
+dword_1A0FC4 WssDmaBuffer {confidence=medium,source=new} Windows Sound System DMA buffer
+dword_1A0FC8 WssRate {confidence=medium,source=new} Windows Sound System output rate
+dword_1A0FCC WssDmaPos {confidence=medium,source=new} Windows Sound System DMA position at the last service
+dword_14F034 GusDmaAlloc {confidence=medium,source=new} Gravis DMA buffer allocation
+dword_14F038 GusEnvRead {confidence=medium,source=new} set once the Gravis settings have been read
+dword_14F03C GusCardFound {confidence=medium,source=new} set once the Gravis card has been found
+word_1A0FD0 GusConfig {confidence=medium,source=new} Gravis settings read from the environment
+word_1A0FD2 GusConfigPort {confidence=medium,source=new} Gravis base port
+byte_1A0FD4 GusConfigGf1Irq {confidence=low,source=new} Gravis sound interrupt
+byte_1A0FD5 GusConfigMidiIrq {confidence=low,source=new} Gravis MIDI interrupt
+dword_1A0FD8 GusStreamMem {confidence=medium,source=new} Gravis card memory for the output stream
+dword_14F040 SbRunning {confidence=medium,source=new} set while Sound Blaster output runs
+dword_14F044 SbDmaAlloc {confidence=medium,source=new} Sound Blaster DMA buffer allocation
+dword_1A0FE0 SbHalfBuffer {confidence=medium,source=new} half the Sound Blaster DMA buffer
+dword_1A0FE4 SbDmaSize {confidence=medium,source=new} Sound Blaster DMA buffer size
+dword_1A0FE8 SbRate {confidence=medium,source=new} Sound Blaster output rate
+unk_1A0FEC SbHighDma {confidence=low,source=new} Sound Blaster 16-bit DMA channel from BLASTER
+dword_1A0FF0 SbDma {confidence=medium,source=new} Sound Blaster DMA channel
+dword_1A0FF4 SbIrq {confidence=medium,source=new} Sound Blaster interrupt
+dword_1A0FF8 SbDmaBuffer {confidence=medium,source=new} Sound Blaster DMA buffer
+dword_1A0FFC SbVersion {confidence=medium,source=new} Sound Blaster DSP version
+word_1A1000 SbPort {confidence=medium,source=new} Sound Blaster base port
+dword_1A1004 SbOldIrqOffset {confidence=medium,source=new} interrupt handler the Sound Blaster driver replaced (offset)
+word_1A1008 SbOldIrqSelector {confidence=medium,source=new} interrupt handler the Sound Blaster driver replaced (selector)
+dword_1A100A SbDmaPos {confidence=medium,source=new} Sound Blaster DMA position at the last service
+dword_14F048 SbProRunning {confidence=medium,source=new} set while Sound Blaster Pro output runs
+dword_14F04C SbProDmaAlloc {confidence=medium,source=new} Sound Blaster Pro DMA buffer allocation
+dword_14F050 SbProChannels {confidence=medium,source=new} Sound Blaster Pro channel count: 1 mono, 2 stereo
+byte_14F054 SbProMixFormat {confidence=medium,source=new} mixer format for each channel count
+byte_14F055 SbProFrameBytes {confidence=medium,source=new} bytes per sample frame for each channel count
+dword_1A1010 SbProRealOldOffset {confidence=low,source=new} real mode interrupt handler the Sound Blaster Pro driver replaced (offset)
+dword_1A1014 SbProRealOldSegment {confidence=low,source=new} real mode interrupt handler the Sound Blaster Pro driver replaced (segment)
+dword_1A1018 SbProRealHandler {confidence=low,source=new} real mode interrupt hook the Sound Blaster Pro driver set up
+dword_1A101C SbProBlockSamples {confidence=low,source=new} samples per Sound Blaster Pro block
+dword_1A1020 SbProHalfBuffer {confidence=medium,source=new} half the Sound Blaster Pro DMA buffer
+dword_1A1024 SbProDmaSize {confidence=medium,source=new} Sound Blaster Pro DMA buffer size
+dword_1A1028 SbProRate {confidence=medium,source=new} Sound Blaster Pro output rate
+unk_1A102C SbProHighDma {confidence=low,source=new} 16-bit DMA channel from BLASTER
+dword_1A1030 SbProDma {confidence=medium,source=new} Sound Blaster Pro DMA channel
+dword_1A1034 SbProOldFilter {confidence=medium,source=new} filter bit before the driver started
+dword_1A1038 SbProIrq {confidence=medium,source=new} Sound Blaster Pro interrupt
+dword_1A103C SbProDmaBuffer {confidence=medium,source=new} Sound Blaster Pro DMA buffer
+dword_1A1040 SbProOldStereo {confidence=medium,source=new} stereo bit before the driver started
+dword_1A1044 SbProVersion {confidence=medium,source=new} Sound Blaster Pro DSP version
+dword_1A1048 SbProPort {confidence=medium,source=new} Sound Blaster Pro base port
+dword_1A104C SbProOldIrqOffset {confidence=medium,source=new} interrupt handler the driver replaced (offset)
+word_1A1050 SbProOldIrqSelector {confidence=medium,source=new} interrupt handler the driver replaced (selector)
+dword_1A1052 SbProDmaPos {confidence=medium,source=new} Sound Blaster Pro DMA position at the last service
+dword_14F058 Sb16Running {confidence=medium,source=new} set while Sound Blaster 16 output runs
+dword_14F05C Sb16DmaAlloc {confidence=medium,source=new} Sound Blaster 16 DMA buffer allocation
+dword_14F060 Sb16Mode {confidence=medium,source=new} Sound Blaster 16 output mode: 1 8-bit, 2 16-bit
+byte_14F064 Sb16DspCommand {confidence=medium,source=new} DSP output command for each mode (4 byte rows)
+byte_14F065 Sb16DspModeByte {confidence=medium,source=new} DSP mode byte for each mode
+byte_14F066 Sb16MixFormat {confidence=medium,source=new} mixer format for each mode
+byte_14F067 Sb16FrameBytes {confidence=medium,source=new} bytes per sample frame for each mode
+dword_1A1058 Sb16BlockSamples {confidence=low,source=new} samples per Sound Blaster 16 block
+dword_1A105C Sb16DmaSize {confidence=medium,source=new} Sound Blaster 16 DMA buffer size
+dword_1A1060 Sb16HalfBuffer {confidence=medium,source=new} half the Sound Blaster 16 DMA buffer
+dword_1A1064 Sb16Rate {confidence=medium,source=new} Sound Blaster 16 output rate
+dword_1A1068 Sb16HighDma {confidence=medium,source=new} Sound Blaster 16 16-bit DMA channel
+dword_1A106C Sb16ActiveDma {confidence=medium,source=new} DMA channel the Sound Blaster 16 uses
+dword_1A1070 Sb16LowDma {confidence=medium,source=new} Sound Blaster 16 8-bit DMA channel
+dword_1A1074 Sb16Irq {confidence=medium,source=new} Sound Blaster 16 interrupt
+dword_1A1078 Sb16DmaBuffer {confidence=medium,source=new} Sound Blaster 16 DMA buffer
+dword_1A107C Sb16Version {confidence=medium,source=new} Sound Blaster 16 DSP version
+word_1A1080 Sb16Port {confidence=medium,source=new} Sound Blaster 16 base port
+dword_1A1084 Sb16OldIrqOffset {confidence=medium,source=new} interrupt handler the driver replaced (offset)
+word_1A1088 Sb16OldIrqSelector {confidence=medium,source=new} interrupt handler the driver replaced (selector)
+dword_1A108A Sb16DmaPos {confidence=medium,source=new} Sound Blaster 16 DMA position at the last service
+byte_14F070 SndTickBusy {confidence=medium,source=new} set while the sound tick runs
+dword_1248D2 SndTickHold {confidence=low,source=new} non-zero to hold the sound tick

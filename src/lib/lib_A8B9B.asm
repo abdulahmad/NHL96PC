@@ -11,7 +11,7 @@ extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
 extern RunMenu, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, DosFileInfo, LoadResourceDataShared, sub_B22B0
-extern sub_B2C54, sub_C254C, sub_C2600, ErrnoPtr, sub_DD908, sub_E04E0, unk_17CED5, unk_184B78
+extern sub_B2C54, DrawArtKeyedAtOrigin, PutBlockKeyed, ErrnoPtr, sub_DD908, sub_E04E0, unk_17CED5, unk_184B78
 extern unk_184BB4, unk_184BF0, unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48
 extern unk_184F48, unk_184F77, unk_185292
 global _searchenv_, sub_A8C81_555, sub_A8B9B, sub_A8C75, sub_A8C81, sub_A91DD, sub_A9BAC
@@ -605,7 +605,7 @@ sub_A91DD:
         call sub_E04E0
         add esp, byte 8
         push eax
-        call sub_C2600
+        call PutBlockKeyed
         add esp, byte 0Ch
         push str_Pal19
         jmp short .3
@@ -623,7 +623,7 @@ sub_A91DD:
         call sub_E04E0
         add esp, byte 8
         push eax
-        call sub_C2600
+        call PutBlockKeyed
         add esp, byte 0Ch
         push str_Ard4
 .3:
@@ -1163,7 +1163,7 @@ sub_A91DD:
         call sub_E04E0
         add esp, byte 8
         push eax
-        call sub_C254C
+        call DrawArtKeyedAtOrigin
         mov eax, dword [dword ebp-0196h]
         mov ebx, 1C2h
         add esp, byte 4

@@ -28,7 +28,7 @@ extern str_PRN0, str_PRN1, str_PRN2, str_ROK, str_S2, str_SavetimeOut, str_SD2, 
 extern str_SEA2, str_SEA3, str_Space2, str_spDDDD, str_TEA0, str_TEA1, str_TEA2, str_TXT
 extern str_VBAL, str_VERT, str_WES, str_WES0, str_Wt2, strcat_, strcmp_, strlen_
 extern PlayerCardScreen, PlayerRatingsScreen, AllocMemBlock, FreeMemBlock, sub_AD35C, TintRows, sub_AD620, sub_ADBEC
-extern DosFileInfo, sub_B2C54, sub_C2500, SetScreenTarget, FillRectColor, sub_E04E0, TickDeadlinePassed, unk_112633
+extern DosFileInfo, sub_B2C54, DrawArtKeyed, SetScreenTarget, FillRectColor, sub_E04E0, TickDeadlinePassed, unk_112633
 extern unk_11263E, unk_11266B, UpdateProgressBox, word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900
 extern word_17E934, word_17E968, word_17E99C
 global unk_884BD, jpt_884F1, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
@@ -928,7 +928,7 @@ TeamStatsScreen:
         push eax
         inc dword [byte ebp+07Ah]
         add dword [byte ebp+05Ah], byte 4
-        call sub_C2500
+        call DrawArtKeyed
         add esp, byte 0Ch
         cmp dword [byte ebp+07Ah], byte 8
         jl near .6
@@ -1574,7 +1574,7 @@ TeamStatsScreen_96F:
         push dword [byte esi+02Ah]
         push dword [byte esi+026h]
         push dword [byte esi+01Ah]
-        call sub_C2500
+        call DrawArtKeyed
         add esp, byte 0Ch
 .29:
         add esi, byte 66h

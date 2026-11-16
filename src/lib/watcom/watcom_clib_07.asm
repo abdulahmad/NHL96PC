@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_BF070 progbits alloc exec nowrite align=1
-extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, ScreenWidth, dword_1228F4, dword_1228FC
+extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, ScreenWidth, KeyedDraw, dword_1228FC
 extern dword_122930, dword_123B0C, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
 extern AllocMemBlock, FreeMemBlock, VesaSetBank, sub_DEFD7, sub_E04E0, sub_E04E7, bcopy, word_19B676
 global __STOSB, __STOSD, sub_BF120, sub_BF290, sub_BF2C4, sub_BF300, sub_BF42C
@@ -109,7 +109,7 @@ sub_BF120:
         mov eax, dword [byte esp+024h]
         mov edx, dword [byte esp+028h]
         mov edi, dword [byte esp+02Ch]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push edi
         push edx

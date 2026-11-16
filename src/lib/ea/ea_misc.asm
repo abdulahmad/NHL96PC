@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C3E38 progbits alloc exec nowrite align=1
-extern dword_1228F4, FillRect, PlotPixelClipped, sub_DF058, unk_C3E10
+extern KeyedDraw, FillRect, PlotPixelClipped, sub_DF058, unk_C3E10
 global FillRectSpans_AC, FillRectSpans_CD, FillRectSpans_F1, FillRectSpans_111, FillRectSpans_131, FillRectSpans_182, FillRectSpans_1D3, FillRectSpans_21D
 global FillRectSpans_263, FillRectSpans
 ;-----------------------------------------------------------------------------
@@ -15,7 +15,7 @@ FillRectSpans:
         push ebp
         sub esp, byte 2Ch
         mov eax, dword [byte esp+03Ch]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push eax
         call sub_DF058

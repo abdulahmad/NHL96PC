@@ -18,8 +18,8 @@ extern str_S05dCnzDb3, str_S05dCsgDb, str_Sched, str_SDB, str_SEASONNDX, str_Set
 extern str_Teams, strcat_, strcpy_, strlen_, WriteDbRecord6, ReadSeasonHeader, sub_29B9F, SeasonMenuScreen_794
 extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
 extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, sub_AAA8C, AllocMemBlock, FreeMemBlock, sub_AD35C
-extern sub_AD620, sub_ADBEC, OpenArtArchiveErr, sub_B22B0, sub_B2C54, UnlinkJump, sub_B7810, sub_C254C
-extern sub_C2600, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
+extern sub_AD620, sub_ADBEC, OpenArtArchiveErr, sub_B22B0, sub_B2C54, UnlinkJump, sub_B7810, DrawArtKeyedAtOrigin
+extern PutBlockKeyed, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
 extern unk_11E354, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, UpdateProgressBox
 global unk_77442, unk_7745A, CompareGrey, SortGreyColors, jpt_7761E, jpt_77632, NewSeasonScreen, NewSeasonScreen_5FB
 global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonScreen_7F2, NewSeasonScreen_8AF, NewSeasonScreen_8BB, NewSeasonScreen_8CB, NewSeasonScreen_8E0
@@ -280,7 +280,7 @@ NewSeasonScreen:
         call sub_E04E0
         add esp, byte 8
         push eax
-        call sub_C254C
+        call DrawArtKeyedAtOrigin
         add esp, byte 4
         push str_Bt014
         push dword [byte ebp+05Eh]
@@ -915,7 +915,7 @@ DrawSeasonTeams:
         movzx eax, byte [dword eax+byte_11D754]
         call LoadTeamLogo
         push eax
-        call sub_C2600
+        call PutBlockKeyed
         add esp, byte 0Ch
         mov esi, dword [byte ebp-0Ch]
         push dword [dword ebp-014Ch]
@@ -1107,7 +1107,7 @@ DrawSeasonTeams:
         movzx eax, byte [dword eax+byte_11D754]
         call LoadTeamLogo
         push eax
-        call sub_C2600
+        call PutBlockKeyed
         add esp, byte 0Ch
         push dword [dword ebp-014Ch]
         call SetDrawBitmap

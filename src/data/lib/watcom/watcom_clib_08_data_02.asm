@@ -2,72 +2,72 @@
 bits 32
 %include "hockey.inc"
 section s_123BB0 progbits alloc noexec write align=1
-extern sub_C187A, sub_C187C, sub_C187D, sub_C1882, sub_CE3B6, sub_CE5D5, sub_CE60C, sub_CE647
-extern sub_CE65F, sub_CE90E, sub_CE980, GusDriverUpdate, sub_CEA10, sub_CEA28, sub_CEA3B, sub_CEB8D
-extern sub_CEC0A, sub_CEC45, sub_CEC5D, sub_CEDDE, sub_CEFEE, sub_CF025, sub_CF060, sub_CF078
-extern sub_CF2D8, sub_CF4CD, sub_CF534, sub_CF56F, sub_CF587, str_spEACSNDFLIB32BitSoundLibr, str_NoCardInstalled, str_SoundBlaster10
+extern NullDriverOpen, NullDriverReturn, NullDriverQuery, NullDriverEnd, WssOpen, WssClose, WssService, WssQuery
+extern WssEnd, GusDriverOpen, GusDriverClose, GusDriverUpdate, GusDriverQuery, GusDriverEnd, SbOpen, SbClose
+extern SbService, SbQuery, SbEnd, SbProOpen, SbProClose, SbProService, SbProQuery, SbProEnd
+extern Sb16Open, Sb16Close, Sb16Service, Sb16Query, Sb16End, str_spEACSNDFLIB32BitSoundLibr, str_NoCardInstalled, str_SoundBlaster10
 extern str_SoundBlaster15, str_SoundBlaster20, str_SoundBlasterPro10, str_SoundBlasterPro20, str_SoundBlaster16, str_GravisUltraSound, str_WindowsSoundSystem
-global byte_123BB8, byte_123C04, byte_123C05, byte_123C22, dword_123BB0, dword_123BB4, dword_123BB9, dword_123BBD
-global dword_123BC1, dword_123BC5, dword_123BCC, dword_123BD0, dword_123BD4, dword_123BD8, dword_123BDC, dword_123BE0
-global dword_123BE4, dword_123BE8, dword_123BEC, dword_123BF0, dword_123C06, dword_123C0A, dword_123C0E, dword_123C12
-global dword_123C16, dword_123C1A, dword_123C1E, dword_123C9E, dword_123CA2, dword_123CAE, dword_123CB2, dword_123CC2
-global dword_123CC8, dword_123CCC, dword_123D5C, dword_123D60, dword_123D64, dword_123D8C, dword_123D90, dword_123D94
-global dword_123D98, dword_123D9C, dword_123DA0, off_123CE0, off_123CE4, off_123CE8, off_123CEC, off_123D68
-global off_123D6C, off_123D70, off_123D74, off_123D78, off_123D7C, off_123D80, off_123D84, off_123D88
-dword_123BB0:
+global SpeechQueuePlaying, CrowdLoaded, CrowdPaused, VolumeCurve, SpeechQueueWrite, SpeechQueueRead, SpeechQueueVolume, SpeechChannelA
+global SpeechChannelB, SpeechChannelCur, StreamState, StreamChannel, StreamFrameBytes, StreamSampleRate, StreamVolume, StreamOwner
+global StreamHeader, StreamPacketsPlayed, StreamSampleScale, SfxBanks, CrowdVolume, CrowdIntensityGoal, CrowdRampMode, CrowdEvent
+global CrowdFadeStep, CrowdFadeGoal, CrowdFadeLevel, CrowdLastBendStore, CrowdLastBend, CrowdLastVolumeStore, CrowdLastVolume, CrowdTicks
+global SndMixMode, StereoPanCurve, NextSndChannel, SndTimerAdded, SndExitHandlerAdded, TgvFrames, TgvTotalFrames, TgvRateTicks
+global TgvTotalTicks, TgvFrameRate, TgvFirstPeriod, SndDriverTable, SndDriverClose, SndDriverService, SndDriverQuery, SndCardNameNone
+global SndCardNameSb10, SndCardNameSb15, SndCardNameSb20, SndCardNameSbPro10, SndCardNameSbPro20, SndCardNameSb16, SndCardNameGus, SndCardNameWss
+SpeechQueueWrite:
         db 00h,00h,00h,00h
-dword_123BB4:
+SpeechQueueRead:
         db 00h,00h,00h,00h
-byte_123BB8:
+SpeechQueuePlaying:
         db 00h
-dword_123BB9:
+SpeechQueueVolume:
         db 07Fh,00h,00h,00h
-dword_123BBD:
+SpeechChannelA:
         db 00h,00h,00h,00h
-dword_123BC1:
+SpeechChannelB:
         db 01h,00h,00h,00h
-dword_123BC5:
+SpeechChannelCur:
         db 00h,00h,00h,00h,00h,00h,00h
-dword_123BCC:
+StreamState:
         db 00h,00h,00h,00h
-dword_123BD0:
+StreamChannel:
         db 0FFh,0FFh,0FFh,0FFh
-dword_123BD4:
+StreamFrameBytes:
         db 00h,00h,00h,00h
-dword_123BD8:
+StreamSampleRate:
         db 00h,00h,00h,00h
-dword_123BDC:
+StreamVolume:
         db 00h,00h,00h,00h
-dword_123BE0:
+StreamOwner:
         db 00h,00h,00h,00h
-dword_123BE4:
+StreamHeader:
         db 00h,00h,00h,00h
-dword_123BE8:
+StreamPacketsPlayed:
         db 00h,00h,00h,00h
-dword_123BEC:
+StreamSampleScale:
         db 01h,00h,00h,00h
-dword_123BF0:
+SfxBanks:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-byte_123C04:
+CrowdLoaded:
         db 00h
-byte_123C05:
+CrowdPaused:
         db 00h
-dword_123C06:
+CrowdVolume:
         db 07Fh,00h,00h,00h
-dword_123C0A:
+CrowdIntensityGoal:
         db 00h,00h,00h,00h
-dword_123C0E:
+CrowdRampMode:
         db 02h,00h,00h,00h
-dword_123C12:
+CrowdEvent:
         db 00h,00h,00h,00h
-dword_123C16:
+CrowdFadeStep:
         db 00h,00h,00h,00h
-dword_123C1A:
+CrowdFadeGoal:
         db 00h,00h,00h,00h
-dword_123C1E:
+CrowdFadeLevel:
         db 00h,00h,00h,00h
-byte_123C22:
+VolumeCurve:
         db 00h,00h,01h,02h,03h,04h,04h,05h,06h,07h,08h,08h,09h,0Ah,0Bh,0Ch
         db 0Dh,0Dh,0Eh,0Fh,010h,011h,011h,012h,013h,014h,015h,016h,016h,017h,018h,019h
         db 01Ah,01Bh,01Bh,01Ch,01Dh,01Eh,01Fh,020h,020h,021h,022h,023h,024h,025h,026h,026h
@@ -76,89 +76,89 @@ byte_123C22:
         db 044h,045h,046h,047h,048h,049h,04Ah,04Bh,04Ch,04Dh,04Eh,04Fh,050h,051h,052h,053h
         db 055h,056h,057h,058h,059h,05Ah,05Bh,05Ch,05Dh,05Fh,060h,061h,062h,063h,065h,066h
         db 067h,069h,06Ah,06Bh,06Dh,06Eh,06Fh,071h,072h,074h,076h,077h
-dword_123C9E:
+CrowdLastBendStore:
         db 079h,07Bh,07Dh,07Fh
-dword_123CA2:
+CrowdLastBend:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_123CAE:
+CrowdLastVolumeStore:
         db 00h,00h,00h,00h
-dword_123CB2:
+CrowdLastVolume:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_123CC2:
+CrowdTicks:
         db 0FFh,0FFh,0FFh,0FFh,00h,00h
-dword_123CC8:
+SndMixMode:
         db 00h,00h,00h,00h
-dword_123CCC:
+StereoPanCurve:
         db 096h,00h,00h,00h,08Ch,00h,00h,00h,082h,00h,00h,00h,078h,00h,00h,00h
         db 06Eh,00h,00h,00h
-off_123CE0:
-        dd sub_C187A
-off_123CE4:
-        dd sub_C187C
-off_123CE8:
-        dd sub_C187C
-off_123CEC:
-        dd sub_C187D
-        dd sub_C1882
-        dd sub_CE90E
-        dd sub_CE980
+SndDriverTable:
+        dd NullDriverOpen
+SndDriverClose:
+        dd NullDriverReturn
+SndDriverService:
+        dd NullDriverReturn
+SndDriverQuery:
+        dd NullDriverQuery
+        dd NullDriverEnd
+        dd GusDriverOpen
+        dd GusDriverClose
         dd GusDriverUpdate
-        dd sub_CEA10
-        dd sub_CEA28
-        dd sub_CE3B6
-        dd sub_CE5D5
-        dd sub_CE60C
-        dd sub_CE647
-        dd sub_CE65F
-        dd sub_CEA3B
-        dd sub_CEB8D
-        dd sub_CEC0A
-        dd sub_CEC45
-        dd sub_CEC5D
-        dd sub_CEDDE
-        dd sub_CEFEE
-        dd sub_CF025
-        dd sub_CF060
-        dd sub_CF078
-        dd sub_CF2D8
-        dd sub_CF4CD
-        dd sub_CF534
-        dd sub_CF56F
-        dd sub_CF587
+        dd GusDriverQuery
+        dd GusDriverEnd
+        dd WssOpen
+        dd WssClose
+        dd WssService
+        dd WssQuery
+        dd WssEnd
+        dd SbOpen
+        dd SbClose
+        dd SbService
+        dd SbQuery
+        dd SbEnd
+        dd SbProOpen
+        dd SbProClose
+        dd SbProService
+        dd SbProQuery
+        dd SbProEnd
+        dd Sb16Open
+        dd Sb16Close
+        dd Sb16Service
+        dd Sb16Query
+        dd Sb16End
         dd str_spEACSNDFLIB32BitSoundLibr
-dword_123D5C:
+NextSndChannel:
         db 00h,00h,00h,00h
-dword_123D60:
+SndTimerAdded:
         db 00h,00h,00h,00h
-dword_123D64:
+SndExitHandlerAdded:
         db 00h,00h,00h,00h
-off_123D68:
+SndCardNameNone:
         dd str_NoCardInstalled
-off_123D6C:
+SndCardNameSb10:
         dd str_SoundBlaster10
-off_123D70:
+SndCardNameSb15:
         dd str_SoundBlaster15
-off_123D74:
+SndCardNameSb20:
         dd str_SoundBlaster20
-off_123D78:
+SndCardNameSbPro10:
         dd str_SoundBlasterPro10
-off_123D7C:
+SndCardNameSbPro20:
         dd str_SoundBlasterPro20
-off_123D80:
+SndCardNameSb16:
         dd str_SoundBlaster16
-off_123D84:
+SndCardNameGus:
         dd str_GravisUltraSound
-off_123D88:
+SndCardNameWss:
         dd str_WindowsSoundSystem
-dword_123D8C:
+TgvFrames:
         db 00h,00h,00h,00h
-dword_123D90:
+TgvTotalFrames:
         db 00h,00h,00h,00h
-dword_123D94:
+TgvRateTicks:
         db 00h,00h,00h,00h
-dword_123D98:
+TgvTotalTicks:
         db 00h,00h,00h,00h
-dword_123D9C:
+TgvFrameRate:
         db 00h,00h,00h,00h
-dword_123DA0:
+TgvFirstPeriod:
         db 00h,00h,00h,00h

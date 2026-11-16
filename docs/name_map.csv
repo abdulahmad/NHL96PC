@@ -1216,16 +1216,92 @@ BF534,initgraphics,,95PC,medium,NHL95PC 8E080 (sem): S:initgraphics - INITMEMMAN
 BF8A8,TranslatePixels,sub_BF8A8,new,low,translates a run of 8-bit pixels through a table,src/lib/ea/ea_vesa_init.asm
 BF8D0,SumRingRange,sub_BF8D0,new,low,sums a range of entries of a circular table,src/lib/ea/ea_vesa_init.asm
 BF949,abs_,,WATCOM,high,IDA FLIRT library signature,
+BF950,SpeechQueueService,sub_BF950,new,medium,speech queue tick: starts the next queued clip on the other speech channel when the current one is nearly done,src/lib/watcom/watcom_clib_08.asm
+BF9FE,ClearSpeechSlot,sub_BF9FE,new,medium,clears one speech queue slot,src/lib/watcom/watcom_clib_08.asm
+BFA05,ResetSpeechQueue,sub_BFA05,new,medium,empties the speech queue and selects the first speech channel,src/lib/watcom/watcom_clib_08.asm
+BFA45,OpenSpeechQueue,sub_BFA45,new,medium,sets up the speech queue on two sound channels with a volume,src/lib/watcom/watcom_clib_08.asm
+BFAD5,SetSpeechQueueVolume,,new,medium,sets the speech queue volume and applies it to the playing channel,src/lib/watcom/watcom_clib_08.asm
+BFAF5,AddSpeechQueueClip,sub_BFAF5,new,medium,adds a clip to the speech queue with the percentage of it left when the next clip starts,src/lib/watcom/watcom_clib_08.asm
+BFB53,SpeechQueueBusy,sub_BFB53,new,medium,"returns 1 while the speech queue is playing, -1 if it is not open",src/lib/watcom/watcom_clib_08.asm
+BFB74,StartSpeechQueue,sub_BFB74,new,medium,starts playing the speech queue,src/lib/watcom/watcom_clib_08.asm
+BFB7C,FlushSpeechQueue,sub_BFB7C,new,medium,stops both speech channels and empties the queue,src/lib/watcom/watcom_clib_08.asm
+BFBE3,CloseSpeechQueue,sub_BFBE3,new,medium,stops both speech channels and closes the speech queue,src/lib/watcom/watcom_clib_08.asm
+BFC16,FadeChannelVolume,sub_BFC16,new,medium,starts a volume fade on a sound channel towards a target over a number of ticks,src/lib/watcom/watcom_clib_08.asm
+BFC91,SetChannelVolume,sub_BFC91,new,medium,sets a sound channel's volume (0-127) and updates the mixer,src/lib/watcom/watcom_clib_08.asm
+BFDB8,SetChannelBend,sub_BFDB8,new,medium,sets a sound channel's pitch bend (0-127) and updates its playback rate,src/lib/watcom/watcom_clib_08.asm
+BFE4C,StopSoundChannel,sub_BFE4C,new,medium,stops a sound channel; stopping the stream channel also frees its packets,src/lib/watcom/watcom_clib_08.asm
+BFF52,ChannelSamplesLeft,sub_BFF52,new,medium,returns how many samples a sound channel has left to play,src/lib/watcom/watcom_clib_08.asm
+BFF8F,ChannelIdle,sub_BFF8F,new,medium,returns 1 when a sound channel is not playing,src/lib/watcom/watcom_clib_08.asm
+BFFCE,OpenAudioStream,sub_BFFCE,new,medium,reads an audio stream header packet and sets up the stream channel,src/lib/watcom/watcom_clib_08.asm
+C011D,QueueStreamPacket,sub_C011D,new,medium,appends a packet to the audio stream packet list,src/lib/watcom/watcom_clib_08.asm
+C01C9,AudioStreamCallback,sub_C01C9,new,medium,mixer callback: hands the next stream packet's samples to the mixer,src/lib/watcom/watcom_clib_08.asm
+C0252,InitAudioStream,sub_C0252,new,medium,resets the audio stream state before a new stream,src/lib/watcom/watcom_clib_08.asm
+C02D6,StartAudioStream,sub_C02D6,new,medium,starts the stream channel once its header has been read,src/lib/watcom/watcom_clib_08.asm
 C032E,FeedAudioStream,sub_C032E,new,low,feeds a packet to an audio stream,src/lib/watcom/watcom_clib_08.asm
+C03EA,AudioStreamActive,sub_C03EA,new,medium,returns 1 while an audio stream is open,src/lib/watcom/watcom_clib_08.asm
+C03F8,FlushAudioStream,sub_C03F8,new,medium,marks every queued stream packet as free,src/lib/watcom/watcom_clib_08.asm
+C0423,AudioStreamPosition,sub_C0423,new,medium,"returns the queued stream length in bytes, samples or time",src/lib/watcom/watcom_clib_08.asm
+C04AE,AudioStreamPacketsPlayed,sub_C04AE,new,medium,returns how many stream packets have played,src/lib/watcom/watcom_clib_08.asm
+C04C3,RegisterSfxBank,sub_C04C3,new,medium,adds a loaded sound effect bank and fixes up its sample pointers,src/lib/watcom/watcom_clib_08.asm
+C0578,UnregisterSfxBank,sub_C0578,new,medium,"removes one sound effect bank, or all of them for -1",src/lib/watcom/watcom_clib_08.asm
+C0603,PlaySfxFull,sub_C0603,new,medium,"plays a sound effect at full volume, centred",src/lib/watcom/watcom_clib_08.asm
+C061E,PlaySfxVolume,sub_C061E,new,medium,"plays a sound effect at a volume, centred",src/lib/watcom/watcom_clib_08.asm
+C0641,PlaySfxPanned,sub_C0641,new,medium,"plays a sound effect with pan, volume and pitch; stereo effects use two channels",src/lib/watcom/watcom_clib_08.asm
+C0727,StartSfxChannel,sub_C0727,new,medium,picks a free channel and starts one sound effect sample on it,src/lib/watcom/watcom_clib_08.asm
+C08DA,RandomSpread,sub_C08DA,new,medium,returns a random value between minus and plus the given range,src/lib/watcom/watcom_clib_08.asm
+C08F5,PauseCrowdChannels,sub_C08F5,new,medium,stops the crowd channels and marks the crowd paused,src/lib/watcom/watcom_clib_08.asm
+C0902,ResumeCrowdChannels,sub_C0902,new,medium,restarts the crowd channels and fades them in over a number of ticks,src/lib/watcom/watcom_clib_08.asm
+C0944,SetCrowdLayerLevels,sub_C0944,new,medium,sets each crowd layer's volume and bend from the crowd excitement and intensity,src/lib/watcom/watcom_clib_08.asm
+C0AD7,SetCrowdRampRate,sub_C0AD7,new,medium,works out how fast the crowd excitement moves towards its goal,src/lib/watcom/watcom_clib_08.asm
+C0BCD,CrowdService,sub_C0BCD,new,medium,crowd tick: fades the crowd volume and moves excitement and intensity,src/lib/watcom/watcom_clib_08.asm
+C0D7E,TriggerCrowdEvent,sub_C0D7E,new,medium,raises the crowd excitement for an event and plays its sound effect,src/lib/watcom/watcom_clib_08.asm
+C0E2D,SetCrowdIntensity,sub_C0E2D,new,medium,sets the crowd intensity target (0-127),src/lib/watcom/watcom_clib_08.asm
+C0E3C,CloseCrowdSound,sub_C0E3C,new,medium,stops the crowd and unloads its bank,src/lib/watcom/watcom_clib_08.asm
+C0E49,LoadCrowdBank,sub_C0E49,new,medium,copies a crowd bank header and sets up its layers,src/lib/watcom/watcom_clib_08.asm
+C0F09,SetCrowdVolume,sub_C0F09,new,medium,sets the crowd volume (0-127),src/lib/watcom/watcom_clib_08.asm
+C0F30,StartCrowdSound,sub_C0F30,new,medium,starts every crowd layer at a volume and plays the opening crowd event,src/lib/watcom/watcom_clib_08.asm
+C1008,StopCrowdChannels,sub_C1008,new,medium,stops every crowd layer channel,src/lib/watcom/watcom_clib_08.asm
+C1051,StartChannelSample,sub_C1051,new,medium,"hands a channel's sample to the mixer with its format, rate and pan volumes",src/lib/watcom/watcom_clib_08.asm
+C1104,ChannelPanVolumes,sub_C1104,new,medium,returns a channel's left and right volumes from its pan and gain,src/lib/watcom/watcom_clib_08.asm
+C1183,PanVolumes,sub_C1183,new,medium,returns left and right volumes for a pan and volume,src/lib/watcom/watcom_clib_08.asm
+C11EF,SplitStereoPan,sub_C11EF,new,medium,works out the two pans and volumes for a stereo sound effect,src/lib/watcom/watcom_clib_08.asm
+C12C8,BendSampleRate,sub_C12C8,new,medium,applies a pitch bend to a sample rate,src/lib/watcom/watcom_clib_08.asm
+C1322,PickOutputRate,sub_C1322,new,medium,rounds a sample rate to the nearest standard output rate within the card's limit,src/lib/watcom/watcom_clib_08.asm
+C13B1,DetectBlasterCard,sub_C13B1,new,medium,reads the BLASTER variable and the DSP version to pick a Sound Blaster driver,src/lib/watcom/watcom_clib_08.asm
+C1410,DetectWssCard,sub_C1410,new,medium,probes the usual ports for a Windows Sound System card,src/lib/watcom/watcom_clib_08.asm
+C144B,DetectSoundDriver,sub_C144B,new,medium,"picks a sound driver: Sound Blaster, Gravis or Windows Sound System",src/lib/watcom/watcom_clib_08.asm
 C157F,SndSetDriver,sub_C157F,new,medium,sound library: make a driver table entry current,src/lib/watcom/watcom_clib_08.asm
+C1614,AllocSoundChannel,sub_C1614,new,medium,"picks a free channel from a mask, or the lowest priority one",src/lib/watcom/watcom_clib_08.asm
+C17C6,SetSoundMixMode,sub_C17C6,new,low,stores the mix mode and passes it to the mixer,src/lib/watcom/watcom_clib_08.asm
+C1811,CallDriverService,sub_C1811,new,medium,calls the current driver's service entry,src/lib/watcom/watcom_clib_08.asm
+C181F,SndCloseDriver,sub_C181F,new,medium,"closes the current driver, removes the timer and frees every channel and bank",src/lib/watcom/watcom_clib_08.asm
+C187A,NullDriverOpen,sub_C187A,new,medium,entry for the no-card driver: succeeds,src/lib/watcom/watcom_clib_08.asm
+C187C,NullDriverReturn,sub_C187C,new,medium,entry for the no-card driver: does nothing,src/lib/watcom/watcom_clib_08.asm
+C187D,NullDriverQuery,sub_C187D,new,medium,entry for the no-card driver: returns -1,src/lib/watcom/watcom_clib_08.asm
+C1882,NullDriverEnd,sub_C1882,new,medium,entry for the no-card driver: does nothing,src/lib/watcom/watcom_clib_08.asm
 C1890,BuildHuffTable,sub_C1890,new,low,TGV video: builds a Huffman decoding table,src/lib/watcom/watcom_clib_08.asm
 C1920,DecodeHuffRuns,sub_C1920,new,low,TGV video: decodes Huffman coded runs,src/lib/watcom/watcom_clib_08.asm
+C1A2C,TgvDecodeDeltaFrame,sub_C1A2C,new,medium,decodes a TGV video delta frame with its Huffman coded blocks,src/lib/watcom/watcom_clib_08.asm
+C1D48,TgvDecodeKeyFrame,sub_C1D48,new,medium,decodes a TGV video key frame,src/lib/watcom/watcom_clib_08.asm
+C1FC0,TgvAllocDecoder,sub_C1FC0,new,medium,allocates and clears a TGV video decoder,src/lib/watcom/watcom_clib_08.asm
+C1FEC,TgvDecodeFrame,sub_C1FEC,new,medium,"decodes one TGV video frame chunk, key or delta",src/lib/watcom/watcom_clib_08.asm
+C204C,TgvFreeDecoder,sub_C204C,new,medium,frees a TGV video decoder and its buffers,src/lib/watcom/watcom_clib_08.asm
+C20E0,TgvShowFrameRate,sub_C20E0,new,medium,counts frames and prints the playback rate and average,src/lib/watcom/watcom_clib_08.asm
 C2248,fini_void_,,WATCOM,high,IDA FLIRT library signature,
+C2268,TgvResetFrameRate,sub_C2268,new,medium,resets the frame rate counters,src/lib/watcom/watcom_clib_08.asm
+C2290,TgvBlitFrame,sub_C2290,new,medium,"copies a decoded TGV frame to the screen, clipped",src/lib/watcom/watcom_clib_08.asm
+C2440,DisableInterrupts,sub_C2440,new,high,disables interrupts,src/lib/watcom/watcom_clib_08.asm
+C2442,EnableInterrupts,sub_C2442,new,high,enables interrupts,src/lib/watcom/watcom_clib_08.asm
 C2444,getcwd_,,WATCOM,high,IDA FLIRT library signature,
+C24D0,CopyRowKeyed,sub_C24D0,new,medium,row copier that skips colour 0FFh pixels,src/lib/watcom/watcom_clib_08.asm
+C2500,DrawArtKeyed,sub_C2500,new,medium,"draws art, skipping colour 0FFh when keyed drawing is on",src/lib/watcom/watcom_clib_08.asm
+C254C,DrawArtKeyedAtOrigin,sub_C254C,new,medium,"draws art at its own origin, skipping colour 0FFh when keyed drawing is on",src/lib/watcom/watcom_clib_08.asm
+C2600,PutBlockKeyed,sub_C2600,new,medium,"puts a block, skipping colour 0FFh when keyed drawing is on",src/lib/watcom/watcom_clib_08.asm
 C26F9,_Alphabet,,WATCOM,high,IDA FLIRT library signature,
 C271E,utoa_,,WATCOM,high,IDA FLIRT library signature,
 C2768,itoa_,,WATCOM,high,IDA FLIRT library signature,
 C2784,memcmp_,,WATCOM,high,IDA FLIRT library signature,
+C27A4,PrintScreenInt,sub_C27A4,new,medium,calls the BIOS print screen interrupt,src/lib/watcom/watcom_clib_08.asm
 C2C7C,DosGetVector,sub_C2C7C,new,low,reads an interrupt vector through DOS,src/lib/ea/ea_kbd_exit.asm
 C2C94,DosSetVector,sub_C2C94,new,low,sets an interrupt vector through DOS,src/lib/ea/ea_kbd_exit.asm
 C2CB0,ErrnoPtr,sub_C2CB0,new,low,returns the address of errno,src/lib/watcom/watcom_clib_09.asm
@@ -1341,11 +1417,74 @@ CC728,MixerCalcStep,sub_CC728,new,low,converts a pitch to the channel's fixed-po
 CC7A1,MixerBuildVolumeTables,sub_CC7A1,new,low,builds the 128 volume tables that scale each 8-bit sample value,src/lib/watcom/watcom_clib_14.asm
 CE06B,ParseHexValue,sub_CE06B,new,low,parses a hexadecimal setting value,src/lib/sound/snd_soundblaster.asm
 CE0A9,ParseBlasterEnv,sub_CE0A9,new,medium,parses the BLASTER environment string,src/lib/sound/snd_soundblaster.asm
+CE1DA,SbDelay,sub_CE1DA,new,medium,short delay: reads the Sound Blaster status port 100 times,src/lib/sound/snd_soundblaster.asm
 CE1F3,SbWaitRead,sub_CE1F3,new,medium,waits for the Sound Blaster DSP to have data,src/lib/sound/snd_soundblaster.asm
+CE220,SbWriteDsp,sub_CE220,new,medium,waits for the Sound Blaster DSP to be ready and writes a byte to it,src/lib/sound/snd_soundblaster.asm
+CE254,SbProSetStereo,sub_CE254,new,medium,sets the Sound Blaster Pro stereo bit in mixer register 0Eh and returns the old one,src/lib/sound/snd_soundblaster.asm
+CE285,SbProSetFilter,sub_CE285,new,medium,sets the Sound Blaster Pro output filter bit in mixer register 0Eh and returns the old one,src/lib/sound/snd_soundblaster.asm
 CE2B6,SbResetDsp,sub_CE2B6,new,low,resets the Sound Blaster DSP,src/lib/sound/snd_soundblaster.asm
+CE2E8,SbDspVersion,sub_CE2E8,new,medium,asks the DSP for its version number,src/lib/sound/snd_soundblaster.asm
+CE31C,SbSetTimeConstant,sub_CE31C,new,medium,sets the DSP time constant for a sample rate and channel count,src/lib/sound/snd_soundblaster.asm
+CE3B6,WssOpen,sub_CE3B6,new,medium,"Windows Sound System driver open: picks the rate, allocates the DMA buffer and starts output",src/lib/sound/snd_soundblaster.asm
+CE5D5,WssClose,sub_CE5D5,new,medium,Windows Sound System driver close,src/lib/sound/snd_soundblaster.asm
+CE60C,WssService,sub_CE60C,new,medium,Windows Sound System driver service: refills the half of the DMA buffer just played,src/lib/sound/snd_soundblaster.asm
+CE647,WssQuery,sub_CE647,new,medium,"Windows Sound System driver query: card id, rate or format flags",src/lib/sound/snd_soundblaster.asm
+CE65F,WssEnd,sub_CE65F,new,medium,Windows Sound System driver end entry: does nothing,src/lib/sound/snd_soundblaster.asm
+CE660,WssQueryRate,,new,medium,query answer: output rate,src/lib/sound/snd_soundblaster.asm
+CE666,WssQueryFormat,,new,medium,query answer: 16-bit stereo,src/lib/sound/snd_soundblaster.asm
+CE66C,WssQueryNone,,new,medium,query answer: unknown query,src/lib/sound/snd_soundblaster.asm
+CE672,WssSetupCard,sub_CE672,new,medium,finds the Windows Sound System card and sets its DMA channel from WSSDMA,src/lib/sound/snd_soundblaster.asm
+CE709,WssProbePort,sub_CE709,new,medium,checks for a Windows Sound System card at a base port,src/lib/sound/snd_soundblaster.asm
+CE780,GusDetect,sub_CE780,new,medium,reads the Gravis settings and probes the card,src/lib/sound/snd_soundblaster.asm
+CE7C4,GusStart,sub_CE7C4,new,medium,"allocates the Gravis DMA buffer, opens the card and starts the output stream",src/lib/sound/snd_soundblaster.asm
+CE90E,GusDriverOpen,sub_CE90E,new,medium,Gravis driver open,src/lib/sound/snd_soundblaster.asm
+CE980,GusDriverClose,sub_CE980,new,medium,Gravis driver close,src/lib/sound/snd_soundblaster.asm
 CE9D9,GusDriverUpdate,sub_CE9D9,new,low,mixes the next half buffer and copies it to the card while the stream runs,src/lib/sound/snd_soundblaster.asm
+CEA10,GusDriverQuery,sub_CEA10,new,medium,"Gravis driver query: card id, rate or format flags",src/lib/sound/snd_soundblaster.asm
+CEA28,GusDriverEnd,sub_CEA28,new,medium,Gravis driver end entry: does nothing,src/lib/sound/snd_soundblaster.asm
+CEA29,GusQueryRate,,new,medium,query answer: output rate,src/lib/sound/snd_soundblaster.asm
+CEA2F,GusQueryFormat,,new,medium,query answer: format flags,src/lib/sound/snd_soundblaster.asm
+CEA35,GusQueryNone,,new,medium,query answer: unknown query,src/lib/sound/snd_soundblaster.asm
+CEA3B,SbOpen,sub_CEA3B,new,medium,"Sound Blaster driver open: reads BLASTER, allocates the DMA buffer and starts output",src/lib/sound/snd_soundblaster.asm
+CEB8D,SbClose,sub_CEB8D,new,medium,Sound Blaster driver close: stops DMA and restores the interrupt,src/lib/sound/snd_soundblaster.asm
+CEC0A,SbService,sub_CEC0A,new,medium,Sound Blaster driver service: refills the half of the DMA buffer just played,src/lib/sound/snd_soundblaster.asm
+CEC45,SbQuery,sub_CEC45,new,medium,"Sound Blaster driver query: DSP version, rate or format flags",src/lib/sound/snd_soundblaster.asm
+CEC5D,SbEnd,sub_CEC5D,new,medium,Sound Blaster driver end entry: does nothing,src/lib/sound/snd_soundblaster.asm
+CEC5E,SbQueryRate,,new,medium,query answer: output rate,src/lib/sound/snd_soundblaster.asm
+CEC64,SbQueryFormat,,new,medium,query answer: 8-bit mono,src/lib/sound/snd_soundblaster.asm
+CEC67,SbQueryNone,,new,medium,query answer: unknown query,src/lib/sound/snd_soundblaster.asm
+CEC6D,SbStartDma,sub_CEC6D,new,medium,"resets the DSP, hooks the interrupt and starts DMA output",src/lib/sound/snd_soundblaster.asm
+CEDDE,SbProOpen,sub_CEDDE,new,medium,"Sound Blaster Pro driver open: reads BLASTER, allocates the DMA buffer and starts output",src/lib/sound/snd_soundblaster.asm
+CEFEE,SbProClose,sub_CEFEE,new,medium,Sound Blaster Pro driver close,src/lib/sound/snd_soundblaster.asm
+CF025,SbProService,sub_CF025,new,medium,Sound Blaster Pro driver service: refills the half of the DMA buffer just played,src/lib/sound/snd_soundblaster.asm
+CF060,SbProQuery,sub_CF060,new,medium,"Sound Blaster Pro driver query: DSP version, rate or format flags",src/lib/sound/snd_soundblaster.asm
+CF078,SbProEnd,sub_CF078,new,medium,Sound Blaster Pro driver end entry: does nothing,src/lib/sound/snd_soundblaster.asm
+CF079,SbProQueryRate,,new,medium,query answer: output rate,src/lib/sound/snd_soundblaster.asm
+CF07F,SbProQueryFormat,,new,medium,query answer: format flags,src/lib/sound/snd_soundblaster.asm
+CF085,SbProQueryNone,,new,medium,query answer: unknown query,src/lib/sound/snd_soundblaster.asm
+CF08B,SbProStartDma,sub_CF08B,new,medium,"hooks the interrupt, sets stereo and the filter and starts high speed DMA output",src/lib/sound/snd_soundblaster.asm
+CF255,SbProStopDma,sub_CF255,new,medium,"stops DMA, restores the mixer bits and the interrupt",src/lib/sound/snd_soundblaster.asm
+CF2D8,Sb16Open,sub_CF2D8,new,medium,"Sound Blaster 16 driver open: reads BLASTER, allocates the DMA buffer and starts output",src/lib/sound/snd_soundblaster.asm
+CF4CD,Sb16Close,sub_CF4CD,new,medium,Sound Blaster 16 driver close,src/lib/sound/snd_soundblaster.asm
+CF534,Sb16Service,sub_CF534,new,medium,Sound Blaster 16 driver service: refills the half of the DMA buffer just played,src/lib/sound/snd_soundblaster.asm
+CF56F,Sb16Query,sub_CF56F,new,medium,"Sound Blaster 16 driver query: DSP version, rate or format flags",src/lib/sound/snd_soundblaster.asm
+CF587,Sb16End,sub_CF587,new,medium,Sound Blaster 16 driver end entry: does nothing,src/lib/sound/snd_soundblaster.asm
+CF588,Sb16QueryRate,,new,medium,query answer: output rate,src/lib/sound/snd_soundblaster.asm
+CF58E,Sb16QueryFormat,,new,medium,query answer: format flags,src/lib/sound/snd_soundblaster.asm
+CF594,Sb16QueryNone,,new,medium,query answer: unknown query,src/lib/sound/snd_soundblaster.asm
+CF59A,Sb16StartDma,sub_CF59A,new,medium,hooks the interrupt and starts auto-init DMA output at the rate,src/lib/sound/snd_soundblaster.asm
+CF68D,Sb16StopDma,sub_CF68D,new,medium,stops DMA and restores the interrupt,src/lib/sound/snd_soundblaster.asm
+CF6C9,SndTimerCallback,sub_CF6C9,new,medium,sound timer callback: runs the sound tick unless it is already running or held,src/lib/sound/snd_soundblaster.asm
+CF6ED,SndTimerTick,sub_CF6ED,new,medium,"sound tick: services speech, crowd, the stream, channel fades and time limits, then the driver",src/lib/sound/snd_soundblaster.asm
 CF7C0,TgvCopyBlock,sub_CF7C0,new,low,movie decoder: copies a block,src/lib/sound/snd_soundblaster.asm
 CF864,TgvFillBlock,sub_CF864,new,low,movie decoder: fills a block,src/lib/sound/snd_soundblaster.asm
+CF918,GatherPlaneBytes,sub_CF918,new,medium,"copies every fourth byte of a row, for one video plane",src/lib/sound/snd_soundblaster.asm
+CFA64,DrawArtKeyedAt,sub_CFA64,new,medium,"draws art at a position without clipping, skipping colour 0FFh",src/lib/sound/snd_soundblaster.asm
+CFA98,DrawArtKeyedRows,,new,medium,row loop that draws art skipping colour 0FFh,src/lib/sound/snd_soundblaster.asm
+CFB14,PutBlockKeyedAt,sub_CFB14,new,medium,"puts a block at a position, clipped, skipping colour 0FFh",src/lib/sound/snd_soundblaster.asm
+CFB48,PutBlockKeyedRows,,new,medium,clipped row loop that puts a block skipping colour 0FFh,src/lib/sound/snd_soundblaster.asm
+CFCC0,CopyRowKeyedRemap,sub_CFCC0,new,medium,row copier that remaps colours and skips colour 0FFh,src/lib/sound/snd_soundblaster.asm
+CFCF8,DrawArtKeyedRemap,sub_CFCF8,new,medium,"draws art through the colour remap, skipping colour 0FFh when keyed drawing is on",src/lib/sound/snd_soundblaster.asm
 CFDF1,__setEFGfmt_,,WATCOM,high,IDA FLIRT library signature,
 CFEB0,memset_,,WATCOM,high,IDA FLIRT library signature,
 CFEC8,__InitFiles_,,WATCOM,high,IDA FLIRT library signature,
@@ -1577,6 +1716,10 @@ D7104,GusStreamVoiceIrq,sub_D7104,new,low,voice interrupt callback for the strea
 D721B,GusServiceStream,sub_D721B,new,low,refills every streaming channel that its voice interrupt flagged,src/lib/sound/snd_gus_sdk_01.asm
 D7267,GusStartStream,sub_D7267,new,low,"sets up the double-buffered stream in card memory, loads both halves and starts the looping voices",src/lib/sound/snd_gus_sdk_01.asm
 D788C,GusStopStreamVoices,sub_D788C,new,low,stops both streaming voices and clears the stream state,src/lib/sound/snd_gus_sdk_01.asm
+D7970,SbIsrSingle,sub_D7970,new,medium,Sound Blaster interrupt handler for single-cycle DMA,src/lib/sound/snd_gus_sdk_01.asm
+D79CC,SbIsrAutoInit,sub_D79CC,new,medium,Sound Blaster interrupt handler for auto-init DMA,src/lib/video/vesa_banked_blit_01.asm
+D79E7,SbProIsr,,new,medium,Sound Blaster Pro interrupt handler,src/lib/video/vesa_banked_blit_01.asm
+D7A04,Sb16Isr,,new,medium,Sound Blaster 16 interrupt handler,src/lib/video/vesa_banked_blit_01.asm
 D7AD5,_EFG_Format_,,WATCOM,high,IDA FLIRT library signature,
 D7BB2,forcedecpt_,,WATCOM,high,IDA FLIRT library signature,
 D7BFA,__cnvs2d_,,WATCOM,high,IDA FLIRT library signature,
@@ -3747,6 +3890,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11FD58,SerialPortTable,off_11FD58,new,medium,serial port record per COM port,src/data/lib/watcom/watcom_clib_03_data_01.asm
 11FD6A,SerialPorts,unk_11FD6A,new,medium,"serial port records, one per COM port (44Ch bytes each)",src/data/lib/watcom/watcom_clib_03_data_01.asm
 120E9A,SerialBaudDivisors,word_120E9A,new,medium,baud rate divisor table,src/data/lib/watcom/watcom_clib_03_data_01.asm
+1210C0,RowCopyFunc,dword_1210C0,new,medium,routine that copies one row when drawing art,src/data/lib/watcom/watcom_clib_03_data_01.asm
 1210D0,SavedBreakOffset,dword_1210D0,new,medium,previous ctrl-break handler offset,src/data/lib/input/input_joystick_misc_01_data_02.asm
 1210D4,SavedBreakSelector,word_1210D4,new,medium,previous ctrl-break handler selector,src/data/lib/input/input_joystick_misc_01_data_02.asm
 1210D6,BreakCallFunc,dword_1210D6,new,low,ctrl-break chain routine,src/data/lib/input/input_joystick_misc_01_data_02.asm
@@ -3778,11 +3922,13 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1228DC,ClipLeftCol,dword_1228DC,new,low,left of the clip window,src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228E0,ClipRight,dword_1228E0,new,low,right of the clip window,src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228E4,ScreenHeight,dword_1228E4,new,low,screen height in pixels,src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228F4,KeyedDraw,dword_1228F4,new,medium,set to skip colour 0FFh when drawing art,src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228F8,DrawDestBuffer,dword_1228F8,new,medium,buffer drawing routines write to,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122900,BackBufferWidth,dword_122900,new,low,back buffer width,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122B90,str_BK,dword_122B90,new,medium,"string ""BK""",src/data/lib/watcom/watcom_clib_05_data_04.asm
 123984,__8087,byte_123984,95PC,medium,same code as in the next game,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123985,FpuType,byte_123985,new,low,FPU type found at start up,src/data/lib/watcom/watcom_clib_05_data_04.asm
+123988,ColourRemap,byte_123988,new,medium,"colour remap table, 256 entries",src/data/lib/watcom/watcom_clib_05_data_04.asm
 123A8C,BlitColumnOffsets,dword_123A8C,new,medium,column offset table of the span copy,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123A90,BlitSourcePtr,dword_123A90,new,medium,source pointer of the span copy,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123A94,ViewCenterX,dword_123A94,new,medium,view center X,src/data/lib/input/input_joystick_misc_02_data_02.asm
@@ -3794,6 +3940,64 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 123AB4,CameraOriginX,dword_123AB4,new,medium,view origin X used by the camera,src/data/lib/input/input_joystick_misc_02_data_02.asm
 123AB8,CameraOriginY,dword_123AB8,new,medium,view origin Y used by the camera,src/data/lib/input/input_joystick_misc_02_data_02.asm
 123AC4,RetraceTimeout,dword_123AC4,new,low,loop count before giving up on vertical retrace,src/data/lib/input/input_joystick_misc_02_data_02.asm
+123B10,SpeechQueue,dword_123B10,new,medium,speech queue: 20 slots of clip and lead samples,src/data/lib/input/input_joystick_misc_02_data_02.asm
+123B14,SpeechQueueLead,dword_123B14,new,medium,"samples left when the next queued clip starts, per slot",src/data/lib/input/input_joystick_misc_02_data_02.asm
+123BB0,SpeechQueueWrite,dword_123BB0,new,medium,speech queue write index,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BB4,SpeechQueueRead,dword_123BB4,new,medium,speech queue read index,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BB8,SpeechQueuePlaying,byte_123BB8,new,medium,set while the speech queue plays,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BB9,SpeechQueueVolume,dword_123BB9,new,medium,speech queue volume,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BBD,SpeechChannelA,dword_123BBD,new,medium,first speech channel,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BC1,SpeechChannelB,dword_123BC1,new,medium,second speech channel,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BC5,SpeechChannelCur,dword_123BC5,new,medium,speech channel now playing,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BCC,StreamState,dword_123BCC,new,medium,"audio stream state: 0 closed, 2 playing, 3 waiting for its header",src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BD0,StreamChannel,dword_123BD0,new,medium,audio stream sound channel,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BD4,StreamFrameBytes,dword_123BD4,new,medium,audio stream bytes per sample frame,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BD8,StreamSampleRate,dword_123BD8,new,medium,audio stream sample rate,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BDC,StreamVolume,dword_123BDC,new,medium,audio stream volume,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BE0,StreamOwner,dword_123BE0,new,low,value passed when the audio stream was set up,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BE4,StreamHeader,dword_123BE4,new,medium,audio stream header,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BE8,StreamPacketsPlayed,dword_123BE8,new,medium,audio stream packets played,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BEC,StreamSampleScale,dword_123BEC,new,medium,audio stream sample size factor,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BF0,SfxBanks,dword_123BF0,new,medium,loaded sound effect banks,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C04,CrowdLoaded,byte_123C04,new,medium,set once a crowd bank is loaded,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C05,CrowdPaused,byte_123C05,new,medium,set while the crowd is paused,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C06,CrowdVolume,dword_123C06,new,medium,crowd volume,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C0A,CrowdIntensityGoal,dword_123C0A,new,medium,crowd intensity target,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C0E,CrowdRampMode,dword_123C0E,new,medium,"crowd excitement ramp: 0 rising to an event, 1 holding, 2 drifting",src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C12,CrowdEvent,dword_123C12,new,medium,current crowd event,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C16,CrowdFadeStep,dword_123C16,new,medium,crowd fade-in step,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C1A,CrowdFadeGoal,dword_123C1A,new,medium,crowd fade-in target volume,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C1E,CrowdFadeLevel,dword_123C1E,new,medium,crowd fade-in level,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C22,VolumeCurve,byte_123C22,new,medium,"volume curve, 128 steps",src/data/lib/watcom/watcom_clib_08_data_02.asm
+123C9E,CrowdLastBendStore,dword_123C9E,new,low,store index for each layer's last bend (one entry ahead),src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CA2,CrowdLastBend,dword_123CA2,new,medium,last bend sent for each crowd layer,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CAE,CrowdLastVolumeStore,dword_123CAE,new,low,store index for each layer's last volume (one entry ahead),src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CB2,CrowdLastVolume,dword_123CB2,new,medium,last volume sent for each crowd layer,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CC2,CrowdTicks,dword_123CC2,new,medium,crowd tick count,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CC8,SndMixMode,dword_123CC8,new,low,sound mix mode,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CCC,StereoPanCurve,dword_123CCC,new,medium,stereo spread percentages near the pan edges,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CE0,SndDriverTable,off_123CE0,new,medium,"driver entries (open, close, service, query, end) for each sound card",src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CE4,SndDriverClose,off_123CE4,new,medium,driver close entry,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CE8,SndDriverService,off_123CE8,new,medium,driver service entry,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123CEC,SndDriverQuery,off_123CEC,new,medium,driver query entry,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D5C,NextSndChannel,dword_123D5C,new,medium,channel the next search starts at,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D60,SndTimerAdded,dword_123D60,new,medium,set once the sound timer is added,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D64,SndExitHandlerAdded,dword_123D64,new,medium,set once the sound exit handler is added,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D68,SndCardNameNone,off_123D68,new,medium,card name: none,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D6C,SndCardNameSb10,off_123D6C,new,medium,card name: Sound Blaster 1.0,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D70,SndCardNameSb15,off_123D70,new,medium,card name: Sound Blaster 1.5,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D74,SndCardNameSb20,off_123D74,new,medium,card name: Sound Blaster 2.0,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D78,SndCardNameSbPro10,off_123D78,new,medium,card name: Sound Blaster Pro 1.0,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D7C,SndCardNameSbPro20,off_123D7C,new,medium,card name: Sound Blaster Pro 2.0,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D80,SndCardNameSb16,off_123D80,new,medium,card name: Sound Blaster 16,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D84,SndCardNameGus,off_123D84,new,medium,card name: Gravis UltraSound,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D88,SndCardNameWss,off_123D88,new,medium,card name: Windows Sound System,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D8C,TgvFrames,dword_123D8C,new,medium,frames since the last rate report,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D90,TgvTotalFrames,dword_123D90,new,medium,frames counted for the average rate,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D94,TgvRateTicks,dword_123D94,new,medium,ticks at the last rate report,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D98,TgvTotalTicks,dword_123D98,new,medium,ticks counted for the average rate,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123D9C,TgvFrameRate,dword_123D9C,new,medium,last frame rate,src/data/lib/watcom/watcom_clib_08_data_02.asm
+123DA0,TgvFirstPeriod,dword_123DA0,new,low,first rate period length,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123DF4,__iob,unk_123DF4,new,low,stdio stream table,src/data/lib/video/video_bios_vga_02_data_01.asm
 123E0E,__stdout_buf,unk_123E0E,new,low,stdout buffer,src/data/lib/video/video_bios_vga_02_data_01.asm
 123E35,__iob_flags,byte_123E35,new,low,stdio stream flags,src/data/lib/video/video_bios_vga_02_data_01.asm
@@ -3847,6 +4051,11 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1248C2,FpuCr0Bits,word_1248C2,new,low,saved CR0 coprocessor bits,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248C4,__real87,byte_1248C4,95PC,high,same code as in the next game,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248CC,snddriver,dword_1248CC,new,medium,the driver table index SndSetDriver made current (0: none),src/data/lib/video/video_bios_vga_03_data_01.asm
+1248D0,SpeechQueueOpen,byte_1248D0,new,medium,set while the speech queue is open,src/data/lib/video/video_bios_vga_03_data_01.asm
+1248D1,CrowdPlaying,byte_1248D1,new,medium,set while the crowd layers play,src/data/lib/video/video_bios_vga_03_data_01.asm
+1248D2,SndTickHold,dword_1248D2,new,low,non-zero to hold the sound tick,src/data/lib/video/video_bios_vga_03_data_01.asm
+1248D6,SndMaxRate,dword_1248D6,new,medium,highest output rate the card allows,src/data/lib/video/video_bios_vga_03_data_01.asm
+1248DA,SndMasterVolume,byte_1248DA,new,medium,master volume for every sound channel,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248DC,MixerVolumeLookup,dword_1248DC,new,medium,mixer volume lookup table,src/data/lib/watcom/watcom_clib_14_data_01.asm
 1448DC,MixerChannels,unk_1448DC,new,medium,mixer channel records (74h bytes each),src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EF9C,MixerReady,dword_14EF9C,new,low,mixer initialised,src/data/lib/watcom/watcom_clib_14_data_01.asm
@@ -3858,7 +4067,30 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 14EFC8,MixerLoopLimit,dword_14EFC8,new,medium,mixer loop limit,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFCC,MixerLoopStart,dword_14EFCC,new,medium,mixer loop start,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFDC,MixerChannelTable,off_14EFDC,new,low,mixer channel record per channel,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14F01C,WssDmaAlloc,dword_14F01C,new,medium,Windows Sound System DMA buffer allocation,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F020,WssRunning,dword_14F020,new,medium,set while Windows Sound System output runs,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F024,WssFormatBits,byte_14F024,new,medium,Windows Sound System format bits for each channel mode (3 byte rows),src/data/lib/sound/snd_soundblaster_data_02.asm
+14F025,WssMixFormat,byte_14F025,new,medium,mixer format for each channel mode,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F026,WssBytesPerFrame,byte_14F026,new,medium,bytes per sample frame for each channel mode,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F030,GusDriverIsOpen,dword_14F030,new,medium,set while the Gravis driver is open,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F034,GusDmaAlloc,dword_14F034,new,medium,Gravis DMA buffer allocation,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F038,GusEnvRead,dword_14F038,new,medium,set once the Gravis settings have been read,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F03C,GusCardFound,dword_14F03C,new,medium,set once the Gravis card has been found,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F040,SbRunning,dword_14F040,new,medium,set while Sound Blaster output runs,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F044,SbDmaAlloc,dword_14F044,new,medium,Sound Blaster DMA buffer allocation,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F048,SbProRunning,dword_14F048,new,medium,set while Sound Blaster Pro output runs,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F04C,SbProDmaAlloc,dword_14F04C,new,medium,Sound Blaster Pro DMA buffer allocation,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F050,SbProChannels,dword_14F050,new,medium,"Sound Blaster Pro channel count: 1 mono, 2 stereo",src/data/lib/sound/snd_soundblaster_data_02.asm
+14F054,SbProMixFormat,byte_14F054,new,medium,mixer format for each channel count,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F055,SbProFrameBytes,byte_14F055,new,medium,bytes per sample frame for each channel count,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F058,Sb16Running,dword_14F058,new,medium,set while Sound Blaster 16 output runs,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F05C,Sb16DmaAlloc,dword_14F05C,new,medium,Sound Blaster 16 DMA buffer allocation,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F060,Sb16Mode,dword_14F060,new,medium,"Sound Blaster 16 output mode: 1 8-bit, 2 16-bit",src/data/lib/sound/snd_soundblaster_data_02.asm
+14F064,Sb16DspCommand,byte_14F064,new,medium,DSP output command for each mode (4 byte rows),src/data/lib/sound/snd_soundblaster_data_02.asm
+14F065,Sb16DspModeByte,byte_14F065,new,medium,DSP mode byte for each mode,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F066,Sb16MixFormat,byte_14F066,new,medium,mixer format for each mode,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F067,Sb16FrameBytes,byte_14F067,new,medium,bytes per sample frame for each mode,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F070,SndTickBusy,byte_14F070,new,medium,set while the sound tick runs,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F09C,_environ,dword_14F09C,95PC,medium,Watcom: the environment pointer table __setenvp_ builds,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F0A0,___env_mask,dword_14F0A0,95PC,medium,Watcom: one flag byte per environ entry,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F0A4,__nheapbeg,dword_14F0A4,new,low,near heap start,src/data/lib/sound/snd_soundblaster_data_02.asm
@@ -3867,6 +4099,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 14FAA8,__EFG_printf,off_14FAA8,new,low,float formatting routine for printf,src/data/lib/sound/snd_soundblaster_data_02.asm
 14FAAC,__EFG_scanf,off_14FAAC,new,low,float parsing routine for scanf,src/data/lib/sound/snd_soundblaster_data_02.asm
 14FAB0,str_SHPI2,,95PC,high,NHL95PC D544C (string): 'SHPI',
+14FAD4,DrawArtRemapFunc,off_14FAD4,new,low,routine used to draw remapped art,src/data/lib/video/video_bios_vga_03_data_02.asm
 14FADC,SavedStackSegment,word_14FADC,new,low,stack segment saved at start up,src/data/lib/video/video_bios_vga_03_data_02.asm
 14FADE,str_StackOverflow,,95PC,high,NHL95PC D2F46 (string): 'Stack Overflow!\r\n',
 14FAF0,AngleOctantTable,byte_14FAF0,new,medium,octant per delta slope for AngleFromDelta,src/data/lib/video/video_bios_vga_03_data_02.asm
@@ -4080,6 +4313,44 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 190E94,TexturePageBase,dword_190E94,new,low,base of the texture page being built,src/data/lib/ea/ea_shpi_01_bss_01.asm
 190E98,TextureDetail,dword_190E98,new,low,texture detail level,src/data/lib/ea/ea_shpi_01_bss_01.asm
 1983A8,RinkViewChanged,dword_1983A8,new,low,set when the rink view matrix changes,src/data/lib/ea/ea_gfx_05_bss_01.asm
+19B688,StreamPacketTail,dword_19B688,new,medium,last queued audio stream packet,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B68C,StreamPacketHead,dword_19B68C,new,medium,first queued audio stream packet,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B690,CrowdExcitementWhole,dword_19B690,new,medium,"crowd excitement, whole part",src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B694,CrowdIntensityCopy,dword_19B694,new,medium,crowd intensity used in the mix,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B698,CrowdMixLevel,dword_19B698,new,medium,combined crowd level,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B69C,CrowdIntensityTerm,dword_19B69C,new,medium,weighted intensity part of the crowd level,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6A0,CrowdExcitementTerm,dword_19B6A0,new,medium,weighted excitement part of the crowd level,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6A4,CrowdBank,unk_19B6A4,new,medium,copy of the crowd bank header,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6B4,CrowdExcitementWeight,dword_19B6B4,new,medium,weight of excitement in the crowd level,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6B8,CrowdIntensityWeight,dword_19B6B8,new,medium,weight of intensity in the crowd level,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6BC,CrowdExcitement,dword_19B6BC,new,medium,crowd excitement,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6C0,CrowdIntensityLevel,dword_19B6C0,new,medium,"crowd intensity, moving towards its target",src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6C4,CrowdExcitementGoal,dword_19B6C4,new,medium,crowd excitement the ramp is heading for,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6C8,CrowdLayerCount,dword_19B6C8,new,medium,number of crowd layers,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6CC,CrowdEventCount,dword_19B6CC,new,medium,number of crowd events,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6D0,CrowdDriftRange,dword_19B6D0,new,medium,range of random crowd excitement goals,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6D4,CrowdDriftRiseTime,dword_19B6D4,new,medium,time to drift up,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6D8,CrowdDriftFallTime,dword_19B6D8,new,medium,time to drift down,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6DC,CrowdStartEvent,dword_19B6DC,new,medium,crowd event played when the crowd starts,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6E0,CrowdCurveRise,dword_19B6E0,new,medium,rise time for each crowd curve,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B6E4,CrowdCurveFall,dword_19B6E4,new,medium,fall time for each crowd curve,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B720,CrowdLayers,unk_19B720,new,medium,"crowd layer records, 74h bytes each",src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B724,CrowdLayerSample,dword_19B724,new,medium,crowd layer sample,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B734,CrowdLayerPriority,byte_19B734,new,medium,crowd layer channel priority,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B739,CrowdLayerVolume,byte_19B739,new,medium,crowd layer volume,src/data/lib/watcom/watcom_clib_07_bss_01.asm
+19B760,CrowdLayerData,dword_19B760,new,medium,crowd layer sample data,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B770,CrowdLayerChannel,dword_19B770,new,medium,crowd layer sound channel,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B774,CrowdLayerCurVolume,dword_19B774,new,medium,crowd layer volume now,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B778,CrowdLayerCurBend,dword_19B778,new,medium,crowd layer bend now,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B77C,CrowdLayerThreshold,dword_19B77C,new,medium,crowd level where a layer starts to rise,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B784,CrowdLayerMinVolume,dword_19B784,new,medium,crowd layer quietest volume,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B788,CrowdLayerMaxVolume,dword_19B788,new,medium,crowd layer loudest volume,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B8F0,CrowdEvents,dword_19B8F0,new,medium,"crowd event records, 14h bytes each",src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B8F4,CrowdEventRaise,dword_19B8F4,new,medium,excitement a crowd event adds,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B8F8,CrowdEventCap,dword_19B8F8,new,medium,highest excitement a crowd event reaches,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B8FC,CrowdEventCurve,dword_19B8FC,new,medium,rise curve of a crowd event,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19B900,CrowdEventSfx,dword_19B900,new,medium,sound effect a crowd event plays,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BA30,CrowdRampRate,dword_19BA30,new,medium,crowd excitement change per tick,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA3C,__OpenStreams,dword_19BA3C,new,low,list of open stdio streams,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA40,__ClosedStreams,dword_19BA40,new,low,list of closed stdio streams,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA45,__nheap_clean,byte_19BA45,new,low,near heap clean flag,src/data/lib/watcom/watcom_clib_08_bss_01.asm
@@ -4087,12 +4358,78 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 19BAC8,SpeechBankCount,dword_19BAC8,new,low,number of registered speech banks,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BACC,MemLockState,dword_19BACC,new,low,memory lock state,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19F2D8,ScaledRowBuffer,dword_19F2D8,new,medium,scaled shape row buffer,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B20,SndChannels,unk_1A0B20,new,medium,"sound channel records, 16 of 28h bytes",src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B2B,SndChannelType,byte_1A0B2B,new,medium,"sound channel type: 1 effect, 2 stream",src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B2C,SndChannelRate,dword_1A0B2C,new,medium,sound channel base sample rate,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B31,SndChannelBendRange,byte_1A0B31,new,low,sound channel pitch bend range,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B36,SndChannelActive,byte_1A0B36,new,medium,set while a sound channel plays,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B37,SndChannelSfx,byte_1A0B37,new,medium,sound effect number a channel plays,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B44,SndChannelVolume,byte_1A0B44,new,medium,sound channel volume,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B46,SndChannelGain,byte_1A0B46,new,low,sound channel output gain,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0B47,SndChannelPan,byte_1A0B47,new,medium,sound channel pan,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0DA0,SfxTable,dword_1A0DA0,new,medium,sound effect records by number,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0DA4,SfxTableNext,dword_1A0DA4,new,medium,"sound effect table from the second entry, for stereo pairs",src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FA2,SbMixerAddrPort,word_1A0FA2,new,low,Sound Blaster mixer address port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FAA,SbReadPort,word_1A0FAA,new,low,Sound Blaster DSP read port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FAC,SbWritePort,word_1A0FAC,new,low,Sound Blaster DSP write port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0FB0,WssBlockSamples,dword_1A0FB0,new,low,samples per Windows Sound System block,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FB4,WssHalfBuffer,dword_1A0FB4,new,medium,half the Windows Sound System DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A0FB8,DacTimerRate,dword_1A0FB8,new,low,timer rate of the DAC driver,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FBC,WssDmaChannel,dword_1A0FBC,new,medium,Windows Sound System DMA channel,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A0FC0,DacTimerDivisor,dword_1A0FC0,new,low,timer divisor of the DAC driver,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FC4,WssDmaBuffer,dword_1A0FC4,new,medium,Windows Sound System DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FC8,WssRate,dword_1A0FC8,new,medium,Windows Sound System output rate,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FCC,WssDmaPos,dword_1A0FCC,new,medium,Windows Sound System DMA position at the last service,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FD0,GusConfig,word_1A0FD0,new,medium,Gravis settings read from the environment,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FD2,GusConfigPort,word_1A0FD2,new,medium,Gravis base port,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FD4,GusConfigGf1Irq,byte_1A0FD4,new,low,Gravis sound interrupt,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FD5,GusConfigMidiIrq,byte_1A0FD5,new,low,Gravis MIDI interrupt,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FD8,GusStreamMem,dword_1A0FD8,new,medium,Gravis card memory for the output stream,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A0FDC,GusDriverDmaBuf,dword_1A0FDC,new,medium,DMA buffer of the Gravis driver,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FE0,SbHalfBuffer,dword_1A0FE0,new,medium,half the Sound Blaster DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FE4,SbDmaSize,dword_1A0FE4,new,medium,Sound Blaster DMA buffer size,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FE8,SbRate,dword_1A0FE8,new,medium,Sound Blaster output rate,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FEC,SbHighDma,unk_1A0FEC,new,low,Sound Blaster 16-bit DMA channel from BLASTER,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FF0,SbDma,dword_1A0FF0,new,medium,Sound Blaster DMA channel,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FF4,SbIrq,dword_1A0FF4,new,medium,Sound Blaster interrupt,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FF8,SbDmaBuffer,dword_1A0FF8,new,medium,Sound Blaster DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FFC,SbVersion,dword_1A0FFC,new,medium,Sound Blaster DSP version,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1000,SbPort,word_1A1000,new,medium,Sound Blaster base port,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1004,SbOldIrqOffset,dword_1A1004,new,medium,interrupt handler the Sound Blaster driver replaced (offset),src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1008,SbOldIrqSelector,word_1A1008,new,medium,interrupt handler the Sound Blaster driver replaced (selector),src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A100A,SbDmaPos,dword_1A100A,new,medium,Sound Blaster DMA position at the last service,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1010,SbProRealOldOffset,dword_1A1010,new,low,real mode interrupt handler the Sound Blaster Pro driver replaced (offset),src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1014,SbProRealOldSegment,dword_1A1014,new,low,real mode interrupt handler the Sound Blaster Pro driver replaced (segment),src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1018,SbProRealHandler,dword_1A1018,new,low,real mode interrupt hook the Sound Blaster Pro driver set up,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A101C,SbProBlockSamples,dword_1A101C,new,low,samples per Sound Blaster Pro block,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1020,SbProHalfBuffer,dword_1A1020,new,medium,half the Sound Blaster Pro DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1024,SbProDmaSize,dword_1A1024,new,medium,Sound Blaster Pro DMA buffer size,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1028,SbProRate,dword_1A1028,new,medium,Sound Blaster Pro output rate,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A102C,SbProHighDma,unk_1A102C,new,low,16-bit DMA channel from BLASTER,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1030,SbProDma,dword_1A1030,new,medium,Sound Blaster Pro DMA channel,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1034,SbProOldFilter,dword_1A1034,new,medium,filter bit before the driver started,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1038,SbProIrq,dword_1A1038,new,medium,Sound Blaster Pro interrupt,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A103C,SbProDmaBuffer,dword_1A103C,new,medium,Sound Blaster Pro DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1040,SbProOldStereo,dword_1A1040,new,medium,stereo bit before the driver started,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1044,SbProVersion,dword_1A1044,new,medium,Sound Blaster Pro DSP version,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1048,SbProPort,dword_1A1048,new,medium,Sound Blaster Pro base port,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A104C,SbProOldIrqOffset,dword_1A104C,new,medium,interrupt handler the driver replaced (offset),src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1050,SbProOldIrqSelector,word_1A1050,new,medium,interrupt handler the driver replaced (selector),src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1052,SbProDmaPos,dword_1A1052,new,medium,Sound Blaster Pro DMA position at the last service,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1058,Sb16BlockSamples,dword_1A1058,new,low,samples per Sound Blaster 16 block,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A105C,Sb16DmaSize,dword_1A105C,new,medium,Sound Blaster 16 DMA buffer size,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1060,Sb16HalfBuffer,dword_1A1060,new,medium,half the Sound Blaster 16 DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1064,Sb16Rate,dword_1A1064,new,medium,Sound Blaster 16 output rate,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1068,Sb16HighDma,dword_1A1068,new,medium,Sound Blaster 16 16-bit DMA channel,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A106C,Sb16ActiveDma,dword_1A106C,new,medium,DMA channel the Sound Blaster 16 uses,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1070,Sb16LowDma,dword_1A1070,new,medium,Sound Blaster 16 8-bit DMA channel,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1074,Sb16Irq,dword_1A1074,new,medium,Sound Blaster 16 interrupt,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1078,Sb16DmaBuffer,dword_1A1078,new,medium,Sound Blaster 16 DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A107C,Sb16Version,dword_1A107C,new,medium,Sound Blaster 16 DSP version,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1080,Sb16Port,word_1A1080,new,medium,Sound Blaster 16 base port,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1084,Sb16OldIrqOffset,dword_1A1084,new,medium,interrupt handler the driver replaced (offset),src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1088,Sb16OldIrqSelector,word_1A1088,new,medium,interrupt handler the driver replaced (selector),src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A108A,Sb16DmaPos,dword_1A108A,new,medium,Sound Blaster 16 DMA position at the last service,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A1090,RationalAllocLimit,dword_1A1090,new,low,rational allocator size limit,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A1092,RationalAllocFlags,word_1A1092,new,low,rational allocator flags,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A1094,CMainArgc,dword_1A1094,new,low,argument count passed to main,src/data/lib/sound/snd_soundblaster_bss_01.asm

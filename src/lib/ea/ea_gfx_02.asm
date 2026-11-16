@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_AD680 progbits alloc exec nowrite align=1
 extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, ScreenWidth, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4, dword_1228FC, dword_122930, dword_123934, FreeMemBlock
+extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, dword_123934, FreeMemBlock
 extern sub_ABF88, removewindow, SetScreenTarget, VesaSetBank, sub_DEC41, sub_DED6D, sub_E0584, sub_E1824
 extern sub_E193C, sub_E1956
 global fputchar, mem_putc_, FillRect, sub_AD824, sub_AD8A8, sub_AD9DC, sub_ADA50, sub_ADA80
@@ -24,7 +24,7 @@ FillRect:
         jle near .11
         test edi, edi
         jle near .11
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push ebp
         push edi
@@ -239,7 +239,7 @@ sub_AD8A8:
         jle near .12
         test edx, edx
         jle near .12
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         mov ebp, dword [byte esp+034h]
         push ebp

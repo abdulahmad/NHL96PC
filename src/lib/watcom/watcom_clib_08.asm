@@ -5,39 +5,39 @@ section s_BF949 progbits alloc exec nowrite align=1
 extern FatalError, GetTicks, __set_errno_, _nmalloc_, addtimer, str_UnknownError, str_EnvironmentVariableNotSe, str_ErrorInEnvironmentVariab
 extern str_InvalidDriver, str_CardNotDetected, str_ErrorAllocatingMemory, str_ErrorInitializingCard, str_ErrorInitializingSoftwar, str_ErrorInDMAChannel, str_ErrorNotAnEACSFormatFile, str_ErrorInvalidChannel
 extern str_ErrorInvalidVolume, str_ErrorInvalidHandle, str_ErrorInvalidPan, str_ErrorUnsupportedAudioTyp, str_ErrorInvalidBend, str_ErrorCouldNotResolveSfxB, str_ErrorInvalidBankNumber, str_ErrorInvalidSfxNumber
-extern str_NoFreeChannelToPlayOn, asc_113E28, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, byte_123BB8, byte_123C04, byte_123C05, byte_123C22
-extern byte_1248D0, byte_1248D1, byte_1248DA, byte_19B734, byte_19B739, byte_1A0B2B, byte_1A0B31, byte_1A0B36
-extern byte_1A0B37, byte_1A0B44, byte_1A0B46, byte_1A0B47, dword_11F5CC, dword_11F5D0, DebugMode, dword_1210C0
-extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4, dword_123B10, dword_123B14, dword_123BB0
-extern dword_123BB4, dword_123BB9, dword_123BBD, dword_123BC1, dword_123BC5, dword_123BCC, dword_123BD0, dword_123BD4
-extern dword_123BD8, dword_123BDC, dword_123BE0, dword_123BE4, dword_123BE8, dword_123BEC, dword_123BF0, dword_123C06
-extern dword_123C0A, dword_123C0E, dword_123C12, dword_123C16, dword_123C1A, dword_123C1E, dword_123C9E, dword_123CA2
-extern dword_123CAE, dword_123CB2, dword_123CC2, dword_123CC8, dword_123CCC, dword_123D5C, dword_123D60, dword_123D64
-extern dword_123D8C, dword_123D90, dword_123D94, dword_123D98, dword_123D9C, dword_123DA0, snddriver, dword_1248D6
-extern dword_19B688, dword_19B68C, dword_19B690, dword_19B694, dword_19B698, dword_19B69C, dword_19B6A0, dword_19B6B4
-extern dword_19B6B8, dword_19B6BC, dword_19B6C0, dword_19B6C4, dword_19B6C8, dword_19B6CC, dword_19B6D0, dword_19B6D4
-extern dword_19B6D8, dword_19B6DC, dword_19B6E0, dword_19B6E4, dword_19B724, dword_19B760, dword_19B770, dword_19B774
-extern dword_19B778, dword_19B77C, dword_19B784, dword_19B788, dword_19B8F0, dword_19B8F4, dword_19B8F8, dword_19B8FC
-extern dword_19B900, dword_19BA30, dword_1A0B2C, dword_1A0DA0, dword_1A0DA4, off_123CE0, off_123CE4, off_123CE8
-extern off_123CEC, off_123D68, off_123D6C, off_123D70, off_123D74, off_123D78, off_123D7C, off_123D80
-extern off_123D84, off_123D88, strncpy_, CdStreamSeek, CdStreamFreePacket, RemoveTimerCallback, PutBlock, AllocMemBlock
+extern str_NoFreeChannelToPlayOn, asc_113E28, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, SpeechQueuePlaying, CrowdLoaded, CrowdPaused, VolumeCurve
+extern SpeechQueueOpen, CrowdPlaying, SndMasterVolume, CrowdLayerPriority, CrowdLayerVolume, SndChannelType, SndChannelBendRange, SndChannelActive
+extern SndChannelSfx, SndChannelVolume, SndChannelGain, SndChannelPan, dword_11F5CC, dword_11F5D0, DebugMode, RowCopyFunc
+extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, SpeechQueue, SpeechQueueLead, SpeechQueueWrite
+extern SpeechQueueRead, SpeechQueueVolume, SpeechChannelA, SpeechChannelB, SpeechChannelCur, StreamState, StreamChannel, StreamFrameBytes
+extern StreamSampleRate, StreamVolume, StreamOwner, StreamHeader, StreamPacketsPlayed, StreamSampleScale, SfxBanks, CrowdVolume
+extern CrowdIntensityGoal, CrowdRampMode, CrowdEvent, CrowdFadeStep, CrowdFadeGoal, CrowdFadeLevel, CrowdLastBendStore, CrowdLastBend
+extern CrowdLastVolumeStore, CrowdLastVolume, CrowdTicks, SndMixMode, StereoPanCurve, NextSndChannel, SndTimerAdded, SndExitHandlerAdded
+extern TgvFrames, TgvTotalFrames, TgvRateTicks, TgvTotalTicks, TgvFrameRate, TgvFirstPeriod, snddriver, SndMaxRate
+extern StreamPacketTail, StreamPacketHead, CrowdExcitementWhole, CrowdIntensityCopy, CrowdMixLevel, CrowdIntensityTerm, CrowdExcitementTerm, CrowdExcitementWeight
+extern CrowdIntensityWeight, CrowdExcitement, CrowdIntensityLevel, CrowdExcitementGoal, CrowdLayerCount, CrowdEventCount, CrowdDriftRange, CrowdDriftRiseTime
+extern CrowdDriftFallTime, CrowdStartEvent, CrowdCurveRise, CrowdCurveFall, CrowdLayerSample, CrowdLayerData, CrowdLayerChannel, CrowdLayerCurVolume
+extern CrowdLayerCurBend, CrowdLayerThreshold, CrowdLayerMinVolume, CrowdLayerMaxVolume, CrowdEvents, CrowdEventRaise, CrowdEventCap, CrowdEventCurve
+extern CrowdEventSfx, CrowdRampRate, SndChannelRate, SfxTable, SfxTableNext, SndDriverTable, SndDriverClose, SndDriverService
+extern SndDriverQuery, SndCardNameNone, SndCardNameSb10, SndCardNameSb15, SndCardNameSb20, SndCardNameSbPro10, SndCardNameSbPro20, SndCardNameSb16
+extern SndCardNameGus, SndCardNameWss, strncpy_, CdStreamSeek, CdStreamFreePacket, RemoveTimerCallback, PutBlock, AllocMemBlock
 extern FreeMemBlock, MemDescPtr, DebugSetLine, sub_AFCD0, DrawArtOpaque, RestoreDS, sub_BF120, PrintBoxedText
 extern sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9, sub_CBEA8, sub_CC048, MixerStopChannel, sub_CC17B
-extern sub_CC1B5, MixerSamplesLeft, ParseBlasterEnv, sub_CE2E8, sub_CE709, sub_CE780, sub_CF6C9, TgvCopyBlock
-extern TgvFillBlock, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, SetScreenTarget, sub_DDF4F, sub_DFB84
-extern AddExitHandler, bcopy, Random32, unk_19B6A4, unk_19B720, unk_1A0B20, MixerStepTable
-global _Alphabet, abs_, fini_void_, getcwd_, itoa_, jpt_C1490, sub_BFA45_90, sub_C0944_18C
-global memcmp_, sub_BF950, sub_BF9FE, sub_BFA05, sub_BFA45, sub_BFAF5, sub_BFB53, sub_BFB74
-global sub_BFB7C, sub_BFBE3, sub_BFC16, sub_BFC91, sub_BFDB8, sub_BFE4C, sub_BFF52, sub_BFF8F
-global sub_BFFCE, sub_C011D, sub_C01C9, sub_C0252, sub_C02D6, FeedAudioStream, sub_C03EA, sub_C03F8
-global sub_C0423, sub_C04AE, sub_C04C3, sub_C0578, sub_C0603, sub_C061E, sub_C0641, sub_C0727
-global sub_C08DA, sub_C08F5, sub_C0902, sub_C0944, sub_C0AD7, sub_C0BCD, sub_C0D7E, sub_C0E2D
-global sub_C0E3C, sub_C0E49, sub_C0F09, sub_C0F30, sub_C1008, sub_C1051, sub_C1104, sub_C1183
-global sub_C11EF, sub_C12C8, sub_C1322, sub_C13B1, sub_C1410, sub_C144B, SndSetDriver, sub_C1614
-global sub_C17C6, sub_C1811, sub_C181F, sub_C187A, sub_C187C, sub_C187D, sub_C1882, BuildHuffTable
-global DecodeHuffRuns, sub_C1A2C, sub_C1D48, sub_C1FC0, sub_C1FEC, sub_C204C, sub_C20E0, sub_C2268
-global sub_C2290, sub_C2440, sub_C2442, sub_C24D0, sub_C2500, sub_C254C, sub_C2600, sub_C27A4
-global unk_C1041, utoa_
+extern sub_CC1B5, MixerSamplesLeft, ParseBlasterEnv, SbDspVersion, WssProbePort, GusDetect, SndTimerCallback, TgvCopyBlock
+extern TgvFillBlock, GatherPlaneBytes, DrawArtKeyedAt, PutBlockKeyedAt, CopyRowKeyedRemap, SetScreenTarget, sub_DDF4F, sub_DFB84
+extern AddExitHandler, bcopy, Random32, CrowdBank, CrowdLayers, SndChannels, MixerStepTable
+global _Alphabet, abs_, fini_void_, getcwd_, itoa_, SndErrorTextJumpTable, SetSpeechQueueVolume, SetCrowdLayerLevels_18C
+global memcmp_, SpeechQueueService, ClearSpeechSlot, ResetSpeechQueue, OpenSpeechQueue, AddSpeechQueueClip, SpeechQueueBusy, StartSpeechQueue
+global FlushSpeechQueue, CloseSpeechQueue, FadeChannelVolume, SetChannelVolume, SetChannelBend, StopSoundChannel, ChannelSamplesLeft, ChannelIdle
+global OpenAudioStream, QueueStreamPacket, AudioStreamCallback, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamActive, FlushAudioStream
+global AudioStreamPosition, AudioStreamPacketsPlayed, RegisterSfxBank, UnregisterSfxBank, PlaySfxFull, PlaySfxVolume, PlaySfxPanned, StartSfxChannel
+global RandomSpread, PauseCrowdChannels, ResumeCrowdChannels, SetCrowdLayerLevels, SetCrowdRampRate, CrowdService, TriggerCrowdEvent, SetCrowdIntensity
+global CloseCrowdSound, LoadCrowdBank, SetCrowdVolume, StartCrowdSound, StopCrowdChannels, StartChannelSample, ChannelPanVolumes, PanVolumes
+global SplitStereoPan, BendSampleRate, PickOutputRate, DetectBlasterCard, DetectWssCard, DetectSoundDriver, SndSetDriver, AllocSoundChannel
+global SetSoundMixMode, CallDriverService, SndCloseDriver, NullDriverOpen, NullDriverReturn, NullDriverQuery, NullDriverEnd, BuildHuffTable
+global DecodeHuffRuns, TgvDecodeDeltaFrame, TgvDecodeKeyFrame, TgvAllocDecoder, TgvDecodeFrame, TgvFreeDecoder, TgvShowFrameRate, TgvResetFrameRate
+global TgvBlitFrame, DisableInterrupts, EnableInterrupts, CopyRowKeyed, DrawArtKeyed, DrawArtKeyedAtOrigin, PutBlockKeyed, PrintScreenInt
+global WssBasePorts, utoa_
 ;-----------------------------------------------------------------------------
 ; abs_                                                          BF949  library
 ;-----------------------------------------------------------------------------
@@ -48,42 +48,44 @@ abs_:
 .1:
         ret
 ;-----------------------------------------------------------------------------
-; sub_BF950                                                            BF950  
+; SpeechQueueService                           BF950  96 PC, medium confidence
+; Speech queue tick: starts the next queued clip on the other speech channel
+; when the current one is nearly done
 ;-----------------------------------------------------------------------------
-sub_BF950:
+SpeechQueueService:
         push ebx
         push ecx
         push edx
         push esi
-        cmp byte [byte_123BB8], 0
+        cmp byte [SpeechQueuePlaying], 0
         je near .5
-        mov ecx, dword [dword_123BB4]
+        mov ecx, dword [SpeechQueueRead]
         mov edx, ecx
         shl edx, 3
-        mov eax, dword [dword_123BC5]
-        add edx, dword_123B10
-        call sub_BFF52
+        mov eax, dword [SpeechChannelCur]
+        add edx, SpeechQueue
+        call ChannelSamplesLeft
         cmp eax, dword [byte edx+04h]
         jg near .5
-        cmp ecx, dword [dword_123BB0]
+        cmp ecx, dword [SpeechQueueWrite]
         je short .4
-        inc dword [dword_123BB4]
-        cmp dword [dword_123BB4], byte 14h
+        inc dword [SpeechQueueRead]
+        cmp dword [SpeechQueueRead], byte 14h
         jne short .1
-        mov dword [dword_123BB4], 0
+        mov dword [SpeechQueueRead], 0
 .1:
-        mov eax, dword [dword_123BC5]
-        cmp eax, dword [dword_123BBD]
+        mov eax, dword [SpeechChannelCur]
+        cmp eax, dword [SpeechChannelA]
         jne short .2
-        mov eax, dword [dword_123BC1]
+        mov eax, dword [SpeechChannelB]
         jmp short .3
 .2:
-        mov eax, dword [dword_123BBD]
+        mov eax, dword [SpeechChannelA]
 .3:
-        mov dword [dword_123BC5], eax
+        mov dword [SpeechChannelCur], eax
         mov ebx, 40h
-        mov ecx, dword [dword_123BB9]
-        mov eax, dword [dword_123BC5]
+        mov ecx, dword [SpeechQueueVolume]
+        mov eax, dword [SpeechChannelCur]
         mov esi, dword [edx]
         mov edx, eax
         mov eax, esi
@@ -94,11 +96,11 @@ sub_BF950:
         pop ebx
         ret
 .4:
-        mov eax, dword [dword_123BC5]
-        call sub_BFF8F
+        mov eax, dword [SpeechChannelCur]
+        call ChannelIdle
         test eax, eax
         je short .5
-        mov byte [byte_123BB8], 0
+        mov byte [SpeechQueuePlaying], 0
 .5:
         pop esi
         pop edx
@@ -106,34 +108,37 @@ sub_BF950:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BF9FE                                                            BF9FE  
+; ClearSpeechSlot                              BF9FE  96 PC, medium confidence
+; Clears one speech queue slot
 ;-----------------------------------------------------------------------------
-sub_BF9FE:
+ClearSpeechSlot:
         mov dword [eax], 0
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFA05                                                            BFA05  
+; ResetSpeechQueue                             BFA05  96 PC, medium confidence
+; Empties the speech queue and selects the first speech channel
 ;-----------------------------------------------------------------------------
-sub_BFA05:
+ResetSpeechQueue:
         push edx
-        mov eax, dword_123B10
-        mov byte [byte_123BB8], 0
+        mov eax, SpeechQueue
+        mov byte [SpeechQueuePlaying], 0
         lea edx, [dword eax+0A0h]
 .1:
         mov dword [eax], 0
         add eax, byte 8
         cmp eax, edx
         jne short .1
-        mov dword [dword_123BB0], 0
-        mov eax, dword [dword_123BBD]
-        mov dword [dword_123BB4], 0
-        mov dword [dword_123BC5], eax
+        mov dword [SpeechQueueWrite], 0
+        mov eax, dword [SpeechChannelA]
+        mov dword [SpeechQueueRead], 0
+        mov dword [SpeechChannelCur], eax
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFA45                                                            BFA45  
+; OpenSpeechQueue                              BFA45  96 PC, medium confidence
+; Sets up the speech queue on two sound channels with a volume
 ;-----------------------------------------------------------------------------
-sub_BFA45:
+OpenSpeechQueue:
         push ecx
         push esi
         push edi
@@ -158,47 +163,53 @@ sub_BFA45:
         jl short .1
         cmp edx, byte 10h
         jge short .1
-        mov edx, dword_123B10
-        mov byte [byte_123BB8], 0
+        mov edx, SpeechQueue
+        mov byte [SpeechQueuePlaying], 0
         lea edi, [dword edx+0A0h]
 .3:
         mov eax, edx
         add edx, byte 8
-        call sub_BF9FE
+        call ClearSpeechSlot
         cmp edx, edi
         jne short .3
-        mov dword [dword_123BB0], 0
-        mov dword [dword_123BB4], 0
-        mov byte [byte_1248D0], 1
+        mov dword [SpeechQueueWrite], 0
+        mov dword [SpeechQueueRead], 0
+        mov byte [SpeechQueueOpen], 1
         and ebx, byte 7Fh
-        mov dword [dword_123BBD], ecx
-        mov dword [dword_123BC1], esi
-        mov dword [dword_123BC5], ecx
+        mov dword [SpeechChannelA], ecx
+        mov dword [SpeechChannelB], esi
+        mov dword [SpeechChannelCur], ecx
         xor eax, eax
-        mov dword [dword_123BB9], ebx
+        mov dword [SpeechQueueVolume], ebx
         pop edi
         pop esi
         pop ecx
         ret
-sub_BFA45_90:
+;-----------------------------------------------------------------------------
+; SetSpeechQueueVolume                         BFAD5  96 PC, medium confidence
+; Sets the speech queue volume and applies it to the playing channel
+;-----------------------------------------------------------------------------
+SetSpeechQueueVolume:
         push edx
         and eax, byte 7Fh
-        mov dword [dword_123BB9], eax
-        cmp byte [byte_1248D0], 0
+        mov dword [SpeechQueueVolume], eax
+        cmp byte [SpeechQueueOpen], 0
         je short .4
         mov edx, eax
-        mov eax, dword [dword_123BC5]
-        call sub_BFC91
+        mov eax, dword [SpeechChannelCur]
+        call SetChannelVolume
 .4:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFAF5                                                            BFAF5  
+; AddSpeechQueueClip                           BFAF5  96 PC, medium confidence
+; Adds a clip to the speech queue with the percentage of it left when the
+; next clip starts
 ;-----------------------------------------------------------------------------
-sub_BFAF5:
+AddSpeechQueueClip:
         push ebx
         push ecx
-        cmp byte [byte_1248D0], 0
+        cmp byte [SpeechQueueOpen], 0
         jne short .2
 .1:
         mov eax, 0FFFFFFFFh
@@ -211,34 +222,35 @@ sub_BFAF5:
         je short .1
         lea ebx, [byte eax+020h]
         mov dword [byte eax+018h], ebx
-        mov ebx, dword [dword_123BB0]
+        mov ebx, dword [SpeechQueueWrite]
         lea eax, [byte ebx+01h]
-        mov dword [dword_123BB0], eax
+        mov dword [SpeechQueueWrite], eax
         cmp eax, byte 14h
         jne short .3
-        mov dword [dword_123BB0], 0
+        mov dword [SpeechQueueWrite], 0
 .3:
-        mov dword [nosplit ebx*8+dword_123B10], ecx
+        mov dword [nosplit ebx*8+SpeechQueue], ecx
         mov eax, dword [byte ecx+04h]
         imul eax, edx
         mov ecx, 64h
         xor edx, edx
         div ecx
-        mov dword [nosplit ebx*8+dword_123B14], eax
+        mov dword [nosplit ebx*8+SpeechQueueLead], eax
         xor eax, eax
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFB53                                                            BFB53  
+; SpeechQueueBusy                              BFB53  96 PC, medium confidence
+; Returns 1 while the speech queue is playing, -1 if it is not open
 ;-----------------------------------------------------------------------------
-sub_BFB53:
-        cmp byte [byte_1248D0], 0
+SpeechQueueBusy:
+        cmp byte [SpeechQueueOpen], 0
         jne short .1
         mov eax, 0FFFFFFFFh
         ret
 .1:
-        cmp byte [byte_123BB8], 0
+        cmp byte [SpeechQueuePlaying], 0
         je short .2
         mov eax, 1
         ret
@@ -246,62 +258,67 @@ sub_BFB53:
         xor eax, eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFB74                                                            BFB74  
+; StartSpeechQueue                             BFB74  96 PC, medium confidence
+; Starts playing the speech queue
 ;-----------------------------------------------------------------------------
-sub_BFB74:
-        mov byte [byte_123BB8], 1
+StartSpeechQueue:
+        mov byte [SpeechQueuePlaying], 1
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFB7C                                                            BFB7C  
+; FlushSpeechQueue                             BFB7C  96 PC, medium confidence
+; Stops both speech channels and empties the queue
 ;-----------------------------------------------------------------------------
-sub_BFB7C:
+FlushSpeechQueue:
         push ebx
         push edx
-        cmp byte [byte_1248D0], 0
+        cmp byte [SpeechQueueOpen], 0
         je short .2
-        mov eax, dword [dword_123BBD]
-        mov byte [byte_123BB8], 0
-        call sub_BFE4C
-        mov eax, dword [dword_123BC1]
-        mov edx, dword_123B10
-        call sub_BFE4C
+        mov eax, dword [SpeechChannelA]
+        mov byte [SpeechQueuePlaying], 0
+        call StopSoundChannel
+        mov eax, dword [SpeechChannelB]
+        mov edx, SpeechQueue
+        call StopSoundChannel
         lea ebx, [dword edx+0A0h]
-        mov byte [byte_123BB8], 0
+        mov byte [SpeechQueuePlaying], 0
 .1:
         mov eax, edx
         add edx, byte 8
-        call sub_BF9FE
+        call ClearSpeechSlot
         cmp edx, ebx
         jne short .1
-        mov dword [dword_123BB0], 0
-        mov eax, dword [dword_123BBD]
-        mov dword [dword_123BB4], 0
-        mov dword [dword_123BC5], eax
+        mov dword [SpeechQueueWrite], 0
+        mov eax, dword [SpeechChannelA]
+        mov dword [SpeechQueueRead], 0
+        mov dword [SpeechChannelCur], eax
 .2:
         pop edx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFBE3                                                            BFBE3  
+; CloseSpeechQueue                             BFBE3  96 PC, medium confidence
+; Stops both speech channels and closes the speech queue
 ;-----------------------------------------------------------------------------
-sub_BFBE3:
-        cmp byte [byte_1248D0], 0
+CloseSpeechQueue:
+        cmp byte [SpeechQueueOpen], 0
         je short .2
         je short .1
-        mov eax, dword [dword_123BBD]
-        mov byte [byte_123BB8], 0
-        call sub_BFE4C
-        mov eax, dword [dword_123BC1]
-        call sub_BFE4C
-        call sub_BFA05
+        mov eax, dword [SpeechChannelA]
+        mov byte [SpeechQueuePlaying], 0
+        call StopSoundChannel
+        mov eax, dword [SpeechChannelB]
+        call StopSoundChannel
+        call ResetSpeechQueue
 .1:
-        mov byte [byte_1248D0], 0
+        mov byte [SpeechQueueOpen], 0
 .2:
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFC16                                                            BFC16  
+; FadeChannelVolume                            BFC16  96 PC, medium confidence
+; Starts a volume fade on a sound channel towards a target over a number of
+; ticks
 ;-----------------------------------------------------------------------------
-sub_BFC16:
+FadeChannelVolume:
         push ecx
         mov ecx, edx
         mov edx, ebx
@@ -324,14 +341,14 @@ sub_BFC16:
         ret
 .4:
         imul eax, byte 28h
-        movzx ebx, byte [dword eax+byte_1A0B36]
+        movzx ebx, byte [dword eax+SndChannelActive]
         cmp ebx, byte 1
         je short .5
         mov eax, 0FFFFFFFFh
         pop ecx
         ret
 .5:
-        mov ebx, unk_1A0B20
+        mov ebx, SndChannels
         add ebx, eax
         test ecx, ecx
         jg short .6
@@ -354,9 +371,10 @@ sub_BFC16:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFC91                                                            BFC91  
+; SetChannelVolume                             BFC91  96 PC, medium confidence
+; Sets a sound channel's volume (0-127) and updates the mixer
 ;-----------------------------------------------------------------------------
-sub_BFC91:
+SetChannelVolume:
         push ebx
         push ecx
         enter 4, 0
@@ -385,7 +403,7 @@ sub_BFC91:
         ret
 .4:
         imul edx, eax, byte 28h
-        mov eax, unk_1A0B20
+        mov eax, SndChannels
         add eax, edx
         cmp dword [byte ebp-04h], byte 7Fh
         jg short .5
@@ -410,9 +428,9 @@ sub_BFC91:
         mov byte [byte eax+024h], cl
         mov eax, ebx
         call sub_CAB78
-        movsx eax, byte [dword edx+byte_1A0B46]
+        movsx eax, byte [dword edx+SndChannelGain]
         push eax
-        movzx eax, byte [dword edx+byte_1A0B47]
+        movzx eax, byte [dword edx+SndChannelPan]
         push eax
         push ebx
         call sub_CC17B
@@ -450,7 +468,7 @@ sub_BFC91:
         ret
 .11:
         imul edx, eax, byte 28h
-        mov eax, unk_1A0B20
+        mov eax, SndChannels
         add eax, edx
         cmp dword [byte ebp-04h], 0FFh
         jg short .12
@@ -475,9 +493,9 @@ sub_BFC91:
         mov byte [byte eax+027h], cl
         mov eax, ebx
         call sub_CAB78
-        movsx eax, byte [dword edx+byte_1A0B46]
+        movsx eax, byte [dword edx+SndChannelGain]
         push eax
-        movzx eax, byte [dword edx+byte_1A0B47]
+        movzx eax, byte [dword edx+SndChannelPan]
         push eax
         push ebx
         call sub_CC17B
@@ -488,9 +506,10 @@ sub_BFC91:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFDB8                                                            BFDB8  
+; SetChannelBend                               BFDB8  96 PC, medium confidence
+; Sets a sound channel's pitch bend (0-127) and updates its playback rate
 ;-----------------------------------------------------------------------------
-sub_BFDB8:
+SetChannelBend:
         push ebx
         push ecx
         push esi
@@ -519,7 +538,7 @@ sub_BFDB8:
         ret
 .4:
         imul eax, byte 28h
-        movzx edx, byte [dword eax+byte_1A0B2B]
+        movzx edx, byte [dword eax+SndChannelType]
         cmp edx, byte 1
         je short .5
         mov eax, 0FFFFFFF1h
@@ -539,7 +558,7 @@ sub_BFDB8:
         pop ebx
         ret
 .7:
-        cmp byte [dword eax+byte_1A0B36], 0
+        cmp byte [dword eax+SndChannelActive], 0
         jne short .8
         mov eax, 0FFFFFFF3h
         pop esi
@@ -547,10 +566,10 @@ sub_BFDB8:
         pop ebx
         ret
 .8:
-        mov ebx, dword [dword eax+dword_1A0B2C]
-        movzx edx, byte [dword eax+byte_1A0B31]
+        mov ebx, dword [dword eax+SndChannelRate]
+        movzx edx, byte [dword eax+SndChannelBendRange]
         mov eax, ecx
-        call sub_C12C8
+        call BendSampleRate
         push eax
         push esi
         call sub_CC1B5
@@ -561,9 +580,10 @@ sub_BFDB8:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFE4C                                                            BFE4C  
+; StopSoundChannel                             BFE4C  96 PC, medium confidence
+; Stops a sound channel; stopping the stream channel also frees its packets
 ;-----------------------------------------------------------------------------
-sub_BFE4C:
+StopSoundChannel:
         push ebx
         push ecx
         push edx
@@ -593,7 +613,7 @@ sub_BFE4C:
         ret
 .4:
         imul esi, eax, byte 28h
-        add esi, unk_1A0B20
+        add esi, SndChannels
         cmp byte [byte esi+016h], 0
         jne short .5
         mov eax, 0FFFFFFF3h
@@ -609,9 +629,9 @@ sub_BFE4C:
         add esp, byte 4
         cmp eax, byte 2
         jne short .6
-        mov dword [dword_123BCC], 0
-        mov dword [dword_123BE8], 0
-        call sub_C03F8
+        mov dword [StreamState], 0
+        mov dword [StreamPacketsPlayed], 0
+        call FlushAudioStream
 .6:
         xor eax, eax
         pop esi
@@ -634,11 +654,11 @@ sub_BFE4C:
         xor edx, edx
         xor ebx, ebx
 .9:
-        movzx eax, byte [dword ebx+byte_1A0B36]
+        movzx eax, byte [dword ebx+SndChannelActive]
         cmp eax, byte 1
         jne short .10
         mov eax, edx
-        call sub_BFE4C
+        call StopSoundChannel
 .10:
         inc edx
         add ebx, byte 28h
@@ -652,7 +672,7 @@ sub_BFE4C:
         push ecx
         push edx
         and al, 7Fh
-        mov byte [byte_1248DA], al
+        mov byte [SndMasterVolume], al
         cmp dword [snddriver], byte 0
         jle short .13
         cmp dword [snddriver], byte 5
@@ -660,12 +680,12 @@ sub_BFE4C:
         xor ecx, ecx
         xor ebx, ebx
 .11:
-        movzx eax, byte [dword ebx+byte_1A0B36]
+        movzx eax, byte [dword ebx+SndChannelActive]
         cmp eax, byte 1
         jne short .12
         mov eax, ecx
-        movsx edx, byte [dword ebx+byte_1A0B44]
-        call sub_BFC91
+        movsx edx, byte [dword ebx+SndChannelVolume]
+        call SetChannelVolume
 .12:
         inc ecx
         add ebx, byte 28h
@@ -677,9 +697,10 @@ sub_BFE4C:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFF52                                                            BFF52  
+; ChannelSamplesLeft                           BFF52  96 PC, medium confidence
+; Returns how many samples a sound channel has left to play
 ;-----------------------------------------------------------------------------
-sub_BFF52:
+ChannelSamplesLeft:
         push ebx
         push ecx
         push edx
@@ -713,9 +734,10 @@ sub_BFF52:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFF8F                                                            BFF8F  
+; ChannelIdle                                  BFF8F  96 PC, medium confidence
+; Returns 1 when a sound channel is not playing
 ;-----------------------------------------------------------------------------
-sub_BFF8F:
+ChannelIdle:
         test eax, eax
         jl short .1
         cmp eax, byte 10h
@@ -733,7 +755,7 @@ sub_BFF8F:
         ret
 .4:
         imul eax, byte 28h
-        movzx eax, byte [dword eax+byte_1A0B36]
+        movzx eax, byte [dword eax+SndChannelActive]
         cmp eax, byte 1
         jne short .5
         xor eax, eax
@@ -742,9 +764,10 @@ sub_BFF8F:
         mov eax, 1
         ret
 ;-----------------------------------------------------------------------------
-; sub_BFFCE                                                            BFFCE  
+; OpenAudioStream                              BFFCE  96 PC, medium confidence
+; Reads an audio stream header packet and sets up the stream channel
 ;-----------------------------------------------------------------------------
-sub_BFFCE:
+OpenAudioStream:
         push ebx
         push ecx
         push edx
@@ -754,20 +777,20 @@ sub_BFFCE:
         lea ebx, [byte eax+08h]
         cmp dword [ebx], 53434145h
         je short .1
-        mov dword [dword_123BCC], 0
+        mov dword [StreamState], 0
         mov eax, 0FFFFFFFEh
         jmp near .10
 .1:
         movsx eax, byte [byte ebx+0Bh]
         mov dword [byte ebp-04h], eax
         imul eax, byte 28h
-        add eax, unk_1A0B20
+        add eax, SndChannels
         cmp dword [byte ebp-04h], byte 0
         jl short .2
         cmp dword [byte ebp-04h], byte 10h
         jl short .3
 .2:
-        mov dword [dword_123BCC], 0
+        mov dword [StreamState], 0
         mov eax, 0FFFFFFFDh
         jmp near .10
 .3:
@@ -785,7 +808,7 @@ sub_BFFCE:
         mov byte [byte eax+025h], dl
         mov dl, byte [byte ebp-04h]
         mov byte [byte eax+012h], dl
-        mov dl, byte [dword_123BDC]
+        mov dl, byte [StreamVolume]
         mov byte [byte eax+024h], dl
         movzx eax, byte [byte ebx+09h]
         movzx esi, byte [byte ebx+08h]
@@ -797,40 +820,40 @@ sub_BFFCE:
         xor edx, edx
         sub eax, byte 28h
         div esi
-        mov dword [dword_123BE8], 0
-        mov dword [dword_123BE4], ebx
+        mov dword [StreamPacketsPlayed], 0
+        mov dword [StreamHeader], ebx
         mov dword [byte ebx+0Ch], eax
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_123BD4], esi
-        mov dword [dword_123BD0], eax
+        mov dword [StreamFrameBytes], esi
+        mov dword [StreamChannel], eax
         mov eax, dword [byte ebx+04h]
         mov dword [byte ebx+010h], 0FFFFFFFFh
-        mov dword [dword_123BD8], eax
+        mov dword [StreamSampleRate], eax
         movzx eax, byte [byte ebx+0Ah]
         mov dword [byte ebx+014h], 0
         cmp eax, byte 2
         jne short .4
-        mov dword [dword_123BEC], 4
+        mov dword [StreamSampleScale], 4
         jmp short .5
 .4:
-        mov dword [dword_123BEC], 1
+        mov dword [StreamSampleScale], 1
 .5:
-        cmp dword [dword_123BCC], byte 0
+        cmp dword [StreamState], byte 0
         je short .9
         mov ebx, ecx
         cmp dword [ecx], byte 0FFFFFFFFh
         je short .6
         mov dword [ecx], 0
 .6:
-        cmp dword [dword_19B68C], byte 0
+        cmp dword [StreamPacketHead], byte 0
         jne short .7
-        mov dword [dword_19B68C], ebx
+        mov dword [StreamPacketHead], ebx
         jmp short .8
 .7:
-        mov eax, dword [dword_19B688]
+        mov eax, dword [StreamPacketTail]
         mov dword [eax], ebx
 .8:
-        mov dword [dword_19B688], ebx
+        mov dword [StreamPacketTail], ebx
 .9:
         xor eax, eax
 .10:
@@ -841,11 +864,12 @@ sub_BFFCE:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C011D                                                            C011D  
+; QueueStreamPacket                            C011D  96 PC, medium confidence
+; Appends a packet to the audio stream packet list
 ;-----------------------------------------------------------------------------
-sub_C011D:
+QueueStreamPacket:
         push edx
-        cmp dword [dword_123BCC], byte 0
+        cmp dword [StreamState], byte 0
         jne short .1
         mov eax, 0FFFFFFFFh
         pop edx
@@ -856,15 +880,15 @@ sub_C011D:
         je short .2
         mov dword [eax], 0
 .2:
-        cmp dword [dword_19B68C], byte 0
+        cmp dword [StreamPacketHead], byte 0
         jne short .3
-        mov dword [dword_19B68C], edx
+        mov dword [StreamPacketHead], edx
         jmp short .4
 .3:
-        mov eax, dword [dword_19B688]
+        mov eax, dword [StreamPacketTail]
         mov dword [eax], edx
 .4:
-        mov dword [dword_19B688], edx
+        mov dword [StreamPacketTail], edx
         xor eax, eax
         pop edx
         ret
@@ -874,11 +898,11 @@ sub_C011D:
         push esi
         mov esi, eax
         push dword [byte eax+08h]
-        push dword [dword_123BE0]
+        push dword [StreamOwner]
         call CdStreamSeek
         add esp, byte 8
         push esi
-        push dword [dword_123BE0]
+        push dword [StreamOwner]
         call CdStreamFreePacket
         add esp, byte 8
         xor eax, eax
@@ -889,30 +913,31 @@ sub_C011D:
         ret
         push edx
         mov dword [eax], 0FFFFFFFFh
-        cmp dword [dword_123BCC], byte 0
+        cmp dword [StreamState], byte 0
         je short .8
         mov edx, eax
         cmp dword [eax], byte 0FFFFFFFFh
         je short .5
         mov dword [eax], 0
 .5:
-        cmp dword [dword_19B68C], byte 0
+        cmp dword [StreamPacketHead], byte 0
         jne short .6
-        mov dword [dword_19B68C], edx
+        mov dword [StreamPacketHead], edx
         jmp short .7
 .6:
-        mov eax, dword [dword_19B688]
+        mov eax, dword [StreamPacketTail]
         mov dword [eax], edx
 .7:
-        mov dword [dword_19B688], edx
+        mov dword [StreamPacketTail], edx
 .8:
         xor eax, eax
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C01C9                                                            C01C9  
+; AudioStreamCallback                          C01C9  96 PC, medium confidence
+; Mixer callback: hands the next stream packet's samples to the mixer
 ;-----------------------------------------------------------------------------
-sub_C01C9:
+AudioStreamCallback:
         push ds
         call RestoreDS
         push esi
@@ -920,13 +945,13 @@ sub_C01C9:
         mov ebp, esp
         mov edx, dword [byte ebp+010h]
         mov ecx, dword [byte ebp+014h]
-        mov eax, dword [dword_19B68C]
-        cmp eax, dword [dword_19B688]
+        mov eax, dword [StreamPacketHead]
+        cmp eax, dword [StreamPacketTail]
         jne short .2
         cmp dword [eax], byte 0FFFFFFFFh
         jne short .1
         mov dword [edx], 0
-        mov dword [dword_123BCC], 1
+        mov dword [StreamState], 1
         mov dword [ecx], 0
         pop ebp
         pop esi
@@ -937,7 +962,7 @@ sub_C01C9:
         mov dword [edx], ebx
         mov eax, dword [byte eax+04h]
         sub eax, byte 8
-        mov ebx, dword [dword_123BD4]
+        mov ebx, dword [StreamFrameBytes]
         cdq
         idiv ebx
         mov dword [ecx], eax
@@ -953,44 +978,46 @@ sub_C01C9:
         mov eax, dword [ebx]
         mov eax, dword [byte eax+04h]
         sub eax, byte 8
-        mov esi, dword [dword_123BD4]
+        mov esi, dword [StreamFrameBytes]
         cdq
         idiv esi
         mov dword [ecx], eax
         mov eax, dword [ebx]
-        inc dword [dword_123BE8]
-        mov dword [dword_19B68C], eax
+        inc dword [StreamPacketsPlayed]
+        mov dword [StreamPacketHead], eax
         mov dword [ebx], 0FFFFFFFEh
         pop ebp
         pop esi
         pop ds
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0252                                                            C0252  
+; InitAudioStream                              C0252  96 PC, medium confidence
+; Resets the audio stream state before a new stream
 ;-----------------------------------------------------------------------------
-sub_C0252:
-        mov dword [dword_123BE8], 0
-        mov dword [dword_123BCC], 3
-        mov dword [dword_123BDC], 7Fh
-        mov dword [dword_123BD0], 0FFFFFFFFh
-        mov dword [dword_19B68C], 0
-        mov dword [dword_19B688], 0
-        mov dword [dword_123BE0], eax
+InitAudioStream:
+        mov dword [StreamPacketsPlayed], 0
+        mov dword [StreamState], 3
+        mov dword [StreamVolume], 7Fh
+        mov dword [StreamChannel], 0FFFFFFFFh
+        mov dword [StreamPacketHead], 0
+        mov dword [StreamPacketTail], 0
+        mov dword [StreamOwner], eax
         xor eax, eax
         ret
-        mov dword [dword_123BE8], 0
-        mov dword [dword_123BCC], 3
-        mov dword [dword_123BD0], 0FFFFFFFFh
-        mov dword [dword_19B68C], 0
-        mov dword [dword_19B688], 0
-        mov dword [dword_123BE0], eax
-        mov dword [dword_123BDC], edx
+        mov dword [StreamPacketsPlayed], 0
+        mov dword [StreamState], 3
+        mov dword [StreamChannel], 0FFFFFFFFh
+        mov dword [StreamPacketHead], 0
+        mov dword [StreamPacketTail], 0
+        mov dword [StreamOwner], eax
+        mov dword [StreamVolume], edx
         xor eax, eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_C02D6                                                            C02D6  
+; StartAudioStream                             C02D6  96 PC, medium confidence
+; Starts the stream channel once its header has been read
 ;-----------------------------------------------------------------------------
-sub_C02D6:
+StartAudioStream:
         cmp dword [snddriver], byte 0
         jle short .1
         cmp dword [snddriver], byte 5
@@ -999,18 +1026,18 @@ sub_C02D6:
         mov eax, 0FFFFFFFFh
         ret
 .2:
-        cmp dword [dword_123BD0], byte 0
+        cmp dword [StreamChannel], byte 0
         jl short .1
-        cmp dword [dword_123BCC], byte 3
+        cmp dword [StreamState], byte 3
         jne short .3
-        mov eax, dword [dword_123BD0]
-        mov dword [dword_123BE8], 0
+        mov eax, dword [StreamChannel]
+        mov dword [StreamPacketsPlayed], 0
         call sub_CAB78
-        mov eax, dword [dword_123BE4]
-        call sub_C1051
-        mov dword [dword_123BCC], 2
+        mov eax, dword [StreamHeader]
+        call StartChannelSample
+        mov dword [StreamState], 2
 .3:
-        mov eax, dword [dword_123BD0]
+        mov eax, dword [StreamChannel]
         ret
 ;-----------------------------------------------------------------------------
 ; FeedAudioStream                                 C032E  96 PC, low confidence
@@ -1038,29 +1065,29 @@ FeedAudioStream:
         jmp near .10
 .2:
         mov eax, esi
-        call sub_BFFCE
+        call OpenAudioStream
         pop esi
         pop edx
         pop ecx
         pop ebx
         ret
 .3:
-        cmp dword [dword_123BCC], byte 0
+        cmp dword [StreamState], byte 0
         je short .10
         mov edx, esi
         cmp eax, byte 0FFFFFFFFh
         je short .4
         mov dword [esi], 0
 .4:
-        cmp dword [dword_19B68C], byte 0
+        cmp dword [StreamPacketHead], byte 0
         jne short .5
-        mov dword [dword_19B68C], edx
+        mov dword [StreamPacketHead], edx
         jmp short .6
 .5:
-        mov eax, dword [dword_19B688]
+        mov eax, dword [StreamPacketTail]
         mov dword [eax], edx
 .6:
-        mov dword [dword_19B688], edx
+        mov dword [StreamPacketTail], edx
 .7:
         xor eax, eax
         pop esi
@@ -1070,18 +1097,18 @@ FeedAudioStream:
         ret
 .8:
         push dword [byte esi+08h]
-        push dword [dword_123BE0]
+        push dword [StreamOwner]
         call CdStreamSeek
         add esp, byte 8
         push esi
-        push dword [dword_123BE0]
+        push dword [StreamOwner]
         call CdStreamFreePacket
         add esp, byte 8
         jmp short .7
 .9:
         mov eax, esi
         mov dword [esi], 0FFFFFFFFh
-        call sub_C011D
+        call QueueStreamPacket
         jmp short .7
 .10:
         mov eax, 0FFFFFFFFh
@@ -1091,49 +1118,52 @@ FeedAudioStream:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C03EA                                                            C03EA  
+; AudioStreamActive                            C03EA  96 PC, medium confidence
+; Returns 1 while an audio stream is open
 ;-----------------------------------------------------------------------------
-sub_C03EA:
-        cmp dword [dword_123BCC], byte 0
+AudioStreamActive:
+        cmp dword [StreamState], byte 0
         setne al
         movzx eax, al
         ret
 ;-----------------------------------------------------------------------------
-; sub_C03F8                                                            C03F8  
+; FlushAudioStream                             C03F8  96 PC, medium confidence
+; Marks every queued stream packet as free
 ;-----------------------------------------------------------------------------
-sub_C03F8:
+FlushAudioStream:
         push edx
-        mov eax, dword [dword_19B688]
+        mov eax, dword [StreamPacketTail]
 .1:
         mov dword [eax], 0FFFFFFFEh
-        mov eax, dword [dword_19B68C]
-        cmp eax, dword [dword_19B688]
+        mov eax, dword [StreamPacketHead]
+        cmp eax, dword [StreamPacketTail]
         je short .2
         mov edx, dword [eax]
-        mov dword [dword_19B68C], edx
+        mov dword [StreamPacketHead], edx
         jmp short .1
 .2:
         mov dword [eax], 0FFFFFFFEh
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0423                                                            C0423  
+; AudioStreamPosition                          C0423  96 PC, medium confidence
+; Returns the queued stream length in bytes, samples or time
 ;-----------------------------------------------------------------------------
-sub_C0423:
+AudioStreamPosition:
         push ebx
         push edx
         mov ebx, eax
         xor edx, edx
-        cmp dword [dword_123BCC], byte 0
+        cmp dword [StreamState], byte 0
         je near .9
-        cmp dword [dword_19B68C], byte 0
+        cmp dword [StreamPacketHead], byte 0
         jne short .1
         xor eax, eax
         pop edx
         pop ebx
         ret
 .1:
-        mov eax, dword [dword_19B68C]
+        mov eax, dword [StreamPacketHead]
 .2:
         add edx, dword [byte eax+04h]
         cmp dword [eax], byte 0
@@ -1163,17 +1193,17 @@ sub_C0423:
 .6:
         mov eax, edx
         cdq
-        idiv dword [dword_123BD4]
+        idiv dword [StreamFrameBytes]
 .7:
-        imul eax, dword [dword_123BEC]
+        imul eax, dword [StreamSampleScale]
         pop edx
         pop ebx
         ret
 .8:
         mov eax, edx
         cdq
-        idiv dword [dword_123BD4]
-        mov ebx, dword [dword_123BD8]
+        idiv dword [StreamFrameBytes]
+        mov ebx, dword [StreamSampleRate]
         shl eax, 0Ch
         sar ebx, 4
         cdq
@@ -1185,20 +1215,22 @@ sub_C0423:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C04AE                                                            C04AE  
+; AudioStreamPacketsPlayed                     C04AE  96 PC, medium confidence
+; Returns how many stream packets have played
 ;-----------------------------------------------------------------------------
-sub_C04AE:
-        cmp dword [dword_123BCC], byte 0
+AudioStreamPacketsPlayed:
+        cmp dword [StreamState], byte 0
         jne short .1
         mov eax, 0FFFFFFFFh
         ret
 .1:
-        mov eax, dword [dword_123BE8]
+        mov eax, dword [StreamPacketsPlayed]
         ret
 ;-----------------------------------------------------------------------------
-; sub_C04C3                                                            C04C3  
+; RegisterSfxBank                              C04C3  96 PC, medium confidence
+; Adds a loaded sound effect bank and fixes up its sample pointers
 ;-----------------------------------------------------------------------------
-sub_C04C3:
+RegisterSfxBank:
         push ebx
         push ecx
         push edx
@@ -1216,7 +1248,7 @@ sub_C04C3:
         xor eax, eax
         jmp short .4
 .2:
-        cmp dword [dword eax+dword_123BF0], byte 0
+        cmp dword [dword eax+SfxBanks], byte 0
         jne short .3
         mov esi, edx
         jmp short .5
@@ -1245,15 +1277,15 @@ sub_C04C3:
         shl eax, 2
         cmp dword [edx], byte 0
         je short .9
-        cmp dword [dword eax+dword_1A0DA0], byte 0
+        cmp dword [dword eax+SfxTable], byte 0
         jne short .6
         mov ebx, dword [byte ebp-08h]
         add ebx, dword [edx]
         mov ecx, dword [byte ebp-08h]
-        mov dword [dword eax+dword_1A0DA0], ebx
+        mov dword [dword eax+SfxTable], ebx
         add ecx, dword [byte ebx+04h]
         mov dword [byte ebx+04h], ecx
-        mov eax, dword [dword eax+dword_1A0DA0]
+        mov eax, dword [dword eax+SfxTable]
         mov eax, dword [byte eax+04h]
         mov ebx, dword [byte ebp-08h]
         add ebx, dword [byte eax+018h]
@@ -1265,7 +1297,7 @@ sub_C04C3:
         cmp dword [byte ebp-04h], 80h
         jb short .8
         mov eax, esi
-        mov dword [nosplit esi*4+dword_123BF0], edi
+        mov dword [nosplit esi*4+SfxBanks], edi
 .11:
         leave
         pop edi
@@ -1275,9 +1307,10 @@ sub_C04C3:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0578                                                            C0578  
+; UnregisterSfxBank                            C0578  96 PC, medium confidence
+; Removes one sound effect bank, or all of them for -1
 ;-----------------------------------------------------------------------------
-sub_C0578:
+UnregisterSfxBank:
         push ebx
         push ecx
         push edx
@@ -1289,7 +1322,7 @@ sub_C0578:
 .1:
         mov eax, esi
         inc esi
-        call sub_C0578
+        call UnregisterSfxBank
         cmp esi, byte 5
         jl short .1
         jmp short .7
@@ -1307,9 +1340,9 @@ sub_C0578:
         ret
 .4:
         shl eax, 2
-        cmp dword [dword eax+dword_123BF0], byte 0
+        cmp dword [dword eax+SfxBanks], byte 0
         je short .3
-        push dword [dword eax+dword_123BF0]
+        push dword [dword eax+SfxBanks]
         call MemDescPtr
         add esp, byte 4
         xor edx, edx
@@ -1318,17 +1351,17 @@ sub_C0578:
         shl ebx, 2
         cmp dword [eax], byte 0
         je short .6
-        mov dword [dword ebx+dword_1A0DA0], 0
+        mov dword [dword ebx+SfxTable], 0
 .6:
         inc edx
         add eax, byte 4
         cmp edx, 80h
         jb short .5
-        mov eax, dword_123BF0
+        mov eax, SfxBanks
         shl esi, 2
         add eax, esi
         call sub_CAB58
-        mov dword [dword esi+dword_123BF0], 0
+        mov dword [dword esi+SfxBanks], 0
 .7:
         xor eax, eax
         pop esi
@@ -1337,42 +1370,46 @@ sub_C0578:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0603                                                            C0603  
+; PlaySfxFull                                  C0603  96 PC, medium confidence
+; Plays a sound effect at full volume, centred
 ;-----------------------------------------------------------------------------
-sub_C0603:
+PlaySfxFull:
         push ebx
         push ecx
         push edx
         mov ecx, 40h
         mov ebx, 7Fh
         mov edx, 0FFFFFFFFh
-        call sub_C0641
+        call PlaySfxPanned
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C061E                                                            C061E  
+; PlaySfxVolume                                C061E  96 PC, medium confidence
+; Plays a sound effect at a volume, centred
 ;-----------------------------------------------------------------------------
-sub_C061E:
+PlaySfxVolume:
         push ebx
         push ecx
         mov ecx, 40h
         mov ebx, edx
         mov edx, 0FFFFFFFFh
-        call sub_C0641
+        call PlaySfxPanned
         pop ecx
         pop ebx
         ret
         push ecx
         mov ecx, 40h
-        call sub_C0641
+        call PlaySfxPanned
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0641                                                            C0641  
+; PlaySfxPanned                                C0641  96 PC, medium confidence
+; Plays a sound effect with pan, volume and pitch; stereo effects use two
+; channels
 ;-----------------------------------------------------------------------------
-sub_C0641:
+PlaySfxPanned:
         push esi
         push edi
         enter 18h, 0
@@ -1393,7 +1430,7 @@ sub_C0641:
 .2:
         mov edx, esi
         shl edx, 2
-        mov edi, dword [dword edx+dword_1A0DA0]
+        mov edi, dword [dword edx+SfxTable]
         mov dword [byte ebp-014h], edx
         test edi, edi
         je short .1
@@ -1404,7 +1441,7 @@ sub_C0641:
         je near .6
         mov eax, dword [byte ebp-010h]
         mov edx, ebx
-        call sub_C11EF
+        call SplitStereoPan
         mov edx, eax
         and edx, 0FFh
         sar eax, 8
@@ -1419,7 +1456,7 @@ sub_C0641:
         mov edx, esi
         mov eax, edi
         mov ebx, dword [byte ebp-04h]
-        call sub_C0727
+        call StartSfxChannel
         mov dword [byte ebp-08h], eax
         test eax, eax
         jge short .3
@@ -1431,7 +1468,7 @@ sub_C0641:
         ret
 .3:
         mov eax, dword [byte ebp-014h]
-        mov eax, dword [dword eax+dword_1A0DA4]
+        mov eax, dword [dword eax+SfxTableNext]
         test eax, eax
         jne short .4
         popf
@@ -1441,13 +1478,13 @@ sub_C0641:
         mov ecx, dword [byte ebp-018h]
         mov ebx, dword [byte ebp-04h]
         lea edx, [byte esi+01h]
-        call sub_C0727
+        call StartSfxChannel
         mov edi, eax
         popf
         test edi, edi
         jge short .5
         mov eax, esi
-        call sub_BFE4C
+        call StopSoundChannel
         mov eax, edi
         leave
         pop edi
@@ -1467,15 +1504,16 @@ sub_C0641:
         mov eax, edi
         mov ecx, ebx
         mov ebx, dword [byte ebp-010h]
-        call sub_C0727
+        call StartSfxChannel
         leave
         pop edi
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0727                                                            C0727  
+; StartSfxChannel                              C0727  96 PC, medium confidence
+; Picks a free channel and starts one sound effect sample on it
 ;-----------------------------------------------------------------------------
-sub_C0727:
+StartSfxChannel:
         push esi
         push edi
         enter 14h, 0
@@ -1485,7 +1523,7 @@ sub_C0727:
         mov dword [byte ebp-08h], ecx
         movzx edx, byte [byte eax+014h]
         mov eax, dword [eax]
-        call sub_C1614
+        call AllocSoundChannel
         mov edi, eax
         test eax, eax
         jne short .1
@@ -1592,7 +1630,7 @@ sub_C0727:
         jmp short .15
 .12:
         movzx eax, byte [byte esi+01Dh]
-        call sub_C08DA
+        call RandomSpread
         add eax, byte 40h
         jmp short .15
 .13:
@@ -1611,7 +1649,7 @@ sub_C0727:
         mov al, byte [byte edi+012h]
         mov byte [byte edx+01Ch], al
         mov eax, edx
-        call sub_C1051
+        call StartChannelSample
         movsx eax, byte [byte edi+012h]
 .16:
         leave
@@ -1628,12 +1666,13 @@ sub_C0727:
         ret
 .18:
         imul eax, byte 28h
-        movsx eax, byte [dword eax+byte_1A0B37]
+        movsx eax, byte [dword eax+SndChannelSfx]
         ret
 ;-----------------------------------------------------------------------------
-; sub_C08DA                                                            C08DA  
+; RandomSpread                                 C08DA  96 PC, medium confidence
+; Returns a random value between minus and plus the given range
 ;-----------------------------------------------------------------------------
-sub_C08DA:
+RandomSpread:
         push ebx
         push ecx
         push edx
@@ -1650,16 +1689,18 @@ sub_C08DA:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C08F5                                                            C08F5  
+; PauseCrowdChannels                           C08F5  96 PC, medium confidence
+; Stops the crowd channels and marks the crowd paused
 ;-----------------------------------------------------------------------------
-sub_C08F5:
-        call sub_C1008
-        mov byte [byte_123C05], 1
+PauseCrowdChannels:
+        call StopCrowdChannels
+        mov byte [CrowdPaused], 1
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0902                                                            C0902  
+; ResumeCrowdChannels                          C0902  96 PC, medium confidence
+; Restarts the crowd channels and fades them in over a number of ticks
 ;-----------------------------------------------------------------------------
-sub_C0902:
+ResumeCrowdChannels:
         push ebx
         push edx
         mov ebx, eax
@@ -1667,70 +1708,72 @@ sub_C0902:
         jge short .1
         mov ebx, 1
 .1:
-        mov eax, dword [dword_123C06]
+        mov eax, dword [CrowdVolume]
         shl eax, 10h
         cdq
         idiv ebx
-        mov dword [dword_123C16], eax
-        mov eax, dword [dword_123C06]
-        mov dword [dword_123C1A], eax
+        mov dword [CrowdFadeStep], eax
+        mov eax, dword [CrowdVolume]
+        mov dword [CrowdFadeGoal], eax
         xor eax, eax
-        mov dword [dword_123C1E], 0
-        call sub_C0F30
+        mov dword [CrowdFadeLevel], 0
+        call StartCrowdSound
         pop edx
         pop ebx
         ret
-        mov eax, unk_19B6A4
+        mov eax, CrowdBank
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0944                                                            C0944  
+; SetCrowdLayerLevels                          C0944  96 PC, medium confidence
+; Sets each crowd layer's volume and bend from the crowd excitement and
+; intensity
 ;-----------------------------------------------------------------------------
-sub_C0944:
+SetCrowdLayerLevels:
         push ebx
         push ecx
         push edx
         push esi
         push edi
         enter 0Ch, 0
-        mov eax, dword [dword_19B6BC]
+        mov eax, dword [CrowdExcitement]
         sar eax, 10h
-        mov dword [dword_19B690], eax
-        mov eax, dword [dword_19B6C0]
-        mov dword [dword_19B694], eax
-        mov eax, dword [dword_19B690]
-        imul eax, dword [dword_19B6B4]
-        mov dword [dword_19B6A0], eax
-        mov eax, dword [dword_19B6C0]
-        imul eax, dword [dword_19B6B8]
-        mov dword [dword_19B69C], eax
-        mov eax, dword [dword_19B6A0]
-        add eax, dword [dword_19B69C]
-        mov dword [dword_19B698], eax
-        sar dword [dword_19B698], 13h
-        cmp dword [dword_19B698], byte 7Fh
+        mov dword [CrowdExcitementWhole], eax
+        mov eax, dword [CrowdIntensityLevel]
+        mov dword [CrowdIntensityCopy], eax
+        mov eax, dword [CrowdExcitementWhole]
+        imul eax, dword [CrowdExcitementWeight]
+        mov dword [CrowdExcitementTerm], eax
+        mov eax, dword [CrowdIntensityLevel]
+        imul eax, dword [CrowdIntensityWeight]
+        mov dword [CrowdIntensityTerm], eax
+        mov eax, dword [CrowdExcitementTerm]
+        add eax, dword [CrowdIntensityTerm]
+        mov dword [CrowdMixLevel], eax
+        sar dword [CrowdMixLevel], 13h
+        cmp dword [CrowdMixLevel], byte 7Fh
         jle short .1
-        mov dword [dword_19B698], 7Fh
+        mov dword [CrowdMixLevel], 7Fh
 .1:
         mov dword [byte ebp-0Ch], 0
         xor esi, esi
         xor edi, edi
         jmp near .8
 .2:
-        mov eax, dword [dword esi+dword_19B77C]
+        mov eax, dword [dword esi+CrowdLayerThreshold]
         sar eax, 3
-        cmp eax, dword [dword_19B698]
+        cmp eax, dword [CrowdMixLevel]
         jge short .4
-        mov edx, dword [dword_19B698]
-        mov ebx, dword [dword esi+dword_19B788]
+        mov edx, dword [CrowdMixLevel]
+        mov ebx, dword [dword esi+CrowdLayerMaxVolume]
         sub edx, eax
-        sub ebx, dword [dword esi+dword_19B784]
+        sub ebx, dword [dword esi+CrowdLayerMinVolume]
         imul edx, ebx
         mov ebx, 7Fh
         sub ebx, eax
         mov eax, edx
         cdq
         idiv ebx
-        mov edx, dword [dword esi+dword_19B784]
+        mov edx, dword [dword esi+CrowdLayerMinVolume]
         add edx, eax
         mov dword [byte ebp-04h], edx
         call Random32
@@ -1745,53 +1788,53 @@ sub_C0944:
         mov dword [byte ebp-08h], 7Fh
         jmp short .5
 .4:
-        mov eax, dword [dword esi+dword_19B784]
+        mov eax, dword [dword esi+CrowdLayerMinVolume]
         mov dword [byte ebp-08h], 0
         mov dword [byte ebp-04h], eax
 .5:
         mov eax, dword [byte ebp-04h]
-        imul eax, dword [dword_123C06]
+        imul eax, dword [CrowdVolume]
         mov ebx, 7Fh
         cdq
         idiv ebx
         mov dword [byte ebp-04h], eax
-        mov eax, dword [dword esi+dword_19B770]
+        mov eax, dword [dword esi+CrowdLayerChannel]
         imul eax, byte 28h
-        mov ebx, unk_1A0B20
+        mov ebx, SndChannels
         add ebx, eax
         mov eax, dword [byte ebp-04h]
-        mov dword [dword esi+dword_19B774], eax
+        mov dword [dword esi+CrowdLayerCurVolume], eax
         mov eax, dword [byte ebp-08h]
-        mov dword [dword esi+dword_19B778], eax
+        mov dword [dword esi+CrowdLayerCurBend], eax
         mov al, byte [byte ebp-08h]
         mov byte [byte ebx+010h], al
-        mov eax, dword [dword edi+dword_123CB2]
+        mov eax, dword [dword edi+CrowdLastVolume]
         cmp eax, dword [byte ebp-04h]
         je short .6
         mov edx, dword [byte ebp-04h]
         movsx eax, byte [byte ebx+012h]
-        movzx edx, byte [dword edx+byte_123C22]
-        call sub_BFC91
+        movzx edx, byte [dword edx+VolumeCurve]
+        call SetChannelVolume
 .6:
-        mov eax, dword [dword edi+dword_123CA2]
+        mov eax, dword [dword edi+CrowdLastBend]
         cmp eax, dword [byte ebp-08h]
         je short .7
         mov edx, dword [byte ebp-08h]
         movsx eax, byte [byte ebx+012h]
-        call sub_BFDB8
+        call SetChannelBend
 .7:
         add edi, byte 4
         mov eax, dword [byte ebp-04h]
         inc dword [byte ebp-0Ch]
-        mov dword [dword edi+dword_123CAE], eax
+        mov dword [dword edi+CrowdLastVolumeStore], eax
         mov eax, dword [byte ebp-08h]
         add esi, byte 74h
-        mov dword [dword edi+dword_123C9E], eax
+        mov dword [dword edi+CrowdLastBendStore], eax
 .8:
         mov eax, dword [byte ebp-0Ch]
-        cmp eax, dword [dword_19B6C8]
+        cmp eax, dword [CrowdLayerCount]
         jl near .2
-sub_C0944_18C:
+SetCrowdLayerLevels_18C:
         leave
         pop edi
         pop esi
@@ -1800,13 +1843,14 @@ sub_C0944_18C:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0AD7                                                            C0AD7  
+; SetCrowdRampRate                             C0AD7  96 PC, medium confidence
+; Works out how fast the crowd excitement moves towards its goal
 ;-----------------------------------------------------------------------------
-sub_C0AD7:
+SetCrowdRampRate:
         push ebx
         push ecx
         push edx
-        mov eax, dword [dword_123C0E]
+        mov eax, dword [CrowdRampMode]
         cmp eax, byte 1
         jb short .1
         jbe short .4
@@ -1819,124 +1863,125 @@ sub_C0AD7:
 .1:
         test eax, eax
         jne near .10
-        imul eax, dword [dword_123C12], byte 14h
-        mov eax, dword [dword eax+dword_19B8FC]
-        imul ebx, dword [nosplit eax*8+dword_19B6E0], byte 64h
+        imul eax, dword [CrowdEvent], byte 14h
+        mov eax, dword [dword eax+CrowdEventCurve]
+        imul ebx, dword [nosplit eax*8+CrowdCurveRise], byte 64h
 .2:
         sar ebx, 10h
         test ebx, ebx
         jg short .3
         mov ebx, 1
 .3:
-        imul eax, dword [dword_123C12], byte 14h
-        mov eax, dword [dword eax+dword_19B8F4]
+        imul eax, dword [CrowdEvent], byte 14h
+        mov eax, dword [dword eax+CrowdEventRaise]
         shl eax, 10h
-        mov dword [dword_19BA30], eax
+        mov dword [CrowdRampRate], eax
         cdq
         idiv ebx
-        mov dword [dword_19BA30], eax
+        mov dword [CrowdRampRate], eax
         cdq
         xor eax, edx
         sub eax, edx
         jmp near .9
 .4:
         call Random32
-        mov ebx, dword [dword_19B6D0]
+        mov ebx, dword [CrowdDriftRange]
         and eax, 0FFFFh
         imul eax, ebx
-        mov dword [dword_19B6C4], eax
-        imul eax, dword [dword_123C12], byte 14h
-        mov eax, dword [dword eax+dword_19B8FC]
-        imul ebx, dword [nosplit eax*8+dword_19B6E4], byte 64h
+        mov dword [CrowdExcitementGoal], eax
+        imul eax, dword [CrowdEvent], byte 14h
+        mov eax, dword [dword eax+CrowdEventCurve]
+        imul ebx, dword [nosplit eax*8+CrowdCurveFall], byte 64h
         jmp short .2
 .5:
         call Random32
         mov ebx, eax
-        mov eax, dword [dword_19B6D0]
+        mov eax, dword [CrowdDriftRange]
         and ebx, 0FFFFh
         imul ebx, eax
-        mov dword [dword_19B6C4], ebx
-        cmp ebx, dword [dword_19B6BC]
+        mov dword [CrowdExcitementGoal], ebx
+        cmp ebx, dword [CrowdExcitement]
         jle short .6
-        imul ebx, dword [dword_19B6D4], byte 64h
+        imul ebx, dword [CrowdDriftRiseTime], byte 64h
         jmp short .7
 .6:
-        imul ebx, dword [dword_19B6D8], byte 64h
+        imul ebx, dword [CrowdDriftFallTime], byte 64h
 .7:
         sar ebx, 10h
         test ebx, ebx
         jg short .8
         mov ebx, 1
 .8:
-        mov eax, dword [dword_19B6C4]
-        sub eax, dword [dword_19B6BC]
+        mov eax, dword [CrowdExcitementGoal]
+        sub eax, dword [CrowdExcitement]
         cdq
         xor eax, edx
         sub eax, edx
         cdq
         idiv ebx
 .9:
-        mov dword [dword_19BA30], eax
+        mov dword [CrowdRampRate], eax
 .10:
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0BCD                                                            C0BCD  
+; CrowdService                                 C0BCD  96 PC, medium confidence
+; Crowd tick: fades the crowd volume and moves excitement and intensity
 ;-----------------------------------------------------------------------------
-sub_C0BCD:
+CrowdService:
         push ebx
         push edx
-        cmp byte [byte_123C04], 0
+        cmp byte [CrowdLoaded], 0
         je near .14
-        cmp byte [byte_1248D1], 0
+        cmp byte [CrowdPlaying], 0
         je near .14
-        cmp byte [byte_123C05], 0
+        cmp byte [CrowdPaused], 0
         jne near .14
-        cmp dword [dword_123C16], byte 0
+        cmp dword [CrowdFadeStep], byte 0
         je short .1
-        mov eax, dword [dword_123C16]
-        add dword [dword_123C1E], eax
-        mov eax, dword [dword_123C1E]
+        mov eax, dword [CrowdFadeStep]
+        add dword [CrowdFadeLevel], eax
+        mov eax, dword [CrowdFadeLevel]
         sar eax, 10h
-        mov dword [dword_123C06], eax
-        cmp eax, dword [dword_123C1A]
+        mov dword [CrowdVolume], eax
+        cmp eax, dword [CrowdFadeGoal]
         jl short .1
-        mov eax, dword [dword_123C1A]
-        mov dword [dword_123C16], 0
-        mov dword [dword_123C06], eax
+        mov eax, dword [CrowdFadeGoal]
+        mov dword [CrowdFadeStep], 0
+        mov dword [CrowdVolume], eax
 .1:
-        inc dword [dword_123CC2]
-        mov eax, dword [dword_123CC2]
+        inc dword [CrowdTicks]
+        mov eax, dword [CrowdTicks]
         mov ebx, 4
         cdq
         idiv ebx
         test edx, edx
         jne short .2
-        call sub_C0944
+        call SetCrowdLayerLevels
 .2:
-        mov eax, dword [dword_123C0A]
+        mov eax, dword [CrowdIntensityGoal]
         shl eax, 3
-        cmp eax, dword [dword_19B6C0]
+        cmp eax, dword [CrowdIntensityLevel]
         jge short .3
-        sub dword [dword_19B6C0], byte 8
-        cmp dword [dword_19B6C0], byte 0
+        sub dword [CrowdIntensityLevel], byte 8
+        cmp dword [CrowdIntensityLevel], byte 0
         jge short .4
-        mov dword [dword_19B6C0], 0
+        mov dword [CrowdIntensityLevel], 0
         jmp short .4
 .3:
         jle short .4
-        add dword [dword_19B6C0], byte 8
-        cmp dword [dword_19B6C0], 400h
+        add dword [CrowdIntensityLevel], byte 8
+        cmp dword [CrowdIntensityLevel], 400h
         jl short .4
-        mov dword [dword_19B6C0], 3FFh
+        mov dword [CrowdIntensityLevel], 3FFh
 .4:
-        mov ebx, dword [dword_123C0E]
-        mov edx, dword [dword_19B6BC]
-        mov eax, dword [dword_19B6BC]
-        add edx, dword [dword_19BA30]
-        sub eax, dword [dword_19BA30]
+        mov ebx, dword [CrowdRampMode]
+        mov edx, dword [CrowdExcitement]
+        mov eax, dword [CrowdExcitement]
+        add edx, dword [CrowdRampRate]
+        sub eax, dword [CrowdRampRate]
         cmp ebx, byte 1
         jb short .5
         jbe short .8
@@ -1948,132 +1993,136 @@ sub_C0BCD:
 .5:
         test ebx, ebx
         jne near .14
-        mov ebx, dword [dword_19B6BC]
-        cmp ebx, dword [dword_19B6C4]
+        mov ebx, dword [CrowdExcitement]
+        cmp ebx, dword [CrowdExcitementGoal]
         jge short .7
-        mov dword [dword_19B6BC], edx
-        cmp edx, dword [dword_19B6C4]
+        mov dword [CrowdExcitement], edx
+        cmp edx, dword [CrowdExcitementGoal]
         jl near .14
 .6:
-        mov dword [dword_123C0E], 1
+        mov dword [CrowdRampMode], 1
         jmp near .13
 .7:
-        mov dword [dword_19B6BC], eax
-        cmp eax, dword [dword_19B6C4]
+        mov dword [CrowdExcitement], eax
+        cmp eax, dword [CrowdExcitementGoal]
         jg near .14
         jmp short .6
 .8:
-        mov ebx, dword [dword_19B6BC]
-        cmp ebx, dword [dword_19B6C4]
+        mov ebx, dword [CrowdExcitement]
+        cmp ebx, dword [CrowdExcitementGoal]
         jge short .10
-        mov dword [dword_19B6BC], edx
-        cmp edx, dword [dword_19B6C4]
+        mov dword [CrowdExcitement], edx
+        cmp edx, dword [CrowdExcitementGoal]
         jl short .14
 .9:
-        mov dword [dword_123C0E], 2
+        mov dword [CrowdRampMode], 2
         jmp short .13
 .10:
-        mov dword [dword_19B6BC], eax
-        cmp eax, dword [dword_19B6C4]
+        mov dword [CrowdExcitement], eax
+        cmp eax, dword [CrowdExcitementGoal]
         jg short .14
         jmp short .9
 .11:
-        mov ebx, dword [dword_19B6BC]
-        cmp ebx, dword [dword_19B6C4]
+        mov ebx, dword [CrowdExcitement]
+        cmp ebx, dword [CrowdExcitementGoal]
         jge short .12
-        mov dword [dword_19B6BC], edx
-        cmp edx, dword [dword_19B6C4]
+        mov dword [CrowdExcitement], edx
+        cmp edx, dword [CrowdExcitementGoal]
         jl short .14
         jmp short .13
 .12:
-        mov dword [dword_19B6BC], eax
-        cmp eax, dword [dword_19B6C4]
+        mov dword [CrowdExcitement], eax
+        cmp eax, dword [CrowdExcitementGoal]
         jg short .14
 .13:
-        call sub_C0AD7
+        call SetCrowdRampRate
 .14:
         pop edx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0D7E                                                            C0D7E  
+; TriggerCrowdEvent                            C0D7E  96 PC, medium confidence
+; Raises the crowd excitement for an event and plays its sound effect
 ;-----------------------------------------------------------------------------
-sub_C0D7E:
+TriggerCrowdEvent:
         push ebx
         push ecx
         push edx
         mov edx, eax
-        cmp byte [byte_123C05], 0
+        cmp byte [CrowdPaused], 0
         jne near .4
         cmp eax, byte 10h
         jge near .4
         test eax, eax
         jl near .4
-        cmp eax, dword [dword_19B6CC]
+        cmp eax, dword [CrowdEventCount]
         jg near .4
         imul eax, byte 14h
-        cmp dword [dword eax+dword_19B8F0], byte 0
+        cmp dword [dword eax+CrowdEvents], byte 0
         je near .4
-        mov ebx, dword [dword eax+dword_19B8F8]
-        mov ecx, dword [dword eax+dword_19B8F4]
+        mov ebx, dword [dword eax+CrowdEventCap]
+        mov ecx, dword [dword eax+CrowdEventRaise]
         shl ebx, 10h
         shl ecx, 10h
         dec ebx
         test ecx, ecx
         jle short .1
-        cmp ebx, dword [dword_19B6BC]
+        cmp ebx, dword [CrowdExcitement]
         jge short .1
-        mov eax, dword [dword eax+dword_19B900]
+        mov eax, dword [dword eax+CrowdEventSfx]
         test eax, eax
         jle short .4
         jmp short .3
 .1:
         pushf
         cli
-        mov eax, dword [dword_19B6BC]
+        mov eax, dword [CrowdExcitement]
         add ecx, eax
-        mov dword [dword_19B6C4], ecx
+        mov dword [CrowdExcitementGoal], ecx
         cmp ebx, ecx
         jge short .2
-        mov dword [dword_19B6C4], ebx
+        mov dword [CrowdExcitementGoal], ebx
 .2:
-        mov dword [dword_123C0E], 0
-        mov dword [dword_123C12], edx
-        call sub_C0AD7
+        mov dword [CrowdRampMode], 0
+        mov dword [CrowdEvent], edx
+        call SetCrowdRampRate
         popf
         imul eax, edx, byte 14h
-        mov eax, dword [dword eax+dword_19B900]
+        mov eax, dword [dword eax+CrowdEventSfx]
         test eax, eax
         jle short .4
 .3:
-        call sub_C0603
+        call PlaySfxFull
 .4:
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0E2D                                                            C0E2D  
+; SetCrowdIntensity                            C0E2D  96 PC, medium confidence
+; Sets the crowd intensity target (0-127)
 ;-----------------------------------------------------------------------------
-sub_C0E2D:
+SetCrowdIntensity:
         test eax, eax
         jl short .1
         cmp eax, byte 7Fh
         jg short .1
-        mov dword [dword_123C0A], eax
+        mov dword [CrowdIntensityGoal], eax
 .1:
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0E3C                                                            C0E3C  
+; CloseCrowdSound                              C0E3C  96 PC, medium confidence
+; Stops the crowd and unloads its bank
 ;-----------------------------------------------------------------------------
-sub_C0E3C:
-        call sub_C1008
-        mov byte [byte_123C04], 0
+CloseCrowdSound:
+        call StopCrowdChannels
+        mov byte [CrowdLoaded], 0
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0E49                                                            C0E49  
+; LoadCrowdBank                                C0E49  96 PC, medium confidence
+; Copies a crowd bank header and sets up its layers
 ;-----------------------------------------------------------------------------
-sub_C0E49:
+LoadCrowdBank:
         push ebx
         push ecx
         push edx
@@ -2087,7 +2136,7 @@ sub_C0E49:
         jle short .2
 .1:
         mov eax, 0FFFFFFFFh
-        jmp near sub_C0944_18C
+        jmp near SetCrowdLayerLevels_18C
 .2:
         test eax, eax
         je short .1
@@ -2095,76 +2144,78 @@ sub_C0E49:
         cmp dword [eax], 46445243h
         jne short .1
         mov ecx, 0E3h
-        mov edi, unk_19B6A4
+        mov edi, CrowdBank
         mov esi, eax
         rep movsd
-        mov dword [dword_123C0A], 0
+        mov dword [CrowdIntensityGoal], 0
         cmp dword [byte eax+024h], byte 4
         jle short .3
         mov dword [byte eax+024h], 4
 .3:
-        mov esi, unk_19B720
+        mov esi, CrowdLayers
         xor ebx, ebx
         jmp short .5
 .4:
         imul eax, ebx, byte 74h
-        mov ecx, dword [dword eax+dword_19B760]
-        mov byte [dword eax+byte_19B739], 7Fh
+        mov ecx, dword [dword eax+CrowdLayerData]
+        mov byte [dword eax+CrowdLayerVolume], 7Fh
         add ecx, edx
         inc ebx
-        mov dword [dword eax+dword_19B760], ecx
+        mov dword [dword eax+CrowdLayerData], ecx
         lea ecx, [byte esi+028h]
-        mov byte [dword eax+byte_19B734], 65h
+        mov byte [dword eax+CrowdLayerPriority], 65h
         add esi, byte 74h
-        mov dword [dword eax+dword_19B724], ecx
+        mov dword [dword eax+CrowdLayerSample], ecx
 .5:
         mov eax, dword [byte ebp-04h]
         cmp ebx, dword [byte eax+024h]
         jl short .4
-        cmp dword [dword_19B6CC], byte 10h
+        cmp dword [CrowdEventCount], byte 10h
         jle short .6
-        mov dword [dword_19B6CC], 10h
+        mov dword [CrowdEventCount], 10h
 .6:
-        mov byte [byte_123C04], 1
-        mov byte [byte_123C05], 0
+        mov byte [CrowdLoaded], 1
+        mov byte [CrowdPaused], 0
         xor eax, eax
-        jmp near sub_C0944_18C
+        jmp near SetCrowdLayerLevels_18C
 ;-----------------------------------------------------------------------------
-; sub_C0F09                                                            C0F09  
+; SetCrowdVolume                               C0F09  96 PC, medium confidence
+; Sets the crowd volume (0-127)
 ;-----------------------------------------------------------------------------
-sub_C0F09:
-        mov dword [dword_123C06], eax
+SetCrowdVolume:
+        mov dword [CrowdVolume], eax
         test eax, eax
         jge short .1
-        mov dword [dword_123C06], 0
+        mov dword [CrowdVolume], 0
 .1:
-        cmp dword [dword_123C06], byte 7Fh
+        cmp dword [CrowdVolume], byte 7Fh
         jle short .2
-        mov dword [dword_123C06], 7Fh
+        mov dword [CrowdVolume], 7Fh
 .2:
         ret
 ;-----------------------------------------------------------------------------
-; sub_C0F30                                                            C0F30  
+; StartCrowdSound                              C0F30  96 PC, medium confidence
+; Starts every crowd layer at a volume and plays the opening crowd event
 ;-----------------------------------------------------------------------------
-sub_C0F30:
+StartCrowdSound:
         push ebx
         push ecx
         push edx
         push esi
         push edi
         enter 8, 0
-        cmp byte [byte_123C04], 0
-        je near sub_C0944_18C
-        mov dword [dword_123C06], eax
+        cmp byte [CrowdLoaded], 0
+        je near SetCrowdLayerLevels_18C
+        mov dword [CrowdVolume], eax
         test eax, eax
         jge short .1
-        mov dword [dword_123C06], 0
+        mov dword [CrowdVolume], 0
 .1:
-        cmp dword [dword_123C06], byte 7Fh
+        cmp dword [CrowdVolume], byte 7Fh
         jle short .2
-        mov dword [dword_123C06], 7Fh
+        mov dword [CrowdVolume], 7Fh
 .2:
-        mov dword [byte ebp-04h], unk_19B720
+        mov dword [byte ebp-04h], CrowdLayers
         xor edi, edi
         xor esi, esi
         jmp short .4
@@ -2178,58 +2229,60 @@ sub_C0F30:
         mov dword [byte ebp-08h], eax
         mov eax, dword [byte ebp-04h]
         inc edi
-        call sub_C0727
+        call StartSfxChannel
         mov edx, dword [byte ebp-08h]
         add dword [byte ebp-04h], byte 74h
-        mov dword [dword esi+dword_123CAE], 0
-        mov dword [dword esi+dword_123C9E], 0
-        mov dword [dword edx+dword_19B770], eax
+        mov dword [dword esi+CrowdLastVolumeStore], 0
+        mov dword [dword esi+CrowdLastBendStore], 0
+        mov dword [dword edx+CrowdLayerChannel], eax
 .4:
-        cmp edi, dword [dword_19B6C8]
+        cmp edi, dword [CrowdLayerCount]
         jl short .3
-        mov byte [byte_1248D1], 1
-        cmp byte [byte_123C05], 0
+        mov byte [CrowdPlaying], 1
+        cmp byte [CrowdPaused], 0
         jne short .5
-        mov dword [dword_19B6BC], 0
-        mov dword [dword_19B6C4], 0
-        mov dword [dword_123C0E], 2
-        call sub_C0AD7
-        mov eax, dword [dword_19B6DC]
-        call sub_C0D7E
+        mov dword [CrowdExcitement], 0
+        mov dword [CrowdExcitementGoal], 0
+        mov dword [CrowdRampMode], 2
+        call SetCrowdRampRate
+        mov eax, dword [CrowdStartEvent]
+        call TriggerCrowdEvent
 .5:
-        mov byte [byte_123C05], 0
-        jmp near sub_C0944_18C
+        mov byte [CrowdPaused], 0
+        jmp near SetCrowdLayerLevels_18C
 ;-----------------------------------------------------------------------------
-; sub_C1008                                                            C1008  
+; StopCrowdChannels                            C1008  96 PC, medium confidence
+; Stops every crowd layer channel
 ;-----------------------------------------------------------------------------
-sub_C1008:
+StopCrowdChannels:
         push ebx
         push edx
-        cmp byte [byte_123C04], 0
+        cmp byte [CrowdLoaded], 0
         je short .3
-        mov byte [byte_1248D1], 0
+        mov byte [CrowdPlaying], 0
         xor ebx, ebx
         xor edx, edx
         jmp short .2
 .1:
-        mov eax, dword [dword edx+dword_19B770]
-        call sub_BFE4C
+        mov eax, dword [dword edx+CrowdLayerChannel]
+        call StopSoundChannel
         add edx, byte 74h
         inc ebx
 .2:
-        cmp ebx, dword [dword_19B6C8]
+        cmp ebx, dword [CrowdLayerCount]
         jl short .1
-        mov byte [byte_123C05], 0
+        mov byte [CrowdPaused], 0
 .3:
         pop edx
         pop ebx
         ret
-unk_C1041:
+WssBasePorts:
         db 030h,05h,00h,00h,04h,06h,00h,00h,080h,0Eh,00h,00h,040h,0Fh,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C1051                                                            C1051  
+; StartChannelSample                           C1051  96 PC, medium confidence
+; Hands a channel's sample to the mixer with its format, rate and pan volumes
 ;-----------------------------------------------------------------------------
-sub_C1051:
+StartChannelSample:
         push ebx
         push ecx
         push edx
@@ -2239,7 +2292,7 @@ sub_C1051:
         mov ebx, eax
         movzx eax, byte [byte eax+01Ch]
         imul eax, byte 28h
-        mov ecx, unk_1A0B20
+        mov ecx, SndChannels
         add ecx, eax
         movzx eax, byte [byte ebx+08h]
         mov dword [byte ebp-04h], 0
@@ -2264,7 +2317,7 @@ sub_C1051:
         mov byte [byte ebx+01Ch], al
 .4:
         movzx eax, byte [byte ebx+01Ch]
-        call sub_C1104
+        call ChannelPanVolumes
         movzx edx, byte [byte ecx+011h]
         imul edx, byte 64h
         mov edi, eax
@@ -2300,15 +2353,16 @@ sub_C1051:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C1104                                                            C1104  
+; ChannelPanVolumes                            C1104  96 PC, medium confidence
+; Returns a channel's left and right volumes from its pan and gain
 ;-----------------------------------------------------------------------------
-sub_C1104:
+ChannelPanVolumes:
         push ebx
         push ecx
         push edx
         push esi
         imul eax, byte 28h
-        mov esi, unk_1A0B20
+        mov esi, SndChannels
         add esi, eax
         movzx eax, byte [byte esi+027h]
         cmp eax, byte 7Fh
@@ -2357,9 +2411,10 @@ sub_C1104:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C1183                                                            C1183  
+; PanVolumes                                   C1183  96 PC, medium confidence
+; Returns left and right volumes for a pan and volume
 ;-----------------------------------------------------------------------------
-sub_C1183:
+PanVolumes:
         push ebp
         mov ebp, esp
         mov ecx, dword [byte ebp+08h]
@@ -2404,9 +2459,10 @@ sub_C1183:
         pop ebp
         ret
 ;-----------------------------------------------------------------------------
-; sub_C11EF                                                            C11EF  
+; SplitStereoPan                               C11EF  96 PC, medium confidence
+; Works out the two pans and volumes for a stereo sound effect
 ;-----------------------------------------------------------------------------
-sub_C11EF:
+SplitStereoPan:
         push ebx
         push ecx
         push esi
@@ -2479,13 +2535,13 @@ sub_C11EF:
 .11:
         cmp esi, byte 5
         jge short .12
-        mov eax, dword [nosplit esi*4+dword_123CCC]
+        mov eax, dword [nosplit esi*4+StereoPanCurve]
         imul eax, ebx
         mov ebx, 64h
         cdq
         idiv ebx
         mov ebx, eax
-        mov eax, dword [nosplit esi*4+dword_123CCC]
+        mov eax, dword [nosplit esi*4+StereoPanCurve]
         imul eax, ecx
         mov ecx, 64h
         cdq
@@ -2504,9 +2560,10 @@ sub_C11EF:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C12C8                                                            C12C8  
+; BendSampleRate                               C12C8  96 PC, medium confidence
+; Applies a pitch bend to a sample rate
 ;-----------------------------------------------------------------------------
-sub_C12C8:
+BendSampleRate:
         imul edx, byte 64h
         sub eax, byte 40h
         imul eax, edx
@@ -2547,17 +2604,19 @@ sub_C12C8:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C1322                                                            C1322  
+; PickOutputRate                               C1322  96 PC, medium confidence
+; Rounds a sample rate to the nearest standard output rate within the card's
+; limit
 ;-----------------------------------------------------------------------------
-sub_C1322:
+PickOutputRate:
         push ebx
         mov ebx, eax
-        mov eax, dword [dword_1248D6]
+        mov eax, dword [SndMaxRate]
         cmp eax, ebx
         jge short .1
         mov eax, ebx
 .1:
-        cmp edx, dword [dword_1248D6]
+        cmp edx, dword [SndMaxRate]
         jge short .2
         mov eax, edx
 .2:
@@ -2613,9 +2672,11 @@ sub_C1322:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C13B1                                                            C13B1  
+; DetectBlasterCard                            C13B1  96 PC, medium confidence
+; Reads the BLASTER variable and the DSP version to pick a Sound Blaster
+; driver
 ;-----------------------------------------------------------------------------
-sub_C13B1:
+DetectBlasterCard:
         push ebx
         push ecx
         push edx
@@ -2627,7 +2688,7 @@ sub_C13B1:
         call ParseBlasterEnv
         cmp eax, byte 0FFFFFFFFh
         je short .4
-        call sub_CE2E8
+        call SbDspVersion
         cmp eax, 100h
         jl short .3
         cmp eax, 300h
@@ -2663,15 +2724,16 @@ sub_C13B1:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C1410                                                            C1410  
+; DetectWssCard                                C1410  96 PC, medium confidence
+; Probes the usual ports for a Windows Sound System card
 ;-----------------------------------------------------------------------------
-sub_C1410:
+DetectWssCard:
         push edx
         push esi
         push edi
         enter 10h, 0
         lea edi, [byte ebp-010h]
-        mov esi, unk_C1041
+        mov esi, WssBasePorts
         xor edx, edx
         movsd
         movsd
@@ -2679,7 +2741,7 @@ sub_C1410:
         movsd
 .1:
         mov eax, dword [byte edx+ebp-010h]
-        call sub_CE709
+        call WssProbePort
         test eax, eax
         jl short .2
         xor eax, eax
@@ -2699,25 +2761,26 @@ sub_C1410:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C144B                                                            C144B  
+; DetectSoundDriver                            C144B  96 PC, medium confidence
+; Picks a sound driver: Sound Blaster, Gravis or Windows Sound System
 ;-----------------------------------------------------------------------------
-sub_C144B:
+DetectSoundDriver:
         push edx
         mov edx, eax
         test eax, eax
         jne short .1
-        call sub_C13B1
+        call DetectBlasterCard
         test eax, eax
         jge short .5
 .1:
-        call sub_CE780
+        call GusDetect
         test eax, eax
         jl short .2
         mov eax, 1
         pop edx
         ret
 .2:
-        call sub_C1410
+        call DetectWssCard
         test eax, eax
         jl short .3
         mov eax, 2
@@ -2726,7 +2789,7 @@ sub_C144B:
 .3:
         cmp edx, byte 1
         jne short .4
-        call sub_C13B1
+        call DetectBlasterCard
         test eax, eax
         jge short .5
 .4:
@@ -2734,7 +2797,7 @@ sub_C144B:
 .5:
         pop edx
         ret
-jpt_C1490:
+SndErrorTextJumpTable:
         dd .19
         dd .18
         dd .17
@@ -2759,7 +2822,7 @@ jpt_C1490:
         mov edx, str_UnknownError
         cmp eax, byte 12h
         ja near .20
-        jmp dword [nosplit cs:eax*4+jpt_C1490]
+        jmp dword [nosplit cs:eax*4+SndErrorTextJumpTable]
 .1:
         mov eax, str_EnvironmentVariableNotSe
         pop edx
@@ -2863,24 +2926,24 @@ SndSetDriver:
         pop ebx
         ret
 .2:
-        call sub_C181F
-        cmp dword [dword_123D60], byte 0
+        call SndCloseDriver
+        cmp dword [SndTimerAdded], byte 0
         jne short .3
-        push sub_CF6C9
+        push SndTimerCallback
         call addtimer
-        mov dword [dword_123D60], 1
+        mov dword [SndTimerAdded], 1
         add esp, byte 4
 .3:
-        cmp dword [dword_123D64], byte 0
+        cmp dword [SndExitHandlerAdded], byte 0
         jne short .4
-        push sub_C181F
+        push SndCloseDriver
         call AddExitHandler
-        mov dword [dword_123D64], 1
+        mov dword [SndExitHandlerAdded], 1
         add esp, byte 4
 .4:
         imul edx, esi, byte 14h
         mov eax, edi
-        call dword [dword edx+off_123CE0]
+        call dword [dword edx+SndDriverTable]
         test eax, eax
         jge short .5
         mov dword [snddriver], 0
@@ -2890,9 +2953,9 @@ SndSetDriver:
         pop ebx
         ret
 .5:
-        mov eax, dword [dword_123CC8]
+        mov eax, dword [SndMixMode]
         mov dword [snddriver], esi
-        call sub_C17C6
+        call SetSoundMixMode
         xor eax, eax
         pop edi
         pop esi
@@ -2900,16 +2963,17 @@ SndSetDriver:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C1614                                                            C1614  
+; AllocSoundChannel                            C1614  96 PC, medium confidence
+; Picks a free channel from a mask, or the lowest priority one
 ;-----------------------------------------------------------------------------
-sub_C1614:
+AllocSoundChannel:
         push ebx
         push ecx
         push esi
         push edi
         mov esi, eax
         mov edi, edx
-        mov eax, dword [dword_123D5C]
+        mov eax, dword [NextSndChannel]
         xor ebx, ebx
 .1:
         mov edx, 1
@@ -2918,7 +2982,7 @@ sub_C1614:
         test edx, esi
         je short .4
         imul edx, eax, byte 28h
-        add edx, unk_1A0B20
+        add edx, SndChannels
         cmp byte [byte edx+016h], 0
         jne short .4
 .2:
@@ -2928,7 +2992,7 @@ sub_C1614:
         jl short .3
         xor eax, eax
 .3:
-        mov dword [dword_123D5C], eax
+        mov dword [NextSndChannel], eax
         mov eax, edx
         pop edi
         pop esi
@@ -2944,7 +3008,7 @@ sub_C1614:
         inc ebx
         cmp ebx, byte 10h
         jl short .1
-        mov eax, dword [dword_123D5C]
+        mov eax, dword [NextSndChannel]
         xor ebx, ebx
 .6:
         mov edx, 1
@@ -2953,7 +3017,7 @@ sub_C1614:
         test edx, esi
         je short .7
         imul edx, eax, byte 28h
-        add edx, unk_1A0B20
+        add edx, SndChannels
         movzx ecx, byte [byte edx+013h]
         cmp edi, ecx
         jae short .2
@@ -2979,7 +3043,7 @@ sub_C1614:
         cmp dword [snddriver], byte 5
         jle short .10
 .9:
-        mov eax, dword [off_123D68]
+        mov eax, dword [SndCardNameNone]
         pop edx
         pop ebx
         ret
@@ -2987,57 +3051,57 @@ sub_C1614:
         imul ebx, dword [snddriver], byte 14h
         mov eax, 3
         xor edx, edx
-        call dword [dword ebx+off_123CEC]
+        call dword [dword ebx+SndDriverQuery]
         cmp eax, 105h
         jge short .11
-        mov eax, dword [off_123D6C]
+        mov eax, dword [SndCardNameSb10]
         pop edx
         pop ebx
         ret
 .11:
         cmp eax, 201h
         jge short .12
-        mov eax, dword [off_123D70]
+        mov eax, dword [SndCardNameSb15]
         pop edx
         pop ebx
         ret
 .12:
         cmp eax, 300h
         jge short .13
-        mov eax, dword [off_123D74]
+        mov eax, dword [SndCardNameSb20]
         pop edx
         pop ebx
         ret
 .13:
         cmp eax, 302h
         jge short .14
-        mov eax, dword [off_123D78]
+        mov eax, dword [SndCardNameSbPro10]
         pop edx
         pop ebx
         ret
 .14:
         cmp eax, 400h
         jge short .15
-        mov eax, dword [off_123D7C]
+        mov eax, dword [SndCardNameSbPro20]
         pop edx
         pop ebx
         ret
 .15:
         cmp eax, 800h
         jge short .16
-        mov eax, dword [off_123D80]
+        mov eax, dword [SndCardNameSb16]
         pop edx
         pop ebx
         ret
 .16:
         cmp eax, 2000h
         jge short .17
-        mov eax, dword [off_123D84]
+        mov eax, dword [SndCardNameGus]
         pop edx
         pop ebx
         ret
 .17:
-        mov eax, dword [off_123D88]
+        mov eax, dword [SndCardNameWss]
         pop edx
         pop ebx
         ret
@@ -3059,17 +3123,17 @@ sub_C1614:
         imul ecx, dword [snddriver], byte 14h
         mov eax, 7
         xor edx, edx
-        call dword [dword ecx+off_123CEC]
+        call dword [dword ecx+SndDriverQuery]
         imul ecx, dword [snddriver], byte 14h
         xor edx, edx
         mov dword [byte ebx+0Ch], eax
         mov eax, 5
-        call dword [dword ecx+off_123CEC]
+        call dword [dword ecx+SndDriverQuery]
         imul ecx, dword [snddriver], byte 14h
         xor edx, edx
         mov dword [byte ebx+010h], eax
         mov eax, 6
-        call dword [dword ecx+off_123CEC]
+        call dword [dword ecx+SndDriverQuery]
         mov ecx, eax
         test al, 4
         setne al
@@ -3086,14 +3150,15 @@ sub_C1614:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C17C6                                                            C17C6  
+; SetSoundMixMode                                 C17C6  96 PC, low confidence
+; Stores the mix mode and passes it to the mixer
 ;-----------------------------------------------------------------------------
-sub_C17C6:
+SetSoundMixMode:
         push ebx
         push ecx
         push edx
         mov ecx, eax
-        mov dword [dword_123CC8], eax
+        mov dword [SndMixMode], eax
         cmp dword [snddriver], byte 0
         jle short .3
         cmp dword [snddriver], byte 5
@@ -3101,7 +3166,7 @@ sub_C17C6:
         imul ebx, dword [snddriver], byte 14h
         mov eax, 6
         xor edx, edx
-        call dword [dword ebx+off_123CEC]
+        call dword [dword ebx+SndDriverQuery]
         test al, 8
         je short .1
         push ecx
@@ -3116,33 +3181,36 @@ sub_C17C6:
         pop ecx
         pop ebx
         ret
-        mov dword [dword_1248D6], eax
+        mov dword [SndMaxRate], eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_C1811                                                            C1811  
+; CallDriverService                            C1811  96 PC, medium confidence
+; Calls the current driver's service entry
 ;-----------------------------------------------------------------------------
-sub_C1811:
+CallDriverService:
         imul eax, dword [snddriver], byte 14h
-        call dword [dword eax+off_123CE8]
+        call dword [dword eax+SndDriverService]
         ret
 ;-----------------------------------------------------------------------------
-; sub_C181F                                                            C181F  
+; SndCloseDriver                               C181F  96 PC, medium confidence
+; Closes the current driver, removes the timer and frees every channel and
+; bank
 ;-----------------------------------------------------------------------------
-sub_C181F:
+SndCloseDriver:
         push ebx
         push ecx
         push edx
         push esi
-        cmp dword [dword_123D60], byte 0
+        cmp dword [SndTimerAdded], byte 0
         je short .1
-        push sub_CF6C9
+        push SndTimerCallback
         call RemoveTimerCallback
-        mov dword [dword_123D60], 0
+        mov dword [SndTimerAdded], 0
         add esp, byte 4
 .1:
         imul eax, dword [snddriver], byte 14h
         xor esi, esi
-        call dword [dword eax+off_123CE4]
+        call dword [dword eax+SndDriverClose]
         mov dword [snddriver], 0
 .2:
         push esi
@@ -3152,25 +3220,35 @@ sub_C181F:
         cmp esi, byte 10h
         jl short .2
         mov eax, 0FFFFFFFFh
-        call sub_C0578
+        call UnregisterSfxBank
         pop esi
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C187A                                                            C187A  
+; NullDriverOpen                               C187A  96 PC, medium confidence
+; Entry for the no-card driver: succeeds
 ;-----------------------------------------------------------------------------
-sub_C187A:
+NullDriverOpen:
         xor eax, eax
-sub_C187C:
+;-----------------------------------------------------------------------------
+; NullDriverReturn                             C187C  96 PC, medium confidence
+; Entry for the no-card driver: does nothing
+;-----------------------------------------------------------------------------
+NullDriverReturn:
         ret
 ;-----------------------------------------------------------------------------
-; sub_C187D                                                            C187D  
+; NullDriverQuery                              C187D  96 PC, medium confidence
+; Entry for the no-card driver: returns -1
 ;-----------------------------------------------------------------------------
-sub_C187D:
+NullDriverQuery:
         mov eax, 0FFFFFFFFh
-sub_C1882:
+;-----------------------------------------------------------------------------
+; NullDriverEnd                                C1882  96 PC, medium confidence
+; Entry for the no-card driver: does nothing
+;-----------------------------------------------------------------------------
+NullDriverEnd:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
@@ -3342,9 +3420,10 @@ DecodeHuffRuns:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_C1A2C                                                            C1A2C  
+; TgvDecodeDeltaFrame                          C1A2C  96 PC, medium confidence
+; Decodes a TGV video delta frame with its Huffman coded blocks
 ;-----------------------------------------------------------------------------
-sub_C1A2C:
+TgvDecodeDeltaFrame:
         push esi
         push edi
         push ebp
@@ -3621,9 +3700,10 @@ sub_C1A2C:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_C1D48                                                            C1D48  
+; TgvDecodeKeyFrame                            C1D48  96 PC, medium confidence
+; Decodes a TGV video key frame
 ;-----------------------------------------------------------------------------
-sub_C1D48:
+TgvDecodeKeyFrame:
         push esi
         push edi
         push ebp
@@ -3831,9 +3911,10 @@ sub_C1D48:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_C1FC0                                                            C1FC0  
+; TgvAllocDecoder                              C1FC0  96 PC, medium confidence
+; Allocates and clears a TGV video decoder
 ;-----------------------------------------------------------------------------
-sub_C1FC0:
+TgvAllocDecoder:
         push edi
         push byte 0
         push dword 344h
@@ -3853,9 +3934,10 @@ sub_C1FC0:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_C1FEC                                                            C1FEC  
+; TgvDecodeFrame                               C1FEC  96 PC, medium confidence
+; Decodes one TGV video frame chunk, key or delta
 ;-----------------------------------------------------------------------------
-sub_C1FEC:
+TgvDecodeFrame:
         push esi
         mov esi, dword [byte esp+08h]
         mov edx, dword [byte esp+0Ch]
@@ -3872,7 +3954,7 @@ sub_C1FEC:
         jne short .2
         push edx
         push esi
-        call sub_C1D48
+        call TgvDecodeKeyFrame
         add esp, byte 8
         mov eax, dword [byte esi+028h]
         pop esi
@@ -3880,7 +3962,7 @@ sub_C1FEC:
 .1:
         push edx
         push esi
-        call sub_C1A2C
+        call TgvDecodeDeltaFrame
         add esp, byte 8
         mov eax, dword [byte esi+028h]
         pop esi
@@ -3894,9 +3976,10 @@ sub_C1FEC:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_C204C                                                            C204C  
+; TgvFreeDecoder                               C204C  96 PC, medium confidence
+; Frees a TGV video decoder and its buffers
 ;-----------------------------------------------------------------------------
-sub_C204C:
+TgvFreeDecoder:
         push esi
         push ebp
         mov esi, dword [byte esp+0Ch]
@@ -3960,22 +4043,23 @@ sub_C204C:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C20E0                                                            C20E0  
+; TgvShowFrameRate                             C20E0  96 PC, medium confidence
+; Counts frames and prints the playback rate and average
 ;-----------------------------------------------------------------------------
-sub_C20E0:
+TgvShowFrameRate:
         push esi
         push edi
         push ebp
-        inc dword [dword_123D8C]
+        inc dword [TgvFrames]
         call GetTicks
-        mov ebx, dword [dword_123D94]
+        mov ebx, dword [TgvRateTicks]
         mov ecx, eax
         mov esi, dword [byte esp+014h]
         sub ecx, ebx
         mov edi, eax
         cmp ecx, esi
         jl near .3
-        mov edx, dword [dword_123D8C]
+        mov edx, dword [TgvFrames]
         mov eax, edx
         shl eax, 5
         sub eax, edx
@@ -3992,38 +4076,38 @@ sub_C20E0:
         mov eax, edx
         sar edx, 1Fh
         idiv esi
-        mov ebp, dword [dword_123D90]
-        mov dword [dword_123D9C], eax
-        add ebp, dword [dword_123D8C]
-        mov eax, dword [dword_123D98]
+        mov ebp, dword [TgvTotalFrames]
+        mov dword [TgvFrameRate], eax
+        add ebp, dword [TgvFrames]
+        mov eax, dword [TgvTotalTicks]
         add eax, ecx
-        mov dword [dword_123D90], ebp
-        mov dword [dword_123D98], eax
+        mov dword [TgvTotalFrames], ebp
+        mov dword [TgvTotalTicks], eax
         cmp ebp, 186A0h
         jle short .1
         mov ecx, ebp
         mov esi, eax
         sar ecx, 1
         sar esi, 1
-        mov dword [dword_123D90], ecx
-        mov dword [dword_123D98], esi
+        mov dword [TgvTotalFrames], ecx
+        mov dword [TgvTotalTicks], esi
 .1:
-        cmp dword [dword_123DA0], byte 0
+        cmp dword [TgvFirstPeriod], byte 0
         jne short .2
-        mov dword [dword_123DA0], eax
+        mov dword [TgvFirstPeriod], eax
 .2:
-        mov edx, dword [dword_123D90]
+        mov edx, dword [TgvTotalFrames]
         mov eax, edx
         shl eax, 5
         sub eax, edx
         shl eax, 2
         add edx, eax
         shl edx, 3
-        mov ecx, dword [dword_123D98]
+        mov ecx, dword [TgvTotalTicks]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_123DA0]
+        mov edx, dword [TgvFirstPeriod]
         mov ecx, eax
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
@@ -4055,14 +4139,14 @@ sub_C20E0:
         push esi
         mov ebp, dword [dword_11F5CC]
         push ebp
-        mov dword [dword_123DA0], ecx
+        mov dword [TgvFirstPeriod], ecx
         call dword [byte esp+02Ch]
         add esp, byte 1Ch
         xor eax, eax
-        mov dword [dword_123D94], edi
-        mov dword [dword_123D8C], eax
+        mov dword [TgvRateTicks], edi
+        mov dword [TgvFrames], eax
 .3:
-        mov eax, dword [dword_123D9C]
+        mov eax, dword [TgvFrameRate]
         pop ebp
         pop edi
         pop esi
@@ -4077,7 +4161,7 @@ sub_C20E0:
         push dword 190h
         push DebugSetLine
 .5:
-        call sub_C20E0
+        call TgvShowFrameRate
         add esp, byte 8
         ret
 ;-----------------------------------------------------------------------------
@@ -4086,31 +4170,33 @@ sub_C20E0:
 fini_void_:
         push byte 0
         push sub_DFB84
-        call sub_C20E0
+        call TgvShowFrameRate
         add esp, byte 8
         ret
         push byte 1
         push PrintBoxedText
-        call sub_C20E0
+        call TgvShowFrameRate
         add esp, byte 8
         ret
 ;-----------------------------------------------------------------------------
-; sub_C2268                                                            C2268  
+; TgvResetFrameRate                            C2268  96 PC, medium confidence
+; Resets the frame rate counters
 ;-----------------------------------------------------------------------------
-sub_C2268:
+TgvResetFrameRate:
         xor edx, edx
-        mov dword [dword_123D8C], edx
-        mov dword [dword_123D90], edx
-        mov dword [dword_123D98], edx
-        mov dword [dword_123D9C], edx
+        mov dword [TgvFrames], edx
+        mov dword [TgvTotalFrames], edx
+        mov dword [TgvTotalTicks], edx
+        mov dword [TgvFrameRate], edx
         call GetTicks
-        mov dword [dword_123D94], eax
+        mov dword [TgvRateTicks], eax
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C2290                                                            C2290  
+; TgvBlitFrame                                 C2290  96 PC, medium confidence
+; Copies a decoded TGV frame to the screen, clipped
 ;-----------------------------------------------------------------------------
-sub_C2290:
+TgvBlitFrame:
         push esi
         push edi
         push ebp
@@ -4212,7 +4298,7 @@ sub_C2290:
         lea edx, [eax+ebp]
         mov ebx, edi
         mov eax, esi
-        call sub_CF918
+        call GatherPlaneBytes
         mov eax, dword [byte esp+02Ch]
         mov eax, dword [byte eax+02h]
         add ecx, 140h
@@ -4248,7 +4334,7 @@ sub_C2290:
         sar eax, 10h
         push eax
         push edx
-        call sub_C2290
+        call TgvBlitFrame
         add esp, byte 0Ch
         ret
         mov edx, dword [byte esp+04h]
@@ -4263,19 +4349,21 @@ sub_C2290:
         sub ebx, eax
         push ebx
         push edx
-        call sub_C2290
+        call TgvBlitFrame
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_C2440                                                            C2440  
+; DisableInterrupts                                               C2440  96 PC
+; Disables interrupts
 ;-----------------------------------------------------------------------------
-sub_C2440:
+DisableInterrupts:
         cli
         ret
 ;-----------------------------------------------------------------------------
-; sub_C2442                                                            C2442  
+; EnableInterrupts                                                C2442  96 PC
+; Enables interrupts
 ;-----------------------------------------------------------------------------
-sub_C2442:
+EnableInterrupts:
         sti
         ret
 ;-----------------------------------------------------------------------------
@@ -4350,9 +4438,10 @@ getcwd_:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C24D0                                                            C24D0  
+; CopyRowKeyed                                 C24D0  96 PC, medium confidence
+; Row copier that skips colour 0FFh pixels
 ;-----------------------------------------------------------------------------
-sub_C24D0:
+CopyRowKeyed:
         push esi
         mov ecx, dword [byte esp+0Ch]
         mov esi, dword [byte esp+010h]
@@ -4378,20 +4467,21 @@ sub_C24D0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_C2500                                                            C2500  
+; DrawArtKeyed                                 C2500  96 PC, medium confidence
+; Draws art, skipping colour 0FFh when keyed drawing is on
 ;-----------------------------------------------------------------------------
-sub_C2500:
+DrawArtKeyed:
         push esi
         push edi
         mov edx, dword [byte esp+0Ch]
         mov ebx, dword [byte esp+010h]
         mov eax, dword [byte esp+014h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push eax
         push ebx
         push edx
-        call sub_CFA64
+        call DrawArtKeyedAt
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -4399,25 +4489,26 @@ sub_C2500:
 .1:
         push eax
         push ebx
-        mov esi, sub_C24D0
+        mov esi, CopyRowKeyed
         push edx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call DrawArtOpaque
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_C254C                                                            C254C  
+; DrawArtKeyedAtOrigin                         C254C  96 PC, medium confidence
+; Draws art at its own origin, skipping colour 0FFh when keyed drawing is on
 ;-----------------------------------------------------------------------------
-sub_C254C:
+DrawArtKeyedAtOrigin:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov ecx, dword [dword_1228F4]
+        mov ecx, dword [KeyedDraw]
         mov edx, dword [byte ebx+0Ah]
         mov eax, dword [byte ebx+0Ch]
         sar edx, 10h
@@ -4427,7 +4518,7 @@ sub_C254C:
         push eax
         push edx
         push ebx
-        call sub_CFA64
+        call DrawArtKeyedAt
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -4435,13 +4526,13 @@ sub_C254C:
 .1:
         push eax
         push edx
-        mov esi, sub_C24D0
+        mov esi, CopyRowKeyed
         push ebx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call DrawArtOpaque
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -4459,12 +4550,12 @@ sub_C254C:
         sar edx, 10h
         sub ecx, edx
         mov edx, ecx
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .2
         push edx
         push ebx
         push eax
-        call sub_CFA64
+        call DrawArtKeyedAt
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -4472,32 +4563,33 @@ sub_C254C:
 .2:
         push edx
         push ebx
-        mov esi, sub_C24D0
+        mov esi, CopyRowKeyed
         push eax
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call DrawArtOpaque
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C2600                                                            C2600  
+; PutBlockKeyed                                C2600  96 PC, medium confidence
+; Puts a block, skipping colour 0FFh when keyed drawing is on
 ;-----------------------------------------------------------------------------
-sub_C2600:
+PutBlockKeyed:
         push esi
         push edi
         mov edx, dword [byte esp+0Ch]
         mov ebx, dword [byte esp+010h]
         mov eax, dword [byte esp+014h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push eax
         push ebx
         push edx
-        call sub_CFB14
+        call PutBlockKeyedAt
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -4505,13 +4597,13 @@ sub_C2600:
 .1:
         push eax
         push ebx
-        mov esi, sub_CFCC0
+        mov esi, CopyRowKeyedRemap
         push edx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -4519,7 +4611,7 @@ sub_C2600:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov ecx, dword [dword_1228F4]
+        mov ecx, dword [KeyedDraw]
         mov edx, dword [byte ebx+0Ah]
         mov eax, dword [byte ebx+0Ch]
         sar edx, 10h
@@ -4529,7 +4621,7 @@ sub_C2600:
         push eax
         push edx
         push ebx
-        call sub_CFB14
+        call PutBlockKeyedAt
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -4537,13 +4629,13 @@ sub_C2600:
 .2:
         push eax
         push edx
-        mov esi, sub_CFCC0
+        mov esi, CopyRowKeyedRemap
         push ebx
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -4561,12 +4653,12 @@ sub_C2600:
         sar edx, 10h
         sub ecx, edx
         mov edx, ecx
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .3
         push edx
         push ebx
         push eax
-        call sub_CFB14
+        call PutBlockKeyedAt
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -4574,13 +4666,13 @@ sub_C2600:
 .3:
         push edx
         push ebx
-        mov esi, sub_CFCC0
+        mov esi, CopyRowKeyedRemap
         push eax
         mov edi, bcopy
-        mov dword [dword_1210C0], esi
+        mov dword [RowCopyFunc], esi
         call PutBlock
         add esp, byte 0Ch
-        mov dword [dword_1210C0], edi
+        mov dword [RowCopyFunc], edi
         pop edi
         pop esi
         ret
@@ -4677,9 +4769,10 @@ memcmp_:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C27A4                                                            C27A4  
+; PrintScreenInt                               C27A4  96 PC, medium confidence
+; Calls the BIOS print screen interrupt
 ;-----------------------------------------------------------------------------
-sub_C27A4:
+PrintScreenInt:
         int 5
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h

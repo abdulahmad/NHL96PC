@@ -3,10 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_14F01C progbits alloc noexec write align=1
 extern NoFloatSupport, sub_DFB84
-global str_SHPI2, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064, byte_14F065
-global byte_14F066, byte_14F067, byte_14F070, dword_14F01C, dword_14F020, GusDriverIsOpen, dword_14F034, dword_14F038
-global dword_14F03C, dword_14F040, dword_14F044, dword_14F048, dword_14F04C, dword_14F050, dword_14F058, dword_14F05C
-global dword_14F060, dword_14F098, _environ, ___env_mask, __nheapbeg, __amblksiz, str_28, off_14F074
+global str_SHPI2, WssFormatBits, WssMixFormat, WssBytesPerFrame, SbProMixFormat, SbProFrameBytes, Sb16DspCommand, Sb16DspModeByte
+global Sb16MixFormat, Sb16FrameBytes, SndTickBusy, WssDmaAlloc, WssRunning, GusDriverIsOpen, GusDmaAlloc, GusEnvRead
+global GusCardFound, SbRunning, SbDmaAlloc, SbProRunning, SbProDmaAlloc, SbProChannels, Sb16Running, Sb16DmaAlloc
+global Sb16Mode, dword_14F098, _environ, ___env_mask, __nheapbeg, __amblksiz, str_28, off_14F074
 global off_14F078, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C, off_14F090, off_14F0B0
 global off_14F176, __EFG_printf, __EFG_scanf, unk_14F178, unk_14F17C, unk_14F182, unk_14F18A, unk_14F194
 global unk_14F1A0, unk_14F1AE, unk_14F1BE, unk_14F1D0, unk_14F1E4, unk_14F1FA, unk_14F212, unk_14F22C
@@ -15,53 +15,53 @@ global unk_14F370, unk_14F39E, unk_14F3CE, unk_14F400, unk_14F434, unk_14F46A, u
 global unk_14F518, unk_14F556, unk_14F596, unk_14F5D8, unk_14F61C, unk_14F662, unk_14F6AA, unk_14F6F4
 global unk_14F740, unk_14F78E, unk_14F7DE, unk_14F830, unk_14F884, unk_14F8DA, unk_14F932, unk_14F98C
 global unk_14F9E8, unk_14FA46
-dword_14F01C:
+WssDmaAlloc:
         db 00h,00h,00h,00h
-dword_14F020:
+WssRunning:
         db 00h,00h,00h,00h
-byte_14F024:
+WssFormatBits:
         db 00h
-byte_14F025:
+WssMixFormat:
         db 010h
-byte_14F026:
+WssBytesPerFrame:
         db 04h,010h,014h,02h,050h,0Ch,01h,00h,00h,00h
 GusDriverIsOpen:
         db 00h,00h,00h,00h
-dword_14F034:
+GusDmaAlloc:
         db 00h,00h,00h,00h
-dword_14F038:
+GusEnvRead:
         db 00h,00h,00h,00h
-dword_14F03C:
+GusCardFound:
         db 00h,00h,00h,00h
-dword_14F040:
+SbRunning:
         db 00h,00h,00h,00h
-dword_14F044:
+SbDmaAlloc:
         db 00h,00h,00h,00h
-dword_14F048:
+SbProRunning:
         db 00h,00h,00h,00h
-dword_14F04C:
+SbProDmaAlloc:
         db 00h,00h,00h,00h
-dword_14F050:
+SbProChannels:
         db 01h,00h,00h,00h
-byte_14F054:
+SbProMixFormat:
         db 010h
-byte_14F055:
+SbProFrameBytes:
         db 02h,014h,01h
-dword_14F058:
+Sb16Running:
         db 00h,00h,00h,00h
-dword_14F05C:
+Sb16DmaAlloc:
         db 00h,00h,00h,00h
-dword_14F060:
+Sb16Mode:
         db 02h,00h,00h,00h
-byte_14F064:
+Sb16DspCommand:
         db 0C6h
-byte_14F065:
+Sb16DspModeByte:
         db 00h
-byte_14F066:
+Sb16MixFormat:
         db 010h
-byte_14F067:
+Sb16FrameBytes:
         db 04h,0C6h,020h,014h,02h,0B6h,030h,0Ch,01h
-byte_14F070:
+SndTickBusy:
         db 00h,00h,00h,00h
 off_14F074:
         dd sub_DFB84

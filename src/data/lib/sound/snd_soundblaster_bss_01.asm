@@ -2,130 +2,130 @@
 bits 32
 %include "hockey.inc"
 section s_1A0FB0 nobits alloc noexec write align=1
-global byte_1A0FD4, byte_1A0FD5, dword_1A0FB0, dword_1A0FB4, DacTimerRate, dword_1A0FBC, DacTimerDivisor, dword_1A0FC4
-global dword_1A0FC8, dword_1A0FCC, dword_1A0FD8, GusDriverDmaBuf, dword_1A0FE0, dword_1A0FE4, dword_1A0FE8, dword_1A0FF0
-global dword_1A0FF4, dword_1A0FF8, dword_1A0FFC, dword_1A1004, dword_1A100A, dword_1A1010, dword_1A1014, dword_1A1018
-global dword_1A101C, dword_1A1020, dword_1A1024, dword_1A1028, dword_1A1030, dword_1A1034, dword_1A1038, dword_1A103C
-global dword_1A1040, dword_1A1044, dword_1A1048, dword_1A104C, dword_1A1052, dword_1A1058, dword_1A105C, dword_1A1060
-global dword_1A1064, dword_1A1068, dword_1A106C, dword_1A1070, dword_1A1074, dword_1A1078, dword_1A107C, dword_1A1084
-global dword_1A108A, RationalAllocLimit, CMainArgc, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4, dword_1A10A8
-global unk_1A0FEC, unk_1A102C, word_1A0FD0, word_1A0FD2, word_1A1000, word_1A1008, word_1A1050, word_1A1080
-global word_1A1088, RationalAllocFlags
-dword_1A0FB0:
+global GusConfigGf1Irq, GusConfigMidiIrq, WssBlockSamples, WssHalfBuffer, DacTimerRate, WssDmaChannel, DacTimerDivisor, WssDmaBuffer
+global WssRate, WssDmaPos, GusStreamMem, GusDriverDmaBuf, SbHalfBuffer, SbDmaSize, SbRate, SbDma
+global SbIrq, SbDmaBuffer, SbVersion, SbOldIrqOffset, SbDmaPos, SbProRealOldOffset, SbProRealOldSegment, SbProRealHandler
+global SbProBlockSamples, SbProHalfBuffer, SbProDmaSize, SbProRate, SbProDma, SbProOldFilter, SbProIrq, SbProDmaBuffer
+global SbProOldStereo, SbProVersion, SbProPort, SbProOldIrqOffset, SbProDmaPos, Sb16BlockSamples, Sb16DmaSize, Sb16HalfBuffer
+global Sb16Rate, Sb16HighDma, Sb16ActiveDma, Sb16LowDma, Sb16Irq, Sb16DmaBuffer, Sb16Version, Sb16OldIrqOffset
+global Sb16DmaPos, RationalAllocLimit, CMainArgc, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4, dword_1A10A8
+global SbHighDma, SbProHighDma, GusConfig, GusConfigPort, SbPort, SbOldIrqSelector, SbProOldIrqSelector, Sb16Port
+global Sb16OldIrqSelector, RationalAllocFlags
+WssBlockSamples:
         resb 4
-dword_1A0FB4:
+WssHalfBuffer:
         resb 4
 DacTimerRate:
         resb 4
-dword_1A0FBC:
+WssDmaChannel:
         resb 4
 DacTimerDivisor:
         resb 4
-dword_1A0FC4:
+WssDmaBuffer:
         resb 4
-dword_1A0FC8:
+WssRate:
         resb 4
-dword_1A0FCC:
+WssDmaPos:
         resb 4
-word_1A0FD0:
+GusConfig:
         resb 2
-word_1A0FD2:
+GusConfigPort:
         resb 2
-byte_1A0FD4:
+GusConfigGf1Irq:
         resb 1
-byte_1A0FD5:
+GusConfigMidiIrq:
         resb 3
-dword_1A0FD8:
+GusStreamMem:
         resb 4
 GusDriverDmaBuf:
         resb 4
-dword_1A0FE0:
+SbHalfBuffer:
         resb 4
-dword_1A0FE4:
+SbDmaSize:
         resb 4
-dword_1A0FE8:
+SbRate:
         resb 4
-unk_1A0FEC:
+SbHighDma:
         resb 4
-dword_1A0FF0:
+SbDma:
         resb 4
-dword_1A0FF4:
+SbIrq:
         resb 4
-dword_1A0FF8:
+SbDmaBuffer:
         resb 4
-dword_1A0FFC:
+SbVersion:
         resb 4
-word_1A1000:
+SbPort:
         resb 4
-dword_1A1004:
+SbOldIrqOffset:
         resb 4
-word_1A1008:
+SbOldIrqSelector:
         resb 2
-dword_1A100A:
+SbDmaPos:
         resb 6
-dword_1A1010:
+SbProRealOldOffset:
         resb 4
-dword_1A1014:
+SbProRealOldSegment:
         resb 4
-dword_1A1018:
+SbProRealHandler:
         resb 4
-dword_1A101C:
+SbProBlockSamples:
         resb 4
-dword_1A1020:
+SbProHalfBuffer:
         resb 4
-dword_1A1024:
+SbProDmaSize:
         resb 4
-dword_1A1028:
+SbProRate:
         resb 4
-unk_1A102C:
+SbProHighDma:
         resb 4
-dword_1A1030:
+SbProDma:
         resb 4
-dword_1A1034:
+SbProOldFilter:
         resb 4
-dword_1A1038:
+SbProIrq:
         resb 4
-dword_1A103C:
+SbProDmaBuffer:
         resb 4
-dword_1A1040:
+SbProOldStereo:
         resb 4
-dword_1A1044:
+SbProVersion:
         resb 4
-dword_1A1048:
+SbProPort:
         resb 4
-dword_1A104C:
+SbProOldIrqOffset:
         resb 4
-word_1A1050:
+SbProOldIrqSelector:
         resb 2
-dword_1A1052:
+SbProDmaPos:
         resb 6
-dword_1A1058:
+Sb16BlockSamples:
         resb 4
-dword_1A105C:
+Sb16DmaSize:
         resb 4
-dword_1A1060:
+Sb16HalfBuffer:
         resb 4
-dword_1A1064:
+Sb16Rate:
         resb 4
-dword_1A1068:
+Sb16HighDma:
         resb 4
-dword_1A106C:
+Sb16ActiveDma:
         resb 4
-dword_1A1070:
+Sb16LowDma:
         resb 4
-dword_1A1074:
+Sb16Irq:
         resb 4
-dword_1A1078:
+Sb16DmaBuffer:
         resb 4
-dword_1A107C:
+Sb16Version:
         resb 4
-word_1A1080:
+Sb16Port:
         resb 4
-dword_1A1084:
+Sb16OldIrqOffset:
         resb 4
-word_1A1088:
+Sb16OldIrqSelector:
         resb 2
-dword_1A108A:
+Sb16DmaPos:
         resb 6
 RationalAllocLimit:
         resb 2

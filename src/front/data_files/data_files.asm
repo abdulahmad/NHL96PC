@@ -389,7 +389,7 @@ LoadDataFileFlag0:
 ;-----------------------------------------------------------------------------
 ; LoadDataFileHandle                              1E779  96 PC, low confidence
 ; LoadDataFile returning the loader's handle (LoadFileAllocQuiet), for the sound banks
-; (sub_C04C3)
+; (RegisterSfxBank)
 ;-----------------------------------------------------------------------------
 LoadDataFileHandle:
         push ebx

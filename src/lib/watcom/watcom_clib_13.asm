@@ -7,7 +7,7 @@ extern __ioalloc_, __prtf_, __set_doserrno_, __set_errno_, _nfree_, _nmalloc_, _
 extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, asc_113F2C, str_PressJoystickButtonWhenC, str_KEYBOARDON, asc_113F74, asc_113F7C, asc_113F88
 extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, asc_114030, str_LocatebigsFILENOTFOUNDS, asc_11407C, asc_1140A0, str_OriapplymorphObjectCanno, RemapTable
 extern _Extender, _ExtenderSubtype, _osmajor, byte_19BA44, dword_11F5A0, MousePresent, dword_11F5C0, dword_11F5C4
-extern dword_11F5C8, HeapList, dword_1210CC, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4
+extern dword_11F5C8, HeapList, dword_1210CC, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw
 extern DrawDestBuffer, dword_1228FC, dword_124109, __NHandles, __io_mode, dword_12417C, dword_1241A0, CMainEnv
 extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, sub_E1836_29, main_, off_14F074
@@ -7215,7 +7215,7 @@ min__10:
         push ebp
         mov esi, dword [byte esp+010h]
         mov ebp, dword [byte esp+014h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .2
         mov ecx, dword [byte esp+020h]
         push ecx
@@ -7376,7 +7376,7 @@ BuildSpanOffsets_6C:
         push edi
         push ebp
         sub esp, byte 4
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .5
         mov ebx, dword [byte esp+020h]
         push ebx

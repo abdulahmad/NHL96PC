@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_AA5C4 progbits alloc exec nowrite align=1
 extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, TimerTickStep, ScreenWidth, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4, dword_1228FC, dword_122930, oldint8off, oldint8sel
+extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, oldint8off, oldint8sel
 extern RestoreDS, sub_DE247, VesaSetBank, AddExitHandler, bcopy, tickcount, timercallbacks
 global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, DrawShapeCore, unk_AA7B0, TimerISR_tick
 ;-----------------------------------------------------------------------------
@@ -234,7 +234,7 @@ DrawShapeCore:
         mov edi, dword [byte esp+028h]
         mov edx, dword [byte esp+02Ch]
         mov eax, dword [byte esp+030h]
-        cmp dword [dword_1228F4], byte 0
+        cmp dword [KeyedDraw], byte 0
         jne short .1
         push eax
         push edx

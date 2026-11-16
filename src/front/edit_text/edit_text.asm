@@ -4,7 +4,7 @@ bits 32
 section s_197ED progbits alloc exec nowrite align=1
 extern byte_11FA2F, byte_152C3B, dword_11F5C0, FillRect, fputchar, PutBlock, SetDrawBitmap, str_Disp
 extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, sub_63B0C
-extern sub_63F79, sub_640D3, sub_641D4, sub_69A9B, sub_AA7E0, sub_AB798, sub_ABF4C, sub_AD35C
+extern sub_63F79, sub_640D3, sub_641D4, SoundIdle, sub_AA7E0, sub_AB798, sub_ABF4C, sub_AD35C
 extern sub_AD620, sub_ADA80, sub_ADBEC, sub_AFFD0, sub_B2B0C, sub_DD6C4, sub_DD6E0, sub_DFE9C
 extern sub_DFF28, unk_152B3C, unk_19382
 global EditText
@@ -33,7 +33,7 @@ EditText:
         test eax, eax
         je short .3
 .2:
-        call sub_69A9B
+        call SoundIdle
         jmp short .1
 .3:
         mov eax, dword [byte ebp-06h]
@@ -489,7 +489,7 @@ EditText:
         mov dword [byte ebp+03Ah], eax
         test eax, eax
         jne short .30
-        call sub_69A9B
+        call SoundIdle
         jmp short .29
 .30:
         movzx eax, byte [byte esi+01h]
@@ -707,7 +707,7 @@ EditText:
         test eax, eax
         je short .53
 .52:
-        call sub_69A9B
+        call SoundIdle
         jmp short .51
 .53:
         call sub_DD6C4

@@ -1,0 +1,117 @@
+# NHL 96 PC sound: announcer speech (SPEECHBUF, 24-clip queue), the play-by-play event dispatcher, music on the
+# CD stream, digital sound effects, crowd noise, arena clips, game / front-end sound banks, TGV movies, GLOBAL.SET.
+# PC-only: the 96 speech system streams clips from bank files and is not the 95 PC slot system, so all source=new.
+sub_67000 FindClipIndex {confidence=low} binary search of the 45h-entry table dword_11D242 for [eax]; stores the index (or -1) back
+sub_6705C FindTeamPairClip {confidence=medium} (a, b): finds the pair a<<8|b or b<<8|a in the 16-entry table word_11D356 (two teams 0-1Ch from the event 8 call); the play-by-play adds 81h to the index
+sub_670E7 ResetSpeechChannels {confidence=high} clears the 3 speech play channels (3 x 14h at dword_17C5C0, request -1) and their counters
+sub_67140 OpenSpeechBanks {confidence=medium} (game): stops speech, clears the clip queue, opens the speech bank files (front-end or game list, MakeDataPath) with AsyncRequestOpen and reads their clip tables
+sub_67329 InitSpeech {confidence=high} called from StartSoundCard: seeds rand from the DOS time, sets the speech volume from globalset, allocates SPEECHBUF (56AEAh), opens the front-end banks, setasyncspeed once
+sub_67430 ShutdownSpeech {confidence=high} called from the sound shutdown: stops speech if busy, frees the bank table and SPEECHBUF
+sub_674C7 FreeSpeechBuffer {confidence=medium} frees SPEECHBUF (state 1 -> -2), around the in-game menu and other screens that need the memory
+sub_674FE RestoreSpeechBuffer {confidence=medium} allocates SPEECHBUF again after FreeSpeechBuffer (state -2 -> 1)
+sub_67531 SetSpeechVolume {confidence=medium} (vol): clamps 0-57h, adds 28h and sets it in the sound driver (the volume InitSpeech sets from globalset)
+sub_6755B SpeechBusy {confidence=high} 1 while the driver plays speech or clips are queued (word_11D386)
+sub_6758C QueueSpeechClip {confidence=high} (bank, clip): adds the clip's file offset and length (from the bank's table at dword_17C600) to the 24-entry clip queue
+sub_67600 CountRecordGame {confidence=low} counts one game of a W/L/T byte string (1, 2, 3) into the counters the caller passes
+sub_67636 RecordPctClip {confidence=low} picks clip 9-0Ch from three 16.16 ratios (>= .5, >= .65, >= .6)
+sub_676D4 RecordStreakClips {confidence=low} reads a team's W/L/T byte string (streak or record) for the play-by-play event 4 clips
+sub_67A63 PaEvent {confidence=high} the play-by-play announcer: (event bit, args...) from PostGoalEvent, PostPenaltyEvent, ClockTick (100h, end of period), the three stars and the screens; jump table jpt_6799B by event, each case queues clips
+sub_686DF StopSpeech {confidence=high} stops the driver's speech, clears the clip queue and cancels the channels' async reads; its tail (StopSpeech_207) starts the next queued clip
+sub_689D1 StopMusic {confidence=high} stops the music voice if playing (byte_11D1DE bits 1, 4) and clears the music flags
+sub_68A0B QueueCurrentMusic {confidence=medium} QueueMusic with the current music file (dword_11D232)
+sub_68A10 QueueMusic {confidence=high} (file id): with music on (globalset 10h) stops the music and queues the file on the music CD stream (CdStreamQueue)
+sub_68AB1 FillMusicStream {confidence=medium} (bytes): before every DOS file call, reads music stream packets until the driver has that much buffered (200 tries)
+sub_68B37 CloseMusic {confidence=high} fades the music out (50h), stops it and deletes its stream (delstream)
+sub_68BA4 OpenMusicStream {confidence=high} opens the music CD stream (35B60h bytes) if not open
+sub_68BCD SetMusicVolume {confidence=high} sets the music voice volume from globalset
+sub_68BFA PlayMusic {confidence=high} starts the queued music at the globalset volume (flags 6)
+sub_68C33 FadeOutMusic {confidence=high} (ticks, idle fn): fades the music to 0 and waits, calling idle fn and feeding the stream
+sub_68C8F MusicDone {confidence=high} 1 when the playing music has ended
+sub_68CB7 FeedMusicStream {confidence=high} gives the driver the next music stream packet when it needs one
+sub_68CFE SyncMusicStream {confidence=medium} CdStreamSyncTime on the music stream while music plays (around data file loads)
+sub_68D25 StopAllSfx {confidence=medium} with a sound effect bank loaded, stops every sound effect voice that is playing (16, byte_11D392)
+sub_68E21 PlaySfxOr {confidence=medium} (id, other): plays other instead of id when id is 40h+ and the extra bank (dword_11D1F2) is not loaded
+sub_68E31 PlaySfx {confidence=high} (id 1-48h): plays a digital sound effect from the loaded banks on a free voice at the globalset volume; called from checkcheck, FallDown, CompPass, the faceoff and the menus
+sub_68E72 Crowd_Noise {confidence=medium} (step): eases the crowd level (dword_11D1FE) toward its target by at most step and sets it in the crowd driver (the 95 PC Crowd_Noise job)
+sub_68F7C GetCrowdTarget {confidence=high} the crowd level target (dword_11D202)
+sub_68F82 SetCrowdTarget {confidence=high} (level): sets the crowd target, clamped 1 to the crowd volume (optblock & 7Fh)
+sub_68FB5 CrowdPause {confidence=medium} pauses the crowd noise once (word_11D3A4)
+sub_68FFE CrowdResume {confidence=medium} resumes the crowd noise CrowdPause paused
+sub_6904C CrowdFadeOut {confidence=high} (ticks): fades the crowd from its level to 0 over ticks, then stops it
+sub_69141 CrowdReaction {confidence=low} (0-7Fh): passes a crowd reaction level to the crowd driver (goals, hits, shots)
+sub_69161 PlayArenaClip {confidence=medium} (file id): with arena music on (optblock 80h) queues an arena clip on its CD stream (stoppages, goals, penalty box); clips 3Ch, 3Dh, 40h cut speech off
+sub_69234 ArenaClipService {confidence=medium} runs the arena clip stream (start, feed, end), from SoundIdle
+sub_692E9 ArenaClipReady {confidence=low} 1 when the arena clip has 2AF8h bytes buffered
+sub_69312 StartArenaClip {confidence=medium} starts the buffered arena clip at the optblock volume (state 4)
+sub_6934E StopArenaClip {confidence=high} (ticks): stops the arena clip, or fades it over ticks
+sub_693B9 GetSoundCard {confidence=high} returns sndcard
+sub_6941E TestCdSpeed {confidence=low} at start-up: checks the CD drive and measures its read speed (setstreamspeed > 7A120h sets word_11D1D0)
+sub_695CB StartGameSound {confidence=high} going into a game: drops the front-end music and banks, opens the game speech banks, the arena stream, the sound effect and crowd banks by free memory
+sub_6986B EndGameSound {confidence=high} back to the front end: frees the game sound banks and crowd, opens the front-end speech banks and the music stream
+sub_699D0 ShutdownSound {confidence=high} from ShutDown: ShutdownSpeech, frees the sound effect banks, fades and stops the music, AsyncClose
+sub_69A94 SoundSecondsToBytes {confidence=medium} seconds x 55F0h (22000 bytes)
+sub_69A9B SoundIdle {confidence=high} the sound idle call made in every wait loop: arena clip, speech and music service
+sub_69AB2 SpeechService {confidence=high} feeds the speech async reads and starts the next queued clip
+sub_69B1E TgvClock {confidence=medium} the movie clock in 1/100 ticks, synced to the audio when the movie has sound
+sub_69B99 TgvOpen {confidence=medium} opens a TGV movie: TEMP buffer, its CD stream and the audio stream
+sub_69D61 TgvNextFrame {confidence=medium} reads TGV packets (TGVf, TGVk palette) up to the next frame and decodes it
+sub_6A0D4 TgvPlayFrames {confidence=medium} plays the opened TGV movie frame by frame, centred, until it ends or is skipped
+sub_6A229 PlayMovie {confidence=medium} (path, ..., skip fn): plays a TGV movie with sound if there is a card; 1 if skipped
+sub_6A2A8 PlayMovieFile {confidence=high} (file id): stops the music, plays the movie (any pressed device skips) and restarts the music
+sub_6A5EB WriteGlobalSet {confidence=high} writes GLOBAL.SET back (BCh header, the name, B9h options), the file ReadGlobalSet reads
+sub_67000_55 FindClipIndex_55 {no_record}
+sub_67000_56 FindClipIndex_56 {no_record}
+sub_6705C_85 FindTeamPairClip_85 {no_record}
+sub_674FE_32 RestoreSpeechBuffer_32 {no_record}
+sub_67A63_1B4 PaEvent_1B4 {no_record}
+sub_67A63_1C6 PaEvent_1C6 {no_record}
+sub_67A63_1D8 PaEvent_1D8 {no_record}
+sub_67A63_1DF PaEvent_1DF {no_record}
+sub_67A63_1E6 PaEvent_1E6 {no_record}
+sub_67A63_1ED PaEvent_1ED {no_record}
+sub_67A63_1F4 PaEvent_1F4 {no_record}
+sub_67A63_1FB PaEvent_1FB {no_record}
+sub_67A63_202 PaEvent_202 {no_record}
+sub_67A63_209 PaEvent_209 {no_record}
+sub_67A63_20E PaEvent_20E {no_record}
+sub_67A63_231 PaEvent_231 {no_record}
+sub_67A63_2AD PaEvent_2AD {no_record}
+sub_67A63_2B7 PaEvent_2B7 {no_record}
+sub_67A63_2C1 PaEvent_2C1 {no_record}
+sub_67A63_2CB PaEvent_2CB {no_record}
+sub_67A63_2DC PaEvent_2DC {no_record}
+sub_67A63_307 PaEvent_307 {no_record}
+sub_67A63_31C PaEvent_31C {no_record}
+sub_67A63_334 PaEvent_334 {no_record}
+sub_67A63_34C PaEvent_34C {no_record}
+sub_67A63_388 PaEvent_388 {no_record}
+sub_67A63_3B0 PaEvent_3B0 {no_record}
+sub_67A63_3D8 PaEvent_3D8 {no_record}
+sub_67A63_47B PaEvent_47B {no_record}
+sub_67A63_492 PaEvent_492 {no_record}
+sub_67A63_4A9 PaEvent_4A9 {no_record}
+sub_67A63_50 PaEvent_50 {no_record}
+sub_67A63_5BD PaEvent_5BD {no_record}
+sub_67A63_61F PaEvent_61F {no_record}
+sub_67A63_64 PaEvent_64 {no_record}
+sub_67A63_6BB PaEvent_6BB {no_record}
+sub_67A63_71D PaEvent_71D {no_record}
+sub_67A63_757 PaEvent_757 {no_record}
+sub_67A63_768 PaEvent_768 {no_record}
+sub_67A63_779 PaEvent_779 {no_record}
+sub_67A63_78A PaEvent_78A {no_record}
+sub_67A63_79B PaEvent_79B {no_record}
+sub_67A63_7AC PaEvent_7AC {no_record}
+sub_67A63_7DE PaEvent_7DE {no_record}
+sub_67A63_965 PaEvent_965 {no_record}
+sub_67A63_AAB PaEvent_AAB {no_record}
+sub_67A63_CD PaEvent_CD {no_record}
+sub_686DF_1FA StopSpeech_1FA {no_record}
+sub_686DF_207 StopSpeech_207 {no_record}
+sub_68D25_8D StopAllSfx_8D {no_record}
+sub_68D25_BA StopAllSfx_BA {no_record}
+sub_68D25_BF StopAllSfx_BF {no_record}
+sub_68D25_F7 StopAllSfx_F7 {no_record}
+sub_69AB2_58 SpeechService_58 {no_record}
+sub_69AB2_6B SpeechService_6B {no_record}
+sub_69B99_F9 TgvOpen_F9 {no_record}

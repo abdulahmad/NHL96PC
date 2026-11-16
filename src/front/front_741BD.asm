@@ -21,7 +21,7 @@ extern qsort_, sprintf_, strcpy_, strlen_, ModemGameOpen, ModemGameConnect, Mode
 extern ModemChat, EditText, MessageBox, LoadTeamLogo, MakeDataPath, LoadDataFile, LoadPackedFile, sub_29B9F
 extern sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998
 extern sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64296, sub_64721, sub_64F59, sub_66373
-extern sub_68AB1, sub_69A94, sub_69A9B, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4
+extern FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont, sub_DD6C4, MouseRead
 extern sub_DFE9C, sub_DFF28, sub_E04E0, str_Rb, unk_152C44, unk_17C9B8, unk_17C9CC, optblock_end
 extern unk_73BD5, unk_73C35, unk_73F35, unk_73F7D, word_114CE0, word_11E270, word_11E280, word_17C9AC
@@ -52,8 +52,8 @@ sub_741BD:
         mov esi, unk_73C35
         mov eax, 2
         rep movsd
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         push byte 20h
         push dword 52Eh
         push str_PICKS2
@@ -540,7 +540,7 @@ sub_741BD:
         mov dword [byte ebp+03Ah], 0Ch
         call sub_63998
 .23:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+03Ah], byte 0
         jl short .25
         cmp dword [byte ebp+03Ah], byte 0Dh
@@ -1044,7 +1044,7 @@ sub_74F0C:
         push ebx
         push ecx
         push edx
-        call sub_69A9B
+        call SoundIdle
         push byte 1
         call sub_DFE9C
         add esp, byte 4
@@ -1257,8 +1257,8 @@ sub_7513A:
         jmp near sub_741BD_D42
 .1:
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor edx, edx
         mov eax, 55h
         call LoadPackedFile
@@ -1622,7 +1622,7 @@ sub_7513A:
         mov dword [byte ebp+066h], 0Ah
         call sub_63998
 .17:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+066h], byte 0
         jl short .19
         cmp dword [byte ebp+066h], byte 0Bh
@@ -1847,7 +1847,7 @@ sub_7513A_9DA:
         call GetTicks
         cmp eax, dword [byte ebp+05Ah]
         jl short .30
-        call sub_69A9B
+        call SoundIdle
         cmp edi, esi
         jle short .31
         dec dword [byte ebp+06Eh]
@@ -1967,7 +1967,7 @@ sub_7513A_BD2:
         test eax, eax
         je short .36
 .34:
-        call sub_69A9B
+        call SoundIdle
         jmp short .33
 .35:
         call ModemGameClose
@@ -2034,8 +2034,8 @@ sub_75E2C:
         test eax, eax
         je near sub_741BD_D42
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor edx, edx
         mov eax, 56h
         call LoadPackedFile
@@ -2099,7 +2099,7 @@ sub_75E2C:
         mov dword [byte ebp+07Eh], 2
         call sub_63998
 .1:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+07Eh], byte 0
         jl short .3
         cmp dword [byte ebp+07Eh], byte 3
@@ -2448,8 +2448,8 @@ sub_76518:
         rep movsd
         xor edx, edx
         mov dword [gameopts], optblock_end
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 57h
         call LoadPackedFile
         push byte 0
@@ -2858,7 +2858,7 @@ sub_76518:
         mov dword [byte ebp+06Eh], 8
         call sub_63998
 .1:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+06Eh], byte 0
         jl short .3
         cmp dword [byte ebp+06Eh], byte 0Ah

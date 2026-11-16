@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1E3C8 progbits alloc exec nowrite align=1
 extern dword_11D3C8, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
-extern str_dot3, strcat_, stricmp_, sub_68CFE, sub_AB758, sub_ABF4C, sub_AC838, sub_AFD00
+extern str_dot3, strcat_, stricmp_, SyncMusicStream, sub_AB758, sub_ABF4C, sub_AC838, sub_AFD00
 extern sub_B0474, sub_B047B, sub_B0494, sub_B049E, sub_B20D0, sub_B20EC, sub_B2128, sub_B2140
 extern sub_B7310, sub_B73C4, sub_B7498, sub_B74B0, sub_B74D0, sub_B7638, sub_B7654, sub_B7690
 extern sub_B76A8, unk_115120, unk_1151A7, unk_115333, unk_158658, unpack, word_11512D
@@ -353,7 +353,7 @@ LoadDataFile:
 LoadDataFile_1B:
         add esp, byte 8
         mov edx, eax
-        call sub_68CFE
+        call SyncMusicStream
         mov eax, edx
         pop ecx
         pop ebx
@@ -480,7 +480,7 @@ LoadPackedFile:
         add esp, byte 8
         mov esi, eax
 .3:
-        call sub_68CFE
+        call SyncMusicStream
         mov eax, esi
         leave
         pop edi

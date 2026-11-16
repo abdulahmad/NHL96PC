@@ -30,3 +30,10 @@ rename front/rink_model front/rink_model
 # step 5: front_2A692, the users part of rink_model's tail
 cut unk_2A3D6 front/users User records: LOCAL.NDX of user names, the user record files, picking users for the controllers, the user records screen (96 PC).
 rename front/front_2A692 front/users
+# step 6: front_67000, sound
+rename front/front_67000 front/speech Announcer speech: SPEECHBUF, the speech bank files, the 24-clip speech queue and the play-by-play events PaEvent queues clips for (96 PC).
+cut StopMusic front/music Music on the CD stream: queue, play, fade, stop and feed it (96 PC).
+cut StopAllSfx front/sound Digital sound effects, crowd noise, arena clips, the sound card start-up, the game and front-end sound banks and the sound idle call (96 PC).
+cut TgvClock front/movie TGV movies: open the movie and its audio stream, decode and show the frames, play a movie file between screens (96 PC).
+cut ReadGlobalSet front/settings GLOBAL.SET, the settings file SETUP writes, read at start and written back; the EXHIBIT.NDX start of the front-end menus (96 PC).
+cut RunInGameMenu front/pause_menu The in-game menu: RunInGameMenu and the pause menu screens of a game (96 PC; its routines still to be named).

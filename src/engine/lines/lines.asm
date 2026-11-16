@@ -15,7 +15,7 @@ extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dwo
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
 extern puckc, off_11788C, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern LoadPackedFile, InitGameTeams, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, sub_625F7, sub_62ED9
-extern sub_63B0C, sub_695CB, sub_6986B, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
+extern sub_63B0C, StartGameSound, EndGameSound, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
 extern word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
@@ -1920,7 +1920,7 @@ sub_53260:
         mov word [dword edx+word_176EDB], 1
         cmp eax, byte 4
         jl short .6
-        call sub_695CB
+        call StartGameSound
         mov eax, dword [dword_17CA5C]
         shl eax, 13h
         shr eax, 1Ch
@@ -2002,7 +2002,7 @@ sub_53260:
         call sub_ABF4C
         add esp, byte 4
         mov edx, 20h
-        call sub_6986B
+        call EndGameSound
         mov eax, dword [dword_152F58]
         call sub_63B0C
         mov edx, 20h

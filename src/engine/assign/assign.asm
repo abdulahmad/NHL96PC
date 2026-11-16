@@ -6,7 +6,7 @@ extern assextra4, assextra6, assinsert, assreplace, byte_176B83, check4bench, ch
 extern dword_16523C, dword_165240, dword_165244, dword_165248, EvadePC, gmode, gmode2, off_11787C
 extern off_117890, PBnum, Pencntdwn, playeracc, puckc, puckx, pucky, randomd0
 extern ReadJoy1, regd0, regd1, regd2, regd3, SetExitGame, SetSPA, skateto
-extern SkateToSpot, slotteam, SortCords, sub_2D9D9_450, sub_2D9D9_451, sub_3509F, sub_4F452, sub_69161
+extern SkateToSpot, slotteam, SortCords, sub_2D9D9_450, sub_2D9D9_451, sub_3509F, sub_4F452, PlayArenaClip
 extern SwapPosition, updateanim, vecdist, vtoa, word_165366, word_16536C, word_165462, word_165468
 extern word_16548C, word_165492
 global TurnToward, SkateToTarget, assboxenter, assbenchside, assstanley, asscupfollow, asscuptake, asscupleave
@@ -190,7 +190,7 @@ assboxenter:
         test eax, eax
         jne near .11
         mov eax, 49h
-        call sub_69161
+        call PlayArenaClip
         pop edx
         pop ebx
         ret

@@ -12,7 +12,7 @@ extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puc
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetLCmode
 extern sub_3509F, sub_3E665, BlockShotDive, checkob, dopass, passmode, setpassmode, sub_4137F
 extern sub_415FF, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, sub_46593, changeplayer
-extern updateanim, doplayeracc, playeracc, sub_4DD1B, burst, sub_68E31, sfx, MouseRead
+extern updateanim, doplayeracc, playeracc, sub_4DD1B, burst, PlaySfx, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
 extern fodir1, fodir2, gmode2, word_1178CA, slotteam, gsp, word_118EA5, word_118EA9
 extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
@@ -1208,7 +1208,7 @@ sub_38BFA:
         xor eax, edx
         je short .15
         mov eax, 21h
-        call sub_68E31
+        call PlaySfx
         cmp byte [byte esi+065h], 0
         setne al
         movzx edx, al

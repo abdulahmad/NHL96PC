@@ -11,7 +11,7 @@ extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
 extern strcpy_, strlen_, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968, sub_63998
 extern sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_64721, sub_64F59
-extern sub_66373, sub_68AB1, sub_69A94, sub_69A9B, sub_77355, sub_AA988, sub_AADA4, sub_AB758
+extern sub_66373, FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_77355, sub_AA988, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_ADA50, sub_ADA80, sub_DD6C4, sub_DD724, sub_DFF28, sub_E04E0, TextSetFont
 extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
 extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
@@ -1602,8 +1602,8 @@ JoystickTestScreen:
         mov eax, 2
         xor edx, edx
         rep movsd
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 53h
         call LoadPackedFile
         push byte 0
@@ -1739,7 +1739,7 @@ JoystickTestScreen:
         add eax, dword [byte ebp+07Eh]
         mov dword [byte ebp+05Eh], eax
 .2:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+062h], byte 0
         jl short .4
         cmp dword [byte ebp+062h], byte 3

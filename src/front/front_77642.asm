@@ -17,7 +17,7 @@ extern NameIndexAdd, NameIndexFirstId, EditText, MessageBox, ShowProgressBox, Up
 extern FileOpenRead, FileOpenReadWrite, FileClose, FileWriteAt, FileCopy, sub_1E222, sub_1E268, MakeDataPath
 extern MakeDirPath, LoadPackedFile, MakeDatabasePath, FreeStatsTables, sub_29B9F, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_640D3, sub_64296, sub_64721, sub_64F59
-extern sub_68AB1, sub_69A94, sub_77355, sub_77535, sub_AAA8C, PutBlock, sub_AB758, sub_ABF4C
+extern FillMusicStream, SoundSecondsToBytes, sub_77355, sub_77535, sub_AAA8C, PutBlock, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, TextSetFont, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7256, sub_B7810, sub_C254C, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
 extern unk_11E33C, unk_11E354, unk_152C44, optblock_end, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_77442
@@ -2123,8 +2123,8 @@ sub_79060:
         mov dword [byte ebp-014h], eax
         mov eax, 2
         mov dword [byte ebp-08h], esi
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov dword [byte ebp-010h], edx
 .4:
         mov eax, dword [byte ebp-010h]
@@ -2151,8 +2151,8 @@ sub_79060:
         call UpdateProgressBox
         mov eax, 2
         inc dword [byte ebp-08h]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         cmp dword [byte ebp-08h], byte 1Ah
         jl short .4
         mov dword [byte ebp-04h], 0
@@ -2170,13 +2170,13 @@ sub_79060:
         call UpdateProgressBox
         mov eax, 2
         inc dword [byte ebp-04h]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         cmp dword [byte ebp-04h], byte 0Bh
         jl short .7
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         call HideProgressBox
         push dword [byte ebp-014h]
         call sub_ABF4C

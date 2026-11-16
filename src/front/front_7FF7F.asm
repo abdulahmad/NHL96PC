@@ -8,7 +8,7 @@ extern dword_117500, dword_117510, dword_11E4B8, dword_1657EA, dword_1657F6, dwo
 extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CEC3, dword_17CED1, dword_17CED6, dword_17D162, dword_17D1E2
 extern dword_17D202, dword_17D267, dword_17D26B, gameopts, qsort_, sprintf_, srand_, strcat_
 extern strlen_, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox, MakeDirPath, LoadSeasonStats
-extern sub_63968, sub_68AB1, sub_69A94, sub_69A9B, sub_77355, sub_78E9E, sub_78EFA, sub_7A787
+extern sub_63968, FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_77355, sub_78E9E, sub_78EFA, sub_7A787
 extern sub_81EEA, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_ABF4C, sub_B20D0
 extern sub_B22B0, sub_B7810, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, word_1656DC
 extern word_1656E8, word_16581E
@@ -1352,8 +1352,8 @@ sub_80E4D:
         mov dword [byte ebp+026h], 0
         mov eax, 3
         mov ebx, 6
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [dword_1174F0]
         mov edx, dword [dword_17CBE7]
         mov dword [byte ebp+042h], eax
@@ -1395,7 +1395,7 @@ sub_80E4D:
         cmp eax, dword [byte ebp-066h]
         jg short .6
         add dword [byte ebp+032h], byte 6
-        call sub_69A9B
+        call SoundIdle
         mov eax, dword [byte ebp+032h]
         mov edi, dword [byte ebp-06Ah]
         call UpdateProgressBox
@@ -1542,7 +1542,7 @@ sub_80E4D:
         mov dword [byte ebp+036h], 41h
         mov dword [byte ebp+02Ah], eax
 .14:
-        call sub_69A9B
+        call SoundIdle
         mov eax, dword [byte ebp+04Eh]
         movsx eax, byte [dword eax+byte_17CC36]
         cmp eax, byte 1

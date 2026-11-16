@@ -23,8 +23,8 @@ extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
 extern shotontarget, IsCupClinched, sub_23F05, SwapPosition, assextra6, doinput, sub_39847, CountTeamSlots
 extern sub_3A7A4, asspsclear, sub_3E6D4, ChkShotStat, checkcoll, SetSPA, sub_4F452, AddPenalty2
-extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, sub_622CD, sub_67A63, sub_68D25
-extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_117A9C
+extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, sub_622CD, PaEvent, StopAllSfx
+extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_117A9C
 extern unk_118FA5, unk_156E6C, unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82
 extern unk_157D8F, unk_157F9C, unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_165258, unk_165354
 extern unk_176D0C, unk_176E9C, vtoa, word_1178A0, word_1178A2, word_1178A8, word_1178B4, yc1
@@ -1914,11 +1914,11 @@ Goal_1FC:
 .26:
         mov eax, 3Dh
 .27:
-        call sub_69161
+        call PlayArenaClip
         mov eax, 8
         call sfx
         mov eax, 7Fh
-        call sub_69141
+        call CrowdReaction
         jmp short .29
 .28:
         mov eax, 5
@@ -3747,7 +3747,7 @@ StartPer:
         call InitCoachModes
         mov word [word_176B6A], 0
         mov dword [dword_11D3A6], 0
-        call sub_68D25
+        call StopAllSfx
         call setupice
         call sub_39847
         call GetPeriodTime
@@ -4184,9 +4184,9 @@ periodicevents:
         jne short .1
         cmp word [word_117902], byte 0
         jne short .1
-        call sub_6934E
+        call StopArenaClip
         mov eax, 40h
-        call sub_69161
+        call PlayArenaClip
         mov ax, word [word_1178A0]
         mov word [word_1178B4], ax
         mov ax, word [word_1178A2]
@@ -4743,7 +4743,7 @@ updateplayers:
         cmp eax, byte 3
         jg short .39
         mov eax, 16h
-        call sub_68E31
+        call PlaySfx
 .39:
         mov ax, word [dword esi+086h]
         mov word [word_165970], ax
@@ -5558,7 +5558,7 @@ updateanim:
 .87:
         mov eax, 2Dh
 .88:
-        call sub_68E31
+        call PlaySfx
         jmp near Goal_1FB
         mov ax, word [word_1178A0]
         mov word [word_1178B4], ax
@@ -5975,7 +5975,7 @@ clockcont_0:
         call sfx
 .42:
         mov eax, 7Fh
-        call sub_69141
+        call CrowdReaction
         jmp short .44
 .43:
         mov eax, 5
@@ -6037,7 +6037,7 @@ ClockTick:
         jne short .6
         push dword [curperiod]
         push dword 100h
-        call sub_67A63
+        call PaEvent
         add esp, byte 8
 .6:
         movsx ebx, word [gameclock]
@@ -6804,7 +6804,7 @@ sub_4B59F:
         jle short .16
         mov eax, 7Fh
 .16:
-        call sub_69141
+        call CrowdReaction
 .17:
         pop edx
         pop ecx

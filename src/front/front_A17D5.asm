@@ -34,10 +34,10 @@ extern sub_2E1BE, sub_3A6F3, sub_5A4FF, sub_5A572, CloseTextOverlay, sub_60777, 
 extern sub_621D9, sub_62201, sub_6225D, sub_62285, sub_62311, sub_625F7, sub_62A0F, sub_62AF7
 extern sub_62D9B, sub_62E0E, sub_62E72, sub_62ED9, sub_62F90, sub_63968, sub_63998, sub_63A5B
 extern sub_63B0C, sub_63DC4, sub_63F79, sub_640D3, sub_64103, sub_641D4, sub_6423E, sub_64296
-extern sub_64721, sub_64E74, sub_64F59, sub_66373, sub_674C7, sub_674FE, sub_6755B, sub_67A63
-extern sub_686DF, sub_689D1, sub_68A10, sub_68AB1, sub_68BFA, sub_68C33, sub_68C8F, sub_68D25
-extern sub_68E72, CrowdNoiseReset, sub_68F7C, sub_68F82, sub_6904C, sfx, sub_69141, sub_6934E
-extern sub_695CB, sub_6986B, sub_69A94, sub_69A9B, sub_6B486, sub_6C64B, sub_6F056, sub_70840
+extern sub_64721, sub_64E74, sub_64F59, sub_66373, FreeSpeechBuffer, RestoreSpeechBuffer, SpeechBusy, PaEvent
+extern StopSpeech, StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, StopAllSfx
+extern Crowd_Noise, CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdFadeOut, sfx, CrowdReaction, StopArenaClip
+extern StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle, sub_6B486, sub_6C64B, sub_6F056, sub_70840
 extern sub_75E0C, sub_75E2C, sub_77355, sub_8C51B, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
 extern PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont
 extern sub_B0CA8, DrawArtOpaque, sub_B58D8, sub_DD6C4, SetClipWindow, SetViewRect, sub_E04E0, sub_E0584
@@ -60,7 +60,7 @@ sub_A17D5:
         push esi
         push edi
         mov edi, eax
-        call sub_69A9B
+        call SoundIdle
         call GetTicks
         mov esi, eax
         sub esi, dword [dword_11ED30]
@@ -69,7 +69,7 @@ sub_A17D5:
         xor edx, edx
 .1:
         inc edx
-        call sub_69A9B
+        call SoundIdle
         cmp edx, byte 4
         jl short .1
         call GetTicks
@@ -651,9 +651,9 @@ sub_A1FEF:
         call sub_64E74
         call ResetInputSlots
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
-        call sub_674C7
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call FreeSpeechBuffer
         push str_FhiL3
         push dword [dword_1150D4]
         call sub_E04E0
@@ -701,7 +701,7 @@ sub_A20D1:
         mov eax, 3
         call sub_63A5B
         call sub_62ED9
-        call sub_674FE
+        call RestoreSpeechBuffer
         test byte [byte_17CA5D], 20h
         jne short .1
         push dword [dword_152F54]
@@ -941,7 +941,7 @@ sub_A21FB:
         mov dword [byte ebp+076h], 0
         call LinkSync
 .2:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+076h], byte 0
         jl short .4
         cmp dword [byte ebp+076h], byte 3
@@ -1014,20 +1014,20 @@ sub_A25CD:
         enter 30h, 0
         mov eax, 3
         call sub_63A5B
-        call sub_68F7C
+        call GetCrowdTarget
         mov dword [byte ebp-014h], eax
         xor eax, eax
-        call sub_68F82
-        call sub_68D25
+        call SetCrowdTarget
+        call StopAllSfx
         mov eax, 50h
-        call sub_6904C
+        call CrowdFadeOut
         mov eax, 50h
         mov dword [byte ebp-08h], 0FFFFFFFFh
-        call sub_6934E
-        call sub_6755B
+        call StopArenaClip
+        call SpeechBusy
         test eax, eax
         je short .1
-        call sub_686DF
+        call StopSpeech
 .1:
         call GetTicks
         lea esi, [byte eax+050h]
@@ -1035,14 +1035,14 @@ sub_A25CD:
         call GetTicks
         cmp esi, eax
         jle short .3
-        call sub_69A9B
+        call SoundIdle
         jmp short .2
 .3:
         call sub_62311
         call sub_6225D
         call sub_621D9
         call sub_B0CA8
-        call sub_6986B
+        call EndGameSound
         cmp dword [dword_1150FC], byte 1
         setne al
         movzx eax, al
@@ -1059,7 +1059,7 @@ sub_A25CD:
         mov eax, 9
         call CloseTextOverlay
         mov eax, 15Eh
-        call sub_68E72
+        call Crowd_Noise
         xor edx, edx
 .4:
         mov eax, 5
@@ -1185,10 +1185,10 @@ sub_A25CD:
 .13:
         mov eax, 44h
 .14:
-        call sub_68A10
+        call QueueMusic
         mov eax, 4
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [dword_11F5C0]
         add eax, byte 0Ah
         mov dword [dword_184400], eax
@@ -1500,7 +1500,7 @@ sub_A25CD:
         push dword [dword_184400]
         mov edx, unk_16443C
         call sub_64E74
-        call sub_68BFA
+        call PlayMusic
         call sub_A1F6C
         xor eax, eax
         call sub_63998
@@ -1534,7 +1534,7 @@ sub_A25CD:
 .23:
         push eax
         push dword 400h
-        call sub_67A63
+        call PaEvent
         add esp, byte 18h
         jmp short .25
 .24:
@@ -1613,10 +1613,10 @@ sub_A25CD:
         shr eax, 1Bh
         push eax
         push dword 800h
-        call sub_67A63
+        call PaEvent
         add esp, byte 0Ch
 .39:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp-018h], byte 0
         jl short .41
         cmp dword [byte ebp-018h], byte 6
@@ -1761,10 +1761,10 @@ sub_A25CD_ABD:
         je short .51
         mov eax, 64h
         xor edx, edx
-        call sub_68C33
-        call sub_689D1
+        call FadeOutMusic
+        call StopMusic
 .51:
-        call sub_686DF
+        call StopSpeech
         mov al, byte [byte ebp-030h]
         mov byte [byte_1175A4], al
         mov al, byte [byte ebp-02Eh]
@@ -1786,7 +1786,7 @@ sub_A25CD_ABD:
         cmp dword [dword_1150FC], byte 1
         je near .53
         call sub_62311
-        call sub_695CB
+        call StartGameSound
         call sub_62201
         call sub_62285
         mov eax, 2
@@ -1812,9 +1812,9 @@ sub_A25CD_ABD:
         mov eax, 1
         call sub_5A572
         mov eax, 7Fh
-        call sub_68E72
+        call Crowd_Noise
         mov eax, 7Fh
-        call sub_69141
+        call CrowdReaction
         mov dword [fadeinpending], 1
         inc dword [curperiod]
 .53:
@@ -2505,8 +2505,8 @@ sub_A3CF8:
         mov eax, 2
         xor edx, edx
         rep movsd
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 58h
         call LoadPackedFile
         push byte 0
@@ -2887,10 +2887,10 @@ sub_A3CF8:
         call sub_A3A11
         mov eax, dword [byte ebp+076h]
         call sub_A3B74
-        call sub_68C8F
+        call MusicDone
         test eax, eax
         jne short .1
-        call sub_68BFA
+        call PlayMusic
 .1:
         mov edx, dword [dword ebp-024Eh]
         mov eax, dword [dword ebp-0252h]
@@ -2901,7 +2901,7 @@ sub_A3CF8:
         mov dword [byte ebp+06Eh], 7
         call sub_63998
 .2:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+06Eh], byte 0
         jl short .4
         cmp dword [byte ebp+06Eh], byte 9

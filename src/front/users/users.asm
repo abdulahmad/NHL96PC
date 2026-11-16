@@ -29,7 +29,7 @@ extern str_Uga, str_Ugf, str_Ulstreak, str_Ulxh, str_Ulxn, str_Ulyh, str_Ulyn, s
 extern str_Uopp, str_Upk, str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_Ustreak
 extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, sub_62AF7, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63E7C, sub_63EB5, sub_63F79, sub_63FEF, sub_64103
-extern sub_64721, sub_64F59, sub_68E31, sub_69A9B, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC
+extern sub_64721, sub_64F59, PlaySfx, SoundIdle, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC
 extern sub_7D325, sub_7D346, sub_7D349, sub_8B7BB, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, sub_DD6C4, sub_DD8B0
 extern sub_E04E0, sub_E15AC, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
@@ -124,10 +124,10 @@ ClearSlotUsers:
         call GetPressedDevice
         test eax, eax
         jne short .3
-        call sub_69A9B
+        call SoundIdle
         jmp short .2
 .3:
-        call sub_69A9B
+        call SoundIdle
         call GetPressedDevice
         test eax, eax
         jne short .3
@@ -363,10 +363,10 @@ DeleteUser:
         call GetPressedDevice
         test eax, eax
         jne short .7
-        call sub_69A9B
+        call SoundIdle
         jmp short .6
 .7:
-        call sub_69A9B
+        call SoundIdle
         call GetPressedDevice
         test eax, eax
         jne short .7
@@ -443,10 +443,10 @@ NewUser:
         call GetPressedDevice
         test eax, eax
         jne short .2
-        call sub_69A9B
+        call SoundIdle
         jmp short .1
 .2:
-        call sub_69A9B
+        call SoundIdle
         call GetPressedDevice
         test eax, eax
         jne short .2
@@ -476,10 +476,10 @@ NewUser:
         call GetPressedDevice
         test eax, eax
         jne short .6
-        call sub_69A9B
+        call SoundIdle
         jmp short .5
 .6:
-        call sub_69A9B
+        call SoundIdle
         call GetPressedDevice
         test eax, eax
         jne short .6
@@ -1011,7 +1011,7 @@ PickUsersScreen:
         add esp, byte 8
         mov dword [byte ebp-014h], eax
 .5:
-        call sub_69A9B
+        call SoundIdle
         mov dword [byte ebp-02Ch], 0FFFFFFFFh
 .6:
         cmp dword [byte ebp-02Ch], byte 0
@@ -1106,10 +1106,10 @@ PickUsersScreen:
         call GetPressedDevice
         test eax, eax
         jne short .16
-        call sub_69A9B
+        call SoundIdle
         jmp short .15
 .16:
-        call sub_69A9B
+        call SoundIdle
         call GetPressedDevice
         test eax, eax
         jne short .16
@@ -1243,10 +1243,10 @@ PickUsersScreen:
         call GetPressedDevice
         test eax, eax
         jne short .28
-        call sub_69A9B
+        call SoundIdle
         jmp short .27
 .28:
-        call sub_69A9B
+        call SoundIdle
         call GetPressedDevice
         test eax, eax
         jne short .28
@@ -1270,7 +1270,7 @@ PickUsersScreen:
         jmp short .31
 .30:
         mov eax, 35h
-        call sub_68E31
+        call PlaySfx
 .31:
         cmp dword [byte ebp-018h], byte 0
         je near .5
@@ -2911,10 +2911,10 @@ ExportUserRecords:
         call GetPressedDevice
         test eax, eax
         jne short .2
-        call sub_69A9B
+        call SoundIdle
         jmp short .1
 .2:
-        call sub_69A9B
+        call SoundIdle
         call GetPressedDevice
         test eax, eax
         jne short .2

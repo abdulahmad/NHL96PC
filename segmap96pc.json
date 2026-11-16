@@ -352,19 +352,61 @@
   },
   {
    "start": 421888,
-   "end": 436369,
+   "end": 428497,
    "module": "front_67000",
    "obj": 1,
-   "file": "front/front_67000.asm",
+   "file": "front/speech/speech.asm",
    "note": "placeholder"
   },
   {
-   "start": 436369,
-   "end": 451123,
-   "module": "pause_menu",
    "obj": 1,
+   "start": 428497,
+   "end": 429349,
+   "module": "front_music",
+   "file": "front/music/music.asm",
+   "desc": "Music on the CD stream: queue, play, fade, stop and feed it (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 429349,
+   "end": 432926,
+   "module": "front_sound",
+   "file": "front/sound/sound.asm",
+   "desc": "Digital sound effects, crowd noise, arena clips, the sound card start-up, the game and front-end sound banks and the sound idle call (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 432926,
+   "end": 435009,
+   "module": "front_movie",
+   "file": "front/movie/movie.asm",
+   "desc": "TGV movies: open the movie and its audio stream, decode and show the frames, play a movie file between screens (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 435009,
+   "end": 436179,
+   "module": "front_settings",
+   "file": "front/settings/settings.asm",
+   "desc": "GLOBAL.SET, the settings file SETUP writes, read at start and written back; the EXHIBIT.NDX start of the front-end menus (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 436179,
+   "end": 451123,
+   "module": "front_pause_menu",
    "file": "front/pause_menu/pause_menu.asm",
-   "note": "pause menu buttons (PAUSREG, quit, return, replay, controls, stats)"
+   "desc": "The in-game menu: RunInGameMenu and the pause menu screens of a game (96 PC; its routines still to be named).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 451123,

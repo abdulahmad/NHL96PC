@@ -17,8 +17,8 @@ extern str_FhiR2, str_GhiL, str_GhiR, str_GloL5, str_GloR5, str_PAL, strcpy_, Me
 extern BlankForFadeIn, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, FreeStatsTables, EndGameCleanup, InitGameTeams
 extern UpdateUserRecords, sub_3A6F3, sub_4B59F, sub_5358E, sub_58A58, sub_59188, sub_5A572, sub_5AF42
 extern sub_612BC, sub_62311, sub_625F7, sub_62ED9, sub_62F90, sub_63A5B, sub_63B0C, sub_63DC4
-extern sub_689D1, sub_68A10, sub_68C33, sub_68E31, sub_68E72, sub_68F82, sub_6904C, sub_692E9
-extern sub_69312, sub_6934E, sub_695CB, sub_6986B, sub_69A9B, sub_6A5EB, sub_77355, sub_AA664
+extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
+extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, sub_77355, sub_AA664
 extern sub_AB758, sub_ABF4C, sub_ADA50, sub_B0CA8, sub_DD6C4, sub_DD6E0, sub_DD7B8, sub_DFEC6
 extern sub_E04E0, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
 extern word_119111, word_119113, word_1515E4, word_1656D2, word_1656D6
@@ -63,8 +63,8 @@ PlayMenuGame:
         call sub_63A5B
         xor edx, edx
         mov eax, 8Ch
-        call sub_68C33
-        call sub_689D1
+        call FadeOutMusic
+        call StopMusic
         call sub_62ED9
         call FreeStatsTables
         call sub_B0CA8
@@ -107,7 +107,7 @@ PlayMenuGame_AF:
         call sub_ABF4C
         add esp, byte 4
 .3:
-        call sub_695CB
+        call StartGameSound
         test byte [byte_17CA5D], 20h
         jne short .4
         push str_GloL5
@@ -145,7 +145,7 @@ PlayMenuGame_AF:
         and eax, byte 70h
         cmp eax, byte 30h
         je short .6
-        call sub_6A5EB
+        call WriteGlobalSet
 .6:
         mov eax, esi
         call PlayGame
@@ -169,7 +169,7 @@ PlayMenuGame_AF:
         call sub_ABF4C
         add esp, byte 4
 .7:
-        call sub_6986B
+        call EndGameSound
         test byte [byte_17CA5D], 20h
         jne short .8
         mov edx, 20h
@@ -270,7 +270,7 @@ PlayMenuGame_280:
 .13:
         mov eax, 42h
 .14:
-        call sub_68A10
+        call QueueMusic
         mov eax, dword [byte ebp-04h]
         jmp near DrawGameStats_DD0
 ;-----------------------------------------------------------------------------
@@ -404,7 +404,7 @@ HandleSlotButtons:
         je short .5
         mov eax, 34h
         and byte [PauseReplayPending], 0FEh
-        call sub_68E31
+        call PlaySfx
         mov dword [InGameMenuRequest], 1
         jmp near .18
 .5:
@@ -416,7 +416,7 @@ HandleSlotButtons:
         je short .6
         mov eax, 34h
         and byte [PauseReplayPending], 0FDh
-        call sub_68E31
+        call PlaySfx
         mov dword [InGameMenuRequest], 2
         jmp near .18
 .6:
@@ -603,12 +603,12 @@ GameLoop_38:
         jne near GameLoop_menucall_A
         mov ebx, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
-        call sub_69A9B
+        call SoundIdle
         mov dword [GameLoopActive], ebx
-        call sub_692E9
+        call ArenaClipReady
         test eax, eax
         je short .1
-        call sub_69312
+        call StartArenaClip
 .1:
         xor ebx, ebx
         xor esi, esi
@@ -651,16 +651,16 @@ GameLoop_inputcheck:
         mov ecx, dword [GameLoopActive]
         mov esi, ebx
         mov dword [GameLoopActive], 0
-        call sub_69A9B
+        call SoundIdle
         mov dword [GameLoopActive], ecx
         jmp near GameLoop_inputcheck
 .1:
         call sub_4B59F
         mov eax, ebx
-        call sub_68E72
+        call Crowd_Noise
         mov ecx, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
-        call sub_69A9B
+        call SoundIdle
         mov dword [GameLoopActive], ecx
         cmp dword [penshotlive], byte 0
         jne short .2
@@ -747,7 +747,7 @@ GameLoop_gameovercall:
         call sub_62311
         mov eax, 50h
         mov dword [GameLoopActive], 0
-        call sub_6934E
+        call StopArenaClip
         cmp dword [dword_1150FC], byte 1
         jne short .1
         cmp dword [DemoMode], byte 0
@@ -760,14 +760,14 @@ GameLoop_gameovercall:
         mov eax, 3
         call sub_63A5B
         mov eax, 50h
-        call sub_6904C
+        call CrowdFadeOut
         call GetTicks
         lea esi, [byte eax+050h]
 .2:
         call GetTicks
         cmp eax, esi
         jge short .3
-        call sub_69A9B
+        call SoundIdle
         jmp short .2
 .3:
         call EndGameCleanup
@@ -937,16 +937,16 @@ PlayGame_menucall:
         jne short .2
         mov eax, dword [optblock]
         and eax, byte 7Fh
-        call sub_68F82
+        call SetCrowdTarget
         mov eax, 7Fh
-        call sub_68E72
+        call Crowd_Noise
 .1:
         call GameLoop
         jmp short PlayGame_menucall_42.4
 .2:
         call sub_62311
         mov eax, 50h
-        call sub_6904C
+        call CrowdFadeOut
         call EndGameCleanup
         jmp short PlayGame_menucall_42.4
 PlayGame_menucall_42:

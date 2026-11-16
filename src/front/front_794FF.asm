@@ -21,8 +21,8 @@ extern NameIndexLoad, NameIndexSave, NameIndexFree, NameIndexRemove, NameIndexId
 extern ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox, FileOpenRead, FileClose, MakeDirPath, LoadPackedFile
 extern sub_1E8E9, LoadSeasonStats, FreeStatsTables, sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385
 extern sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63F79
-extern sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, sub_68AB1, sub_68BFA, sub_68C8F
-extern sub_69A94, sub_70840, sub_77355, sub_77642, sub_77FF2, sub_78029, sub_78E9E, sub_78EFA
+extern sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, FillMusicStream, PlayMusic, MusicDone
+extern SoundSecondsToBytes, sub_70840, sub_77355, sub_77642, sub_77FF2, sub_78029, sub_78E9E, sub_78EFA
 extern sub_79060, sub_7D580, sub_7FF7F, sub_80E4D, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_A8B9B
 extern sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock, sub_AADA4, sub_ABF4C, sub_AD35C, sub_AD5C8
@@ -2966,12 +2966,12 @@ sub_7BA57_25A:
         mov eax, 1
         call sub_A8B9B
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
-        call sub_68C8F
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call MusicDone
         test eax, eax
         jne near sub_7BA57_138.6
-        call sub_68BFA
+        call PlayMusic
         jmp near sub_7BA57_138.6
 .22:
         mov eax, dword [dword_1150D8]
@@ -2980,12 +2980,12 @@ sub_7BA57_25A:
         mov eax, dword [dword_1174F0]
         mov dword [byte ebp-08h], eax
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
-        call sub_68C8F
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call MusicDone
         test eax, eax
         jne short .23
-        call sub_68BFA
+        call PlayMusic
 .23:
         cmp dword [dword_1150FC], byte 1
         jne near sub_7BA57_189.8

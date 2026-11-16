@@ -23,8 +23,8 @@ extern dword_184398, dword_18439C, dword_1843A0, dword_1843A4, dword_1843A8, dwo
 extern gameopts, hmroster, qsort_, sprintf_, strcpy_, MessageBox, FileOpenWrite, FileClose
 extern FileWriteAt, MakeDataPath, LoadPackedFile, sub_1E8E9, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, sub_1F15E
 extern sub_1F2F5, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63998, sub_63A5B, sub_63F79
-extern sub_63FEF, sub_6423E, sub_64296, sub_64721, sub_64F59, sub_68AB1, sub_68BFA, sub_68C8F
-extern sub_69A94, sub_69A9B, sub_77355, sub_78E9E, sub_78EFA, sub_7CCB8, sub_7D2CE, sub_7D2DC
+extern sub_63FEF, sub_6423E, sub_64296, sub_64721, sub_64F59, FillMusicStream, PlayMusic, MusicDone
+extern SoundSecondsToBytes, SoundIdle, sub_77355, sub_78E9E, sub_78EFA, sub_7CCB8, sub_7D2CE, sub_7D2DC
 extern sub_7D325, sub_7D349, sub_7D49C, sub_9CC19, sub_9CC2E, sub_9CD61, sub_AAA40, sub_AAA8C
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, DrawArtOpaque, sub_B2C54, sub_DD6C4
 extern sub_E04E0, sub_E0584, unk_157B1C, unk_157B82, unk_157FDA, unk_183D08, unk_9CB19, word_11D1B4
@@ -102,8 +102,8 @@ sub_9CFE3:
         mov dword [dword_184398], eax
         mov eax, 4
         xor edx, edx
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 132h
         call LoadPackedFile
         mov esi, eax
@@ -963,10 +963,10 @@ sub_9CFE3:
         push dword [byte ebp+052h]
         mov dword [byte ebp+03Ah], 0
         call sub_9F738
-        call sub_68C8F
+        call MusicDone
         test eax, eax
         jne short .34
-        call sub_68BFA
+        call PlayMusic
 .34:
         xor esi, esi
 .35:
@@ -1163,7 +1163,7 @@ sub_9CFE3:
         call TickDeadlinePassed
         test eax, eax
         jne short .48
-        call sub_69A9B
+        call SoundIdle
         jmp short .47
 .48:
         inc dword [byte ebp+03Eh]
@@ -1291,7 +1291,7 @@ sub_9CFE3:
         call TickDeadlinePassed
         test eax, eax
         jne short .55
-        call sub_69A9B
+        call SoundIdle
         jmp short .54
 .55:
         inc dword [byte ebp+03Eh]
@@ -1418,7 +1418,7 @@ sub_9CFE3:
         call TickDeadlinePassed
         test eax, eax
         jne short .61
-        call sub_69A9B
+        call SoundIdle
         jmp short .60
 .61:
         inc dword [byte ebp+03Eh]
@@ -1903,8 +1903,8 @@ sub_9CFE3:
         lea eax, [byte ebp-02h]
         call FileOpenWrite
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         imul ebx, dword [dword_1843B4], dword 31Bh
         mov ecx, 31Bh
         mov edx, dword [byte ebp+032h]

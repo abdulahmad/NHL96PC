@@ -18,8 +18,8 @@ extern sub_93E6A_E56, sub_93E6A_E5F, sub_93E6A_E68, sub_93E6A_E71, memcmp_, off_
 extern qword_1129AF, qword_1129B7, qword_1129FE, sprintf_, strcat_, strlen_, EditText, MessageBox
 extern ShowProgressBox, UpdateProgressBox, HideProgressBox, LoadTeamLogo, sub_1E643, LoadPackedFile, sub_1F2C9, sub_1F2D4
 extern sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_62AF7, sub_62E0E, sub_62F90, sub_63998, sub_63A5B
-extern sub_63F79, sub_63FEF, sub_640D3, sub_6423E, sub_64296, sub_64721, sub_64F59, sub_68AB1
-extern sub_68BFA, sub_68C8F, sub_69A94, sub_77355, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325
+extern sub_63F79, sub_63FEF, sub_640D3, sub_6423E, sub_64296, sub_64721, sub_64F59, FillMusicStream
+extern PlayMusic, MusicDone, SoundSecondsToBytes, sub_77355, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325
 extern sub_7D346, sub_7D349, sub_7D49C, sub_88735, sub_8B7BB, sub_9066F, sub_9C060, sub_AAA40
 extern PutBlock, sub_AADA4, sub_AADC0, sub_AB758, sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC
 extern sub_B0430, sub_B0494, sub_B2C54, sub_C2600, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0
@@ -371,12 +371,12 @@ sub_90AF8:
         cmp edx, dword [dword ebp-085Ch]
         jl short .1
         mov eax, 6
-        call sub_69A94
-        call sub_68AB1
-        call sub_68C8F
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call MusicDone
         test eax, eax
         jne short .4
-        call sub_68BFA
+        call PlayMusic
 .4:
         mov eax, 115h
         xor edx, edx

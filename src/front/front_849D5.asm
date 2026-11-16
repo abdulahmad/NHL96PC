@@ -22,7 +22,7 @@ extern off_11D44C, off_11D52C, sprintf_, strcat_, strcmp_, LinkSync, ModemChat, 
 extern FileOpenRead, FileClose, sub_1E222, sub_1E643, LoadPackedFile, sub_1F15E, sub_62A0F, sub_62AF7
 extern sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C
 extern sub_63F79, sub_63FC8, sub_64054, sub_640D3, sub_6423E, sub_64296, sub_6448D, sub_64721
-extern sub_64F59, sub_66373, sub_67A63, sub_686DF, sub_68AB1, sub_69A94, sub_69A9B, sub_6A2A8
+extern sub_64F59, sub_66373, PaEvent, StopSpeech, FillMusicStream, SoundSecondsToBytes, SoundIdle, PlayMovieFile
 extern sub_77355, sub_78E9E, sub_88E09, sub_8C51B, sub_90AF8, sub_93E6A, sub_9C866, sub_AA988
 extern sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD824, sub_ADA50
 extern sub_ADBEC, sub_B0254, sub_B026C, TextSetFont, sub_B0430, sub_B0494, sub_B31C0, sub_B7638
@@ -324,11 +324,11 @@ sub_849D5:
         push eax
         push esi
         push byte 8
-        call sub_67A63
+        call PaEvent
         mov byte [byte_17DC17], 0
         add esp, byte 18h
 .13:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+072h], byte 0
         jl short .15
         cmp dword [byte ebp+072h], byte 3
@@ -395,7 +395,7 @@ sub_849D5:
         add esp, byte 4
         mov eax, 2
         call sub_63A5B
-        call sub_686DF
+        call StopSpeech
         mov eax, dword [byte ebp+07Eh]
 sub_849D5_4E6:
         lea esp, [dword ebp+082h]
@@ -449,8 +449,8 @@ sub_84F20:
         enter 1D4h, 0
         sub ebp, 82h
         mov eax, 4
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor edx, edx
         mov eax, 0B3h
         call LoadPackedFile
@@ -1033,7 +1033,7 @@ sub_84F20:
         push byte 3
         push esi
         push byte 2
-        call sub_67A63
+        call PaEvent
         add esp, byte 10h
         jmp near .55
 .38:
@@ -1074,7 +1074,7 @@ sub_84F20:
         push esi
         push byte 2
 .47:
-        call sub_67A63
+        call PaEvent
         add esp, byte 0Ch
         jmp near .55
 .48:
@@ -1119,12 +1119,12 @@ sub_84F20:
 .54:
         push esi
         push byte 2
-        call sub_67A63
+        call PaEvent
         add esp, byte 14h
 .55:
         mov byte [byte_17DC15], 0
 .56:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+046h], byte 0
         jl short .58
         mov ax, word [word_114CE0]
@@ -1208,7 +1208,7 @@ sub_84F20:
         add esp, byte 4
         mov eax, 3
         call sub_63A5B
-        call sub_686DF
+        call StopSpeech
         mov eax, dword [byte ebp+03Eh]
         jmp near sub_849D5_4E6
 ;-----------------------------------------------------------------------------
@@ -1223,8 +1223,8 @@ sub_85911:
         enter 1A8h, 0
         sub ebp, 82h
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor edx, edx
         mov eax, 0B6h
         call LoadPackedFile
@@ -1268,8 +1268,8 @@ sub_85911:
         add esp, byte 0Ch
         mov dword [byte ebp+066h], eax
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
@@ -1453,8 +1453,8 @@ sub_85911:
         call sub_ABF4C
         add esp, byte 4
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
@@ -2017,11 +2017,11 @@ sub_85911:
         push dword [byte ebp+03Eh]
         push dword [byte ebp+042h]
         push dword 200h
-        call sub_67A63
+        call PaEvent
         mov byte [byte_17DC14], 0
         add esp, byte 0Ch
 .34:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+036h], byte 0
         jl short .36
         mov ax, word [word_114CE0]
@@ -2094,7 +2094,7 @@ sub_85911:
         add esp, byte 4
         mov eax, 3
         call sub_63A5B
-        call sub_686DF
+        call StopSpeech
         mov eax, dword [byte ebp+05Ah]
         jmp near sub_849D5_4E6
 ;-----------------------------------------------------------------------------
@@ -2115,8 +2115,8 @@ sub_86428:
         mov eax, 4
         movsd
         movsw
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
@@ -2190,8 +2190,8 @@ sub_86428:
         test eax, eax
         jne short .2
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         push byte 0
         push str_ProfileFsh
         call sub_B0494
@@ -2211,8 +2211,8 @@ sub_86428:
         jmp short .3
 .2:
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         push byte 0
         lea eax, [byte ebp+0Eh]
         push eax
@@ -2250,8 +2250,8 @@ sub_86428:
         call sub_1E643
         mov eax, 3
         xor edx, edx
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 0B4h
         call LoadPackedFile
         push byte 0
@@ -2273,8 +2273,8 @@ sub_86428:
         mov eax, edx
         call sub_62F90
         mov eax, 4
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         push dword [byte ebp+0Ah]
         push dword [byte ebp+06h]
         push dword [byte ebp+02h]
@@ -2567,11 +2567,11 @@ sub_86428:
         cmp byte [byte_17DC16], 0
         je short .7
         push byte 1
-        call sub_67A63
+        call PaEvent
         mov byte [byte_17DC16], 0
         add esp, byte 4
 .7:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+05Ah], byte 0
         jl short .9
         mov ax, word [word_114CE0]
@@ -2644,7 +2644,7 @@ sub_86428:
         add esp, byte 4
         mov eax, 3
         call sub_63A5B
-        call sub_686DF
+        call StopSpeech
         mov eax, dword [byte ebp+076h]
         jmp near sub_849D5_4E6
 ;-----------------------------------------------------------------------------
@@ -2665,8 +2665,8 @@ sub_86BE4:
         mov eax, 2
         movsd
         movsw
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
@@ -2786,8 +2786,8 @@ sub_86BE4:
         call sub_1E643
         mov eax, 2
         xor edx, edx
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 0B5h
         call LoadPackedFile
         push byte 0
@@ -2809,8 +2809,8 @@ sub_86BE4:
         mov eax, edx
         call sub_62F90
         mov eax, 4
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         push dword [byte ebp+03Ah]
         push dword [byte ebp+036h]
         push dword [byte ebp+032h]
@@ -3098,7 +3098,7 @@ sub_86BE4:
         mov eax, 1
         call LinkSync
 .7:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+05Ah], byte 0
         jl short .9
         mov ax, word [word_114CE0]
@@ -3171,7 +3171,7 @@ sub_86BE4:
         add esp, byte 4
         mov eax, 3
         call sub_63A5B
-        call sub_686DF
+        call StopSpeech
         mov eax, dword [byte ebp+06Eh]
         jmp near sub_849D5_4E6
 jpt_87328:
@@ -4656,7 +4656,7 @@ sub_88509_183:
         mov eax, 0C2h
 .9:
         add eax, ebx
-        call sub_6A2A8
+        call PlayMovieFile
         jmp short sub_88509_13E.7
 sub_88509_1AD:
         mov eax, dword [dword_181EAC]
@@ -4702,7 +4702,7 @@ sub_886F6:
         mov edx, 0D6h
 .3:
         add eax, edx
-        call sub_6A2A8
+        call PlayMovieFile
         mov eax, 14h
 .4:
         inc eax

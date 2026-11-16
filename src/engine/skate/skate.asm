@@ -4,7 +4,7 @@ bits 32
 section s_4B7BB progbits alloc exec nowrite align=1
 extern SortCords, dword_11A11C, dword_11A15C, dword_11A19C, dword_165254, dword_176BDC, optflags, gameopts
 extern gmode, off_11787C, puckc, off_11788C, passplayer, puckvx, puckx, pucky
-extern randomd0, regd2, regd3, sub_3E6D4, SetSPA, GetHot, sub_4B748, sub_68E31
+extern randomd0, regd2, regd3, sub_3E6D4, SetSPA, GetHot, sub_4B748, PlaySfx
 extern vecdist, vtoa, word_1178B4, yc1, gmode2, word_1178F6, word_117914, word_117916
 extern word_165964, regd0, regd1
 global EvadePlayers, avdgoal_box, doplayeracc_7F4, EvadePlayers_2D8, skatetopuck, doplayeracc, EvadePC, skateto
@@ -2683,7 +2683,7 @@ dostop:
 .35:
         mov eax, 2Ch
 .36:
-        call sub_68E31
+        call PlaySfx
 .37:
         movsx edx, bx
         jmp near .45

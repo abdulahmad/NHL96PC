@@ -16,7 +16,7 @@ extern setpersonel, SetSPA, sflags, sfx, skateto, SkateToSpot, SlotButtons, Sort
 extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncInput, LoadTeamLogo, EndGameCleanup
 extern sub_493D4, sub_4B59F, sub_5439F, sub_5A572, sub_5BD7D, sub_5DBC0, sub_60777, sub_612BC
 extern sub_62311, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_641D4
-extern sub_68E72, sub_6904C, sub_69141, sub_69161, sub_692E9, sub_69312, sub_6934E, sub_69A9B
+extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern sub_77355, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, sub_DD724, sub_DD7B8, sub_DD8B0
 extern sub_DFEC6, sub_E0520, sub_E0992, sub_E15AC, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
@@ -333,12 +333,12 @@ sub_2DE30:
         jne near sub_2DE30_69.8
         mov ebx, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
-        call sub_69A9B
+        call SoundIdle
         mov dword [GameLoopActive], ebx
-        call sub_692E9
+        call ArenaClipReady
         test eax, eax
         je short .2
-        call sub_69312
+        call StartArenaClip
 .2:
         xor ebx, ebx
         xor esi, esi
@@ -385,7 +385,7 @@ sub_2DE30_69:
         jle short .3
         mov esi, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
-        call sub_69A9B
+        call SoundIdle
         mov dword [GameLoopActive], esi
         mov esi, ebx
 .3:
@@ -397,10 +397,10 @@ sub_2DE30_69:
 .4:
         call sub_4B59F
         mov eax, ebx
-        call sub_68E72
+        call Crowd_Noise
         mov ecx, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
-        call sub_69A9B
+        call SoundIdle
         mov dword [GameLoopActive], ecx
         cmp dword [dword_119D04], byte 0
         je short .5
@@ -435,19 +435,19 @@ sub_2DE30_69:
         call sub_62311
         mov eax, 50h
         mov dword [GameLoopActive], 0
-        call sub_6934E
+        call StopArenaClip
         mov eax, 3
         call sub_63A5B
         mov eax, 50h
         mov dword [InGameMenuRequest], 0
-        call sub_6904C
+        call CrowdFadeOut
         call GetTicks
         lea esi, [byte eax+050h]
 .9:
         call GetTicks
         cmp eax, esi
         jge short .10
-        call sub_69A9B
+        call SoundIdle
         jmp short .9
 .10:
         call EndGameCleanup
@@ -710,7 +710,7 @@ sub_2E1BE:
 .10:
         mov eax, 3Fh
 .11:
-        call sub_69161
+        call PlayArenaClip
         xor eax, eax
         call sfx
         mov word [word_119D08], 1
@@ -1198,7 +1198,7 @@ StartPreGame:
         and eax, byte 7Fh
         call CrowdNoiseReset
         mov eax, 7Fh
-        call sub_69141
+        call CrowdReaction
         mov eax, dword [gameopts]
         test byte [byte eax+02h], 8
         je short .1

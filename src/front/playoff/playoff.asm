@@ -24,7 +24,7 @@ extern NameIndexLoad, NameIndexSave, NameIndexFree, NameIndexAdd, NameIndexFirst
 extern UpdateProgressBox, HideProgressBox, LoadTeamLogo, FileCopy, MakeDataPath, MakeDirPath, LoadPackedFile, sub_1E8E9
 extern LoadSeasonStats, LoadPlayoffStats, sub_29B9F, sub_4F159, sub_4F385, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_64296
-extern sub_64721, sub_64F59, sub_68AB1, sub_68BFA, sub_68C8F, sub_69A94, sub_70840, sub_77355
+extern sub_64721, sub_64F59, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, sub_70840, sub_77355
 extern sub_78E9E, sub_78EFA, sub_7BFAF, sub_7FF7F, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA80, sub_ADBEC, TextSetFont, sub_B0430, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
@@ -2025,12 +2025,12 @@ sub_A6B94:
         call sub_77355
         mov dword [byte ebp+05Eh], eax
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
-        call sub_68C8F
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call MusicDone
         test eax, eax
         jne short .1
-        call sub_68BFA
+        call PlayMusic
 .1:
         cmp dword [byte ebp+02h], byte 0
         je short .2
@@ -2445,10 +2445,10 @@ sub_A6B94:
         mov dword [dword_11EF8C], 1
         call sub_A699C
         mov dword [dword_11EF8C], 0
-        call sub_68C8F
+        call MusicDone
         test eax, eax
         jne short .13
-        call sub_68BFA
+        call PlayMusic
 .13:
         mov ebx, 3
         mov edx, dword [byte ebp+06Eh]

@@ -14,8 +14,8 @@ extern str_Card5, str_D02d2, str_D20, str_DD, str_DD11, str_DDD, str_fmtSS, str_
 extern str_METD, str_Pal25, str_PALS2, str_Plyr5, str_ProfileFsh5, str_SBACK, str_ST10, str_STDD
 extern str_STRD, str_STRK, MessageBox, sub_1E643, LoadPackedFile, sub_1F15E, sub_62AF7, sub_62D9B
 extern sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_64054
-extern sub_640D3, sub_6423E, sub_64296, sub_6448D, sub_64721, sub_64F59, sub_66373, sub_67A63
-extern sub_686DF, sub_689D1, sub_68AB1, sub_68BFA, sub_68C33, sub_68C8F, sub_69A94, sub_69A9B
+extern sub_640D3, sub_6423E, sub_64296, sub_6448D, sub_64721, sub_64F59, sub_66373, PaEvent
+extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
 extern sub_77355, sub_8C51B, sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_AFCD0, sub_B0430, sub_B0494, sub_DD6C4, sub_E04E0, sub_E0520
 extern sub_E0584, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
@@ -921,8 +921,8 @@ GameStatsScreen:
         enter 244h, 0
         sub ebp, 82h
         mov eax, 3
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         call sub_DD6C4
         push byte 0
         call sub_ADA50
@@ -960,9 +960,9 @@ GameStatsScreen:
         mov edi, dword [byte eax+01h]
         mov eax, 2
         shl edi, 0Fh
-        call sub_69A94
+        call SoundSecondsToBytes
         shr edi, 1Bh
-        call sub_68AB1
+        call FillMusicStream
         mov eax, edi
         mov esi, 7
         cdq
@@ -1011,9 +1011,9 @@ GameStatsScreen:
         mov esi, dword [byte eax+01h]
         mov eax, 2
         shl esi, 0Ah
-        call sub_69A94
+        call SoundSecondsToBytes
         shr esi, 1Bh
-        call sub_68AB1
+        call FillMusicStream
         mov eax, esi
         mov edi, 7
         cdq
@@ -1060,8 +1060,8 @@ GameStatsScreen:
         call sub_63968
         mov eax, 2
         mov edx, 20h
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 2Fh
         call LoadPackedFile
         push eax
@@ -1276,10 +1276,10 @@ GameStatsScreen:
         mov eax, dword [dword ebp-0BCh]
         call sub_66373
         mov dword [byte ebp+05Eh], 2
-        call sub_68C8F
+        call MusicDone
         test eax, eax
         jne short .2
-        call sub_68BFA
+        call PlayMusic
 .2:
         mov ebx, 3
         mov edx, dword [byte ebp+062h]
@@ -1297,7 +1297,7 @@ GameStatsScreen:
         call sub_AAA40
         add esp, byte 0Ch
 .3:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+05Eh], byte 0
         jl short .5
         mov ax, word [word_114CE0]
@@ -1722,8 +1722,8 @@ ThreeStarsScreen:
         mov dword [byte ebp+076h], 0FFFFFFFFh
         mov eax, 2
         rep movsd
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor edi, edi
         xor esi, esi
 .1:
@@ -1831,8 +1831,8 @@ ThreeStarsScreen:
         call sub_1E643
         mov eax, 4
         xor edx, edx
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 0B7h
         call LoadPackedFile
         push byte 0
@@ -1849,8 +1849,8 @@ ThreeStarsScreen:
         mov dword [byte ebp+062h], eax
         call sub_62F90
         mov eax, 4
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         push dword [byte ebp-0Eh]
         push dword [byte ebp-012h]
         push dword [byte ebp-016h]
@@ -2242,10 +2242,10 @@ ThreeStarsScreen:
         cmp dword [dword ebp-0266h], byte 0
         je short .11
         push dword 80h
-        call sub_67A63
+        call PaEvent
         add esp, byte 4
 .11:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+046h], byte 0
         jl short .13
         mov ax, word [word_114CE0]
@@ -2351,7 +2351,7 @@ ThreeStarsScreen_936:
         add esp, byte 4
         mov eax, 3
         call sub_63A5B
-        call sub_686DF
+        call StopSpeech
         push dword [dword_17BC78]
         call TextSetFont
         mov eax, dword [byte ebp+076h]
@@ -2395,8 +2395,8 @@ PostGameScreens:
         jne short .1
         mov eax, 50h
         xor edx, edx
-        call sub_68C33
-        call sub_689D1
+        call FadeOutMusic
+        call StopMusic
         pop edx
         pop ecx
         pop ebx

@@ -39,8 +39,12 @@
 1 584A0 5D993 21747 front_584A0 front/front_584A0.asm
 1 5D993 64F59 30150 front_5D993 front/front_5D993.asm
 1 64F59 67000 8359 front_64F59 front/front_64F59.asm
-1 67000 6A891 14481 front_67000 front/front_67000.asm
-1 6A891 6E233 14754 pause_menu front/pause_menu/pause_menu.asm
+1 67000 689D1 6609 front_67000 front/speech/speech.asm
+1 689D1 68D25 852 front_music front/music/music.asm
+1 68D25 69B1E 3577 front_sound front/sound/sound.asm
+1 69B1E 6A341 2083 front_movie front/movie/movie.asm
+1 6A341 6A7D3 1170 front_settings front/settings/settings.asm
+1 6A7D3 6E233 14944 front_pause_menu front/pause_menu/pause_menu.asm
 1 6E233 711ED 12218 front_6E233 front/front_6E233.asm
 1 711ED 741BD 12240 modem_setup front/modem_setup/modem_setup.asm
 1 741BD 77642 13445 front_741BD front/front_741BD.asm

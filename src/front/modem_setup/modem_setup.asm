@@ -11,8 +11,8 @@ extern str_Det1, str_Det22, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, 
 extern byte_17D651, dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, mousex, mousey, dword_17BC7C
 extern dword_17BD48, dword_17C9A4, globalset, optblock, dword_17D590, dword_17D594, dword_17D654, sprintf_
 extern GetInputDevices, LoadPackedFile, JoystickTestScreen, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968
-extern sub_63998, sub_63A5B, sub_63B0C, sub_64721, sub_64F59, sub_67531, sub_689D1, sub_68A0B
-extern sub_68AB1, sub_68BCD, sub_68BFA, sub_68C33, sub_68E31, sub_69A94, sub_69A9B, sub_6A5EB
+extern sub_63998, sub_63A5B, sub_63B0C, sub_64721, sub_64F59, SetSpeechVolume, StopMusic, QueueCurrentMusic
+extern FillMusicStream, SetMusicVolume, PlayMusic, FadeOutMusic, PlaySfx, SoundSecondsToBytes, SoundIdle, WriteGlobalSet
 extern sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_DD6C4, MouseRead, sub_DFE9C, sub_E04E0, unk_17D598, unk_708A9
 extern unk_70901, unk_70BC1, unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED
@@ -67,7 +67,7 @@ sub_711ED:
         call GetTicks
         cmp eax, dword [byte ebp-020h]
         jl short .3
-        call sub_69A9B
+        call SoundIdle
         mov eax, dword [byte ebp-0Ch]
         mov dword [byte ebp-08h], eax
 .4:
@@ -97,7 +97,7 @@ sub_711ED:
         call GetTicks
         cmp eax, dword [byte ebp-01Ch]
         jl short .5
-        call sub_69A9B
+        call SoundIdle
         mov eax, dword [byte ebp-010h]
         add dword [byte ebp-08h], eax
         jmp short .4
@@ -125,7 +125,7 @@ sub_711ED:
         call GetTicks
         cmp eax, esi
         jl short .9
-        call sub_69A9B
+        call SoundIdle
         leave
         pop edi
         pop esi
@@ -182,7 +182,7 @@ sub_71333:
         cmp dword [byte ebp-0Ch], byte 0
         jl near sub_71333_192.9
         mov eax, 33h
-        call sub_68E31
+        call PlaySfx
         cmp dword [byte ebp-0Ch], byte 8
         ja near sub_71333_192.5
         mov esi, dword [byte ebp-0Ch]
@@ -366,8 +366,8 @@ sub_715E3:
         rep movsb
         mov eax, 2
         xor edx, edx
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 54h
         call LoadPackedFile
         push byte 0
@@ -688,7 +688,7 @@ sub_715E3_177:
         mov dword [byte ebp+05Ah], 0Ch
         call sub_63998
 .10:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+05Ah], byte 0
         jl short .12
         cmp dword [byte ebp+05Ah], byte 0Dh
@@ -884,7 +884,7 @@ sub_715E3_84D:
         cmp eax, esi
         jl short .18
         inc dword [byte ebp+05Eh]
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+05Eh], byte 5
         jl short .17
         mov edx, dword [byte_17D650]
@@ -967,7 +967,7 @@ sub_715E3_96B:
         call GetTicks
         cmp eax, dword [byte ebp+062h]
         jl short .23
-        call sub_69A9B
+        call SoundIdle
         mov dword [byte ebp+05Eh], esi
 .24:
         cmp edi, dword [byte ebp+05Eh]
@@ -992,7 +992,7 @@ sub_715E3_96B:
         call GetTicks
         cmp eax, esi
         jl short .25
-        call sub_69A9B
+        call SoundIdle
         mov eax, dword [byte ebp+066h]
         add dword [byte ebp+05Eh], eax
         jmp short .24
@@ -1041,7 +1041,7 @@ sub_715E3_96B:
         call GetTicks
         cmp eax, esi
         jl short .29
-        call sub_69A9B
+        call SoundIdle
         jmp short sub_715E3_B00.30
 sub_715E3_AF2:
         call sub_62E0E
@@ -1111,8 +1111,8 @@ sub_72140:
         mov eax, 2
         xor edx, edx
         rep movsd
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 52h
         call LoadPackedFile
         push byte 0
@@ -1971,7 +1971,7 @@ sub_72140:
         mov dword [byte ebp+046h], 14h
         call sub_63998
 .50:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+046h], byte 0
         jl short .52
         cmp dword [byte ebp+046h], byte 15h
@@ -2491,7 +2491,7 @@ sub_72140:
         or eax, edx
         mov dword [globalset], eax
 .85:
-        call sub_68BCD
+        call SetMusicVolume
         mov eax, dword [globalset]
         shl eax, 14h
         shr eax, 19h
@@ -2553,18 +2553,18 @@ sub_72140:
         mov eax, 50h
         xor edx, edx
         and byte [globalset], 0EFh
-        call sub_68C33
-        call sub_689D1
+        call FadeOutMusic
+        call StopMusic
         jmp short .88
 .87:
         test byte [globalset], 7
         je short .88
         or byte [globalset], 10h
-        call sub_68A0B
+        call QueueCurrentMusic
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
-        call sub_68BFA
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call PlayMusic
 .88:
         test byte [globalset], 10h
         je short .90
@@ -2642,7 +2642,7 @@ sub_72140:
         mov eax, dword [globalset]
         shl eax, 0Ch
         shr eax, 19h
-        call sub_67531
+        call SetSpeechVolume
         mov eax, dword [globalset]
         shl eax, 0Ch
         shr eax, 19h
@@ -2812,7 +2812,7 @@ sub_72140:
         jmp short .110
 .109:
         call sub_62D9B
-        call sub_6A5EB
+        call WriteGlobalSet
         mov dword [byte ebp+04Ah], 0
 .110:
         cmp dword [byte ebp+04Ah], byte 0

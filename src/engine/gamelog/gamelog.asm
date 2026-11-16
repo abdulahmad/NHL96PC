@@ -10,7 +10,7 @@ extern byte_176B98, byte_176B99, byte_176B9A, goalevent, byte_179DC1, byte_17CA5
 extern dword_11917F, dword_119183, dword_11A1BC, dword_11B310, dword_1571B3, dword_164124, dword_1657EA, dword_1798AC
 extern dword_179918, dword_179920, optflags, fputchar, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
-extern str_FmtParenD, strcat_, strcpy_, strlen_, sub_5CC12, CloseTextOverlay, sub_60777, sub_67A63
+extern str_FmtParenD, strcat_, strcpy_, strlen_, sub_5CC12, CloseTextOverlay, sub_60777, PaEvent
 extern sub_77355, TextSetFont, unk_110E2D, str_S8, unk_156E6C, gsp, word_11A236, word_1656E8
 extern word_16581E, word_165942, word_176B6C, word_176B7A, word_176B80
 global FormatPlayerName, sub_4F58E, sub_4F626, BuildEventLines, PostGoalEvent, PostPenaltyEvent, PostInjuryEvent
@@ -662,7 +662,7 @@ PostGoalEvent:
         push eax
         push byte 0
         push byte 10h
-        call sub_67A63
+        call PaEvent
         add esp, byte 14h
         jmp near .13
 .7:
@@ -691,7 +691,7 @@ PostGoalEvent:
         push eax
         push byte 1
         push byte 10h
-        call sub_67A63
+        call PaEvent
         add esp, byte 1Ch
         jmp short .13
 .10:
@@ -720,7 +720,7 @@ PostGoalEvent:
         push eax
         push byte 2
         push byte 10h
-        call sub_67A63
+        call PaEvent
         add esp, byte 24h
 .13:
         call BuildEventLines
@@ -888,7 +888,7 @@ PostPenaltyEvent:
 .9:
         push eax
         push byte 20h
-        call sub_67A63
+        call PaEvent
         add esp, byte 1Ch
         mov eax, 1
         mov edx, dword [penshotplayer]
@@ -928,7 +928,7 @@ PostPenaltyEvent:
         shr eax, 1Bh
         push eax
         push byte 40h
-        call sub_67A63
+        call PaEvent
         add esp, byte 18h
         test ecx, ecx
         je short .14

@@ -17,8 +17,8 @@ extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
 extern sub_28459, GetPartner, defotarget, defdtarget, assextra3, assgoalie, check4check, checkob
 extern checkpuckcoll, chk4lcauto, CompPass, chk4shot, SetShotMode, ShotMode, Findhittype, doshot
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
-extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, sub_68E21
-extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_119D7C
+extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, PlaySfxOr
+extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_119D7C
 extern unk_119D9C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
 extern fodir2, gmode2, word_1178CA, word_1178F8, word_1178FA, gsp, word_117902, word_117914
 extern word_117916, word_117AA2, word_118EA5, word_118EA9, word_118EB1, word_11910B, word_11910F, word_119DBC
@@ -3425,7 +3425,7 @@ asspenalty:
         movzx eax, al
         call sub_28459
         mov eax, 22h
-        call sub_68E31
+        call PlaySfx
         pop edx
         pop ebx
         ret
@@ -3484,7 +3484,7 @@ assdopen:
         movzx eax, al
         call sub_28459
         mov eax, 23h
-        call sub_68E31
+        call PlaySfx
         mov al, byte [byte ebx+044h]
         and al, 40h
         movzx eax, al
@@ -3579,7 +3579,7 @@ assepen:
         or byte [byte ebx+044h], 20h
         call sub_28459
         mov eax, 22h
-        call sub_68E31
+        call PlaySfx
         call SprSort
         pop edx
         pop ecx
@@ -3601,7 +3601,7 @@ assepen:
         or byte [byte ebx+044h], 2
         call sub_28459
         mov eax, 23h
-        call sub_68E31
+        call PlaySfx
         mov eax, dword [dword ebx+088h]
         cmp word [byte eax+03Ah], byte 0
         setge al
@@ -4116,7 +4116,7 @@ assfaceoffpl:
         cmp eax, byte 7
         jne short .5
         mov eax, 6
-        call sub_68E31
+        call PlaySfx
 .5:
         mov word [regd0], 2
         jmp short .9
@@ -4129,7 +4129,7 @@ assfaceoffpl:
         movsx eax, word [byte ebx+03Ch]
         cmp eax, byte 7
         jne short .7
-        call sub_68E31
+        call PlaySfx
 .7:
         mov word [regd0], 3
         jmp short .9
@@ -4405,7 +4405,7 @@ pucknorm_body:
         test edx, edx
         jne short .6
         mov eax, 45h
-        call sub_68E21
+        call PlaySfxOr
         jmp short .6
 .5:
         mov dword [byte ebx+076h], 0
@@ -4730,14 +4730,14 @@ Endfaceoff:
         enter 8, 0
         mov edx, eax
         mov eax, 64h
-        call sub_6934E
+        call StopArenaClip
         mov eax, 2
         call randomd0
         test ax, ax
         sete al
         movzx eax, al
         add eax, byte 6
-        call sub_68E31
+        call PlaySfx
         and byte [gmode2], 0FAh
         and byte [gmode], 0FEh
         and byte [byte edx+045h], 0FEh
@@ -6005,7 +6005,7 @@ CrowdOnStoppage:
         jne short .3
         mov eax, 46h
         xor edx, edx
-        call sub_68E21
+        call PlaySfxOr
         pop edx
         pop ecx
         pop ebx
@@ -6069,7 +6069,7 @@ CrowdOnStoppage:
         cwde
         add eax, byte 7Fh
 .8:
-        call sub_69161
+        call PlayArenaClip
 .9:
         pop edx
         pop ecx
@@ -7843,7 +7843,7 @@ chkhit:
 .15:
         mov eax, 28h
 .16:
-        call sub_68E31
+        call PlaySfx
         jmp near SwapPosition_91
 .17:
         cmp esi, 57Fh
@@ -7942,7 +7942,7 @@ chkhit:
         test eax, eax
         jne short .32
         mov eax, 7Fh
-        call sub_69141
+        call CrowdReaction
 .32:
         mov al, byte [byte ebx+044h]
         and al, 40h
@@ -8054,7 +8054,7 @@ chkhit:
         test eax, eax
         jne short .49
         mov eax, 7Fh
-        call sub_69141
+        call CrowdReaction
 .49:
         mov al, byte [byte ebx+044h]
         and al, 40h

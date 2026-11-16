@@ -20,8 +20,8 @@
 #define SYM_PeriodOver              0x4B05Eu   /* engine/hockey/hockey.asm */
 #define SYM_ReadHotKeys             0x609C6u   /* front/front_5D993.asm */
 #define SYM_sub_62311               0x62311u   /* front/front_5D993.asm */
-#define SYM_StartSoundCard          0x694B9u   /* front/front_67000.asm */
-#define SYM_RunInGameMenu           0x6A7D3u   /* front/front_67000.asm */
+#define SYM_StartSoundCard          0x694B9u   /* front/sound/sound.asm */
+#define SYM_RunInGameMenu           0x6A7D3u   /* front/pause_menu/pause_menu.asm */
 #define SYM_TimerISR_tick           0xAA5D5u   /* lib/ea/ea_timer.asm */
 #define SYM_sub_AB798               0xAB798u   /* lib/ea/ea_gfx_01.asm */
 #define SYM_sub_B03F2               0xB03F2u   /* lib/watcom/watcom_clib_03.asm */

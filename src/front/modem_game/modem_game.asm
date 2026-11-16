@@ -13,8 +13,8 @@ extern GameLoopActive, GetTicks, InputRecordCount, InputRecordHead, InputRecordR
 extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClipWindow, SetDrawBitmap, SetLinkAbortCheck
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
 extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, sub_63B0C, sub_63F79
-extern sub_63FEF, sub_640D3, sub_641D4, sub_689D1, sub_68A0B, sub_68AB1, sub_68BFA, sub_68C33
-extern sub_69A94, sub_69A9B, sub_77355, sub_AA664, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
+extern sub_63FEF, sub_640D3, sub_641D4, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
+extern SoundSecondsToBytes, SoundIdle, sub_77355, sub_AA664, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_AD35C, sub_AD620, sub_ADA80, sub_ADBEC, sub_DD6C4, sub_DD6E0, sub_DD724
 extern sub_DFE9C, sub_DFF28, sub_E04E0, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
 extern unk_151A04, unk_151A44, unk_151A94, unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
@@ -71,8 +71,8 @@ ModemGameOpen:
         call ShowMessage
         xor edx, edx
         mov eax, 50h
-        call sub_68C33
-        call sub_689D1
+        call FadeOutMusic
+        call StopMusic
         mov edx, unk_17C9B8
         mov eax, unk_114CE6
         call strcpy_
@@ -131,11 +131,11 @@ ModemGameOpen:
         jne near .6
         cmp word [word_17C9B0], byte 0
         jne short .4
-        call sub_68A0B
+        call QueueCurrentMusic
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
-        call sub_68BFA
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call PlayMusic
 .4:
         cmp word [word_17C9B0], byte 0
         jne short .5
@@ -285,7 +285,7 @@ LinkSendBlock:
         call LinkSendMessage
         test eax, eax
         jne short .2
-        call sub_69A9B
+        call SoundIdle
         jmp short .1
 .2:
         mov dword [dword_114DBA], unk_15179C
@@ -322,7 +322,7 @@ LinkSendBlock:
         sub dword [dword_114DB6], eax
         jmp short .7
 .6:
-        call sub_69A9B
+        call SoundIdle
 .7:
         cmp dword [dword_114DB6], byte 0
         jg short .3
@@ -354,7 +354,7 @@ LinkReceiveBlock:
         mov eax, dword [dword_114DAE]
         cmp eax, dword [dword_114DB2]
         jge short .2
-        call sub_69A9B
+        call SoundIdle
         jmp short .1
 .2:
         mov ebx, dword [byte ebp-08h]
@@ -571,7 +571,7 @@ LinkExchangeValues:
         call LinkSendMessage
         test eax, eax
         jne short .3
-        call sub_69A9B
+        call SoundIdle
         jmp short .2
 .3:
         call GetTicks
@@ -593,7 +593,7 @@ LinkExchangeValues:
         mov dword [byte ebp-04h], 1
         call ShowLinkWaitBox
 .7:
-        call sub_69A9B
+        call SoundIdle
         jmp short .4
 .8:
         imul eax, dword [dword_151A8C], byte 6
@@ -723,11 +723,11 @@ ModemGameConnect:
         call SetLinkAbortCheck
         cmp word [word_17C9B0], byte 0
         jne short .5
-        call sub_68A0B
+        call QueueCurrentMusic
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
-        call sub_68BFA
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call PlayMusic
 .5:
         call HideMessage
         xor eax, eax
@@ -777,11 +777,11 @@ ModemGameConnect:
         call ShowMessage
         cmp word [word_17C9B0], byte 0
         jne short .11
-        call sub_68A0B
+        call QueueCurrentMusic
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
-        call sub_68BFA
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call PlayMusic
 .11:
         mov word [word_114DBE], 0
         mov edx, 1
@@ -1021,7 +1021,7 @@ LinkSyncTimedOut:
         push ebp
         mov ebp, esp
         sub esp, 4
-        call sub_69A9B
+        call SoundIdle
         call GetTicks
         cmp eax, dword [dword_114DA2]
         jle short .1
@@ -1094,7 +1094,7 @@ LinkSyncPoint:
         call dword [dword_15291C]
         mov dword [byte ebp-04h], eax
 .8:
-        call sub_69A9B
+        call SoundIdle
         jmp short .1
 .9:
         mov eax, dword [dword_114D9E]
@@ -1122,7 +1122,7 @@ LinkSyncPoint:
         call dword [dword_15291C]
         mov dword [byte ebp-04h], eax
 .16:
-        call sub_69A9B
+        call SoundIdle
         jmp short .9
 .17:
         jmp near .34
@@ -1152,7 +1152,7 @@ LinkSyncPoint:
         call dword [dword_15291C]
         mov dword [byte ebp-04h], eax
 .25:
-        call sub_69A9B
+        call SoundIdle
         jmp short .18
 .26:
         cmp word [byte ebp-04h], byte 0
@@ -1182,7 +1182,7 @@ LinkSyncPoint:
         call dword [dword_15291C]
         mov dword [byte ebp-04h], eax
 .33:
-        call sub_69A9B
+        call SoundIdle
         jmp short .26
 .34:
         cmp word [byte ebp-04h], byte 0
@@ -2042,7 +2042,7 @@ ModemChat:
         cmp eax, byte 0Dh
         jne short .9
 .8:
-        call sub_69A9B
+        call SoundIdle
         jmp short .3
 .9:
         mov dword [dword_15199C], 0
@@ -2095,7 +2095,7 @@ ModemChat:
         push eax
         call FillRect
         add esp, byte 14h
-        call sub_69A9B
+        call SoundIdle
         call GetTicks
         add eax, byte 4
         mov dword [byte ebp-064h], eax
@@ -2505,7 +2505,7 @@ ModemChat:
         call LinkSendMessage
         test eax, eax
         jne short .34
-        call sub_69A9B
+        call SoundIdle
         jmp short .33
 .34:
         call GetTicks
@@ -2847,7 +2847,7 @@ ModemChat:
         call GetTicks
         cmp eax, dword [byte ebp-064h]
         jle short .55
-        call sub_69A9B
+        call SoundIdle
         call GetTicks
         add eax, byte 4
         mov dword [byte ebp-064h], eax

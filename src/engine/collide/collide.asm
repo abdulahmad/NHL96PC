@@ -14,8 +14,8 @@ extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
 extern regd3, setpersonel, sflags, shotongoal, shotontarget, sub_235F2, sub_23965, sub_23E06
 extern sub_23E4E, assextra2, sub_3509F, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
 extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayeracc, burst
-extern sub_4F452, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, sub_68E31
-extern sfx, sub_69141, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
+extern sub_4F452, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, PlaySfx
+extern sfx, CrowdReaction, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4
 extern yc1, gmode2, word_1178CA, gsp, word_117902, word_117914, word_117916, refhitcount
 extern word_11910F, word_119111, word_119113, word_11916B, word_119F98, word_119F9A, word_119FB8, word_119FC8
@@ -1057,7 +1057,7 @@ checkcheck:
         cmp eax, 22Bh
         je short .58
         mov eax, 47h
-        call sub_68E31
+        call PlaySfx
         leave
         pop edi
         pop esi
@@ -3057,7 +3057,7 @@ dopass:
         call SetSPA
         mov eax, 8
         or byte [byte ebx+044h], 20h
-        call sub_68E31
+        call PlaySfx
         mov al, byte [byte ebx+044h]
         and al, 8
         movzx eax, al
@@ -3191,7 +3191,7 @@ CompPass:
         call SetSPA
         mov eax, 8
         or byte [byte ebx+044h], 20h
-        call sub_68E31
+        call PlaySfx
         pop ecx
         pop ebx
         ret
@@ -4108,7 +4108,7 @@ sub_41432:
 .8:
         mov eax, 8
 .9:
-        call sub_68E31
+        call PlaySfx
         movsx edx, cx
         mov eax, ebx
         call SetSPA
@@ -4684,7 +4684,7 @@ ChkShotStat:
         mov eax, 0Ch
         call sfx
         mov eax, 7Fh
-        call sub_69141
+        call CrowdReaction
         jmp near .11
 .5:
         cmp word [byte esi+06h], byte 0
@@ -5332,7 +5332,7 @@ FallDown:
 .3:
         mov eax, 1Eh
         add word [CwdExciteLvl], byte 0Fh
-        call sub_68E31
+        call PlaySfx
         mov eax, 0Ch
         jmp near .85
 .4:
@@ -5675,7 +5675,7 @@ FallDown:
         call sub_235F2
         mov eax, 24h
         mov dword [byte ebp-04h], 1
-        call sub_68E31
+        call PlaySfx
 .48:
         cmp dword [byte ebp-04h], byte 0
         jne short .49
@@ -5900,7 +5900,7 @@ FallDown:
         cmp eax, 1ABh
 .69:
         mov eax, 1Eh
-        call sub_68E31
+        call PlaySfx
         mov eax, 2
         call sfx
         cmp dword [byte ebp-04h], byte 0
@@ -5911,7 +5911,7 @@ FallDown:
         mov eax, dword [puckc]
         mov byte [eax], 0FFh
         mov eax, 1Eh
-        call sub_68E31
+        call PlaySfx
         cmp dword [byte ebp-04h], byte 0
         je short .72
         mov edx, 3
@@ -6408,7 +6408,7 @@ puckbody:
         jge short .14
         mov eax, 13h
 .13:
-        call sub_68E31
+        call PlaySfx
         jmp near BlockShotDive_127
 .14:
         movsx eax, dx
@@ -6457,7 +6457,7 @@ puckbody:
         cmp byte [eax], 0
         jge short .19
         movsx eax, word [byte ebp-04h]
-        call sub_68E31
+        call PlaySfx
 .19:
         mov al, byte [byte edi+044h]
         and al, 20h
@@ -6702,7 +6702,7 @@ puckglue:
 .14:
         mov eax, 9
 .15:
-        call sub_68E31
+        call PlaySfx
 .16:
         mov eax, ebx
         call PassCompleted
@@ -7192,7 +7192,7 @@ puckgoalie:
 .23:
         mov eax, 11h
 .24:
-        call sub_68E31
+        call PlaySfx
         mov eax, dword [puckc]
         cmp byte [eax], 0
         jge near .26
@@ -7677,7 +7677,7 @@ puckstick:
 .34:
         mov eax, 9
 .35:
-        call sub_68E31
+        call PlaySfx
         mov eax, ebx
         call a2touchpuck
         mov eax, dword [puckc]
@@ -8111,7 +8111,7 @@ doshot:
         cmp eax, 117h
         je short .1
         mov eax, 0Bh
-        call sub_68E31
+        call PlaySfx
         jmp near chk4pass_4F6
 .1:
         mov eax, dword [off_11788C]
@@ -8530,7 +8530,7 @@ doshot:
         mov word [eax], di
 .52:
         movsx eax, word [byte ebp-0Ch]
-        call sub_68E31
+        call PlaySfx
         cmp dword [penshotlive], byte 0
         je near chk4pass_4F6
         mov edx, 11h
@@ -8549,7 +8549,7 @@ doshot:
         mov eax, 1Dh
 .54:
         cwde
-        jmp near sub_68E31
+        jmp near PlaySfx
 ;-----------------------------------------------------------------------------
 ; checkcoll                        44B99  94G collide94.asm, medium confidence
 ; eax = object: wall collision (checkwallcoll) at the hot spot and the stick end,
@@ -8965,7 +8965,7 @@ checkgoal:
         test eax, eax
         je short .13
         mov eax, 15h
-        call sub_68E31
+        call PlaySfx
         jmp short .15
 .13:
         movsx eax, word [crowdlevel]
@@ -8979,7 +8979,7 @@ checkgoal:
 .14:
         mov eax, 15h
         add word [CwdExciteLvl], byte 28h
-        call sub_68E31
+        call PlaySfx
         mov eax, 3
         call sfx
 .15:
@@ -9159,7 +9159,7 @@ wallcoll:
 .8:
         mov eax, 0Eh
 .9:
-        call sub_68E31
+        call PlaySfx
 .10:
         movsx eax, word [regd3]
         sar eax, 6
@@ -9238,7 +9238,7 @@ wallcoll:
         cmp dword [nethit], byte 0
         jne short .19
         mov eax, 1Ah
-        call sub_68E31
+        call PlaySfx
 .19:
         sar word [regd2], 2
         movsx eax, word [regd2]
@@ -9427,7 +9427,7 @@ wallcollb:
         lea eax, [byte ebp-024h]
         call sub_235F2
         mov eax, 24h
-        call sub_68E31
+        call PlaySfx
         jmp near .12
 .8:
         mov al, byte [gmode]
@@ -9622,7 +9622,7 @@ SetInst:
         jne short .3
         mov eax, 7Fh
         or byte [byte ecx+045h], 1
-        call sub_69141
+        call CrowdReaction
 .3:
         pop esi
         pop ecx
@@ -10108,7 +10108,7 @@ checkcx:
         movzx ax, al
         mov word [word_11916B], ax
         mov eax, 1Dh
-        call sub_68E31
+        call PlaySfx
 .10:
         mov edx, ecx
         mov eax, esi

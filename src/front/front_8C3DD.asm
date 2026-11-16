@@ -38,8 +38,8 @@ extern qsort_, qword_11281C, qword_112824, qword_11283C, qword_112844, sprintf_,
 extern strcpy_, strlen_, LinkSync, LinkSyncWithMessage, ModemChat, EditText, MessageBox, ShowProgressBox
 extern UpdateProgressBox, HideProgressBox, sub_1E8E9, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, sub_1F15E
 extern sub_1F2C9, sub_1F2D4, sub_62AF7, sub_62E0E, sub_62E72, sub_62F90, sub_63998, sub_63A5B
-extern sub_63F79, sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, sub_68AB1, sub_68BFA
-extern sub_68C8F, sub_69A94, sub_69A9B, sub_77355, sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC
+extern sub_63F79, sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, FillMusicStream, PlayMusic
+extern MusicDone, SoundSecondsToBytes, SoundIdle, sub_77355, sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC
 extern sub_7D2ED, sub_7D308, sub_7D325, sub_7D346, sub_7D349, sub_7D49C, sub_8B7BB, sub_8BF56
 extern sub_8C006, sub_8C210, sub_90879, sub_908FC, sub_909FE, sub_92A6A, sub_AAA40, PutBlock
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC, TextSetFont, sub_B0430
@@ -370,12 +370,12 @@ sub_8C51B:
         cmp dword [byte ebp+04Ah], 118h
         jne near .5
         mov eax, 6
-        call sub_69A94
-        call sub_68AB1
-        call sub_68C8F
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call MusicDone
         test eax, eax
         jne short .10
-        call sub_68BFA
+        call PlayMusic
 .10:
         mov eax, 105h
         xor edx, edx
@@ -1562,10 +1562,10 @@ sub_8C51B_13DD:
         add esi, byte 66h
         cmp esi, 20ACh
         jne short .65
-        call sub_68C8F
+        call MusicDone
         test eax, eax
         jne short .67
-        call sub_68BFA
+        call PlayMusic
 .67:
         mov ebx, 3
         mov edx, dword [byte ebp+02Ah]
@@ -3747,7 +3747,7 @@ sub_8F5B3_17F:
         jmp near .63
 .22:
         call UpdateProgressBox
-        call sub_69A9B
+        call SoundIdle
         mov eax, dword [byte ebp-010h]
         inc eax
         push eax

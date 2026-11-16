@@ -61,8 +61,8 @@ extern str_Rlxh, str_Rlxn, str_Rlyh, str_Rlyn, str_Rsd0, str_Rsd1, str_Rubber, s
 extern str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink, str_SideNotFoundInStands, str_STAND, str_STAND2ND, str_STANDS
 extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_Top, str_Topboards, str_WALL
 extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, sub_1E643, sub_49300
-extern sub_4B38C, sub_4B4F3, sub_59349, sub_625AA, sub_64721, sub_64F59, sub_66373, sub_68AB1
-extern sub_69A94, sub_69A9B, sub_873AE, sub_87DD6, sub_8805A, sub_AA988, sub_AAA40, sub_AADA4
+extern sub_4B38C, sub_4B4F3, sub_59349, sub_625AA, sub_64721, sub_64F59, sub_66373, FillMusicStream
+extern SoundSecondsToBytes, SoundIdle, sub_873AE, sub_87DD6, sub_8805A, sub_AA988, sub_AAA40, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
 extern sub_B0494, sub_B049E, sub_B20D0, sub_B31C0, sub_B74B0, sub_B7810, sub_B78C0, sub_B78DC
 extern sub_B79C8, sub_B79E0, sub_B7A70, sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928
@@ -10398,8 +10398,8 @@ sub_29B9F:
         rep movsb
         mov eax, 2
         xor edx, edx
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 51h
         call LoadPackedFile
         push str_Bkgd26
@@ -10722,7 +10722,7 @@ sub_29B9F:
         mov dword [dword_1177F0], 0
         add esp, byte 4
 .7:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+05Eh], byte 0
         jl short .9
         cmp dword [byte ebp+05Eh], byte 0Ch

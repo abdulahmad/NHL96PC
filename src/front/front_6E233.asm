@@ -11,8 +11,8 @@ extern dword_17D162, dword_17D267, dword_17D564, dword_17D580, dword_17D584, dwo
 extern dword_1843B4, fputchar, gameopts, sub_6CF0D_6, sprintf_, GetInputDevices, LinkSync, LinkSyncWithMessage
 extern ModemChat, LoadTeamLogo, LoadPackedFile, ClearSlotUser, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF
-extern sub_64054, sub_64296, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_68BFA, sub_68C8F
-extern sub_68E31, sub_69A94, sub_69A9B, sub_6CF0D, sub_6CF1B, sub_6D350, sub_6D828, sub_6DB5C
+extern sub_64054, sub_64296, sub_64721, sub_64F59, sub_66373, FillMusicStream, PlayMusic, MusicDone
+extern PlaySfx, SoundSecondsToBytes, SoundIdle, sub_6CF0D, sub_6CF1B, sub_6D350, sub_6D828, sub_6DB5C
 extern sub_6DC2F, sub_6DD1E, sub_77355, sub_8733C, sub_9CDDA, sub_AA988, sub_AAA40, PutBlock
 extern sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont, sub_DD6C4
 extern sub_E04E0, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0, word_114CE4, word_11D92C, word_11D92E
@@ -128,7 +128,7 @@ sub_6E332:
         cmp word [word_11D92E], byte 0
         je short .1
         mov eax, 34h
-        call sub_68E31
+        call PlaySfx
 .1:
         mov eax, dword [byte ebp-04h]
         inc eax
@@ -976,8 +976,8 @@ sub_6F056:
         mov dword [dword_17D580], eax
         mov eax, 6
         xor edx, edx
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 4Dh
         call LoadPackedFile
         push byte 0
@@ -2019,10 +2019,10 @@ sub_6F056:
         mov dword [byte ebp-044h], 17h
         mov word [word_17D58E], 0FFFFh
         mov word [word_17D58C], 0FFFFh
-        call sub_68C8F
+        call MusicDone
         test eax, eax
         jne short .43
-        call sub_68BFA
+        call PlayMusic
 .43:
         mov ebx, 3
         mov edx, dword [byte ebp-050h]
@@ -2031,7 +2031,7 @@ sub_6F056:
         mov eax, 1
         call LinkSync
 .44:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp-044h], byte 0
         jl short .46
         mov ax, word [word_114CE0]
@@ -2120,7 +2120,7 @@ sub_6F056_11AB:
 .48:
         mov eax, 35h
         mov esi, dword [byte ebp-048h]
-        call sub_68E31
+        call PlaySfx
         mov eax, dword [byte ebp-048h]
         shl esi, 2
         movsx eax, word [nosplit eax*8+word_17D560]

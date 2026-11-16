@@ -15,7 +15,7 @@ extern dword_1820E8, dword_1820EC, dword_18210C, dword_182128, dword_18212C, dwo
 extern dword_18213C, dword_182140, jpt_93E46, off_11E8B0, qword_112B02, qword_112B0A, sprintf_, sub_1E643
 extern LoadPackedFile, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_62AF7, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_64721
-extern sub_64F59, sub_68AB1, sub_69A94, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325
+extern sub_64F59, FillMusicStream, SoundSecondsToBytes, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325
 extern sub_7D346, sub_7D349, sub_7D49C, sub_90879, sub_908FC, sub_909FE, sub_9C060, sub_AAA40
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC, sub_B0430, sub_B0494
 extern sub_B2C54, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0, str_D11, unk_93BE6, unk_93CA6
@@ -166,8 +166,8 @@ sub_93E6A:
         add esp, byte 0Ch
         mov dword [byte ebp+04Ah], eax
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         cmp dword [dword ebp-01BBAh], byte 0
         je short .7
         mov eax, 13Ch

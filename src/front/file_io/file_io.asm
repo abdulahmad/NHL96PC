@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_1DC65 progbits alloc exec nowrite align=1
 extern _dos_close_, _dos_creat_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_, FatalError, lseek_
-extern rmdir_, str_backslash4, str_COPYBUFFER, str_dot2, str_ErrDiskFree2, strcat_, strcpy_, sub_68AB1
-extern sub_69A94, sub_AB758, sub_ABF4C, sub_B71D4, sub_B71F1, sub_B7256, unk_1106EC
+extern rmdir_, str_backslash4, str_COPYBUFFER, str_dot2, str_ErrDiskFree2, strcat_, strcpy_, FillMusicStream
+extern SoundSecondsToBytes, sub_AB758, sub_ABF4C, sub_B71D4, sub_B71F1, sub_B7256, unk_1106EC
 global FileMissing, DeleteFiles, FileOpenRead, FileOpenRead_1A, FileOpenWrite, FileOpenReadWrite, FileCreate, FileClose
 global FileReadAt, FileReadAt_5B, FileReadAt_5D, FileWriteAt, FileWriteAt_6B, FileWriteAt_77, FileCopy, FileCopy_ret
 global sub_1E222, sub_1E268
@@ -22,12 +22,12 @@ FileMissing:
         mov dword [byte ebp-04h], 0FFFFFFFFh
         mov eax, 2
         lea ebx, [byte ebp-04h]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 2
         mov edx, 40h
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, esi
         xor ecx, ecx
         call _dos_open_
@@ -39,8 +39,8 @@ FileMissing:
         cmp dword [byte ebp-04h], byte 0
         jl short .2
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [byte ebp-04h]
         call _dos_close_
 .2:
@@ -94,14 +94,14 @@ DeleteFiles:
         lea eax, [byte ebp-020h]
         call strcat_
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-020h]
         call sub_B7256
 .1:
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-04Ch]
         call sub_B71F1
         mov ebx, eax
@@ -117,8 +117,8 @@ DeleteFiles:
         lea eax, [byte ebp-020h]
         call strcat_
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-020h]
         call sub_B7256
 .2:
@@ -152,8 +152,8 @@ DeleteFiles:
         call strcat_
         mov eax, 2
         lea ebx, [byte ebp-04Ch]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor edx, edx
         lea eax, [byte ebp-020h]
         call sub_B71D4
@@ -169,14 +169,14 @@ DeleteFiles:
         lea eax, [byte ebp-020h]
         call strcat_
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-020h]
         call sub_B7256
 .4:
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-04Ch]
         call sub_B71F1
         mov ebx, eax
@@ -192,8 +192,8 @@ DeleteFiles:
         lea eax, [byte ebp-020h]
         call strcat_
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-020h]
         call sub_B7256
 .5:
@@ -216,8 +216,8 @@ FileOpenRead:
         push ecx
         mov ecx, eax
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov ebx, edx
         mov edx, 40h
 FileOpenRead_1A:
@@ -235,8 +235,8 @@ FileOpenWrite:
         push ecx
         mov ecx, eax
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov ebx, edx
         mov edx, 41h
         jmp short FileOpenRead_1A
@@ -249,8 +249,8 @@ FileOpenReadWrite:
         push ecx
         mov ecx, eax
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov ebx, edx
         mov edx, 42h
         jmp short FileOpenRead_1A
@@ -263,8 +263,8 @@ FileCreate:
         push ecx
         mov ecx, eax
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov ebx, edx
         mov eax, ecx
         xor edx, edx
@@ -283,8 +283,8 @@ FileClose:
         cmp dword [edx], byte 0
         jl short .1
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [edx]
         call _dos_close_
 .1:
@@ -308,8 +308,8 @@ FileReadAt:
         test ebx, ebx
         jl short .1
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor ebx, ebx
         mov eax, esi
         call lseek_
@@ -321,8 +321,8 @@ FileReadAt:
         jne short FileReadAt_5D
         mov eax, 2
         mov ebx, dword [byte ebp-04h]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-08h]
         mov ecx, ds
         push eax
@@ -358,8 +358,8 @@ FileWriteAt:
         test ebx, ebx
         jl short .1
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor ebx, ebx
         mov eax, esi
         call lseek_
@@ -371,8 +371,8 @@ FileWriteAt:
         jne short FileReadAt_5D
         mov eax, 2
         mov ebx, dword [byte ebp-04h]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-08h]
         mov ecx, ds
         push eax
@@ -386,8 +386,8 @@ FileWriteAt:
         mov eax, 2
         mov ecx, 3Ch
 FileWriteAt_6B:
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, esi
 FileWriteAt_77:
         call FileReadAt
@@ -399,8 +399,8 @@ FileWriteAt_77:
         mov esi, eax
         mov eax, 2
         mov ecx, 3Ch
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, esi
         call FileWriteAt
         pop esi
@@ -428,12 +428,12 @@ FileCopy:
         mov dword [byte ebp-04h], eax
         mov eax, 2
         lea ebx, [byte ebp-08h]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 2
         mov edx, 40h
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, esi
         call _dos_open_
         mov esi, eax
@@ -441,12 +441,12 @@ FileCopy:
         jne short .1
         mov eax, 2
         lea ebx, [byte ebp-0Ch]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 2
         xor edx, edx
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, edi
         call _dos_creat_
         mov esi, eax
@@ -457,8 +457,8 @@ FileCopy:
 .2:
         mov eax, 2
         mov edx, 32000h
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-010h]
         mov ebx, dword [byte ebp-04h]
         push eax
@@ -472,8 +472,8 @@ FileCopy:
         jbe short .3
         mov eax, 2
         mov ebx, dword [byte ebp-04h]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         lea eax, [byte ebp-014h]
         mov ecx, ds
         push eax
@@ -493,13 +493,13 @@ FileCopy:
 .4:
         mov eax, 2
         lea edx, [byte ebp-0Ch]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         cmp dword [byte ebp-0Ch], byte 0
         jl short .5
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [byte ebp-0Ch]
         call _dos_close_
 .5:
@@ -507,13 +507,13 @@ FileCopy:
 .6:
         mov eax, 2
         lea edx, [byte ebp-08h]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         cmp dword [byte ebp-08h], byte 0
         jl short .7
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [byte ebp-08h]
         call _dos_close_
 .7:
@@ -544,8 +544,8 @@ sub_1E222:
         mov esi, eax
         imul ecx, ebx, byte 6
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, esi
         mov ebx, 2
         jmp near FileWriteAt_77
@@ -555,8 +555,8 @@ sub_1E222:
         imul ebx, byte 6
         mov eax, 2
         mov ecx, 6
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, esi
         inc ebx
         inc ebx
@@ -571,8 +571,8 @@ sub_1E268:
         mov esi, eax
         mov eax, 2
         mov ecx, 50BEh
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor ebx, ebx
         mov eax, esi
         call FileReadAt
@@ -603,8 +603,8 @@ sub_1E268:
         mov esi, edx
         mov eax, 2
         lea edx, [byte ebp-08h]
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, ebx
         xor edi, edi
         call _dos_getdiskfree_

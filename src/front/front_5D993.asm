@@ -49,9 +49,9 @@ extern off_117894, off_11BB4C, off_11BDA8, passplayer, penshotlive, penshotmode,
 extern puckvz, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, sflags, sprintf_, str_Pl1, GetInputDevices, GetPressedDevice, GripReadSlots
 extern ReadJoystickBits, MakeDataPath, sub_1E643, LoadPackedFile, sub_21BE3, sub_2976B, sub_297A8, sub_53260
-extern sub_587B7, sub_589E4, sub_5CC12, sub_5D707, sub_5D82C, sub_5D87E, sub_5D8D1, sub_67A63
-extern sub_689D1, sub_68A10, sub_68AB1, sub_68B37, sub_68BA4, sub_68BFA, sub_68C33, sub_68E31
-extern sub_69A94, sub_69A9B, sub_6A229, sub_77355, sub_AA7E0, PutBlock, sub_AADA4, sub_AB758
+extern sub_587B7, sub_589E4, sub_5CC12, sub_5D707, sub_5D82C, sub_5D87E, sub_5D8D1, PaEvent
+extern StopMusic, QueueMusic, FillMusicStream, CloseMusic, OpenMusicStream, PlayMusic, FadeOutMusic, PlaySfx
+extern SoundSecondsToBytes, SoundIdle, PlayMovie, sub_77355, sub_AA7E0, PutBlock, sub_AADA4, sub_AB758
 extern sub_AB798, sub_ABF4C, sub_AC838, sub_AD35C, sub_AD620, FillRect, sub_ADA50, sub_ADA80
 extern sub_ADBEC, unpack, sub_AFCD0, sub_AFD00, sub_AFFD0, sub_B0254, sub_B026C, TextSetFont
 extern sub_B0CA8, sub_B0F7C, sub_B20D0, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458, sub_B58D8
@@ -6184,7 +6184,7 @@ sub_62D9B:
         call GetTicks
         cmp eax, edi
         jge short .3
-        call sub_69A9B
+        call SoundIdle
         jmp short .2
 .3:
         add esi, 971h
@@ -6231,7 +6231,7 @@ sub_62E0E:
         call GetTicks
         cmp eax, edi
         jge short .3
-        call sub_69A9B
+        call SoundIdle
         jmp short .2
 .3:
         add esi, 971h
@@ -6266,7 +6266,7 @@ sub_62E72:
         call GetTicks
         cmp eax, edi
         jge short .3
-        call sub_69A9B
+        call SoundIdle
         jmp short .2
 .3:
         add esi, 971h
@@ -6363,7 +6363,7 @@ sub_62FD8:
         xor eax, eax
         call sub_63DC4
 .1:
-        call sub_68B37
+        call CloseMusic
         mov ax, word [word_11D1D0]
         xor ah, ah
         and al, 1
@@ -6375,7 +6375,7 @@ sub_62FD8:
         call MakeDataPath
         mov edx, 1
         lea eax, [byte ebp-034h]
-        call sub_6A229
+        call PlayMovie
         mov edx, eax
         test eax, eax
         jne short .2
@@ -6390,10 +6390,10 @@ sub_62FD8:
         call MakeDataPath
         lea eax, [byte ebp-034h]
         xor edx, edx
-        call sub_6A229
+        call PlayMovie
         mov edx, eax
 .2:
-        call sub_68BA4
+        call OpenMusicStream
         test edx, edx
         jne short .3
         call sub_53260
@@ -6468,11 +6468,11 @@ sub_63076:
         rep movsb
         mov eax, 0BCh
         mov edi, dword [byte ebp-08h]
-        call sub_68A10
+        call QueueMusic
         mov eax, 2
         mov ecx, 3
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         add edi, byte 6
         mov eax, 3Fh
         rep stosb
@@ -6517,7 +6517,7 @@ sub_63076:
         add esp, byte 4
         mov ebx, 2
         mov edx, dword [byte ebp-08h]
-        call sub_68BFA
+        call PlayMusic
         xor eax, eax
         call sub_63998
         push dword 136h
@@ -6532,7 +6532,7 @@ sub_63076:
         call GetPressedDevice
         mov dword [byte ebp-010h], eax
 .3:
-        call sub_69A9B
+        call SoundIdle
         jmp short .2
 .4:
         mov edi, dword [byte ebp-0Ch]
@@ -6586,7 +6586,7 @@ sub_63076:
         call GetPressedDevice
         mov dword [byte ebp-010h], eax
 .6:
-        call sub_69A9B
+        call SoundIdle
         jmp short .5
 .7:
         mov eax, 2
@@ -6605,8 +6605,8 @@ sub_63076:
         add esp, byte 4
         mov eax, 14h
         xor edx, edx
-        call sub_68C33
-        call sub_689D1
+        call FadeOutMusic
+        call StopMusic
         cmp dword [byte ebp-010h], byte 0
         jne short .8
         call sub_62FD8
@@ -6649,14 +6649,14 @@ sub_63076:
 .11:
         mov eax, 42h
 .12:
-        call sub_68A10
+        call QueueMusic
         mov eax, 6
-        call sub_69A94
-        call sub_68AB1
-        call sub_68BFA
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call PlayMusic
         push dword 1000h
         mov ebx, 2
-        call sub_67A63
+        call PaEvent
         add esp, byte 4
         mov edx, esi
         xor eax, eax
@@ -6667,7 +6667,7 @@ sub_63076:
         call GetTicks
         lea esi, [dword eax+03E8h]
 .13:
-        call sub_69A9B
+        call SoundIdle
         call GetTicks
         cmp eax, esi
         jle short .14
@@ -6718,7 +6718,7 @@ sub_63418:
         mov esi, eax
 .2:
         call sub_634A4
-        call sub_69A9B
+        call SoundIdle
         jmp short .1
 .3:
         mov eax, esi
@@ -6745,8 +6745,8 @@ sub_63452:
         add esp, byte 4
 .1:
         mov eax, 4
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         xor edx, edx
         mov eax, esi
         call LoadPackedFile
@@ -6921,8 +6921,8 @@ sub_63541_145:
 .4:
         mov eax, 2
         mov edx, 20h
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, dword [byte esi+04h]
         call LoadPackedFile
         push eax
@@ -6931,16 +6931,16 @@ sub_63541_145:
         jmp near sub_63541_2E0.11
 sub_63541_180:
         mov eax, dword [byte esi+04h]
-        call sub_68A10
+        call QueueMusic
         mov eax, 2
-        call sub_69A94
-        call sub_68AB1
-        call sub_68BFA
+        call SoundSecondsToBytes
+        call FillMusicStream
+        call PlayMusic
         jmp near sub_63541_2E0.12
 sub_63541_1A1:
         mov eax, 32h
         xor edx, edx
-        call sub_68C33
+        call FadeOutMusic
         jmp near sub_63541_2E0.12
 sub_63541_1B2:
         movzx eax, byte [byte_11FA2F]
@@ -7098,7 +7098,7 @@ sub_63541_2E0:
         add esp, byte 4
 .12:
         call sub_634A4
-        call sub_69A9B
+        call SoundIdle
         add esi, byte 0Ch
         jmp near sub_63541.1
 .13:
@@ -7106,7 +7106,7 @@ sub_63541_2E0:
         call sub_63A5B
         xor edx, edx
         mov eax, 32h
-        call sub_68C33
+        call FadeOutMusic
         lea eax, [byte ebp-05Ch]
         push eax
         call sub_B026C
@@ -7255,7 +7255,7 @@ sub_63998:
         call sub_DD7B8
         add esp, byte 0Ch
 .10:
-        call sub_69A9B
+        call SoundIdle
         test esi, esi
         jne short .3
         leave
@@ -7566,7 +7566,7 @@ sub_63BBA:
         call GetTicks
         cmp eax, dword [byte ebp-04h]
         jge short .7
-        call sub_69A9B
+        call SoundIdle
         jmp short .6
 .7:
         leave
@@ -8485,7 +8485,7 @@ sub_6448D:
         add esp, byte 4
         cmp eax, dword [dword ebp+08Eh]
         jle short .17
-        call sub_69A9B
+        call SoundIdle
         add dword [dword_11D1A4], byte 2
 .17:
         mov eax, dword [dword_11D1A0]
@@ -8949,7 +8949,7 @@ sub_64776:
         jl near .66
         mov eax, dword [dword_11D1BC]
 .49:
-        call sub_68E31
+        call PlaySfx
         leave
         pop edi
         pop esi

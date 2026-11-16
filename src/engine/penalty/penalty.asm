@@ -10,8 +10,8 @@ extern dword_11918F, dword_119193, dword_11A2F8, dword_11B310, dword_176BE0, dwo
 extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, puckc, off_11788C, off_117894
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
-extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, sub_68E21, sub_68E31
-extern sfx, sub_69141, sub_77355, SortIndices, vecdist, unk_157F9C, unk_158610, gmode2
+extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, PlaySfxOr, PlaySfx
+extern sfx, CrowdReaction, sub_77355, SortIndices, vecdist, unk_157F9C, unk_158610, gmode2
 extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_117902, word_118E8F
 extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
 extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, regd1, word_176B80, word_176B88
@@ -165,7 +165,7 @@ AddPenalty2:
         cmp eax, byte 40h
         jle short .7
         xor edx, edx
-        call sub_68E21
+        call PlaySfxOr
 .7:
         mov eax, 2
         call randomd0
@@ -1064,7 +1064,7 @@ Stop4Pen:
         cmp eax, byte 2
         je short .25
         mov eax, 2Ah
-        call sub_68E31
+        call PlaySfx
 .25:
         cmp word [word_1178F6], byte 0
         jne short .27
@@ -1335,7 +1335,7 @@ sub_511CC:
         cmp eax, byte 5
         jg short .1
         mov eax, 19h
-        call sub_68E31
+        call PlaySfx
         cmp word [dword edx+080h], byte 0
         jne short .1
         mov edx, ecx
@@ -1891,7 +1891,7 @@ SetupPenaltyShot:
 .4:
         mov eax, 40h
 .5:
-        call sub_69141
+        call CrowdReaction
         mov ebx, dword [puckc]
         mov al, byte [penshotplayer]
         mov byte [ebx], al

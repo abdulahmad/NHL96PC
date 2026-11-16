@@ -14,8 +14,8 @@ extern dword_17C420, dword_17C424, dword_17C428, dword_17C42C, dword_17C430, dwo
 extern dword_17C440, dword_17C448, dword_17C44C, dword_17C450, dword_17C454, dword_17C45C, dword_17C460, optflags
 extern sprintf_, GetInputDevices, LinkExchangeValues, NameIndexLoad, NameIndexFree, MessageBox, MakeDirPath, LoadPackedFile
 extern sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C
-extern sub_64721, sub_64776, sub_68AB1, sub_68BFA, sub_68C33, sub_68C8F, sub_68E31, sub_69A94
-extern sub_69A9B, sub_77355, sub_AA7E0, sub_AAA40, PutBlock, sub_AADA4, sub_ABF4C, sub_AD35C
+extern sub_64721, sub_64776, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, SoundSecondsToBytes
+extern SoundIdle, sub_77355, sub_AA7E0, sub_AAA40, PutBlock, sub_AADA4, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_BF8D0, sub_DD6C4, WaitRetrace, WaitRetraceEdges, MouseRead, SetViewRect
 extern sub_E04E0, sub_E0584, word_114CE0, word_114CE4, word_11D1B4, word_11D1B6, word_11D1B8, word_17C464
 extern word_17C466, word_17C468, word_17C46A, word_17C46C, word_17C46E, word_17C470
@@ -257,7 +257,7 @@ sub_64F59:
         call GetTicks
         cmp eax, dword [byte ebp-02h]
         jge short .31
-        call sub_69A9B
+        call SoundIdle
         jmp short .30
 .31:
         lea eax, [byte ebp-016h]
@@ -309,7 +309,7 @@ sub_64F59:
         call GetTicks
         sub eax, dword [byte ebp-0Ah]
         mov dword [byte ebp+03Ah], eax
-        call sub_69A9B
+        call SoundIdle
         mov eax, dword [byte ebp-0Eh]
         cmp eax, dword [byte ebp+012h]
         jne short .38
@@ -1327,7 +1327,7 @@ sub_64F59:
         jl short .160
         mov eax, dword [dword_11D1C0]
 .159:
-        call sub_68E31
+        call PlaySfx
 .160:
         cmp dword [byte ebp+066h], byte 0FFFFFFFFh
         jne near .172
@@ -1500,7 +1500,7 @@ sub_64F59:
 .171:
         add esp, byte 0Ch
 .172:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp-026h], byte 0
         je near .23
         call WaitRetrace
@@ -1683,8 +1683,8 @@ sub_66589:
         mov eax, 4
         xor edx, edx
         rep movsd
-        call sub_69A94
-        call sub_68AB1
+        call SoundSecondsToBytes
+        call FillMusicStream
         mov eax, 4Ch
         call LoadPackedFile
         push str_Pal11
@@ -1967,10 +1967,10 @@ sub_66589_F3:
         call sub_AAA40
         add esp, byte 0Ch
         call GetInputDevices
-        call sub_68C8F
+        call MusicDone
         test eax, eax
         jne short .8
-        call sub_68BFA
+        call PlayMusic
 .8:
         push dword [dword ebp-0182h]
         push dword [dword ebp-0186h]
@@ -1982,7 +1982,7 @@ sub_66589_F3:
         mov dword [byte ebp+06Ah], 7
         call sub_63998
 .9:
-        call sub_69A9B
+        call SoundIdle
         cmp dword [byte ebp+06Ah], byte 0
         jl short .11
         cmp dword [byte ebp+06Ah], byte 8
@@ -2072,7 +2072,7 @@ sub_66589_671:
         call GetTicks
         cmp eax, esi
         jge short .14
-        call sub_69A9B
+        call SoundIdle
         jmp short .15
 sub_66589_6FC:
         push str_Bt102
@@ -2186,7 +2186,7 @@ sub_66589_774:
         call GetTicks
         cmp eax, esi
         jge short .21
-        call sub_69A9B
+        call SoundIdle
         jmp short .22
 sub_66589_8A9:
         mov dword [byte ebp+072h], 0Dh
@@ -2318,7 +2318,7 @@ sub_66589_A26:
         jne short .29
         mov eax, 32h
         xor edx, edx
-        call sub_68C33
+        call FadeOutMusic
 .29:
         mov eax, dword [byte ebp+072h]
         lea esp, [dword ebp+082h]

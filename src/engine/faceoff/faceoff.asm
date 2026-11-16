@@ -6,7 +6,7 @@ extern CompLine, Endfaceoff, PBnum, SetupPenaltyShot, ShotLaneOpen, SortCords, a
 extern awtmstruct, byte_1178C8, apl, byte_164797, byte_16479B, byte_1647E0, byte_1647E1, InputState
 extern hmtmgoaliehi, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, crowdlevel
 extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, onetimerflag, penshotteam, pspathdir
-extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, dword_119F6C, dword_11B2A8, dword_15E4C4, PtrPuckZone
+extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, GoalieDepthTab, dword_11B2A8, dword_15E4C4, PtrPuckZone
 extern dword_176BD0, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
 extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, lcfound
 extern puckvy, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer
@@ -19,7 +19,7 @@ extern avdgoal, stopna, AddPenalty2, Stop4Pen, PlaceGoalNets, PlaySfx, StopArena
 extern threat, AwSortCords, vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, ltx
 extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, refsignal, RefStep, word_1178FA
 extern Penaltytimer, gsp, clockticks, SortPending, energywarn_aw, lcblink_aw, lcboxon_aw, FaceoffDotX
-extern puckfaceoff2_ptab, ovltimer, injurystop, bannermsg, bannertimer, word_119F78, word_164716, word_16472A
+extern puckfaceoff2_ptab, ovltimer, injurystop, bannermsg, bannertimer, GoalieSaveAnims, word_164716, word_16472A
 extern puckcross, word_165144, hmscore, hmtmline, hmtmlcnt, hmtmpdst, awscore, awtmline
 extern awtmlcnt, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, fofdata, FaceoffDropTimer, regd4
 extern regd0, regd1, word_176B7A, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
@@ -3770,7 +3770,7 @@ goaliesave:
         or byte [byte ebx+044h], 20h
         or byte [byte ebx+045h], 2
         movsx eax, word [regd0]
-        movsx edx, word [nosplit eax*2+word_119F78]
+        movsx edx, word [nosplit eax*2+GoalieSaveAnims]
         mov eax, ebx
         call SetSPA
         movsx eax, word [crowdlevel]
@@ -3802,10 +3802,10 @@ goaliesave:
         shl eax, 2
         cmp word [ecx], byte 0
         jle short .42
-        mov edx, dword [dword eax+dword_119F6C]
+        mov edx, dword [dword eax+GoalieDepthTab]
         jmp short .43
 .42:
-        mov edx, dword [dword eax+dword_119F6C]
+        mov edx, dword [dword eax+GoalieDepthTab]
         neg edx
 .43:
         mov word [regd0], dx
@@ -3854,10 +3854,10 @@ goaliehome:
         shl eax, 2
         cmp word [ebx], byte 0
         jle short .4
-        mov eax, dword [dword eax+dword_119F6C]
+        mov eax, dword [dword eax+GoalieDepthTab]
         jmp short .5
 .4:
-        mov eax, dword [dword eax+dword_119F6C]
+        mov eax, dword [dword eax+GoalieDepthTab]
         neg eax
 .5:
         mov word [regd0], ax
@@ -4082,7 +4082,7 @@ goalieposition:
         shl eax, 17h
         shr eax, 1Eh
         shl eax, 2
-        mov dx, word [dword eax+dword_119F6C]
+        mov dx, word [dword eax+GoalieDepthTab]
         sub edx, byte 4
         mov word [regd4], dx
         mov dx, word [sflags]
@@ -4091,7 +4091,7 @@ goalieposition:
         movsx edx, dx
         test edx, edx
         je short .28
-        mov ax, word [dword eax+dword_119F6C]
+        mov ax, word [dword eax+GoalieDepthTab]
         add eax, 4
         jmp short .27
 .26:
@@ -4099,7 +4099,7 @@ goalieposition:
         shl eax, 17h
         shr eax, 1Eh
         shl eax, 2
-        mov dx, word [dword eax+dword_119F6C]
+        mov dx, word [dword eax+GoalieDepthTab]
         sub edx, byte 6
         mov word [regd4], dx
         mov dx, word [sflags]
@@ -4108,7 +4108,7 @@ goalieposition:
         movsx edx, dx
         test edx, edx
         je short .28
-        mov ax, word [dword eax+dword_119F6C]
+        mov ax, word [dword eax+GoalieDepthTab]
         inc eax
         inc eax
 .27:

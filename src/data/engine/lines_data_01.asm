@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_11A310 progbits alloc noexec write align=1
-global DemoMode, dressbystatus, lineslotgroups, lineslotgroupstart, byte_11A3F9, byte_11A3FB, dword_11A3F2, dword_11A3F8
-global dword_11A3FC, dword_11A400, dword_11A404, dword_11A408, word_11A3EE, word_11A3F0, str_Punct_DrawReplayCounter
+global DemoMode, dressbystatus, lineslotgroups, lineslotgroupstart, ReplayMenuFlags, ReplayCameraFlags, SortSpriteCount, InReplay
+global ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd, SortFrameCount, SortLastIndex, str_Punct_DrawReplayCounter
 dressbystatus:
         db 00h,00h,02h,01h,01h,00h,00h,01h,00h
 lineslotgroups:
@@ -24,25 +24,25 @@ lineslotgroupstart:
         db 093h,082h,08Bh,093h
 DemoMode:
         db 00h,00h,00h,00h,0FFh,0FFh
-word_11A3EE:
+SortFrameCount:
         db 01h,00h
-word_11A3F0:
+SortLastIndex:
         db 0FFh,0FFh
-dword_11A3F2:
+SortSpriteCount:
         db 00h,00h,00h,00h,00h,00h
-dword_11A3F8:
+InReplay:
         db 00h
-byte_11A3F9:
+ReplayMenuFlags:
         db 00h,00h
-byte_11A3FB:
+ReplayCameraFlags:
         db 00h
-dword_11A3FC:
+ReplayRunning:
         db 00h,00h,00h,00h
-dword_11A400:
+HighlightSlot:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11A404:
+HighlightStart:
         db 00h,00h,00h,00h
-dword_11A408:
+HighlightEnd:
         db 00h,00h,00h,00h
 str_Punct_DrawReplayCounter:
         db 03Fh,00h,07Eh,00h

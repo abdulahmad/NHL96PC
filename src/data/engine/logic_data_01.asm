@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_119E44 progbits alloc noexec write align=1
-global lchoicetab, str_wildcard, dword_119E8E, ShootoutPathData_y, word_119E44, word_119EBA, word_119EDA
-word_119E44:
+global lchoicetab, str_wildcard, PathPointTab, ShootoutPathData_y, RefSignalAnims, FightAnimTab, LineInputLines
+RefSignalAnims:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,011h,08h,00h,00h,01Bh,08h,031h,08h,011h,08h,03Fh,08h,04Bh,08h
         db 057h,08h,0A9h,08h,065h,08h,09Bh,08h,073h,08h,08Dh,08h,00h,00h,073h,08h
@@ -11,16 +11,16 @@ word_119E44:
         db 011h,08h,011h,08h,011h,08h
 str_wildcard:
         db 02Ah,00h,00h,00h
-dword_119E8E:
+PathPointTab:
         db 0B0h,00h,00h,00h
 ShootoutPathData_y:
         db 07Eh,00h,00h,00h,0EAh,0FFh,0FFh,0FFh,0ECh,00h,00h,00h,0BAh,00h,00h,00h
         db 0EAh,0FFh,0FFh,0FFh,028h,01h,00h,00h,0F9h,00h,00h,00h,02Ch,00h,00h,00h
         db 035h,01h,00h,00h,0FFh,0FFh,0FFh,0FFh
-word_119EBA:
+FightAnimTab:
         db 0B1h,04h,00h,00h,0CBh,04h,00h,00h,0B1h,04h,00h,00h,0CBh,04h,00h,00h
         db 05Bh,05h,00h,00h,0B7h,05h,00h,00h,07Fh,05h,00h,00h,00h,00h,00h,00h
-word_119EDA:
+LineInputLines:
         db 01h,00h,02h,00h,03h,00h,00h,00h,05h,00h,04h,00h,07h,00h,06h,00h
 lchoicetab:
         db 00h,01h,02h,03h,01h,02h,03h,00h,02h,03h,00h,01h,03h,00h,01h,02h

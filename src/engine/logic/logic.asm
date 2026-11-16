@@ -4,11 +4,11 @@ bits 32
 section s_313D2 progbits alloc exec nowrite align=1
 extern AddPenalty, ChkOffsides, ChkPullGoalieLate, CwdExciteLvl, DemoMode, EvadePlayers, GameLoopActive, MarkTwoLinePlayers
 extern OOlist, PBnum, PenShotAssign, Pencntdwn, PuckIChk, RemoveFromLines, SortCords, awtmstruct
-extern byte_1178C8, Endfaceoff_ftab_m1, byte_119FF0, byte_157B95, byte_157DA2, byte_1647E3, byte_16514E, OffsideCalled
+extern byte_1178C8, Endfaceoff_ftab_m1, PositionAssignTab, byte_157B95, byte_157DA2, byte_1647E3, byte_16514E, OffsideCalled
 extern PenBuf, PenBuf_pl, byte_176B83, iflags, icingPlayer, goalevent, byte_176B9E, byte_176B9F
 extern check4bench, chk4lc, chk4pass, crowdlevel, hmslotcount, awslotcount, HomeEbenPlayer, AwayEbenPlayer
 extern onetimerflag, penshotteam, sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir
-extern OneTimerPasser, PuckChasers, PuckChaserPlayer, ScoreCelebrating, str_wildcard, dword_119E8E, ShootoutPathData_y, dword_16523C
+extern OneTimerPasser, PuckChasers, PuckChaserPlayer, ScoreCelebrating, str_wildcard, PathPointTab, ShootoutPathData_y, dword_16523C
 extern dword_165240, dword_165244, dword_165248, dword_16524C, hmtmnear, awtmnear, findpc, fox
 extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcblink
 extern lcboxon, lcline, puckvy, puckc, PtrPuckFlags, off_117890, PtrPuckObject, passplayer
@@ -21,8 +21,8 @@ extern PuckInNet, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, End
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, ExtraAttackerSpots
 extern str_Q, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
 extern fodir2, gmode2, HomeControlSlot, RefStep, word_1178FA, gsp, clockticks, dirtab
-extern dirtab_y, word_117AA2, lcblinktime, lcsel, lctimer, ovltimer, injurystop, PuckCarrySpotX
-extern PuckCarrySpotY, ScoreCelebrateAnims, refsigdir, word_119E44, word_119EBA, puckcross2, puckcross6, word_16479E
+extern dirtab_y, CheckHitAnims, lcblinktime, lcsel, lctimer, ovltimer, injurystop, PuckCarrySpotX
+extern PuckCarrySpotY, ScoreCelebrateAnims, refsigdir, RefSignalAnims, FightAnimTab, puckcross2, puckcross6, word_16479E
 extern word_1647A2, word_1647B6, word_1647DA, word_1650A6, word_165144, hmscore, hmtmap, awscore
 extern awtmap, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, regd4, regd0, regd1
 extern joysampling, word_176B7C, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
@@ -2800,7 +2800,7 @@ assscore:
         test eax, eax
         jne short .1
         movsx eax, word [byte ebx+01Ah]
-        movsx ax, byte [dword eax+byte_119FF0]
+        movsx ax, byte [dword eax+PositionAssignTab]
         mov edx, eax
         movsx eax, word [byte ebx+01Ch]
         jmp short .3
@@ -6349,7 +6349,7 @@ assrefsignal:
         jne short .11
         or byte [byte ebx+044h], 20h
         movsx eax, word [word_1178FA]
-        movsx edx, word [nosplit eax*2+word_119E44]
+        movsx edx, word [nosplit eax*2+RefSignalAnims]
         mov eax, ebx
         call SetSPA
         jmp near .2
@@ -7462,7 +7462,7 @@ NextPathPoint:
         mov dword [sopathx], eax
         mov eax, edx
         inc dword [sopathpoint]
-        mov edx, dword [nosplit edx*4+dword_119E8E]
+        mov edx, dword [nosplit edx*4+PathPointTab]
         mov eax, dword [nosplit eax*4+ShootoutPathData_y]
         mov dword [sopathy], edx
         mov dword [sopathend], eax
@@ -7751,7 +7751,7 @@ chkhit:
         cmp word [byte eax+038h], byte 0
         je near SwapPosition_91
         lea eax, [esi+edi]
-        movsx eax, word [nosplit eax*2+word_117AA2]
+        movsx eax, word [nosplit eax*2+CheckHitAnims]
         test eax, eax
         jge short .1
         neg eax
@@ -8357,7 +8357,7 @@ assfight:
         xor edx, edx
 .34:
         mov eax, esi
-        movsx edx, word [nosplit edx*4+word_119EBA]
+        movsx edx, word [nosplit edx*4+FightAnimTab]
         call SetSPA
         or byte [byte esi+045h], 2
         jmp near .50

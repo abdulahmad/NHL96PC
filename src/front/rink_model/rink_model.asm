@@ -6,7 +6,7 @@ extern __CHP, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, b
 extern byte_1175AB, byte_1175AC, byte_159C57, byte_159C58, byte_159C59, byte_159C5A, byte_159E5F, byte_159E60
 extern byte_159E61, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
 extern byte_1770B4, byte_1770B5, byte_1770B6, byte_1770D7, dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
-extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, dword_11A3F8, dword_11F5C0, dword_11F5C4
+extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, InReplay, dword_11F5C0, dword_11F5C4
 extern NearClipZ, SinTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_152FEC
 extern dword_158D78, dword_158D7C, GoalLightTimerFar, dword_158D88, GoalLightFrame, FarSideModel, GoalLightOn, dword_158DA0
 extern dword_158F24, dword_158F90, dword_159008, dword_159014, dword_15902C, dword_159038, dword_1591CC, dword_1591D0
@@ -3836,7 +3836,7 @@ DrawGoalLight:
         enter 60h, 0
         cmp dword [GoalLightState], byte 0
         je near DrawRinkFrontParts_1A3
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         jne near DrawRinkFrontParts_1A3
         lea eax, [byte ebp-010h]
         push eax
@@ -5520,7 +5520,7 @@ DrawGoalNet:
         mov dword [byte ebp-08h], 0
         call ProjectModelPoints
         add esp, byte 4
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .3
         movsx eax, byte [byte_1770D7]
         cmp eax, edi
@@ -8283,7 +8283,7 @@ DrawRinkPlayers:
         mov dword [byte ebp+072h], edi
         mov dword [byte ebp+06Eh], edi
 .1:
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je near .4
         mov eax, dword [byte ebp+07Eh]
         cmp byte [dword eax+byte_176F96], 0
@@ -8431,7 +8431,7 @@ DrawBenchPlayers:
         imul edx, dword [esi], byte 0Ch
         mov eax, dword [byte eax+078h]
         add edx, eax
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .3
         mov word [byte ebp-032h], 8F8h
         mov word [byte ebp-02Ch], 71Bh
@@ -8668,7 +8668,7 @@ DrawPenaltyBoxPlayers:
         mov edx, dword [dword_17997C]
         mov dword [dword_17997C], 0
         mov dword [byte ebp-08h], edx
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .1
         movsx edi, byte [dword eax+byte_1770A7]
         jmp short .2
@@ -8708,7 +8708,7 @@ DrawPenaltyBoxPlayers:
         mov eax, dword [byte eax+078h]
         mov dword [byte ebp-010h], ebx
         add edx, eax
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .6
         mov word [byte ebp-032h], 8F8h
         mov word [byte ebp-02Ch], 71Bh
@@ -9327,7 +9327,7 @@ DrawRinkBack:
         call DrawIceMarkings
         cmp byte [byte_1175A9], 0
         je short .1
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .2
 .1:
         call DrawIceBackPoly

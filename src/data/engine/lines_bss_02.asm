@@ -2,35 +2,33 @@
 bits 32
 %include "hockey.inc"
 section s_1770D8 nobits alloc noexec write align=1
-global byte_1770FB, byte_17710C, dword_1770D8, dword_1770DC, dword_1770E0, dword_1770E4, dword_1770E8, dword_1770EC
-global dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108
-dword_1770D8:
+global HighlightBuffer, ZoneBufFront, ZoneBufBack, ZoneBufCount, ZoneMarksFront, ZoneMarksBack, ZonePrevList
+global ZonePrevCount, ZoneCurList, ZoneWorkBuf, ZoneCurCount, ZoneCapacity, ZoneMemBlock, DrawFrameCount
+ZoneBufFront:
         resb 4
-dword_1770DC:
+ZoneBufBack:
         resb 4
-dword_1770E0:
+ZoneBufCount:
         resb 4
-dword_1770E4:
+ZoneMarksFront:
         resb 4
-dword_1770E8:
+ZoneMarksBack:
         resb 4
-dword_1770EC:
+ZonePrevList:
         resb 4
-dword_1770F0:
+ZonePrevCount:
         resb 4
-dword_1770F4:
+ZoneCurList:
         resb 4
-dword_1770F8:
-        resb 3
-byte_1770FB:
-        resb 1
-dword_1770FC:
+ZoneWorkBuf:
         resb 4
-dword_177100:
+ZoneCurCount:
         resb 4
-dword_177104:
+ZoneCapacity:
         resb 4
-dword_177108:
+ZoneMemBlock:
         resb 4
-byte_17710C:
+DrawFrameCount:
+        resb 4
+HighlightBuffer:
         resb 952

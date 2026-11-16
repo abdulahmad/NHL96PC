@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_4B7BB progbits alloc exec nowrite align=1
-extern SortCords, dword_11A11C, MaxSpeed, doplayeracc_ftab, PtrPuckZone, dword_176BDC, optflags, gameopts
+extern SortCords, BurstEnergyCost, MaxSpeed, doplayeracc_ftab, PtrPuckZone, dword_176BDC, optflags, gameopts
 extern gmode, puckvy, puckc, PtrPuckFlags, passplayer, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, SetCarryAnim, SetSPA, GetHot, PickSkateAnim, PlaySfx
 extern vecdist, vtoa, word_1178B4, yc1, gmode2, refsignal, dirtab, dirtab_y
@@ -3305,13 +3305,13 @@ BurstDrainEnergy:
         mov eax, dword [byte ebp-04h]
         shl ebx, 2
         sar edx, 7
-        cmp eax, dword [dword ebx+dword_11A11C]
+        cmp eax, dword [dword ebx+BurstEnergyCost]
         jae near doplayeracc_7F4
         movsx eax, word [nosplit edi*4+dirtab]
         imul eax, edx
         movsx ecx, word [nosplit edi*4+dirtab_y]
         imul edx, ecx
-        mov ebx, dword [dword ebx+dword_11A11C]
+        mov ebx, dword [dword ebx+BurstEnergyCost]
         shr ebx, 1
         cmp ebx, dword [byte ebp-04h]
         jae short .4
@@ -3323,7 +3323,7 @@ BurstDrainEnergy:
         sub edx, ebx
 .4:
         mov ebx, dword [byte ebp-08h]
-        imul ebx, dword [nosplit ebx*4+dword_11A11C], byte 3
+        imul ebx, dword [nosplit ebx*4+BurstEnergyCost], byte 3
         shr ebx, 2
         cmp ebx, dword [byte ebp-04h]
         jae short .5
@@ -3335,7 +3335,7 @@ BurstDrainEnergy:
         sub edx, ebx
 .5:
         mov ebx, dword [byte ebp-08h]
-        imul ebx, dword [nosplit ebx*4+dword_11A11C], byte 7
+        imul ebx, dword [nosplit ebx*4+BurstEnergyCost], byte 7
         shr ebx, 3
         cmp ebx, dword [byte ebp-04h]
         jae short .6

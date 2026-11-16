@@ -7,11 +7,11 @@ extern str_D, str_2d02d, awtmstruct, byte_115114, byte_115116, byte_157191, byte
 extern textline1, textline2, textline3, textline4, textline5, HmStarterGoalieMarks, HmBackupGoalieMarks, AwStarterGoalieMarks
 extern curevent, byte_176B91, byte_176B92, curevent_b2, curevent_b5, byte_176B95, curevent_b6, curevent_b7
 extern curevent_b8, byte_176B99, curevent_b9, goalevent, byte_179DC1, byte_17CA5D, crowdlevel, curperiod
-extern penshotfox, penshotteam, dword_11A1BC, dword_11B310, dword_1571B3, plseasongoals, hmtmlines, dword_1798AC
+extern penshotfox, penshotteam, EventLineTextIds, dword_11B310, dword_1571B3, plseasongoals, hmtmlines, dword_1798AC
 extern dword_179918, dword_179920, optflags, TextStringWidth, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
 extern str_FmtParenD, strcat_, strcpy_, strlen_, QueueOverlayPanel, CloseTextOverlay, EndCameraShot, PaEvent
-extern GetLangText, TextSetFont, str_GoneForTheGame, str_S8, hmplstats, gsp, word_11A236, hmscore
+extern GetLangText, TextSetFont, str_GoneForTheGame, str_S8, hmplstats, gsp, PenaltyEventCodes, hmscore
 extern awscore, AwBackupGoalieMarks, joysampling, word_176B7A, PerTimeTotal
 global FormatPlayerName, FormatScorerName, FormatAssistNames, BuildEventLines, PostGoalEvent, PostPenaltyEvent, PostInjuryEvent
 ;-----------------------------------------------------------------------------
@@ -492,7 +492,7 @@ BuildEventLines:
         add esp, byte 0Ch
 .12:
         movzx eax, byte [curevent_b2]
-        mov eax, dword [nosplit eax*4+dword_11A1BC]
+        mov eax, dword [nosplit eax*4+EventLineTextIds]
         call GetLangText
         mov edx, eax
         mov eax, textline2
@@ -909,7 +909,7 @@ PostPenaltyEvent:
 .11:
         cmp dword [byte ebp+010h], byte 0
         imul edx, dword [byte ebp-04h], dword 4B4h
-        movsx eax, word [nosplit ebx*2+word_11A236]
+        movsx eax, word [nosplit ebx*2+PenaltyEventCodes]
         push eax
         imul eax, dword [byte ebp-08h], byte 2Bh
         push dword [dword edx+eax+dword_1571B3]

@@ -4539,9 +4539,16 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 117916,dirtab_y,word_117916,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 117934,seed,dword_117934,95PC,high,"randomd0's random number state, as NHL95PC seed",src/data/front/front_2A692_data_02.asm
 117936,seed_w2,word_117936,95PC,high,seed+2: the high word randomd0 reads,src/data/front/front_2A692_data_02.asm
+117938,PenCountdownOptTab,byte_117938,new,low,Penalty countdown per penalty type with the game option set (gameopts+2 bit 3),src/data/engine/penalty_data_01.asm
+117945,PenShotCountdownOpt,byte_117945,new,low,Penalty shot countdown with the game option set,src/data/engine/penalty_data_01.asm
+11795B,PenCountdownTab,byte_11795B,new,low,Penalty countdown per penalty type,src/data/engine/penalty_data_01.asm
+117968,PenShotCountdown,byte_117968,new,low,Penalty shot countdown,src/data/engine/penalty_data_01.asm
 11797E,penmintab,,95PC,medium,NHL95PC C9123 (refset): referenced by the same 3 matched functions,
 1179A1,pendelaytab,byte_1179A1,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/penalty_data_01.asm
+1179A5,PenShotDelay,byte_1179A5,new,low,Penalty shot delay,src/data/engine/penalty_data_01.asm
 1179C4,asstab,off_1179C4,95PC,high,"the assignment routine table: the routines already named sit at the same 14 indices as in NHL95PC asstab (assshoot 18, asspassrec 19, pucknorm 24, puckfaceoff 27 ...)",src/data/engine/penalty_data_01.asm
+117A9C,HotSpotFrames,unk_117A9C,new,low,HotSpotFrame / BenchSpriteFrame: frame offsets,src/data/engine/penalty_data_01.asm
+117AA2,CheckHitAnims,word_117AA2,new,low,chkhit: hit animation per check type,src/data/engine/penalty_data_01.asm
 118E81,LinePickOrderFrom1,byte_118E81,new,medium,same code as in the next game,src/data/engine/penalty_data_01.asm
 118E82,priolist,byte_118E82,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 118E89,PreGameSkateOn,dword_118E89,new,low,Set while the pre-game skate runs; cleared by the three stars setup and saved with the game state,src/data/engine/hockey_data_01.asm
@@ -4647,23 +4654,57 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 119DE8,ScoreCelebrateAnims,word_119DE8,new,low,celebration animations a scorer picks from at random (assscore),src/data/engine/engine_2D9D9_data_01.asm
 119DF7,Endfaceoff_ftab_m1,byte_119DF7,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119DFE,refsigdir,word_119DFE,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
+119E44,RefSignalAnims,word_119E44,new,low,assrefsignal: referee signal animation per signal,src/data/engine/logic_data_01.asm
 119E8A,str_wildcard,dword_119E8A,95PC,high,string '*',src/data/engine/logic_data_01.asm
+119E8E,PathPointTab,dword_119E8E,new,low,NextPathPoint: path point table,src/data/engine/logic_data_01.asm
 119E92,ShootoutPathData_y,dword_119E92,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/logic_data_01.asm
+119EBA,FightAnimTab,word_119EBA,new,low,assfight: fight animation ids,src/data/engine/logic_data_01.asm
+119EDA,LineInputLines,word_119EDA,new,low,lineinput: line number per line change choice,src/data/engine/logic_data_01.asm
 119EEA,lchoicetab,byte_119EEA,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/logic_data_01.asm
 119F4A,assonetimer_blade_y,byte_119F4A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+119F4B,OneTimerSpots,byte_119F4B,new,low,"assonetimer: (x, y) byte offsets of the one-timer spots",src/data/engine/input_data_01.asm
+119F5A,ReceivePassLeadX,byte_119F5A,new,low,"ReceivePass: x of the (x, y) byte lead offsets",src/data/engine/input_data_01.asm
+119F5B,ReceivePassLeadY,byte_119F5B,new,low,"ReceivePass: y of the (x, y) byte lead offsets",src/data/engine/input_data_01.asm
+119F6C,GoalieDepthTab,dword_119F6C,new,low,"Goalie positioning: depth values per situation (goaliesave, goaliehome, goalieposition)",src/data/engine/input_data_01.asm
+119F78,GoalieSaveAnims,word_119F78,new,low,goaliesave: save animation ids per save type,src/data/engine/input_data_01.asm
+119F90,FallDownsOff,dword_119F90,new,low,"When set, collisions never knock players down",src/data/engine/input_data_01.asm
 119F94,nethit,,95PC,medium,NHL95PC CCC2C (refset): referenced by the same 3 matched functions,
 119F98,blockspd,word_119F98,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
 119F9A,blockspd_y,word_119F9A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+119FB8,CheckPowerTab,word_119FB8,new,low,checkcheck: check power per check strength,src/data/engine/input_data_01.asm
 119FC8,shotsets,word_119FC8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+119FCA,ShotTypeParams,word_119FCA,new,low,doshot: four words per shot type,src/data/engine/input_data_01.asm
 119FEC,playsuspended,dword_119FEC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+119FF0,PositionAssignTab,byte_119FF0,new,low,Setplass / assscore: assignment per player position,src/data/engine/input_data_01.asm
+119FF7,PeriodEnded,byte_119FF7,new,low,Set by clockcont when the period clock runs out,src/data/engine/input_data_01.asm
+119FF8,BenchSpriteAnims,word_119FF8,new,low,"InitBenchSprite / AnimateBenchSprite: bench animation ids, four bytes per entry",src/data/engine/input_data_01.asm
+11A004,SeriesDecided,dword_11A004,new,low,"When set, the end-of-game check treats the series as decided",src/data/engine/input_data_01.asm
+11A008,RosterStatusPdst,word_11A008,new,low,restoreteams: tmpdst value per roster status byte,src/data/engine/input_data_01.asm
+11A01A,PlListLineSlots,word_11A01A,new,low,SetPlList: start of each line's slots in the position table,src/data/engine/input_data_01.asm
+11A028,PlListPositions,byte_11A028,new,low,SetPlList: roster slot per line position,src/data/engine/input_data_01.asm
+11A0D9,BenchIdleAnims,word_11A0D9,new,low,PickBenchIdleAnim: idle bench animation ids,src/data/engine/input_data_01.asm
+11A11C,BurstEnergyCost,dword_11A11C,new,low,BurstDrainEnergy: energy cost per burst level,src/data/engine/input_data_01.asm
 11A15C,MaxSpeed,dword_11A15C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
 11A19C,doplayeracc_ftab,dword_11A19C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+11A1BC,EventLineTextIds,dword_11A1BC,new,low,BuildEventLines: text ids of the game event lines,src/data/engine/input_data_01.asm
+11A224,InProgressTextIds,word_11A224,new,low,InProgress: text ids of the in-progress game lines,src/data/engine/input_data_01.asm
+11A236,PenaltyEventCodes,word_11A236,new,low,PostPenaltyEvent: event code per penalty type,src/data/engine/input_data_01.asm
 11A26C,penbannertab,word_11A26C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
 11A2F8,PenaltyTypes,dword_11A2F8,new,low,penalty type records,src/data/engine/input_data_01.asm
 11A310,dressbystatus,,95PC,medium,NHL95PC CD418 (refset): referenced by the same 3 matched functions,
 11A319,lineslotgroups,byte_11A319,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data_01.asm
 11A3B4,lineslotgroupstart,byte_11A3B4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data_01.asm
 11A3E8,DemoMode,dword_11A3E8,new,medium,1 during the attract demo,
+11A3EE,SortFrameCount,word_11A3EE,new,low,Sprite sort frame counter,src/data/engine/lines_data_01.asm
+11A3F0,SortLastIndex,word_11A3F0,new,low,"Last sprite sort index, -1 for none",src/data/engine/lines_data_01.asm
+11A3F2,SortSpriteCount,dword_11A3F2,new,low,Sprites in the sort list,src/data/engine/lines_data_01.asm
+11A3F8,InReplay,dword_11A3F8,new,low,Set while a replay or highlight plays (camera code checks it),src/data/engine/lines_data_01.asm
+11A3F9,ReplayMenuFlags,byte_11A3F9,new,low,Replay screen flags,src/data/engine/lines_data_01.asm
+11A3FB,ReplayCameraFlags,byte_11A3FB,new,low,Replay camera flags,src/data/engine/lines_data_01.asm
+11A3FC,ReplayRunning,dword_11A3FC,new,low,Set while the replay screen runs a replay,src/data/engine/lines_data_01.asm
+11A400,HighlightSlot,dword_11A400,new,low,"Highlight slot being saved, -1 for none",src/data/engine/lines_data_01.asm
+11A404,HighlightStart,dword_11A404,new,low,Start frame of the highlight being saved,src/data/engine/lines_data_01.asm
+11A408,HighlightEnd,dword_11A408,new,low,End frame of the highlight being saved,src/data/engine/lines_data_01.asm
 11A40C,str_Punct_DrawReplayCounter,word_11A40C,new,high,"string ""?""",src/data/engine/lines_data_01.asm
 11B0B0,str_Punct_ReplayScreen,unk_11B0B0,new,high,"string ""\n""",src/data/front/replay_controls_data_02.asm
 11B230,str_0_SaveHighlight,unk_11B230,new,high,"string ""0""",src/data/front/replay_controls_data_02.asm
@@ -5429,15 +5470,42 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 176BCC,gwgplayer,dword_176BCC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176BD4,lastimpact,,95PC,medium,NHL95PC E9B28 (refset): referenced by the same 2 matched functions,
 176BE0,lineslotmark,dword_176BE0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
-176CA8,defsort_c,unk_176CA8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
+176CA8,offsort_c,unk_176CA8,new,medium,Centres sorted by offensive rating (25 per team),src/data/engine/lines_bss_01.asm
+176CDA,defsort_r,unk_176CDA,new,low,Right wings sorted by defensive rating (25 per team),src/data/engine/lines_bss_01.asm
+176D0C,offsort_d,unk_176D0C,new,low,Defencemen sorted by offensive rating (25 per team),src/data/engine/lines_bss_01.asm
+176D3E,defsort_c,unk_176D3E,new,medium,Centres sorted by defensive rating (25 per team),src/data/engine/lines_bss_01.asm
 176D70,defsort_d,,95PC,medium,NHL95PC E9DB4 (refset): referenced by the same 5 matched functions,
-176DA2,defsort_l,unk_176DA2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
+176DA2,offsort_l,unk_176DA2,new,medium,Left wings sorted by offensive rating (25 per team),src/data/engine/lines_bss_01.asm
 176DD4,dressflags,,95PC,medium,NHL95PC E9E18 (refset): referenced by the same 2 matched functions,
 176DEC,dressflags_aw,byte_176DEC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
+176DED,dressflags_aw,byte_176DED,new,low,"Away dressed flags, one byte per roster player",src/data/engine/lines_bss_01.asm
 176E06,offsort_fwd,,95PC,medium,NHL95PC E9E4A (refset): referenced by the same 6 matched functions,
+176E38,defsort_l,unk_176E38,new,medium,Left wings sorted by defensive rating (25 per team),src/data/engine/lines_bss_01.asm
+176E6A,offsort_r,unk_176E6A,new,low,Right wings sorted by offensive rating (25 per team),src/data/engine/lines_bss_01.asm
+176E9C,defsort_fwd,unk_176E9C,new,low,"Forwards for the defence pairs, sorted by defensive rating (25 per team)",src/data/engine/lines_bss_01.asm
 176ECE,dressedfwds,word_176ECE,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
 176ED0,dresseddefs,word_176ED0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
 176ED2,dressedskaters,,95PC,medium,NHL95PC E9F16 (refset): referenced by the same 2 matched functions,
+176ED4,AttractGameOpts,unk_176ED4,new,low,Game options block used by the attract mode game (gameopts points here),src/data/engine/lines_bss_01.asm
+176ED5,AttractOptTeams,dword_176ED5,new,low,Attract mode options: home and away team bits,src/data/engine/lines_bss_01.asm
+176ED7,AttractOptTeamsHi,byte_176ED7,new,low,Attract mode options: high byte of the team bits,src/data/engine/lines_bss_01.asm
+176ED9,AttractOptPads,byte_176ED9,new,low,Attract mode options: controller per player (cleared),src/data/engine/lines_bss_01.asm
+176EDB,AttractOptPadFlags,word_176EDB,new,low,Attract mode options: per-player flags (set to 1),src/data/engine/lines_bss_01.asm
+176F90,SpriteSortDelay,dword_176F90,new,low,Frames before the next full sprite sort (ResetPeriodState sets 2),src/data/engine/lines_bss_01.asm
+1770D8,ZoneBufFront,dword_1770D8,new,low,Zone manager: front list of changed screen rectangles,src/data/engine/lines_bss_02.asm
+1770DC,ZoneBufBack,dword_1770DC,new,low,Zone manager: back list of changed screen rectangles,src/data/engine/lines_bss_02.asm
+1770E0,ZoneBufCount,dword_1770E0,new,low,Zone manager: rectangles in the front list,src/data/engine/lines_bss_02.asm
+1770E4,ZoneMarksFront,dword_1770E4,new,low,Zone manager: front mark list,src/data/engine/lines_bss_02.asm
+1770E8,ZoneMarksBack,dword_1770E8,new,low,Zone manager: back mark list,src/data/engine/lines_bss_02.asm
+1770EC,ZonePrevList,dword_1770EC,new,low,Zone manager: previous frame's zone list,src/data/engine/lines_bss_02.asm
+1770F0,ZonePrevCount,dword_1770F0,new,low,Zone manager: zones in the previous frame's list,src/data/engine/lines_bss_02.asm
+1770F4,ZoneCurList,dword_1770F4,new,low,Zone manager: current frame's zone list,src/data/engine/lines_bss_02.asm
+1770F8,ZoneWorkBuf,dword_1770F8,new,low,Zone manager: work buffer,src/data/engine/lines_bss_02.asm
+1770FC,ZoneCurCount,dword_1770FC,new,low,Zone manager: zones in the current frame's list,src/data/engine/lines_bss_02.asm
+177100,ZoneCapacity,dword_177100,new,low,Zone manager: zones each list can hold,src/data/engine/lines_bss_02.asm
+177104,ZoneMemBlock,dword_177104,new,low,Zone manager: the allocated block holding all lists,src/data/engine/lines_bss_02.asm
+177108,DrawFrameCount,dword_177108,new,low,Frames drawn (the draw routines count it up),src/data/engine/lines_bss_02.asm
+17710C,HighlightBuffer,byte_17710C,new,low,"Saved highlights, 1DCh bytes each",src/data/engine/lines_bss_02.asm
 177998,ReplayMenuItems,dword_177998,new,low,replay menu items,src/data/front/replay_controls_bss_03.asm
 1781F4,ReplayMenuResult,dword_1781F4,new,low,replay menu result,src/data/front/replay_controls_bss_03.asm
 17BC78,MatchupLayer,dword_17BC78,new,low,matchup draw layer,src/data/front/front_5D993_bss_01.asm

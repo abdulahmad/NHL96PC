@@ -9,16 +9,16 @@ extern asscenterd, asscentero, asspuckc, assnearest, assscore, asseben, assleave
 extern assdopen, assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, assrefatdot, assreffollow
 extern assrefwhistle, assrefsignal, rtss, assrefgoalline, asspenshooter, assfight, assfwatch, assleavebox
 extern puckfaceoff2, asspsclear, assgoalietopuck, assgoalie, puckshadow
-global byte_117938, byte_117945, byte_11795B, byte_117968, pendelaytab, byte_1179A5, LinePickOrderFrom1, asstab
-global penmintab, unk_117A9C, word_117AA2
-byte_117938:
+global PenCountdownOptTab, PenShotCountdownOpt, PenCountdownTab, PenShotCountdown, pendelaytab, PenShotDelay, LinePickOrderFrom1, asstab
+global penmintab, HotSpotFrames, CheckHitAnims
+PenCountdownOptTab:
         db 00h,0Ah,0Ah,03h,01h,00h,01h,01h,01h,0Ah,0Ah,04h,04h
-byte_117945:
+PenShotCountdownOpt:
         db 04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,01h,00h
         db 01h,01h,01h,028h,028h,028h
-byte_11795B:
+PenCountdownTab:
         db 00h,0Ah,0Ah,06h,05h,00h,05h,05h,05h,0Ah,0Ah,07h,07h
-byte_117968:
+PenShotCountdown:
         db 07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,05h,00h
         db 05h,05h,05h,028h,028h,028h
 penmintab:
@@ -27,7 +27,7 @@ penmintab:
         db 05h,05h,02h
 pendelaytab:
         db 00h,02h,02h,02h
-byte_1179A5:
+PenShotDelay:
         db 02h,00h,02h,04h,02h,06h,02h,02h,02h,02h,02h,02h,02h,02h,02h,02h
         db 02h,02h,02h,02h,02h,02h,02h,00h,02h,02h,02h,02h,00h,00h,00h
 asstab:
@@ -85,9 +85,9 @@ asstab:
         dd asscupfollow
         dd asscuptake
         dd asscupleave
-unk_117A9C:
+HotSpotFrames:
         db 00h,00h,00h,00h,01h,00h
-word_117AA2:
+CheckHitAnims:
         db 00h,00h,0F6h,0FFh,00h,00h,01h,00h,08h,00h,0F6h,0FFh,00h,00h,08h,00h
         db 010h,00h,04h,00h,018h,00h,04h,00h,020h,00h,04h,00h,028h,00h,04h,00h
         db 030h,00h,04h,00h,038h,00h,04h,00h,040h,00h,04h,00h,048h,00h,0FCh,0FFh

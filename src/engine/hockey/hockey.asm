@@ -5,13 +5,13 @@ section s_465BA progbits alloc exec nowrite align=1
 extern AddPenalty, ChkGoalies, ClearPenaltyBuffer, CwdExciteLvl, InGameMenuRequest, LineChangeReq, OOlist, OOlistpos
 extern PBnum, Pencntdwn, PlList, ReadJoy1, SortCords, assinsert, assreplace, awtmgoalie
 extern awtmstruct, byte_1178C8, priolist, lldisp, HotList, HotList_y, HotStickList, HotStickList_y
-extern byte_119FF0, byte_119FF7, byte_11A028, awroster, byte_164797, byte_16479B, byte_1647E0, byte_164920
+extern PositionAssignTab, PeriodEnded, PlListPositions, awroster, byte_164797, byte_16479B, byte_1647E0, byte_164920
 extern byte_164CE0, hmtmpbox, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtmcoachmode, HmRosterMap, awtmpbox
 extern awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode, AwRosterMap, LinePlayersAway, PenBuf, PenBuf_pl
 extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, curperiod, hmslotcount
 extern awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, onetimerflag, penshotteam, AwayGoalsPeriod
-extern HomeGoalsPeriod, PassTargetLocked, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn, playsuspended, dword_11A004
-extern dword_11A3F8, dword_11B23C, dword_11D3A6, dword_11D674, dword_164806, dword_164816, dword_164956, dword_164D16
+extern HomeGoalsPeriod, PassTargetLocked, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn, playsuspended, SeriesDecided
+extern InReplay, dword_11B23C, dword_11D3A6, dword_11D674, dword_164806, dword_164816, dword_164956, dword_164D16
 extern dword_165166, dword_16516A, dword_165240, dword_165244, CrowdExciteTotal, hmtmnear, hmtmcoachenergy, hmtmlines
 extern hmtmplattr, hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmnear
 extern awtmcoachenergy, awtmlines, awtmplattr, awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec
@@ -24,14 +24,14 @@ extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
 extern shotontarget, IsCupClinched, StartGoalLight, SwapPosition, assextra6, doinput, ResetInputRepeat, CountTeamSlots
 extern SetupPenaltyBoxSeats, asspsclear, SetCarryAnim, ChkShotStat, checkcoll, SetSPA, GameEventStub, AddPenalty2
 extern PenGoalStuff, EndPenaltyShot, ResetPeriodState, SortSpritesForDraw, CloseTextOverlay, LoadCupSprites, PaEvent, StopAllSfx
-extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_117A9C
+extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, HotSpotFrames
 extern ds2list, hmplstats, awplstats, hmglstats, awglstats, hmglattr, awglattr, hmplattr
 extern awplattr, awlinetab, hmteamrec, awteamrec, hmlinetab, AwSortCords, unk_165258, unk_165354
-extern unk_176D0C, unk_176E9C, vtoa, word_1178A0, word_1178A2, VisTeam, word_1178B4, yc1
+extern offsort_d, defsort_fwd, vtoa, word_1178A0, word_1178A2, VisTeam, word_1178B4, yc1
 extern ltx, fodir1, fodir2, gmode2, HomeControlSlot, slotteam, word_1178F4, RefStep
 extern gsp, clockticks, dirtab, dirtab_y, SortPending, exitgame, gameover, PerTimeTab
 extern energywarn_aw, lcblink_aw, lcline_aw, lcboxon_aw, ovltimer, bannermsg, bannertimer, lldispodd
-extern ltack, word_119FF8, word_11A008, word_11A01A, word_11A0D9, lastsfx, puckcross, word_16479E
+extern ltack, BenchSpriteAnims, RosterStatusPdst, PlListLineSlots, BenchIdleAnims, lastsfx, puckcross, word_16479E
 extern word_1647B6, word_1647E4, word_165144, word_165146, word_165148, PeriodEventCount, hmscore, hmtmline
 extern hmtmlcnt, hmtmextra, hmtmap, hmtmnearpl, HmChaserList, awscore, awtmline, awtmlcnt
 extern awtmextra, awtmnearpl, AwChaserList, regd4, regd5, LastShooterTeam, regd0, regd1
@@ -1021,7 +1021,7 @@ HotSpotFrame:
 .5:
         movsx edx, word [byte eax+038h]
         add edx, edx
-        add edx, unk_117A9C
+        add edx, HotSpotFrames
         mov cx, word [edx]
         xor ch, ch
         and cl, 2
@@ -2356,16 +2356,16 @@ Setplass:
         mov edx, ecx
         call SwapPosition
         mov eax, ebx
-        movsx edx, byte [dword ecx+byte_119FF0]
+        movsx edx, byte [dword ecx+PositionAssignTab]
         call assreplace
         mov eax, ebx
-        movsx edx, byte [dword ecx+byte_119FF0]
+        movsx edx, byte [dword ecx+PositionAssignTab]
         call assinsert
         mov eax, ebx
-        movsx edx, byte [dword ecx+byte_119FF0]
+        movsx edx, byte [dword ecx+PositionAssignTab]
         call assinsert
         mov eax, ebx
-        movsx edx, byte [dword ecx+byte_119FF0]
+        movsx edx, byte [dword ecx+PositionAssignTab]
         call assinsert
 .2:
         pop esi
@@ -3001,7 +3001,7 @@ restoreteams:
 .2:
         movzx ecx, byte [eax]
         inc esi
-        mov cx, word [nosplit ecx*2+word_11A008]
+        mov cx, word [nosplit ecx*2+RosterStatusPdst]
         add eax, byte 2Bh
         mov word [edx], cx
         inc edx
@@ -3130,7 +3130,7 @@ InitBenchSprite:
         mov eax, 3
         call randomd0
         cwde
-        mov ax, word [nosplit eax*4+word_119FF8]
+        mov ax, word [nosplit eax*4+BenchSpriteAnims]
         mov word [byte edx+016h], 2
         mov word [byte edx+018h], ax
         mov eax, 100h
@@ -3408,10 +3408,10 @@ SetPlList:
         xor dh, dh
         movsx ebx, bx
         and dl, 1
-        movsx ebx, word [nosplit ebx*2+word_11A01A]
+        movsx ebx, word [nosplit ebx*2+PlListLineSlots]
         movsx edx, dx
 .7:
-        movsx ebx, byte [dword edx+ebx+byte_11A028]
+        movsx ebx, byte [dword edx+ebx+PlListPositions]
 .8:
         mov dl, byte [edi+ebx]
 .9:
@@ -3429,7 +3429,7 @@ SetPlList:
         jge short .12
         cmp esi, byte 2
         jg short .12
-        movsx edx, word [nosplit esi*2+word_11A01A]
+        movsx edx, word [nosplit esi*2+PlListLineSlots]
         movsx ebx, word [byte ecx+02Eh]
         jmp short .7
 .12:
@@ -3480,8 +3480,8 @@ SetPlList:
 .16:
         movsx ebx, bx
         cwde
-        movsx edx, word [nosplit ebx*2+word_11A01A]
-        movsx ebx, byte [dword edx+eax+byte_11A028]
+        movsx edx, word [nosplit ebx*2+PlListLineSlots]
+        movsx ebx, byte [dword edx+eax+PlListPositions]
         movsx eax, word [byte ebp-014h]
         jmp near .8
 .17:
@@ -3502,8 +3502,8 @@ SetPlList:
         test ax, ax
         jne near .31
         movsx eax, word [byte ebp-01Ch]
-        mov edx, byte_11A028
-        movsx eax, word [nosplit eax*2+word_11A01A]
+        mov edx, PlListPositions
+        movsx eax, word [nosplit eax*2+PlListLineSlots]
         add edx, eax
         mov dword [byte ebp-020h], edx
 .19:
@@ -3529,7 +3529,7 @@ SetPlList:
 .21:
         movsx eax, bx
         imul eax, byte 19h
-        add eax, unk_176D0C
+        add eax, offsort_d
         jmp short .26
 .22:
         movsx eax, bx
@@ -3549,7 +3549,7 @@ SetPlList:
 .25:
         movsx eax, bx
         imul eax, byte 19h
-        add eax, unk_176E9C
+        add eax, defsort_fwd
 .26:
         mov dword [byte ebp-024h], eax
         mov word [byte ebp-0Ch], 0
@@ -3905,7 +3905,7 @@ BenchSpriteFrame:
         sub ecx, eax
         movsx eax, word [byte ebx+018h]
         add eax, eax
-        add eax, unk_117A9C
+        add eax, HotSpotFrames
         mov dx, word [eax]
         xor dh, dh
         and dl, 2
@@ -3940,7 +3940,7 @@ AnimateBenchSprite:
         jle near .9
         movsx eax, word [byte eax+018h]
         add eax, eax
-        add eax, unk_117A9C
+        add eax, HotSpotFrames
         mov bx, word [byte edx+01Ah]
         mov si, word [eax]
         add eax, byte 4
@@ -3970,7 +3970,7 @@ AnimateBenchSprite:
         mov eax, 3
         call randomd0
         cwde
-        mov ax, word [nosplit eax*4+word_119FF8]
+        mov ax, word [nosplit eax*4+BenchSpriteAnims]
         mov word [byte edx+018h], ax
         mov eax, 100h
         mov word [byte edx+01Ah], 0
@@ -4039,7 +4039,7 @@ PickBenchIdleAnim:
         mov eax, 10h
         call randomd0
         cwde
-        mov ax, word [nosplit eax*4+word_11A0D9]
+        mov ax, word [nosplit eax*4+BenchIdleAnims]
         mov word [byte edx+01Ah], 0
         mov word [byte edx+01Ch], 0FFFFh
         mov word [byte edx+018h], ax
@@ -4967,14 +4967,14 @@ updateanim:
         je near Goal_1FB
         mov ecx, dword [byte eax+07Eh]
         add ecx, ecx
-        add ecx, unk_117A9C
+        add ecx, HotSpotFrames
         mov bx, word [byte ecx+02h]
         dec ebx
         add ebx, ebx
         jmp short .2
 .1:
         movsx eax, word [byte eax+038h]
-        mov ecx, unk_117A9C
+        mov ecx, HotSpotFrames
         add eax, eax
         mov bx, word [byte esi+03Ah]
         add ecx, eax
@@ -5687,7 +5687,7 @@ clockcont_0:
         je short .2
         mov word [regd0], 8
 .2:
-        cmp dword [dword_11A004], byte 0
+        cmp dword [SeriesDecided], byte 0
         je short .3
         mov word [regd0], 8
 .3:
@@ -5833,7 +5833,7 @@ clockcont_0:
         movsx eax, word [regd2]
         cmp eax, byte 6
         jl near .19
-        mov byte [byte_119FF7], 1
+        mov byte [PeriodEnded], 1
         mov edx, 2Bh
         mov eax, dword [off_117890]
         or byte [gmode], 80h
@@ -6482,7 +6482,7 @@ PlayerSpriteFrame:
         movsx eax, word [byte ebx+012h]
         jmp near Goal_1FC
 .2:
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .6
         mov eax, dword [dword_179E0B]
         neg eax
@@ -6523,14 +6523,14 @@ PlayerSpriteFrame:
         je near Goal_1FC
         mov ecx, dword [byte ebx+07Eh]
         add ecx, ecx
-        add ecx, unk_117A9C
+        add ecx, HotSpotFrames
         mov di, word [byte ecx+02h]
         dec edi
         add edi, edi
         jmp short .8
 .7:
         movsx eax, word [byte eax+038h]
-        mov ecx, unk_117A9C
+        mov ecx, HotSpotFrames
         add eax, eax
         mov di, word [byte ebx+03Ah]
         add ecx, eax

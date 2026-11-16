@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_38070 progbits alloc exec nowrite align=1
 extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, byte_114B4C
-extern lchoicetab, assonetimer_blade_y, byte_119F4B, byte_119F5A, byte_119F5B, byte_164741, byte_16507A, InputState
+extern lchoicetab, assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, byte_164741, byte_16507A, InputState
 extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
 extern dword_164744, dword_164748, dword_164750, PtrPuckZone, dword_1797B4, gameclock, gameopts, gmode
@@ -15,7 +15,7 @@ extern ShootOrAim, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, SetContro
 extern updateanim, doplayeracc, playeracc, BurstDrainEnergy, burst, PlaySfx, sfx, MouseRead
 extern vecdist, JoyStateTable, AwSortCords, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4
 extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, gsp, lcblinktime, lcsel
-extern lctimer, word_119EDA, word_16474C, puckcross, word_165078, word_165082, hmscore, hmtmline
+extern lctimer, LineInputLines, word_16474C, puckcross, word_165078, word_165082, hmscore, hmtmline
 extern hmtmap, regd0, regd1
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
 global lcfound, lcselect, lineinput, fightinput_287, CanBlockShot_31D, CanBlockShot_31F, CanBlockShot_320, faceoffinput
@@ -94,7 +94,7 @@ lineinput:
         movsx eax, si
         movsx ebx, word [nosplit eax*2+lcline]
         mov word [nosplit eax*2+lcblink], 1
-        mov dx, word [nosplit ebx*2+word_119EDA]
+        mov dx, word [nosplit ebx*2+LineInputLines]
         mov word [nosplit eax*2+lcblinktime], 0Ch
         mov word [nosplit eax*2+lcline], dx
 .5:
@@ -2410,7 +2410,7 @@ assonetimer:
         mov word [regd0], ax
 .13:
         movsx eax, word [regd0]
-        movsx dx, byte [nosplit eax*2+byte_119F4B]
+        movsx dx, byte [nosplit eax*2+OneTimerSpots]
         movsx ax, byte [nosplit eax*2+assonetimer_blade_y]
         mov word [regd1], dx
         mov word [regd0], ax
@@ -2761,8 +2761,8 @@ ReceivePass:
         mov word [regd0], ax
 .6:
         movsx eax, word [regd0]
-        movsx bx, byte [nosplit eax*2+byte_119F5B]
-        movsx ax, byte [nosplit eax*2+byte_119F5A]
+        movsx bx, byte [nosplit eax*2+ReceivePassLeadY]
+        movsx ax, byte [nosplit eax*2+ReceivePassLeadX]
         mov word [regd1], bx
         mov word [regd0], ax
         mov ax, word [byte edx+054h]

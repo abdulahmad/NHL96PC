@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_50154 progbits alloc exec nowrite align=1
 extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstruct, byte_1178C8
-extern byte_1178F9, byte_117938, byte_117945, byte_11795B, byte_117968, pendelaytab, byte_1179A5, LinePickOrderFrom1
+extern byte_1178F9, PenCountdownOptTab, PenShotCountdownOpt, PenCountdownTab, PenShotCountdown, pendelaytab, PenShotDelay, LinePickOrderFrom1
 extern hmrosterpos, byte_1647E1, byte_1647E3, textline5, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
 extern PenaltyTimes, PenBuf, PenBuf_pl, crowdlevel, HomeEbenPlayer, AwayEbenPlayer, penshotfox, penshotteam
 extern AwayGoalsPeriod, HomeGoalsPeriod, PenaltyTypes, dword_11B310, lineslotmark, dword_176C44, fox, foy
@@ -13,7 +13,7 @@ extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, PlaySfxOr, PlaySfx
 extern sfx, CrowdReaction, GetLangText, SortIndices, vecdist, awlinetab, hmlinetab, gmode2
 extern word_1178F4, refsignal, RefStep, word_1178FA, Penaltytimer, gsp, clockticks, SortPending
-extern PenShotStartX, PenShotStartY, ovltimer, injurystop, bannermsg, bannertimer, Pencntdwn2, word_11A224
+extern PenShotStartX, PenShotStartY, ovltimer, injurystop, bannermsg, bannertimer, Pencntdwn2, InProgressTextIds
 extern penbannertab, hmscore, hmtmap, awscore, awtmap, regd1, PerTimeTotal, LastTouchTeam
 extern PassDistY, StoppageFlag, LastPlayerTouch
 global AddPenalty, ClearPenaltyBuffer, CountShotOnGoal, QuickShotChk, SetupPenaltyShot, ShotLaneOpen, chkatop, chkprogress
@@ -492,7 +492,7 @@ InProgress:
         xor ecx, ecx
         movzx eax, al
         call PostPenaltyEvent
-        movsx eax, word [nosplit edi*2+word_11A224]
+        movsx eax, word [nosplit edi*2+InProgressTextIds]
         cmp eax, byte 0FFFFFFFFh
         je short .12
         cmp word [gameclock], byte 0
@@ -590,7 +590,7 @@ InProgress:
         setne al
         movzx eax, al
         call PostPenaltyEvent
-        movsx eax, word [nosplit edi*2+word_11A224]
+        movsx eax, word [nosplit edi*2+InProgressTextIds]
         cmp eax, byte 0FFFFFFFFh
         je short .19
         cmp word [gameclock], byte 0
@@ -670,7 +670,7 @@ InProgress:
         movzx eax, al
         call PostPenaltyEvent
         mov eax, dword [byte ebp-018h]
-        movsx eax, word [nosplit eax*2+word_11A224]
+        movsx eax, word [nosplit eax*2+InProgressTextIds]
         cmp eax, byte 0FFFFFFFFh
         je short .24
         cmp word [gameclock], byte 0
@@ -1179,11 +1179,11 @@ checkfornewpen:
         test byte [byte eax+02h], 8
         je short .6
         movsx eax, bl
-        movsx ax, byte [dword eax+byte_117938]
+        movsx ax, byte [dword eax+PenCountdownOptTab]
         jmp short .7
 .6:
         movsx eax, bl
-        movsx ax, byte [dword eax+byte_11795B]
+        movsx ax, byte [dword eax+PenCountdownTab]
 .7:
         shl eax, 5
         cmp ax, word [Pencntdwn]
@@ -1199,18 +1199,18 @@ checkfornewpen:
         movsx eax, bl
         cmp eax, byte 5
         jne short .12
-        movsx ax, byte [byte_1179A5]
+        movsx ax, byte [PenShotDelay]
         mov ebx, dword [gameopts]
         shl eax, 5
         test byte [byte ebx+02h], 8
         je short .11
-        movsx bx, byte [byte_117945]
+        movsx bx, byte [PenShotCountdownOpt]
 .10:
         shl ebx, 5
         mov word [Pencntdwn], bx
         jmp short .13
 .11:
-        movsx bx, byte [byte_117968]
+        movsx bx, byte [PenShotCountdown]
         jmp short .10
 .12:
         movsx eax, bl

@@ -7,7 +7,7 @@ extern QuickShotChk, RemoveFromLines, ShotLaneOpen, SortCords, a2touchpuck, assi
 extern byte_115115, byte_115117, byte_1175A7, byte_1178C8, byte_16514E, byte_16514F, OffsideCalled, PenBuf
 extern PenBuf_pl, iflags, byte_176BA5, byte_176BA7, collflag, crowdlevel, hmslotcount, awslotcount
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn
-extern dword_119F90, nethit, dword_15E844, dword_16516E, dword_165172, dword_179D70, optflags, fox
+extern FallDownsOff, nethit, dword_15E844, dword_16516E, dword_165172, dword_179D70, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, puckvy, puckc
 extern PtrPuckFlags, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
@@ -18,8 +18,8 @@ extern GameEventStub, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, Ca
 extern sfx, CrowdReaction, IntSqrt, vecdist, threat, AwSortCords, HmFightFlags, AwFightFlags
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, VisTeam, word_1178AC, word_1178AE, word_1178B4
 extern yc1, gmode2, HomeControlSlot, gsp, clockticks, dirtab, dirtab_y, refhitcount
-extern injurystop, bannermsg, bannertimer, ltack, blockspd, blockspd_y, word_119FB8, shotsets
-extern word_119FCA, puckcross, word_1647A2, word_165144, word_16514A, word_16514C, hmtmap, awtmap
+extern injurystop, bannermsg, bannertimer, ltack, blockspd, blockspd_y, CheckPowerTab, shotsets
+extern ShotTypeParams, puckcross, word_1647A2, word_165144, word_16514A, word_16514C, hmtmap, awtmap
 extern regd4, regd5, LastShooterTeam, regd0, regd1, Ylist, SpeechPatchNext, PerTimeTotal
 extern lastimpact
 global Bcheck, CPgoalie, CheckBump, ChkGoalies, ChkOffsides, ChkPullGoalieLate, FacingBoards, MarkTwoLinePlayers
@@ -832,7 +832,7 @@ checkcheck:
         jmp short .37
 .36:
         movsx eax, bx
-        movsx edx, word [nosplit eax*2+word_119FB8]
+        movsx edx, word [nosplit eax*2+CheckPowerTab]
 .37:
         mov eax, esi
         call SetSPA
@@ -5889,7 +5889,7 @@ FallDown:
         mov word [crowdlevel], 3E8h
 .67:
         add word [CwdExciteLvl], byte 0Fh
-        cmp dword [dword_119F90], byte 0
+        cmp dword [FallDownsOff], byte 0
         jne short .70
         mov edx, dword [puckc]
         cmp byte [edx], 0
@@ -5939,7 +5939,7 @@ FallDown:
         movzx eax, al
         test eax, eax
         jne near .83
-        cmp dword [dword_119F90], byte 0
+        cmp dword [FallDownsOff], byte 0
         jne short .75
         movsx eax, word [byte ecx+038h]
         cmp eax, 1BDh
@@ -8294,7 +8294,7 @@ doshot:
         push eax
         movsx eax, word [byte ebp-08h]
         push eax
-        mov di, word [nosplit edi*4+word_119FCA]
+        mov di, word [nosplit edi*4+ShotTypeParams]
         mov dword [byte ebp-04h], edx
         call vecdist
         add esp, byte 8

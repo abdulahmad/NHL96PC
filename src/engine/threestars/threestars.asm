@@ -6,7 +6,7 @@ extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermi
 extern byte_164CE0, textline1, textline2, textline3, textline4, textline5, byte_17CA5D, CloseTextOverlay
 extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, dword_114B90, dword_114B94, dword_114B98, dword_114B9C
 extern dword_114F16, gameresult, PreGameSkateOn, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
-extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, gwgteam, gwgplayer, dword_177108
+extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, gwgteam, gwgplayer, DrawFrameCount
 extern dword_179918, dword_179920, dword_179924, dword_179DBD, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
 extern hmtmstruct, InGameMenuRequest, InputRecordCount, InputRecordRing, IsCupClinched, lasttouch, lcblink, lineuptime
@@ -729,10 +729,10 @@ DrawOverlayPanels:
         jge short .13
         push dword [dword_11F5C4]
         mov ebx, dword [dword_11F5C0]
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         xor ecx, ecx
         xor edx, edx
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call AddZone
         push dword [dword_11F5C4]
         push byte 0

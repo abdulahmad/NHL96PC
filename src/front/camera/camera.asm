@@ -6,7 +6,7 @@ extern __CHP, BuildShadeLut, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7,
 extern byte_1175AA, byte_1175AB, byte_1175AC, byte_11B380, byte_11B3C5, byte_11B40A, byte_11B44F, byte_11B494
 extern byte_11B4D9, byte_11B51E, byte_11B563, byte_11B5A8, byte_11B5ED, byte_11B632, byte_11BB20, byte_11BB24
 extern HexDigits, byte_1647E3, PenBuf, byte_1770A6, byte_1770B1, byte_179D7C, byte_179DC1, byte_179E47
-extern byte_17CA5D, DemoMode, dword_11A3F8, ReplayRemoteShape, dword_11B244, dword_11B314, dword_11B318, dword_11B31C
+extern byte_17CA5D, DemoMode, InReplay, ReplayRemoteShape, dword_11B244, dword_11B314, dword_11B318, dword_11B31C
 extern dword_11B320, str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, str_C_CloseTextOverlay, dword_11B364
 extern dword_11B368, dword_11B370, dword_11B374, dword_11B37C, dword_11B381, dword_11B3C1, dword_11B3C6, dword_11B406
 extern dword_11B40B, dword_11B44B, dword_11B450, dword_11B490, dword_11B495, dword_11B4D5, dword_11B4DA, dword_11B51A
@@ -459,7 +459,7 @@ SetCameraShot:
         rep movsb
         call CameraPathDerivs
         mov dword [dword_179D48], 0
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je near CamShot242_279
         mov ecx, 45h
         mov edi, dword_178243
@@ -620,7 +620,7 @@ CameraTrackPuck:
         push edx
         push esi
         push edi
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je near .4
         cmp dword [dword_1781F0], byte 0
         jl short .1
@@ -737,7 +737,7 @@ CameraLeadOffset:
         movsx eax, al
         test eax, eax
         jne near .13
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je near .4
         mov dword [dword_11B370], eax
         cmp dword [dword_1781F0], byte 0
@@ -840,7 +840,7 @@ CameraNearNet:
         push eax
         push edx
         mov dword [byte ebp-04h], 0
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .1
         xor eax, eax
         jmp near CameraNearNet_12E
@@ -973,7 +973,7 @@ CameraAim:
         movsd
         cmp dword [dword_179D5C], byte 1Eh
         jne near .1
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         jne short .1
         mov eax, dword [dword_179D58]
         sub eax, dword [dword_179DD6]
@@ -1018,7 +1018,7 @@ CameraAim_AB:
         add dword [dword_179D58], eax
         mov eax, dword [dword_179D50]
         mov dword [dword_179DCE], eax
-        mov eax, dword [dword_11A3F8]
+        mov eax, dword [InReplay]
         and eax, 200h
         or eax, dword [dword_11B374]
         cmp dword [dword_179D58], byte 0
@@ -1061,7 +1061,7 @@ CameraAim_AB:
 .10:
         mov eax, dword [dword_11B368]
         add dword [dword_179DCE], eax
-        mov eax, dword [dword_11A3F8]
+        mov eax, dword [InReplay]
         and eax, 200h
         mov dword [dword_179DD2], 244h
         or eax, dword [dword_11B374]
@@ -1108,7 +1108,7 @@ CameraAim_229:
         add dword [dword_179D58], eax
         mov eax, dword [dword_179D50]
         mov dword [dword_179DCE], eax
-        mov eax, dword [dword_11A3F8]
+        mov eax, dword [InReplay]
         and eax, 200h
         or eax, dword [dword_11B374]
         cmp dword [dword_179D58], byte 0
@@ -1149,7 +1149,7 @@ CameraAim_229:
 .24:
         mov dword [dword_179DCE], 12Ch
 .25:
-        mov eax, dword [dword_11A3F8]
+        mov eax, dword [InReplay]
         and eax, 200h
         mov dword [dword_179DD2], 244h
         or eax, dword [dword_11B374]
@@ -1307,7 +1307,7 @@ CamView232:
         jle short .2
         mov dword [dword_179DCE], 0A0h
 .2:
-        mov eax, dword [dword_11A3F8]
+        mov eax, dword [InReplay]
         and eax, 200h
         mov dword [dword_179DD2], 2D0h
         or eax, dword [dword_11B374]
@@ -1395,7 +1395,7 @@ CamView233:
         jle short .2
         mov dword [dword_179DCE], 0A0h
 .2:
-        mov eax, dword [dword_11A3F8]
+        mov eax, dword [InReplay]
         and eax, 200h
         mov dword [dword_179DD2], 2D0h
         or eax, dword [dword_11B374]
@@ -1505,7 +1505,7 @@ CamView234:
         call CameraTrackPuck
         call CameraLeadOffset
         mov eax, dword [dword_179D50]
-        mov esi, dword [dword_11A3F8]
+        mov esi, dword [InReplay]
         add eax, dword [dword_11B368]
         and esi, 200h
         mov dword [dword_179DCE], eax
@@ -1699,7 +1699,7 @@ CamView235:
         enter 0Ch, 0
         call CameraTrackPuck
         call CameraLeadOffset
-        mov esi, dword [dword_11A3F8]
+        mov esi, dword [InReplay]
         mov eax, dword [dword_11B370]
         and esi, 200h
         add dword [dword_179D58], eax
@@ -1885,7 +1885,7 @@ CamView236:
         movsd
         movsd
         movsd
-        mov edx, dword [dword_11A3F8]
+        mov edx, dword [InReplay]
         mov eax, dword [dword_11B370]
         and edx, 200h
         add dword [dword_179D58], eax
@@ -2033,7 +2033,7 @@ CamView236_20D:
         movsd
         movsd
         movsd
-        mov ebx, dword [dword_11A3F8]
+        mov ebx, dword [InReplay]
         mov eax, dword [dword_11B370]
         and ebx, 200h
         add dword [dword_179D58], eax
@@ -2195,7 +2195,7 @@ CamView238:
         movsd
         movsd
         movsd
-        mov edx, dword [dword_11A3F8]
+        mov edx, dword [InReplay]
         mov eax, dword [dword_11B370]
         and edx, 200h
         add dword [dword_179D58], eax
@@ -2329,7 +2329,7 @@ CamView239:
         movsd
         movsd
         movsd
-        mov ebx, dword [dword_11A3F8]
+        mov ebx, dword [InReplay]
         mov eax, dword [dword_11B370]
         and ebx, 200h
         add dword [dword_179D58], eax
@@ -2465,7 +2465,7 @@ CamView23A:
         xor esi, esi
         xor edi, edi
         add dword [dword_179D58], eax
-        mov eax, dword [dword_11A3F8]
+        mov eax, dword [InReplay]
         mov ebx, dword [dword_179D58]
         and eax, 200h
         sub ebx, dword [dword_11B370]
@@ -2730,7 +2730,7 @@ CamShot23F:
         push ecx
         push edx
         call CameraTrackPuck
-        mov eax, dword [dword_11A3F8]
+        mov eax, dword [InReplay]
         mov dword [dword_179DCE], 0
         and eax, 200h
         mov dword [dword_179DD2], 8Ch
@@ -2779,7 +2779,7 @@ CamShot240:
         push ecx
         push edx
         call CameraTrackPuck
-        mov eax, dword [dword_11A3F8]
+        mov eax, dword [InReplay]
         and eax, 200h
         mov dword [dword_179DD2], 50h
         or eax, dword [dword_11B374]
@@ -4010,7 +4010,7 @@ ReadHotKeys:
         rep movsb
         call CameraPathDerivs
         mov dword [dword_179D48], 0
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .13
         mov ecx, 45h
         mov edi, dword_178243
@@ -4368,7 +4368,7 @@ UpdateCamera:
 .5:
         shl esi, 8
         add dword [dword_179D48], esi
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         jne near UpdateCamera_174.13
         mov edx, dword [dword_11B364]
 .6:
@@ -4455,7 +4455,7 @@ UpdateCamera_174:
         jne near UpdateCamera_667.34
 .15:
         call CameraPathPoint
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         jne short .16
         cmp dword [edx], byte 0
         jne short .16

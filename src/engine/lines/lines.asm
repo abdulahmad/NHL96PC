@@ -5,21 +5,21 @@ section s_51F18 progbits alloc exec nowrite align=1
 extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str_GloL, str_GloR
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
 extern lineslotgroups, lineslotgroupstart, byte_11BB20, hmrosterpos, byte_1647E0, byte_176B83, defsort_d, dressflags
-extern dressflags_aw, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, byte_17CA5D, crowdlevel, dword_1150D4
-extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, dword_11A3F2, ReplayRemoteShape, dword_11B294
+extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, byte_17CA5D, crowdlevel, dword_1150D4
+extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, dword_11B294
 extern dword_11B330, dword_11B364, dword_11D91F, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
 extern MenuBitmapPixels, dword_157AF4, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
 extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, ReplayBufferTop, lineslotmark
-extern dword_176ED5, dword_176F90, dword_1770D8, dword_1770DC, dword_1770E0, dword_1770E4, dword_1770E8, dword_1770EC
-extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108, dword_1798BC
+extern AttractOptTeams, SpriteSortDelay, ZoneBufFront, ZoneBufBack, ZoneBufCount, ZoneMarksFront, ZoneMarksBack, ZonePrevList
+extern ZonePrevCount, ZoneCurList, ZoneWorkBuf, ZoneCurCount, ZoneCapacity, ZoneMemBlock, DrawFrameCount, dword_1798BC
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, replaystart, puckvy
 extern puckc, PtrPuckFlags, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern LoadPackedFile, InitGameTeams, PuckInNet, PickForwardLines, PickDefencePairs, PickSpecialLines, LoadFrontEndArt, FreeFrontEndArt
 extern CopyBitmap, StartGameSound, EndGameSound, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
-extern FindShape, ClearClipRect, hmplattr, awlinetab, hmlinetab, defsort_c, unk_176CDA, unk_176D0C
-extern unk_176D3E, defsort_l, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
-extern HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, clockticks, word_11A3EE, word_11A3F0, lastsfx
-extern regd0, dressedfwds, dresseddefs, dressedskaters, word_176EDB
+extern FindShape, ClearClipRect, hmplattr, awlinetab, hmlinetab, offsort_c, defsort_r, offsort_d
+extern defsort_c, offsort_l, defsort_l, offsort_r, defsort_fwd, AttractGameOpts, optblock_end, gmode2
+extern HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, clockticks, SortFrameCount, SortLastIndex, lastsfx
+extern regd0, dressedfwds, dresseddefs, dressedskaters, AttractOptPadFlags
 global FillDressedSlots, NormalizeDressFlags, PickExtraSkater, PickForLineSlot, RemoveFromLines, SetupTeamLines, PickForLineSlot_3E3, SetupTeamLines_1CC
 global SetupTeamLines_1CD, ResolveZones_16C, ResolveZones_16D, BuildDefaultLines, CanFillLineSlot, PickGoalie, RefillLineSlots, CanRemovePlayer
 global RunAttractMode, LoadGamePalette, ResetPeriodState, ReplayBufferStart, ReplayBufferEnd, SortSpritesForDraw, InitZoneManager, FreeZoneManager
@@ -127,24 +127,24 @@ BuildDefaultLines:
         add edx, eax
         mov ecx, 44h
         mov dword [byte ebp+072h], edx
-        mov edx, unk_176D0C
+        mov edx, offsort_d
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
         add edx, edi
         call PickForwardLines
-        mov edx, unk_176E6A
+        mov edx, offsort_r
         mov ecx, 52h
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
         add edx, edi
         call PickForwardLines
-        mov edx, defsort_l
+        mov edx, offsort_l
         mov ecx, 4Ch
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
         add edx, edi
         call PickForwardLines
-        mov edx, defsort_c
+        mov edx, offsort_c
         mov ecx, 43h
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
@@ -160,19 +160,19 @@ BuildDefaultLines:
         mov ebx, dword [byte ebp+06Eh]
         add edx, edi
         call PickForwardLines
-        mov edx, unk_176CDA
+        mov edx, defsort_r
         mov ecx, 52h
         mov ebx, dword [byte ebp+06Eh]
         mov eax, esi
         add edx, edi
         call PickForwardLines
-        mov edx, unk_176E38
+        mov edx, defsort_l
         mov ecx, 4Ch
         mov ebx, dword [byte ebp+06Eh]
         mov eax, esi
         add edx, edi
         call PickForwardLines
-        mov edx, unk_176D3E
+        mov edx, defsort_c
         mov ecx, 43h
         mov ebx, dword [byte ebp+06Eh]
         mov eax, esi
@@ -183,7 +183,7 @@ BuildDefaultLines:
         mov eax, esi
         add edx, edi
         call PickDefencePairs
-        mov edx, unk_176E9C
+        mov edx, defsort_fwd
         mov ebx, dword [byte ebp+06Eh]
         mov eax, esi
         add edx, edi
@@ -715,7 +715,7 @@ PickForLineSlot:
         jl short .6
         cmp eax, byte 23h
         jg short .6
-        mov eax, unk_176D0C
+        mov eax, offsort_d
         add eax, edx
         jmp short .7
 .6:
@@ -737,10 +737,10 @@ PickForLineSlot:
         mov edi, ebx
         cmp eax, byte 26h
         jge short .9
-        mov eax, defsort_c
+        mov eax, offsort_c
         jmp short .10
 .9:
-        mov eax, unk_176D3E
+        mov eax, defsort_c
 .10:
         add eax, edx
         mov ebx, dword [byte ebp-034h]
@@ -753,10 +753,10 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .11
-        add eax, defsort_l
+        add eax, offsort_l
         jmp short .12
 .11:
-        add eax, unk_176E38
+        add eax, defsort_l
 .12:
         call FillDressedSlots
         test ax, ax
@@ -766,10 +766,10 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .13
-        add eax, unk_176E6A
+        add eax, offsort_r
         jmp short .14
 .13:
-        add eax, unk_176CDA
+        add eax, defsort_r
 .14:
         call FillDressedSlots
         test ax, ax
@@ -782,10 +782,10 @@ PickForLineSlot:
         mov edi, ebx
         cmp eax, byte 26h
         jge short .16
-        mov eax, unk_176E6A
+        mov eax, offsort_r
         jmp short .17
 .16:
-        mov eax, unk_176CDA
+        mov eax, defsort_r
 .17:
         add eax, edx
         mov ebx, dword [byte ebp-028h]
@@ -798,10 +798,10 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .18
-        add eax, defsort_l
+        add eax, offsort_l
         jmp short .19
 .18:
-        add eax, unk_176E38
+        add eax, defsort_l
 .19:
         call FillDressedSlots
         test ax, ax
@@ -811,10 +811,10 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .20
-        add eax, defsort_c
+        add eax, offsort_c
         jmp short .21
 .20:
-        add eax, unk_176D3E
+        add eax, defsort_c
 .21:
         call FillDressedSlots
         test ax, ax
@@ -827,10 +827,10 @@ PickForLineSlot:
         mov dword [byte ebp-02Ch], ebx
         cmp eax, byte 26h
         jge short .23
-        mov eax, defsort_l
+        mov eax, offsort_l
         jmp short .24
 .23:
-        mov eax, unk_176E38
+        mov eax, defsort_l
 .24:
         add eax, edx
         mov edx, dword [byte ebp-02Ch]
@@ -843,10 +843,10 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .25
-        add eax, unk_176E6A
+        add eax, offsort_r
         jmp short .26
 .25:
-        add eax, unk_176CDA
+        add eax, defsort_r
 .26:
         call FillDressedSlots
         test ax, ax
@@ -856,10 +856,10 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .27
-        add eax, defsort_c
+        add eax, offsort_c
         jmp short .28
 .27:
-        add eax, unk_176D3E
+        add eax, defsort_c
 .28:
         call FillDressedSlots
         test ax, ax
@@ -897,7 +897,7 @@ PickForLineSlot:
         jg short .33
         movsx eax, cx
         imul eax, byte 19h
-        add eax, unk_176D0C
+        add eax, offsort_d
         jmp short .36
 .33:
         movsx eax, cx
@@ -915,7 +915,7 @@ PickForLineSlot:
 .35:
         movsx eax, cx
         imul eax, byte 19h
-        add eax, unk_176E9C
+        add eax, defsort_fwd
 .36:
         mov dword [byte ebp-024h], eax
         mov dword [byte ebp-010h], 0
@@ -956,7 +956,7 @@ PickForLineSlot:
 .42:
         movsx eax, cx
         imul eax, byte 19h
-        add eax, unk_176E9C
+        add eax, defsort_fwd
         jmp short .45
 .43:
         movsx eax, si
@@ -964,7 +964,7 @@ PickForLineSlot:
         jge short .44
         movsx eax, cx
         imul eax, byte 19h
-        add eax, unk_176D0C
+        add eax, offsort_d
         jmp short .45
 .44:
         movsx eax, cx
@@ -1715,11 +1715,11 @@ NormalizeDressFlags:
         cmp edx, byte 1
         sete dl
         mov byte [dword eax+dressflags], dl
-        movsx edx, byte [dword eax+byte_176DED]
+        movsx edx, byte [dword eax+dressflags_aw]
         inc eax
         cmp edx, byte 1
         sete dl
-        mov byte [dword eax+dressflags_aw], dl
+        mov byte [dword eax+dressflags_aw-1], dl
         cmp eax, byte 19h
         jl short .1
         pop edx
@@ -1846,27 +1846,27 @@ RunAttractMode:
         imul edx, eax
         movzx eax, byte [byte ebp-0Dh]
         imul edx, eax
-        or word [dword_176ED5], 1CFh
+        or word [AttractOptTeams], 1CFh
         mov esi, 1Ch
-        and word [dword_176ED5], 0F1CFh
+        and word [AttractOptTeams], 0F1CFh
         mov dword [seed], edx
         call rand_
         cdq
         idiv esi
         and edx, byte 1Fh
-        and dword [dword_176ED5], 0FFFE0FFFh
+        and dword [AttractOptTeams], 0FFFE0FFFh
         shl edx, 0Ch
         mov esi, 1Ah
-        or dword [dword_176ED5], edx
+        or dword [AttractOptTeams], edx
         call rand_
         cdq
         idiv esi
         and edx, byte 1Fh
-        and byte [byte_176ED7], 0C1h
+        and byte [AttractOptTeamsHi], 0C1h
         shl edx, 11h
-        or dword [dword_176ED5], edx
-        mov eax, dword [dword_176ED5]
-        mov edx, dword [dword_176ED5]
+        or dword [AttractOptTeams], edx
+        mov eax, dword [AttractOptTeams]
+        mov edx, dword [AttractOptTeams]
         shl eax, 0Fh
         shl edx, 0Ah
         shr eax, 1Bh
@@ -1879,26 +1879,26 @@ RunAttractMode:
         div esi
         mov eax, edx
         and eax, byte 1Fh
-        and dword [dword_176ED5], 0FFFE0FFFh
+        and dword [AttractOptTeams], 0FFFE0FFFh
         shl eax, 0Ch
-        or dword [dword_176ED5], eax
+        or dword [AttractOptTeams], eax
 .1:
-        mov edx, dword [dword_176ED5]
+        mov edx, dword [AttractOptTeams]
         and edx, 1F000h
         cmp edx, 1A000h
         jb short .4
-        mov eax, dword [dword_176ED5]
+        mov eax, dword [AttractOptTeams]
         and eax, 0FFC1FFFFh
         cmp edx, 1A000h
         jne short .2
-        mov dword [dword_176ED5], eax
+        mov dword [AttractOptTeams], eax
         or eax, 360000h
         jmp short .3
 .2:
-        mov dword [dword_176ED5], eax
+        mov dword [AttractOptTeams], eax
         or eax, 340000h
 .3:
-        mov dword [dword_176ED5], eax
+        mov dword [AttractOptTeams], eax
 .4:
         call FreeFrontEndArt
         test byte [byte_17CA5D], 20h
@@ -1910,15 +1910,15 @@ RunAttractMode:
         call FreeMemBlock
         add esp, byte 4
 .5:
-        mov dword [gameopts], unk_176ED4
+        mov dword [gameopts], AttractGameOpts
         xor eax, eax
         xor edx, edx
 .6:
         inc edx
         inc edx
-        mov byte [dword eax+byte_176ED9], 0
+        mov byte [dword eax+AttractOptPads], 0
         inc eax
-        mov word [dword edx+word_176EDB], 1
+        mov word [dword edx+AttractOptPadFlags], 1
         cmp eax, byte 4
         jl short .6
         call StartGameSound
@@ -2059,9 +2059,9 @@ LoadGamePalette:
 ; Resets the period counters when a period starts or a game is loaded
 ;-----------------------------------------------------------------------------
 ResetPeriodState:
-        mov word [word_11A3EE], 1
-        mov word [word_11A3F0], 0FFFFh
-        mov dword [dword_176F90], 2
+        mov word [SortFrameCount], 1
+        mov word [SortLastIndex], 0FFFFh
+        mov dword [SpriteSortDelay], 2
         ret
 ;-----------------------------------------------------------------------------
 ; ReplayBufferStart                               535F2  96 PC, low confidence
@@ -2110,7 +2110,7 @@ SortSpritesForDraw:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_176F90], byte 0
+        cmp dword [SpriteSortDelay], byte 0
         jne short .2
         mov al, byte [gmode]
         and al, 10h
@@ -2129,22 +2129,22 @@ SortSpritesForDraw:
         movzx eax, al
         test eax, eax
         jne near .23
-        inc word [word_11A3EE]
-        movsx eax, word [word_11A3EE]
+        inc word [SortFrameCount]
+        movsx eax, word [SortFrameCount]
         cmp eax, byte 2
         jge short .1
         mov ax, word [lastsfx]
         mov word [lastsfx], 0FFFFh
-        mov word [word_11A3F0], ax
+        mov word [SortLastIndex], ax
         pop edx
         pop ecx
         pop ebx
         ret
 .1:
-        sub word [word_11A3EE], byte 2
+        sub word [SortFrameCount], byte 2
         jmp short .3
 .2:
-        dec dword [dword_176F90]
+        dec dword [SpriteSortDelay]
 .3:
         mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
@@ -2306,7 +2306,7 @@ SortSpritesForDraw:
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [word_11A3F0]
+        mov dl, byte [SortLastIndex]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
@@ -2322,7 +2322,7 @@ SortSpritesForDraw:
         mov eax, dword [ReplayBufferTop]
         mov word [lastsfx], 0FFFFh
         lea ebx, [byte eax+01h]
-        mov word [word_11A3F0], 0FFFFh
+        mov word [SortLastIndex], 0FFFFh
         mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
         mov dl, byte [word_1178D0]
@@ -2393,9 +2393,9 @@ SortSpritesForDraw:
         cmp byte [eax], 0
         jl short .22
         movsx eax, byte [eax]
-        mov dword [dword_11A3F2], eax
+        mov dword [SortSpriteCount], eax
 .22:
-        imul eax, dword [dword_11A3F2], dword 0A0h
+        imul eax, dword [SortSpriteCount], dword 0A0h
         mov al, byte [dword eax+byte_1647E0]
         and al, 80h
         movzx eax, al
@@ -2505,37 +2505,37 @@ InitZoneManager:
         push str_ZONEMGR
         call AllocMemBlock
         mov edx, esi
-        mov dword [dword_177104], eax
+        mov dword [ZoneMemBlock], eax
         shl edx, 4
-        mov dword [dword_1770D8], eax
+        mov dword [ZoneBufFront], eax
         add eax, edx
-        mov dword [dword_1770DC], eax
+        mov dword [ZoneBufBack], eax
         add eax, edx
-        mov dword [dword_1770E0], 0
-        mov dword [dword_1770F8], eax
+        mov dword [ZoneBufCount], 0
+        mov dword [ZoneWorkBuf], eax
         mov eax, esi
-        mov edx, dword [dword_1770F8]
+        mov edx, dword [ZoneWorkBuf]
         shl eax, 5
-        mov dword [dword_177100], esi
+        mov dword [ZoneCapacity], esi
         add edx, eax
         shl esi, 3
-        mov dword [dword_1770E4], edx
+        mov dword [ZoneMarksFront], edx
         lea eax, [edx+esi]
         add esp, byte 0Ch
-        mov dword [dword_1770E8], eax
+        mov dword [ZoneMarksBack], eax
         xor edx, edx
         xor eax, eax
         jmp short .2
 .1:
-        mov esi, dword [dword_1770E8]
+        mov esi, dword [ZoneMarksBack]
         mov dword [esi+eax], 0
         mov ebx, dword [esi+eax]
-        mov esi, dword [dword_1770E4]
+        mov esi, dword [ZoneMarksFront]
         inc edx
         mov dword [esi+eax], ebx
         add eax, byte 4
 .2:
-        mov esi, dword [dword_177100]
+        mov esi, dword [ZoneCapacity]
         add esi, esi
         cmp edx, esi
         jl short .1
@@ -2552,7 +2552,7 @@ FreeZoneManager:
         push ebx
         push ecx
         push edx
-        push dword [dword_177104]
+        push dword [ZoneMemBlock]
         call FreeMemBlock
         add esp, byte 4
         pop edx
@@ -2570,26 +2570,26 @@ AddZonePiece:
         push edi
         mov esi, eax
         mov eax, edx
-        mov edx, dword [dword_177100]
+        mov edx, dword [ZoneCapacity]
         shl edx, 2
         test eax, eax
         jne short .5
         mov ebx, edx
         xor edi, edi
-        mov edx, dword [dword_1770FC]
+        mov edx, dword [ZoneCurCount]
         jmp short .4
 .1:
         test byte [byte edx+eax+01h], 10h
         jne short .3
         mov edx, edi
-        mov edi, dword [dword_1770F4]
+        mov edi, dword [ZoneCurList]
         shl edx, 4
         add edi, edx
         movsd
         movsd
         movsd
         movsd
-        mov edx, dword [dword_1770FC]
+        mov edx, dword [ZoneCurCount]
 .2:
         mov dword [edx+eax], 1000h
         pop edi
@@ -2609,20 +2609,20 @@ AddZonePiece:
         mov ebx, edx
         xor edi, edi
         xor eax, eax
-        mov edx, dword [dword_1770F0]
+        mov edx, dword [ZonePrevCount]
         jmp short .8
 .6:
         test byte [byte edx+eax+01h], 10h
         jne short .7
         mov edx, edi
-        mov edi, dword [dword_1770EC]
+        mov edi, dword [ZonePrevList]
         shl edx, 4
         add edi, edx
         movsd
         movsd
         movsd
         movsd
-        mov edx, dword [dword_1770F0]
+        mov edx, dword [ZonePrevCount]
         jmp short .2
 .7:
         add eax, byte 4
@@ -2913,13 +2913,13 @@ ClipZoneAgainstList:
         enter 4, 0
         mov ecx, eax
         mov dword [byte ebp-04h], edx
-        mov eax, dword [dword_1770F4]
-        mov esi, dword [dword_177100]
+        mov eax, dword [ZoneCurList]
+        mov esi, dword [ZoneCapacity]
         xor ebx, ebx
         shl esi, 2
         jmp short .6
 .1:
-        mov edx, dword [dword_1770FC]
+        mov edx, dword [ZoneCurCount]
         test byte [byte edx+ebx+01h], 10h
         je short .5
         cmp ecx, eax
@@ -2978,8 +2978,8 @@ ClipCurrentZones:
         xor ecx, ecx
         jmp short .3
 .1:
-        mov edi, dword [dword_1770F4]
-        mov eax, dword [dword_1770FC]
+        mov edi, dword [ZoneCurList]
+        mov eax, dword [ZoneCurCount]
         add edi, ecx
         test byte [byte ebx+eax+01h], 10h
         je short .2
@@ -2991,7 +2991,7 @@ ClipCurrentZones:
         add ecx, byte 10h
         inc esi
 .3:
-        cmp esi, dword [dword_177100]
+        cmp esi, dword [ZoneCapacity]
         jl short .1
         jmp near ResolveZones_16D
 ;-----------------------------------------------------------------------------
@@ -3003,12 +3003,12 @@ ClipPreviousZones:
         push ecx
         push edx
         push esi
-        mov ebx, dword [dword_1770EC]
+        mov ebx, dword [ZonePrevList]
         xor esi, esi
         xor ecx, ecx
         jmp short .3
 .1:
-        mov eax, dword [dword_1770F0]
+        mov eax, dword [ZonePrevCount]
         test byte [byte ecx+eax+01h], 10h
         je short .2
         mov edx, 1
@@ -3019,7 +3019,7 @@ ClipPreviousZones:
         inc esi
         add ebx, byte 10h
 .3:
-        cmp esi, dword [dword_177100]
+        cmp esi, dword [ZoneCapacity]
         jl short .1
         pop esi
         pop edx
@@ -3037,12 +3037,12 @@ ZoneCovered:
         mov ebx, eax
         test edx, edx
         je short .1
-        mov eax, dword [dword_1770F4]
-        mov edx, dword [dword_1770FC]
+        mov eax, dword [ZoneCurList]
+        mov edx, dword [ZoneCurCount]
         jmp short .2
 .1:
-        mov eax, dword [dword_1770EC]
-        mov edx, dword [dword_1770F0]
+        mov eax, dword [ZonePrevList]
+        mov edx, dword [ZonePrevCount]
 .2:
         xor ecx, ecx
         jmp short .5
@@ -3069,7 +3069,7 @@ ZoneCovered:
         inc ecx
         add eax, byte 10h
 .5:
-        cmp ecx, dword [dword_177100]
+        cmp ecx, dword [ZoneCapacity]
         jl short .3
         pop esi
         pop ecx
@@ -3086,12 +3086,12 @@ ResolveZones:
         push esi
         push edi
         enter 14h, 0
-        mov ebx, dword [dword_1770F4]
+        mov ebx, dword [ZoneCurList]
         xor ecx, ecx
         xor esi, esi
         jmp short .2
 .1:
-        mov eax, dword [dword_1770FC]
+        mov eax, dword [ZoneCurCount]
         test byte [byte esi+eax+01h], 10h
         je short .3
         mov edx, 1
@@ -3101,15 +3101,15 @@ ResolveZones:
         inc ecx
         add ebx, byte 10h
 .2:
-        cmp ecx, dword [dword_177100]
+        cmp ecx, dword [ZoneCapacity]
         jl short .1
 .3:
-        mov ebx, dword [dword_1770F4]
+        mov ebx, dword [ZoneCurList]
         xor ecx, ecx
         xor esi, esi
         jmp short .6
 .4:
-        mov eax, dword [dword_1770FC]
+        mov eax, dword [ZoneCurCount]
         test byte [byte esi+eax+01h], 10h
         je short .5
         mov eax, ebx
@@ -3120,18 +3120,18 @@ ResolveZones:
         inc ecx
         add ebx, byte 10h
 .6:
-        cmp ecx, dword [dword_177100]
+        cmp ecx, dword [ZoneCapacity]
         jl short .4
         call ClipCurrentZones
         mov dword [byte ebp-04h], 0
-        mov ecx, dword [dword_1770F4]
-        mov ebx, dword [dword_1770F8]
+        mov ecx, dword [ZoneCurList]
+        mov ebx, dword [ZoneWorkBuf]
         xor edx, edx
         xor eax, eax
         mov dword [byte ebp-014h], edx
         jmp short .9
 .7:
-        mov esi, dword [dword_1770FC]
+        mov esi, dword [ZoneCurCount]
         test byte [byte esi+eax+01h], 10h
         je short .8
         mov edi, ebx
@@ -3140,11 +3140,11 @@ ResolveZones:
         movsd
         movsd
         movsd
-        mov esi, dword [dword_1770FC]
+        mov esi, dword [ZoneCurCount]
         inc edx
         mov dword [esi+eax], 0
         mov esi, dword [byte ebp-014h]
-        mov edi, dword [dword_1770FC]
+        mov edi, dword [ZoneCurCount]
         add ebx, byte 10h
         add esi, edi
         add dword [byte ebp-014h], byte 4
@@ -3155,18 +3155,18 @@ ResolveZones:
         add ecx, byte 10h
 .9:
         mov esi, dword [byte ebp-04h]
-        cmp esi, dword [dword_177100]
+        cmp esi, dword [ZoneCapacity]
         jl short .7
         call ClipPreviousZones
         mov dword [byte ebp-08h], 0
         mov ecx, edx
         mov dword [byte ebp-0Ch], 0
         shl ecx, 2
-        mov eax, dword [dword_1770EC]
+        mov eax, dword [ZonePrevList]
         mov dword [byte ebp-010h], ecx
         jmp short .12
 .10:
-        mov ecx, dword [dword_1770F0]
+        mov ecx, dword [ZonePrevCount]
         add ecx, dword [byte ebp-0Ch]
         test byte [byte ecx+01h], 10h
         je short .11
@@ -3178,7 +3178,7 @@ ResolveZones:
         movsd
         inc edx
         mov esi, dword [byte ebp-010h]
-        mov ecx, dword [dword_1770FC]
+        mov ecx, dword [ZoneCurCount]
         add ebx, byte 10h
         add dword [byte ebp-010h], byte 4
         mov dword [ecx+esi], 1001h
@@ -3188,23 +3188,23 @@ ResolveZones:
         add eax, byte 10h
 .12:
         mov ecx, dword [byte ebp-08h]
-        cmp ecx, dword [dword_177100]
+        cmp ecx, dword [ZoneCapacity]
         jl short .10
         mov ebx, edx
         shl ebx, 2
 .13:
-        mov eax, dword [dword_177100]
+        mov eax, dword [ZoneCapacity]
         add eax, eax
         cmp edx, eax
         jge short .14
-        mov ecx, dword [dword_1770FC]
+        mov ecx, dword [ZoneCurCount]
         mov eax, ebx
         inc edx
         add ebx, byte 4
         mov dword [ecx+eax], 0
         jmp short .13
 .14:
-        mov eax, dword [dword_1770F8]
+        mov eax, dword [ZoneWorkBuf]
 ResolveZones_16C:
         leave
 ResolveZones_16D:
@@ -3239,7 +3239,7 @@ DrawDirtyZones:
         mov esi, eax
         xor edi, edi
 .1:
-        mov eax, dword [dword_1770FC]
+        mov eax, dword [ZoneCurCount]
         add eax, edi
         test byte [eax], 10h
         je short .2
@@ -3280,11 +3280,11 @@ DrawDirtyZones:
         call ClearClipRect
         add esp, byte 4
 .3:
-        mov eax, dword [dword_1770FC]
+        mov eax, dword [ZoneCurCount]
         mov dword [edi+eax], 0
 .4:
         inc dword [byte ebp-04h]
-        mov eax, dword [dword_177100]
+        mov eax, dword [ZoneCapacity]
         add esi, byte 10h
         add eax, eax
         add edi, byte 4
@@ -3305,7 +3305,7 @@ DrawDirtyZones:
         push byte 0
         jmp short .8
 .7:
-        mov esi, dword [dword_1770F4]
+        mov esi, dword [ZoneCurList]
         push dword [byte esi+0Ch]
         push dword [byte esi+08h]
         push dword [byte esi+04h]
@@ -3324,7 +3324,7 @@ DrawDirtyZones:
 ;-----------------------------------------------------------------------------
 ZoneRect:
         push edx
-        mov edx, dword [dword_1770F4]
+        mov edx, dword [ZoneCurList]
         shl eax, 4
         add eax, edx
         pop edx
@@ -3341,14 +3341,14 @@ AddZone:
         mov dword [byte ebp-04h], edx
         mov dword [byte ebp-08h], ebx
         mov edi, ecx
-        cmp eax, dword [dword_177100]
+        cmp eax, dword [ZoneCapacity]
         jl short .1
         push str_ZMOverflowContactLance
         call FatalError
         add esp, byte 4
 .1:
         mov eax, esi
-        mov edx, dword [dword_1770F4]
+        mov edx, dword [ZoneCurList]
         shl eax, 4
         add eax, edx
         cmp dword [byte ebp-04h], byte 0
@@ -3379,7 +3379,7 @@ AddZone:
         mov edi, edx
 .7:
         mov dword [byte eax+0Ch], edi
-        mov eax, dword [dword_1770FC]
+        mov eax, dword [ZoneCurCount]
         mov dword [eax+esi*4], 1000h
         leave
         pop edi
@@ -3413,39 +3413,39 @@ CopyZonesToScreen:
         call ClearClipRect
         add esp, byte 4
 .2:
-        cmp dword [dword_1770E0], byte 0
+        cmp dword [ZoneBufCount], byte 0
         je short .3
-        mov eax, dword [dword_1770DC]
-        mov dword [dword_1770F4], eax
-        mov eax, dword [dword_1770D8]
-        mov dword [dword_1770EC], eax
-        mov eax, dword [dword_1770E8]
-        mov dword [dword_1770FC], eax
-        mov eax, dword [dword_1770E4]
-        mov dword [dword_1770E0], 0
+        mov eax, dword [ZoneBufBack]
+        mov dword [ZoneCurList], eax
+        mov eax, dword [ZoneBufFront]
+        mov dword [ZonePrevList], eax
+        mov eax, dword [ZoneMarksBack]
+        mov dword [ZoneCurCount], eax
+        mov eax, dword [ZoneMarksFront]
+        mov dword [ZoneBufCount], 0
         jmp short .4
 .3:
-        mov eax, dword [dword_1770D8]
-        mov dword [dword_1770F4], eax
-        mov eax, dword [dword_1770DC]
-        mov dword [dword_1770EC], eax
-        mov eax, dword [dword_1770E4]
-        mov dword [dword_1770FC], eax
-        mov eax, dword [dword_1770E8]
-        mov dword [dword_1770E0], 1
+        mov eax, dword [ZoneBufFront]
+        mov dword [ZoneCurList], eax
+        mov eax, dword [ZoneBufBack]
+        mov dword [ZonePrevList], eax
+        mov eax, dword [ZoneMarksFront]
+        mov dword [ZoneCurCount], eax
+        mov eax, dword [ZoneMarksBack]
+        mov dword [ZoneBufCount], 1
 .4:
-        mov dword [dword_1770F0], eax
-        mov dword [dword_177108], 0
+        mov dword [ZonePrevCount], eax
+        mov dword [DrawFrameCount], 0
         jmp short .6
 .5:
-        mov edx, dword [dword_1770FC]
+        mov edx, dword [ZoneCurCount]
         mov dword [edx+eax*4], 0
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
 .6:
-        mov eax, dword [dword_177108]
-        cmp eax, dword [dword_177100]
+        mov eax, dword [DrawFrameCount]
+        cmp eax, dword [ZoneCapacity]
         jl short .5
-        mov dword [dword_177108], 0FFFFFFFFh
+        mov dword [DrawFrameCount], 0FFFFFFFFh
         pop edx
         pop ecx
         pop ebx

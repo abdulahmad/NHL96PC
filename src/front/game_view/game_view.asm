@@ -9,7 +9,7 @@ extern byte_1770D7, byte_1796AC, byte_1796BF, byte_1796C0, byte_1796DC, byte_179
 extern byte_17970B, byte_17970D, byte_179712, byte_179713, byte_179715, byte_17971B, byte_17971C, byte_179722
 extern byte_179723, byte_17972D, byte_179733, byte_179743, byte_17974B, byte_179759, byte_17975A, byte_179763
 extern byte_179764, byte_1798A4, byte_179CB8, byte_179CB9, byte_179DC1, byte_179E06, byte_17CA5D, CloseTextOverlay
-extern curperiod, dword_1176E5, PreGameSkateOn, ZonesDirty, playsuspended, dword_11A3F8, ReplayRemoteShape, dword_11B238
+extern curperiod, dword_1176E5, PreGameSkateOn, ZonesDirty, playsuspended, InReplay, ReplayRemoteShape, dword_11B238
 extern dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294, dword_11B298
 extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC, dword_11B300
 extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328
@@ -17,7 +17,7 @@ extern dword_11B32C, dword_11B330, dword_11B364, dword_11B374, dword_11B9F4, dwo
 extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
 extern DrawClipBottom, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC, dword_1647A0, dword_1647A4, dword_164816, dword_164838
-extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, dword_177108
+extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, DrawFrameCount
 extern dword_17828C, dword_178290, dword_178294, dword_178298, dword_17829C, dword_1782A0, dword_1782A4, dword_1782A8
 extern dword_178EA8, dword_178EAC, dword_1792AC, dword_1797AC, dword_1797B0, dword_1797B4, dword_1797B8, dword_1797BC
 extern dword_1797DC, dword_1797F4, dword_1797F8, dword_1797FC, dword_179800, dword_1798A8, dword_1798AC, dword_1798B0
@@ -1455,7 +1455,7 @@ DrawControlMarker:
         enter 0Ch, 0
         push eax
         mov dword [byte ebp-04h], 0
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short DrawControlMarker_41.2
         cmp eax, byte 3
         ja short DrawControlMarker_41.1
@@ -1661,7 +1661,7 @@ DrawPuckSprite:
         push ecx
         push edx
         mov edx, eax
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .1
         cmp byte [byte_1770D7], 0
         jmp short .2
@@ -1675,7 +1675,7 @@ DrawPuckSprite:
         mov eax, dword [puckz]
         cmp word [eax], byte 0
         jg short .3
-        cmp dword [dword_11A3F8], byte 0
+        cmp dword [InReplay], byte 0
         je short .5
         cmp word [word_17709C], byte 0
         jle short .5
@@ -2848,10 +2848,10 @@ DrawGameFrame:
         mov ebx, dword [dword_11B328]
         mov edx, dword [dword_11B328]
         add eax, dword [dword_11B31C]
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         push eax
         add ebx, dword [dword_11B318]
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call AddZone
         mov eax, dword [dword_11B32C]
         add eax, dword [dword_11B31C]
@@ -3096,9 +3096,9 @@ DrawPanelLogo:
         imul eax, dword [byte ebp-04h]
         mov ecx, dword [byte ebp-08h]
         sar eax, 10h
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         lea ebx, [edi+eax]
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         mov edx, edi
         call AddZone
         leave
@@ -3267,13 +3267,13 @@ OpenOverlayPanel:
         mov dword [dword_11B238], 1770h
         mov eax, dword [byte ebp-0Ch]
         mov ebx, dword [byte ebp-04h]
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         mov ecx, esi
         mov edx, edi
         add eax, esi
         add ebx, edi
         push eax
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         mov dword [dword_11B2E8], 0
         call AddZone
         mov eax, 1
@@ -3350,13 +3350,13 @@ DrawOverlayCaption:
         call DrawColorText
         mov eax, dword [byte ebp-08h]
         mov ebx, dword [byte ebp-04h]
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         add eax, edi
         mov edx, esi
         push eax
         add ebx, esi
 DrawOverlayCaption_D7:
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
 DrawOverlayCaption_DC:
         call AddZone
 DrawOverlayCaption_E1:
@@ -3490,7 +3490,7 @@ DrawTimedPanel:
         mov ecx, esi
         mov eax, dword [byte ebp-04h]
         mov ebx, dword [byte ebp-08h]
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         add eax, esi
         mov edx, edi
         push eax
@@ -3549,11 +3549,11 @@ DrawGameClock:
         mov ecx, esi
         movsx edx, word [byte eax+06h]
         movsx ebx, word [byte eax+04h]
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         add edx, esi
         add ebx, edi
         push edx
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         mov edx, edi
         jmp near DrawOverlayCaption_DC
 ;-----------------------------------------------------------------------------
@@ -3669,15 +3669,15 @@ DrawPenaltyClock:
         call SetClipWindow
         mov eax, dword [byte ebp-04h]
         mov ecx, dword [byte ebp-04h]
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         add esp, byte 10h
         add eax, dword [byte ebp-0Ch]
         mov ebx, edi
         push eax
         mov edx, esi
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call AddZone
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         mov edi, eax
         cmp dword [byte ebp-02Ch], byte 0
@@ -3874,7 +3874,7 @@ DrawPlayerPctPanel:
         call OpenOverlayPanel
         test eax, eax
         je near DrawOverlayCaption_E1
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         push dword [dword_179920]
         mov dword [byte ebp-04h], eax
@@ -3964,7 +3964,7 @@ DrawPlayerPctPanel:
         call OpenOverlayPanel
         test eax, eax
         je near DrawOverlayCaption_E1
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         mov esi, eax
         cmp dword [dword_1798A8], byte 0
@@ -4345,14 +4345,14 @@ DrawTimeLeftPanel:
         push edx
         call FillRect
         mov ebx, dword [byte ebp-08h]
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         add esp, byte 14h
         mov ecx, esi
         mov edx, edi
         push dword [byte ebp-0Ch]
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call AddZone
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         mov esi, eax
         cmp dword [dword_1798A8], byte 0
@@ -4605,7 +4605,7 @@ DrawScorePanel:
         call OpenOverlayPanel
         test eax, eax
         je near InitGameView_709
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         push dword [dword_179918]
         mov esi, eax
@@ -4875,14 +4875,14 @@ DrawScorePanel:
         push edx
         call FillRect
         mov ebx, dword [byte ebp-08h]
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         add esp, byte 14h
         mov ecx, esi
         mov edx, edi
         push dword [byte ebp-0Ch]
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call AddZone
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         mov esi, eax
         mov edi, eax
@@ -5052,7 +5052,7 @@ DrawEventPanel:
         call OpenOverlayPanel
         test eax, eax
         je near .5
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         push dword [dword_179920]
         mov esi, eax
@@ -5143,7 +5143,7 @@ DrawPlayerNamePanel:
         call OpenOverlayPanel
         test eax, eax
         je near DrawOverlayCaption_E1
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         imul ebx, dword [byte esi+0Ch], dword 4B4h
         imul edx, dword [byte esi+08h], byte 2Bh
@@ -5236,7 +5236,7 @@ DrawPenaltyEventPanel:
         call OpenOverlayPanel
         test eax, eax
         je near .9
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         push dword [dword_179920]
         mov esi, eax
@@ -5302,7 +5302,7 @@ DrawPenaltyEventPanel:
         call OpenOverlayPanel
         test eax, eax
         je near .9
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         push dword [dword_179920]
         mov esi, eax
@@ -5410,7 +5410,7 @@ DrawGoalEventPanel:
         call OpenOverlayPanel
         test eax, eax
         je near .7
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         push dword [dword_179920]
         mov esi, eax
@@ -6049,12 +6049,12 @@ DrawLineChangeBox:
         mov edx, dword [byte ebp-08h]
         add esp, byte 10h
         add eax, esi
-        inc dword [dword_177108]
+        inc dword [DrawFrameCount]
         push eax
         mov ecx, esi
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call AddZone
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         mov esi, eax
         test edi, edi
@@ -6095,7 +6095,7 @@ DrawLineChangeBox:
         sar ebx, cl
         mov ecx, 1
         call DrawPanelLogo
-        mov eax, dword [dword_177108]
+        mov eax, dword [DrawFrameCount]
         call ZoneRect
         push dword [dword_179918]
         mov dword [byte ebp-020h], eax

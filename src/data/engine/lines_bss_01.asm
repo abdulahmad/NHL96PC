@@ -2,34 +2,32 @@
 bits 32
 %include "hockey.inc"
 section s_176CA8 nobits alloc noexec write align=1
-global defsort_d, dressflags, dressflags_aw, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, dword_176ED5
-global dword_176F90, defsort_c, unk_176CDA, unk_176D0C, unk_176D3E, defsort_l, unk_176E38, unk_176E6A
-global unk_176E9C, unk_176ED4, dressedfwds, dresseddefs, dressedskaters, word_176EDB
+global defsort_d, dressflags, dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, AttractOptTeams
+global SpriteSortDelay, offsort_c, defsort_r, offsort_d, defsort_c, offsort_l, defsort_l, offsort_r
+global defsort_fwd, AttractGameOpts, dressedfwds, dresseddefs, dressedskaters, AttractOptPadFlags
+offsort_c:
+        resb 50
+defsort_r:
+        resb 50
+offsort_d:
+        resb 50
 defsort_c:
-        resb 50
-unk_176CDA:
-        resb 50
-unk_176D0C:
-        resb 50
-unk_176D3E:
         resb 50
 defsort_d:
         resb 50
-defsort_l:
+offsort_l:
         resb 50
 dressflags:
-        resb 24
+        resb 25
 dressflags_aw:
-        resb 1
-byte_176DED:
         resb 25
 offsort_fwd:
         resb 50
-unk_176E38:
+defsort_l:
         resb 50
-unk_176E6A:
+offsort_r:
         resb 50
-unk_176E9C:
+defsort_fwd:
         resb 50
 dressedfwds:
         resb 2
@@ -37,15 +35,15 @@ dresseddefs:
         resb 2
 dressedskaters:
         resb 2
-unk_176ED4:
+AttractGameOpts:
         resb 1
-dword_176ED5:
+AttractOptTeams:
         resb 2
-byte_176ED7:
+AttractOptTeamsHi:
         resb 2
-byte_176ED9:
+AttractOptPads:
         resb 2
-word_176EDB:
+AttractOptPadFlags:
         resb 181
-dword_176F90:
+SpriteSortDelay:
         resb 4

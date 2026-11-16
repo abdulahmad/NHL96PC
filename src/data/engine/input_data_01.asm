@@ -2,25 +2,25 @@
 bits 32
 %include "hockey.inc"
 section s_119F4A progbits alloc noexec write align=1
-global assonetimer_blade_y, byte_119F4B, byte_119F5A, byte_119F5B, byte_119FF0, byte_119FF7, byte_11A028, dword_119F6C
-global dword_119F90, nethit, playsuspended, dword_11A004, dword_11A11C, MaxSpeed, doplayeracc_ftab, dword_11A1BC
-global PenaltyTypes, word_119F78, blockspd, blockspd_y, word_119FB8, shotsets, word_119FCA, word_119FF8
-global word_11A008, word_11A01A, word_11A0D9, word_11A224, word_11A236, penbannertab
+global assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, PositionAssignTab, PeriodEnded, PlListPositions, GoalieDepthTab
+global FallDownsOff, nethit, playsuspended, SeriesDecided, BurstEnergyCost, MaxSpeed, doplayeracc_ftab, EventLineTextIds
+global PenaltyTypes, GoalieSaveAnims, blockspd, blockspd_y, CheckPowerTab, shotsets, ShotTypeParams, BenchSpriteAnims
+global RosterStatusPdst, PlListLineSlots, BenchIdleAnims, InProgressTextIds, PenaltyEventCodes, penbannertab
 assonetimer_blade_y:
         db 03h
-byte_119F4B:
+OneTimerSpots:
         db 0Eh,0Ch,07h,0Eh,0FDh,07h,0F3h,0FDh,0F2h,0F3h,0F8h,0F2h,03h,0F8h,0Ch
-byte_119F5A:
+ReceivePassLeadX:
         db 03h
-byte_119F5B:
+ReceivePassLeadY:
         db 0Eh,0Ch,07h,0Eh,0FDh,07h,0F3h,0FDh,0F2h,0F3h,0F8h,0F2h,03h,0F8h,0Ch,00h
         db 00h
-dword_119F6C:
+GoalieDepthTab:
         db 014h,00h,00h,00h,012h,00h,00h,00h,0Eh,00h,00h,00h
-word_119F78:
+GoalieSaveAnims:
         db 0E7h,05h,0EDh,05h,0FFh,05h,011h,06h,0F3h,05h,0F9h,05h,05Fh,06h,04Dh,06h
         db 0ABh,06h,097h,06h,0A7h,06h,00h,00h
-dword_119F90:
+FallDownsOff:
         db 00h,00h,00h,00h
 nethit:
         db 00h,00h,00h,00h
@@ -29,30 +29,30 @@ blockspd:
 blockspd_y:
         db 00h,00h,0B8h,0Bh,048h,0F4h,00h,00h,06Eh,0EFh,048h,0F4h,048h,0F4h,06Eh,0EFh
         db 00h,00h,048h,0F4h,0B8h,0Bh,00h,00h,092h,010h,0B8h,0Bh,0B8h,0Bh
-word_119FB8:
+CheckPowerTab:
         db 01h,03h,07h,03h,013h,03h,013h,03h,013h,03h,0Dh,03h,0Dh,03h,01h,03h
 shotsets:
         db 00h,00h
-word_119FCA:
+ShotTypeParams:
         db 0Ch,00h,0Ah,00h,0Ch,00h,0Ah,00h,06h,00h,0Ah,00h,00h,00h,00h,00h
         db 00h,00h,0F6h,0FFh,00h,00h,0F6h,0FFh,06h,00h,0F6h,0FFh,0Ch,00h,00h,00h
         db 06h,00h
 playsuspended:
         db 00h,00h,00h,00h
-byte_119FF0:
+PositionAssignTab:
         db 0Eh,02h,02h,03h,05h,03h,05h
-byte_119FF7:
+PeriodEnded:
         db 00h
-word_119FF8:
+BenchSpriteAnims:
         db 01Bh,07h,00h,00h,01Fh,07h,00h,00h,023h,07h,00h,00h
-dword_11A004:
+SeriesDecided:
         db 00h,00h,00h,00h
-word_11A008:
+RosterStatusPdst:
         db 0F9h,0FFh,0FCh,0FFh,0FAh,0FFh,0FEh,0FFh,0FEh,0FFh,0FEh,0FFh,0FEh,0FFh,0FEh,0FFh
         db 0FEh,0FFh
-word_11A01A:
+PlListLineSlots:
         db 00h,00h,03h,00h,01Ch,00h,035h,00h,073h,00h,054h,00h,092h,00h
-byte_11A028:
+PlListPositions:
         db 034h,035h,0FFh,0Ch,0Eh,010h,0Ch,015h,01Ah,01Eh,022h,028h,02Ch,02Fh,032h,0Dh
         db 0Fh,011h,0Dh,016h,01Bh,01Fh,023h,029h,02Dh,030h,033h,0FFh,0Dh,0Fh,011h,0Dh
         db 016h,01Bh,01Fh,023h,029h,02Dh,030h,033h,0Ch,0Eh,010h,0Ch,015h,01Ah,01Eh,022h
@@ -65,13 +65,13 @@ byte_11A028:
         db 025h,0FFh,024h,025h,01h,04h,07h,0Ah,013h,018h,01Dh,021h,027h,02Bh,02Eh,031h
         db 00h,03h,06h,09h,012h,017h,01Ch,020h,026h,02Ah,02h,05h,08h,0Bh,014h,019h
         db 0FFh
-word_11A0D9:
+BenchIdleAnims:
         db 027h,07h,00h,00h,02Dh,07h,00h,00h,031h,07h,00h,00h,035h,07h,00h,00h
         db 03Dh,07h,00h,00h,027h,07h,00h,00h,02Dh,07h,00h,00h,031h,07h,00h,00h
         db 01Bh,07h,00h,00h,01Fh,07h,00h,00h,023h,07h,00h,00h,01Bh,07h,00h,00h
         db 01Fh,07h,00h,00h,023h,07h,00h,00h,01Bh,07h,00h,00h,023h,07h,00h,00h
         db 00h,00h,00h
-dword_11A11C:
+BurstEnergyCost:
         db 0E0h,015h,00h,00h,0CEh,016h,00h,00h,0B8h,017h,00h,00h,09Eh,018h,00h,00h
         db 080h,019h,00h,00h,05Eh,01Ah,00h,00h,038h,01Bh,00h,00h,0Eh,01Ch,00h,00h
         db 0E0h,01Ch,00h,00h,0AEh,01Dh,00h,00h,078h,01Eh,00h,00h,03Eh,01Fh,00h,00h
@@ -84,7 +84,7 @@ MaxSpeed:
 doplayeracc_ftab:
         db 00h,00h,00h,00h,010h,00h,00h,00h,010h,00h,00h,00h,010h,00h,00h,00h
         db 00h,00h,00h,00h,0F0h,0FFh,0FFh,0FFh,0F0h,0FFh,0FFh,0FFh,0F0h,0FFh,0FFh,0FFh
-dword_11A1BC:
+EventLineTextIds:
         db 0Ch,00h,00h,00h,0Bh,00h,00h,00h,0Dh,00h,00h,00h,0Eh,00h,00h,00h
         db 0Ch,00h,00h,00h,0Fh,00h,00h,00h,010h,00h,00h,00h,011h,00h,00h,00h
         db 012h,00h,00h,00h,013h,00h,00h,00h,014h,00h,00h,00h,015h,00h,00h,00h
@@ -92,10 +92,10 @@ dword_11A1BC:
         db 016h,00h,00h,00h,019h,00h,00h,00h,0Bh,00h,00h,00h,0Bh,00h,00h,00h
         db 0Bh,00h,00h,00h,0Bh,00h,00h,00h,01Ah,00h,00h,00h,01Bh,00h,00h,00h
         db 01Bh,00h,00h,00h,01Ch,00h,00h,00h
-word_11A224:
+InProgressTextIds:
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
         db 0FFh,0FFh
-word_11A236:
+PenaltyEventCodes:
         db 02h,00h,0FFh,0FFh,00h,00h,01h,00h,02h,00h,03h,00h,04h,00h,05h,00h
         db 06h,00h,07h,00h,08h,00h,09h,00h,0Bh,00h,0FFh,0FFh,0FFh,0FFh,0Eh,00h
         db 0Fh,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0Dh,00h,010h,00h

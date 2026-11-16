@@ -1,4 +1,4 @@
-; Pre-game intro skate and the three stars (95 PC engine/intro, 94G hockey94).
+; Pre-game intro skate and the three stars.
 bits 32
 %include "hockey.inc"
 extern hmglstats

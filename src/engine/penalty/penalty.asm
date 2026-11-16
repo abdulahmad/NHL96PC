@@ -344,9 +344,9 @@ SortPlayersByDistance_E0:
         ret
 ;-----------------------------------------------------------------------------
 ; InProgress                     504C5  93G penalty93_1.asm, medium confidence
-; 93G InProgress (ref in progress: update graphics, stats and penalty
-; information), reached from chkprogress when Pencntdwn < 0; sprintf
-; messages, assreplace, SetPA
+; Referee in progress: updates graphics, stats and penalty information;
+; reached from chkprogress when Pencntdwn < 0; sprintf messages, assreplace,
+; SetPA
 ;-----------------------------------------------------------------------------
 InProgress:
         push ebx
@@ -1111,11 +1111,11 @@ Stop4Pen:
         ret
 ;-----------------------------------------------------------------------------
 ; checkfornewpen                 50F7B  93G penalty93_1.asm, medium confidence
-; 93G checkfornewpen: unless sfhor (sflags bit 7): for each PenBuf entry,
-; Stop4Pen at once for penalties without minutes (penmintab) or when the
-; guilty team has the puck, else delayed penalty (gmode bit 3 gmpendel, SetPA
-; 1Ch; 93G $2C); marks the entry called (bit 7) and raises Pencntdwn to
-; pendelaytab*32
+; Unless sfhor (sflags bit 7), for each PenBuf entry: Stop4Pen at once for
+; penalties without minutes (penmintab) or when the guilty team has the puck.
+;
+; Else a delayed penalty (gmode bit 3 gmpendel, SetPA 1Ch). The entry is
+; marked called (bit 7) and Pencntdwn is raised to pendelaytab*32.
 ;-----------------------------------------------------------------------------
 checkfornewpen:
         push ebx
@@ -1236,10 +1236,13 @@ checkfornewpen:
         ret
 ;-----------------------------------------------------------------------------
 ; releasepl                      5110E  93G penalty93_1.asm, medium confidence
-; 93G releasepl: first sort object of the team (tmsort) not on the ice, tmap
-; += 1, tmflags bit 0 on both teams, position from priolist (priolist_m1) by
-; tmgoalie (team+38h) sign, Setplass, setplayer, pflags2 bit 2 (sort object
-; +45h); PC also sets bit 6 of team byte D4h on both teams
+; Takes the first sort object of the team (tmsort) not on the ice: tmap += 1,
+; tmflags bit 0 on both teams.
+;
+; Its position comes from priolist (priolist_m1) by the tmgoalie (team+38h)
+; sign; then Setplass, setplayer and pflags2 bit 2 (sort object +45h).
+;
+; Also sets bit 6 of team byte D4h on both teams.
 ;-----------------------------------------------------------------------------
 releasepl:
         push ebx
@@ -1273,9 +1276,9 @@ releasepl:
         ret
 ;-----------------------------------------------------------------------------
 ; chkatop                        51179  93G penalty93_1.asm, medium confidence
-; 93G chkatop (attack time of possession): puck y beyond the blue line
-; (+-4Eh; 93G $58) picks the attacking team (gmode bit 1 flips), tmATOP
-; (team+0Eh; 93G $A) += 1; skipped in highlight mode
+; Attack time of possession: puck y beyond the blue line (+-4Eh) picks the
+; attacking team (gmode bit 1 flips), tmATOP (team+0Eh) += 1; skipped in
+; highlight mode
 ;-----------------------------------------------------------------------------
 chkatop:
         push edx
@@ -1454,10 +1457,9 @@ PenaltyHookStub:
         ret
 ;-----------------------------------------------------------------------------
 ; updatepentime                  51361  93G penalty93_1.asm, medium confidence
-; 93G updatepentime: clears sflags3 bit 6 (sflags3), returns while the clock
-; is stopped (gmode bit 0) or a penalty shot is live; Penaltytimer -= 1, at <
-; 0 += 18h, sets the bit, chkatop, (PC) ChkPowerPlayTime, ProcessPenaltyList
-; for both teams
+; Clears sflags3 bit 6, returns while the clock is stopped (gmode bit 0) or
+; a penalty shot is live; Penaltytimer -= 1, at < 0 += 18h, sets the bit,
+; chkatop, ChkPowerPlayTime, ProcessPenaltyList for both teams
 ;-----------------------------------------------------------------------------
 updatepentime:
         mov al, byte [gmode]
@@ -1499,9 +1501,9 @@ updatepentime:
         mov eax, awtmstruct
 ;-----------------------------------------------------------------------------
 ; updatePPTeamTime                  513E6  94G period94.asm, medium confidence
-; Same body as 94G period94 updatePPTeamTime: when gmode2 bit 5 (power play)
-; is set adds 1 to the power-play team's time word (+08h; home unless bit 6);
-; called once a second from updatepentime
+; When gmode2 bit 5 (power play) is set, adds 1 to the power-play team's
+; time word (+08h; home unless bit 6); called once a second from
+; updatepentime
 ;-----------------------------------------------------------------------------
 updatePPTeamTime:
         push ebx
@@ -1518,10 +1520,9 @@ updatePPTeamTime:
         jmp near ReleaseFromBox_111
 ;-----------------------------------------------------------------------------
 ; chkprogress                    5140E  93G penalty93_1.asm, medium confidence
-; 93G chkprogress (fall-through from PenaltyManager): with gmpen (gmode bit
-; 2): Pencntdwn >= 0 -> chkprogress_go, else InProgress; PC first (clock
-; stopped) calls UpdateTextOverlay and counts Pencntdwn2 down to set gmode2
-; bit 2
+; Falls through from PenaltyManager: with gmpen (gmode bit 2): Pencntdwn >=
+; 0 -> chkprogress_go, else InProgress; first, with the clock stopped, calls
+; UpdateTextOverlay and counts Pencntdwn2 down to set gmode2 bit 2
 ;-----------------------------------------------------------------------------
 chkprogress:
         call updatepentime
@@ -1604,8 +1605,8 @@ UpdatePowerPlayFlags:
         ret
 ;-----------------------------------------------------------------------------
 ; ClearPenaltyBuffer             514FA  93G penalty93_1.asm, medium confidence
-; 93G ClearPenaltyBuffer: clears the 32 byte pairs of PenBuf (E9A16); called
-; from the clock code, PenGoalStuff role code and game_frame
+; Clears the 32 byte pairs of PenBuf; called from the clock code,
+; PenGoalStuff and the game frame
 ;-----------------------------------------------------------------------------
 ClearPenaltyBuffer:
         push ebx
@@ -1626,10 +1627,9 @@ ClearPenaltyBuffer:
         ret
 ;-----------------------------------------------------------------------------
 ; PenGoalStuff                     51522  94G penalty94.asm, medium confidence
-; Same role as 94G penalty94 PenGoalStuff (after a goal, scored-on team):
-; drops finished minor penalties from PenBuf (penmintab 2, or 5 / not -1),
-; clears the box flag of released players and returns a player to the ice
-; when the team is short
+; After a goal, for the scored-on team: drops finished minor penalties from
+; PenBuf (penmintab 2, or 5 / not -1), clears the box flag of released
+; players and returns a player to the ice when the team is short
 ;-----------------------------------------------------------------------------
 PenGoalStuff:
         push ebx

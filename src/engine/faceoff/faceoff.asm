@@ -3015,9 +3015,9 @@ goaliechasepuck:
         ret
 ;-----------------------------------------------------------------------------
 ; AdjustFacingDirection              3CE8D  94G logic94.asm, medium confidence
-; Same step as the 93G/94G AdjustFacingDirection (checks): d = facedir - dir,
-; step = ((-d)&4)/2-1, with the pfgoal (pflags bit 7) facing-range special
-; cases; the PC adds a 2-tick delay counter at +4Ch
+; Turns the facing one step toward dir: d = facedir - dir, step =
+; ((-d)&4)/2-1, with the pfgoal (pflags bit 7) facing-range special cases and
+; a 2-tick delay counter at +4Ch
 ;-----------------------------------------------------------------------------
 AdjustFacingDirection:
         push ebx
@@ -3111,8 +3111,8 @@ AdjustFacingDirection:
         ret
 ;-----------------------------------------------------------------------------
 ; assgoalietopuck                                       3CF68  94G logic94.asm
-; Asstab slot 0Fh = 93G assgoalietopuck (goalie skates out to a loose puck):
-; check4bench, skatetopuck, assexit
+; Assignment table slot 0Fh: the goalie skates out to a loose puck
+; (check4bench, skatetopuck, assexit)
 ;-----------------------------------------------------------------------------
 assgoalietopuck:
         push ebx
@@ -3236,8 +3236,8 @@ assgoalietopuck:
         ret
 ;-----------------------------------------------------------------------------
 ; ClampYPosition                                        3D0B5  94G logic94.asm
-; 93G ClampYPosition: regd0 = 0 if the goalie has the puck, regd1 clamped to
-; +-E3h (93G +-$103), minus regd3; assgoalie helper
+; regd0 = 0 if the goalie has the puck, regd1 clamped to +-E3h, minus regd3;
+; assgoalie helper
 ;-----------------------------------------------------------------------------
 ClampYPosition:
         push edx
@@ -3520,9 +3520,8 @@ goalieskateto:
         ret
 ;-----------------------------------------------------------------------------
 ; goaliesave                                     3D427  94G, medium confidence
-; NHL94Genesis logic94.asm goaliesave: picks the save animation from the
-; direction of the puck's path relative to facing and the puck height (puckz,
-; puckvz 800h), raises the crowd
+; Picks the save animation from the direction of the puck's path relative to
+; facing and the puck height (puckz, puckvz 800h), raises the crowd
 ;-----------------------------------------------------------------------------
 goaliesave:
         push ebx

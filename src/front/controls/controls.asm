@@ -231,10 +231,9 @@ ReadEscReplayKeys_52:
         ret
 ;-----------------------------------------------------------------------------
 ; ReadKeyboardPad                                                 101D9  96 PC
-; 96 keyboard pad through the key binding table: Space/Alt (or ;/') buttons
+; Keyboard pad through the key binding table: Space/Alt (or ;/') buttons
 ; 80h/40h, arrows/keypad (or QWE/AD/ZXC) direction bits 4 up 8 down 10h right
-; 20h left, F1-F10 bits 400h-80000h with an 18-tick repeat; same job as 95 PC
-; ReadKeyboardPad
+; 20h left, F1-F10 bits 400h-80000h with an 18-tick repeat
 ;-----------------------------------------------------------------------------
 ReadKeyboardPad:
         push ebx
@@ -477,7 +476,7 @@ ReadKeyboardPad_2D7:
 ; ReadMousePad                                                    104DC  96 PC
 ; Mouse pad: function keys as the keyboard pad, then mousepollfn; direction
 ; from the mouse position against the screen edges/centre, mouse buttons ->
-; pad buttons; same job as 95 PC ReadMousePad
+; pad buttons
 ;-----------------------------------------------------------------------------
 ReadMousePad:
         push ebx
@@ -632,8 +631,7 @@ ReadMousePad:
 ;-----------------------------------------------------------------------------
 ; ReadJoyPad                                                      106CC  96 PC
 ; Joystick n (0-3) pad: function keys as the keyboard pad, then direction and
-; buttons from the byte of joystick bits for pad n in JoyPadBits; same job
-; as 95 PC ReadJoyPad
+; buttons from the byte of joystick bits for pad n in JoyPadBits
 ;-----------------------------------------------------------------------------
 ReadJoyPad:
         push ecx

@@ -1,4 +1,4 @@
-; Saved game state: save and load the game in progress (95 PC pc/game_saveload).
+; Saved game state: save and load the game in progress.
 bits 32
 %include "hockey.inc"
 extern JoyButtonsTable

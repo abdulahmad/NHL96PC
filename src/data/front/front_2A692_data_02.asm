@@ -95,7 +95,7 @@ xc1:                                            ; Puck check x (collision); used
                                                 ; RunPreGameSkate ...
         db 00h,00h
 yc1:                                            ; checkfight sets it to the mean Ypos of the two fighters,
-                                                ; clamped at the boards, as NHLPA93Genesis yc1; used by Goal,
+                                                ; clamped at the boards, as the camera y; used by Goal,
                                                 ; LoadGameState, RunPreGameSkate ...
         db 00h,00h
 ltx:                                            ; same data as the like-named label used by the same routines

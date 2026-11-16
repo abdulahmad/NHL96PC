@@ -1,4 +1,4 @@
-; Setting up a game: players at the start, SetupGame, SetupDemoGame, the game variables (95 PC front/main).
+; Setting up a game: players at the start, SetupGame, SetupDemoGame, the game variables.
 bits 32
 %include "hockey.inc"
 section s_1D6C1 progbits alloc exec nowrite align=1

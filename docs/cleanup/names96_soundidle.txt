@@ -1,2 +1,4 @@
 SpeechService_58 SoundIdleSpeech {no_record} rest of SoundIdle: speech service, then the music stream
 SpeechService_6B SoundIdleDone {no_record} SoundIdle return
+imul32 Fini387Emulator {confidence=low} shut down entry of the 387 emulator: jumps to the emulator shut down
+fini_void_ TgvShowFrameRateQuiet {confidence=low} counts a movie frame for the frame rate without printing it (unused)

@@ -216,15 +216,14 @@ TryBlockShot:
         ret
 ;-----------------------------------------------------------------------------
 ; check4check                        3E885  94G logic94.asm, medium confidence
-; check4check (53537; 93G logic93 check4check, "look for good opportunity for
-; checking opponent"): the odds are 20 - p's checking rating (93G aggress),
-; half again with penalties on (gameopts bit 0); a roll of randomd0(twice
-; that) over 8 (93G: over 3) skips. Otherwise walk the six opponents: one on
+; Looks for a good chance to check an opponent. The odds are 20 less p's
+; checking rating, half again with penalties on (gameopts bit 0); a roll of
+; randomd0(twice that) over 8 skips. Otherwise walk the six opponents: one on
 ; the ice (position), not animation-locked (pfalock) and not fighting
 ; (pflags2 bit 0), within 30 in x and y, straight ahead of p (vtoa of the
-; offset equals facedir) gets checked: 1 in 4 Acheck, else burst. PC: with
-; nobody to check, p may try to block a shot (TryBlockShot). regd0-regd2 hold
-; the 68k d0-d2. p: the player. No result.
+; offset equals facedir) gets checked: 1 in 4 Acheck, else burst. With
+; nobody to check, p may try to block a shot (TryBlockShot). regd0-regd2 are
+; scratch. p: the player. No result.
 ;-----------------------------------------------------------------------------
 check4check:
         push ebx
@@ -1087,8 +1086,7 @@ checkcheck:
         ret
 ;-----------------------------------------------------------------------------
 ; checkgoalp                       3F212  94G collide94.asm, medium confidence
-; Genesis comment (collide94.asm): check for player a3 collision with
-; goal/net a2. Entered from checkgoal.
+; Collision of a player with a goal net; entered from checkgoal
 ;-----------------------------------------------------------------------------
 checkgoalp:
         push esi
@@ -1277,8 +1275,8 @@ checkgoalp:
         ret
 ;-----------------------------------------------------------------------------
 ; checkint                         3F44A  94G collide94.asm, medium confidence
-; 93G checkint (interference penalty): checkagr-style roll with randomd0,
-; AddPenalty, FallDown; called from checkcx
+; Interference penalty: a checkagr-style roll with randomd0, then AddPenalty
+; and FallDown; called from checkcx
 ;-----------------------------------------------------------------------------
 checkint:
         push ebx
@@ -1417,8 +1415,8 @@ checkint:
         ret
 ;-----------------------------------------------------------------------------
 ; checkob                            3F5E4  94G logic94.asm, medium confidence
-; Genesis comment (logic94.asm): bring up little warning ref if a player on
-; your team is over blue line
+; Brings up the warning referee when a player of the team is over the blue
+; line
 ;-----------------------------------------------------------------------------
 checkob:
         push ebx
@@ -1690,8 +1688,7 @@ ChkDelayedOffside:
         ret
 ;-----------------------------------------------------------------------------
 ; checkpuckcoll_ccx                                   3F8F4  94G collide94.asm
-; The per-object puck test (stick, body, goalie): the 94G local
-; checkpuckcoll.ccx; 94S checkpuckcoll_ccx
+; The per-object puck test of checkpuckcoll: stick, body or goalie
 ;-----------------------------------------------------------------------------
 checkpuckcoll_ccx:
         push ebx
@@ -2133,8 +2130,8 @@ checkpuckcoll_ccx:
         jmp near BlockShotDive_127
 ;-----------------------------------------------------------------------------
 ; checkpuckcoll                    3FF26  94G collide94.asm, medium confidence
-; The 94G checkpuckcoll step for step: stop past y 190h, return above Z 16,
-; walk the OOlist up and down within 40 and test each object (.ccx)
+; Puck collisions: stop past y 190h, return above Z 16, walk the OOlist up
+; and down within 40 and test each object (checkpuckcoll_ccx)
 ;-----------------------------------------------------------------------------
 checkpuckcoll:
         push ebx
@@ -2288,10 +2285,9 @@ CheckBump:
         ret
 ;-----------------------------------------------------------------------------
 ; GetLowestPen                     400B1  94G penalty94.asm, medium confidence
-; Same algorithm as 94G penalty94 GetLowestPen (IDA CalcPenTime): shorthanded
-; team from tmap, walks its box list (+0B6h) summing the non-coincidental
-; tmpdst (+7Eh, &3FFFh) time steps, then compares with the power-play team's
-; list; returns the power-play time left
+; Shorthanded team from tmap: walks its box list (+0B6h) summing the
+; non-coincidental tmpdst (+7Eh, &3FFFh) time steps, then compares with the
+; power-play team's list; returns the power-play time left
 ;-----------------------------------------------------------------------------
 GetLowestPen:
         push ebx
@@ -2829,8 +2825,7 @@ ScatterPass:
         jmp near chk4pass_4F6
 ;-----------------------------------------------------------------------------
 ; dopass                             406A0  94G logic94.asm, medium confidence
-; Genesis comment (logic94.asm): pass the puck in passdir, to the best
-; teammate there if any
+; Passes the puck in passdir, to the best teammate there if any
 ;-----------------------------------------------------------------------------
 dopass:
         push ebx
@@ -3200,7 +3195,7 @@ CompPass:
         ret
 ;-----------------------------------------------------------------------------
 ; passmode                           40B2A  94G logic94.asm, medium confidence
-; As 93G passmode: B changed (regd2 bit 4) -> dopass, else dpad&7 -> passdir
+; Pass mode input: B changed (regd2 bit 4) -> dopass, else dpad&7 -> passdir
 ;-----------------------------------------------------------------------------
 passmode:
         push ebx
@@ -3273,7 +3268,7 @@ passmode:
         ret
 ;-----------------------------------------------------------------------------
 ; setpassmode                        40C14  94G logic94.asm, medium confidence
-; Genesis comment (logic94.asm): initialize pass mode
+; Starts pass mode
 ;-----------------------------------------------------------------------------
 setpassmode:
         mov ax, word [byte eax+036h]
@@ -3285,7 +3280,7 @@ setpassmode_F:
         ret
 ;-----------------------------------------------------------------------------
 ; passtoa0                           40C2A  94G logic94.asm, medium confidence
-; Genesis comment (logic94.asm): pass puck to player a0
+; Passes the puck to the given player
 ;-----------------------------------------------------------------------------
 passtoa0:
         push ebx
@@ -6076,8 +6071,8 @@ FallDown:
         jmp near BlockShotDive_127
 ;-----------------------------------------------------------------------------
 ; Bcheck                           42DC4  94G collide94.asm, medium confidence
-; 93G Bcheck: player in the B-check animation hits the other player
-; (FallDown, checkagr, AddPenalty)
+; A player in the B-check animation hits the other player (FallDown,
+; checkagr, AddPenalty)
 ;-----------------------------------------------------------------------------
 Bcheck:
         push ebx
@@ -6289,8 +6284,8 @@ holdcheck:
         ret
 ;-----------------------------------------------------------------------------
 ; puckbody                         43026  94G collide94.asm, medium confidence
-; 93G puckbody (puck hits player a2): a2touchpuck, GetHot, puckflip, sfx;
-; called from checkpuckcoll
+; The puck hits a player's body: a2touchpuck, GetHot, puckflip, sfx; called
+; from checkpuckcoll
 ;-----------------------------------------------------------------------------
 puckbody:
         push ebx
@@ -6930,24 +6925,31 @@ PickPuckRebound:
         jmp near chk4pass_4F1
 ;-----------------------------------------------------------------------------
 ; puckgoalie                       437EB  94G collide94.asm, medium confidence
-; puckgoalie (57096, Genesis puckgoalie): the puck pk hits goalie p (regd0 /
-; regd1 = the gap from checkpuckcoll_ccx). Nothing during a stoppage (gmode
-; bit 4) or while p's frame is 206h-215h with the puck at height 5 or more.
+; The puck pk hits goalie p (regd0 / regd1 = the gap from checkpuckcoll_ccx).
+; Nothing happens during a stoppage (gmode bit 4) or while p's frame is
+; 206h-215h with the puck at height 5 or more.
+;
 ; regd2 = the save side: 2 for a low puck (Zpos <= 8), plus 1 unless the
-; direction of the hit relative to facedir has bit 2 (a random direction when
-; it is a multiple of 4), doubled, flipped by 2 with attribute bit 3. A hard
-; shot (|vx| + |vy| above 4268h, or above 1770h during SPA 119Dh-121Dh) from
-; the other team's shooter (shotplayer) from more than 58h out at the right
-; end, with gmode2 bit 4 and no pflags bit 6, is a big save (byte +63h). Then
-; ChkShotStat, a2touchpuck and the save sounds (7Dh / A1h for a fast puck
-; while the clock runs, 9Dh or A3h). A loose puck slow enough for his shotspd
-; (random below ((shotspd * 5 / 4 + 2) << 9) + 2000h) is caught (puck stopped
-; and dropped to height 8, its velocity quartered, puckglue) unless pflags2
-; bit 2 is set; a carried puck is knocked loose (its carrier gets nopuck 14h,
-; lastplayer, the pass / shot dir modes cleared). Otherwise the puck
-; rebounds: height at most 0Ah, p's nopuck 0Ah and temp4 4, the velocity high
-; bytes from half the gap (GetHot when the y gap is 0; the y gap at least 1
-; and against p's Yvel), puckflip. No result.
+; direction of the hit relative to facedir has bit 2, doubled, flipped by 2
+; with attribute bit 3.
+;
+; A hard shot (|vx| + |vy| above 4268h, or above 1770h during SPA 119Dh-121Dh)
+; by the other team's shotplayer from more than 58h out is a big save (byte
+; +63h), when gmode2 bit 4 is set and pflags bit 6 is not.
+;
+; Then ChkShotStat, a2touchpuck and the save sounds (7Dh / A1h for a fast puck
+; while the clock runs, else 9Dh or A3h).
+;
+; A loose puck slow enough for his shotspd (random below ((shotspd * 5 / 4 +
+; 2) << 9) + 2000h) is caught unless pflags2 bit 2 is set: stopped, dropped to
+; height 8, velocity quartered, puckglue.
+;
+; A carried puck is knocked loose: its carrier gets nopuck 14h, lastplayer,
+; and the pass and shot dir modes are cleared.
+;
+; Otherwise the puck rebounds: height at most 0Ah, p's nopuck 0Ah and temp4 4,
+; the velocity high bytes from half the gap (GetHot when the y gap is 0),
+; puckflip. No result.
 ;-----------------------------------------------------------------------------
 puckgoalie:
         push ebx
@@ -7296,24 +7298,38 @@ puckgoalie:
         jmp near BlockShotDive_127
 ;-----------------------------------------------------------------------------
 ; puckstick                        43C7E  94G collide94.asm, medium confidence
-; puckstick (57483, 93G puckstick; ends in PassLaneChk_ret5a): the puck
-; touches player p's stick (regd0 = the squared distance from
-; checkpuckcoll_ccx). A goalie does nothing during a highlight (gmode bit 4);
-; otherwise his save flag (byte 63h) is cleared and set again when the puck
-; comes from a shot of the other team's shotplayer from beyond 58h, from the
-; far side (by pflags bit 7) and fast (|vy| over 2EE0h, or over 1770h with
-; SPA 119Dh-121Dh), then ChkShotStat. Then pflags bit 0 is cleared. With a
-; carrier (puckc) on the other team, in range (regd0 up to 24h) and p not in
-; SPA 13C5h-14ADh: a skater steals only from a skater and on randomd0(carrier
-; pde + 20h - p's pde, an eighth more against a carrier with pflags bit 3 and
-; p without) up to 2, a goalie always; both get nopuck pde + 14h, lastplayer
-; = the carrier, sflags bits 2-3 cleared, and the stick deflect. Without a
-; carrier (a goalie only within 40h): regd0 = puck speed squared, regd1 =
-; (13000 + 700 * stickhand, no stickhand bonus with gmode2 bit 4) squared;
-; outside SPA 13C5h-14ADh p catches the puck when it is slow enough, or as
-; the pass receiver (passplayer) on randomd0(2): vz cleared, puckglue, and a
-; goalie keeps it below z 8 with vx vy quartered and his save flag set. Else
-; nopuck 8 and the stick deflect: sfx 99h, a2touchpuck, deflect(puck).
+; The puck touches player p's stick (regd0 = the squared distance from
+; checkpuckcoll_ccx); ends in PassLaneChk_ret5a.
+;
+; A goalie does nothing during a highlight (gmode bit 4). Otherwise his save
+; flag (byte 63h) is cleared, then set again for a fast shot from the far
+; side.
+;
+; That shot is one by the other team's shotplayer from beyond 58h, from the
+; far side (by pflags bit 7), with |vy| over 2EE0h (over 1770h with SPA
+; 119Dh-121Dh); then ChkShotStat.
+;
+; Then pflags bit 0 is cleared.
+;
+; With a carrier (puckc) on the other team, in range (regd0 up to 24h) and p
+; not in SPA 13C5h-14ADh, p may steal the puck. A goalie always steals.
+;
+; A skater steals only from a skater, on randomd0(carrier pde + 20h - p's pde,
+; an eighth more against a carrier with pflags bit 3 and p without) up to 2.
+;
+; After a steal both get nopuck pde + 14h, lastplayer = the carrier, sflags
+; bits 2-3 are cleared, and the stick deflects the puck.
+;
+; Without a carrier (a goalie only within 40h): regd0 = puck speed squared,
+; regd1 = (13000 + 700 * stickhand) squared, with no stickhand bonus under
+; gmode2 bit 4.
+;
+; Outside SPA 13C5h-14ADh p catches a slow enough puck, or as the pass
+; receiver (passplayer) on randomd0(2): vz cleared, puckglue.
+;
+; A goalie who catches it keeps it below z 8 with vx and vy quartered and his
+; save flag set. Else nopuck 8 and the stick deflect: sfx 99h, a2touchpuck,
+; deflect(puck).
 ;-----------------------------------------------------------------------------
 puckstick:
         push ebx
@@ -7958,8 +7974,8 @@ Findhittype:
         ret
 ;-----------------------------------------------------------------------------
 ; shotdiradj                         444A7  95G input95.asm, medium confidence
-; 95G shotdiradj: where a computer player or a one-timer shoots. pflags bit 3
-; bails out, then the goalie on that side of SortCords
+; Where a computer player or a one-timer shoots. pflags bit 3 bails out,
+; then the goalie on that side of SortCords
 ;-----------------------------------------------------------------------------
 shotdiradj:
         push ebx
@@ -8081,7 +8097,7 @@ shotdiradj:
         jmp near chk4pass_4F6
 ;-----------------------------------------------------------------------------
 ; doshot                             44609  94G logic94.asm, medium confidence
-; 93G doshot (stick is at puck so launch puck toward goal): shotdiradj, shot
+; The stick is at the puck, so launch it toward the goal: shotdiradj, shot
 ; speed, sfx, assreplace
 ;-----------------------------------------------------------------------------
 doshot:
@@ -8683,7 +8699,7 @@ checkcoll:
         ret
 ;-----------------------------------------------------------------------------
 ; checkwallcoll                    44D62  94G collide94.asm, medium confidence
-; 93G checkwallcoll: vecdist against the corner radius, wallcollb, checkgoal
+; Wall collisions: vecdist against the corner radius, wallcollb, checkgoal
 ;-----------------------------------------------------------------------------
 checkwallcoll:
         push ecx
@@ -8795,8 +8811,8 @@ checkwallcoll:
         ret
 ;-----------------------------------------------------------------------------
 ; checkgoal                        44EF5  94G collide94.asm, medium confidence
-; 93G checkgoal (coll with goal/net): checkgoalp for players, Goal for the
-; puck, puckflip / sfx on the frame
+; Collision with a goal net: checkgoalp for players, Goal for the puck,
+; puckflip / sfx on the frame
 ;-----------------------------------------------------------------------------
 checkgoal:
         push esi
@@ -9053,8 +9069,8 @@ checkgoal:
         ret
 ;-----------------------------------------------------------------------------
 ; wallcoll                         452BB  94G collide94.asm, medium confidence
-; 93G wallcoll (bounce off a wall with cos/sin): randomd0, puckflip, sfx;
-; called from checkgoalp, checkgoal and wallcollb
+; Bounces off a wall with cos/sin: randomd0, puckflip, sfx; called from
+; checkgoalp, checkgoal and wallcollb
 ;-----------------------------------------------------------------------------
 wallcoll:
         push ebx
@@ -9515,8 +9531,8 @@ wallcollb:
         ret
 ;-----------------------------------------------------------------------------
 ; checkplcoll                      458E4  94G collide94.asm, medium confidence
-; Genesis comment (collide94.asm): check collision with other players. d2/d3
-; = x/y cords, a3 = struct. Walk
+; Collisions with the other players: regd2/regd3 = x/y, the player struct;
+; walks the sort list
 ;-----------------------------------------------------------------------------
 checkplcoll:
         push ecx
@@ -9584,8 +9600,8 @@ checkplcoll:
         ret
 ;-----------------------------------------------------------------------------
 ; SetInst                                                           459B2  93G
-; NHLPA93Genesis SetInst: fight rating test called twice from checkfight,
-; sets the fight flag (+45h bit 0) on both
+; Fight rating test, called twice from checkfight; sets the fight flag (+45h
+; bit 0) on both
 ;-----------------------------------------------------------------------------
 SetInst:
         push ecx
@@ -9635,8 +9651,8 @@ SetInst:
         ret
 ;-----------------------------------------------------------------------------
 ; checkfight_sf                                                     45A31  93G
-; NHLPA93Genesis checkfight .sf: start the fight for one player: AddPenalty2
-; 20h, assignment 31h, Xvel by facing, SetSPA 46Bh
+; Starts the fight for one player: AddPenalty2 20h, assignment 31h, Xvel by
+; facing, SetSPA 46Bh
 ;-----------------------------------------------------------------------------
 checkfight_sf:
         push ebx
@@ -9734,10 +9750,9 @@ checkfight_sf:
         ret
 ;-----------------------------------------------------------------------------
 ; checkfight                                                        45B60  93G
-; NHLPA93Genesis hockey93.asm checkfight: called from checkcx, impact >= 10
-; on both, SetInst both ways with 10 + max(0, 40 - count)/4, crowd +1000,
-; fighters face each other, the others get the watch assignment 32h, the puck
-; 1Ah
+; Called from checkcx with impact >= 10 on both: SetInst both ways with 10 +
+; max(0, 40 - count)/4, crowd +1000, fighters face each other, the others
+; get the watch assignment 32h, the puck 1Ah
 ;-----------------------------------------------------------------------------
 checkfight:
         push ebx
@@ -10513,8 +10528,7 @@ ChkPullGoalieLate:
         ret
 ;-----------------------------------------------------------------------------
 ; SetSPA                                                464A6  94G logic94.asm
-; Genesis comment (logic94.asm): set sprite animation on struct a3. d1 = new
-; animation
+; Sets the sprite animation of a player; regd1 = the new animation
 ;-----------------------------------------------------------------------------
 SetSPA:
         push ebx

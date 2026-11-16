@@ -427,8 +427,8 @@ restorepl:
         ret
 ;-----------------------------------------------------------------------------
 ; AvgCline                         46A0B  94G penalty94.asm, medium confidence
-; 93G AvgCline: average energy of the current line of team eax (walks tmsort
-; F6h); used by chk4lc (54AF9) and CompLine
+; Average energy of the current line of team eax (walks tmsort F6h); used by
+; chk4lc and CompLine
 ;-----------------------------------------------------------------------------
 AvgCline:
         push ebx
@@ -869,9 +869,8 @@ TeamLineEnergy:
         movsx edx, dx
 ;-----------------------------------------------------------------------------
 ; getlinee                                     46EA7  95 PC, medium confidence
-; {source_game=93G,source_file=penalty93_2.asm,confidence=medium} 93G
-; getlinee (d0 = line number, a2 = team: energy level of this line); called
-; by CompLine and TeamLineEnergy
+; Energy level of a line (regd0 = line number, the team); called by CompLine
+; and TeamLineEnergy
 ;-----------------------------------------------------------------------------
 getlinee:
         push ebx
@@ -889,8 +888,8 @@ getlinee_19:
         jmp short CompLine_3D1
 ;-----------------------------------------------------------------------------
 ; findpc                             46EC9  94G logic94.asm, medium confidence
-; The 94G findpc: where and when the puck crosses each goal line (puckcross),
-; called from pucknorm
+; Where and when the puck crosses each goal line (puckcross); called from
+; pucknorm
 ;-----------------------------------------------------------------------------
 findpc:
         push ebx
@@ -1048,14 +1047,10 @@ HotSpotFrame:
         ret
 ;-----------------------------------------------------------------------------
 ; GetHot                             4704A  94G logic94.asm, medium confidence
-; GetHot (5A425; 93G logic93 GetHot): sprite hot spot (stick blade) of player
-; p. regd0/regd1 = the x/y bytes of the hot spot table (HotList/HotList_y, 2
-; bytes per frame) for the player's frame (word 12h, frames outside
-; 0-283h/293h give 0, 0); x is negated when the sprite is X-flipped
-; (attribute bit 3). No result. Storing HotList[f] straight into regd0.w (no
-; temporary) gives the EXE's esi negate (found by tools/permute.py). Also
-; gives the distance that makes reenergizeteam's exit a near jump into
-; findpc's tail, as in the EXE.
+; Sprite hot spot (stick blade) of player p. regd0/regd1 = the x/y bytes of
+; the hot spot table (HotList/HotList_y, 2 bytes per frame) for the player's
+; frame (word 12h, frames outside 0-283h/293h give 0, 0); x is negated when
+; the sprite is X-flipped (attribute bit 3). No result.
 ;-----------------------------------------------------------------------------
 GetHot:
         push ebx
@@ -2883,7 +2878,7 @@ setplayer:
         ret
 ;-----------------------------------------------------------------------------
 ; reenergizeteam                   48716  94G penalty94.asm, medium confidence
-; 93G reenergizeteam: refill energy of the whole roster (1000h)
+; Refills the energy of the whole roster (1000h)
 ;-----------------------------------------------------------------------------
 reenergizeteam:
         push ebx
@@ -3028,7 +3023,7 @@ restoreteams:
         ret
 ;-----------------------------------------------------------------------------
 ; GetPeriodTime                  488E9  93G hockey93_01.asm, medium confidence
-; 93G GetPeriodTime: period length from the option table CBC4A
+; Period length from the option table PerTimeTab
 ;-----------------------------------------------------------------------------
 GetPeriodTime:
         push edx
@@ -3087,7 +3082,7 @@ ResetClock:
         jmp short .1
 ;-----------------------------------------------------------------------------
 ; ClearSortCords                               4899C  95 PC, medium confidence
-; Zeroes the SortCords objects (93G defaultsprites2 .0 loop)
+; Zeroes the SortCords objects
 ;-----------------------------------------------------------------------------
 ClearSortCords:
         push ebx
@@ -3201,7 +3196,7 @@ InitBenchSprites:
         jmp near Goal_1FB
 ;-----------------------------------------------------------------------------
 ; defaultsprites_0                   48ACC  94G setup94.asm, medium confidence
-; 94G renamed the 93G defaultsprites2 to defaultsprites_0 (94G name_map)
+; Puts the sort objects back to their default sprites
 ;-----------------------------------------------------------------------------
 defaultsprites_0:
         push ebx
@@ -4053,10 +4048,9 @@ PickBenchIdleAnim:
         ret
 ;-----------------------------------------------------------------------------
 ; checkwindow                       49526  94G replay94.asm, medium confidence
-; 93G/94G checkwindow role (set the scroll position to follow the puck):
-; works on yc1/xc1 (93G: locked coordinates or puck carrier Ypos + Yvel
-; lead), camx/camy with clamps, sflags and puckc; called once a frame from
-; DoGameFrame. PC code differs (gmode bit 7 fixed view at -64h/0Fh)
+; Sets the scroll position to follow the puck: works on yc1/xc1, camx/camy
+; with clamps, sflags and puckc; gmode bit 7 gives a fixed view at -64h/0Fh;
+; called once a frame from DoGameFrame
 ;-----------------------------------------------------------------------------
 checkwindow:
         push ebx
@@ -4119,8 +4113,8 @@ DoGameFrame:
         jmp near SortSpritesForDraw
 ;-----------------------------------------------------------------------------
 ; RestoreBenchEnergy                495A1  94G hockey94.asm, medium confidence
-; The 94G RestoreBenchEnergy: once a second with line changes on, bench
-; players (tmpdst -2) gain energy, capped (PC +8, 94G +9)
+; Once a second with line changes on, bench players (tmpdst -2) gain 8
+; energy, capped
 ;-----------------------------------------------------------------------------
 RestoreBenchEnergy:
         push ebx
@@ -4353,26 +4347,40 @@ CheckBenchDoor:
         ret
 ;-----------------------------------------------------------------------------
 ; updateplayers                     49848  94G replay94.asm, medium confidence
-; updateplayers (5C40F, 93G updateplayers; ends in findpc_ret6): run every
-; sort object for a frame. PC first: playsuspended = 1 while the clock is
-; stopped for a highlight (gmode bit 7), or with no replay (gmode2 bit 0), no
-; penalty countdown or queued penalty, overlay state refasslist[...] not 20h
-; / 23h and the overlay idle (ovlseq 0 or 2, ovltimer outside 0-FFh); else 0.
-; Then for the 12 players: the puck distance (vecdist, word 4Eh), direction
-; (vtoa, byte 52h) and the quarter vector squared (word 50h); per team the
-; goalie's SCnum (word FAh) and the nearest available skater (dword 3Eh, word
-; 42h; reset to FFFFh / -1 first). Then for objects 0-10h (players off the
-; ice skipped, object 10h kept): the old position, updateanim, nopuck and
-; word 40h counted down, a goalie's frames on ice (tmglstats word 0) in line
-; change mode; outside the injury / fight anims the velocity: friction (>> 6,
-; >> 9 with pflags bit 0) on the ice, players capped at 3E80h, the move by
-; 10h * v, and gravity on z with a bounce (sfx ABh for slow ones); the
-; controlled players' joypads and doinput, the current assignment's routine
-; (asstab), a goalie without the puck kept out of the posts (x 2Ch-30h, y
-; C1h-C5h on either side), the wall values cleared, checkcoll when it moved
-; (always for the puck), impact counted down by 2 into limpact. Last the puck
-; is kept inside the boards (|x| <= A0h low, y -104h..108h on the ice) while
-; carried, frame 18Ah. No result.
+; Runs every sort object for a frame; ends in findpc_ret6.
+;
+; playsuspended = 1 while the clock is stopped for a highlight (gmode bit 7),
+; or with no replay (gmode2 bit 0), no penalty countdown or queued penalty and
+; an idle overlay; else 0.
+;
+; An idle overlay is overlay state refasslist[...] not 20h / 23h, ovlseq 0 or
+; 2 and ovltimer outside 0-FFh.
+;
+; For the 12 players: the puck distance (vecdist, word 4Eh), direction (vtoa,
+; byte 52h) and the quarter vector squared (word 50h).
+;
+; Per team: the goalie's SCnum (word FAh) and the nearest available skater
+; (dword 3Eh, word 42h; reset to FFFFh / -1 first).
+;
+; For objects 0-10h (players off the ice skipped, object 10h kept): the old
+; position, updateanim, nopuck and word 40h counted down, and a goalie's
+; frames on ice (tmglstats word 0) in line change mode.
+;
+; Outside the injury and fight anims the velocity: friction on the ice (>> 6,
+; >> 9 with pflags bit 0), players capped at 3E80h, the move by 10h * v,
+; gravity on z with a bounce (sfx ABh for slow ones).
+;
+; Then the controlled players' joypads and doinput, and the current
+; assignment's routine (asstab).
+;
+; A goalie without the puck is kept out of the posts (x 2Ch-30h, y C1h-C5h on
+; either side); the wall values are cleared.
+;
+; checkcoll runs when the object moved (always for the puck), and impact is
+; counted down by 2 into limpact.
+;
+; Last the carried puck is kept inside the boards (|x| <= A0h low, y
+; -104h..108h on the ice), frame 18Ah. No result.
 ;-----------------------------------------------------------------------------
 updateplayers:
         push ebx
@@ -4953,8 +4961,7 @@ updateplayers:
         jmp near Goal_1FB
 ;-----------------------------------------------------------------------------
 ; updateanim                        4A047  94G replay94.asm, medium confidence
-; 93G updateanim: step SPAnum/SPAcnt through the SPA table (C921D), SetSPA
-; when an animation ends
+; Steps SPAnum/SPAcnt through the SPA table, SetSPA when an animation ends
 ;-----------------------------------------------------------------------------
 updateanim:
         push ebx
@@ -5613,8 +5620,7 @@ cleargamevars:
         jmp near ClearPenaltyBuffer
 ;-----------------------------------------------------------------------------
 ; setupice                       4A8A4  93G hockey93_06.asm, medium confidence
-; 93G setupice role: per-period rink setup, gmdir flips pfgoal of the
-; players, defaultsprites2
+; Per-period rink setup: gmdir flips pfgoal of the players, defaultsprites2
 ;-----------------------------------------------------------------------------
 setupice:
         push ebx
@@ -6111,8 +6117,7 @@ SetExitGame:
         ret
 ;-----------------------------------------------------------------------------
 ; SetupTeamForIntermission       4AF89  93G penalty93_2.asm, medium confidence
-; 93G SetupTeamForIntermission: ResetBench, reenergizeteam both teams, tmline
-; 0/3/5 by tmap difference
+; ResetBench, reenergizeteam for both teams, tmline 0/3/5 by tmap difference
 ;-----------------------------------------------------------------------------
 SetupTeamForIntermission:
         push ebx
@@ -6153,7 +6158,7 @@ SetupTeamForIntermission:
         ret
 ;-----------------------------------------------------------------------------
 ; Intermission                   4AFEB  93G penalty93_2.asm, medium confidence
-; 93G Intermission start: SetupTeamForIntermission and clear the SortCords
+; Intermission start: SetupTeamForIntermission and clear the SortCords
 ; positions
 ;-----------------------------------------------------------------------------
 Intermission:

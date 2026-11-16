@@ -1,4 +1,4 @@
-; Skater assignments: box, bench, Stanley Cup skate, defence and wings (94G logic94).
+; Skater assignments: box, bench, Stanley Cup skate, defence and wings.
 bits 32
 %include "hockey.inc"
 section s_2F3DF progbits alloc exec nowrite align=1

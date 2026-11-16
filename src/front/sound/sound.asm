@@ -140,7 +140,7 @@ PlaySfx:
 ;-----------------------------------------------------------------------------
 ; Crowd_Noise                                  68E72  96 PC, medium confidence
 ; (step): eases the crowd level (CrowdLevel) toward its target by at most
-; step and sets it in the crowd driver (the 95 PC Crowd_Noise job)
+; step and sets it in the crowd driver
 ;-----------------------------------------------------------------------------
 Crowd_Noise:
         push edx

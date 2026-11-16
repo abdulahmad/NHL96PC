@@ -1,4 +1,4 @@
-; Playing a game: from the menus by game mode, the input record timer, the game loop, the demo game (95 PC front/main, 96 PC).
+; Playing a game: from the menus by game mode, the input record timer, the game loop, the demo game.
 bits 32
 %include "hockey.inc"
 extern TeamRosterPtrs
@@ -779,7 +779,7 @@ GameLoop_gameovercall:
 ; RunDemoGame                                                     1739F  96 PC
 ; Attract-mode demo game: seeds rand from the time, InitSlotTable, loads the
 ; game, starts InputRecordTimer, SetupDemoGame, GameLoop, then stops the
-; timer and restores the screen; same job as 95 PC RunDemoGame
+; timer and restores the screen
 ;-----------------------------------------------------------------------------
 RunDemoGame:
         push ebx

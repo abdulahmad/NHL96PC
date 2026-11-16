@@ -1219,8 +1219,8 @@ asspuckc_394:
         ret
 ;-----------------------------------------------------------------------------
 ; asspuckc_chkdir                                     32158  93G logic93_3.asm
-; 93G asspuckc .chkdir: the skateto collision routine asspuckc passes (mov
-; edx, asspuckc_chkdir), picks a direction with vtoa / randomd0
+; The skateto collision routine asspuckc passes (mov edx, asspuckc_chkdir);
+; picks a direction with vtoa / randomd0
 ;-----------------------------------------------------------------------------
 asspuckc_chkdir:
         push ebx
@@ -2658,7 +2658,7 @@ assshoot:
         ret
 ;-----------------------------------------------------------------------------
 ; donothing                                             3330A  94G logic94.asm
-; The 94G donothing: doplayeracc 8 unless pfalock or pfjoycon
+; doplayeracc 8 unless pfalock or pfjoycon
 ;-----------------------------------------------------------------------------
 donothing:
         push ebx
@@ -4025,9 +4025,8 @@ assexit_12:
         ret
 ;-----------------------------------------------------------------------------
 ; assfaceoffpl                                        34335  95G faceoff95.asm
-; 95G assfaceoffpl (93G logic93.asm): the faceoff participant. pflags bit 5
-; returns; faceoff flag clear calls assexit; bit 1 clears temp1 and sets the
-; faceoff frame
+; The faceoff participant. pflags bit 5 returns; faceoff flag clear calls
+; assexit; bit 1 clears temp1 and sets the faceoff frame
 ;-----------------------------------------------------------------------------
 assfaceoffpl:
         push ebx
@@ -4251,22 +4250,32 @@ assfaceoffpl:
         ret
 ;-----------------------------------------------------------------------------
 ; pucknorm_body                      345B1  94G logic94.asm, medium confidence
-; pucknorm_body (4D6B4; 93G logic93 / 94G pucknorm after the new-assignment
-; part, PC version; ends in ass_popx): the puck's normal assignment. Count
-; down the two line-crossing timers (puckcross) and every 5 ticks recompute
-; them (temp1, findpc). A carried puck is pulled a quarter of the way toward
-; its carrier's hot spot (a2touchpuck, GetHot into regd0 / regd1) and takes
-; his velocity. Then the ice / offside / two-line checks (PuckIChk,
-; ChkOffsides, MarkTwoLinePlayers). While the clock runs: a carried puck
-; resets temp2 (78h) and the penalty-shot send count (psendcount); a loose
-; one on a live penalty shot moving back toward the shooter's own end (puckvy
-; by penshotteam and the gmode bit 1 rink flip) for 1Eh ticks ends the shot
-; (EndPenaltyShot). A puck that has stopped (same position as last tick),
-; outside the middle (x A3h, y 10Eh) or with hmtmnear / awtmnear at 14h or
-; less, counts temp2 down and at 0 calls a delay of game (AddPenalty2 3); a
-; moving one resets temp2. A puck almost still on the ice (z speed below
-; 100h, z 0) is put flat (puckunflip); then the collisions (checkpuckcoll).
-; p: the puck. No result.
+; The puck's normal assignment after the new-assignment part; ends in
+; ass_popx.
+;
+; Counts down the two line-crossing timers (puckcross) and every 5 ticks
+; recomputes them (temp1, findpc).
+;
+; A carried puck is pulled a quarter of the way toward its carrier's hot spot
+; (a2touchpuck, GetHot into regd0 / regd1) and takes his velocity.
+;
+; Then the ice, offside and two-line checks (PuckIChk, ChkOffsides,
+; MarkTwoLinePlayers).
+;
+; While the clock runs, a carried puck resets temp2 (78h) and the penalty-shot
+; send count (psendcount).
+;
+; A loose puck on a live penalty shot moving back toward the shooter's own end
+; for 1Eh ticks ends the shot (EndPenaltyShot); the end comes from puckvy,
+; penshotteam and the gmode bit 1 rink flip.
+;
+; A puck that has stopped (same position as last tick), outside the middle (x
+; A3h, y 10Eh) or with hmtmnear / awtmnear at 14h or less, counts temp2 down.
+;
+; At 0 that calls a delay of game (AddPenalty2 3); a moving puck resets temp2.
+;
+; A puck almost still on the ice (z speed below 100h, z 0) is put flat
+; (puckunflip); then the collisions (checkpuckcoll). p: the puck. No result.
 ;-----------------------------------------------------------------------------
 pucknorm_body:
         push ebx
@@ -4515,8 +4524,8 @@ pucknorm_body:
         ret
 ;-----------------------------------------------------------------------------
 ; pucknorm                           348C9  94G logic94.asm, medium confidence
-; Slot $18; head identical to 93G pucknorm: bclr pfna; clr temp1(+26h);
-; temp2(+28h)=$78; then calls pucknorm_body
+; Assignment table slot 18h: clears pfna, temp1 (+26h) = 0, temp2 (+28h) =
+; 78h, then pucknorm_body
 ;-----------------------------------------------------------------------------
 pucknorm:
         push edx
@@ -4559,8 +4568,7 @@ pucknothing:
 ; RequestLineChange                            3492A  95 PC, medium confidence
 ; Team from pflags+44h bit 40h: getlchoice (or the team's current line
 ; hmtmstruct/awtmstruct+2Ah) into lcline, lcsel, lctimer=3Ch,
-; lcblink/lcblinktime=0Ch, lcboxon=1; clears hmlinetimer/C5860. Replaces the
-; 93G loadTeamStruct guess (cosine 0.14), which does none of this
+; lcblink/lcblinktime=0Ch, lcboxon=1; clears the home line timer
 ;-----------------------------------------------------------------------------
 RequestLineChange:
         push ebx
@@ -4686,22 +4694,33 @@ StartFaceoffLineChange:
         ret
 ;-----------------------------------------------------------------------------
 ; Endfaceoff                         34A8B  94G logic94.asm, medium confidence
-; Endfaceoff (4DA7B; 93G logic93 / 94G logic94 Endfaceoff "drop the puck:
-; pick the faceoff winner and send the puck off", PC version; ends in
-; ass_popx): stop the sample, play sfx ABh, end the faceoff (gmode2 bits 0
-; and 2, the clock bit of gmode, p's pflags2 bit 0; sflags3 bit 4). The odds
-; (regd2) are 10h less the first centre's faceoff stance (Endfaceoff_ftab_m1
-; by fofdata2) plus the second's, plus the away centre's faceoff rating less
-; the home centre's (awplattr_b13 / hmplattr_b13 by pnum; the centres are the
-; skaters with position 4): randomd0(21h) below them gives the puck to the
-; away centre (lasttouch, his input fofdata2_w6), else to the home centre
-; (fofdata2_w2). The winner's input bit 0Bh picks the direction (fodir2 with
-; y speed -800h, else fodir1 / +800h); a held direction (bit 3 clear) is used
-; 3 times in 4, else a random one of the 5 around the y direction (mirrored
-; by the sign of the y speed). The puck p gets that velocity (dirtab * 20h,
-; plus the y speed), a random z velocity (below 800h), z 0, loses pflags bit
-; 2 and takes assignment 18h (pucknorm); the referee (SortCords + 16) takes
-; 1Fh and refXvel is set to 500h toward his side. p: the puck. No result.
+; Drops the puck: picks the faceoff winner and sends the puck off; ends in
+; ass_popx.
+;
+; Stops the sample, plays sfx ABh and ends the faceoff (gmode2 bits 0 and 2,
+; the clock bit of gmode, p's pflags2 bit 0, sflags3 bit 4).
+;
+; The odds (regd2) are 10h less the first centre's faceoff stance
+; (Endfaceoff_ftab_m1 by fofdata2) plus the second's.
+;
+; Add the away centre's faceoff rating less the home centre's (awplattr_b13 /
+; hmplattr_b13 by pnum; the centres are the skaters with position 4).
+;
+; randomd0(21h) below the odds gives the puck to the away centre (lasttouch,
+; his input fofdata2_w6), else to the home centre (fofdata2_w2).
+;
+; The winner's input bit 0Bh picks the direction (fodir2 with y speed -800h,
+; else fodir1 / +800h).
+;
+; A held direction (bit 3 clear) is used 3 times in 4, else a random one of
+; the 5 around the y direction, mirrored by the sign of the y speed.
+;
+; The puck p gets that velocity (dirtab * 20h, plus the y speed), a random z
+; velocity (below 800h) and z 0.
+;
+; It loses pflags bit 2 and takes assignment 18h (pucknorm); the referee
+; (SortCords + 16) takes 1Fh and refXvel is set to 500h toward his side. No
+; result.
 ;-----------------------------------------------------------------------------
 Endfaceoff:
         push ebx
@@ -7427,9 +7446,9 @@ assrefgoalline:
         jmp near assrefgoalpa_839
 ;-----------------------------------------------------------------------------
 ; NextPathPoint                                  36BF8  94G shootoutpath94.asm
-; Same role as 94G shootoutpath94 NextPathPoint: advances the path index
-; (sopathpoint) and loads the next point x/y/end from the 3-dword table
-; ShootoutPathData (x negated by the path side); called by asspenshooter
+; Advances the path index (sopathpoint) and loads the next point x/y/end
+; from the 3-dword table ShootoutPathData (x negated by the path side);
+; called by asspenshooter
 ;-----------------------------------------------------------------------------
 NextPathPoint:
         push edx
@@ -7450,8 +7469,8 @@ NextPathPoint:
         ret
 ;-----------------------------------------------------------------------------
 ; StartShootoutPath           36C3A  94G shootoutpath94.asm, medium confidence
-; Role match: starts the shootout / penalty shot skate path (PC builds the
-; path, 94G picks one)
+; Starts the shootout / penalty shot skate path, building it from the path
+; table
 ;-----------------------------------------------------------------------------
 StartShootoutPath:
         push ebx
@@ -7716,7 +7735,7 @@ asspenshooter:
 ;-----------------------------------------------------------------------------
 ; chkhit                                         36F55  93G, medium confidence
 ; Called only from assfight: acts when the animation frame changes, crowd and
-; sfx on a hit, as NHLPA93Genesis chkhit
+; sfx on a hit
 ;-----------------------------------------------------------------------------
 chkhit:
         push ebx
@@ -8089,8 +8108,8 @@ chkhit:
         jmp near SwapPosition_91
 ;-----------------------------------------------------------------------------
 ; assfight                                                          37410  93G
-; Asstab entry 31h, the assignment checkfight_sf inserts; Pencntdwn < 0 ends
-; it; calls chkhit as NHLPA93Genesis assfight
+; Assignment table slot 31h, the assignment checkfight_sf inserts;
+; Pencntdwn < 0 ends it; calls chkhit
 ;-----------------------------------------------------------------------------
 assfight:
         push ebx
@@ -8664,8 +8683,8 @@ assfight:
         jmp near assrefgoalpa_83F
 ;-----------------------------------------------------------------------------
 ; assfwatch                                                         37AA5  93G
-; Asstab entry 32h, the assignment checkfight gives every other player, as
-; NHLPA93Genesis assfwatch
+; Assignment table slot 32h, the assignment checkfight gives every other
+; player: watch the fight
 ;-----------------------------------------------------------------------------
 assfwatch:
         push ebx

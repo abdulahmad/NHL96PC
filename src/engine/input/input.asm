@@ -250,7 +250,7 @@ faceoffinput:
 ;-----------------------------------------------------------------------------
 ; fightinput                                     3832F  93G, medium confidence
 ; Called from doinput: returns when Pencntdwn < 0 or the player is still in
-; SPA 46Bh (gloves off), then moves the fighter, as NHLPA93Genesis fightinput
+; SPA 46Bh (gloves off), then moves the fighter
 ;-----------------------------------------------------------------------------
 fightinput:
         push ebx
@@ -2080,8 +2080,8 @@ doinput:
         ret
 ;-----------------------------------------------------------------------------
 ; getlchoice                         39769  94G logic94.asm, medium confidence
-; As 93G getlchoice: regd0 choice -> line via lchoicetab; +20h/+40h when the
-; tmap of the two teams differ (93G +15h/+2Ah), + tmline*4 (93G *3)
+; regd0 choice -> line via lchoicetab; +20h/+40h when the tmap of the two
+; teams differ, + tmline*4
 ;-----------------------------------------------------------------------------
 getlchoice:
         push edx
@@ -2106,8 +2106,8 @@ getlchoice:
         ret
 ;-----------------------------------------------------------------------------
 ; lcfound                            397C0  94G logic94.asm, medium confidence
-; As 93G lcfound: getlchoice(regd2), if >= 0 clear pf2lcm, set pfjoycon,
-; clear tmflags bit 1, tmline = line, setpersonel
+; getlchoice(regd2), if >= 0 clear pf2lcm, set pfjoycon, clear tmflags bit
+; 1, tmline = line, setpersonel
 ;-----------------------------------------------------------------------------
 lcfound:
         push ebx
@@ -2294,7 +2294,7 @@ PassCompleted:
         ret
 ;-----------------------------------------------------------------------------
 ; assonetimer                     399AB  94G onetimer94.asm, medium confidence
-; Role match: the one-timer shot when the pass arrives (94G assignment 23h)
+; The one-timer shot when the pass arrives (assignment 23h)
 ;-----------------------------------------------------------------------------
 assonetimer:
         push ebx

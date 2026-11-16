@@ -3373,8 +3373,7 @@ BurstDrainEnergy:
         jmp near doplayeracc_7F4
 ;-----------------------------------------------------------------------------
 ; burst                            4DE6E  93G logic93_1.asm, medium confidence
-; Manual trace: CCh energy cost, energy>>7 dir-vector push, same constants as
-; 93G burst
+; Burst of speed: CCh energy cost, energy>>7 push along the direction vector
 ;-----------------------------------------------------------------------------
 burst:
         push ebx

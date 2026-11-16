@@ -45,7 +45,7 @@ extern ReplaySavedState
 
 
 
-extern ReplayActive, ReplaySavedView
+extern replayactive, ReplaySavedView
 extern FreeCamX, FreeCamY, ReplayButtonDefs, ReplayCounterShown, ReplayCamFollow, ReplayMenuResult, ReplayStepping, ReplayCamShot
 extern ReplayCamRoutine, FreeCamDX, FreeCamDY, FreeCamTable, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY
 extern ClockFont, ClockPanelBmp, NameFont, ViewObjects, ShowShadows, ShowMarkers, SpriteDepth, SpriteFrameIds
@@ -145,7 +145,7 @@ StartReplay:
         mov dword [CamViewBits], 0
         mov dword [ReplaySavedState+18h], eax
         call ReplayBufferStart
-        mov dword [ReplayActive], 0
+        mov dword [replayactive], 0
         mov byte [ReplayCamMode], 0FFh
         mov dword [ReplayCamFollow], 0Eh
         mov dword [ReplayStepping], 0
@@ -438,12 +438,12 @@ StepReplay:
         je short .9
         call PlaySfx
 .9:
-        cmp dword [ReplayActive], byte 0
+        cmp dword [replayactive], byte 0
         je near .1
         movzx eax, byte [ReplayCamMode]
         cmp eax, byte 0Ah
         je near .1
-        mov eax, dword [ReplayActive]
+        mov eax, dword [replayactive]
         mov esi, dword [ReplayFrameCount]
         mov al, byte [eax]
         mov byte [esi], al
@@ -3266,7 +3266,7 @@ ReplayScreen:
         mov dl, byte [ReplayCamMode]
         mov byte [eax], dl
         mov eax, dword [ReplayFrameCount]
-        mov dword [ReplayActive], eax
+        mov dword [replayactive], eax
         jmp near ReplayScreen_E86
 .25:
         cmp dword [byte ebp-01Ch], byte 0Ch
@@ -3292,7 +3292,7 @@ ReplayScreen_D42:
         jne short .26
         call CrowdPause
 .26:
-        mov dword [ReplayActive], 0
+        mov dword [replayactive], 0
         jmp near ReplayScreen_E86
 ReplayScreen_D83:
         call CrowdPause
@@ -3336,7 +3336,7 @@ ReplayScreen_D83:
         mov eax, dword [InReplay]
         and eax, 80000640h
         or al, 6
-        mov dword [ReplayActive], 0
+        mov dword [replayactive], 0
 .31:
         mov dword [InReplay], eax
 ReplayScreen_E86:

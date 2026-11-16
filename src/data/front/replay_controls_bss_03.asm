@@ -23,7 +23,7 @@ global ReplayCamMode, ReplaySavedSound, ReplaySavedState
 
 
 
-global ReplayActive, ReplaySavedView, FreeCamX, FreeCamY, ReplayButtonDefs, ReplayCounterShown, ReplayCamFollow, ReplayMenuResult
+global replayactive, ReplaySavedView, FreeCamX, FreeCamY, ReplayButtonDefs, ReplayCounterShown, ReplayCamFollow, ReplayMenuResult
 global ReplayStepping, ReplayCamShot, ReplayCamRoutine, FreeCamDX, FreeCamDY, FreeCamTable, ReplayFileName, ReplayViewItems
 global ReplayViewText, ReplayScreenItems, ReplayCamTarget, ReplaySaveArea
 global ReplayFramesShown
@@ -195,7 +195,7 @@ ReplayScreenItems:                              ; replay screen items (66h bytes
         resb 4
         resb 4
         resb 954
-ReplayActive:                                   ; replay is active; used by ReplayScreen, StartReplay,
+replayactive:                                   ; replay is active; used by ReplayScreen, StartReplay,
                                                 ; StepReplay
         resb 4
 ReplaySavedView:                                ; view saved while a replay runs; used by EndReplay,

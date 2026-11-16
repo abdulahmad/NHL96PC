@@ -8,7 +8,7 @@ extern str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, s
 extern SpeechQueueOpen, CrowdPlaying, WssFormatBits, WssMixFormat, WssBytesPerFrame, SbProMixFormat, SbProFrameBytes, Sb16DspCommand
 extern Sb16DspModeByte, Sb16MixFormat, Sb16FrameBytes, SndTickBusy, GusConfigGf1Irq, GusConfigMidiIrq, CpuType, RowCopyFunc
 extern DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawRowBytes, KeyedDraw, DrawDestBuffer, DrawVideoBase
-extern StreamState, StreamChannel, SndTickHold, WssDmaAlloc, WssRunning, GusDriverIsOpen, GusDmaAlloc, GusEnvRead
+extern streamstate, StreamChannel, SndTickHold, WssDmaAlloc, WssRunning, GusDriverIsOpen, GusDmaAlloc, GusEnvRead
 extern GusCardFound, SbRunning, SbDmaAlloc, SbProRunning, SbProDmaAlloc, SbProChannels, Sb16Running, Sb16DmaAlloc
 extern Sb16Mode, GusStreamRefillRight, WssBlockSamples, WssHalfBuffer, WssFormat, WssDmaChannel, WssDmaSize, WssDmaBuffer
 extern WssRate, WssDmaPos, GusStreamMem, GusDriverDmaBuf, SbHalfBuffer, SbDmaSize, SbRate, SbDma
@@ -2178,12 +2178,12 @@ SndTimerTick:
         je short .2
         call CrowdService
 .2:
-        cmp dword [StreamState], byte 1
+        cmp dword [streamstate], byte 1
         jne short .3
         push dword [StreamChannel]
         call MixerStopChannel
         add esp, byte 4
-        mov dword [StreamState], 0
+        mov dword [streamstate], 0
         call FlushAudioStream
 .3:
         mov ebx, SndChannels

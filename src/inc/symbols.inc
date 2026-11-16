@@ -4188,7 +4188,7 @@
 ;  11D1F2  LastSfxHandle                            data/front/front_67000_data_01.asm           1
 ;  11D1F6  CrowdFading                              data/front/front_67000_data_01.asm           1
 ;  11D1FA  CrowdActive                              data/front/front_67000_data_01.asm           1
-;  11D1FE  CrowdLevel                               data/front/front_67000_data_01.asm           1
+;  11D1FE  CrowdVolumeLevel                         data/front/front_67000_data_01.asm           1
 ;  11D202  CrowdTarget                              data/front/front_67000_data_01.asm           1
 ;  11D206  GameSoundOn                              data/front/front_67000_data_01.asm           1
 ;  11D20A  MusicFileName                            data/front/front_67000_data_01.asm           1
@@ -4654,7 +4654,7 @@
 ;  123BBD  SpeechVoicePing                          data/lib/watcom/watcom_clib_08_data_02.asm   1
 ;  123BC1  SpeechVoicePong                          data/lib/watcom/watcom_clib_08_data_02.asm   1
 ;  123BC5  SpeechChannelCur                         data/lib/watcom/watcom_clib_08_data_02.asm   1
-;  123BCC  StreamState                              data/lib/watcom/watcom_clib_08_data_02.asm   2
+;  123BCC  streamstate                              data/lib/watcom/watcom_clib_08_data_02.asm   2
 ;  123BD0  StreamChannel                            data/lib/watcom/watcom_clib_08_data_02.asm   2
 ;  123BD4  StreamFrameBytes                         data/lib/watcom/watcom_clib_08_data_02.asm   1
 ;  123BD8  StreamSampleRate                         data/lib/watcom/watcom_clib_08_data_02.asm   1
@@ -5654,7 +5654,7 @@
 ;  1778C4  ReplayViewText                           data/front/replay_controls_bss_03.asm        1
 ;  1778E8  ReplaySavedState                         data/front/replay_controls_bss_03.asm        1
 ;  177908  ReplayScreenItems                        data/front/replay_controls_bss_03.asm        1
-;  1781CC  ReplayActive                             data/front/replay_controls_bss_03.asm        1
+;  1781CC  replayactive                             data/front/replay_controls_bss_03.asm        1
 ;  1781D0  ReplaySavedView                          data/front/replay_controls_bss_03.asm        1
 ;  1781D4  FreeCamX                                 data/front/replay_controls_bss_03.asm        1
 ;  1781D8  FreeCamY                                 data/front/replay_controls_bss_03.asm        1

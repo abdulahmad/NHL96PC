@@ -7,7 +7,7 @@ section s_68D25 progbits alloc exec nowrite align=1
 extern AsyncClose, AsyncInit, asyncreader, MusicFlags, SfxChannelBusy
 extern CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, delstream, SoundCardPort, SoundCardIrq, MusicStream
 extern ArenaClipStream, SpeechStreamFile, SpeechStreamTimer, CrowdSfxHandle, AmbientSfxHandle, LastSfxHandle, CrowdFading, CrowdActive
-extern CrowdLevel, CrowdTarget, GameSoundOn, SoundCardOn, SpeechBankHandle, SfxMask, ArenaClipState, ArenaClipTime
+extern CrowdVolumeLevel, CrowdTarget, GameSoundOn, SoundCardOn, SpeechBankHandle, SfxMask, ArenaClipState, ArenaClipTime
 extern ArenaClipId, MusicVolume, ArenaClipHandle, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
 extern globalset, InitSpeech, MakeDataPath, OpenSpeechBanks, optblock, setstreamspeed, SetTickDeadline, ShutdownSpeech
 extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadArtArchiveFile, LoadDataFileHandle, FreeMemBlock
@@ -141,7 +141,7 @@ PlaySfx:
         jmp near StopAllSfx_BA
 ;-----------------------------------------------------------------------------
 ; Crowd_Noise                                  68E72  96 PC, medium confidence
-; (step): eases the crowd level (CrowdLevel) toward its target by at most
+; (step): eases the crowd level (CrowdVolumeLevel) toward its target by at most
 ; step and sets it in the crowd driver
 ;-----------------------------------------------------------------------------
 Crowd_Noise:
@@ -150,7 +150,7 @@ Crowd_Noise:
         jl short .5
         cmp dword [CrowdActive], byte 0
         je short .5
-        mov edx, dword [CrowdLevel]
+        mov edx, dword [CrowdVolumeLevel]
         sub edx, dword [CrowdTarget]
         test edx, edx
         jge short .1
@@ -159,16 +159,16 @@ Crowd_Noise:
         cmp edx, eax
         jge short .2
         mov eax, dword [CrowdTarget]
-        mov dword [CrowdLevel], eax
+        mov dword [CrowdVolumeLevel], eax
         jmp short .4
 .2:
         mov edx, dword [CrowdTarget]
-        cmp edx, dword [CrowdLevel]
+        cmp edx, dword [CrowdVolumeLevel]
         jg short .3
         neg eax
 .3:
-        add dword [CrowdLevel], eax
-        mov eax, dword [CrowdLevel]
+        add dword [CrowdVolumeLevel], eax
+        mov eax, dword [CrowdVolumeLevel]
 .4:
         call SetCrowdVolume
 .5:
@@ -196,7 +196,7 @@ CrowdNoiseReset:
         cmp dword [CrowdActive], byte 0
         jne short .1
         mov eax, 1
-        mov dword [CrowdLevel], 1
+        mov dword [CrowdVolumeLevel], 1
         call StartCrowdSound
         push byte 5
         call SetTickDeadline
@@ -273,7 +273,7 @@ CrowdPause:
         jl short .1
         cmp dword [CrowdActive], byte 0
         je short .1
-        cmp dword [CrowdLevel], byte 0
+        cmp dword [CrowdVolumeLevel], byte 0
         jl short .1
         cmp word [CrowdHeld], byte 0
         jne short .1
@@ -300,7 +300,7 @@ CrowdResume:
         jl short .1
         cmp dword [CrowdActive], byte 0
         je short .1
-        cmp dword [CrowdLevel], byte 0
+        cmp dword [CrowdVolumeLevel], byte 0
         jl short .1
         cmp word [CrowdHeld], byte 0
         je short .1
@@ -335,7 +335,7 @@ CrowdFadeOut:
         test eax, eax
         je short .4
         call TicksSinceLast
-        mov eax, dword [CrowdLevel]
+        mov eax, dword [CrowdVolumeLevel]
         xor edi, edi
         mov dword [byte ebp-04h], eax
 .1:
@@ -367,7 +367,7 @@ CrowdFadeOut:
 .4:
         call StopCrowdChannels
         mov dword [CrowdActive], 0
-        mov dword [CrowdLevel], 0
+        mov dword [CrowdVolumeLevel], 0
         jmp near FindClipIndex_55
         cmp dword [sndcard], byte 0
         jl short .5
@@ -1000,7 +1000,7 @@ StartGameSound:
 .19:
         mov dword [CrowdTarget], esi
 .20:
-        mov dword [CrowdLevel], 1
+        mov dword [CrowdVolumeLevel], 1
         mov eax, 7Fh
         mov dword [CrowdTarget], 2
         call Crowd_Noise

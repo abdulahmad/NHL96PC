@@ -11,7 +11,7 @@ extern str_NoFreeChannelToPlayOn, str_TGV, str_TgvdecodeInvalidChunkTyp, str_Rat
 extern SpeechQueueOpen, CrowdPlaying, SndMasterVolume, CrowdLayerPriority, CrowdLayerVolume, SndChannelType, SndChannelBendRange, SndChannelActive
 extern SndChannelSfx, SndChannelVolume, SndChannelGain, SndChannelPan, ScreenPitch, ScreenBuffer, DebugMode, RowCopyFunc
 extern DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, SpeechQueue, SpeechQueueLead, SpeechQueueWrite
-extern SpeechQueueRead, SpeechQueueVolume, SpeechVoicePing, SpeechVoicePong, SpeechChannelCur, StreamState, StreamChannel, StreamFrameBytes
+extern SpeechQueueRead, SpeechQueueVolume, SpeechVoicePing, SpeechVoicePong, SpeechChannelCur, streamstate, StreamChannel, StreamFrameBytes
 extern StreamSampleRate, StreamVolume, StreamOwner, StreamHeader, StreamPacketsPlayed, StreamSampleScale, SfxBanks, CrowdVolume
 extern CrowdIntensityGoal, CrowdRampMode, CrowdEvent, CrowdFadeStep, CrowdFadeGoal, CrowdFadeLevel, CrowdLastBendStore, CrowdLastBend
 extern CrowdLastVolumeStore, CrowdLastVolume, CrowdTicks, SndMixMode, StereoPanCurve, NextSndChannel, SndTimerAdded, SndExitHandlerAdded
@@ -632,7 +632,7 @@ StopSoundChannel:
         add esp, byte 4
         cmp eax, byte 2
         jne short .6
-        mov dword [StreamState], 0
+        mov dword [streamstate], 0
         mov dword [StreamPacketsPlayed], 0
         call FlushAudioStream
 .6:
@@ -780,7 +780,7 @@ OpenAudioStream:
         lea ebx, [byte eax+08h]
         cmp dword [ebx], 53434145h
         je short .1
-        mov dword [StreamState], 0
+        mov dword [streamstate], 0
         mov eax, 0FFFFFFFEh
         jmp near .10
 .1:
@@ -793,7 +793,7 @@ OpenAudioStream:
         cmp dword [byte ebp-04h], byte 10h
         jl short .3
 .2:
-        mov dword [StreamState], 0
+        mov dword [streamstate], 0
         mov eax, 0FFFFFFFDh
         jmp near .10
 .3:
@@ -841,7 +841,7 @@ OpenAudioStream:
 .4:
         mov dword [StreamSampleScale], 1
 .5:
-        cmp dword [StreamState], byte 0
+        cmp dword [streamstate], byte 0
         je short .9
         mov ebx, ecx
         cmp dword [ecx], byte 0FFFFFFFFh
@@ -872,7 +872,7 @@ OpenAudioStream:
 ;-----------------------------------------------------------------------------
 QueueStreamPacket:
         push edx
-        cmp dword [StreamState], byte 0
+        cmp dword [streamstate], byte 0
         jne short .1
         mov eax, 0FFFFFFFFh
         pop edx
@@ -916,7 +916,7 @@ QueueStreamPacket:
         ret
         push edx
         mov dword [eax], 0FFFFFFFFh
-        cmp dword [StreamState], byte 0
+        cmp dword [streamstate], byte 0
         je short .8
         mov edx, eax
         cmp dword [eax], byte 0FFFFFFFFh
@@ -954,7 +954,7 @@ AudioStreamCallback:
         cmp dword [eax], byte 0FFFFFFFFh
         jne short .1
         mov dword [edx], 0
-        mov dword [StreamState], 1
+        mov dword [streamstate], 1
         mov dword [ecx], 0
         pop ebp
         pop esi
@@ -999,7 +999,7 @@ AudioStreamCallback:
 ;-----------------------------------------------------------------------------
 InitAudioStream:
         mov dword [StreamPacketsPlayed], 0
-        mov dword [StreamState], 3
+        mov dword [streamstate], 3
         mov dword [StreamVolume], 7Fh
         mov dword [StreamChannel], 0FFFFFFFFh
         mov dword [StreamPacketHead], 0
@@ -1008,7 +1008,7 @@ InitAudioStream:
         xor eax, eax
         ret
         mov dword [StreamPacketsPlayed], 0
-        mov dword [StreamState], 3
+        mov dword [streamstate], 3
         mov dword [StreamChannel], 0FFFFFFFFh
         mov dword [StreamPacketHead], 0
         mov dword [StreamPacketTail], 0
@@ -1031,14 +1031,14 @@ StartAudioStream:
 .2:
         cmp dword [StreamChannel], byte 0
         jl short .1
-        cmp dword [StreamState], byte 3
+        cmp dword [streamstate], byte 3
         jne short .3
         mov eax, dword [StreamChannel]
         mov dword [StreamPacketsPlayed], 0
         call UpdateChannelGain
         mov eax, dword [StreamHeader]
         call StartChannelSample
-        mov dword [StreamState], 2
+        mov dword [streamstate], 2
 .3:
         mov eax, dword [StreamChannel]
         ret
@@ -1075,7 +1075,7 @@ FeedAudioStream:
         pop ebx
         ret
 .3:
-        cmp dword [StreamState], byte 0
+        cmp dword [streamstate], byte 0
         je short .10
         mov edx, esi
         cmp eax, byte 0FFFFFFFFh
@@ -1125,7 +1125,7 @@ FeedAudioStream:
 ; Returns 1 while an audio stream is open
 ;-----------------------------------------------------------------------------
 AudioStreamActive:
-        cmp dword [StreamState], byte 0
+        cmp dword [streamstate], byte 0
         setne al
         movzx eax, al
         ret
@@ -1157,7 +1157,7 @@ AudioStreamPosition:
         push edx
         mov ebx, eax
         xor edx, edx
-        cmp dword [StreamState], byte 0
+        cmp dword [streamstate], byte 0
         je near .9
         cmp dword [StreamPacketHead], byte 0
         jne short .1
@@ -1222,7 +1222,7 @@ AudioStreamPosition:
 ; Returns how many stream packets have played
 ;-----------------------------------------------------------------------------
 AudioStreamPacketsPlayed:
-        cmp dword [StreamState], byte 0
+        cmp dword [streamstate], byte 0
         jne short .1
         mov eax, 0FFFFFFFFh
         ret

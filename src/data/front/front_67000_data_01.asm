@@ -20,7 +20,7 @@ extern str_Senators, str_Flyers, str_Penguins, str_Nordiques, str_Blues, str_Sha
 extern str_Canucks, str_Capitals, str_Jets, str_AllStars
 global MusicFlags, MusicFileName, SfxChannelBusy, SoundCardPort, SoundCardIrq, MusicStream, ArenaClipStream
 global sndcard, SpeechStreamFile, SpeechStreamTimer, CrowdSfxHandle, AmbientSfxHandle, LastSfxHandle, CrowdFading, CrowdActive
-global CrowdLevel, CrowdTarget, GameSoundOn, CurrentMusicTrack, SoundCardOn, SpeechBankPaths, ClipIndexTable, SpeechBankAltPaths
+global CrowdVolumeLevel, CrowdTarget, GameSoundOn, CurrentMusicTrack, SoundCardOn, SpeechBankPaths, ClipIndexTable, SpeechBankAltPaths
 global speechq, SpeechBankHandle, SpeechBanksOpen, speechinit, SfxMask, ArenaClipState, ArenaClipTime, ArenaClipId
 global TgvFpsSetting, TgvFlags, TgvStartTick, TgvPauseTick, DirPathTable, TeamDivisions, TeamConferenceIds, SeasonTeamOrder
 global LogoNames, TeamCityNames, TeamFullNames, TeamNicknames, CdSpeedTested, SpeechStarting, CdSpeed, TeamPairClips
@@ -65,7 +65,7 @@ CrowdFading:                                    ; set while the crowd sound fade
 CrowdActive:                                    ; crowd sound is playing; used by CrowdFadeOut,
                                                 ; CrowdNoiseReset, CrowdPause ...
         db 00h,00h,00h,00h
-CrowdLevel:                                     ; current crowd volume level; used by CrowdFadeOut,
+CrowdVolumeLevel:                                     ; current crowd volume level; used by CrowdFadeOut,
                                                 ; CrowdNoiseReset, CrowdPause ...
         db 00h,00h,00h,00h
 CrowdTarget:                                    ; crowd volume the fade is heading to; used by

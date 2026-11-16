@@ -24,10 +24,10 @@ SortPending:                                    ; Set when the sprite sort order
                                                 ; faceoff; puckfaceoff re-sorts and clears it; used by
                                                 ; AddPenalty2, InProgress, LoadGameState ...
         db 00h,00h
-exitgame:                                       ; set once by SetExitGame; used by GameLoop,
+exitgame:                                       ; set once by SetExitGame; used by Gameloop,
                                                 ; GameLoop_hotkeyscall, GameLoop_nextperiodcall ...
         db 01h,00h
-gameover:                                       ; set once by GameOver; used by GameLoop,
+gameover:                                       ; set once by GameOver; used by Gameloop,
                                                 ; GameLoop_nextperiodcall, GameOver ...
         db 01h,00h
 PerTimeTab:                                     ; Period length in seconds for each period length option (300,

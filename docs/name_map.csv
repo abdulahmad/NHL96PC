@@ -53,7 +53,7 @@ address,name,auto_name,source,confidence,evidence,file
 16C4D,InputRecordTimer,sub_16C4D,new,high,timer callback; every 4th tick pushes 0x12-byte record (4 slot dwords + ticks) into ring of 5,
 16D76,HandleSlotButtons,sub_16D76,new,high,"reads the 4 slot dwords; bit0 pause, bit1 replay, bits10-13/14-17 line change per team, bits18/19 goalie pull",
 16F09,RunSimFrames,sub_16F09,new,medium,runs n sim frames after HandleSlotButtons; stops on menu request,
-17025,GameLoop,sub_17025,new,medium,"the game loop PlayGame runs: takes input records out of the ring, then draws",src/front/play_game/play_game.asm
+17025,Gameloop,sub_17025,94G,medium,the game's main loop (94G hockey94 Gameloop),src/front/play_game/play_game.asm
 1739F,RunDemoGame,sub_1739F,new,high,"attract-mode demo game: seeds rand from the time, InitSlotTable, loads the game, starts InputRecordTimer, SetupDemoGame, GameLoop, then stops the timer and restores the screen; same job as 95 PC RunDemoGame",src/front/play_game/play_game.asm
 17494,PlayGame,sub_17494,95PC,medium,"play a game (eax < 0: a new one); calls the slot table set-up and the game loop, as NHL95PC PlayGame",src/front/play_game/play_game.asm
 17675,ModemInitDefault,,new,medium,"was a wrong FLIRT match: ModemInit(port, ""ATZS7=60S11=55""); no caller (dead code)",src/front/link/link.asm
@@ -5060,7 +5060,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11D1F2,LastSfxHandle,dword_11D1F2,new,low,handle of the last sound effect started,src/data/front/front_67000_data_01.asm
 11D1F6,CrowdFading,dword_11D1F6,new,low,set while the crowd sound fades,src/data/front/front_67000_data_01.asm
 11D1FA,CrowdActive,dword_11D1FA,new,low,crowd sound is playing,src/data/front/front_67000_data_01.asm
-11D1FE,CrowdLevel,dword_11D1FE,new,low,current crowd volume level,src/data/front/front_67000_data_01.asm
+11D1FE,CrowdVolumeLevel,dword_11D1FE,new,medium,current crowd sound volume (kept apart from Crowdlevel the excitement level),src/data/front/front_67000_data_01.asm
 11D202,CrowdTarget,dword_11D202,new,low,crowd volume the fade is heading to,src/data/front/front_67000_data_01.asm
 11D206,GameSoundOn,dword_11D206,new,low,in-game sound enabled,src/data/front/front_67000_data_01.asm
 11D20A,MusicFileName,byte_11D20A,new,low,music file name buffer,src/data/front/front_67000_data_01.asm
@@ -5532,7 +5532,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 123BBD,SpeechVoicePing,dword_123BBD,new,low,one of the two speech voices used in turn,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BC1,SpeechVoicePong,dword_123BC1,new,low,the other speech voice used in turn,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BC5,SpeechChannelCur,dword_123BC5,new,medium,speech channel now playing,src/data/lib/watcom/watcom_clib_08_data_02.asm
-123BCC,StreamState,dword_123BCC,new,medium,"audio stream state: 0 closed, 2 playing, 3 waiting for its header",src/data/lib/watcom/watcom_clib_08_data_02.asm
+123BCC,streamstate,dword_123BCC,94S,medium,audio stream state (94 SNES ram94s streamstate),src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BD0,StreamChannel,dword_123BD0,new,medium,audio stream sound channel,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BD4,StreamFrameBytes,dword_123BD4,new,medium,audio stream bytes per sample frame,src/data/lib/watcom/watcom_clib_08_data_02.asm
 123BD8,StreamSampleRate,dword_123BD8,new,medium,audio stream sample rate,src/data/lib/watcom/watcom_clib_08_data_02.asm
@@ -6558,7 +6558,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1778E8,ReplaySavedState,dword_1778E8,new,low,game state saved while a replay runs,src/data/front/replay_controls_bss_03.asm
 177908,ReplayScreenItems,unk_177908,new,low,replay screen items (66h bytes each),src/data/front/replay_controls_bss_03.asm
 177998,ReplayMenuItems,dword_177998,new,low,replay menu items,src/data/front/replay_controls_bss_03.asm
-1781CC,ReplayActive,dword_1781CC,new,low,replay is active,src/data/front/replay_controls_bss_03.asm
+1781CC,replayactive,dword_1781CC,94G,medium,replay is active (94G ram94 replayactive),src/data/front/replay_controls_bss_03.asm
 1781D0,ReplaySavedView,dword_1781D0,new,low,view saved while a replay runs,src/data/front/replay_controls_bss_03.asm
 1781D4,FreeCamX,dword_1781D4,new,low,free camera x,src/data/front/replay_controls_bss_03.asm
 1781D8,FreeCamY,dword_1781D8,new,low,free camera y,src/data/front/replay_controls_bss_03.asm

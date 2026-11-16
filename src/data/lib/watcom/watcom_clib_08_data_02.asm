@@ -10,7 +10,7 @@ extern SbService, SbQuery, SbEnd, SbProOpen, SbProClose, SbProService, SbProQuer
 extern Sb16Open, Sb16Close, Sb16Service, Sb16Query, Sb16End, str_spEACSNDFLIB32BitSoundLibr, str_NoCardInstalled, str_SoundBlaster10
 extern str_SoundBlaster15, str_SoundBlaster20, str_SoundBlasterPro10, str_SoundBlasterPro20, str_SoundBlaster16, str_GravisUltraSound, str_WindowsSoundSystem
 global SpeechQueuePlaying, CrowdLoaded, CrowdPaused, VolumeCurve, SpeechQueueWrite, SpeechQueueRead, SpeechQueueVolume, SpeechVoicePing
-global SpeechVoicePong, SpeechChannelCur, StreamState, StreamChannel, StreamFrameBytes, StreamSampleRate, StreamVolume, StreamOwner
+global SpeechVoicePong, SpeechChannelCur, streamstate, StreamChannel, StreamFrameBytes, StreamSampleRate, StreamVolume, StreamOwner
 global StreamHeader, StreamPacketsPlayed, StreamSampleScale, SfxBanks, CrowdVolume, CrowdIntensityGoal, CrowdRampMode, CrowdEvent
 global CrowdFadeStep, CrowdFadeGoal, CrowdFadeLevel, CrowdLastBendStore, CrowdLastBend, CrowdLastVolumeStore, CrowdLastVolume, CrowdTicks
 global SndMixMode, StereoPanCurve, NextSndChannel, SndTimerAdded, SndExitHandlerAdded, TgvFrames, TgvTotalFrames, TgvRateTicks
@@ -37,7 +37,7 @@ SpeechVoicePong:                                ; the other speech voice used in
 SpeechChannelCur:                               ; speech channel now playing; used by FlushSpeechQueue,
                                                 ; OpenSpeechQueue, ResetSpeechQueue ...
         db 00h,00h,00h,00h,00h,00h,00h
-StreamState:                                    ; audio stream state: 0 closed, 2 playing, 3 waiting for its
+streamstate:                                    ; audio stream state: 0 closed, 2 playing, 3 waiting for its
                                                 ; header; used by AudioStreamActive, AudioStreamCallback,
                                                 ; AudioStreamPacketsPlayed ...
         db 00h,00h,00h,00h

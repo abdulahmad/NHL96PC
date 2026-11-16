@@ -25,7 +25,7 @@ extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScre
 extern FindShape, SeasonUserRecords, PlayoffHeader, ModemGameOpts, SavedGameOpts, SlotsTwoPlayer, PauseRequested
 extern bannermsg, bannertimer, PeriodEventCount, GameEventFlags
 global PlayGameModeJumpTable, PlayGameStatsLoadJumpTable, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
-global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
+global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, Gameloop
 global GameLoop_E, GameLoop_18, GameLoop_38, GameLoop_inputcheck, GameLoop_hotkeyscall, GameLoop_hotkeyscall_5, GameLoop_menucall, GameLoop_menucall_A
 global GameLoop_nextperiodcall, GameLoop_nextperiodcall_6C, GameLoop_gameovercall, RunDemoGame, PlayGame, PlayGame_initslotscall, PlayGame_menucall, PlayGame_menucall_42
 PlayGameModeJumpTable:                          ; jump table for the switch cases of PlayMenuGame
@@ -579,11 +579,11 @@ RunSimFrames:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; GameLoop                                     17025  96 PC, medium confidence
+; Gameloop                                     17025  96 PC, medium confidence
 ; The game loop PlayGame runs: takes input records out of the ring, then
 ; draws
 ;-----------------------------------------------------------------------------
-GameLoop:
+Gameloop:
         push ebx
         push ecx
         push edx
@@ -708,6 +708,9 @@ GameLoop_hotkeyscall_5:
 GameLoop_menucall:
         call RunInGameMenu
         jmp near GameLoop_38
+;-----------------------------------------------------------------------------
+; GameLoop_menucall_A                                             1725F  96 PC
+;-----------------------------------------------------------------------------
 GameLoop_menucall_A:
         mov dword [GameLoopActive], 0
         cmp dword [gameresult], byte 0
@@ -737,6 +740,9 @@ GameLoop_nextperiodcall:
         mov dword [GameLoopFrames], 0
         mov dword [GameFrameCount], 0
         jmp near GameLoop_E
+;-----------------------------------------------------------------------------
+; GameLoop_nextperiodcall_6C                                      172F7  96 PC
+;-----------------------------------------------------------------------------
 GameLoop_nextperiodcall_6C:
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -746,6 +752,9 @@ GameLoop_nextperiodcall_6C:
         je near GameLoop_18
         mov dword [gameresult], 1
         jmp near GameLoop_18
+;-----------------------------------------------------------------------------
+; GameLoop_gameovercall                                           17324  96 PC
+;-----------------------------------------------------------------------------
 GameLoop_gameovercall:
         call FreeSpriteCache
         mov eax, 50h
@@ -779,7 +788,7 @@ GameLoop_gameovercall:
 ;-----------------------------------------------------------------------------
 ; RunDemoGame                                                     1739F  96 PC
 ; Attract-mode demo game: seeds rand from the time, InitSlotTable, loads the
-; game, starts InputRecordTimer, SetupDemoGame, GameLoop.
+; game, starts InputRecordTimer, SetupDemoGame, Gameloop.
 ;
 ; Then stops the timer and restores the screen
 ;-----------------------------------------------------------------------------
@@ -817,7 +826,7 @@ RunDemoGame:
         jl short .1
         mov dword [InGameMenuRequest], 0
         mov dword [gameresult], 0
-        call GameLoop
+        call Gameloop
         jmp short .2
 .1:
         mov dword [gameresult], 2
@@ -849,7 +858,7 @@ RunDemoGame:
 ; (LoadRockMusic, LoadGameGfx, SetupGame.
 ;
 ; gameresult 2 on cancel), otherwise LoadGameState from the file, rebuilds
-; lines (SetupTeamLines) and resumes; then GameLoop; in league / Play-Off mode
+; lines (SetupTeamLines) and resumes; then Gameloop; in league / Play-Off mode
 ; a completed game (gameresult 1) deletes <league>\game.sav.
 ;
 ; called from temp_files, import_export and PlayoffModeLoop
@@ -947,7 +956,7 @@ PlayGame_menucall:
         mov eax, 7Fh
         call Crowd_Noise
 .1:
-        call GameLoop
+        call Gameloop
         jmp short PlayGame_menucall_42.4
 .2:
         call FreeSpriteCache

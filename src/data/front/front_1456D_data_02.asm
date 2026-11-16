@@ -105,7 +105,7 @@ InputRecordTicks:                               ; ticks since last record, cappe
                                                 ; InputRecordTimer, PlayGame_initslotscall, RunDemoGame
         db 00h,00h,00h,00h
 GameLoopActive:                                 ; 1 while the in-game loop runs; used by EndGameCleanup,
-                                                ; GameLoop, GameLoop_gameovercall ...
+                                                ; Gameloop, GameLoop_gameovercall ...
         db 00h,00h,00h,00h
 InputRecordBusy:                                ; re-entry guard of the timer; used by InputRecordTimer
         db 00h,00h

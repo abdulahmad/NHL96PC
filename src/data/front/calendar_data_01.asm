@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1123AC progbits alloc noexec write align=1
-global str_Tttt, str_Llll, str_Wwww, str_Punct_DrawCalendar, str_DarD, asc_1123C6, str_05dCNZDB, str_S05dCNZDB
+global str_Tttt, str_Llll, str_Wwww, str_Punct_DrawCalendar, str_DarD, str_Dashes, str_05dCNZDB, str_S05dCNZDB
 global str_Pblank, str_Pgblank, str_Tmstats, str_Tmgstats, str_Tmdata, str_Aps, str_Ags, str_Tset
 global str_GSUMMARYDB, str_H07d, str_FSH, str_Down, str_A07d, str_Home, str_PalFsh, str_Pal3
 global F32_65536, F64_0p333333, F64_0p75, F64_0p0119048, F64_0p0166667, F64_0p8, F64_10, F64_1000
@@ -17,7 +17,7 @@ str_Punct_DrawCalendar:
         db 03Ah,03Ah,03Ah,03Ah,00h
 str_DarD:
         db 064h,061h,072h,025h,064h,00h
-asc_1123C6:
+str_Dashes:
         db 02Dh,02Dh,02Dh,02Dh,00h
 F32_65536:
         db 00h,00h,080h,047h,00h

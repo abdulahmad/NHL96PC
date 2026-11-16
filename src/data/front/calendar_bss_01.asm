@@ -2,50 +2,44 @@
 bits 32
 %include "hockey.inc"
 section s_17D7D4 nobits alloc noexec write align=1
-global dword_17D7D4, dword_17D804, dword_17D830, dword_17D834, dword_17D860, dword_17D864, dword_17D894, dword_17D8C0
-global dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dword_17D900, dword_17D904, dword_17D908, dword_17D90C
-global dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924
-dword_17D7D4:
+global CalCellBmp, CalCellHiliteBmp, CalBtnUpBmp, CalBtnDownBmp, CalCellGameBmp
+global CalBtnHiliteBmp, CalHeaderBmp, CalDayBmp, CalPageBmp, CalSimWeekBmp, CalFrameBmp, CalFrameDownBmp, CalSelectedDay
+global CalFrameUpBmp, CalFrameAltDownBmp, CalSimDayBmp, CalFrameAltUpBmp, CalSimRestBmp, CalFrameAltBmp
+CalCellBmp:
         resb 48
-dword_17D804:
-        resb 44
-dword_17D830:
-        resb 4
-dword_17D834:
-        resb 44
-dword_17D860:
-        resb 4
-dword_17D864:
+CalCellHiliteBmp:
         resb 48
-dword_17D894:
-        resb 44
-dword_17D8C0:
-        resb 4
-dword_17D8C4:
+CalBtnUpBmp:
         resb 48
-dword_17D8F4:
+CalBtnDownBmp:
+        resb 48
+CalCellGameBmp:
+        resb 48
+CalBtnHiliteBmp:
+        resb 48
+CalHeaderBmp:
         resb 4
-dword_17D8F8:
+CalDayBmp:
         resb 4
-dword_17D8FC:
+CalPageBmp:
         resb 4
-dword_17D900:
+CalSimWeekBmp:
         resb 4
-dword_17D904:
+CalFrameBmp:
         resb 4
-dword_17D908:
+CalFrameDownBmp:
         resb 4
-dword_17D90C:
+CalSelectedDay:
         resb 4
-dword_17D910:
+CalFrameUpBmp:
         resb 4
-dword_17D914:
+CalFrameAltDownBmp:
         resb 4
-dword_17D918:
+CalSimDayBmp:
         resb 4
-dword_17D91C:
+CalFrameAltUpBmp:
         resb 4
-dword_17D920:
+CalSimRestBmp:
         resb 4
-dword_17D924:
+CalFrameAltBmp:
         resb 4

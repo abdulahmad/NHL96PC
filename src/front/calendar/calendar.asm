@@ -6,12 +6,12 @@ extern SetDrawBitmap, SetTickDeadline, TickDeadlinePassed, __CHP, str_MonthChoic
 extern str_DK00, str_Bkgd12, str_Pal17, str_DK02d, str_LFDK, str_RTDK, str_LT02d, str_LFLT
 extern str_RTLT, str_Sim1, str_Sim2, str_Sim3, str_Hmaw, str_WhtD, str_Rd, str_Bl
 extern str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, str_Tttt, str_Llll
-extern str_Wwww, str_Punct_DrawCalendar, str_DarD, asc_1123C6, byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9
+extern str_Wwww, str_Punct_DrawCalendar, str_DarD, str_Dashes, byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9
 extern byte_17BDAE, byte_17CC36, byte_17CC37, byte_17CC38, byte_17CECB, F32_65536, statsfromleague, statsplayoffs
 extern TeamStatsBitmap, str_Standings, optflags, PlayoffTreeData, dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3
-extern dword_17CEC7, dword_17D7D4, dword_17D804, dword_17D830, dword_17D834, dword_17D860, dword_17D864, dword_17D894
-extern dword_17D8C0, dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dword_17D900, dword_17D904, dword_17D908
-extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924, gameopts
+extern dword_17CEC7, CalCellBmp, CalCellHiliteBmp, CalBtnUpBmp, CalBtnDownBmp, CalCellGameBmp
+extern CalBtnHiliteBmp, CalHeaderBmp, CalDayBmp, CalPageBmp, CalSimWeekBmp, CalFrameBmp, CalFrameDownBmp
+extern CalSelectedDay, CalFrameUpBmp, CalFrameAltDownBmp, CalSimDayBmp, CalFrameAltUpBmp, CalSimRestBmp, CalFrameAltBmp, gameopts
 extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFileLib, LoadSeasonStats, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, DrawArt, DrawShape
@@ -57,7 +57,7 @@ CalendarScreen:
         mov dword [byte ebp+02Eh], 0
         mov dword [byte ebp+06h], eax
         call AllocMemBlock
-        mov dword [dword_17D90C], 0FFFFFFFFh
+        mov dword [CalSelectedDay], 0FFFFFFFFh
         add esp, byte 0Ch
         mov dword [byte ebp+02h], eax
         cmp dword [dword_17CC13], byte 2
@@ -121,10 +121,10 @@ CalendarScreen:
         push byte 0
         push dword 154h
         push dword 1DCh
-        mov dword [dword_17D8F8], eax
+        mov dword [CalDayBmp], eax
         call CreateBitmap
         add esp, byte 0Ch
-        mov dword [dword_17D8FC], eax
+        mov dword [CalPageBmp], eax
         mov eax, 6
         mov dword [byte ebp-01Ah], 3
         call OpenScreen
@@ -218,13 +218,13 @@ CalendarScreen:
         jne short .9
         mov eax, dword [byte ebp+02Ah]
         dec eax
-        mov dword [dword_17D90C], eax
+        mov dword [CalSelectedDay], eax
 .9:
         mov ecx, 23h
         mov eax, 0FFFFFFFFh
         lea edi, [byte ebp-07Eh]
         rep stosb
-        cmp dword [dword_17D90C], byte 0FFFFFFFFh
+        cmp dword [CalSelectedDay], byte 0FFFFFFFFh
         je near .12
         mov eax, dword [byte ebp+0Eh]
         movzx eax, byte [eax]
@@ -270,10 +270,10 @@ CalendarScreen:
         push dword [byte ebp+01Eh]
         mov edx, dword [byte ebp+022h]
         push dword [byte ebp+076h]
-        mov eax, dword [dword_17D8FC]
+        mov eax, dword [CalPageBmp]
         call DrawCalendar
         push dword [byte ebp-0Ah]
-        mov eax, dword [dword_17D8F8]
+        mov eax, dword [CalDayBmp]
         push dword [byte ebp-06h]
         push dword [byte eax+02Ch]
         call DrawArtFast
@@ -313,7 +313,7 @@ CalendarScreen:
         push dword [byte ebp+01Eh]
         mov edx, dword [byte ebp+022h]
         push dword [byte ebp+076h]
-        mov eax, dword [dword_17D8FC]
+        mov eax, dword [CalPageBmp]
         call DrawCalendar
 .13:
         mov edx, dword [byte ebp-0Eh]
@@ -335,7 +335,7 @@ CalendarScreen:
         add eax, byte 4
         push eax
         call CreateBitmap
-        mov dword [dword esi+dword_17D834], eax
+        mov dword [dword esi+CalBtnUpBmp], eax
         mov eax, dword [byte ebp+0Ah]
         add esp, byte 0Ch
         movsx eax, word [byte eax+06h]
@@ -347,7 +347,7 @@ CalendarScreen:
         add eax, byte 4
         push eax
         call CreateBitmap
-        mov dword [dword esi+dword_17D8C4], eax
+        mov dword [dword esi+CalBtnHiliteBmp], eax
         mov eax, dword [byte ebp+0Ah]
         add esp, byte 0Ch
         movsx eax, word [byte eax+06h]
@@ -360,8 +360,8 @@ CalendarScreen:
         push eax
         call CreateBitmap
         add esp, byte 0Ch
-        push dword [dword esi+dword_17D834]
-        mov dword [dword esi+dword_17D864], eax
+        push dword [dword esi+CalBtnUpBmp]
+        mov dword [dword esi+CalBtnDownBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         mov eax, dword [byte ebp+0Ah]
@@ -447,7 +447,7 @@ CalendarScreen:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        push dword [dword esi+dword_17D8C4]
+        push dword [dword esi+CalBtnHiliteBmp]
         call SetDrawBitmap
         add esp, byte 4
         push dword [byte ebp+03Ah]
@@ -511,7 +511,7 @@ CalendarScreen:
         push eax
         call DrawArt
         add esp, byte 0Ch
-        push dword [dword esi+dword_17D864]
+        push dword [dword esi+CalBtnDownBmp]
         call SetDrawBitmap
         add esp, byte 4
         push dword [byte ebp+03Ah]
@@ -597,7 +597,7 @@ CalendarScreen:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D904], eax
+        mov dword [CalFrameBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push str_LFDK
@@ -667,7 +667,7 @@ CalendarScreen:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D910], eax
+        mov dword [CalFrameUpBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push str_LFLT
@@ -731,7 +731,7 @@ CalendarScreen:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D908], eax
+        mov dword [CalFrameDownBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push str_LFLT
@@ -795,7 +795,7 @@ CalendarScreen:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D924], eax
+        mov dword [CalFrameAltBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push str_RTDK
@@ -878,7 +878,7 @@ CalendarScreen:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D91C], eax
+        mov dword [CalFrameAltUpBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push str_RTLT
@@ -942,7 +942,7 @@ CalendarScreen:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D914], eax
+        mov dword [CalFrameAltDownBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push str_RTLT
@@ -1006,7 +1006,7 @@ CalendarScreen:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D918], eax
+        mov dword [CalSimDayBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push str_Sim1
@@ -1057,7 +1057,7 @@ CalendarScreen:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D900], eax
+        mov dword [CalSimWeekBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push str_Sim2
@@ -1108,7 +1108,7 @@ CalendarScreen:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D920], eax
+        mov dword [CalSimRestBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push str_Sim3
@@ -1160,15 +1160,15 @@ CalendarScreen:
         mov byte [dword edx+0A8h], al
         mov eax, dword [byte ebp+076h]
         mov byte [dword edx+0AAh], 5
-        mov edx, dword [nosplit eax*4+dword_17D830]
+        mov edx, dword [nosplit eax*4+CalBtnUpBmp-4]
         mov ebx, dword [byte edx+02Ch]
         mov edx, dword [byte ebp-0Eh]
         mov dword [dword edx+0E6h], ebx
-        mov edx, dword [nosplit eax*4+dword_17D8C0]
+        mov edx, dword [nosplit eax*4+CalBtnHiliteBmp-4]
         mov ebx, dword [byte edx+02Ch]
         mov edx, dword [byte ebp-0Eh]
         mov dword [dword edx+0EAh], ebx
-        mov eax, dword [nosplit eax*4+dword_17D860]
+        mov eax, dword [nosplit eax*4+CalBtnDownBmp-4]
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+0EEh], edx
@@ -1191,15 +1191,15 @@ CalendarScreen:
         mov byte [dword eax+010Fh], 8
         add edx, byte 0Ah
         mov dword [dword eax+010Ah], edx
-        mov eax, dword [dword_17D904]
+        mov eax, dword [CalFrameBmp]
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+014Ch], edx
-        mov eax, dword [dword_17D910]
+        mov eax, dword [CalFrameUpBmp]
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+0150h], edx
-        mov eax, dword [dword_17D908]
+        mov eax, dword [CalFrameDownBmp]
         push str_LFDK
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
@@ -1228,16 +1228,16 @@ CalendarScreen:
         mov byte [dword edx+0175h], 7
         add eax, byte 0Ah
         mov dword [dword edx+0170h], eax
-        mov eax, dword [dword_17D924]
+        mov eax, dword [CalFrameAltBmp]
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+01B2h], edx
-        mov eax, dword [dword_17D91C]
+        mov eax, dword [CalFrameAltUpBmp]
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+01B6h], edx
         add esp, byte 8
-        mov eax, dword [dword_17D914]
+        mov eax, dword [CalFrameAltDownBmp]
         push str_RTDK
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
@@ -1266,16 +1266,16 @@ CalendarScreen:
         add eax, byte 0Ah
         mov byte [dword edx+01DBh], 9
         mov dword [dword edx+01D6h], eax
-        mov eax, dword [dword_17D918]
+        mov eax, dword [CalSimDayBmp]
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+0218h], edx
-        mov eax, dword [dword_17D900]
+        mov eax, dword [CalSimWeekBmp]
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+021Ch], edx
         add esp, byte 8
-        mov eax, dword [dword_17D920]
+        mov eax, dword [CalSimRestBmp]
         push str_Sim1
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-0Eh]
@@ -1478,10 +1478,10 @@ CalendarScreen_13D3:
         mov dword [byte ebp-01Eh], 2712h
         jmp near CalendarScreen_1B6C.47
 CalendarScreen_13E4:
-        cmp dword [dword_17D90C], byte 0FFFFFFFFh
+        cmp dword [CalSelectedDay], byte 0FFFFFFFFh
         je near .25
         call SlideInTitleBar
-        mov eax, dword [dword_17D90C]
+        mov eax, dword [CalSelectedDay]
         shl eax, 2
         add eax, dword [byte ebp+012h]
         mov ebx, dword [byte ebp+01Eh]
@@ -1535,7 +1535,7 @@ CalendarScreen_13E4:
         mov edi, byte_17CECB
         add dword [byte ebp+012h], eax
         rep movsb
-        mov eax, dword [dword_17D90C]
+        mov eax, dword [CalSelectedDay]
         mov edx, dword [byte ebp+066h]
         mov dword [dword_17CEC7], eax
         movzx edx, byte [byte edx+02h]
@@ -1661,7 +1661,7 @@ CalendarScreen_153A:
         add eax, byte 4
         push eax
         call CreateBitmap
-        mov dword [dword esi+dword_17D7D4], eax
+        mov dword [dword esi+CalCellBmp], eax
         mov eax, dword [byte ebp+0Ah]
         add esp, byte 0Ch
         movsx eax, word [byte eax+06h]
@@ -1673,7 +1673,7 @@ CalendarScreen_153A:
         add eax, byte 4
         push eax
         call CreateBitmap
-        mov dword [dword esi+dword_17D804], eax
+        mov dword [dword esi+CalCellHiliteBmp], eax
         mov eax, dword [byte ebp+0Ah]
         add esp, byte 0Ch
         movsx eax, word [byte eax+06h]
@@ -1686,21 +1686,21 @@ CalendarScreen_153A:
         push eax
         call CreateBitmap
         add esp, byte 0Ch
-        mov dword [dword esi+dword_17D894], eax
+        mov dword [dword esi+CalCellGameBmp], eax
         push dword [byte ebp+06Eh]
-        mov eax, dword [dword esi+dword_17D7D4]
+        mov eax, dword [dword esi+CalCellBmp]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
         call DrawArtFast
         add esp, byte 0Ch
         push dword [byte ebp+06Eh]
-        mov eax, dword [dword esi+dword_17D804]
+        mov eax, dword [dword esi+CalCellHiliteBmp]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
         call DrawArtFast
         add esp, byte 0Ch
         push dword [byte ebp+06Eh]
-        mov eax, dword [dword esi+dword_17D894]
+        mov eax, dword [dword esi+CalCellGameBmp]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
         call DrawArtFast
@@ -1715,7 +1715,7 @@ CalendarScreen_153A:
         push eax
         call DrawArt
         add esp, byte 0Ch
-        push dword [dword esi+dword_17D7D4]
+        push dword [dword esi+CalCellBmp]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
@@ -1749,7 +1749,7 @@ CalendarScreen_153A:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        push dword [dword esi+dword_17D804]
+        push dword [dword esi+CalCellHiliteBmp]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
@@ -1775,7 +1775,7 @@ CalendarScreen_153A:
         call DrawArt
         add esp, byte 0Ch
 .28:
-        push dword [dword esi+dword_17D894]
+        push dword [dword esi+CalCellGameBmp]
         call SetDrawBitmap
         add esp, byte 4
         push byte 4
@@ -1830,13 +1830,13 @@ CalendarScreen_153A:
         mov dword [byte edx+01Ch], eax
         mov dword [byte edi+010h], 4
         mov dword [byte edi+014h], edx
-        mov eax, dword [dword esi+dword_17D7D4]
+        mov eax, dword [dword esi+CalCellBmp]
         mov eax, dword [byte eax+02Ch]
         mov dword [byte edi+01Ah], eax
-        mov eax, dword [dword esi+dword_17D804]
+        mov eax, dword [dword esi+CalCellHiliteBmp]
         mov eax, dword [byte eax+02Ch]
         mov dword [byte edi+01Eh], eax
-        mov eax, dword [dword esi+dword_17D894]
+        mov eax, dword [dword esi+CalCellGameBmp]
         mov eax, dword [byte eax+02Ch]
         mov dword [byte edi+022h], eax
         mov eax, dword [byte ebp+072h]
@@ -1890,14 +1890,14 @@ CalendarScreen_153A:
         mov dword [byte ebp+076h], eax
 .31:
         mov eax, dword [byte ebp+076h]
-        mov edx, dword [nosplit eax*4+dword_17D8C0]
+        mov edx, dword [nosplit eax*4+CalBtnHiliteBmp-4]
         mov ebx, dword [byte ebp-0Eh]
         mov edx, dword [byte edx+02Ch]
         mov dword [dword ebx+0EAh], edx
-        mov edx, dword [nosplit eax*4+dword_17D860]
+        mov edx, dword [nosplit eax*4+CalBtnDownBmp-4]
         mov edx, dword [byte edx+02Ch]
         mov dword [dword ebx+0EEh], edx
-        mov eax, dword [nosplit eax*4+dword_17D830]
+        mov eax, dword [nosplit eax*4+CalBtnUpBmp-4]
         mov ecx, 23h
         mov eax, dword [byte eax+02Ch]
         lea edi, [byte ebp-07Eh]
@@ -1910,19 +1910,19 @@ CalendarScreen_153A:
         mov ebx, dword [byte ebp+01Ah]
         mov ecx, dword [byte ebp+016h]
         push dword [byte ebp+01Eh]
-        mov eax, dword [dword_17D8FC]
+        mov eax, dword [CalPageBmp]
         push dword [byte ebp+076h]
         xor esi, esi
         call DrawCalendar
-        mov dword [dword_17D90C], 0FFFFFFFFh
+        mov dword [CalSelectedDay], 0FFFFFFFFh
 .32:
-        push dword [dword esi+dword_17D7D4]
+        push dword [dword esi+CalCellBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword esi+dword_17D804]
+        push dword [dword esi+CalCellHiliteBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword esi+dword_17D894]
+        push dword [dword esi+CalCellGameBmp]
         add esi, byte 4
         call FreeBitmap
         add esp, byte 4
@@ -1936,7 +1936,7 @@ CalendarScreen_153A:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D8F4], eax
+        mov dword [CalHeaderBmp], eax
         call SetDrawBitmap
         mov eax, dword [byte ebp+0Ah]
         add esp, byte 4
@@ -1956,11 +1956,11 @@ CalendarScreen_153A:
         push byte 0
         movsx eax, word [byte eax+0Ch]
         push eax
-        mov eax, dword [dword_17D8F4]
+        mov eax, dword [CalHeaderBmp]
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
-        push dword [dword_17D8F4]
+        push dword [CalHeaderBmp]
         call FreeBitmap
         add esp, byte 4
         jmp near CalendarScreen_1B6C.47
@@ -1972,14 +1972,14 @@ CalendarScreen_1AC2:
         mov dword [byte ebp+076h], 0Ch
 .33:
         mov eax, dword [byte ebp+076h]
-        mov edx, dword [nosplit eax*4+dword_17D8C0]
+        mov edx, dword [nosplit eax*4+CalBtnHiliteBmp-4]
         mov ebx, dword [byte ebp-0Eh]
         mov edx, dword [byte edx+02Ch]
         mov dword [dword ebx+0EAh], edx
-        mov edx, dword [nosplit eax*4+dword_17D860]
+        mov edx, dword [nosplit eax*4+CalBtnDownBmp-4]
         mov edx, dword [byte edx+02Ch]
         mov dword [dword ebx+0EEh], edx
-        mov eax, dword [nosplit eax*4+dword_17D830]
+        mov eax, dword [nosplit eax*4+CalBtnUpBmp-4]
         mov ecx, 23h
         mov eax, dword [byte eax+02Ch]
         lea edi, [byte ebp-07Eh]
@@ -1993,9 +1993,9 @@ CalendarScreen_1AC2:
         push dword [byte ebp+01Eh]
         mov ecx, dword [byte ebp+016h]
         push dword [byte ebp+076h]
-        mov eax, dword [dword_17D8FC]
+        mov eax, dword [CalPageBmp]
         call DrawCalendar
-        mov dword [dword_17D90C], 0FFFFFFFFh
+        mov dword [CalSelectedDay], 0FFFFFFFFh
         jmp near CalendarScreen_1B6C.47
 CalendarScreen_1B49:
         cmp dword [byte ebp+076h], byte 6
@@ -2006,9 +2006,9 @@ CalendarScreen_1B49:
         mov dword [byte ebp+076h], 1
         jmp near CalendarScreen_1AC2.33
 CalendarScreen_1B6C:
-        cmp dword [dword_17D90C], byte 0FFFFFFFFh
+        cmp dword [CalSelectedDay], byte 0FFFFFFFFh
         je near .47
-        mov eax, dword [dword_17D90C]
+        mov eax, dword [CalSelectedDay]
         shl eax, 2
         add eax, dword [byte ebp+012h]
         mov edx, dword [byte ebp+01Eh]
@@ -2080,7 +2080,7 @@ CalendarScreen_1B6C:
         mov esi, dword [byte ebp+06Ah]
         mov edi, byte_17CECB
         rep movsb
-        mov eax, dword [dword_17D90C]
+        mov eax, dword [CalSelectedDay]
         shl eax, 2
         mov ebx, 1
         add eax, dword [byte ebp+012h]
@@ -2089,7 +2089,7 @@ CalendarScreen_1B6C:
         push dword [dword eax+014Fh]
         xor eax, eax
         call SimulateGame
-        mov eax, dword [dword_17D90C]
+        mov eax, dword [CalSelectedDay]
         shl eax, 2
         add eax, dword [byte ebp+012h]
         lea edi, [byte ebp-07Eh]
@@ -2104,7 +2104,7 @@ CalendarScreen_1B6C:
         movzx eax, byte [byte eax+04h]
         cmp eax, 0FFh
         je short .39
-        cmp dword [dword_17D90C], byte 0FFFFFFFFh
+        cmp dword [CalSelectedDay], byte 0FFFFFFFFh
         jg short .41
 .39:
         mov eax, dword [byte ebp+06Ah]
@@ -2116,7 +2116,7 @@ CalendarScreen_1B6C:
         movsx eax, byte [dword eax+byte_17CC36]
         cmp eax, byte 1
         jne short .40
-        cmp dword [dword_17D90C], byte 0FFFFFFFFh
+        cmp dword [CalSelectedDay], byte 0FFFFFFFFh
         jg short .41
 .40:
         mov eax, dword [byte ebp+06Ah]
@@ -2128,23 +2128,23 @@ CalendarScreen_1B6C:
         movsx eax, byte [dword eax+byte_17CC36]
         cmp eax, byte 1
         jne short .42
-        cmp dword [dword_17D90C], byte 0FFFFFFFFh
+        cmp dword [CalSelectedDay], byte 0FFFFFFFFh
         jle short .42
 .41:
-        inc dword [dword_17D90C]
-        mov eax, dword [dword_17D90C]
+        inc dword [CalSelectedDay]
+        mov eax, dword [CalSelectedDay]
         shl eax, 2
         add eax, dword [byte ebp+012h]
         mov edx, dword [byte ebp+01Eh]
         add edx, dword [dword eax+014Fh]
-        mov eax, dword [dword_17D90C]
+        mov eax, dword [CalSelectedDay]
         mov dword [byte ebp+06Ah], edx
         cmp eax, dword [byte ebp+032h]
         jle near .38
-        mov dword [dword_17D90C], 0FFFFFFFFh
+        mov dword [CalSelectedDay], 0FFFFFFFFh
         jmp near .38
 .42:
-        cmp dword [dword_17D90C], byte 0FFFFFFFFh
+        cmp dword [CalSelectedDay], byte 0FFFFFFFFh
         je near .45
         mov eax, dword [byte ebp+06Ah]
         movzx eax, byte [eax]
@@ -2184,14 +2184,14 @@ CalendarScreen_1B6C:
         mov dword [byte ebp+06Eh], edx
 .44:
         mov eax, dword [byte ebp+076h]
-        mov edx, dword [nosplit eax*4+dword_17D8C0]
+        mov edx, dword [nosplit eax*4+CalBtnHiliteBmp-4]
         mov ebx, dword [byte ebp-0Eh]
         mov edx, dword [byte edx+02Ch]
         mov dword [dword ebx+0EAh], edx
-        mov edx, dword [nosplit eax*4+dword_17D860]
+        mov edx, dword [nosplit eax*4+CalBtnDownBmp-4]
         mov edx, dword [byte edx+02Ch]
         mov dword [dword ebx+0EEh], edx
-        mov eax, dword [nosplit eax*4+dword_17D830]
+        mov eax, dword [nosplit eax*4+CalBtnUpBmp-4]
         mov eax, dword [byte eax+02Ch]
         mov dword [dword ebx+0E6h], eax
 .45:
@@ -2202,9 +2202,9 @@ CalendarScreen_1B6C:
         push dword [byte ebp+01Eh]
         mov edx, dword [byte ebp+022h]
         push dword [byte ebp+076h]
-        mov eax, dword [dword_17D8FC]
+        mov eax, dword [CalPageBmp]
         call DrawCalendar
-        cmp dword [dword_17D90C], byte 0FFFFFFFFh
+        cmp dword [CalSelectedDay], byte 0FFFFFFFFh
         je near .49
         cmp dword [byte ebp+02Eh], byte 0
         jne near .49
@@ -2230,7 +2230,7 @@ CalendarScreen_1B6C:
         imul edx, byte 44h
         add edx, byte 52h
         push edx
-        mov eax, dword [dword_17D8F8]
+        mov eax, dword [CalDayBmp]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
         mov dword [byte ebp+06Eh], edx
@@ -2284,7 +2284,7 @@ CalendarScreen_1B6C:
         cmp dword [byte ebp+02Eh], byte 0
         je short .47
         push dword [byte ebp+06Eh]
-        mov eax, dword [dword_17D8F8]
+        mov eax, dword [CalDayBmp]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
         call DrawArtFast
@@ -2320,10 +2320,10 @@ CalendarScreen_1B6C:
         movsx eax, byte [dword eax+ebp-084h]
         cmp eax, byte 0FFFFFFFFh
         je near .47
-        cmp dword [dword_17D90C], byte 0FFFFFFFFh
+        cmp dword [CalSelectedDay], byte 0FFFFFFFFh
         je short .51
         push dword [byte ebp+06Eh]
-        mov eax, dword [dword_17D8F8]
+        mov eax, dword [CalDayBmp]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
         call PutBlock
@@ -2346,7 +2346,7 @@ CalendarScreen_1B6C:
         push eax
         mov dword [byte ebp+06Eh], eax
         push dword [byte ebp+072h]
-        mov eax, dword [dword_17D8F8]
+        mov eax, dword [CalDayBmp]
         push dword [byte eax+02Ch]
         call DrawArtFast
         add esp, byte 0Ch
@@ -2378,7 +2378,7 @@ CalendarScreen_1B6C:
         mov eax, dword [byte ebp-016h]
         movsx eax, byte [dword eax+ebp-084h]
         add esp, byte 14h
-        mov dword [dword_17D90C], eax
+        mov dword [CalSelectedDay], eax
         jmp near .47
 .52:
         push dword [byte ebp+022h]
@@ -2404,51 +2404,51 @@ CalendarScreen_1B6C:
         push dword [byte ebp+01Eh]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_17D8F8]
+        push dword [CalDayBmp]
         xor esi, esi
         call FreeBitmap
         add esp, byte 4
 .53:
-        push dword [dword esi+dword_17D834]
+        push dword [dword esi+CalBtnUpBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword esi+dword_17D8C4]
+        push dword [dword esi+CalBtnHiliteBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword esi+dword_17D864]
+        push dword [dword esi+CalBtnDownBmp]
         add esi, byte 4
         call FreeBitmap
         add esp, byte 4
         cmp esi, byte 30h
         jne short .53
-        push dword [dword_17D8FC]
+        push dword [CalPageBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17D904]
+        push dword [CalFrameBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17D924]
+        push dword [CalFrameAltBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17D910]
+        push dword [CalFrameUpBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17D91C]
+        push dword [CalFrameAltUpBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17D908]
+        push dword [CalFrameDownBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17D914]
+        push dword [CalFrameAltDownBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17D920]
+        push dword [CalSimRestBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17D900]
+        push dword [CalSimWeekBmp]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17D918]
+        push dword [CalSimDayBmp]
         call FreeBitmap
         mov eax, dword [byte ebp-01Eh]
         add esp, byte 4
@@ -3013,7 +3013,7 @@ DrawCalendar:
         mov edx, eax
         mov eax, 0FAE1h
         call DrawFrameAt
-        push asc_1123C6
+        push str_Dashes
         push dword [dword ebp-0342h]
         add edi, byte 0Ah
         call FindShape

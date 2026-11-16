@@ -3601,6 +3601,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1123B6,str_Wwww,asc_1123B6,new,high,string 'wwww',src/data/front/calendar_data_01.asm
 1123BB,str_Punct_DrawCalendar,asc_1123BB,new,high,"string ""::::""",src/data/front/calendar_data_01.asm
 1123C0,str_DarD,asc_1123C0,new,high,string 'dar%d',src/data/front/calendar_data_01.asm
+1123C6,str_Dashes,asc_1123C6,new,low,"""----"": calendar placeholder text",src/data/front/calendar_data_01.asm
 1123CB,F32_65536,dword_1123CB,new,high,float constant 65536,src/data/front/calendar_data_01.asm
 1123D0,str_05dCNZDB,asc_1123D0,new,high,string '%05d%cNZ.DB',src/data/front/calendar_data_01.asm
 1123DC,str_S05dCNZDB,asc_1123DC,new,high,string '%s%05d%cNZ.DB',src/data/front/calendar_data_01.asm
@@ -5544,6 +5545,25 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 17D518,PauseClockArea,dword_17D518,new,low,pause clock area,src/data/front/pause_menu_bss_01.asm
 17D528,FrontShapeFile,dword_17D528,new,low,front end shape file,src/data/front/pause_menu_bss_01.asm
 17D7CC,statsbgshapes,dword_17D7CC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_741BD_bss_01.asm
+17D7D4,CalCellBmp,dword_17D7D4,new,low,"Calendar day cell bitmaps, one per cell",src/data/front/calendar_bss_01.asm
+17D804,CalCellHiliteBmp,dword_17D804,new,low,"Calendar day cell bitmaps, highlighted",src/data/front/calendar_bss_01.asm
+17D834,CalBtnUpBmp,dword_17D834,new,low,"Calendar button bitmaps, up (copied to the button's normal art; indexed from 1)",src/data/front/calendar_bss_01.asm
+17D864,CalBtnDownBmp,dword_17D864,new,low,"Calendar button bitmaps, pressed (indexed from 1)",src/data/front/calendar_bss_01.asm
+17D894,CalCellGameBmp,dword_17D894,new,low,Calendar day cell bitmaps with a game drawn in,src/data/front/calendar_bss_01.asm
+17D8C4,CalBtnHiliteBmp,dword_17D8C4,new,low,"Calendar button bitmaps, highlighted (indexed from 1)",src/data/front/calendar_bss_01.asm
+17D8F4,CalHeaderBmp,dword_17D8F4,new,low,Calendar header bitmap (screen width x 52h),src/data/front/calendar_bss_01.asm
+17D8F8,CalDayBmp,dword_17D8F8,new,low,Calendar day bitmap (44h x 44h),src/data/front/calendar_bss_01.asm
+17D8FC,CalPageBmp,dword_17D8FC,new,low,Calendar page bitmap (1DCh x 154h),src/data/front/calendar_bss_01.asm
+17D900,CalSimWeekBmp,dword_17D900,new,low,Calendar sim button art (second sim shape),src/data/front/calendar_bss_01.asm
+17D904,CalFrameBmp,dword_17D904,new,low,Calendar frame art (LFDK shape),src/data/front/calendar_bss_01.asm
+17D908,CalFrameDownBmp,dword_17D908,new,low,"Calendar frame button, pressed",src/data/front/calendar_bss_01.asm
+17D90C,CalSelectedDay,dword_17D90C,new,low,"Selected calendar day, -1 for none",src/data/front/calendar_bss_01.asm
+17D910,CalFrameUpBmp,dword_17D910,new,low,"Calendar frame button, up",src/data/front/calendar_bss_01.asm
+17D914,CalFrameAltDownBmp,dword_17D914,new,low,"Second calendar frame button, pressed",src/data/front/calendar_bss_01.asm
+17D918,CalSimDayBmp,dword_17D918,new,low,Calendar sim button art (first sim shape),src/data/front/calendar_bss_01.asm
+17D91C,CalFrameAltUpBmp,dword_17D91C,new,low,"Second calendar frame button, up",src/data/front/calendar_bss_01.asm
+17D920,CalSimRestBmp,dword_17D920,new,low,Calendar sim button art (third sim shape),src/data/front/calendar_bss_01.asm
+17D924,CalFrameAltBmp,dword_17D924,new,low,Second calendar frame art,src/data/front/calendar_bss_01.asm
 17DA50,AwayShotTotals,dword_17DA50,new,low,away shot totals,src/data/front/front_81EEA_bss_01.asm
 17DC20,LineSteep,dword_17DC20,new,low,set when the line is steeper than 45 degrees,src/data/front/front_849D5_bss_01.asm
 17DC2C,LineErrX,dword_17DC2C,new,low,error term of a shallow line,src/data/front/front_849D5_bss_01.asm

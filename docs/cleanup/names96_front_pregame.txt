@@ -1,0 +1,27 @@
+# NHL 96 PC pre-game screens (after the controller screen), the anti-alias table and the fixed-point line drawer of the 3D view.
+# PC-only, source new.
+sub_849D5 PreGameMatchupScreen {confidence=low} pre-game screen 1: the matchup with the home and away pictures (H%07d / A%07d .FSH, pal.fsh); the announcer's team pair call (PaEvent 8)
+sub_84EC8 CycleScreenPalettes {confidence=low} every 8 ticks steps through 12h palettes (dword_17DBC4, dword_17DB7C)
+sub_84F20 PreGameTeamsScreen {confidence=low} pre-game screen 2: both teams' logos and name art (SCHEDULE, %04d)
+sub_85911 PreGameCardsA {confidence=low} pre-game screen 3: player cards (profile.fsh, card, plyr, Xlate)
+sub_86428 PreGameCardsB {confidence=low} pre-game screen 4: player cards (PALS, profile.fsh, card)
+sub_86BE4 PreGameCardsC {confidence=low} pre-game screen 5: player cards (PALS, profile.fsh, card)
+sub_8733C PreGameScreens {confidence=medium} after the controller screen: the 5 pre-game screens in turn (each returns -1 back / +1 on); 15h to play, 3 back
+sub_873AE BuildAntiAliasTable {confidence=medium} the AALIAS table (1004h bytes) of blended colours for the 3D view's lines
+sub_874AE ClipLineY {confidence=low} clips the current line to the view's top and bottom (dword_17DC1C / 17DC24)
+sub_876A1 ClipLineX {confidence=low} clips the current line to the view's left and right (dword_17DC18 / 17DC28)
+sub_87894 DrawLineYPlot {confidence=low} draws a mostly vertical line pixel by pixel (PlotPixel)
+sub_87A1E DrawLineY {confidence=low} draws a mostly vertical line straight into the bitmap
+sub_87B1D DrawLineXPlot {confidence=low} draws a mostly horizontal line pixel by pixel (PlotPixel)
+sub_87CBF DrawLineX {confidence=low} draws a mostly horizontal line straight into the bitmap
+sub_87DD6 DrawFixedLine {confidence=medium} (x0, y0, x1, y1 in 16.16, colour): a line of the 3D rink model (rink_model calls)
+sub_8805A DrawFixedLineClip {confidence=medium} the same with its own clip window
+sub_886F6 PlayTeamMovie {confidence=medium} (team): plays the team's movie when it has one (word_11E5FC, 20 teams; data D6h or EAh by CD speed)
+sub_849D5_4E6 PreGameMatchupScreen_4E6 {no_record}
+sub_8733C_24 PreGameScreens_24 {no_record}
+sub_8733C_44 PreGameScreens_44 {no_record}
+sub_8733C_4B PreGameScreens_4B {no_record}
+sub_8733C_52 PreGameScreens_52 {no_record}
+sub_8733C_59 PreGameScreens_59 {no_record}
+sub_87894_186 DrawLineYPlot_186 {no_record}
+sub_87894_187 DrawLineYPlot_187 {no_record}

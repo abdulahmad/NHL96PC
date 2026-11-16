@@ -62,3 +62,8 @@ cut InitVScrollBar front/scroll_bar The scroll bar widget of the front-end lists
 # step 12: front_7FF7F, front_81EEA
 rename front/front_7FF7F front/season_db The season database: team files after games, schedule days into the records, simulating the season games (96 PC).
 rename front/front_81EEA front/sim_game Simulating a game without playing it: scores and player / team stats (96 PC).
+# step 13: front_849D5 (pre-game screens, line drawer) and front_88E09 (stats menus)
+rename front/front_849D5 front/pregame The pre-game screens between the controller screen and the game: matchup, teams, player cards (96 PC).
+cut BuildAntiAliasTable front/line_draw The 3D view's line drawer: the anti-alias colour table, clipping, fixed-point lines (96 PC).
+cut sub_88509 front/stats_menu The stats menus: season and conference picks, leaders, stat tables, text export (96 PC; still being named).
+rename front/front_88E09 front/stats_menu

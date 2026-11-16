@@ -13,7 +13,7 @@ extern SetDrawBitmap, SetMenuMouse, SetScreenColors, SetTextColors, SlideInBotto
 extern SoundSecondsToBytes, sprintf_, str_Bkgd6, str_dbgO, str_feO, str_Key1, str_MCONTROL, str_P11
 extern str_P12, str_P13, str_P1G, str_P21, str_P22, str_P23, str_P2G, str_Pal12
 extern str_PlyD, str_Usrh, str_Usri, str_Utext, sub_6CF0D, sub_6CF0D_6, sub_6CF1B, sub_6D350
-extern sub_6D828, sub_6DB5C, sub_6DC2F, sub_6DD1E, GetLangText, sub_8733C, sub_9CDDA, sub_AA988
+extern sub_6D828, sub_6DB5C, sub_6DC2F, sub_6DD1E, GetLangText, PreGameScreens, sub_9CDDA, sub_AA988
 extern sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_DD6C4
 extern sub_E04E0, TextSetFont, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0, word_114CE4, word_11D92C
 extern word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14, word_160ACC, word_17D560
@@ -2537,7 +2537,7 @@ ControllerScreen_16D6:
 ;-----------------------------------------------------------------------------
 ; RunControllerScreen                          70840  96 PC, medium confidence
 ; (from): runs ControllerScreen until it leaves (3 again), then the next step
-; (0Fh, 15h, sub_8733C)
+; (0Fh, 15h, PreGameScreens)
 ;-----------------------------------------------------------------------------
 RunControllerScreen:
         push ebx
@@ -2569,7 +2569,7 @@ RunControllerScreen:
 .4:
         cmp eax, byte 15h
         je short .5
-        call sub_8733C
+        call PreGameScreens
 .5:
         cmp eax, byte 3
         je short .1

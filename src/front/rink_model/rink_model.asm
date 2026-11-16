@@ -62,7 +62,7 @@ extern str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink, str_SideNotFo
 extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_Top, str_Topboards, str_WALL
 extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, sub_1E643, sub_49300
 extern sub_4B38C, sub_4B4F3, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
-extern SoundSecondsToBytes, SoundIdle, sub_873AE, sub_87DD6, sub_8805A, sub_AA988, sub_AAA40, sub_AADA4
+extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, sub_AA988, sub_AAA40, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
 extern sub_B0494, sub_B049E, sub_B20D0, sub_B31C0, sub_B74B0, sub_B7810, sub_B78C0, sub_B78DC
 extern sub_B79C8, sub_B79E0, sub_B7A70, sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928
@@ -885,7 +885,7 @@ sub_22159:
         push dword [edi]
         push dword [byte esi+04h]
         push dword [esi]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
 sub_22159_4F:
         leave
@@ -1057,7 +1057,7 @@ sub_22299:
         push dword [byte ebp-08h]
         push dword [byte ebp-0Ch]
         push dword [byte ebp-010h]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
 sub_22299_AC:
         leave
@@ -1107,7 +1107,7 @@ sub_2234B:
         push dword [edx]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_8805A
+        call DrawFixedLineClip
         add esp, byte 20h
 .2:
         inc edi
@@ -1158,7 +1158,7 @@ sub_223BA:
         push dword [edx]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
 .2:
         inc edi
@@ -4035,7 +4035,7 @@ sub_243ED:
         push dword [byte ebp-024h]
         push dword [byte ebp-028h]
         push dword [byte ebp-02Ch]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
 .3:
         add dword [byte ebp-014h], byte 8
@@ -4089,7 +4089,7 @@ sub_243ED:
         add eax, dword [byte ebp-010h]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
 .7:
         inc dword [byte ebp-08h]
@@ -4179,7 +4179,7 @@ sub_2458D:
         push dword [byte ebp-024h]
         push dword [byte ebp-028h]
         push dword [byte ebp-02Ch]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
 .3:
         add dword [byte ebp-014h], byte 8
@@ -4233,7 +4233,7 @@ sub_2458D:
         add eax, dword [byte ebp-010h]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
 .7:
         inc dword [byte ebp-08h]
@@ -4297,7 +4297,7 @@ sub_2458D:
         push dword [byte ebp-034h]
         push dword [byte ebp-028h]
         push dword [byte ebp-02Ch]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
 .10:
         inc dword [byte ebp-014h]
@@ -4362,7 +4362,7 @@ sub_2458D_24C:
         inc edi
         push dword [eax]
         add esi, byte 4
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
 .13:
         mov eax, dword [byte ebp-04h]
@@ -6671,7 +6671,7 @@ sub_261A6:
         movzx ebx, byte [eax]
         movzx edx, byte [byte eax+01h]
         movzx eax, byte [byte eax+02h]
-        call sub_873AE
+        call BuildAntiAliasTable
         push sub_227E2
         push edi
         push dword [dword_15E8F8]
@@ -7461,7 +7461,7 @@ sub_261A6:
         movzx ebx, byte [edi+eax]
         movzx edx, byte [byte edi+eax+01h]
         movzx eax, byte [byte edi+eax+02h]
-        call sub_873AE
+        call BuildAntiAliasTable
         push str_FatBlueLines
         push dword [dword_15E8E4]
         mov dword [dword_15E7E0], eax
@@ -7481,7 +7481,7 @@ sub_261A6:
         movzx ebx, byte [edi+eax]
         movzx edx, byte [byte edi+eax+01h]
         movzx eax, byte [byte edi+eax+02h]
-        call sub_873AE
+        call BuildAntiAliasTable
         push str_Glassline
         push dword [dword_15E8E4]
         mov dword [dword_15E7EC], eax
@@ -7501,7 +7501,7 @@ sub_261A6:
         movzx ebx, byte [edi+eax]
         movzx edx, byte [byte edi+eax+01h]
         movzx eax, byte [byte edi+eax+02h]
-        call sub_873AE
+        call BuildAntiAliasTable
         push str_Topboards
         push dword [dword_15E8E4]
         mov dword [dword_15E7DC], eax
@@ -7521,7 +7521,7 @@ sub_261A6:
         movzx ebx, byte [edi+eax]
         movzx edx, byte [byte edi+eax+01h]
         movzx eax, byte [byte edi+eax+02h]
-        call sub_873AE
+        call BuildAntiAliasTable
         push str_Botboards
         push dword [dword_15E8E4]
         mov dword [dword_15E814], eax
@@ -7541,7 +7541,7 @@ sub_261A6:
         movzx ebx, byte [edi+eax]
         movzx edx, byte [byte edi+eax+01h]
         movzx eax, byte [byte edi+eax+02h]
-        call sub_873AE
+        call BuildAntiAliasTable
         push str_ThinRedLines
         push dword [dword_15E8E4]
         mov dword [dword_15E804], eax
@@ -8887,7 +8887,7 @@ sub_2849A:
         add edi, dword [byte ebp-08h]
         push dword [byte edi+04h]
         push dword [edi]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
         cmp dword [byte esi+04h], byte 0
         je near sub_24D8C_194
@@ -8920,7 +8920,7 @@ sub_2849A:
         add esi, dword [byte ebp-08h]
         push dword [byte esi+04h]
         push dword [esi]
-        call sub_87DD6
+        call DrawFixedLine
         add esp, byte 1Ch
         jmp near sub_24D8C_194
 ;-----------------------------------------------------------------------------

@@ -773,6 +773,23 @@ address,name,auto_name,source,confidence,evidence,file
 81721,ApplyPlayoffDayResults,sub_81721,new,low,(day): the same for a playoff day (MakePlayoffDbPath),src/front/season_db/season_db.asm
 81D7C,SaveSeasonTeams,sub_81D7C,new,low,writes the changed teams' %s%05d%cNZ.DB files (byte_17CFB1 marks),src/front/season_db/season_db.asm
 81EEA,SimulateGame,sub_81EEA,new,medium,"simulates one game without playing it: scores, player and team stats (pk, ps, tmstats, tmgstats, tmdata) by rand",src/front/sim_game/sim_game.asm
+849D5,PreGameMatchupScreen,sub_849D5,new,low,"pre-game screen 1: the matchup with the home and away pictures (H%07d / A%07d .FSH, pal.fsh); the announcer's team pair call (PaEvent 8)",src/front/pregame/pregame.asm
+84EC8,CycleScreenPalettes,sub_84EC8,new,low,"every 8 ticks steps through 12h palettes (dword_17DBC4, dword_17DB7C)",src/front/pregame/pregame.asm
+84F20,PreGameTeamsScreen,sub_84F20,new,low,"pre-game screen 2: both teams' logos and name art (SCHEDULE, %04d)",src/front/pregame/pregame.asm
+85911,PreGameCardsA,sub_85911,new,low,"pre-game screen 3: player cards (profile.fsh, card, plyr, Xlate)",src/front/pregame/pregame.asm
+86428,PreGameCardsB,sub_86428,new,low,"pre-game screen 4: player cards (PALS, profile.fsh, card)",src/front/pregame/pregame.asm
+86BE4,PreGameCardsC,sub_86BE4,new,low,"pre-game screen 5: player cards (PALS, profile.fsh, card)",src/front/pregame/pregame.asm
+8733C,PreGameScreens,sub_8733C,new,medium,"after the controller screen: the 5 pre-game screens in turn (each returns -1 back / +1 on); 15h to play, 3 back",src/front/pregame/pregame.asm
+873AE,BuildAntiAliasTable,sub_873AE,new,medium,the AALIAS table (1004h bytes) of blended colours for the 3D view's lines,src/front/line_draw/line_draw.asm
+874AE,ClipLineY,sub_874AE,new,low,clips the current line to the view's top and bottom (dword_17DC1C / 17DC24),src/front/line_draw/line_draw.asm
+876A1,ClipLineX,sub_876A1,new,low,clips the current line to the view's left and right (dword_17DC18 / 17DC28),src/front/line_draw/line_draw.asm
+87894,DrawLineYPlot,sub_87894,new,low,draws a mostly vertical line pixel by pixel (PlotPixel),src/front/line_draw/line_draw.asm
+87A1E,DrawLineY,sub_87A1E,new,low,draws a mostly vertical line straight into the bitmap,src/front/line_draw/line_draw.asm
+87B1D,DrawLineXPlot,sub_87B1D,new,low,draws a mostly horizontal line pixel by pixel (PlotPixel),src/front/line_draw/line_draw.asm
+87CBF,DrawLineX,sub_87CBF,new,low,draws a mostly horizontal line straight into the bitmap,src/front/line_draw/line_draw.asm
+87DD6,DrawFixedLine,sub_87DD6,new,medium,"(x0, y0, x1, y1 in 16.16, colour): a line of the 3D rink model (rink_model calls)",src/front/line_draw/line_draw.asm
+8805A,DrawFixedLineClip,sub_8805A,new,medium,the same with its own clip window,src/front/line_draw/line_draw.asm
+886F6,PlayTeamMovie,sub_886F6,new,medium,"(team): plays the team's movie when it has one (word_11E5FC, 20 teams; data D6h or EAh by CD speed)",src/front/stats_menu/stats_menu.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

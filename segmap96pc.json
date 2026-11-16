@@ -542,19 +542,31 @@
   },
   {
    "start": 543189,
-   "end": 560649,
+   "end": 553902,
    "module": "front_849D5",
    "obj": 1,
-   "file": "front/front_849D5.asm",
+   "file": "front/pregame/pregame.asm",
    "note": "placeholder"
   },
   {
-   "start": 560649,
-   "end": 574429,
-   "module": "front_88E09",
    "obj": 1,
-   "file": "front/front_88E09.asm",
-   "note": "placeholder"
+   "start": 553902,
+   "end": 558269,
+   "module": "front_line_draw",
+   "file": "front/line_draw/line_draw.asm",
+   "desc": "The 3D view's line drawer: the anti-alias colour table, clipping, fixed-point lines (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 558269,
+   "end": 574429,
+   "module": "front_stats_menu",
+   "file": "front/stats_menu/stats_menu.asm",
+   "desc": "The stats menus: season and conference picks, leaders, stat tables, text export (96 PC; still being named).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 574429,

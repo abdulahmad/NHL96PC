@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_1248DC progbits alloc noexec write align=1
-global MixerVolumeLookup, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8, dword_144FAC, dword_144FB0, dword_144FB4
-global dword_144FB8, dword_144FBC, dword_144FC0, dword_144FC4, dword_144FC8, dword_144FCC, dword_144FD0, dword_144FD4
-global dword_144FD8, dword_144FDC, dword_144FE0, dword_144FE4, dword_144FE8, dword_144FEC, dword_144FF0, dword_144FF4
-global dword_144FF8, dword_144FFC, dword_145000, dword_145004, dword_145008, dword_14500C, dword_145010, dword_145014
-global dword_145018, MixerReady, dword_14EFA0, MixerOutputRate, Mixer16Bit, dword_14EFAC, MixerChunkSamples, MixerChunkLeft
-global dword_14EFB8, dword_14EFBC, MixerLoopLength, MixerLoopLimit, MixerLoopStart, dword_14EFD0, dword_14EFD4, dword_14EFD8
-global MixerChannelTable, MixerChannels, unk_144948, unk_1449B4, unk_144A20, unk_144A8C, unk_144AF8, unk_144B64
-global unk_144BD0, unk_144C3C, unk_144CA8, unk_144D14, unk_144D80, unk_144DEC, unk_144E58, unk_144EC4
-global unk_144F30, unk_146F9C
+global MixerVolumeLookup, MixBuffer
+
+
+
+global MixerReady, MixerMode, MixerOutputRate, MixerBufferSamples, MixerOutBuffer, MixerChunkSamples, MixerChunkLeft
+global MixerChunkPos, MixerChunkCount, MixerLoopLength, MixerLoopLimit, MixerLoopStart, MixStepFrac, MixStepWhole, MixerOutputFunc
+global MixerChannelTable, MixerChannels
+
+global MixDecodeBuffer
 MixerVolumeLookup:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8212,7 +8212,6 @@ MixerChannels:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144948:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8220,7 +8219,6 @@ unk_144948:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_1449B4:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8228,7 +8226,6 @@ unk_1449B4:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144A20:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8236,7 +8233,6 @@ unk_144A20:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144A8C:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8244,7 +8240,6 @@ unk_144A8C:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144AF8:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8252,7 +8247,6 @@ unk_144AF8:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144B64:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8260,7 +8254,6 @@ unk_144B64:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144BD0:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8268,7 +8261,6 @@ unk_144BD0:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144C3C:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8276,7 +8268,6 @@ unk_144C3C:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144CA8:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8284,7 +8275,6 @@ unk_144CA8:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144D14:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8292,7 +8282,6 @@ unk_144D14:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144D80:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8300,7 +8289,6 @@ unk_144D80:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144DEC:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8308,7 +8296,6 @@ unk_144DEC:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144E58:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8316,7 +8303,6 @@ unk_144E58:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144EC4:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8324,7 +8310,6 @@ unk_144EC4:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_144F30:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8332,69 +8317,38 @@ unk_144F30:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_144F9C:
+MixBuffer:
         db 00h,00h,00h,00h
-dword_144FA0:
         db 00h,00h,00h,00h
-dword_144FA4:
         db 00h,00h,00h,00h
-dword_144FA8:
         db 00h,00h,00h,00h
-dword_144FAC:
         db 00h,00h,00h,00h
-dword_144FB0:
         db 00h,00h,00h,00h
-dword_144FB4:
         db 00h,00h,00h,00h
-dword_144FB8:
         db 00h,00h,00h,00h
-dword_144FBC:
         db 00h,00h,00h,00h
-dword_144FC0:
         db 00h,00h,00h,00h
-dword_144FC4:
         db 00h,00h,00h,00h
-dword_144FC8:
         db 00h,00h,00h,00h
-dword_144FCC:
         db 00h,00h,00h,00h
-dword_144FD0:
         db 00h,00h,00h,00h
-dword_144FD4:
         db 00h,00h,00h,00h
-dword_144FD8:
         db 00h,00h,00h,00h
-dword_144FDC:
         db 00h,00h,00h,00h
-dword_144FE0:
         db 00h,00h,00h,00h
-dword_144FE4:
         db 00h,00h,00h,00h
-dword_144FE8:
         db 00h,00h,00h,00h
-dword_144FEC:
         db 00h,00h,00h,00h
-dword_144FF0:
         db 00h,00h,00h,00h
-dword_144FF4:
         db 00h,00h,00h,00h
-dword_144FF8:
         db 00h,00h,00h,00h
-dword_144FFC:
         db 00h,00h,00h,00h
-dword_145000:
         db 00h,00h,00h,00h
-dword_145004:
         db 00h,00h,00h,00h
-dword_145008:
         db 00h,00h,00h,00h
-dword_14500C:
         db 00h,00h,00h,00h
-dword_145010:
         db 00h,00h,00h,00h
-dword_145014:
         db 00h,00h,00h,00h
-dword_145018:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8900,7 +8854,7 @@ dword_145018:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-unk_146F9C:
+MixDecodeBuffer:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -10951,21 +10905,21 @@ unk_146F9C:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 MixerReady:
         db 00h,00h,00h,00h
-dword_14EFA0:
+MixerMode:
         db 00h,00h,00h,00h
 MixerOutputRate:
         db 00h,00h,00h,00h
-Mixer16Bit:
+MixerBufferSamples:
         db 00h,00h,00h,00h
-dword_14EFAC:
+MixerOutBuffer:
         db 00h,00h,00h,00h
 MixerChunkSamples:
         db 00h,00h,00h,00h
 MixerChunkLeft:
         db 00h,00h,00h,00h
-dword_14EFB8:
+MixerChunkPos:
         db 00h,00h,00h,00h
-dword_14EFBC:
+MixerChunkCount:
         db 00h,00h,00h,00h,00h,00h,00h,00h
 MixerLoopLength:
         db 00h,00h,00h,00h
@@ -10973,26 +10927,26 @@ MixerLoopLimit:
         db 00h,00h,00h,00h
 MixerLoopStart:
         db 00h,00h,00h,00h
-dword_14EFD0:
+MixStepFrac:
         db 00h,00h,00h,00h
-dword_14EFD4:
+MixStepWhole:
         db 00h,00h,00h,00h
-dword_14EFD8:
+MixerOutputFunc:
         db 00h,00h,00h,00h
 MixerChannelTable:
         dd MixerChannels
-        dd unk_144948
-        dd unk_1449B4
-        dd unk_144A20
-        dd unk_144A8C
-        dd unk_144AF8
-        dd unk_144B64
-        dd unk_144BD0
-        dd unk_144C3C
-        dd unk_144CA8
-        dd unk_144D14
-        dd unk_144D80
-        dd unk_144DEC
-        dd unk_144E58
-        dd unk_144EC4
-        dd unk_144F30
+        dd MixerChannels+6Ch
+        dd MixerChannels+0D8h
+        dd MixerChannels+144h
+        dd MixerChannels+1B0h
+        dd MixerChannels+21Ch
+        dd MixerChannels+288h
+        dd MixerChannels+2F4h
+        dd MixerChannels+360h
+        dd MixerChannels+3CCh
+        dd MixerChannels+438h
+        dd MixerChannels+4A4h
+        dd MixerChannels+510h
+        dd MixerChannels+57Ch
+        dd MixerChannels+5E8h
+        dd MixerChannels+654h

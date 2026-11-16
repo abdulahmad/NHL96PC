@@ -3,18 +3,19 @@ bits 32
 %include "hockey.inc"
 section s_D59DB progbits alloc exec nowrite align=1
 extern _IsTable, __set_errno_, _dos_getvect_, _dos_setvect_, str_RMHandler, SbDmaPagePorts, SbDmaMaskPorts, SbDmaModePorts
-extern SbDmaFlipFlopPorts, SbDmaAddressPorts, SbDmaCountPorts, byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310
-extern byte_151318, TimerIrqMask, TimerChainFlag, TimerPitMode, TimerInstalled, IrqAckLast, DacTimerRate, DacTimerDivisor
-extern TimerOldHandler, TimerOldRealHandler, TimerDivisor, TimerChainCount, int386_, sub_AB798, FreeMemBlock, tolower_
-extern TimerOldOffsetLo, TimerOldSelector
-global sub_D59DB_13C, sub_D59DB, ReturnArg, sub_D5B26, TimerCalibrate, TimerRestore, sub_D5BB1, TimerWritePit
-global TimerReadCount, TimerTicksForRate, TimerMeasure, TimerSetDivisor, TimerReset, TimerInstall, TimerChainOld, sub_D5E50
-global sub_D5E7D, IrqEoi, IrqAck, IrqVector, IrqUnmask, IrqMask, IrqSetHandler, sub_D6027
-global sub_D60D2
+extern SbDmaFlipFlopPorts, SbDmaAddressPorts, SbDmaCountPorts, DmaPagePorts, DmaMaskPorts, DmaModePorts, DmaClearPorts, DmaAddressPorts
+extern DmaCountPorts, WssCodecDmaPage, WssCodecDmaRunning, WssIndexBits, WssCodecRunning, DmaLastHalf, WssFormat, WssDmaSize
+extern WssCodecDmaSize, WssCodecDmaHalf, WssCodecPort, WssCodecDma, int386_, sub_AB798, FreeMemBlock, tolower_
+extern WssCodecDmaAddress, WssCodecDmaCount
+global StrToLong_13C, StrToLong, strtoul_, DigitValue, WssCodecStart, WssCodecStop, WssSetVolume, WssWriteReg
+global WssReadReg, WssWaitReady, WssWaitCalibration, WssSetModeChange, WssCodecReset, WssCodecSetup, WssStopDma, DmaMaskChannel
+global DmaProgram, DmaReadCount, DmaPlayedHalf, PicSendEoi, IrqUnmask, IrqMask, IrqSetHandler, InstallRealIrqStub
+global RemoveRealIrqStub
 ;-----------------------------------------------------------------------------
-; sub_D59DB                                                            D59DB  
+; StrToLong                                      D59DB  96 PC, medium confidence
+; Converts a string to a number, signed or unsigned (the core of strtol and strtoul)
 ;-----------------------------------------------------------------------------
-sub_D59DB:
+StrToLong:
         push esi
         push edi
         push ebp
@@ -95,7 +96,7 @@ sub_D59DB:
 .14:
         xor eax, eax
         mov al, byte [edx]
-        call sub_D5B26
+        call DigitValue
         cmp eax, esi
         jge short .16
         mov ecx, ebx
@@ -157,22 +158,23 @@ sub_D59DB:
         ret
         push ecx
         xor ecx, ecx
-sub_D59DB_13C:
-        call sub_D59DB
+StrToLong_13C:
+        call StrToLong
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; ReturnArg                                       D5B1E  96 PC, low confidence
-; Returns its argument
+; strtoul_                                       D5B1E  96 PC, medium confidence
+; Converts a string to an unsigned number (strtoul)
 ;-----------------------------------------------------------------------------
-ReturnArg:
+strtoul_:
         push ecx
         mov ecx, 1
-        jmp short sub_D59DB_13C
+        jmp short StrToLong_13C
 ;-----------------------------------------------------------------------------
-; sub_D5B26                                                            D5B26  
+; DigitValue                                     D5B26  96 PC, medium confidence
+; Returns the value of a digit or letter in bases up to 36, or 37 if it is not one
 ;-----------------------------------------------------------------------------
-sub_D5B26:
+DigitValue:
         push edx
         mov dl, al
         cmp al, 30h
@@ -219,16 +221,16 @@ sub_D5B26:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; TimerCalibrate                                  D5B7C  96 PC, low confidence
-; Calibrates the timer
+; WssCodecStart                                  D5B7C  96 PC, medium confidence
+; Starts the Windows Sound System codec: programs its format and DMA and starts playback
 ;-----------------------------------------------------------------------------
-TimerCalibrate:
+WssCodecStart:
         push ebp
         LD mov, ebp, esp
         push esi
         push dword [byte ebp+0Ch]
         push dword [byte ebp+08h]
-        call TimerInstall
+        call WssCodecSetup
         add esp, byte 8
         cmp eax, byte 0
         jl short .1
@@ -237,22 +239,23 @@ TimerCalibrate:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; TimerRestore                                    D5B96  96 PC, low confidence
-; Restores the timer
+; WssCodecStop                                   D5B96  96 PC, medium confidence
+; Stops the Windows Sound System codec and its DMA channel
 ;-----------------------------------------------------------------------------
-TimerRestore:
-        cmp byte [TimerInstalled], 0
+WssCodecStop:
+        cmp byte [WssCodecRunning], 0
         je short .1
         LD xor, eax, eax
-        mov byte [TimerInstalled], al
-        call TimerChainOld
-        call TimerReset
+        mov byte [WssCodecRunning], al
+        call WssStopDma
+        call WssCodecReset
 .1:
         ret
 ;-----------------------------------------------------------------------------
-; sub_D5BB1                                                            D5BB1  
+; WssSetVolume                                   D5BB1  96 PC, medium confidence
+; Sets the Windows Sound System codec output attenuation from a volume
 ;-----------------------------------------------------------------------------
-sub_D5BB1:
+WssSetVolume:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -260,21 +263,21 @@ sub_D5BB1:
         and al, 7Fh
         shr al, 1
         mov ah, 6
-        call TimerWritePit
+        call WssWriteReg
         mov ah, 7
-        call TimerWritePit
+        call WssWriteReg
         leave
         ret
 ;-----------------------------------------------------------------------------
-; TimerWritePit                                   D5BCD  96 PC, low confidence
-; Writes the timer chip divisor
+; WssWriteReg                                    D5BCD  96 PC, medium confidence
+; Writes a Windows Sound System codec register (index in AH, value in AL)
 ;-----------------------------------------------------------------------------
-TimerWritePit:
+WssWriteReg:
         push edx
-        mov edx, dword [TimerDivisor]
+        mov edx, dword [WssCodecPort]
         add edx, byte 4
         xchg al, ah
-        or al, byte [TimerPitMode]
+        or al, byte [WssIndexBits]
         out dx, al
         jmp short .1
 .1:
@@ -290,15 +293,15 @@ TimerWritePit:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; TimerReadCount                                  D5BEE  96 PC, low confidence
-; Reads the timer count
+; WssReadReg                                     D5BEE  96 PC, medium confidence
+; Reads a Windows Sound System codec register
 ;-----------------------------------------------------------------------------
-TimerReadCount:
+WssReadReg:
         push edx
-        mov edx, dword [TimerDivisor]
+        mov edx, dword [WssCodecPort]
         add edx, byte 4
         LD mov, al, ah
-        or al, byte [TimerPitMode]
+        or al, byte [WssIndexBits]
         out dx, al
         jmp short .1
 .1:
@@ -313,15 +316,15 @@ TimerReadCount:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; TimerTicksForRate                               D5C0D  96 PC, low confidence
-; Works out the ticks for a rate
+; WssWaitReady                                   D5C0D  96 PC, medium confidence
+; Waits until the Windows Sound System codec is out of its initialise state
 ;-----------------------------------------------------------------------------
-TimerTicksForRate:
+WssWaitReady:
         push eax
         push ecx
         push edx
         mov ecx, 7A120h
-        mov edx, dword [TimerDivisor]
+        mov edx, dword [WssCodecPort]
         add edx, byte 4
 .1:
         in al, dx
@@ -340,12 +343,12 @@ TimerTicksForRate:
         pop eax
         ret
 ;-----------------------------------------------------------------------------
-; TimerMeasure                                    D5C2F  96 PC, low confidence
-; Measures the timer
+; WssWaitCalibration                             D5C2F  96 PC, medium confidence
+; Waits for the Windows Sound System codec's auto-calibration to finish
 ;-----------------------------------------------------------------------------
-TimerMeasure:
+WssWaitCalibration:
         push ecx
-        call TimerTicksForRate
+        call WssWaitReady
         jae short .1
         pop ecx
         ret
@@ -353,14 +356,14 @@ TimerMeasure:
         mov ecx, 7530h
         mov ah, 0Bh
 .2:
-        call TimerReadCount
+        call WssReadReg
         test al, 20h
         jne short .3
         loop .2
 .3:
         mov ecx, 7A120h
 .4:
-        call TimerReadCount
+        call WssReadReg
         test al, 20h
         je short .5
         loop .4
@@ -369,14 +372,14 @@ TimerMeasure:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; TimerSetDivisor                                 D5C5E  96 PC, low confidence
-; Sets the timer divisor
+; WssSetModeChange                               D5C5E  96 PC, medium confidence
+; Sets or clears the Windows Sound System codec's mode change bit
 ;-----------------------------------------------------------------------------
-TimerSetDivisor:
+WssSetModeChange:
         push edx
         shl al, 6
-        mov byte [TimerPitMode], al
-        mov edx, dword [TimerDivisor]
+        mov byte [WssIndexBits], al
+        mov edx, dword [WssCodecPort]
         add edx, byte 4
         out dx, al
         jmp short .1
@@ -393,68 +396,68 @@ TimerSetDivisor:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; TimerReset                                      D5C7F  96 PC, low confidence
-; Resets the timer
+; WssCodecReset                                  D5C7F  96 PC, low confidence
+; Puts the Windows Sound System codec back in its idle state
 ;-----------------------------------------------------------------------------
-TimerReset:
-        call TimerTicksForRate
+WssCodecReset:
+        call WssWaitReady
         mov al, 1
-        call TimerSetDivisor
+        call WssSetModeChange
         mov eax, 0A40h
-        call TimerWritePit
+        call WssWriteReg
         mov al, 0
-        call TimerSetDivisor
-        call TimerMeasure
+        call WssSetModeChange
+        call WssWaitCalibration
         ret
 ;-----------------------------------------------------------------------------
-; TimerInstall                                    D5CA2  96 PC, low confidence
-; Installs the timer handler
+; WssCodecSetup                                  D5CA2  96 PC, medium confidence
+; Sets the Windows Sound System codec format, programs auto-init DMA and starts playback
 ;-----------------------------------------------------------------------------
-TimerInstall:
+WssCodecSetup:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
         and eax, 0F0000h
         shr eax, 10h
-        mov dword [TimerChainCount], eax
+        mov dword [WssCodecDma], eax
         mov eax, dword [byte ebp+08h]
         and eax, 0FFFh
-        mov dword [TimerDivisor], eax
-        call TimerReset
+        mov dword [WssCodecPort], eax
+        call WssCodecReset
         jae short .1
         mov eax, 0FFFFFED2h
         leave
         ret
 .1:
         mov al, 1
-        call TimerSetDivisor
-        mov eax, dword [DacTimerRate]
-        call TimerWritePit
-        call TimerTicksForRate
+        call WssSetModeChange
+        mov eax, dword [WssFormat]
+        call WssWriteReg
+        call WssWaitReady
         mov al, 0
-        call TimerSetDivisor
-        call TimerMeasure
+        call WssSetModeChange
+        call WssWaitCalibration
         mov eax, 600h
-        call TimerWritePit
+        call WssWriteReg
         mov eax, 700h
-        call TimerWritePit
-        mov ebx, dword [DacTimerDivisor]
-        mov dword [TimerOldHandler], ebx
+        call WssWriteReg
+        mov ebx, dword [WssDmaSize]
+        mov dword [WssCodecDmaSize], ebx
         shr ebx, 1
-        mov dword [TimerOldRealHandler], ebx
-        mov eax, dword [TimerOldHandler]
-        mov word [TimerOldSelector], ax
+        mov dword [WssCodecDmaHalf], ebx
+        mov eax, dword [WssCodecDmaSize]
+        mov word [WssCodecDmaCount], ax
         mov eax, dword [byte ebp+0Ch]
-        mov word [TimerOldOffsetLo], ax
+        mov word [WssCodecDmaAddress], ax
         shr eax, 10h
-        mov byte [TimerIrqMask], al
-        mov al, byte [TimerChainFlag]
+        mov byte [WssCodecDmaPage], al
+        mov al, byte [WssCodecDmaRunning]
         LD or, al, al
         jne near .20
         mov al, 1
-        mov byte [TimerChainFlag], al
+        mov byte [WssCodecDmaRunning], al
         cli
-        mov ebx, dword [TimerChainCount]
+        mov ebx, dword [WssCodecDma]
         LD xor, edx, edx
         LD mov, eax, ebx
         or al, 4
@@ -465,7 +468,7 @@ TimerInstall:
         jmp short .3
 .3:
         mov dl, byte [dword ebx+SbDmaModePorts]
-        mov eax, dword [TimerChainCount]
+        mov eax, dword [WssCodecDma]
         or al, 18h
         out dx, al
         jmp short .4
@@ -479,7 +482,7 @@ TimerInstall:
         jmp short .7
 .7:
         mov dl, byte [dword ebx+SbDmaAddressPorts]
-        mov ax, word [TimerOldOffsetLo]
+        mov ax, word [WssCodecDmaAddress]
         out dx, al
         jmp short .8
 .8:
@@ -492,13 +495,13 @@ TimerInstall:
         jmp short .11
 .11:
         mov dl, byte [dword ebx+SbDmaPagePorts]
-        mov al, byte [TimerIrqMask]
+        mov al, byte [WssCodecDmaPage]
         out dx, al
         jmp short .12
 .12:
         jmp short .13
 .13:
-        mov ax, word [TimerOldSelector]
+        mov ax, word [WssCodecDmaCount]
         dec ax
         mov dl, byte [dword ebx+SbDmaCountPorts]
         out dx, al
@@ -513,17 +516,17 @@ TimerInstall:
         jmp short .17
 .17:
         mov al, 1
-        call TimerSetDivisor
+        call WssSetModeChange
         mov eax, 15FFh
-        call TimerWritePit
+        call WssWriteReg
         mov eax, 14FFh
-        call TimerWritePit
+        call WssWriteReg
         mov eax, 90Dh
-        call TimerWritePit
+        call WssWriteReg
         mov al, 0
-        call TimerSetDivisor
-        call TimerMeasure
-        mov eax, dword [TimerChainCount]
+        call WssSetModeChange
+        call WssWaitCalibration
+        mov eax, dword [WssCodecDma]
         mov dl, byte [dword ebx+SbDmaMaskPorts]
         out dx, al
         jmp short .18
@@ -531,9 +534,9 @@ TimerInstall:
         jmp short .19
 .19:
         mov eax, 0A00h
-        call TimerWritePit
+        call WssWriteReg
         mov eax, 1
-        mov byte [TimerInstalled], al
+        mov byte [WssCodecRunning], al
         sti
         leave
         ret
@@ -543,19 +546,19 @@ TimerInstall:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; TimerChainOld                                   D5E1E  96 PC, low confidence
-; Chains to the old timer handler
+; WssStopDma                                     D5E1E  96 PC, medium confidence
+; Masks the Windows Sound System DMA channel
 ;-----------------------------------------------------------------------------
-TimerChainOld:
+WssStopDma:
         push eax
         push ebx
         push ecx
         push edx
-        cmp byte [TimerChainFlag], 0
+        cmp byte [WssCodecDmaRunning], 0
         je short .3
         cli
         LD xor, edx, edx
-        mov ebx, dword [TimerChainCount]
+        mov ebx, dword [WssCodecDma]
         LD mov, eax, ebx
         or al, 4
         mov dl, byte [dword ebx+SbDmaMaskPorts]
@@ -565,7 +568,7 @@ TimerChainOld:
         jmp short .2
 .2:
         LD xor, al, al
-        mov byte [TimerChainFlag], al
+        mov byte [WssCodecDmaRunning], al
 .3:
         sti
         pop edx
@@ -574,15 +577,16 @@ TimerChainOld:
         pop eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_D5E50                                                            D5E50  
+; DmaMaskChannel                                 D5E50  96 PC, medium confidence
+; Masks a DMA channel
 ;-----------------------------------------------------------------------------
-sub_D5E50:
+DmaMaskChannel:
         push ebx
         push edx
         mov ebx, eax
         and ebx, byte 3
         or bl, 4
-        movzx edx, byte [dword eax+byte_1512F8]
+        movzx edx, byte [dword eax+DmaMaskPorts]
         mov al, bl
         out dx, al
         pop edx
@@ -592,7 +596,7 @@ sub_D5E50:
         push edx
         mov edx, eax
         and edx, byte 3
-        movzx ebx, byte [dword eax+byte_1512F8]
+        movzx ebx, byte [dword eax+DmaMaskPorts]
         mov al, dl
         mov edx, ebx
         out dx, al
@@ -600,9 +604,10 @@ sub_D5E50:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D5E7D                                                            D5E7D  
+; DmaProgram                                     D5E7D  96 PC, medium confidence
+; Programs a DMA channel with a buffer address, length and mode
 ;-----------------------------------------------------------------------------
-sub_D5E7D:
+DmaProgram:
         push esi
         push edi
         enter 0Ch, 0
@@ -628,38 +633,38 @@ sub_D5E7D:
         pushf
         cli
         mov eax, ecx
-        movzx edx, byte [dword esi+byte_1512F8]
+        movzx edx, byte [dword esi+DmaMaskPorts]
         or al, 4
         out dx, al
         mov eax, dword [byte ebp-0Ch]
-        movzx edx, byte [dword esi+byte_151300]
+        movzx edx, byte [dword esi+DmaModePorts]
         or eax, dword [byte ebp-04h]
         out dx, al
-        movzx edx, byte [dword esi+byte_151308]
+        movzx edx, byte [dword esi+DmaClearPorts]
         xor al, al
         out dx, al
         mov eax, edi
-        movzx edx, byte [dword esi+byte_151310]
+        movzx edx, byte [dword esi+DmaAddressPorts]
         and eax, 0FFh
         out dx, al
         mov eax, edi
-        movzx edx, byte [dword esi+byte_151310]
+        movzx edx, byte [dword esi+DmaAddressPorts]
         sar eax, 8
         out dx, al
         mov al, byte [byte ebp-08h]
-        movzx edx, byte [dword esi+byte_1512F0]
+        movzx edx, byte [dword esi+DmaPagePorts]
         dec ebx
         out dx, al
         mov eax, ebx
-        movzx edx, byte [dword esi+byte_151318]
+        movzx edx, byte [dword esi+DmaCountPorts]
         and eax, 0FFh
         out dx, al
         mov eax, ebx
-        movzx edx, byte [dword esi+byte_151318]
+        movzx edx, byte [dword esi+DmaCountPorts]
         sar eax, 8
         out dx, al
         mov al, cl
-        movzx edx, byte [dword esi+byte_1512F8]
+        movzx edx, byte [dword esi+DmaMaskPorts]
         out dx, al
         popf
         leave
@@ -667,20 +672,20 @@ sub_D5E7D:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; IrqEoi                                       D5F29  96 PC, medium confidence
-; Sends end of interrupt to the interrupt controller
+; DmaReadCount                                   D5F29  96 PC, medium confidence
+; Reads a DMA channel's remaining count
 ;-----------------------------------------------------------------------------
-IrqEoi:
+DmaReadCount:
         push ebx
         push ecx
         push edx
         mov ebx, eax
         pushf
         cli
-        movzx edx, byte [dword ebx+byte_151318]
+        movzx edx, byte [dword ebx+DmaCountPorts]
         sub eax, eax
         in al, dx
-        movzx edx, byte [dword ebx+byte_151318]
+        movzx edx, byte [dword ebx+DmaCountPorts]
         mov ecx, eax
         sub eax, eax
         in al, dx
@@ -697,14 +702,14 @@ IrqEoi:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; IrqAck                                          D5F5A  96 PC, low confidence
-; Acknowledges a sound interrupt
+; DmaPlayedHalf                                  D5F5A  96 PC, medium confidence
+; Returns which half of the DMA buffer has just played, or -1 if no change
 ;-----------------------------------------------------------------------------
-IrqAck:
+DmaPlayedHalf:
         push ebx
         mov ebx, eax
         mov eax, edx
-        call IrqEoi
+        call DmaReadCount
         cmp eax, ebx
         jge short .1
         xor eax, eax
@@ -712,9 +717,9 @@ IrqAck:
 .1:
         mov eax, ebx
 .2:
-        cmp eax, dword [IrqAckLast]
+        cmp eax, dword [DmaLastHalf]
         je short .3
-        mov dword [IrqAckLast], eax
+        mov dword [DmaLastHalf], eax
         pop ebx
         ret
 .3:
@@ -722,10 +727,10 @@ IrqAck:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; IrqVector                                       D5F84  96 PC, low confidence
-; Returns the interrupt vector of an IRQ
+; PicSendEoi                                     D5F84  96 PC, high confidence
+; Sends end of interrupt to both interrupt controllers
 ;-----------------------------------------------------------------------------
-IrqVector:
+PicSendEoi:
         push edx
         mov al, 20h
         mov edx, 20h
@@ -818,9 +823,10 @@ IrqSetHandler:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_D6027                                                            D6027  
+; InstallRealIrqStub                             D6027  96 PC, medium confidence
+; Copies a real mode interrupt stub to DOS memory and points the real mode vector at it
 ;-----------------------------------------------------------------------------
-sub_D6027:
+InstallRealIrqStub:
         push esi
         push edi
         enter 24h, 0
@@ -883,9 +889,10 @@ sub_D6027:
         pop esi
         ret 8
 ;-----------------------------------------------------------------------------
-; sub_D60D2                                                            D60D2  
+; RemoveRealIrqStub                              D60D2  96 PC, medium confidence
+; Restores the real mode interrupt vector and frees the stub
 ;-----------------------------------------------------------------------------
-sub_D60D2:
+RemoveRealIrqStub:
         push esi
         push edi
         enter 20h, 0

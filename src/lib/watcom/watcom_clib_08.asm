@@ -22,8 +22,8 @@ extern CrowdEventSfx, CrowdRampRate, SndChannelRate, SfxTable, SfxTableNext, Snd
 extern SndDriverQuery, SndCardNameNone, SndCardNameSb10, SndCardNameSb15, SndCardNameSb20, SndCardNameSbPro10, SndCardNameSbPro20, SndCardNameSb16
 extern SndCardNameGus, SndCardNameWss, strncpy_, CdStreamSeek, CdStreamFreePacket, RemoveTimerCallback, PutBlock, AllocMemBlock
 extern FreeMemBlock, MemDescPtr, DebugSetLine, sub_AFCD0, DrawArtOpaque, RestoreDS, sub_BF120, PrintBoxedText
-extern sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9, sub_CBEA8, sub_CC048, MixerStopChannel, sub_CC17B
-extern sub_CC1B5, MixerSamplesLeft, ParseBlasterEnv, SbDspVersion, WssProbePort, GusDetect, SndTimerCallback, TgvCopyBlock
+extern PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel, SetMixerMode, MixerStartChannel, MixerStopChannel, MixerSetChannelVolumes
+extern MixerSetChannelRate, MixerSamplesLeft, ParseBlasterEnv, SbDspVersion, WssProbePort, GusDetect, SndTimerCallback, TgvCopyBlock
 extern TgvFillBlock, GatherPlaneBytes, DrawArtKeyedAt, PutBlockKeyedAt, CopyRowKeyedRemap, SetScreenTarget, sub_DDF4F, sub_DFB84
 extern AddExitHandler, bcopy, Random32, CrowdBank, CrowdLayers, SndChannels, MixerStepTable
 global _Alphabet, abs_, fini_void_, getcwd_, itoa_, SndErrorTextJumpTable, SetSpeechQueueVolume, SetCrowdLayerLevels_18C
@@ -89,7 +89,7 @@ SpeechQueueService:
         mov esi, dword [edx]
         mov edx, eax
         mov eax, esi
-        call sub_CAA80
+        call PlaySampleOnChannel
         pop esi
         pop edx
         pop ecx
@@ -427,13 +427,13 @@ SetChannelVolume:
         mov cl, byte [byte ebp-04h]
         mov byte [byte eax+024h], cl
         mov eax, ebx
-        call sub_CAB78
+        call UpdateChannelGain
         movsx eax, byte [dword edx+SndChannelGain]
         push eax
         movzx eax, byte [dword edx+SndChannelPan]
         push eax
         push ebx
-        call sub_CC17B
+        call MixerSetChannelVolumes
         add esp, byte 0Ch
         xor eax, eax
         leave
@@ -492,13 +492,13 @@ SetChannelVolume:
         mov cl, byte [byte ebp-04h]
         mov byte [byte eax+027h], cl
         mov eax, ebx
-        call sub_CAB78
+        call UpdateChannelGain
         movsx eax, byte [dword edx+SndChannelGain]
         push eax
         movzx eax, byte [dword edx+SndChannelPan]
         push eax
         push ebx
-        call sub_CC17B
+        call MixerSetChannelVolumes
         add esp, byte 0Ch
         xor eax, eax
         leave
@@ -572,7 +572,7 @@ SetChannelBend:
         call BendSampleRate
         push eax
         push esi
-        call sub_CC1B5
+        call MixerSetChannelRate
         add esp, byte 8
         xor eax, eax
         pop esi
@@ -1032,7 +1032,7 @@ StartAudioStream:
         jne short .3
         mov eax, dword [StreamChannel]
         mov dword [StreamPacketsPlayed], 0
-        call sub_CAB78
+        call UpdateChannelGain
         mov eax, dword [StreamHeader]
         call StartChannelSample
         mov dword [StreamState], 2
@@ -1360,7 +1360,7 @@ UnregisterSfxBank:
         mov eax, SfxBanks
         shl esi, 2
         add eax, esi
-        call sub_CAB58
+        call FreeBankMemory
         mov dword [dword esi+SfxBanks], 0
 .7:
         xor eax, eax
@@ -1645,7 +1645,7 @@ StartSfxChannel:
         mov edx, dword [byte ebp-010h]
         movsx eax, byte [byte edi+012h]
         mov dword [byte edi+018h], 0
-        call sub_CAB78
+        call UpdateChannelGain
         mov al, byte [byte edi+012h]
         mov byte [byte edx+01Ch], al
         mov eax, edx
@@ -2343,7 +2343,7 @@ StartChannelSample:
         push dword [byte ebx+018h]
         movzx eax, byte [byte ebx+01Ch]
         push eax
-        call sub_CC048
+        call MixerStartChannel
         add esp, byte 28h
         leave
         pop edi
@@ -3174,7 +3174,7 @@ SetSoundMixMode:
 .1:
         push byte 1
 .2:
-        call sub_CBEA8
+        call SetMixerMode
         add esp, byte 4
 .3:
         pop edx
@@ -3214,7 +3214,7 @@ SndCloseDriver:
         mov dword [snddriver], 0
 .2:
         push esi
-        call sub_CABA9
+        call ResetMixChannel
         inc esi
         add esp, byte 4
         cmp esi, byte 10h

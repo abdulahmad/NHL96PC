@@ -4,26 +4,26 @@ bits 32
 section s_1512F0 progbits alloc noexec write align=1
 extern str_ULTRASND, unk_1142D0, str_Fs, str_Jan2, str_Feb3, str_Mar2, str_Apr2, str_May2
 extern str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2, str_Nov2, str_Dec2
-global byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310, byte_151318, GusIrqLatchBits, GusStreamVoiceA
-global GusStreamVoiceStereo, GusStreamVoiceB, IrqAckLast, GusEnvVarName, GusOpenCount, GusStreamRefillA, GusStreamRefillB, GusStreamSrcA
+global DmaPagePorts, DmaMaskPorts, DmaModePorts, DmaClearPorts, DmaAddressPorts, DmaCountPorts, GusIrqLatchBits, GusStreamVoiceA
+global GusStreamVoiceStereo, GusStreamVoiceB, DmaLastHalf, GusEnvVarName, GusOpenCount, GusStreamRefillA, GusStreamRefillB, GusStreamSrcA
 global GusStreamHalfA, GusStreamBusyA, GusStreamSrcB, GusStreamHalfB, GusStreamBusyB, GusStreamActive, GusStreamBufSize, GusStreamHalfSize
 global GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusStreamCardA, GusStreamCardB, GusStreamCardEnd, GusStreamStartLo
 global dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC, dword_1513B8, dword_1513BC, dword_1513C0
 global dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, off_1513B0, GusStreamLoopLo, GusStreamLoopHi, GusStreamStartHi
 global GusStreamEndLo, GusStreamEndHi, GusBasePort, GusIrqStatusPort, GusIrqLatchPort, GusDmaLatchPort
-byte_1512F0:
+DmaPagePorts:
         db 087h,083h,081h,082h,08Fh,08Bh,089h,08Ah
-byte_1512F8:
+DmaMaskPorts:
         db 0Ah,0Ah,0Ah,0Ah,0D4h,0D4h,0D4h,0D4h
-byte_151300:
+DmaModePorts:
         db 0Bh,0Bh,0Bh,0Bh,0D6h,0D6h,0D6h,0D6h
-byte_151308:
+DmaClearPorts:
         db 0Ch,0Ch,0Ch,0Ch,0D8h,0D8h,0D8h,0D8h
-byte_151310:
+DmaAddressPorts:
         db 00h,02h,04h,06h,0C0h,0C4h,0C8h,0CCh
-byte_151318:
+DmaCountPorts:
         db 01h,03h,05h,07h,0C2h,0C6h,0CAh,0CEh
-IrqAckLast:
+DmaLastHalf:
         db 0FFh,0FFh,0FFh,0FFh
 GusEnvVarName:
         dd str_ULTRASND

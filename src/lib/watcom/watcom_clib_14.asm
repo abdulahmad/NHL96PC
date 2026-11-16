@@ -4,22 +4,22 @@ bits 32
 section s_CA835 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, __init_80x87, __unhook387, __8087, FpuType, _Extender, Is8087, __real87
 extern SndMasterVolume, dword_11F5C0, dword_11F5C4, dword_11F5C8, FpuFlags, FpuSystemFlags, OldFpuVectorOffset, snddriver
-extern MixerVolumeLookup, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8, dword_144FAC, dword_144FB0, dword_144FB4
-extern dword_144FB8, dword_144FBC, dword_144FC0, dword_144FC4, dword_144FC8, dword_144FCC, dword_144FD0, dword_144FD4
-extern dword_144FD8, dword_144FDC, dword_144FE0, dword_144FE4, dword_144FE8, dword_144FEC, dword_144FF0, dword_144FF4
-extern dword_144FF8, dword_144FFC, dword_145000, dword_145004, dword_145008, dword_14500C, dword_145010, dword_145014
-extern dword_145018, MixerReady, dword_14EFA0, MixerOutputRate, Mixer16Bit, dword_14EFAC, MixerChunkSamples, MixerChunkLeft
-extern dword_14EFB8, dword_14EFBC, MixerLoopLength, MixerLoopLimit, MixerLoopStart, dword_14EFD0, dword_14EFD4, dword_14EFD8
+extern MixerVolumeLookup, MixBuffer
+extern MixBuffer
+extern MixBuffer
+extern MixBuffer
+extern MixBuffer, MixerReady, MixerMode, MixerOutputRate, MixerBufferSamples, MixerOutBuffer, MixerChunkSamples, MixerChunkLeft
+extern MixerChunkPos, MixerChunkCount, MixerLoopLength, MixerLoopLimit, MixerLoopStart, MixStepFrac, MixStepWhole, MixerOutputFunc
 extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, sub_AADA4, FreeMemBlock, sub_ABF88, sub_AD2B4
 extern RestoreDS, AudioStreamCallback, StartChannelSample, PanVolumes, SbDelay, SbWaitRead, AdpcmDecodeMono, AdpcmDecodeStereo
-extern SetScreenTarget, unk_146F9C, SndChannels, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
+extern SetScreenTarget, MixDecodeBuffer, SndChannels, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
 extern word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
 global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, MixerChunkLength_4A, MixerChunkLength_8F
-global MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, sub_CCB41_3AE, sub_CCB41_7BC, sub_CCB41_BC7, sub_CCB41_F65, sub_CCB41_1372
-global sub_CCB41_13D3, sub_CCB41_1430, EmuRestoreFpuVector, EmuRestoreRealVector, sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9
-global sub_CBEA8, sub_CBEB7, MixerFillBuffer, sub_CC048, MixerStopChannel, sub_CC17B, sub_CC1B5, MixerSamplesLeft
-global sub_CC250, MixerChunkLength, MixerCalcStep, MixerBuildVolumeTables, sub_CC7FD, sub_CCB41, sub_CDFDD, sub_CDFDE
-global sub_CDFDF, sub_CDFE0, sub_CDFE1, sub_CDFE2, MixerStepTable
+global MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, MixStereo8, MixStereo16, MixMono16Lookup, MixStereo16Lookup, MixOutputStereo16
+global MixOutputStereo8, MixOutputMono8, EmuRestoreFpuVector, EmuRestoreRealVector, PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel
+global SetMixerMode, MixerInit, MixerFillBuffer, MixerStartChannel, MixerStopChannel, MixerSetChannelVolumes, MixerSetChannelRate, MixerSamplesLeft
+global MixerPickRoutines, MixerChunkLength, MixerCalcStep, MixerBuildVolumeTables, MixMono8, MixMono16, MixOutputSkipBothStereo, MixOutputSkipBothMono
+global MixOutputSkipMono16, MixOutputSkipStereo, MixOutputSkip, ClearMixBuffer, MixerStepTable
 ;-----------------------------------------------------------------------------
 ; __sys_fini_387_emulator                                       CA835  library
 ;-----------------------------------------------------------------------------
@@ -241,7 +241,7 @@ __chk8087_:
         mov dword [byte eax+018h], edi
 .5:
         mov eax, esi
-        call sub_CAA80
+        call PlaySampleOnChannel
         pop edi
         pop esi
         pop ecx
@@ -260,7 +260,7 @@ __chk8087_:
         mov ecx, ebx
         mov eax, esi
         mov ebx, edi
-        call sub_CAA80
+        call PlaySampleOnChannel
         pop edi
         pop esi
         pop ecx
@@ -274,14 +274,15 @@ __chk8087_:
         mov dword [byte eax+018h], edi
 .7:
         mov eax, esi
-        call sub_CAA80
+        call PlaySampleOnChannel
         pop edi
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_CAA80                                                            CAA80  
+; PlaySampleOnChannel                          CAA80  96 PC, medium confidence
+; Plays a sample on a given channel with a volume and pan
 ;-----------------------------------------------------------------------------
-sub_CAA80:
+PlaySampleOnChannel:
         push esi
         enter 4, 0
         mov esi, eax
@@ -331,7 +332,7 @@ sub_CAA80:
         mov byte [byte edx+024h], cl
         mov eax, dword [byte ebp-04h]
         mov byte [byte edx+027h], bl
-        call sub_CAB78
+        call UpdateChannelGain
         mov al, byte [byte edx+08h]
         mov byte [byte esi+01Dh], al
         mov al, byte [byte edx+09h]
@@ -362,9 +363,10 @@ sub_CAA80:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CAB58                                                            CAB58  
+; FreeBankMemory                                  CAB58  96 PC, low confidence
+; Frees a sound bank's memory and clears its pointer
 ;-----------------------------------------------------------------------------
-sub_CAB58:
+FreeBankMemory:
         push ebx
         push ecx
         push edx
@@ -383,9 +385,11 @@ sub_CAB58:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CAB78                                                            CAB78  
+; UpdateChannelGain                            CAB78  96 PC, medium confidence
+; Works out a channel's output gain from its volume, its fade and the master
+; volume
 ;-----------------------------------------------------------------------------
-sub_CAB78:
+UpdateChannelGain:
         push ebx
         push ecx
         push edx
@@ -406,9 +410,10 @@ sub_CAB78:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CABA9                                                            CABA9  
+; ResetMixChannel                              CABA9  96 PC, medium confidence
+; Mixer callback: marks a channel free and resets its settings
 ;-----------------------------------------------------------------------------
-sub_CABA9:
+ResetMixChannel:
         push ds
         call RestoreDS
         push ebp
@@ -729,21 +734,24 @@ MixerStepTable:
         db 0A3h,0FDh,01h,00h,0EFh,0FDh,01h,00h,03Ah,0FEh,01h,00h,086h,0FEh,01h,00h
         db 0D1h,0FEh,01h,00h,01Dh,0FFh,01h,00h,068h,0FFh,01h,00h,0B4h,0FFh,01h,00h
 ;-----------------------------------------------------------------------------
-; sub_CBEA8                                                            CBEA8  
+; SetMixerMode                                    CBEA8  96 PC, low confidence
+; Sets the mixer mode: 1 mixes 16-bit samples through the volume lookup
 ;-----------------------------------------------------------------------------
-sub_CBEA8:
+SetMixerMode:
         push ebp
         LD mov, ebp, esp
         push eax
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_14EFA0], eax
+        mov dword [MixerMode], eax
         pop eax
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_CBEB7                                                            CBEB7  
+; MixerInit                                    CBEB7  96 PC, medium confidence
+; Sets up the mixer for an output rate, buffer size and format and picks the
+; output routine
 ;-----------------------------------------------------------------------------
-sub_CBEB7:
+MixerInit:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -769,7 +777,7 @@ sub_CBEB7:
         mov eax, dword [byte ebp+0Ch]
         mov dword [MixerOutputRate], eax
         mov eax, dword [byte ebp+010h]
-        mov dword [Mixer16Bit], eax
+        mov dword [MixerBufferSamples], eax
         mov eax, dword [byte ebp+08h]
         and eax, byte 1Ch
         cmp eax, byte 1Ch
@@ -786,57 +794,57 @@ sub_CBEB7:
         je short .9
         cmp eax, byte 8
         je short .10
-        mov eax, sub_CDFE1
-        mov dword [dword_14EFD8], eax
+        mov eax, MixOutputSkip
+        mov dword [MixerOutputFunc], eax
         mov eax, 10h
         pop esi
         leave
         ret
 .4:
-        mov eax, sub_CDFDD
-        mov dword [dword_14EFD8], eax
+        mov eax, MixOutputSkipBothStereo
+        mov dword [MixerOutputFunc], eax
         mov eax, 10h
         pop esi
         leave
         ret
 .5:
-        mov eax, sub_CCB41_13D3
-        mov dword [dword_14EFD8], eax
+        mov eax, MixOutputStereo8
+        mov dword [MixerOutputFunc], eax
         mov eax, 10h
         pop esi
         leave
         ret
 .6:
-        mov eax, sub_CDFDE
-        mov dword [dword_14EFD8], eax
+        mov eax, MixOutputSkipBothMono
+        mov dword [MixerOutputFunc], eax
         mov eax, 10h
         pop esi
         leave
         ret
 .7:
-        mov eax, sub_CCB41_1430
-        mov dword [dword_14EFD8], eax
+        mov eax, MixOutputMono8
+        mov dword [MixerOutputFunc], eax
         mov eax, 10h
         pop esi
         leave
         ret
 .8:
-        mov eax, sub_CCB41_1372
-        mov dword [dword_14EFD8], eax
+        mov eax, MixOutputStereo16
+        mov dword [MixerOutputFunc], eax
         mov eax, 10h
         pop esi
         leave
         ret
 .9:
-        mov eax, sub_CDFE0
-        mov dword [dword_14EFD8], eax
+        mov eax, MixOutputSkipStereo
+        mov dword [MixerOutputFunc], eax
         mov eax, 10h
         pop esi
         leave
         ret
 .10:
-        mov eax, sub_CDFDF
-        mov dword [dword_14EFD8], eax
+        mov eax, MixOutputSkipMono16
+        mov dword [MixerOutputFunc], eax
         mov eax, 10h
         pop esi
         leave
@@ -849,9 +857,9 @@ MixerFillBuffer:
         push ebp
         LD mov, ebp, esp
         pusha
-        call sub_CDFE2
+        call ClearMixBuffer
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_14EFAC], eax
+        mov dword [MixerOutBuffer], eax
         mov dword [MixerChunkSamples], 0FFFFFFFFh
 .1:
         inc dword [MixerChunkSamples]
@@ -861,31 +869,32 @@ MixerFillBuffer:
         mov esi, dword [nosplit esi*4+MixerChannelTable]
         cmp byte [esi], 1
         jne short .1
-        mov eax, dword [Mixer16Bit]
+        mov eax, dword [MixerBufferSamples]
         mov dword [MixerChunkLeft], eax
-        mov dword [dword_14EFB8], 0
+        mov dword [MixerChunkPos], 0
 .2:
         call dword [byte esi+060h]
-        mov dword [dword_14EFBC], eax
+        mov dword [MixerChunkCount], eax
         cmp eax, byte 0
         jle short .1
-        mov eax, dword [dword_14EFBC]
+        mov eax, dword [MixerChunkCount]
         sub dword [MixerChunkLeft], eax
         call dword [byte esi+05Ch]
-        mov eax, dword [dword_14EFBC]
-        add dword [dword_14EFB8], eax
+        mov eax, dword [MixerChunkCount]
+        add dword [MixerChunkPos], eax
         cmp dword [MixerChunkLeft], byte 0
         jg short .2
         jmp short .1
 .3:
-        call dword [dword_14EFD8]
+        call dword [MixerOutputFunc]
         popa
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_CC048                                                            CC048  
+; MixerStartChannel                            CC048  96 PC, medium confidence
+; Sets up a mixer channel for a sample: format, loop, rate and volumes
 ;-----------------------------------------------------------------------------
-sub_CC048:
+MixerStartChannel:
         push ebp
         LD mov, ebp, esp
         push eax
@@ -961,7 +970,7 @@ sub_CC048:
         mov ebx, dword [byte ebp+02Ch]
         call MixerCalcStep
         push dword [byte ebp+08h]
-        call sub_CC250
+        call MixerPickRoutines
         add esp, byte 4
         mov eax, dword [byte ebp+020h]
         shl eax, 0Ah
@@ -990,7 +999,7 @@ MixerStopChannel:
         mov esi, dword [nosplit eax*4+MixerChannelTable]
         mov byte [esi], 0
         push eax
-        call sub_CABA9
+        call ResetMixChannel
         add esp, byte 4
         pop eax
         pop ebx
@@ -998,9 +1007,10 @@ MixerStopChannel:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_CC17B                                                            CC17B  
+; MixerSetChannelVolumes                       CC17B  96 PC, medium confidence
+; Sets a mixer channel's left and right volumes from a pan and volume
 ;-----------------------------------------------------------------------------
-sub_CC17B:
+MixerSetChannelVolumes:
         push ebp
         LD mov, ebp, esp
         push eax
@@ -1027,9 +1037,10 @@ sub_CC17B:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_CC1B5                                                            CC1B5  
+; MixerSetChannelRate                          CC1B5  96 PC, medium confidence
+; Sets a mixer channel's step for a new rate
 ;-----------------------------------------------------------------------------
-sub_CC1B5:
+MixerSetChannelRate:
         push ebp
         LD mov, ebp, esp
         push eax
@@ -1110,9 +1121,11 @@ MixerSamplesLeft:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_CC250                                                            CC250  
+; MixerPickRoutines                            CC250  96 PC, medium confidence
+; Picks a mixer channel's mixing, decoding and length routines from its
+; format
 ;-----------------------------------------------------------------------------
-sub_CC250:
+MixerPickRoutines:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -1127,30 +1140,30 @@ sub_CC250:
         je short .4
         cmp eax, byte 8
         je short .5
-        mov eax, sub_CC7FD
+        mov eax, MixMono8
         mov dword [byte esi+05Ch], eax
         jmp short .8
 .1:
-        cmp dword [dword_14EFA0], byte 1
+        cmp dword [MixerMode], byte 1
         je short .2
-        mov eax, sub_CCB41_7BC
+        mov eax, MixStereo16
         jmp short .3
 .2:
-        mov eax, sub_CCB41_F65
+        mov eax, MixStereo16Lookup
 .3:
         mov dword [byte esi+05Ch], eax
         jmp short .8
 .4:
-        mov eax, sub_CCB41_3AE
+        mov eax, MixStereo8
         mov dword [byte esi+05Ch], eax
         jmp short .8
 .5:
-        cmp dword [dword_14EFA0], byte 1
+        cmp dword [MixerMode], byte 1
         je short .6
-        mov eax, sub_CCB41
+        mov eax, MixMono16
         jmp short .7
 .6:
-        mov eax, sub_CCB41_BC7
+        mov eax, MixMono16Lookup
 .7:
         mov dword [byte esi+05Ch], eax
 .8:
@@ -1382,7 +1395,7 @@ MixerChunkLength_10E:
 .17:
         mov dword [MixerLoopStart], edx
         push dword [MixerLoopStart]
-        mov ebx, unk_146F9C
+        mov ebx, MixDecodeBuffer
         push ebx
         mov ebx, dword [byte esi+038h]
         test dword [byte esi+04h], 4
@@ -1398,7 +1411,7 @@ MixerChunkLength_10E:
         add esp, byte 18h
         mov eax, dword [MixerLoopStart]
         add dword [byte esi+038h], eax
-        mov ebx, unk_146F9C
+        mov ebx, MixDecodeBuffer
         mov ecx, dword [byte esi+08h]
         shr ebx, cl
         mov dword [byte esi+014h], ebx
@@ -1478,7 +1491,7 @@ MixerChunkLength_21B:
 .24:
         mov dword [MixerLoopStart], edx
         push dword [MixerLoopStart]
-        mov ebx, unk_146F9C
+        mov ebx, MixDecodeBuffer
         push ebx
         mov ebx, dword [byte esi+038h]
         test dword [byte esi+04h], 4
@@ -1494,7 +1507,7 @@ MixerChunkLength_21B:
         add esp, byte 18h
         mov eax, dword [MixerLoopStart]
         add dword [byte esi+038h], eax
-        mov ebx, unk_146F9C
+        mov ebx, MixDecodeBuffer
         mov ecx, dword [byte esi+08h]
         shr ebx, cl
         mov dword [byte esi+014h], ebx
@@ -1541,7 +1554,7 @@ MixerChunkLength_32D:
 .29:
         mov dword [MixerLoopStart], edx
         push dword [MixerLoopStart]
-        mov ebx, unk_146F9C
+        mov ebx, MixDecodeBuffer
         push ebx
         mov ebx, dword [byte esi+038h]
         test dword [byte esi+04h], 4
@@ -1557,7 +1570,7 @@ MixerChunkLength_32D:
         add esp, byte 18h
         mov eax, dword [MixerLoopStart]
         add dword [byte esi+038h], eax
-        mov ebx, unk_146F9C
+        mov ebx, MixDecodeBuffer
         mov ecx, dword [byte esi+08h]
         shr ebx, cl
         mov dword [byte esi+014h], ebx
@@ -1650,18 +1663,19 @@ MixerBuildVolumeTables:
         pop eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_CC7FD                                                            CC7FD  
+; MixMono8                                     CC7FD  96 PC, medium confidence
+; Mixes an 8-bit mono channel into the mixing buffer
 ;-----------------------------------------------------------------------------
-sub_CC7FD:
-        mov ebp, dword [dword_14EFB8]
+MixMono8:
+        mov ebp, dword [MixerChunkPos]
         lea ebp, [nosplit ebp*8+00h]
-        mov ecx, dword [dword_14EFBC]
+        mov ecx, dword [MixerChunkCount]
         mov edi, dword [byte esi+014h]
         mov ebx, dword [byte esi+018h]
         mov edx, dword [byte esi+024h]
-        mov dword [dword_14EFD4], edx
+        mov dword [MixStepWhole], edx
         mov eax, dword [byte esi+028h]
-        mov dword [dword_14EFD0], eax
+        mov dword [MixStepFrac], eax
         mov edx, dword [byte esi+064h]
         mov esi, dword [byte esi+068h]
         cmp ecx, byte 10h
@@ -1671,116 +1685,116 @@ sub_CC7FD:
         LD xor, ecx, ecx
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA4], eax
+        add dword [dword ds:ebp+MixBuffer+8], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FAC], eax
+        add dword [dword ds:ebp+MixBuffer+10h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB4], eax
+        add dword [dword ds:ebp+MixBuffer+18h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FBC], eax
+        add dword [dword ds:ebp+MixBuffer+20h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC4], eax
+        add dword [dword ds:ebp+MixBuffer+28h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FCC], eax
+        add dword [dword ds:ebp+MixBuffer+30h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD4], eax
+        add dword [dword ds:ebp+MixBuffer+38h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FDC], eax
+        add dword [dword ds:ebp+MixBuffer+40h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE4], eax
+        add dword [dword ds:ebp+MixBuffer+48h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FEC], eax
+        add dword [dword ds:ebp+MixBuffer+50h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF4], eax
+        add dword [dword ds:ebp+MixBuffer+58h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FFC], eax
+        add dword [dword ds:ebp+MixBuffer+60h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145000], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145004], eax
+        add dword [dword ds:ebp+MixBuffer+68h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145008], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_14500C], eax
+        add dword [dword ds:ebp+MixBuffer+70h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145010], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [edi]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145014], eax
+        add dword [dword ds:ebp+MixBuffer+78h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145018], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         pop ecx
         add ebp, 80h
         sub ecx, byte 10h
@@ -1792,13 +1806,13 @@ sub_CC7FD:
         LD xor, eax, eax
         mov al, byte [edi]
         mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         LD xor, eax, eax
         mov al, byte [edi]
         mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         add ebp, byte 8
         dec ecx
         test ecx, 0FFFFFFFFh
@@ -1810,18 +1824,19 @@ sub_CC7FD:
         mov dword [byte esi+018h], ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CCB41                                                            CCB41  
+; MixMono16                                    CCB41  96 PC, medium confidence
+; Mixes a 16-bit mono channel into the mixing buffer
 ;-----------------------------------------------------------------------------
-sub_CCB41:
-        mov ebp, dword [dword_14EFB8]
+MixMono16:
+        mov ebp, dword [MixerChunkPos]
         lea ebp, [nosplit ebp*8+00h]
-        mov ecx, dword [dword_14EFBC]
+        mov ecx, dword [MixerChunkCount]
         mov edi, dword [byte esi+014h]
         mov ebx, dword [byte esi+018h]
         mov edx, dword [byte esi+024h]
-        mov dword [dword_14EFD4], edx
+        mov dword [MixStepWhole], edx
         mov eax, dword [byte esi+028h]
-        mov dword [dword_14EFD0], eax
+        mov dword [MixStepFrac], eax
         mov edx, dword [byte esi+064h]
         shr edx, 0Ah
         mov esi, dword [byte esi+068h]
@@ -1834,162 +1849,162 @@ sub_CCB41:
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FA0], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FA4], eax
+        add dword [dword ds:ebp+MixBuffer+8], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FA8], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+0Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FAC], eax
+        add dword [dword ds:ebp+MixBuffer+10h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FB0], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+14h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FB4], eax
+        add dword [dword ds:ebp+MixBuffer+18h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FB8], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+1Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FBC], eax
+        add dword [dword ds:ebp+MixBuffer+20h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FC0], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+24h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FC4], eax
+        add dword [dword ds:ebp+MixBuffer+28h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FC8], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+2Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FCC], eax
+        add dword [dword ds:ebp+MixBuffer+30h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FD0], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+34h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FD4], eax
+        add dword [dword ds:ebp+MixBuffer+38h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FD8], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+3Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FDC], eax
+        add dword [dword ds:ebp+MixBuffer+40h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FE0], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+44h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FE4], eax
+        add dword [dword ds:ebp+MixBuffer+48h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FE8], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FEC], eax
+        add dword [dword ds:ebp+MixBuffer+50h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FF0], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+54h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FF4], eax
+        add dword [dword ds:ebp+MixBuffer+58h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_144FF8], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+5Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FFC], eax
+        add dword [dword ds:ebp+MixBuffer+60h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_145000], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+64h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_145004], eax
+        add dword [dword ds:ebp+MixBuffer+68h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_145008], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+6Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_14500C], eax
+        add dword [dword ds:ebp+MixBuffer+70h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_145010], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+74h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx ecx, word [nosplit edi*2+00h]
         LD mov, eax, ecx
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_145014], eax
+        add dword [dword ds:ebp+MixBuffer+78h], eax
         imul ecx, esi
         sar ecx, 7
-        add dword [dword ds:ebp+dword_145018], ecx
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+7Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         pop ecx
         add ebp, 80h
         sub ecx, byte 10h
@@ -2001,13 +2016,13 @@ sub_CCB41:
         movsx eax, word [nosplit edi*2+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         movsx eax, word [nosplit edi*2+00h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         add ebp, byte 8
         dec ecx
         test ecx, 0FFFFFFFFh
@@ -2018,16 +2033,20 @@ sub_CCB41:
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
-sub_CCB41_3AE:
-        mov ebp, dword [dword_14EFB8]
+;-----------------------------------------------------------------------------
+; MixStereo8                                   CCEEF  96 PC, medium confidence
+; Mixes an 8-bit stereo channel into the mixing buffer
+;-----------------------------------------------------------------------------
+MixStereo8:
+        mov ebp, dword [MixerChunkPos]
         lea ebp, [nosplit ebp*8+00h]
-        mov ecx, dword [dword_14EFBC]
+        mov ecx, dword [MixerChunkCount]
         mov edi, dword [byte esi+014h]
         mov ebx, dword [byte esi+018h]
         mov edx, dword [byte esi+024h]
-        mov dword [dword_14EFD4], edx
+        mov dword [MixStepWhole], edx
         mov eax, dword [byte esi+028h]
-        mov dword [dword_14EFD0], eax
+        mov dword [MixStepFrac], eax
         mov edx, dword [byte esi+064h]
         mov esi, dword [byte esi+068h]
         cmp ecx, byte 10h
@@ -2037,132 +2056,132 @@ sub_CCB41_3AE:
         LD xor, ecx, ecx
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA4], eax
+        add dword [dword ds:ebp+MixBuffer+8], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FAC], eax
+        add dword [dword ds:ebp+MixBuffer+10h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB4], eax
+        add dword [dword ds:ebp+MixBuffer+18h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FBC], eax
+        add dword [dword ds:ebp+MixBuffer+20h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC4], eax
+        add dword [dword ds:ebp+MixBuffer+28h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FCC], eax
+        add dword [dword ds:ebp+MixBuffer+30h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD4], eax
+        add dword [dword ds:ebp+MixBuffer+38h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FDC], eax
+        add dword [dword ds:ebp+MixBuffer+40h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE4], eax
+        add dword [dword ds:ebp+MixBuffer+48h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FEC], eax
+        add dword [dword ds:ebp+MixBuffer+50h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF4], eax
+        add dword [dword ds:ebp+MixBuffer+58h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FFC], eax
+        add dword [dword ds:ebp+MixBuffer+60h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145000], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145004], eax
+        add dword [dword ds:ebp+MixBuffer+68h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145008], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_14500C], eax
+        add dword [dword ds:ebp+MixBuffer+70h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145010], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145014], eax
+        add dword [dword ds:ebp+MixBuffer+78h], eax
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145018], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         pop ecx
         add ebp, 80h
         sub ecx, byte 10h
@@ -2174,13 +2193,13 @@ sub_CCB41_3AE:
         LD xor, eax, eax
         mov al, byte [nosplit edi*2+00h]
         mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         LD xor, eax, eax
         mov al, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         add ebp, byte 8
         dec ecx
         test ecx, 0FFFFFFFFh
@@ -2191,16 +2210,20 @@ sub_CCB41_3AE:
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
-sub_CCB41_7BC:
-        mov ebp, dword [dword_14EFB8]
+;-----------------------------------------------------------------------------
+; MixStereo16                                  CD2FD  96 PC, medium confidence
+; Mixes a 16-bit stereo channel into the mixing buffer
+;-----------------------------------------------------------------------------
+MixStereo16:
+        mov ebp, dword [MixerChunkPos]
         lea ebp, [nosplit ebp*8+00h]
-        mov ecx, dword [dword_14EFBC]
+        mov ecx, dword [MixerChunkCount]
         mov edi, dword [byte esi+014h]
         mov ebx, dword [byte esi+018h]
         mov eax, dword [byte esi+028h]
-        mov dword [dword_14EFD0], eax
+        mov dword [MixStepFrac], eax
         mov eax, dword [byte esi+024h]
-        mov dword [dword_14EFD4], eax
+        mov dword [MixStepWhole], eax
         mov edx, dword [byte esi+064h]
         shr edx, 0Ah
         mov esi, dword [byte esi+068h]
@@ -2211,163 +2234,163 @@ sub_CCB41_7BC:
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FA4], eax
+        add dword [dword ds:ebp+MixBuffer+8], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FA8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FAC], eax
+        add dword [dword ds:ebp+MixBuffer+10h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FB0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FB4], eax
+        add dword [dword ds:ebp+MixBuffer+18h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FB8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FBC], eax
+        add dword [dword ds:ebp+MixBuffer+20h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FC0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FC4], eax
+        add dword [dword ds:ebp+MixBuffer+28h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FC8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FCC], eax
+        add dword [dword ds:ebp+MixBuffer+30h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FD0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FD4], eax
+        add dword [dword ds:ebp+MixBuffer+38h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FD8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FDC], eax
+        add dword [dword ds:ebp+MixBuffer+40h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FE0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FE4], eax
+        add dword [dword ds:ebp+MixBuffer+48h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FE8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FEC], eax
+        add dword [dword ds:ebp+MixBuffer+50h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FF0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FF4], eax
+        add dword [dword ds:ebp+MixBuffer+58h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FF8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FFC], eax
+        add dword [dword ds:ebp+MixBuffer+60h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_145000], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_145004], eax
+        add dword [dword ds:ebp+MixBuffer+68h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_145008], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_14500C], eax
+        add dword [dword ds:ebp+MixBuffer+70h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_145010], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_145014], eax
+        add dword [dword ds:ebp+MixBuffer+78h], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_145018], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         add ebp, 80h
         sub ecx, byte 10h
         cmp ecx, byte 10h
@@ -2378,13 +2401,13 @@ sub_CCB41_7BC:
         movsx eax, word [nosplit edi*4+00h]
         imul eax, edx
         sar eax, 7
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         movsx eax, word [nosplit edi*4+02h]
         imul eax, esi
         sar eax, 7
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         add ebp, byte 8
         dec ecx
         test ecx, 0FFFFFFFFh
@@ -2395,16 +2418,20 @@ sub_CCB41_7BC:
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
-sub_CCB41_BC7:
-        mov ebp, dword [dword_14EFB8]
+;-----------------------------------------------------------------------------
+; MixMono16Lookup                              CD708  96 PC, medium confidence
+; Mixes a 16-bit mono channel through the volume lookup
+;-----------------------------------------------------------------------------
+MixMono16Lookup:
+        mov ebp, dword [MixerChunkPos]
         lea ebp, [nosplit ebp*8+00h]
-        mov ecx, dword [dword_14EFBC]
+        mov ecx, dword [MixerChunkCount]
         mov edi, dword [byte esi+014h]
         mov ebx, dword [byte esi+018h]
         mov edx, dword [byte esi+024h]
-        mov dword [dword_14EFD4], edx
+        mov dword [MixStepWhole], edx
         mov eax, dword [byte esi+028h]
-        mov dword [dword_14EFD0], eax
+        mov dword [MixStepFrac], eax
         mov edx, dword [byte esi+064h]
         mov esi, dword [byte esi+068h]
         cmp ecx, byte 10h
@@ -2414,116 +2441,116 @@ sub_CCB41_BC7:
         LD xor, ecx, ecx
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA4], eax
+        add dword [dword ds:ebp+MixBuffer+8], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FAC], eax
+        add dword [dword ds:ebp+MixBuffer+10h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB4], eax
+        add dword [dword ds:ebp+MixBuffer+18h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FBC], eax
+        add dword [dword ds:ebp+MixBuffer+20h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC4], eax
+        add dword [dword ds:ebp+MixBuffer+28h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FCC], eax
+        add dword [dword ds:ebp+MixBuffer+30h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD4], eax
+        add dword [dword ds:ebp+MixBuffer+38h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FDC], eax
+        add dword [dword ds:ebp+MixBuffer+40h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE4], eax
+        add dword [dword ds:ebp+MixBuffer+48h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FEC], eax
+        add dword [dword ds:ebp+MixBuffer+50h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF4], eax
+        add dword [dword ds:ebp+MixBuffer+58h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FFC], eax
+        add dword [dword ds:ebp+MixBuffer+60h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145000], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145004], eax
+        add dword [dword ds:ebp+MixBuffer+68h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145008], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_14500C], eax
+        add dword [dword ds:ebp+MixBuffer+70h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145010], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145014], eax
+        add dword [dword ds:ebp+MixBuffer+78h], eax
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145018], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         pop ecx
         add ebp, 80h
         sub ecx, byte 10h
@@ -2535,13 +2562,13 @@ sub_CCB41_BC7:
         LD xor, eax, eax
         mov al, byte [nosplit edi*2+01h]
         mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         LD xor, eax, eax
         mov al, byte [nosplit edi*2+01h]
         mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         add ebp, byte 8
         dec ecx
         test ecx, 0FFFFFFFFh
@@ -2552,16 +2579,20 @@ sub_CCB41_BC7:
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
-sub_CCB41_F65:
-        mov ebp, dword [dword_14EFB8]
+;-----------------------------------------------------------------------------
+; MixStereo16Lookup                            CDAA6  96 PC, medium confidence
+; Mixes a 16-bit stereo channel through the volume lookup
+;-----------------------------------------------------------------------------
+MixStereo16Lookup:
+        mov ebp, dword [MixerChunkPos]
         lea ebp, [nosplit ebp*8+00h]
-        mov ecx, dword [dword_14EFBC]
+        mov ecx, dword [MixerChunkCount]
         mov edi, dword [byte esi+014h]
         mov ebx, dword [byte esi+018h]
         mov eax, dword [byte esi+028h]
-        mov dword [dword_14EFD0], eax
+        mov dword [MixStepFrac], eax
         mov eax, dword [byte esi+024h]
-        mov dword [dword_14EFD4], eax
+        mov dword [MixStepWhole], eax
         mov edx, dword [byte esi+064h]
         mov esi, dword [byte esi+068h]
         cmp ecx, byte 10h
@@ -2571,132 +2602,132 @@ sub_CCB41_F65:
         LD xor, ecx, ecx
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA4], eax
+        add dword [dword ds:ebp+MixBuffer+8], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FAC], eax
+        add dword [dword ds:ebp+MixBuffer+10h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB4], eax
+        add dword [dword ds:ebp+MixBuffer+18h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FB8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FBC], eax
+        add dword [dword ds:ebp+MixBuffer+20h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC4], eax
+        add dword [dword ds:ebp+MixBuffer+28h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FC8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FCC], eax
+        add dword [dword ds:ebp+MixBuffer+30h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD4], eax
+        add dword [dword ds:ebp+MixBuffer+38h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FD8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FDC], eax
+        add dword [dword ds:ebp+MixBuffer+40h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE4], eax
+        add dword [dword ds:ebp+MixBuffer+48h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FE8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FEC], eax
+        add dword [dword ds:ebp+MixBuffer+50h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF4], eax
+        add dword [dword ds:ebp+MixBuffer+58h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FF8], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FFC], eax
+        add dword [dword ds:ebp+MixBuffer+60h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145000], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145004], eax
+        add dword [dword ds:ebp+MixBuffer+68h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145008], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_14500C], eax
+        add dword [dword ds:ebp+MixBuffer+70h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145010], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         mov cl, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145014], eax
+        add dword [dword ds:ebp+MixBuffer+78h], eax
         mov cl, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_145018], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         pop ecx
         add ebp, 80h
         sub ecx, byte 10h
@@ -2708,13 +2739,13 @@ sub_CCB41_F65:
         LD xor, eax, eax
         mov al, byte [nosplit edi*4+01h]
         mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144F9C], eax
+        add dword [dword ds:ebp+MixBuffer], eax
         LD xor, eax, eax
         mov al, byte [nosplit edi*4+03h]
         mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
-        add dword [dword ds:ebp+dword_144FA0], eax
-        add ebx, dword [dword_14EFD0]
-        adc edi, dword [dword_14EFD4]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
         add ebp, byte 8
         dec ecx
         test ecx, 0FFFFFFFFh
@@ -2725,15 +2756,19 @@ sub_CCB41_F65:
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
-sub_CCB41_1372:
-        mov edi, dword [dword_14EFAC]
-        mov ecx, dword [Mixer16Bit]
+;-----------------------------------------------------------------------------
+; MixOutputStereo16                            CDEB3  96 PC, medium confidence
+; Writes the mixing buffer out as clipped 16-bit stereo
+;-----------------------------------------------------------------------------
+MixOutputStereo16:
+        mov edi, dword [MixerOutBuffer]
+        mov ecx, dword [MixerBufferSamples]
         LD add, ecx, ecx
         dec ecx
         mov ebx, 7FFFh
         mov edx, 0FFFF8000h
 .16:
-        mov eax, dword [nosplit ecx*4+dword_144F9C]
+        mov eax, dword [nosplit ecx*4+MixBuffer]
         LD cmp, eax, ebx
         jg short .17
         LD cmp, eax, edx
@@ -2749,7 +2784,7 @@ sub_CCB41_1372:
         mov word [edi+ecx*2], 8000h
         loop .16
 .19:
-        mov eax, dword [dword_144F9C]
+        mov eax, dword [MixBuffer]
         LD cmp, eax, ebx
         jg short .20
         LD cmp, eax, edx
@@ -2762,15 +2797,19 @@ sub_CCB41_1372:
 .21:
         mov word [edi+ecx*2], 8000h
         ret
-sub_CCB41_13D3:
-        mov edi, dword [dword_14EFAC]
-        mov ecx, dword [Mixer16Bit]
+;-----------------------------------------------------------------------------
+; MixOutputStereo8                             CDF14  96 PC, medium confidence
+; Writes the mixing buffer out as clipped 8-bit stereo
+;-----------------------------------------------------------------------------
+MixOutputStereo8:
+        mov edi, dword [MixerOutBuffer]
+        mov ecx, dword [MixerBufferSamples]
         LD add, ecx, ecx
         dec ecx
         mov ebx, 7FFFh
         mov edx, 0FFFF8000h
 .22:
-        mov eax, dword [nosplit ecx*4+dword_144F9C]
+        mov eax, dword [nosplit ecx*4+MixBuffer]
         LD cmp, eax, ebx
         jg short .23
         LD cmp, eax, edx
@@ -2787,7 +2826,7 @@ sub_CCB41_13D3:
         mov byte [ecx+edi], 0
         loop .22
 .25:
-        mov eax, dword [dword_144F9C]
+        mov eax, dword [MixBuffer]
         LD cmp, eax, ebx
         jg short .26
         LD cmp, eax, edx
@@ -2801,15 +2840,19 @@ sub_CCB41_13D3:
 .27:
         mov byte [ecx+edi], 0
         ret
-sub_CCB41_1430:
-        mov edi, dword [dword_14EFAC]
-        mov ecx, dword [Mixer16Bit]
+;-----------------------------------------------------------------------------
+; MixOutputMono8                               CDF71  96 PC, medium confidence
+; Writes the mixing buffer out as clipped 8-bit mono
+;-----------------------------------------------------------------------------
+MixOutputMono8:
+        mov edi, dword [MixerOutBuffer]
+        mov ecx, dword [MixerBufferSamples]
         dec ecx
         mov ebx, 7FFFh
         mov edx, 0FFFF8000h
 .28:
-        mov eax, dword [nosplit ecx*8+dword_144F9C]
-        add eax, dword [nosplit ecx*8+dword_144FA0]
+        mov eax, dword [nosplit ecx*8+MixBuffer]
+        add eax, dword [nosplit ecx*8+MixBuffer+4]
         sar eax, 1
         LD cmp, eax, ebx
         jg short .29
@@ -2827,8 +2870,8 @@ sub_CCB41_1430:
         mov byte [ecx+edi], 0
         loop .28
 .31:
-        mov eax, dword [dword_144F9C]
-        add eax, dword [dword_144FA0]
+        mov eax, dword [MixBuffer]
+        add eax, dword [MixBuffer+4]
         sar eax, 1
         LD cmp, eax, ebx
         jg short .32
@@ -2844,41 +2887,47 @@ sub_CCB41_1430:
         mov byte [ecx+edi], 0
         ret
 ;-----------------------------------------------------------------------------
-; sub_CDFDD                                                            CDFDD  
+; MixOutputSkipBothStereo                      CDFDD  96 PC, medium confidence
+; Output routine for an unsupported format: does nothing
 ;-----------------------------------------------------------------------------
-sub_CDFDD:
+MixOutputSkipBothStereo:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CDFDE                                                            CDFDE  
+; MixOutputSkipBothMono                        CDFDE  96 PC, medium confidence
+; Output routine for an unsupported format: does nothing
 ;-----------------------------------------------------------------------------
-sub_CDFDE:
+MixOutputSkipBothMono:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CDFDF                                                            CDFDF  
+; MixOutputSkipMono16                          CDFDF  96 PC, medium confidence
+; Output routine for 16-bit mono, not supported: does nothing
 ;-----------------------------------------------------------------------------
-sub_CDFDF:
+MixOutputSkipMono16:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CDFE0                                                            CDFE0  
+; MixOutputSkipStereo                          CDFE0  96 PC, medium confidence
+; Output routine for an unsupported format: does nothing
 ;-----------------------------------------------------------------------------
-sub_CDFE0:
+MixOutputSkipStereo:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CDFE1                                                            CDFE1  
+; MixOutputSkip                                CDFE1  96 PC, medium confidence
+; Output routine for any other format: does nothing
 ;-----------------------------------------------------------------------------
-sub_CDFE1:
+MixOutputSkip:
         ret
 ;-----------------------------------------------------------------------------
-; sub_CDFE2                                                            CDFE2  
+; ClearMixBuffer                               CDFE2  96 PC, medium confidence
+; Clears the mixing buffer
 ;-----------------------------------------------------------------------------
-sub_CDFE2:
+ClearMixBuffer:
         push es
         mov ax, ds
         mov es, ax
-        mov ecx, dword [Mixer16Bit]
+        mov ecx, dword [MixerBufferSamples]
         LD add, ecx, ecx
         LD xor, eax, eax
-        mov edi, dword_144F9C
+        mov edi, MixBuffer
         cld
         rep stosd
         pop es

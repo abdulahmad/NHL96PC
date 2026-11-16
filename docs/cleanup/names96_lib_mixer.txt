@@ -1,0 +1,34 @@
+sub_CAA80 PlaySampleOnChannel {confidence=medium,source=new} plays a sample on a given channel with a volume and pan
+sub_CAB58 FreeBankMemory {confidence=low,source=new} frees a sound bank's memory and clears its pointer
+sub_CAB78 UpdateChannelGain {confidence=medium,source=new} works out a channel's output gain from its volume, its fade and the master volume
+sub_CABA9 ResetMixChannel {confidence=medium,source=new} mixer callback: marks a channel free and resets its settings
+sub_CBEA8 SetMixerMode {confidence=low,source=new} sets the mixer mode: 1 mixes 16-bit samples through the volume lookup
+sub_CBEB7 MixerInit {confidence=medium,source=new} sets up the mixer for an output rate, buffer size and format and picks the output routine
+sub_CC048 MixerStartChannel {confidence=medium,source=new} sets up a mixer channel for a sample: format, loop, rate and volumes
+sub_CC17B MixerSetChannelVolumes {confidence=medium,source=new} sets a mixer channel's left and right volumes from a pan and volume
+sub_CC1B5 MixerSetChannelRate {confidence=medium,source=new} sets a mixer channel's step for a new rate
+sub_CC250 MixerPickRoutines {confidence=medium,source=new} picks a mixer channel's mixing, decoding and length routines from its format
+sub_CC7FD MixMono8 {confidence=medium,source=new} mixes an 8-bit mono channel into the mixing buffer
+sub_CCB41 MixMono16 {confidence=medium,source=new} mixes a 16-bit mono channel into the mixing buffer
+sub_CCB41_3AE MixStereo8 {confidence=medium,source=new} mixes an 8-bit stereo channel into the mixing buffer
+sub_CCB41_7BC MixStereo16 {confidence=medium,source=new} mixes a 16-bit stereo channel into the mixing buffer
+sub_CCB41_BC7 MixMono16Lookup {confidence=medium,source=new} mixes a 16-bit mono channel through the volume lookup
+sub_CCB41_F65 MixStereo16Lookup {confidence=medium,source=new} mixes a 16-bit stereo channel through the volume lookup
+sub_CCB41_1372 MixOutputStereo16 {confidence=medium,source=new} writes the mixing buffer out as clipped 16-bit stereo
+sub_CCB41_13D3 MixOutputStereo8 {confidence=medium,source=new} writes the mixing buffer out as clipped 8-bit stereo
+sub_CCB41_1430 MixOutputMono8 {confidence=medium,source=new} writes the mixing buffer out as clipped 8-bit mono
+sub_CDFDD MixOutputSkipBothStereo {confidence=medium,source=new} output routine for an unsupported format: does nothing
+sub_CDFDE MixOutputSkipBothMono {confidence=medium,source=new} output routine for an unsupported format: does nothing
+sub_CDFDF MixOutputSkipMono16 {confidence=medium,source=new} output routine for 16-bit mono, not supported: does nothing
+sub_CDFE0 MixOutputSkipStereo {confidence=medium,source=new} output routine for an unsupported format: does nothing
+sub_CDFE1 MixOutputSkip {confidence=medium,source=new} output routine for any other format: does nothing
+sub_CDFE2 ClearMixBuffer {confidence=medium,source=new} clears the mixing buffer
+dword_14EFA0 MixerMode {confidence=low,source=new} mixer mode: 1 mixes 16-bit samples through the volume lookup
+dword_14EFAC MixerOutBuffer {confidence=medium,source=new} DMA buffer half being filled
+dword_14EFB8 MixerChunkPos {confidence=medium,source=new} output sample the current chunk starts at
+dword_14EFBC MixerChunkCount {confidence=medium,source=new} output samples in the current chunk
+dword_14EFD0 MixStepFrac {confidence=medium,source=new} channel step per output sample, fraction
+dword_14EFD4 MixStepWhole {confidence=medium,source=new} channel step per output sample, whole samples
+dword_14EFD8 MixerOutputFunc {confidence=medium,source=new} routine that writes the mixing buffer to the DMA buffer
+unk_146F9C MixDecodeBuffer {confidence=medium,source=new} buffer that compressed samples are decoded into
+Mixer16Bit MixerBufferSamples {confidence=medium,source=new} output samples per DMA buffer half

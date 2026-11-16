@@ -8,16 +8,16 @@ extern Sb16DspModeByte, Sb16MixFormat, Sb16FrameBytes, SndTickBusy, GusConfigGf1
 extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, KeyedDraw, DrawDestBuffer, dword_1228FC
 extern StreamState, StreamChannel, SndTickHold, WssDmaAlloc, WssRunning, GusDriverIsOpen, GusDmaAlloc, GusEnvRead
 extern GusCardFound, SbRunning, SbDmaAlloc, SbProRunning, SbProDmaAlloc, SbProChannels, Sb16Running, Sb16DmaAlloc
-extern Sb16Mode, GusStreamRefillB, WssBlockSamples, WssHalfBuffer, DacTimerRate, WssDmaChannel, DacTimerDivisor, WssDmaBuffer
+extern Sb16Mode, GusStreamRefillB, WssBlockSamples, WssHalfBuffer, WssFormat, WssDmaChannel, WssDmaSize, WssDmaBuffer
 extern WssRate, WssDmaPos, GusStreamMem, GusDriverDmaBuf, SbHalfBuffer, SbDmaSize, SbRate, SbDma
 extern SbIrq, SbDmaBuffer, SbVersion, SbOldIrqOffset, SbDmaPos, SbProRealOldOffset, SbProRealOldSegment, SbProRealHandler
 extern SbProBlockSamples, SbProHalfBuffer, SbProDmaSize, SbProRate, SbProDma, SbProOldFilter, SbProIrq, SbProDmaBuffer
 extern SbProOldStereo, SbProVersion, SbProPort, SbProOldIrqOffset, SbProDmaPos, Sb16BlockSamples, Sb16DmaSize, Sb16HalfBuffer
 extern Sb16Rate, Sb16HighDma, Sb16ActiveDma, Sb16LowDma, Sb16Irq, Sb16DmaBuffer, Sb16Version, Sb16OldIrqOffset
 extern Sb16DmaPos, getenv_, SbProIsr, Sb16Isr, sub_AB798, FreeMemBlock, atoi_, DrawArtOpaque
-extern SpeechQueueService, SetChannelVolume, StopSoundChannel, FlushAudioStream, CrowdService, PickOutputRate, CallDriverService, sub_CBEB7
-extern MixerFillBuffer, MixerStopChannel, ReturnArg, TimerCalibrate, TimerRestore, sub_D5BB1, sub_D5E50, sub_D5E7D
-extern IrqAck, IrqVector, IrqUnmask, IrqMask, IrqSetHandler, sub_D6027, sub_D60D2, GusGetEnvConfig
+extern SpeechQueueService, SetChannelVolume, StopSoundChannel, FlushAudioStream, CrowdService, PickOutputRate, CallDriverService, MixerInit
+extern MixerFillBuffer, MixerStopChannel, strtoul_, WssCodecStart, WssCodecStop, WssSetVolume, DmaMaskChannel, DmaProgram
+extern DmaPlayedHalf, PicSendEoi, IrqUnmask, IrqMask, IrqSetHandler, InstallRealIrqStub, RemoveRealIrqStub, GusGetEnvConfig
 extern GusProbePort, GusOpen, GusClose, GusMemAlloc, sub_D703C, GusStreamBusy, GusServiceStream, GusStartStream
 extern SbIsrSingle, SbIsrAutoInit, sub_D7A44, bcopy, SndChannels, SbHighDma, SbProHighDma, SbIsrPicPort
 extern SbIsrAckPort, SbIsrWritePort, SbProIsrPicPort, SbProIsrAckPort, Sb16IsrPicPort, Sb16IsrAckPort, unk_F0000, unk_F000D
@@ -61,7 +61,7 @@ ParseHexValue:
         lea edx, [byte ebp-04h]
         lea eax, [byte ebp-0Ch]
         mov byte [byte ecx+ebp-0Ch], 0
-        call ReturnArg
+        call strtoul_
         mov dword [esi], eax
         mov eax, ecx
         leave
@@ -460,36 +460,36 @@ WssOpen:
         repne scasw
         jmp dword [nosplit cs:ecx*4+WssOpenJumpTable]
 WssOpen_57:
-        mov dword [DacTimerRate], 801h
+        mov dword [WssFormat], 801h
         mov ebx, 8
         jmp short WssOpen_BD
 WssOpen_68:
-        mov dword [DacTimerRate], 800h
+        mov dword [WssFormat], 800h
 .3:
         mov ebx, 4
         jmp short WssOpen_BD
 WssOpen_79:
-        mov dword [DacTimerRate], 803h
+        mov dword [WssFormat], 803h
         jmp short WssOpen_68.3
 WssOpen_85:
-        mov dword [DacTimerRate], 802h
+        mov dword [WssFormat], 802h
 .4:
         mov ebx, 2
         jmp short WssOpen_BD
 WssOpen_96:
-        mov dword [DacTimerRate], 807h
+        mov dword [WssFormat], 807h
         jmp short WssOpen_85.4
 WssOpen_A2:
-        mov dword [DacTimerRate], 806h
+        mov dword [WssFormat], 806h
         jmp short WssOpen_AE.5
 WssOpen_AE:
-        mov dword [DacTimerRate], 80Bh
+        mov dword [WssFormat], 80Bh
 .5:
         mov ebx, 1
 WssOpen_BD:
         lea ecx, [esi+esi*2]
         movzx eax, byte [dword ecx+WssFormatBits]
-        or dword [DacTimerRate], eax
+        or dword [WssFormat], eax
         mov eax, 400h
         cdq
         idiv ebx
@@ -499,10 +499,10 @@ WssOpen_BD:
         mov eax, 2000h
         cdq
         idiv ebx
-        mov dword [DacTimerDivisor], eax
+        mov dword [WssDmaSize], eax
         shr eax, 1
         mov dword [WssHalfBuffer], eax
-        mov eax, dword [DacTimerDivisor]
+        mov eax, dword [WssDmaSize]
         push dword 200h
         add eax, eax
         push eax
@@ -519,7 +519,7 @@ WssOpen_BD:
         mov ecx, eax
         mov ebx, 10000h
         and ecx, 0FFFFh
-        sub ebx, dword [DacTimerDivisor]
+        sub ebx, dword [WssDmaSize]
         mov dword [WssDmaAlloc], eax
         cmp ecx, ebx
         jbe short .7
@@ -545,7 +545,7 @@ WssOpen_BD:
         mov dword [WssDmaChannel], eax
         movzx eax, byte [dword esi+WssMixFormat]
         push eax
-        call sub_CBEB7
+        call MixerInit
         add esp, byte 0Ch
         push dword [WssDmaBuffer]
         mov dword [byte ebp-04h], eax
@@ -558,7 +558,7 @@ WssOpen_BD:
         add esp, byte 4
         push dword [WssDmaBuffer]
         push edi
-        call TimerCalibrate
+        call WssCodecStart
         mov esi, eax
         add esp, byte 8
         test eax, eax
@@ -571,7 +571,7 @@ WssOpen_BD:
         jmp short WssOpen_218
 .9:
         push byte 7Fh
-        call sub_D5BB1
+        call WssSetVolume
         mov eax, dword [byte ebp-04h]
         mov dword [WssRunning], 1
         shl eax, 10h
@@ -595,7 +595,7 @@ WssClose:
         push edx
         cmp dword [WssDmaAlloc], byte 0
         je short .1
-        call TimerRestore
+        call WssCodecStop
         push dword [WssDmaAlloc]
         call FreeMemBlock
         mov dword [WssDmaAlloc], 0
@@ -617,7 +617,7 @@ WssService:
         push edx
         mov edx, dword [WssDmaChannel]
         mov eax, dword [WssHalfBuffer]
-        call IrqAck
+        call DmaPlayedHalf
         mov dword [WssDmaPos], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -978,7 +978,7 @@ GusDriverOpen:
         push dword 200h
         push dword 5622h
         push byte 0Ch
-        call sub_CBEB7
+        call MixerInit
         shl eax, 10h
         add esp, byte 0Ch
         or al, 0Ch
@@ -1174,7 +1174,7 @@ SbOpen:
         push dword [SbRate]
         push byte 10h
         mov dword [SbRunning], 1
-        call sub_CBEB7
+        call MixerInit
         add esp, byte 0Ch
         shl eax, 10h
 .8:
@@ -1198,7 +1198,7 @@ SbClose:
         call SbWriteDsp
 .1:
         mov eax, dword [SbDma]
-        call sub_D5E50
+        call DmaMaskChannel
         mov eax, 0D3h
         call SbWriteDsp
         mov eax, dword [SbIrq]
@@ -1228,7 +1228,7 @@ SbService:
         push edx
         mov edx, dword [SbDma]
         mov eax, dword [SbHalfBuffer]
-        call IrqAck
+        call DmaPlayedHalf
         mov dword [SbDmaPos], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -1329,14 +1329,14 @@ SbStartDma:
         call IrqSetHandler
         mov word [SbOldIrqSelector], dx
         mov dword [SbOldIrqOffset], eax
-        call IrqVector
+        call PicSendEoi
         mov eax, dword [SbIrq]
         mov ecx, 58h
         call IrqUnmask
         mov ebx, dword [SbDmaSize]
         mov edx, dword [SbDmaBuffer]
         mov eax, dword [SbDma]
-        call sub_D5E7D
+        call DmaProgram
         cmp dword [SbVersion], 200h
         jge short .5
         mov eax, 14h
@@ -1381,7 +1381,7 @@ SbStartDma:
         call SbWriteDsp
 .9:
         mov eax, dword [SbDma]
-        call sub_D5E50
+        call DmaMaskChannel
         mov eax, 0D3h
         call SbWriteDsp
         mov eax, dword [SbIrq]
@@ -1509,7 +1509,7 @@ SbProOpen:
         push dword [SbProRate]
         movzx eax, byte [nosplit eax*2+SbProMixFormat]
         push eax
-        call sub_CBEB7
+        call MixerInit
         mov ebx, eax
         add esp, byte 0Ch
         test eax, eax
@@ -1588,7 +1588,7 @@ SbProService:
         push edx
         mov edx, dword [SbProDma]
         mov eax, dword [SbProHalfBuffer]
-        call IrqAck
+        call DmaPlayedHalf
         mov dword [SbProDmaPos], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -1699,9 +1699,9 @@ SbProStartDma:
         push SbProRealOldOffset
         mov eax, dword [SbProIrq]
         mov ecx, cs
-        call sub_D6027
+        call InstallRealIrqStub
         mov dword [SbProRealHandler], eax
-        call IrqVector
+        call PicSendEoi
         mov eax, dword [SbProIrq]
         call IrqUnmask
         mov eax, 0D1h
@@ -1717,7 +1717,7 @@ SbProStartDma:
         mov edx, dword [SbProDmaBuffer]
         mov dword [SbProOldStereo], eax
         mov eax, dword [SbProDma]
-        call sub_D5E7D
+        call DmaProgram
         mov eax, 14h
         call SbWriteDsp
         xor eax, eax
@@ -1737,7 +1737,7 @@ SbProStartDma:
         mov ebx, dword [SbProDmaSize]
         mov edx, dword [SbProDmaBuffer]
         mov eax, dword [SbProDma]
-        call sub_D5E7D
+        call DmaProgram
         mov edx, dword [SbProChannels]
         mov eax, dword [SbProRate]
         inc edx
@@ -1781,7 +1781,7 @@ SbProStopDma:
         push ecx
         push edx
         mov eax, dword [SbProDma]
-        call sub_D5E50
+        call DmaMaskChannel
         call SbResetDsp
         mov eax, 0D3h
         call SbWriteDsp
@@ -1802,7 +1802,7 @@ SbProStopDma:
         mov ebx, dword [SbProRealOldOffset]
         mov edx, dword [SbProRealOldSegment]
         mov eax, dword [SbProIrq]
-        call sub_D60D2
+        call RemoveRealIrqStub
 .2:
         mov eax, dword [SbProIrq]
         call IrqMask
@@ -1922,7 +1922,7 @@ Sb16Open:
         push dword [Sb16Rate]
         movzx eax, byte [nosplit eax*4+Sb16MixFormat]
         push eax
-        call sub_CBEB7
+        call MixerInit
         mov ebx, eax
         add esp, byte 0Ch
         test eax, eax
@@ -1967,7 +1967,7 @@ Sb16Close:
         cmp dword [Sb16DmaAlloc], byte 0
         je short .1
         mov eax, dword [Sb16ActiveDma]
-        call sub_D5E50
+        call DmaMaskChannel
         mov eax, dword [Sb16Irq]
         call IrqMask
         mov cx, word [Sb16OldIrqSelector]
@@ -1997,7 +1997,7 @@ Sb16Service:
         push edx
         mov edx, dword [Sb16ActiveDma]
         mov eax, dword [Sb16HalfBuffer]
-        call IrqAck
+        call DmaPlayedHalf
         mov dword [Sb16DmaPos], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -2079,14 +2079,14 @@ Sb16StartDma:
         call IrqSetHandler
         mov word [Sb16OldIrqSelector], dx
         mov dword [Sb16OldIrqOffset], eax
-        call IrqVector
+        call PicSendEoi
         mov eax, dword [Sb16Irq]
         mov ecx, 18h
         call IrqUnmask
         mov ebx, dword [Sb16DmaSize]
         mov edx, dword [Sb16DmaBuffer]
         mov eax, dword [Sb16ActiveDma]
-        call sub_D5E7D
+        call DmaProgram
         mov eax, 41h
         call SbWriteDsp
         cmp eax, byte 0FFFFFFFFh
@@ -2130,7 +2130,7 @@ Sb16StopDma:
         push ecx
         push edx
         mov eax, dword [Sb16ActiveDma]
-        call sub_D5E50
+        call DmaMaskChannel
         mov eax, dword [Sb16Irq]
         call IrqMask
         mov cx, word [Sb16OldIrqSelector]

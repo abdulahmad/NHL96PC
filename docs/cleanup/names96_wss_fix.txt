@@ -1,0 +1,40 @@
+TimerCalibrate WssCodecStart {confidence=medium,source=new} starts the Windows Sound System codec: programs its format and DMA and starts playback
+TimerRestore WssCodecStop {confidence=medium,source=new} stops the Windows Sound System codec and its DMA channel
+TimerWritePit WssWriteReg {confidence=medium,source=new} writes a Windows Sound System codec register (index in AH, value in AL)
+TimerReadCount WssReadReg {confidence=medium,source=new} reads a Windows Sound System codec register
+TimerTicksForRate WssWaitReady {confidence=medium,source=new} waits until the Windows Sound System codec is out of its initialise state
+TimerMeasure WssWaitCalibration {confidence=medium,source=new} waits for the Windows Sound System codec's auto-calibration to finish
+TimerSetDivisor WssSetModeChange {confidence=medium,source=new} sets or clears the Windows Sound System codec's mode change bit
+TimerReset WssCodecReset {confidence=low,source=new} puts the Windows Sound System codec back in its idle state
+TimerInstall WssCodecSetup {confidence=medium,source=new} sets the Windows Sound System codec format, programs auto-init DMA and starts playback
+TimerChainOld WssStopDma {confidence=medium,source=new} masks the Windows Sound System DMA channel
+TimerInstalled WssCodecRunning {confidence=medium,source=new} set while the Windows Sound System codec plays
+TimerDivisor WssCodecPort {confidence=medium,source=new} Windows Sound System codec base port
+TimerPitMode WssIndexBits {confidence=medium,source=new} mode bits ORed into every codec register index
+TimerChainCount WssCodecDma {confidence=medium,source=new} DMA channel the codec uses
+TimerOldHandler WssCodecDmaSize {confidence=medium,source=new} codec DMA buffer size in bytes
+TimerOldRealHandler WssCodecDmaHalf {confidence=medium,source=new} half the codec DMA buffer size
+TimerOldSelector WssCodecDmaCount {confidence=medium,source=new} DMA transfer count for the codec buffer
+TimerOldOffsetLo WssCodecDmaAddress {confidence=medium,source=new} low word of the codec DMA buffer address
+TimerIrqMask WssCodecDmaPage {confidence=medium,source=new} DMA page of the codec buffer
+TimerChainFlag WssCodecDmaRunning {confidence=medium,source=new} set while the codec DMA channel runs
+DacTimerRate WssFormat {confidence=medium,source=new} codec register 8 value: rate select and sample format
+DacTimerDivisor WssDmaSize {confidence=medium,source=new} codec DMA buffer size
+IrqVector PicSendEoi {confidence=high,source=new} sends end of interrupt to both interrupt controllers
+IrqEoi DmaReadCount {confidence=medium,source=new} reads a DMA channel's remaining count
+IrqAck DmaPlayedHalf {confidence=medium,source=new} returns which half of the DMA buffer has just played, or -1 if no change
+IrqAckLast DmaLastHalf {confidence=medium,source=new} DMA buffer half reported last time
+ReturnArg strtoul_ {confidence=medium,source=new} converts a string to an unsigned number (strtoul)
+sub_D59DB StrToLong {confidence=medium,source=new} converts a string to a number, signed or unsigned (the core of strtol and strtoul)
+sub_D5B26 DigitValue {confidence=medium,source=new} returns the value of a digit or letter in bases up to 36, or 37 if it is not one
+sub_D5BB1 WssSetVolume {confidence=medium,source=new} sets the Windows Sound System codec output attenuation from a volume
+sub_D5E50 DmaMaskChannel {confidence=medium,source=new} masks a DMA channel
+sub_D5E7D DmaProgram {confidence=medium,source=new} programs a DMA channel with a buffer address, length and mode
+sub_D6027 InstallRealIrqStub {confidence=medium,source=new} copies a real mode interrupt stub to DOS memory and points the real mode vector at it
+sub_D60D2 RemoveRealIrqStub {confidence=medium,source=new} restores the real mode interrupt vector and frees the stub
+byte_1512F0 DmaPagePorts {confidence=high,source=new} DMA page register port for each channel
+byte_1512F8 DmaMaskPorts {confidence=high,source=new} DMA mask register port for each channel
+byte_151300 DmaModePorts {confidence=high,source=new} DMA mode register port for each channel
+byte_151308 DmaClearPorts {confidence=high,source=new} DMA flip-flop clear port for each channel
+byte_151310 DmaAddressPorts {confidence=high,source=new} DMA address port for each channel
+byte_151318 DmaCountPorts {confidence=high,source=new} DMA count port for each channel

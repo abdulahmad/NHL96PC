@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1A0FB0 nobits alloc noexec write align=1
-global GusConfigGf1Irq, GusConfigMidiIrq, WssBlockSamples, WssHalfBuffer, DacTimerRate, WssDmaChannel, DacTimerDivisor, WssDmaBuffer
+global GusConfigGf1Irq, GusConfigMidiIrq, WssBlockSamples, WssHalfBuffer, WssFormat, WssDmaChannel, WssDmaSize, WssDmaBuffer
 global WssRate, WssDmaPos, GusStreamMem, GusDriverDmaBuf, SbHalfBuffer, SbDmaSize, SbRate, SbDma
 global SbIrq, SbDmaBuffer, SbVersion, SbOldIrqOffset, SbDmaPos, SbProRealOldOffset, SbProRealOldSegment, SbProRealHandler
 global SbProBlockSamples, SbProHalfBuffer, SbProDmaSize, SbProRate, SbProDma, SbProOldFilter, SbProIrq, SbProDmaBuffer
@@ -15,11 +15,11 @@ WssBlockSamples:
         resb 4
 WssHalfBuffer:
         resb 4
-DacTimerRate:
+WssFormat:
         resb 4
 WssDmaChannel:
         resb 4
-DacTimerDivisor:
+WssDmaSize:
         resb 4
 WssDmaBuffer:
         resb 4

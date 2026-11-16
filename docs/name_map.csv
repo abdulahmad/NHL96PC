@@ -1409,12 +1409,37 @@ CA910,__rest_8087_,,WATCOM,high,IDA FLIRT library signature,
 CA914,__init_8087_,,WATCOM,high,IDA FLIRT library signature,
 CA945,_fpreset_,,WATCOM,high,IDA FLIRT library signature,
 CA94F,__chk8087_,,WATCOM,high,IDA FLIRT library signature,
+CAA80,PlaySampleOnChannel,sub_CAA80,new,medium,plays a sample on a given channel with a volume and pan,src/lib/watcom/watcom_clib_14.asm
+CAB58,FreeBankMemory,sub_CAB58,new,low,frees a sound bank's memory and clears its pointer,src/lib/watcom/watcom_clib_14.asm
+CAB78,UpdateChannelGain,sub_CAB78,new,medium,"works out a channel's output gain from its volume, its fade and the master volume",src/lib/watcom/watcom_clib_14.asm
+CABA9,ResetMixChannel,sub_CABA9,new,medium,mixer callback: marks a channel free and resets its settings,src/lib/watcom/watcom_clib_14.asm
+CBEA8,SetMixerMode,sub_CBEA8,new,low,sets the mixer mode: 1 mixes 16-bit samples through the volume lookup,src/lib/watcom/watcom_clib_14.asm
+CBEB7,MixerInit,sub_CBEB7,new,medium,"sets up the mixer for an output rate, buffer size and format and picks the output routine",src/lib/watcom/watcom_clib_14.asm
 CBFC2,MixerFillBuffer,sub_CBFC2,new,medium,"mixes all channels into an output buffer, 512 samples at a time",src/lib/watcom/watcom_clib_14.asm
+CC048,MixerStartChannel,sub_CC048,new,medium,"sets up a mixer channel for a sample: format, loop, rate and volumes",src/lib/watcom/watcom_clib_14.asm
 CC15A,MixerStopChannel,sub_CC15A,new,low,marks a channel stopped and calls the end-of-sample callback,src/lib/watcom/watcom_clib_14.asm
+CC17B,MixerSetChannelVolumes,sub_CC17B,new,medium,sets a mixer channel's left and right volumes from a pan and volume,src/lib/watcom/watcom_clib_14.asm
+CC1B5,MixerSetChannelRate,sub_CC1B5,new,medium,sets a mixer channel's step for a new rate,src/lib/watcom/watcom_clib_14.asm
 CC200,MixerSamplesLeft,sub_CC200,new,low,"returns how many samples a playing channel has left, or -1 for looping or streamed channels",src/lib/watcom/watcom_clib_14.asm
+CC250,MixerPickRoutines,sub_CC250,new,medium,"picks a mixer channel's mixing, decoding and length routines from its format",src/lib/watcom/watcom_clib_14.asm
 CC343,MixerChunkLength,sub_CC343,new,low,returns how many output samples a channel can mix before its end or loop point; followed by the loop and stream variants,src/lib/watcom/watcom_clib_14.asm
 CC728,MixerCalcStep,sub_CC728,new,low,converts a pitch to the channel's fixed-point step through the sample,src/lib/watcom/watcom_clib_14.asm
 CC7A1,MixerBuildVolumeTables,sub_CC7A1,new,low,builds the 128 volume tables that scale each 8-bit sample value,src/lib/watcom/watcom_clib_14.asm
+CC7FD,MixMono8,sub_CC7FD,new,medium,mixes an 8-bit mono channel into the mixing buffer,src/lib/watcom/watcom_clib_14.asm
+CCB41,MixMono16,sub_CCB41,new,medium,mixes a 16-bit mono channel into the mixing buffer,src/lib/watcom/watcom_clib_14.asm
+CCEEF,MixStereo8,,new,medium,mixes an 8-bit stereo channel into the mixing buffer,src/lib/watcom/watcom_clib_14.asm
+CD2FD,MixStereo16,,new,medium,mixes a 16-bit stereo channel into the mixing buffer,src/lib/watcom/watcom_clib_14.asm
+CD708,MixMono16Lookup,,new,medium,mixes a 16-bit mono channel through the volume lookup,src/lib/watcom/watcom_clib_14.asm
+CDAA6,MixStereo16Lookup,,new,medium,mixes a 16-bit stereo channel through the volume lookup,src/lib/watcom/watcom_clib_14.asm
+CDEB3,MixOutputStereo16,,new,medium,writes the mixing buffer out as clipped 16-bit stereo,src/lib/watcom/watcom_clib_14.asm
+CDF14,MixOutputStereo8,,new,medium,writes the mixing buffer out as clipped 8-bit stereo,src/lib/watcom/watcom_clib_14.asm
+CDF71,MixOutputMono8,,new,medium,writes the mixing buffer out as clipped 8-bit mono,src/lib/watcom/watcom_clib_14.asm
+CDFDD,MixOutputSkipBothStereo,sub_CDFDD,new,medium,output routine for an unsupported format: does nothing,src/lib/watcom/watcom_clib_14.asm
+CDFDE,MixOutputSkipBothMono,sub_CDFDE,new,medium,output routine for an unsupported format: does nothing,src/lib/watcom/watcom_clib_14.asm
+CDFDF,MixOutputSkipMono16,sub_CDFDF,new,medium,"output routine for 16-bit mono, not supported: does nothing",src/lib/watcom/watcom_clib_14.asm
+CDFE0,MixOutputSkipStereo,sub_CDFE0,new,medium,output routine for an unsupported format: does nothing,src/lib/watcom/watcom_clib_14.asm
+CDFE1,MixOutputSkip,sub_CDFE1,new,medium,output routine for any other format: does nothing,src/lib/watcom/watcom_clib_14.asm
+CDFE2,ClearMixBuffer,sub_CDFE2,new,medium,clears the mixing buffer,src/lib/watcom/watcom_clib_14.asm
 CE06B,ParseHexValue,sub_CE06B,new,low,parses a hexadecimal setting value,src/lib/sound/snd_soundblaster.asm
 CE0A9,ParseBlasterEnv,sub_CE0A9,new,medium,parses the BLASTER environment string,src/lib/sound/snd_soundblaster.asm
 CE1DA,SbDelay,sub_CE1DA,new,medium,short delay: reads the Sound Blaster status port 100 times,src/lib/sound/snd_soundblaster.asm
@@ -1678,23 +1703,30 @@ D5789,EmuNoOp,sub_D5789,new,medium,x87 emulator: returns at once,src/lib/watcom/
 D578A,__init_80x87,,WATCOM,high,IDA FLIRT library signature,
 D57B4,AdpcmDecodeMono,sub_D57B4,new,medium,decodes 4-bit ADPCM samples for one channel to 16-bit samples,src/lib/watcom/watcom_emu387.asm
 D585C,AdpcmDecodeStereo,sub_D585C,new,medium,decodes 4-bit ADPCM samples for two channels to 16-bit samples,src/lib/watcom/watcom_emu387.asm
-D5B1E,ReturnArg,sub_D5B1E,new,low,returns its argument,src/lib/sound/snd_hw_sb.asm
-D5B7C,TimerCalibrate,sub_D5B7C,new,low,calibrates the timer,src/lib/sound/snd_hw_sb.asm
-D5B96,TimerRestore,sub_D5B96,new,low,restores the timer,src/lib/sound/snd_hw_sb.asm
-D5BCD,TimerWritePit,sub_D5BCD,new,low,writes the timer chip divisor,src/lib/sound/snd_hw_sb.asm
-D5BEE,TimerReadCount,sub_D5BEE,new,low,reads the timer count,src/lib/sound/snd_hw_sb.asm
-D5C0D,TimerTicksForRate,sub_D5C0D,new,low,works out the ticks for a rate,src/lib/sound/snd_hw_sb.asm
-D5C2F,TimerMeasure,sub_D5C2F,new,low,measures the timer,src/lib/sound/snd_hw_sb.asm
-D5C5E,TimerSetDivisor,sub_D5C5E,new,low,sets the timer divisor,src/lib/sound/snd_hw_sb.asm
-D5C7F,TimerReset,sub_D5C7F,new,low,resets the timer,src/lib/sound/snd_hw_sb.asm
-D5CA2,TimerInstall,sub_D5CA2,new,low,installs the timer handler,src/lib/sound/snd_hw_sb.asm
-D5E1E,TimerChainOld,sub_D5E1E,new,low,chains to the old timer handler,src/lib/sound/snd_hw_sb.asm
-D5F29,IrqEoi,sub_D5F29,new,medium,sends end of interrupt to the interrupt controller,src/lib/sound/snd_hw_sb.asm
-D5F5A,IrqAck,sub_D5F5A,new,low,acknowledges a sound interrupt,src/lib/sound/snd_hw_sb.asm
-D5F84,IrqVector,sub_D5F84,new,low,returns the interrupt vector of an IRQ,src/lib/sound/snd_hw_sb.asm
+D59DB,StrToLong,sub_D59DB,new,medium,"converts a string to a number, signed or unsigned (the core of strtol and strtoul)",src/lib/sound/snd_hw_sb.asm
+D5B1E,strtoul_,sub_D5B1E,new,medium,converts a string to an unsigned number (strtoul),src/lib/sound/snd_hw_sb.asm
+D5B26,DigitValue,sub_D5B26,new,medium,"returns the value of a digit or letter in bases up to 36, or 37 if it is not one",src/lib/sound/snd_hw_sb.asm
+D5B7C,WssCodecStart,sub_D5B7C,new,medium,starts the Windows Sound System codec: programs its format and DMA and starts playback,src/lib/sound/snd_hw_sb.asm
+D5B96,WssCodecStop,sub_D5B96,new,medium,stops the Windows Sound System codec and its DMA channel,src/lib/sound/snd_hw_sb.asm
+D5BB1,WssSetVolume,sub_D5BB1,new,medium,sets the Windows Sound System codec output attenuation from a volume,src/lib/sound/snd_hw_sb.asm
+D5BCD,WssWriteReg,sub_D5BCD,new,medium,"writes a Windows Sound System codec register (index in AH, value in AL)",src/lib/sound/snd_hw_sb.asm
+D5BEE,WssReadReg,sub_D5BEE,new,medium,reads a Windows Sound System codec register,src/lib/sound/snd_hw_sb.asm
+D5C0D,WssWaitReady,sub_D5C0D,new,medium,waits until the Windows Sound System codec is out of its initialise state,src/lib/sound/snd_hw_sb.asm
+D5C2F,WssWaitCalibration,sub_D5C2F,new,medium,waits for the Windows Sound System codec's auto-calibration to finish,src/lib/sound/snd_hw_sb.asm
+D5C5E,WssSetModeChange,sub_D5C5E,new,medium,sets or clears the Windows Sound System codec's mode change bit,src/lib/sound/snd_hw_sb.asm
+D5C7F,WssCodecReset,sub_D5C7F,new,low,puts the Windows Sound System codec back in its idle state,src/lib/sound/snd_hw_sb.asm
+D5CA2,WssCodecSetup,sub_D5CA2,new,medium,"sets the Windows Sound System codec format, programs auto-init DMA and starts playback",src/lib/sound/snd_hw_sb.asm
+D5E1E,WssStopDma,sub_D5E1E,new,medium,masks the Windows Sound System DMA channel,src/lib/sound/snd_hw_sb.asm
+D5E50,DmaMaskChannel,sub_D5E50,new,medium,masks a DMA channel,src/lib/sound/snd_hw_sb.asm
+D5E7D,DmaProgram,sub_D5E7D,new,medium,"programs a DMA channel with a buffer address, length and mode",src/lib/sound/snd_hw_sb.asm
+D5F29,DmaReadCount,sub_D5F29,new,medium,reads a DMA channel's remaining count,src/lib/sound/snd_hw_sb.asm
+D5F5A,DmaPlayedHalf,sub_D5F5A,new,medium,"returns which half of the DMA buffer has just played, or -1 if no change",src/lib/sound/snd_hw_sb.asm
+D5F84,PicSendEoi,sub_D5F84,new,high,sends end of interrupt to both interrupt controllers,src/lib/sound/snd_hw_sb.asm
 D5F95,IrqUnmask,sub_D5F95,new,low,unmasks an IRQ,src/lib/sound/snd_hw_sb.asm
 D5FD4,IrqMask,sub_D5FD4,new,low,masks an IRQ,src/lib/sound/snd_hw_sb.asm
 D6005,IrqSetHandler,sub_D6005,new,low,sets an interrupt handler,src/lib/sound/snd_hw_sb.asm
+D6027,InstallRealIrqStub,sub_D6027,new,medium,copies a real mode interrupt stub to DOS memory and points the real mode vector at it,src/lib/sound/snd_hw_sb.asm
+D60D2,RemoveRealIrqStub,sub_D60D2,new,medium,restores the real mode interrupt vector and frees the stub,src/lib/sound/snd_hw_sb.asm
 D6120,GusGetEnvConfig,sub_D6120,new,low,"reads the ULTRASND environment variable and parses base port, DMA channels and IRQs into the card config",src/lib/sound/snd_gus_sdk_01.asm
 D6230,GusProbePort,sub_D6230,new,low,writes test bytes to a card port and reads them back; returns whether a card answers at that base,src/lib/sound/snd_gus_sdk_01.asm
 D6290,GusStopDmaAndTimers,sub_D6290,new,low,"clears the card's DMA control, timer control and sampling control registers",src/lib/sound/snd_gus_sdk_01.asm
@@ -4057,15 +4089,24 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1248D6,SndMaxRate,dword_1248D6,new,medium,highest output rate the card allows,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248DA,SndMasterVolume,byte_1248DA,new,medium,master volume for every sound channel,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248DC,MixerVolumeLookup,dword_1248DC,new,medium,mixer volume lookup table,src/data/lib/watcom/watcom_clib_14_data_01.asm
-1448DC,MixerChannels,unk_1448DC,new,medium,mixer channel records (74h bytes each),src/data/lib/watcom/watcom_clib_14_data_01.asm
+1448DC,MixerChannels,unk_1448DC,new,low,"mixer channel records, 16 of 6Ch bytes",src/data/lib/watcom/watcom_clib_14_data_01.asm
+144F9C,MixBuffer,dword_144F9C,new,low,mixing accumulator: a left and right total for each output sample,src/data/lib/watcom/watcom_clib_14_data_01.asm
+146F9C,MixDecodeBuffer,unk_146F9C,new,medium,buffer that compressed samples are decoded into,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EF9C,MixerReady,dword_14EF9C,new,low,mixer initialised,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFA0,MixerMode,dword_14EFA0,new,low,mixer mode: 1 mixes 16-bit samples through the volume lookup,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFA4,MixerOutputRate,dword_14EFA4,new,low,mixer output rate,src/data/lib/watcom/watcom_clib_14_data_01.asm
-14EFA8,Mixer16Bit,dword_14EFA8,new,medium,mixer output is 16-bit,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFA8,MixerBufferSamples,dword_14EFA8,new,medium,output samples per DMA buffer half,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFAC,MixerOutBuffer,dword_14EFAC,new,medium,DMA buffer half being filled,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFB0,MixerChunkSamples,dword_14EFB0,new,low,samples in this mixer chunk,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFB4,MixerChunkLeft,dword_14EFB4,new,low,samples left in this mixer chunk,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFB8,MixerChunkPos,dword_14EFB8,new,medium,output sample the current chunk starts at,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFBC,MixerChunkCount,dword_14EFBC,new,medium,output samples in the current chunk,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFC4,MixerLoopLength,dword_14EFC4,new,medium,mixer loop length,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFC8,MixerLoopLimit,dword_14EFC8,new,medium,mixer loop limit,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFCC,MixerLoopStart,dword_14EFCC,new,medium,mixer loop start,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFD0,MixStepFrac,dword_14EFD0,new,medium,"channel step per output sample, fraction",src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFD4,MixStepWhole,dword_14EFD4,new,medium,"channel step per output sample, whole samples",src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFD8,MixerOutputFunc,dword_14EFD8,new,medium,routine that writes the mixing buffer to the DMA buffer,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFDC,MixerChannelTable,off_14EFDC,new,low,mixer channel record per channel,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14F01C,WssDmaAlloc,dword_14F01C,new,medium,Windows Sound System DMA buffer allocation,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F020,WssRunning,dword_14F020,new,medium,set while Windows Sound System output runs,src/data/lib/sound/snd_soundblaster_data_02.asm
@@ -4115,7 +4156,13 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1512E4,AdpcmRightSample,dword_1512E4,new,medium,"last decoded sample, second channel",src/data/lib/watcom/watcom_emu387_data_01.asm
 1512E8,AdpcmLeftIndex,dword_1512E8,new,medium,"ADPCM step index, first channel",src/data/lib/watcom/watcom_emu387_data_01.asm
 1512EC,AdpcmRightIndex,dword_1512EC,new,medium,"ADPCM step index, second channel",src/data/lib/watcom/watcom_emu387_data_01.asm
-151320,IrqAckLast,dword_151320,new,medium,last IRQ status read by the interrupt acknowledge,src/data/lib/sound/snd_hw_sb_data_01.asm
+1512F0,DmaPagePorts,byte_1512F0,new,high,DMA page register port for each channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+1512F8,DmaMaskPorts,byte_1512F8,new,high,DMA mask register port for each channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151300,DmaModePorts,byte_151300,new,high,DMA mode register port for each channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151308,DmaClearPorts,byte_151308,new,high,DMA flip-flop clear port for each channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151310,DmaAddressPorts,byte_151310,new,high,DMA address port for each channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151318,DmaCountPorts,byte_151318,new,high,DMA count port for each channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151320,DmaLastHalf,dword_151320,new,medium,DMA buffer half reported last time,src/data/lib/sound/snd_hw_sb_data_01.asm
 151324,GusEnvVarName,dword_151324,new,low,points to the name of the environment variable that holds the card settings,src/data/lib/sound/snd_hw_sb_data_01.asm
 151328,GusOpenCount,dword_151328,new,low,number of times the card has been opened without a matching close,src/data/lib/sound/snd_hw_sb_data_01.asm
 15132C,GusIrqLatchBits,byte_15132C,new,low,latch register bits for each IRQ line the card can use,src/data/lib/sound/snd_hw_sb_data_01.asm
@@ -4374,9 +4421,9 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1A0FAC,SbWritePort,word_1A0FAC,new,low,Sound Blaster DSP write port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FB0,WssBlockSamples,dword_1A0FB0,new,low,samples per Windows Sound System block,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A0FB4,WssHalfBuffer,dword_1A0FB4,new,medium,half the Windows Sound System DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
-1A0FB8,DacTimerRate,dword_1A0FB8,new,low,timer rate of the DAC driver,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FB8,WssFormat,dword_1A0FB8,new,medium,codec register 8 value: rate select and sample format,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A0FBC,WssDmaChannel,dword_1A0FBC,new,medium,Windows Sound System DMA channel,src/data/lib/sound/snd_soundblaster_bss_01.asm
-1A0FC0,DacTimerDivisor,dword_1A0FC0,new,low,timer divisor of the DAC driver,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FC0,WssDmaSize,dword_1A0FC0,new,medium,codec DMA buffer size,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A0FC4,WssDmaBuffer,dword_1A0FC4,new,medium,Windows Sound System DMA buffer,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A0FC8,WssRate,dword_1A0FC8,new,medium,Windows Sound System output rate,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A0FCC,WssDmaPos,dword_1A0FCC,new,medium,Windows Sound System DMA position at the last service,src/data/lib/sound/snd_soundblaster_bss_01.asm
@@ -4435,16 +4482,16 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1A1094,CMainArgc,dword_1A1094,new,low,argument count passed to main,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A1098,CMainArgv,dword_1A1098,new,low,argument vector passed to main,src/data/lib/sound/snd_soundblaster_bss_01.asm
 1A1104,Hook387Save,unk_1A1104,new,low,FPU state saved by __hook387,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A1184,TimerOldOffsetLo,word_1A1184,new,low,low word of the saved timer interrupt offset,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A1186,TimerOldSelector,word_1A1186,new,low,selector of the saved timer interrupt handler,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A1188,TimerOldHandler,dword_1A1188,new,low,saved protected-mode timer interrupt handler,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A118C,TimerOldRealHandler,dword_1A118C,new,low,saved real-mode timer interrupt handler,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A1190,TimerIrqMask,byte_1A1190,new,low,saved interrupt controller mask bit of the timer,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A1191,TimerChainFlag,byte_1A1191,new,low,set when the old timer handler must still be called,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A1192,TimerPitMode,byte_1A1192,new,low,timer chip mode bits used when writing the counter,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A1193,TimerInstalled,byte_1A1193,new,low,set while the game's timer handler is installed,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A1194,TimerDivisor,dword_1A1194,new,low,current timer chip divisor,src/data/lib/watcom/watcom_clib_17_bss_01.asm
-1A1198,TimerChainCount,dword_1A1198,new,low,tick accumulator that decides when to chain to the old timer handler,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1184,WssCodecDmaAddress,word_1A1184,new,medium,low word of the codec DMA buffer address,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1186,WssCodecDmaCount,word_1A1186,new,medium,DMA transfer count for the codec buffer,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1188,WssCodecDmaSize,dword_1A1188,new,medium,codec DMA buffer size in bytes,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A118C,WssCodecDmaHalf,dword_1A118C,new,medium,half the codec DMA buffer size,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1190,WssCodecDmaPage,byte_1A1190,new,medium,DMA page of the codec buffer,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1191,WssCodecDmaRunning,byte_1A1191,new,medium,set while the codec DMA channel runs,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1192,WssIndexBits,byte_1A1192,new,medium,mode bits ORed into every codec register index,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1193,WssCodecRunning,byte_1A1193,new,medium,set while the Windows Sound System codec plays,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1194,WssCodecPort,dword_1A1194,new,medium,Windows Sound System codec base port,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1198,WssCodecDma,dword_1A1198,new,medium,DMA channel the codec uses,src/data/lib/watcom/watcom_clib_17_bss_01.asm
 1A119C,GusEnvConfig,dword_1A119C,new,low,ULTRASND environment settings,src/data/lib/watcom/watcom_clib_17_bss_01.asm
 1A11B8,GusDramSize,word_1A11B8,new,low,Gravis on-board memory size,src/data/lib/watcom/watcom_clib_17_bss_01.asm
 1A11E4,GusDosResult,word_1A11E4,new,low,result of the last DOS file call of the toolkit,src/data/lib/ea/ea_debug_02_bss_01.asm

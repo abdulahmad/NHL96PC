@@ -4761,7 +4761,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1178E6,awfirstslot,dword_1178E6,new,medium,"CountTeamSlots: first slot with slotteam 2, -1 none",src/data/front/front_2A692_data_02.asm
 1178EA,HomeEbenPlayer,dword_1178EA,new,low,home extra bench player (-1 none),src/data/front/front_2A692_data_02.asm
 1178EE,AwayEbenPlayer,dword_1178EE,new,low,away extra bench player (-1 none),src/data/front/front_2A692_data_02.asm
-1178F2,Pencntdwn,,95PC,medium,NHL95PC C90CE (refset): referenced by the same 5 matched functions,
+1178F2,PenCntDwn,,94G,high,penalty-call countdown (94G ram94 PenCntDwn),src/data/front/front_2A692_data_02.asm
 1178F4,ClockFrameCount,word_1178F4,new,low,Frames left in the current clock second (17h),src/data/front/front_2A692_data_02.asm
 1178F6,refsignal,word_1178F6,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 1178F8,RefStep,word_1178F8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
@@ -4831,14 +4831,14 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11910F,injurystop,word_11910F,new,low,Play stopped for an injury (setInjuryType sets it; the faceoff code clears it),src/data/engine/hockey_data_01.asm
 119111,bannermsg,word_119111,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 119113,bannertimer,word_119113,new,low,Frames left to show the banner message (50h when set),src/data/engine/hockey_data_01.asm
-119115,Pencntdwn2,,95PC,medium,NHL95PC CC0B0 (refset): referenced by the same 3 matched functions,
+119115,PenCntDwn2,,new,medium,second penalty-call countdown next to PenCntDwn,src/data/engine/hockey_data_01.asm
 119117,ControlMarkerFrames,word_119117,new,low,Shape ids of the controlled-player marker animation,src/data/engine/hockey_data_01.asm
 11911F,ControlMarkerAltFrames,word_11911F,new,low,Shape ids of the second controlled-player marker animation,src/data/engine/hockey_data_01.asm
 119127,GoalNetFrames,word_119127,new,low,"Shape ids of the goal net views, by camera angle",src/data/engine/hockey_data_01.asm
 119169,lldispodd,word_119169,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 11916A,lldisp,byte_11916A,new,low,Line display countdown (periodicevents reloads it with 18h),src/data/engine/hockey_data_01.asm
 11916B,ltack,word_11916B,new,low,"Last touch acknowledged (shot and pass code), saved with the game state",src/data/engine/hockey_data_01.asm
-11916D,crowdlevel,,95PC,medium,NHL95PC CC0DE (refset): referenced by the same 3 matched functions,
+11916D,Crowdlevel,,94G,high,crowd excitement level (94G ram94 Crowdlevel),src/data/engine/hockey_data_01.asm
 11916F,introskipped,,95PC,medium,NHL95PC CC0F0 (refset): referenced by the same 3 matched functions,
 119173,onetimerflag,dword_119173,new,low,Set while the current shot is a one-timer (pass straight to a shot),src/data/engine/hockey_data_01.asm
 119177,shotongoal,,95PC,medium,NHL95PC CC0F8 (refset): referenced by the same 5 matched functions,

@@ -23,7 +23,7 @@ extern HighlightBuffer, HighlightHeader
 
 
 
-extern ReplayCamMode, ReplaySavedSound, crowdlevel, curperiod, FrontShapesFile, SaveFileHandle, PenBoxDoorHome
+extern ReplayCamMode, ReplaySavedSound, Crowdlevel, curperiod, FrontShapesFile, SaveFileHandle, PenBoxDoorHome
 extern PenBoxDoorAway, GlassHitFace, PreGameSkateOn, InReplay, ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd
 extern ReplayCamSteps, ReplayCamZoomIn, ReplayCamZoomOut, ReplayFrameTick, ReplayFrameDelta, ReplayTimeAccum, ReplayRemoteShape, SpinPuckFrame
 extern ViewTop, ViewWidth, ViewHeight, ViewLeft, GameFrameTop, ViewBitmap, ViewPixels, ViewSizeStep
@@ -695,7 +695,7 @@ StepReplay:
         mov dx, word [edx]
         inc eax
         inc eax
-        mov word [crowdlevel], dx
+        mov word [Crowdlevel], dx
         mov dword [ReplayFrameCount], eax
         lea edx, [byte eax+01h]
         mov dword [ReplayFrameCount], edx

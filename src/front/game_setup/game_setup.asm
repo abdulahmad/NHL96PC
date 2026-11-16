@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_1D6C1 progbits alloc exec nowrite align=1
-extern assinsert, BuildDefaultLines, apl, curevent, crowdlevel, CrowdNoiseReset, curperiod, GameLoopFrames
+extern assinsert, BuildDefaultLines, apl, curevent, Crowdlevel, CrowdNoiseReset, curperiod, GameLoopFrames
 extern gameresult, GameFrameCount, InputRepeatState, SumCwdExciteLvl, energywarn, exitgame, fadeinpending
 extern forceteams, fox, foy, GameLoopActive, gameopts, gameover, goalevent, gsp
 extern InGameMenuRequest, introskipped, lastplayer, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq
-extern optblock, passplayer, Pencntdwn, Pencntdwn2, penshotlive, penshotmode, penshotplayer, penshotstart
+extern optblock, passplayer, PenCntDwn, PenCntDwn2, penshotlive, penshotmode, penshotplayer, penshotstart
 extern puckx, pucky, refhitcount, regd0, regd1, regd2, ResetClock, SetSPA
 extern SetupTeamLines, shotongoal, shotontarget, SortCords, StartGame, StartPreGame, EmptyRoutine, TextSetColor
 extern SetScreenTarget, threat, vtoa, VisTeam, passdir, passspeed, ClockFrameCount, refsignal
@@ -169,11 +169,11 @@ SetupGame:
         xor edx, edx
         call SetupTeamLines
         mov word [gsp], 0FFFFh
-        mov word [crowdlevel], 0
+        mov word [Crowdlevel], 0
         mov dword [introskipped], 0
         call ResetGameVars
         xor eax, eax
-        mov word [crowdlevel], 0
+        mov word [Crowdlevel], 0
         call StartPreGame
         test eax, eax
         jge short .1
@@ -223,12 +223,12 @@ SetupDemoGame:
         mov eax, dword [optblock]
         mov word [gsp], 0FFFFh
         and eax, byte 7Fh
-        mov word [crowdlevel], 0
+        mov word [Crowdlevel], 0
         call CrowdNoiseReset
         mov dword [introskipped], 0
         call ResetGameVars
         xor eax, eax
-        mov word [crowdlevel], 0
+        mov word [Crowdlevel], 0
         call StartPreGame
         test eax, eax
         jge short .1
@@ -270,8 +270,8 @@ ResetGameVars:
         mov word [ovltimer], 0FFFFh
         mov word [Penaltytimer], 0FFFFh
         mov word [RefStep], 0FFFFh
-        mov word [Pencntdwn], 0FFFFh
-        mov word [Pencntdwn2], 0FFFFh
+        mov word [PenCntDwn], 0FFFFh
+        mov word [PenCntDwn2], 0FFFFh
         mov word [threat], 0
         mov word [passplayer], 0
         mov word [passspeed], 0

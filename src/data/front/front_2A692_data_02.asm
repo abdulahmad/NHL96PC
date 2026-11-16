@@ -6,7 +6,7 @@ bits 32
 section s_1177F4 progbits alloc noexec write align=1
 extern HomeNetObject, AwayNetObject, PuckObject
 extern RefObject, ExtraObject, ReplayBuffer
-global Pencntdwn, sflags3, PenaltyAnnounced, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, UserRecordsBarColour
+global PenCntDwn, sflags3, PenaltyAnnounced, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, UserRecordsBarColour
 global UserRecordsRowY, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, seed
 global fox, foy, gameclock, gmode, lastplayer, replaystart, puckvy, puckc
 global PtrPuckFlags, PtrRefObject, PtrPuckObject, PtrHomeNet, PtrAwayNet, passplayer, puckvx, puckvz
@@ -154,7 +154,7 @@ HomeEbenPlayer:                                 ; home extra bench player (-1 no
 AwayEbenPlayer:                                 ; away extra bench player (-1 none); used by CountTeamSlots,
                                                 ; InProgress, asseben ...
         db 0FFh,0FFh,0FFh,0FFh
-Pencntdwn:                                      ; used by InProgress, LoadGameState, ResetGameVars ...
+PenCntDwn:                                      ; used by InProgress, LoadGameState, ResetGameVars ...
         db 0FFh,0FFh
 ClockFrameCount:                                ; Frames left in the current clock second (17h); used by
                                                 ; LoadGameState, ResetClock, ResetGameVars ...

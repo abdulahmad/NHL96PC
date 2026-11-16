@@ -13,7 +13,7 @@ extern GameLoopActive, str_SSS, str_CSS, str_SS, str_CS, str_CSCS, str_CS2, str_
 extern str_D, str_2d02d, awtmstruct, HomeGoalCount, AwayGoalCount, hmrosterflags
 extern textline1, textline2, textline3, textline4, textline5, HmStarterGoalieMarks, HmBackupGoalieMarks, AwStarterGoalieMarks
 extern curevent
-extern goalevent, CamShotMode, crowdlevel, curperiod
+extern goalevent, CamShotMode, Crowdlevel, curperiod
 extern penshotfox, penshotteam, EventLineTextIds, LastEventPlayer, hmtmlines, EventPanelLines
 extern NameFont, NamePanelBmp, optflags, TextStringWidth, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
@@ -793,11 +793,11 @@ PostPenaltyEvent:
 .2:
         mov ax, word [GameLoopActive]
         mov word [joysampling], ax
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         mov dword [GameLoopActive], 0
         cmp eax, 190h
         jle short .3
-        mov word [crowdlevel], 190h
+        mov word [Crowdlevel], 190h
 .3:
         cmp ebx, byte 11h
         jne near .10

@@ -3901,7 +3901,7 @@
 ;  1178E6  awfirstslot                              data/front/front_2A692_data_02.asm           4
 ;  1178EA  HomeEbenPlayer                           data/front/front_2A692_data_02.asm           4
 ;  1178EE  AwayEbenPlayer                           data/front/front_2A692_data_02.asm           4
-;  1178F2  Pencntdwn                                data/front/front_2A692_data_02.asm           7
+;  1178F2  PenCntDwn                                data/front/front_2A692_data_02.asm           7
 ;  1178F4  ClockFrameCount                          data/front/front_2A692_data_02.asm           4
 ;  1178F6  refsignal                                data/front/front_2A692_data_02.asm           5
 ;  1178F8  RefStep                                  data/front/front_2A692_data_02.asm           7
@@ -3960,14 +3960,14 @@
 ;  11910F  injurystop                               data/engine/hockey_data_01.asm               6
 ;  119111  bannermsg                                data/engine/hockey_data_01.asm               7
 ;  119113  bannertimer                              data/engine/hockey_data_01.asm               7
-;  119115  Pencntdwn2                               data/engine/hockey_data_01.asm               3
+;  119115  PenCntDwn2                               data/engine/hockey_data_01.asm               3
 ;  119117  ControlMarkerFrames                      data/engine/hockey_data_01.asm               1
 ;  11911F  ControlMarkerAltFrames                   data/engine/hockey_data_01.asm               1
 ;  119127  GoalNetFrames                            data/engine/hockey_data_01.asm               2
 ;  119169  lldispodd                                data/engine/hockey_data_01.asm               2
 ;  11916A  lldisp                                   data/engine/hockey_data_01.asm               1
 ;  11916B  ltack                                    data/engine/hockey_data_01.asm               3
-;  11916D  crowdlevel                               data/engine/hockey_data_01.asm               11
+;  11916D  Crowdlevel                               data/engine/hockey_data_01.asm               11
 ;  11916F  introskipped                             data/engine/hockey_data_01.asm               3
 ;  119173  onetimerflag                             data/engine/hockey_data_01.asm               6
 ;  119177  shotongoal                               data/engine/hockey_data_01.asm               7

@@ -9,7 +9,7 @@ extern puckcross2
 section s_3A7A4 progbits alloc exec nowrite align=1
 extern CompLine, Endfaceoff, PBnum, SetupPenaltyShot, ShotLaneOpen, SortCords, assinsert, assreplace
 extern awtmstruct, sflags3, apl, InputState
-extern hmtmgoaliehi, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, crowdlevel
+extern hmtmgoaliehi, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, Crowdlevel
 extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, onetimerflag, penshotteam, pspathdir
 extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, GoalieDepthTab, GoalReplayPending, GlassBroken, PtrPuckZone
 extern FaceoffPuckDrop, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
@@ -3793,14 +3793,14 @@ goaliesave:
         movsx edx, word [nosplit eax*2+GoalieSaveAnims]
         mov eax, ebx
         call SetSPA
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 4B0h
         jg short .39
-        add word [crowdlevel], 96h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 96h
+        movsx eax, word [Crowdlevel]
         cmp eax, 4B0h
         jle short .39
-        mov word [crowdlevel], 4B0h
+        mov word [Crowdlevel], 4B0h
 .39:
         mov ax, word [ecx]
         mov word [regd0], ax
@@ -4974,14 +4974,14 @@ assgoalie:
         or byte [byte esi+045h], 2
         call SetSPA
         mov word [byte esi+04Ah], 168h
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 4B0h
         jg near goalieposition_648
-        add word [crowdlevel], 96h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 96h
+        movsx eax, word [Crowdlevel]
         cmp eax, 4B0h
         jle near goalieposition_648
-        mov word [crowdlevel], 4B0h
+        mov word [Crowdlevel], 4B0h
         jmp near goalieposition_648
 ;-----------------------------------------------------------------------------
 ; AutoSwitchPlayer                                3E665  96 PC, low confidence

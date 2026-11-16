@@ -8,7 +8,7 @@ section s_3E6EC progbits alloc exec nowrite align=1
 extern Acheck, AddPenalty, CompLine, CountShotOnGoal, CwdExciteLvl, OOlist, OOlistpos, PBnum
 extern QuickShotChk, RemoveFromLines, ShotLaneOpen, SortCords, a2touchpuck, assinsert, assreplace, awtmstruct
 extern HomeShotCount, AwayShotCount, GlassOn, sflags3, OffsideCalled, PenBuf
-extern PenBuf_pl, iflags, collflag, crowdlevel, hmslotcount, awslotcount
+extern PenBuf_pl, iflags, collflag, Crowdlevel, hmslotcount, awslotcount
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn
 extern FallDownsOff, nethit, RinkB00FirstVert, CamInjuredObj, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, puckvy, puckc
@@ -4628,7 +4628,7 @@ MarkTwoLinePlayers:
         ret
 ;-----------------------------------------------------------------------------
 ; ChkShotStat                    41BFC  93G penalty93_2.asm, medium confidence
-; If the shot flag (gmode2 bit 4) was set: clear it, crowdlevel +100,
+; If the shot flag (gmode2 bit 4) was set: clear it, Crowdlevel +100,
 ; shot counts for the shooter and the goalie.
 ;-----------------------------------------------------------------------------
 ChkShotStat:
@@ -4750,14 +4750,14 @@ ChkShotStat:
 .10:
         call sfx
 .11:
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jg short .12
-        add word [crowdlevel], byte 64h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], byte 64h
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jle short .12
-        mov word [crowdlevel], 3E8h
+        mov word [Crowdlevel], 3E8h
 .12:
         mov al, byte [gmode]
         and al, 10h
@@ -4829,14 +4829,14 @@ setInjuryType:
         push edi
         mov esi, eax
         or byte [byte eax+045h], 4
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jg short .1
-        add word [crowdlevel], 12Ch
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 12Ch
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jle short .1
-        mov word [crowdlevel], 3E8h
+        mov word [Crowdlevel], 3E8h
 .1:
         mov eax, 3
         add word [CwdExciteLvl], byte 1Eh
@@ -5343,14 +5343,14 @@ FallDown:
         mov eax, ecx
         or byte [byte ecx+045h], 2
         call SetSPA
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jg short .3
-        add word [crowdlevel], 1F4h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 1F4h
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jle short .3
-        mov word [crowdlevel], 3E8h
+        mov word [Crowdlevel], 3E8h
 .3:
         mov eax, 1Eh
         add word [CwdExciteLvl], byte 0Fh
@@ -5798,14 +5798,14 @@ FallDown:
         call CanRemovePlayer
         test eax, eax
         je near .63
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jg short .55
-        add word [crowdlevel], 1F4h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 1F4h
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jle short .55
-        mov word [crowdlevel], 3E8h
+        mov word [Crowdlevel], 3E8h
 .55:
         mov edx, 22Bh
         add word [CwdExciteLvl], byte 0Fh
@@ -5846,7 +5846,7 @@ FallDown:
         jmp short .63
 .60:
         mov eax, dword [puckc]
-        add word [crowdlevel], byte 64h
+        add word [Crowdlevel], byte 64h
         movsx ax, byte [eax]
         cmp ax, word [dword ecx+086h]
         je short .63
@@ -5897,14 +5897,14 @@ FallDown:
         mov eax, ecx
         call assexitjump
 .66:
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jg short .67
-        add word [crowdlevel], 1F4h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 1F4h
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jle short .67
-        mov word [crowdlevel], 3E8h
+        mov word [Crowdlevel], 3E8h
 .67:
         add word [CwdExciteLvl], byte 0Fh
         cmp dword [FallDownsOff], byte 0
@@ -6582,7 +6582,7 @@ puckshadow:
 ; The other team's assist slots are cleared and its tmflags bit 3 set.
 ;
 ; After a faceoff (sflags3 bit 4) count a faceoff won (and one won in the
-; attacking end), raise crowdlevel by 200 (max 1000) and the home crowd's
+; attacking end), raise Crowdlevel by 200 (max 1000) and the home crowd's
 ; CwdExciteLvl by 10; otherwise play sfx 9Bh .
 ;
 ; Then the pass completion, clear the pass/shot dir modes (sflags bits 2-3); a
@@ -6590,7 +6590,7 @@ puckshadow:
 ; 8Ch). Falls into setd0player: GiveControl(regd0).
 ;
 ; The attacking-end count is two increments (if / else if): one `||` test
-; moved the registers of the crowdlevel clamp after it.
+; moved the registers of the Crowdlevel clamp after it.
 ;-----------------------------------------------------------------------------
 puckglue:
         push ebx
@@ -6655,14 +6655,14 @@ puckglue:
 .4:
         mov eax, 1
         call sfx
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jg short .5
-        add word [crowdlevel], 0C8h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 0C8h
+        movsx eax, word [Crowdlevel]
         cmp eax, 3E8h
         jle short .5
-        mov word [crowdlevel], 3E8h
+        mov word [Crowdlevel], 3E8h
 .5:
         mov al, byte [byte ebx+044h]
         and al, 40h
@@ -9028,14 +9028,14 @@ checkgoal:
         call PlaySfx
         jmp short .15
 .13:
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 4B0h
         jg short .14
-        add word [crowdlevel], 1F4h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 1F4h
+        movsx eax, word [Crowdlevel]
         cmp eax, 4B0h
         jle short .14
-        mov word [crowdlevel], 4B0h
+        mov word [Crowdlevel], 4B0h
 .14:
         mov eax, 15h
         add word [CwdExciteLvl], byte 28h
@@ -9396,7 +9396,7 @@ wallcoll:
 ; wallcoll): halve Yvel, SPA 821h on the next struct (the glass) at x 3Fh -40h
 ; (by the puck's side), y 10Bh, sfx AEh.
 ;
-; crowdlevel +1200 (max 1500) and CwdExciteLvl +15, then out of play.
+; Crowdlevel +1200 (max 1500) and CwdExciteLvl +15, then out of play.
 ;
 ; Out of play: sfslock (sflags bit 6), pfnc (pflags bit 2), attribute bit 15
 ; when Ypos < 0, the next struct's frame -1 and, while the clock runs, penalty
@@ -9897,7 +9897,7 @@ checkfight:
         cmp edx, byte 1Ch
         jl short .2
         and byte [sflags], 0F3h
-        add word [crowdlevel], 3E8h
+        add word [Crowdlevel], 3E8h
         add word [CwdExciteLvl], byte 23h
         mov eax, 7
         movsx edx, word [dword ecx+086h]

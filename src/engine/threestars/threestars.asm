@@ -7,7 +7,7 @@ extern GsOptions
 section s_2D9D9 progbits alloc exec nowrite align=1
 extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin
 extern textline1, textline2, textline3, textline4, textline5, CloseTextOverlay
-extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, InputRecordIndex
+extern Crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, InputRecordIndex
 extern GameLoopFrames, gameresult, PreGameSkateOn, ZonesDirty, LastEventPlayer, ViewScreenWidth, ViewScreenHeight
 extern PanelShadeArt, gwgteam, gwgplayer, DrawFrameCount
 extern NameFont, NamePanelBmp, OverlayBmp, CamShotKeys, energywarn, exitgame, fadeinpending, forcepldata
@@ -1335,7 +1335,7 @@ assintrostand:
 ; Asstab 26h (PreGameIntro): skates to the line-up spot (temp3 -0Fh,temp4),
 ; turns to face centre, marks temp5 -64h.
 ;
-; When all 12 skaters are done sets seqtimer 0Ah; crowdlevel 320h
+; When all 12 skaters are done sets seqtimer 0Ah; Crowdlevel 320h
 ;-----------------------------------------------------------------------------
 assintroline:
         push ebx
@@ -1424,7 +1424,7 @@ assintroline:
         call SetSPA
         mov word [yc1], 0
         mov word [RefStep], 1
-        mov word [crowdlevel], 320h
+        mov word [Crowdlevel], 320h
 .6:
         movsx edx, word [byte ebx+02h]
         movsx eax, word [byte ebx+02Ah]

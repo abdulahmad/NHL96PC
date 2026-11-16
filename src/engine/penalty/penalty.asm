@@ -4,10 +4,10 @@
 bits 32
 %include "hockey.inc"
 section s_50154 progbits alloc exec nowrite align=1
-extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstruct, sflags3
+extern CwdExciteLvl, PBnum, PenCntDwn, SortCords, assinsert, assreplace, awtmstruct, sflags3
 extern PenaltyAnnounced, PenCountdownOptTab, PenShotCountdownOpt, PenCountdownTab, PenShotCountdown, pendelaytab, PenShotDelay, LinePickOrderFrom1
 extern hmrosterpos, textline5, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
-extern PenaltyTimes, PenBuf, PenBuf_pl, crowdlevel, HomeEbenPlayer, AwayEbenPlayer, penshotfox, penshotteam
+extern PenaltyTimes, PenBuf, PenBuf_pl, Crowdlevel, HomeEbenPlayer, AwayEbenPlayer, penshotfox, penshotteam
 extern AwayGoalsPeriod, HomeGoalsPeriod, PenaltyTypes, LastEventPlayer, lineslotmark, PenaltyCandidates, fox, foy
 extern gameclock, gameopts, gmode, hmtmstruct, puckvy, puckc, PtrPuckFlags, PtrPuckObject
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
@@ -15,7 +15,7 @@ extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, PlaySfxOr, PlaySfx
 extern sfx, CrowdReaction, GetLangText, SortIndices, vecdist, awlinetab, hmlinetab, gmode2
 extern ClockFrameCount, refsignal, RefStep, StoppageReason, Penaltytimer, gsp, clockticks, SortPending
-extern PenShotStartX, PenShotStartY, ovltimer, injurystop, bannermsg, bannertimer, Pencntdwn2, InProgressTextIds
+extern PenShotStartX, PenShotStartY, ovltimer, injurystop, bannermsg, bannertimer, PenCntDwn2, InProgressTextIds
 extern penbannertab, hmscore, hmtmap, awscore, awtmap, regd1, PerTimeTotal, LastTouchTeam
 extern PassDistY, StoppageFlag, LastPlayerTouch
 global AddPenalty, ClearPenaltyBuffer, CountShotOnGoal, QuickShotChk, SetupPenaltyShot, ShotLaneOpen, chkatop, chkprogress
@@ -124,14 +124,14 @@ AddPenalty2:
         movsx eax, cx
         cmp eax, byte 7
         jl near .10
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 320h
         jg short .2
-        add word [crowdlevel], 190h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 190h
+        movsx eax, word [Crowdlevel]
         cmp eax, 320h
         jle short .2
-        mov word [crowdlevel], 320h
+        mov word [Crowdlevel], 320h
 .2:
         mov al, byte [byte ebx+044h]
         and al, 40h
@@ -350,7 +350,7 @@ SortPlayersByDistance_E0:
 ;-----------------------------------------------------------------------------
 ; InProgress                     504C5  93G penalty93_1.asm, medium confidence
 ; Referee in progress: updates graphics, stats and penalty information;
-; reached from chkprogress when Pencntdwn < 0.
+; reached from chkprogress when PenCntDwn < 0.
 ;
 ; sprintf messages, assreplace, SetPA
 ;-----------------------------------------------------------------------------
@@ -861,8 +861,8 @@ InProgress_71B:
         jge short .45
         mov word [refsignal], 0
 .45:
-        dec word [Pencntdwn]
-        cmp word [Pencntdwn], byte 0
+        dec word [PenCntDwn]
+        cmp word [PenCntDwn], byte 0
         jge near InProgress_7EE
         mov word [refsignal], 0
         and byte [gmode], 0F7h
@@ -876,7 +876,7 @@ InProgress_71B:
         movsx edx, byte [nosplit edx*2+PenaltyTimes]
         cmp byte [dword edx+penmintab], 0
         je short .46
-        mov word [Pencntdwn2], 0FFFFh
+        mov word [PenCntDwn2], 0FFFFh
         mov eax, dword [puckc]
         mov word [SortPending], 1
         or byte [gmode2], 4
@@ -914,7 +914,7 @@ InProgress_7EE:
 ; for every queued penalty move the dot out of the offender's zone (y -3Dh /
 ; 3Dh, x +-100).
 ;
-; Then Pencntdwn 0, gmode bit 2, the whistle (sfx A4h) and the ref (SetPA 5).
+; Then PenCntDwn 0, gmode bit 2, the whistle (sfx A4h) and the ref (SetPA 5).
 ;-----------------------------------------------------------------------------
 Stop4Pen:
         push ebx
@@ -1070,7 +1070,7 @@ Stop4Pen:
         cmp byte [nosplit edx*2+PenBuf], 0
         jne near .18
 .24:
-        mov word [Pencntdwn], 0
+        mov word [PenCntDwn], 0
         movsx eax, bl
         or byte [gmode], 4
         cmp eax, byte 1
@@ -1126,7 +1126,7 @@ Stop4Pen:
 ; penalties without minutes (penmintab) or when the guilty team has the puck.
 ;
 ; Else a delayed penalty (gmode bit 3 gmpendel, SetPA 1Ch). The entry is
-; marked called (bit 7) and Pencntdwn is raised to pendelaytab*32.
+; marked called (bit 7) and PenCntDwn is raised to pendelaytab*32.
 ;-----------------------------------------------------------------------------
 checkfornewpen:
         push ebx
@@ -1199,13 +1199,13 @@ checkfornewpen:
         movsx ax, byte [dword eax+PenCountdownTab]
 .7:
         shl eax, 5
-        cmp ax, word [Pencntdwn]
+        cmp ax, word [PenCntDwn]
         jle short .8
-        mov word [Pencntdwn], ax
+        mov word [PenCntDwn], ax
 .8:
         cmp word [injurystop], byte 0
         je short .9
-        mov word [Pencntdwn], 140h
+        mov word [PenCntDwn], 140h
 .9:
         cmp dword [penshotstart], byte 0
         je short .12
@@ -1220,7 +1220,7 @@ checkfornewpen:
         movsx bx, byte [PenShotCountdownOpt]
 .10:
         shl ebx, 5
-        mov word [Pencntdwn], bx
+        mov word [PenCntDwn], bx
         jmp short .13
 .11:
         movsx bx, byte [PenShotCountdown]
@@ -1230,9 +1230,9 @@ checkfornewpen:
         movsx ax, byte [dword eax+pendelaytab]
         shl eax, 5
 .13:
-        cmp ax, word [Pencntdwn2]
+        cmp ax, word [PenCntDwn2]
         jle short .14
-        mov word [Pencntdwn2], ax
+        mov word [PenCntDwn2], ax
 .14:
         inc edx
 .15:
@@ -1533,10 +1533,10 @@ updatePPTeamTime:
         jmp near ReleaseFromBox_111
 ;-----------------------------------------------------------------------------
 ; chkprogress                    5140E  93G penalty93_1.asm, medium confidence
-; Falls through from PenaltyManager: with gmpen (gmode bit 2): Pencntdwn >= 0
+; Falls through from PenaltyManager: with gmpen (gmode bit 2): PenCntDwn >= 0
 ; -> chkprogress_go, else InProgress.
 ;
-; first, with the clock stopped, calls UpdateTextOverlay and counts Pencntdwn2
+; first, with the clock stopped, calls UpdateTextOverlay and counts PenCntDwn2
 ; down to set gmode2 bit 2
 ;-----------------------------------------------------------------------------
 chkprogress:
@@ -1548,10 +1548,10 @@ chkprogress:
         movsx eax, al
         test eax, eax
         je near InProgress_7EE
-        cmp word [Pencntdwn2], byte 0
+        cmp word [PenCntDwn2], byte 0
         jl short .1
-        dec word [Pencntdwn2]
-        cmp word [Pencntdwn2], byte 0
+        dec word [PenCntDwn2]
+        cmp word [PenCntDwn2], byte 0
         jge short .1
         or byte [gmode2], 4
 .1:
@@ -1560,7 +1560,7 @@ chkprogress:
         movsx eax, al
         test eax, eax
         je near InProgress_7EE
-        cmp word [Pencntdwn], byte 0
+        cmp word [PenCntDwn], byte 0
         jge near InProgress_71B
         call InProgress
         pop edx
@@ -1907,7 +1907,7 @@ SetupPenaltyShot:
         mov word [byte ebx+034h], ax
         mov word [byte ebx+032h], ax
         mov eax, 2
-        add word [crowdlevel], byte 64h
+        add word [Crowdlevel], byte 64h
         call sfx
         cmp dword [penshotplayer], byte 6
         jge short .4
@@ -2151,7 +2151,7 @@ QuickShotChk:
 ; ShotLaneOpen decides whether the shot is on goal (shotontarget ->
 ; shotongoal).
 ;
-; If so crowdlevel +64h and, outside penshotmode, the shooting team's +1Ch
+; If so Crowdlevel +64h and, outside penshotmode, the shooting team's +1Ch
 ; shots count is incremented
 ;-----------------------------------------------------------------------------
 CountShotOnGoal:
@@ -2163,7 +2163,7 @@ CountShotOnGoal:
         je short .3
         mov eax, 2
         call sfx
-        add word [crowdlevel], byte 64h
+        add word [Crowdlevel], byte 64h
         cmp dword [penshotmode], byte 0
         jne short .3
         mov eax, dword [puckc]

@@ -8,12 +8,12 @@ extern puckcross6
 extern puckcross2
 section s_465BA progbits alloc exec nowrite align=1
 extern AddPenalty, ChkGoalies, ClearPenaltyBuffer, CwdExciteLvl, InGameMenuRequest, LineChangeReq, OOlist, OOlistpos
-extern PBnum, Pencntdwn, PlList, ReadJoy1, SortCords, assinsert, assreplace, awtmgoalie
+extern PBnum, PenCntDwn, PlList, ReadJoy1, SortCords, assinsert, assreplace, awtmgoalie
 extern awtmstruct, sflags3, priolist, lldisp, HotList, HotList_y, HotStickList, HotStickList_y
 extern PositionAssignTab, PeriodEnded, PlListPositions, awroster
 extern hmtmpbox, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtmcoachmode, HmRosterMap, awtmpbox
 extern awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode, AwRosterMap, LinePlayersAway, PenBuf, PenBuf_pl
-extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, curperiod, hmslotcount
+extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, Crowdlevel, curperiod, hmslotcount
 extern awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, onetimerflag, penshotteam, AwayGoalsPeriod
 extern HomeGoalsPeriod, PassTargetLocked, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn, playsuspended, SeriesDecided
 extern InReplay, ScorePanelState, SfxMask, TeamConferenceIds
@@ -3816,7 +3816,7 @@ StartPer:
         call assreplace
         cmp word [gsp], byte 0
         je short .3
-        mov word [crowdlevel], 0
+        mov word [Crowdlevel], 0
 .3:
         or byte [gmode2], 4
         mov eax, dword [replaystart]
@@ -4425,7 +4425,7 @@ updateplayers:
         cwde
         test eax, eax
         jne short .2
-        cmp word [Pencntdwn], byte 0
+        cmp word [PenCntDwn], byte 0
         jge short .2
         cmp byte [PenBuf], 0
         jne short .2
@@ -5733,14 +5733,14 @@ clockcont_0:
         cmp eax, byte 20h
         je near .8
         call ClearPenaltyBuffer
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 4B0h
         jg short .4
-        add word [crowdlevel], 384h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 384h
+        movsx eax, word [Crowdlevel]
         cmp eax, 4B0h
         jle short .4
-        mov word [crowdlevel], 4B0h
+        mov word [Crowdlevel], 4B0h
 .4:
         mov word [regd2], 0
         or byte [gmode], 41h
@@ -5992,21 +5992,21 @@ clockcont_0:
         mov ax, word [hmscore]
         cmp ax, word [awscore]
         jle short .43
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 5DCh
         jg short .40
-        add word [crowdlevel], 3E8h
-        movsx eax, word [crowdlevel]
+        add word [Crowdlevel], 3E8h
+        movsx eax, word [Crowdlevel]
         cmp eax, 5DCh
         jle short .40
-        mov word [crowdlevel], 5DCh
+        mov word [Crowdlevel], 5DCh
 .40:
         movsx eax, word [regd0]
         cmp eax, byte 8
         jne short .41
         mov eax, 0Ah
         call sfx
-        add word [crowdlevel], 320h
+        add word [Crowdlevel], 320h
         jmp short .42
 .41:
         mov eax, 9
@@ -6018,10 +6018,10 @@ clockcont_0:
 .43:
         mov eax, 5
         call sfx
-        movsx eax, word [crowdlevel]
+        movsx eax, word [Crowdlevel]
         cmp eax, 320h
         jge short .44
-        mov word [crowdlevel], 320h
+        mov word [Crowdlevel], 320h
 .44:
         mov edx, 2
         or byte [gmode], 41h

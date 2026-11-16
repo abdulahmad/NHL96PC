@@ -6,9 +6,9 @@ bits 32
 extern PuckObject
 section s_38070 progbits alloc exec nowrite align=1
 extern JoyButtonsTable
-extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, SlotJoyMap
+extern LineChangeLine, LineChangeReq, PenCntDwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, SlotJoyMap
 extern lchoicetab, assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, LineChangeFlags, InputState
-extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
+extern HmPlayerFlags, Crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, ViewScreenWidth, ViewScreenHeight
 extern InputRepeatState, PtrPuckZone, LineBoxChoice, gameclock, gameopts, gmode
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, puckvy, puckc, PtrPuckFlags
@@ -251,7 +251,7 @@ faceoffinput:
         ret
 ;-----------------------------------------------------------------------------
 ; fightinput                                     3832F  93G, medium confidence
-; Called from doinput: returns when Pencntdwn < 0 or the player is still in
+; Called from doinput: returns when PenCntDwn < 0 or the player is still in
 ; SPA 46Bh (gloves off), then moves the fighter
 ;-----------------------------------------------------------------------------
 fightinput:
@@ -270,7 +270,7 @@ fightinput:
         add ecx, eax
         cmp word [byte ebx+02Ah], byte 0
         jl near fightinput_287
-        cmp word [Pencntdwn], byte 0
+        cmp word [PenCntDwn], byte 0
         jl near fightinput_287
         movsx eax, word [byte ebx+038h]
         cmp eax, 46Bh
@@ -2498,7 +2498,7 @@ assonetimer:
         mov eax, dword [dword ebx+088h]
         inc word [byte eax+01Ah]
         mov eax, 2
-        add word [crowdlevel], byte 64h
+        add word [Crowdlevel], byte 64h
         call sfx
         mov eax, ebx
         call a2touchpuck
@@ -2818,7 +2818,7 @@ ReceivePass:
         jge near .11
 .8:
         mov eax, 1
-        add word [crowdlevel], byte 64h
+        add word [Crowdlevel], byte 64h
         call sfx
         mov eax, edx
         call a2touchpuck

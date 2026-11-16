@@ -9,10 +9,10 @@ extern awplattr
 extern hmplattr
 section s_313D2 progbits alloc exec nowrite align=1
 extern AddPenalty, ChkOffsides, ChkPullGoalieLate, CwdExciteLvl, DemoMode, EvadePlayers, GameLoopActive, MarkTwoLinePlayers
-extern OOlist, PBnum, PenShotAssign, Pencntdwn, PuckIChk, RemoveFromLines, SortCords, awtmstruct
+extern OOlist, PBnum, PenShotAssign, PenCntDwn, PuckIChk, RemoveFromLines, SortCords, awtmstruct
 extern sflags3, Endfaceoff_ftab_m1, PositionAssignTab, OffsideCalled
 extern PenBuf, PenBuf_pl, PBflags, iflags, icingPlayer, goalevent, AssRefGoalTeam, AssRefGoalData
-extern check4bench, chk4lc, chk4pass, crowdlevel, hmslotcount, awslotcount, HomeEbenPlayer, AwayEbenPlayer
+extern check4bench, chk4lc, chk4pass, Crowdlevel, hmslotcount, awslotcount, HomeEbenPlayer, AwayEbenPlayer
 extern onetimerflag, penshotteam, sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir
 extern OneTimerPasser, PuckChasers, PuckChaserPlayer, ScoreCelebrating, PenShotPathPoints, PathPointTab, ShootoutPathData_y, ExtraAttackerOn
 extern ExtraAttackerTeam, ExtraAttackerPlayer, ExtraAttackerPending, ExtraGoalieOut, hmtmnear, awtmnear, findpc, fox
@@ -7921,7 +7921,7 @@ chkhit:
         cmp edi, byte 6
         jne near .37
 .26:
-        add word [crowdlevel], byte 50h
+        add word [Crowdlevel], byte 50h
         add word [CwdExciteLvl], byte 0Ah
         dec word [byte ecx+02Ah]
         cmp word [byte ecx+02Ah], byte 0
@@ -7942,9 +7942,9 @@ chkhit:
         cmp eax, byte 40h
         jl short .27
 .29:
-        mov word [Pencntdwn], 3Ch
+        mov word [PenCntDwn], 3Ch
         mov word [byte ebx+02Ah], 0FFFFh
-        add word [crowdlevel], 258h
+        add word [Crowdlevel], 258h
         add word [CwdExciteLvl], byte 1Eh
         mov dword [byte ecx+06Eh], 0
         mov eax, dword [byte ecx+06Eh]
@@ -8011,7 +8011,7 @@ chkhit:
         cmp edi, byte 2
         jne near .56
 .39:
-        add word [crowdlevel], byte 50h
+        add word [Crowdlevel], byte 50h
         add word [CwdExciteLvl], byte 0Ah
         cmp esi, 4CBh
         jne short .40
@@ -8057,9 +8057,9 @@ chkhit:
         cmp eax, byte 40h
         jl short .44
 .46:
-        mov word [Pencntdwn], 3Ch
+        mov word [PenCntDwn], 3Ch
         mov word [byte ebx+02Ah], 0FFFFh
-        add word [crowdlevel], 258h
+        add word [Crowdlevel], 258h
         add word [CwdExciteLvl], byte 1Eh
         or byte [byte ecx+044h], 20h
         cmp esi, 4B1h
@@ -8132,7 +8132,7 @@ chkhit:
 ;-----------------------------------------------------------------------------
 ; assfight                                                          37410  93G
 ; Assignment table slot 31h, the assignment checkfight_sf inserts;
-; Pencntdwn < 0 ends it; calls chkhit
+; PenCntDwn < 0 ends it; calls chkhit
 ;-----------------------------------------------------------------------------
 assfight:
         push ebx
@@ -8155,7 +8155,7 @@ assfight:
         movzx edx, dl
         test edx, edx
         jne near assrefgoalpa_83F
-        cmp word [Pencntdwn], byte 0
+        cmp word [PenCntDwn], byte 0
         jge near .8
         movsx edx, word [byte esi+038h]
         cmp edx, 46Bh

@@ -176,7 +176,7 @@ Crowd_Noise:
         ret
 ;-----------------------------------------------------------------------------
 ; CrowdNoiseReset                              68EC9  95 PC, medium confidence
-; Clears crowdsmooth, crowdvol8, crowdvol7 (called with crowdlevel = 0 at
+; Clears crowdsmooth, crowdvol8, crowdvol7 (called with Crowdlevel = 0 at
 ; game start)
 ;-----------------------------------------------------------------------------
 CrowdNoiseReset:
@@ -383,7 +383,7 @@ CrowdFadeOut:
 ; Play sound effect id (remembered in lastsfx): while speech plays only 9Ch
 ; passes (and in a replay only with oneminsaid).
 ;
-; A0h/A1h not on sound devices 4/8; 7Dh raises crowdlevel by 500; AAh on
+; A0h/A1h not on sound devices 4/8; 7Dh raises Crowdlevel by 500; AAh on
 ; device 4 starts the arena sample stream; 90h also plays 91h (both on device
 ; 4).
 ;-----------------------------------------------------------------------------

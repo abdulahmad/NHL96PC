@@ -7,7 +7,7 @@ section s_51F18 progbits alloc exec nowrite align=1
 extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str_GloL, str_GloR
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
 extern lineslotgroups, lineslotgroupstart, CamLastSort, hmrosterpos, PBflags, defsort_d, dressflags
-extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, crowdlevel, FrontShapesFile
+extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, Crowdlevel, FrontShapesFile
 extern PenBoxDoorHome, PenBoxDoorAway, GlassHitFace, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, SpinPuckFrame
 extern ViewSizeStep, CamFollowObj, InMenuOverlay, ViewScreenWidth, ViewScreenHeight, MenuRemoteCursorArt, MenuCursorPixels, pointerspr
 extern MenuBitmapPixels, AttractResetFlag, GlassShakeX, GlassShakeY, GlassShakeDir, GlassShakeOn, GlassShakeSide, GlassShakeStep
@@ -2380,7 +2380,7 @@ SortSpritesForDraw:
         mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
-        mov dx, word [crowdlevel]
+        mov dx, word [Crowdlevel]
         mov word [eax], dx
         mov eax, dword [puckvx]
         add dword [ReplayBufferTop], byte 2

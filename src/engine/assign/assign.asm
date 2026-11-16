@@ -4,7 +4,7 @@ bits 32
 section s_2F3DF progbits alloc exec nowrite align=1
 extern assextra4, assextra6, assinsert, assreplace, PBflags, check4bench, check4check, donothing
 extern ExtraAttackerOn, ExtraAttackerTeam, ExtraAttackerPlayer, ExtraAttackerPending, EvadePC, gmode, gmode2, puckvy
-extern PtrRefObject, PBnum, Pencntdwn, playeracc, puckc, puckx, pucky, randomd0
+extern PtrRefObject, PBnum, PenCntDwn, playeracc, puckc, puckx, pucky, randomd0
 extern ReadJoy1, regd0, regd1, regd2, regd3, SetExitGame, SetSPA, skateto
 extern SkateToSpot, slotteam, SortCords, RunPreGameSkate_450, RunPreGameSkate_451, assexitjump, GameEventStub, PlayArenaClip
 extern SwapPosition, updateanim, vecdist, vtoa, CupLeaveSlot, CupLeaveSlotNext, CupGoalieSlot, CupGoalieSlotNext
@@ -113,7 +113,7 @@ SkateToTarget:
         ret
 ;-----------------------------------------------------------------------------
 ; assboxenter                                                     2F4E2  95 PC
-; Asstab 2Ah: Pencntdwn 12Ch.
+; Asstab 2Ah: PenCntDwn 12Ch.
 ;
 ; skates to x -91h,y 6, then seats the player in the box (pflags 20h, tmpde
 ; 800h, SetBoxDoorObject) and opens the box door sprite (sortobj15)
@@ -122,7 +122,7 @@ assboxenter:
         push ebx
         push edx
         mov ebx, eax
-        mov word [Pencntdwn], 0BB8h
+        mov word [PenCntDwn], 0BB8h
         mov al, byte [byte eax+044h]
         and al, 20h
         movzx eax, al

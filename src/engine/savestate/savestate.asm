@@ -15,7 +15,7 @@ extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, RosterFileHandle, PlayoffsAct
 extern FileReadAt, fodir1, fodir2, fox, foy, gameclock, gameopts, gameover
 extern GetPeriodTime, gmode, gmode2, goalevent, gsp, hmroster, hmtmstruct, lastplayer
 extern lasttouch, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq, replaystart, OOlist
-extern optflags, passplayer, PBnum, Pencntdwn, Pencntdwn2, penshotctl, penshotlive, penshotmode
+extern optflags, passplayer, PBnum, PenCntDwn, PenCntDwn2, penshotctl, penshotlive, penshotmode
 extern penshotplayer, penshotstart, penshottimer, PlList, psendcount, refhitcount, seed, sflags
 extern shotongoal, shotontarget, SortCords, sprintf_, SprSort, str_05d, str_05dCsg, str_CsgDb
 extern str_DB, strcat_, FileMissing, DeleteFiles, FileOpenRead, FileClose, FileWriteAt, MakeDirPath
@@ -226,7 +226,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [Pencntdwn]
+        mov dx, word [PenCntDwn]
         mov word [eax], dx
         inc eax
         inc eax
@@ -456,7 +456,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [Pencntdwn2]
+        mov dx, word [PenCntDwn2]
         mov word [eax], dx
         inc eax
         inc eax
@@ -928,7 +928,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [Pencntdwn], dx
+        mov word [PenCntDwn], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1162,7 +1162,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [Pencntdwn2], dx
+        mov word [PenCntDwn2], dx
         movsx edx, word [eax]
         inc eax
         inc eax

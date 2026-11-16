@@ -5,13 +5,13 @@
 bits 32
 %include "hockey.inc"
 section s_118E82 progbits alloc noexec write align=1
-global priolist, apl, lldisp, crowdlevel, PreGameSkateOn, onetimerflag, penshotfox, penshotteam
+global priolist, apl, lldisp, Crowdlevel, PreGameSkateOn, onetimerflag, penshotfox, penshotteam
 global energywarn, introskipped, lcblink, lcboxon, lcline, coachlinetab, penshotctl, penshotplayer
 global shotongoal, CoachRotateFour, CoachRotateThree, CoachRotateThreeTop, CoachRotateFourEven, CoachRotateFourMixed, CoachRotateThreeEven, CoachSpecialUnits
 global CoachRotateTwo, CoachRotateTwoDeep, CoachRotateFourShort, CoachRotateThreeShort, ds2list, SortPending, exitgame, gameover
 global PerTimeTab, energywarn_aw, lcblink_aw, lcblinktime, lcblinktime_aw, lcsel, lcsel_aw, lcline_aw
 global lctimer, lctimer_aw, lcboxon_aw, ObjInitFrame, ObjInitAttr, FaceoffDotX, puckfaceoff2_ptab, PenShotStartX
-global PenShotStartY, ovltimer, refhitcount, injurystop, bannermsg, bannertimer, Pencntdwn2, ControlMarkerFrames
+global PenShotStartY, ovltimer, refhitcount, injurystop, bannermsg, bannertimer, PenCntDwn2, ControlMarkerFrames
 global ControlMarkerAltFrames, GoalNetFrames, lldispodd, ltack
 priolist:                                       ; same data as the like-named label used by the same routines
                                                 ; in the earlier PC version
@@ -171,7 +171,7 @@ bannermsg:                                      ; same data as the like-named la
 bannertimer:                                    ; Frames left to show the banner message (50h when set); used
                                                 ; by AddPenalty2, InProgress, LoadGameState ...
         db 00h,00h
-Pencntdwn2:                                     ; used by InProgress, LoadGameState, ResetGameVars ...
+PenCntDwn2:                                     ; used by InProgress, LoadGameState, ResetGameVars ...
         db 0FFh,0FFh
 ControlMarkerFrames:                            ; Shape ids of the controlled-player marker animation; used by
                                                 ; DrawControlMarker
@@ -196,7 +196,7 @@ ltack:                                          ; Last touch acknowledged (shot 
                                                 ; game state; used by LoadGameState, SaveGameState, checkcx
                                                 ; ...
         db 00h,00h
-crowdlevel:                                     ; used by AddPenalty2, ChkShotStat, CountShotOnGoal ...
+Crowdlevel:                                     ; used by AddPenalty2, ChkShotStat, CountShotOnGoal ...
         db 00h,00h
 introskipped:                                   ; used by SetupDemoGame, SetupGame, doinput ...
         db 00h,00h,00h,00h

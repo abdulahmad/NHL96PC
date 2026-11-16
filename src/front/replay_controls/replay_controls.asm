@@ -78,7 +78,7 @@ global ReplayCameraUpdate_142, ReplayCameraAim, ReplayScreen_D18, ReplayScreen_D
 global ReplayScreen_FF6, ReplayScreen_10E1, ReplayScreen_1110, ReplayScreen_122D, ReplayScreen_1255, ReplayScreen_161B, StartReplay, EndReplay
 global StepReplay, ReplayCameraMatrix, DrawReplayObjects, DrawReplayShadows, DrawReplayPlayers, DrawReplayCounter, DrawReplayClock, DrawReplayView
 global SetReplayCamera, ClipLineAtFloor, ReplayFreeCamera, FindPlayerAtMouse, ReplayCameraUpdate, ReplayFrame, PickReplayPlayer, ReplayScreen
-global RunReplay, SaveHighlight, ReadHighlight, WatchHighlight, HighlightsMenu, ReplayCameraJumpTable, str_T_DrawOverlayCaption, unk_5848C
+global RunReplay, SaveHighlight, ReadHighlight, WatchHighlight, HighlightsMenu, ReplayCameraJumpTable, str_T_DrawOverlayCaption, LineEnergyBarSteps
 ;-----------------------------------------------------------------------------
 ; StartReplay                                  54519  96 PC, medium confidence
 ; Into the replay: stops the arena clip and speech, frees the fight sprites,
@@ -4538,6 +4538,6 @@ str_T_DrawOverlayCaption:
         db 074h,00h,00h,00h,075h,00h,00h,00h,076h,00h,00h,00h,077h,00h,00h,00h
         db 078h,00h,00h,00h,079h,00h,00h,00h,07Ah,00h,00h,00h,07Bh,00h,00h,00h
         db 019h,00h,00h,00h
-unk_5848C:
+LineEnergyBarSteps:
         db 01Bh,00h,00h,00h,02Bh,00h,00h,00h,041h,00h,00h,00h,04Ch,00h,00h,00h
         db 04Ch,00h,00h,00h

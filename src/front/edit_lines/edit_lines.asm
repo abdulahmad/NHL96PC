@@ -32,10 +32,10 @@ extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib,
 extern DrawArt, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DrawArtOpaqueAtOwnPos, SetScreenTarget
 extern FindShape, ClearClipRect, TickDeadlinePassed, hmglattr, hmplattr, hmteamrec, EditLinesRecords, MenuViewStored
 extern hmscore, awscore
-global unk_9CB19, CompareRosterOrder, ComparePlayerPos, PositionOrder, EditLinesHoverPanel, RunEditLines, EditLinesScreen, LinesValid
+global EditLinesHotspots, CompareRosterOrder, ComparePlayerPos, PositionOrder, EditLinesHoverPanel, RunEditLines, EditLinesScreen, LinesValid
 global CountLineSlots, CountLineSlots_4DD, HasDuplicateInLine, HasDuplicateInLine_45, DrawLinesPanel, DrawLineJersey, DrawLineJersey_104, DrawLinesPlayerList
 global SortTeamPlayers, AutoSetLines, FindUnusedLinePlayer
-unk_9CB19:
+EditLinesHotspots:
         db 08Fh,00h,00h,00h,055h,00h,00h,00h,035h,01h,00h,00h,055h,00h,00h,00h
         db 035h,01h,00h,00h,073h,00h,00h,00h,090h,00h,00h,00h,073h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -413,7 +413,7 @@ EditLinesScreen:
         sub ebp, 82h
         mov ecx, 40h
         lea edi, [dword ebp-0246h]
-        mov esi, unk_9CB19
+        mov esi, EditLinesHotspots
         rep movsd
         mov eax, dword [pointerspr]
         mov dword [LinesIntroOn], 0

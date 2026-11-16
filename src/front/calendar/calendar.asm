@@ -19,9 +19,9 @@ extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, S
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, DrawArt, DrawShape
 extern PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect, FillRect, DrawRectOutline, FreeBitmap
 extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, DrawArtFast, PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, ClearClipRect
-extern CalButtonDefs, str_WesternConference2, SeasonUserRecords, unk_7D4F4, unk_7D500
+extern CalButtonDefs, str_WesternConference2, SeasonUserRecords, DaysInMonth, CalendarDayShades
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
-global unk_7FF77
+global SeasonPlayoffBracketOrder
 ;-----------------------------------------------------------------------------
 ; CalendarScreen                               7D580  96 PC, medium confidence
 ; The season calendar screen ("Month Choice", "Calendar Choices", month
@@ -2476,13 +2476,13 @@ DrawCalendar:
         push ecx
         sub ebp, byte 76h
         lea edi, [byte ebp+032h]
-        mov esi, unk_7D4F4
+        mov esi, DaysInMonth
         movsd
         movsd
         movsd
         mov ecx, 1Ah
         lea edi, [byte ebp-036h]
-        mov esi, unk_7D500
+        mov esi, CalendarDayShades
         mov dword [byte ebp+072h], 0
         rep movsd
 .1:
@@ -3113,5 +3113,5 @@ DrawCalendar:
         pop edi
         pop esi
         ret 0Ch
-unk_7FF77:
+SeasonPlayoffBracketOrder:
         db 00h,02h,04h,06h,07h,05h,03h,01h

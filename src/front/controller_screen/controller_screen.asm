@@ -25,8 +25,8 @@ global NextControllerDevice_199, NextControllerDevice_240, NextControllerDevice_
 global DeviceIconJumpTable, DeviceIconShape, DeviceIconShape_51, DeviceIconShape_5D, DeviceIconShape_69, DeviceIconShape_75, DeviceIconShape_81, DeviceIconShape_8D
 global DeviceIconShape_99, DeviceIconShape_A5, DeviceIconShape_CB, DrawControllerIcons, SetControllerColumn, SetControllerIcon, SetControllerIcon_F9, DrawControllerColumns
 global jpt_6F02E, jpt_6F042, ControllerScreen, ControllerScreen_11AB, ControllerScreen_149D, ControllerScreen_14E4, ControllerScreen_1503, ControllerScreen_1548
-global ControllerScreen_15D1, ControllerScreen_168B, ControllerScreen_16B0, ControllerScreen_16D6, RunControllerScreen, unk_708A9, unk_70901, unk_70BC1
-global unk_70BCB, str_N_ControlSetupScreen, str_R, str_F
+global ControllerScreen_15D1, ControllerScreen_168B, ControllerScreen_16B0, ControllerScreen_16D6, RunControllerScreen, ControlPicksSlotPoints, ControlPicksHotspots, ControlSetupRowY
+global ControlSetupColumnX, str_N_ControlSetupScreen, str_R, str_F
 ;-----------------------------------------------------------------------------
 ; ControllerSlotDefaults                          6CF0D  96 PC, low confidence
 ; Six bytes of start values for the controller slots, kept in the code and
@@ -4206,14 +4206,14 @@ RunControllerScreen:
         pop ecx
         pop ebx
         ret
-unk_708A9:
+ControlPicksSlotPoints:
         db 0FAh,01h,00h,00h,069h,00h,00h,00h,0F3h,01h,00h,00h,088h,00h,00h,00h
         db 0EAh,01h,00h,00h,0A9h,00h,00h,00h,0E2h,01h,00h,00h,0C7h,00h,00h,00h
         db 0D9h,01h,00h,00h,0E7h,00h,00h,00h,0CEh,01h,00h,00h,09h,01h,00h,00h
         db 0C5h,01h,00h,00h,027h,01h,00h,00h,0BCh,01h,00h,00h,049h,01h,00h,00h
         db 0AEh,01h,00h,00h,066h,01h,00h,00h,0C9h,01h,00h,00h,086h,01h,00h,00h
         db 0C9h,01h,00h,00h,0A6h,01h,00h,00h
-unk_70901:
+ControlPicksHotspots:
         db 0D9h,01h,00h,00h,05Ch,00h,00h,00h,09h,02h,00h,00h,05Ch,00h,00h,00h
         db 04h,02h,00h,00h,06Fh,00h,00h,00h,0D4h,01h,00h,00h,06Fh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -4258,9 +4258,9 @@ unk_70901:
         db 0FBh,01h,00h,00h,0AFh,01h,00h,00h,079h,01h,00h,00h,0AFh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_70BC1:
+ControlSetupRowY:
         db 081h,00h,06Dh,00h,05Bh,00h,04Ah,00h,038h,00h
-unk_70BCB:
+ControlSetupColumnX:
         db 089h,00h,0C9h,00h,09h,01h,04Ah,01h,08Ch,01h
 str_N_ControlSetupScreen:
         db 06Eh,00h,00h,00h,086h,00h,00h,00h,0Ah,01h,00h,00h,085h,00h,00h,00h

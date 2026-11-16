@@ -83,7 +83,7 @@ extern BenchAreaPoints, RinkFrontRemap, IceLinesRemap, IceLogosRemap, IceSurface
 extern IceLinePolys, CentreIcePoly, IceCenterPoly, FlashPolys, ShadowRemap, BenchSprites, BenchSpriteCount, unpack
 extern vecdist, SlotsTwoPlayer, LastButtonCode, ReplayObjX, ReplayObjY, ReplayObjZ, ReplayObjFrame
 extern ReplayObjAttr
-global unk_21984, DrawIceCrud, DrawTexturedQuad, DrawIceTextureQuad, RinkNullCallback, AddIceCrud, LoadFshFile, LoadFshFile_E1
+global ZamboniZeroVec, DrawIceCrud, DrawTexturedQuad, DrawIceTextureQuad, RinkNullCallback, AddIceCrud, LoadFshFile, LoadFshFile_E1
 global LoadIceTexture, FatLineEdge, ClipEdgeToNear, ClipLineToNear, DrawFaceEdge, DrawFaceEdge_4F, DrawThickSegment, DrawThickSegmentVisible
 global DrawFatLine, DrawFatLine_AC, DrawLineListClipped, DrawLineList, DrawRubberEdge, DrawStandsQuad, RubberSideFace, RubberSideFace_8
 global RubberFace, DrawStandsSideQuad, DrawStandsSide, TopBoardsFace, TopBoardsFace_E, BotBoardsFace, FatRedLineFace, FatRedLineFace_8
@@ -104,7 +104,7 @@ global DrawRinkFront, DrawWholeRink, DrawZamboniScene, SetRinkClipWindow, LoadSh
 global OptionButtonJumpTable, DrawOptionButton, DrawOptionButton_27, DrawOptionButton_3F, DrawOptionButton_5A, DrawOptionButton_75, DrawOptionButton_90, DrawOptionButton_AB
 global DrawOptionButton_C3, DrawOptionButton_DB, DrawOptionButton_F3, DrawOptionButton_10B, GameOptionsJumpTable, GameOptionsScreen, GameOptionsScreen_64F, GameOptionsScreen_66F
 global GameOptionsScreen_68C, GameOptionsScreen_6AA, GameOptionsScreen_6C8, GameOptionsScreen_6FD, GameOptionsScreen_71E, GameOptionsScreen_73F, GameOptionsScreen_761, GameOptionsScreen_799
-unk_21984:
+ZamboniZeroVec:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; DrawIceCrud                                     21990  96 PC, low confidence
@@ -5316,7 +5316,7 @@ MoveZamboni:
         enter 1Ch, 0
         push eax
         lea edi, [byte ebp-010h]
-        mov esi, unk_21984
+        mov esi, ZamboniZeroVec
         movsd
         movsd
         movsd

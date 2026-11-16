@@ -1,7 +1,7 @@
 ; Post-game screens: the three stars and the game statistics (96 PC).
 bits 32
 %include "hockey.inc"
-extern dword_1571B3
+extern RosterStatsBase
 extern hmroster
 extern BottomBarArt
 section s_1456D progbits alloc exec nowrite align=1
@@ -21,7 +21,7 @@ extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, I
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
 extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern ClearScreenColour, FreeBitmap, UnpackTo, DosFileInfo, LoadResourceDataShared, SetScreenTarget, FindShape, bcopy
-extern ClearClipRect, TextSetFont, unk_144BD, unk_144C3, unk_144C9, str_N, unk_144ED, SlotsTwoPlayer
+extern ClearClipRect, TextSetFont, ThreeStarsRowY, ThreeStarsNameY, ThreeStarsScales, str_N, ThreeStarsHotspots, SlotsTwoPlayer
 extern GameStatsLabelX, GameStatsTop, GameStatsRight, GameStatsColX, GameStatsLabelPos, GameStatsRowStep, GameStatsScroll, StarsCardX
 extern StarsCardY, StarsShowFaces, StarsShowNames, StarsShowCards, StarsPhase, StarsCurrent, hmtmPwrGoals, hmtmPwrPlays
 extern hmtmPPShots, hmtmPwrPlayTime, hmtmPenalties, hmtmPenMin, hmtmATOP, hmscore, hmtmSHGoals, hmtmFaceoffsWon
@@ -1699,15 +1699,15 @@ ThreeStarsScreen:
         push eax
         sub ebp, 82h
         lea edi, [byte ebp+026h]
-        mov esi, unk_144BD
+        mov esi, ThreeStarsRowY
         movsd
         movsw
         lea edi, [byte ebp+02Eh]
-        mov esi, unk_144C3
+        mov esi, ThreeStarsNameY
         movsd
         movsw
         lea edi, [byte ebp+01Ah]
-        mov esi, unk_144C9
+        mov esi, ThreeStarsScales
         movsd
         movsd
         movsd
@@ -1721,7 +1721,7 @@ ThreeStarsScreen:
         movsd
         mov ecx, 20h
         lea edi, [dword ebp-0CAh]
-        mov esi, unk_144ED
+        mov esi, ThreeStarsHotspots
         mov dword [byte ebp+076h], 0FFFFFFFFh
         mov eax, 2
         rep movsd
@@ -1734,7 +1734,7 @@ ThreeStarsScreen:
         imul edx, dword 4B4h
         movsx eax, word [dword esi+starpl]
         imul eax, byte 2Bh
-        mov eax, dword [dword edx+eax+dword_1571B3]
+        mov eax, dword [dword edx+eax+RosterStatsBase]
         call PlayerDbRecord
         mov dword [byte esi+ebp+0Eh], eax
         mov edx, dword [seasondb]

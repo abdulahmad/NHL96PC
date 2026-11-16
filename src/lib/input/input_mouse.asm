@@ -5,7 +5,7 @@ section s_DF8AC progbits alloc exec nowrite align=1
 extern mouseminx, mouseminy, mousemaxx, mousemaxy, MouseDeltaX, MouseButtonState, MouseForceTwoButtons, MousePresent
 extern mousex, mousey, MouseMoved, PointerCount, MouseButtons, ViewScreenWidth, ViewScreenHeight, SavedKbdVecOffset
 extern SavedInt16Offset, SavedRealKbdOffset, RemoveKeyboardHandler_6F, mousepollfn, HidePointerKeepHook, HidePointerHook, ShowPointerHook, BiosKeyFunc
-extern DosGetVector, DosSetVector, RemoveKeyboardHandler, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, MouseSavedSensX
+extern DosGetVector, DosSetVector, RemoveKeyboardHandler, Int16Handler, Int16Service, AddExitHandler, IretStub, MouseSavedSensX
 extern MouseSavedSensY, MouseSavedThreshold, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 global MouseReadButtons, MouseSetSensitivity, MouseRead, SetViewRect, MouseReadMotion, PointerCountUp, PointerCountDown, MouseRestoreSensitivity
 global InitMouse, ReturnZero, InstallKeyboardHandler
@@ -298,7 +298,7 @@ InstallKeyboardHandler:
         mov eax, Int16Handler
         mov dx, cs
         mov ebx, 23h
-        mov eax, unk_DFDDD
+        mov eax, IretStub
         call DosSetVector
         pop eax
         out 21h, al

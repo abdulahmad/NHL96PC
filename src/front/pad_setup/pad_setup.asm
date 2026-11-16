@@ -17,7 +17,7 @@ extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenC
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
 extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, ClearScreenColour, DrawRectOutline, SetScreenTarget, FillRectColor, KbdGetKey, FindShape, TextSetFont
-extern DefaultVgaPalette, GripSlotNames, GripSlotTypes, Joy2State, unk_2018D, JoyTestButtonMap, JoyTestButtonsLit
+extern DefaultVgaPalette, GripSlotNames, GripSlotTypes, Joy2State, JoystickTestOutline, JoyTestButtonMap, JoyTestButtonsLit
 extern JoyTestAxisVals, GripSetupHeld, GripSetupCounts, GripSetupTimers, LastButtonCode, GripSetupSlot
 global DrawGripPads, DrawGripPads_73B, DrawGripPads_73C, GripSetupScreen, UpdateJoystickTest, JoystickTestScreen
 ;-----------------------------------------------------------------------------
@@ -1602,7 +1602,7 @@ JoystickTestScreen:
         sub ebp, 82h
         mov ecx, 10h
         lea edi, [byte ebp-016h]
-        mov esi, unk_2018D
+        mov esi, JoystickTestOutline
         mov eax, 2
         xor edx, edx
         rep movsd

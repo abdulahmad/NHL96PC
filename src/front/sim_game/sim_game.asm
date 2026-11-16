@@ -15,9 +15,9 @@ extern gameopts, hmtmgoalie, optflags, F64_0p333333, F64_0p75, F64_0p0119048, F6
 extern F64_10, F64_1000, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
 extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, StatsDb5Record, StatsDb1Record
 extern AllocMemBlock, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, str_Gk
-extern str_Gs, unk_81ED1, UpdateTeamDbs, hmtmPwrPlays, hmtmPenalties, hmscore, awtmPwrPlays, awscore
+extern str_Gs, SimGameZero, UpdateTeamDbs, hmtmPwrPlays, hmtmPenalties, hmscore, awtmPwrPlays, awscore
 
-global SimulateGame, unk_849C1, unk_849C7, unk_849CB, unk_849D1
+global SimulateGame, ThreeCardColumnsX, ThreeCardRowsY, TwoCardColumnsX, TwoCardRowsY
 ;-----------------------------------------------------------------------------
 ; SimulateGame                                 81EEA  96 PC, medium confidence
 ; Simulates one game without playing it: scores, player and team stats (pk,
@@ -33,7 +33,7 @@ SimulateGame:
         push ecx
         sub ebp, 132h
         mov dword [byte ebp-062h], 0
-        mov ax, word [unk_81ED1]
+        mov ax, word [SimGameZero]
         mov edx, 5
         mov word [dword ebp+0D6h], ax
 .1:
@@ -2867,11 +2867,11 @@ SimulateGame:
         pop edi
         pop esi
         ret 4
-unk_849C1:
+ThreeCardColumnsX:
         db 0EAh,00h,074h,01h,0F9h,01h
-unk_849C7:
+ThreeCardRowsY:
         db 085h,00h,020h,01h
-unk_849CB:
+TwoCardColumnsX:
         db 01Dh,01h,0A7h,01h,00h,00h
-unk_849D1:
+TwoCardRowsY:
         db 085h,00h,020h,01h

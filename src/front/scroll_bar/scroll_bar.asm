@@ -7,7 +7,7 @@ extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_1
 extern DrawArtHotspot, CreateBitmap, FreeBitmap, DrawArtOpaqueHotspot, SetScreenTarget
 global InitVScrollBar, InitVScrollBar_217, InitHScrollBar, InitHScrollBar_207, InitHScrollBar_337, ScrollBarRet, ScrollBarUp, ScrollBarDown
 global ScrollBarPageUp, ScrollBarPageUp_B, ScrollBarPageUp_14, ScrollBarPageUp_19, ScrollBarPageDown, FreeScrollBar, SetScrollBarPos, DrawScrollBar
-global ScrollBarToMouse, unk_7D4F4, unk_7D500, jpt_7D568
+global ScrollBarToMouse, DaysInMonth, CalendarDayShades, jpt_7D568
 ;-----------------------------------------------------------------------------
 ; InitVScrollBar                               7CCB8  96 PC, medium confidence
 ; (bar, ...): a vertical scroll bar (type 1) for a list area
@@ -712,9 +712,9 @@ ScrollBarToMouse:
         leave
         pop edx
         ret
-unk_7D4F4:
+DaysInMonth:
         db 01Fh,01Ch,01Fh,01Eh,01Fh,01Eh,01Fh,01Fh,01Eh,01Fh,01Eh,01Fh
-unk_7D500:
+CalendarDayShades:
         db 0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh
         db 033h,033h,0B3h,03Eh,033h,033h,0B3h,03Eh,0CDh,0CCh,0CCh,03Eh,033h,033h,0B3h,03Eh
         db 033h,033h,0B3h,03Eh,033h,033h,0B3h,03Eh,0CDh,0CCh,0CCh,03Eh,033h,033h,0B3h,03Eh

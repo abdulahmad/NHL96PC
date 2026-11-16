@@ -31,14 +31,14 @@ extern PlayerCardScreen, PlayerRatingsScreen, AllocMemBlock, FreeMemBlock, Creat
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtKeyed, SetScreenTarget, FillRectColor, FindShape, TickDeadlinePassed, str_Punct_ExportTeamStats
 extern str_DashExport, str_Punct_DumpSaveTimes, UpdateProgressBox, CdSpeedTested, TeamMovieTextIds, TeamHomePoints, TeamPowerPlayPct, TeamPenaltyKillPct
 extern TeamPoints, TeamRoadPoints, TeamPointsPct
-global unk_884BD, jpt_884F1, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
-global RunStatsMenu_1AD, PlayTeamMovie, GetTeamMovieText, str_U, unk_888E7, unk_88917, CompareTeamStatRows, AnimateTeamStatsButton
+global StatsMenuItemMap, jpt_884F1, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
+global RunStatsMenu_1AD, PlayTeamMovie, GetTeamMovieText, str_U, TeamStatsColumnLabels, TeamStatsNavLinks, CompareTeamStatRows, AnimateTeamStatsButton
 global AnimateTeamStatsButtons, jpt_88DE1, jpt_88DF9, TeamStatsScreen, TeamStatsScreen_8FE, TeamStatsScreen_916, TeamStatsScreen_92E, TeamStatsScreen_946
 global TeamStatsScreen_957, TeamStatsScreen_96F, TeamStatsScreen_132A, TeamStatsScreen_134F, TeamStatsScreen_136C, TeamStatsScreen_1380, DrawTeamStatsTable, jpt_8A844
 global CopyTeamStatName, CopyTeamStatName_82, CopyTeamStatName_89, CopyTeamStatName_90, CopyTeamStatName_97, FindTeamStatRow, jpt_8A9A0, ExportTeamStats
 global ExportTeamStats_117, ExportTeamStats_11E, ExportTeamStats_125, ExportTeamStats_12C, BuildTeamStatTables, BuildTeamStatTables_265, BuildTeamStatTables_266, DumpSaveTimes
-global CheckExportName, unk_8B87F, str_U_PlayerStatsScreen, unk_8BF1F
-unk_884BD:
+global CheckExportName, PlayerStatsNavLinks, str_U_PlayerStatsScreen, PlayerStatsColumnLabels
+StatsMenuItemMap:
         db 00h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,01h,00h,0FFh,0FFh,02h,00h,0FFh,0FFh
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,03h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
         db 04h,00h,05h,00h,06h,00h,07h,00h,08h,00h,0FFh,0FFh,0FFh,0FFh,09h,00h
@@ -65,7 +65,7 @@ RunStatsMenu:
         push eax
         mov ecx, 0Dh
         lea edi, [byte ebp-03Ch]
-        mov esi, unk_884BD
+        mov esi, StatsMenuItemMap
         mov dword [byte ebp-04h], 0A410h
         rep movsd
         jmp near RunStatsMenu_104.6
@@ -284,7 +284,7 @@ str_U:
         db 014h,02h,00h,00h,0C0h,01h,00h,00h,01Fh,02h,00h,00h,0C8h,01h,00h,00h
         db 017h,02h,00h,00h,0D3h,01h,00h,00h,097h,01h,00h,00h,0D3h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_888E7:
+TeamStatsColumnLabels:
         dd str_000
         dd str_SEA2
         dd str_PLY2
@@ -297,7 +297,7 @@ unk_888E7:
         dd str_NOR
         dd str_CEN
         dd str_ATL
-unk_88917:
+TeamStatsNavLinks:
         db 03h,06h,00h,0Eh,01h,00h,01h,05h,02h,00h,02h,05h,03h,024h,00h,04h
         db 04h,01Fh,03h,05h,05h,021h,04h,0Ah,0Dh,06h,00h,07h,067h,07h,06h,08h
         db 010h,08h,07h,0Fh,09h,0Bh,023h,09h,0Ah,0Bh,023h,0Ah,09h,0Bh,065h,0Bh
@@ -640,14 +640,14 @@ TeamStatsScreen:
         mov dword [byte ebp+0Eh], 0
         mov ecx, 0Ch
         lea edi, [dword ebp-082h]
-        mov esi, unk_888E7
+        mov esi, TeamStatsColumnLabels
         mov dword [byte ebp+0Ah], 0FFFFFFFFh
         push byte 0
         rep movsd
         push dword 2AA2h
         mov ecx, 6Bh
         lea edi, [dword ebp-07DAh]
-        mov esi, unk_88917
+        mov esi, TeamStatsNavLinks
         mov dword [byte ebp-02h], 0
         push str_Menupicks
         rep movsd
@@ -3811,7 +3811,7 @@ CheckExportName:
         pop ecx
         pop ebx
         ret
-unk_8B87F:
+PlayerStatsNavLinks:
         db 02h,00h,00h,05h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01h,0Ch,01h,04h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 02h,011h,02h,03h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -3919,7 +3919,7 @@ str_U_PlayerStatsScreen:
         db 016h,02h,00h,00h,0BFh,01h,00h,00h,020h,02h,00h,00h,0C9h,01h,00h,00h
         db 016h,02h,00h,00h,0D4h,01h,00h,00h,09Ah,01h,00h,00h,0D5h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_8BF1F:
+PlayerStatsColumnLabels:
         dd str_DEF
         dd str_ALL
         dd str_FOR

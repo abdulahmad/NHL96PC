@@ -10,9 +10,9 @@ extern PlayoffSimTeams, PlayoffsActive, PlayoffFlags, FillMusicStream, gameopts,
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
 extern SoundIdle, SoundSecondsToBytes, sprintf_, srand_, str_05dCNZDB, str_S05dCNZDB, strcat_, strlen_
 extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, FreeMemBlock, OpenArtArchiveErr, SaveFileBlock
-extern FileSizeByName, SeasonUserRecords, SeasonUserName, PlayoffHeader, PlayoffName, unk_7FF77, UpdateProgressBox, hmtmPwrPlays
+extern FileSizeByName, SeasonUserRecords, SeasonUserName, PlayoffHeader, PlayoffName, SeasonPlayoffBracketOrder, UpdateProgressBox, hmtmPwrPlays
 extern hmscore, awscore
-global UpdateTeamDbs, UpdateTeamDbs_86F, ApplyDayResults, SimSeasonGames, ApplyPlayoffDayResults, SaveSeasonTeams, unk_81ED1
+global UpdateTeamDbs, UpdateTeamDbs_86F, ApplyDayResults, SimSeasonGames, ApplyPlayoffDayResults, SaveSeasonTeams, SimGameZero
 ;-----------------------------------------------------------------------------
 ; UpdateTeamDbs                                   7FF7F  96 PC, low confidence
 ; (season, mode): loads and saves the two game teams' %05d%cNZ.DB files (home
@@ -1669,7 +1669,7 @@ SimSeasonGames:
         mov dword [SeasonPlayoffs], 1
         mov byte [byte ebp+07Eh], 0FFh
         lea edi, [byte ebp+016h]
-        mov esi, unk_7FF77
+        mov esi, SeasonPlayoffBracketOrder
         mov byte [byte ebp+07Ah], 0FFh
         mov byte [byte ebp+072h], 0FFh
         movsd
@@ -2682,7 +2682,7 @@ SaveSeasonTeams:
         pop ecx
         pop ebx
         ret
-unk_81ED1:
+SimGameZero:
         db 00h,00h
         push esi
         mov esi, edx

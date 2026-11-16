@@ -21,8 +21,8 @@ extern LinkValueQueue, LinkInputQueue, LinkRemoteQueue, LinkAckReply, GsPhoneNum
 extern ControllerScreenMode, LinkSyncWord, BaudRateTable, ChatLocalLen, ChatRemoteLen, GsComPort, GsDirectLink, GsWaitForCall
 global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, jpt_1278E
 global LinkGameMessage_18, LinkExchangeValues, ModemGameConnect, ShowLinkWaitBox, HideLinkWaitBox, LinkSyncTimedOut, LinkSyncPoint, LinkSync
-global LinkSyncWithMessage, ModemGameClose, ModemGameQuit, LinkResyncInput, LinkExchangeInput, ModemChat, unk_144BD, unk_144C3
-global unk_144C9, str_N, unk_144ED
+global LinkSyncWithMessage, ModemGameClose, ModemGameQuit, LinkResyncInput, LinkExchangeInput, ModemChat, ThreeStarsRowY, ThreeStarsNameY
+global ThreeStarsScales, str_N, ThreeStarsHotspots
 ;-----------------------------------------------------------------------------
 ; ModemGameOpen                                                   122A6  96 PC
 ; (answer, settings): copies the modem settings (port, speed, numbers, init
@@ -2881,16 +2881,16 @@ ModemChat:
         pop edi
         pop esi
         ret 4
-unk_144BD:
+ThreeStarsRowY:
         db 09Eh,00h,086h,00h,071h,00h
-unk_144C3:
+ThreeStarsNameY:
         db 0AEh,00h,095h,00h,07Bh,00h
-unk_144C9:
+ThreeStarsScales:
         db 070h,0FDh,00h,00h,0Ah,0D7h,00h,00h,0C2h,0B5h,00h,00h
 str_N:
         db 04Eh,00h,00h,00h,08h,01h,00h,00h,074h,01h,00h,00h,04Fh,00h,00h,00h
         db 0B0h,01h,00h,00h,048h,01h,00h,00h
-unk_144ED:
+ThreeStarsHotspots:
         db 0Fh,01h,00h,00h,062h,01h,00h,00h,019h,01h,00h,00h,05Bh,01h,00h,00h
         db 089h,01h,00h,00h,05Bh,01h,00h,00h,095h,01h,00h,00h,062h,01h,00h,00h
         db 095h,01h,00h,00h,06Bh,01h,00h,00h,087h,01h,00h,00h,071h,01h,00h,00h

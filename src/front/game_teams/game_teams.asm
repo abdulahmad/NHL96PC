@@ -1,7 +1,7 @@
 ; The teams of a game: rosters and lines from the mode's files, the end-of-game clean-up (96 PC).
 bits 32
 %include "hockey.inc"
-extern dword_1571B3
+extern RosterStatsBase
 section s_1F300 progbits alloc exec nowrite align=1
 extern GamePad1Dev, GamePad2Dev, GameUserTeam, GameModeFlags, HomeGoalCount, HomeShotCount, AwayGoalCount, AwayShotCount
 extern RosterSlotOrder, hmrosterflags, awroster, pad2dev, pad1dev, curperiod
@@ -12,7 +12,7 @@ extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, GetLang
 extern FreeMemBlock, DosFindFirst, hmplstats, hmglstats, hmglattr, hmplattr, awlinetab, hmteamrec
 extern awteamrec, hmlinetab, GameStarted
 extern hmtmpdst, hmtmglpdst
-global EndGameCleanup, LoadGameRosters, InitGameTeams, ReadPlayerRecord, OpenRosterDb, FillTeamRoster, unk_2018D
+global EndGameCleanup, LoadGameRosters, InitGameTeams, ReadPlayerRecord, OpenRosterDb, FillTeamRoster, JoystickTestOutline
 ;-----------------------------------------------------------------------------
 ; EndGameCleanup                               1F300  96 PC, medium confidence
 ; After a game: sound off, GameOver, clears the game mode flag and the player
@@ -990,7 +990,7 @@ FillTeamRoster:
         mov eax, dword [byte ebp+06Ah]
         mov edx, dword [byte ebp+056h]
         mov eax, dword [dword eax+hmteamrec+63h]
-        mov dword [dword edx+dword_1571B3], eax
+        mov dword [dword edx+RosterStatsBase], eax
         cmp dword [dword ebp-0BEh], byte 0
         je short .2
         cmp dword [dword ebp-0BEh], byte 2
@@ -1137,7 +1137,7 @@ FillTeamRoster:
         mov eax, dword [byte ebp+06Eh]
         mov edx, dword [byte ebp+04Eh]
         mov eax, dword [dword eax+hmteamrec+0C7h]
-        mov dword [dword edx+dword_1571B3], eax
+        mov dword [dword edx+RosterStatsBase], eax
         cmp dword [dword ebp-0BEh], byte 0
         je short .15
         cmp dword [dword ebp-0BEh], byte 2
@@ -1198,7 +1198,7 @@ FillTeamRoster:
         pop edi
         pop esi
         ret 0Ch
-unk_2018D:
+JoystickTestOutline:
         db 08h,01h,00h,00h,0C3h,01h,00h,00h,014h,01h,00h,00h,0BDh,01h,00h,00h
         db 083h,01h,00h,00h,0BDh,01h,00h,00h,08Fh,01h,00h,00h,0C3h,01h,00h,00h
         db 08Fh,01h,00h,00h,0CEh,01h,00h,00h,083h,01h,00h,00h,0D3h,01h,00h,00h

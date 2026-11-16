@@ -24,7 +24,7 @@ extern KeyIsDown, FindShape, ClearClipRect, vecdist, WaitRetrace, WaitRetraceEdg
 extern MenuViewStored, MenuLinkActive, MenuClipActive, MenuInputPaused, MenuInputReady, MenuStarted, MenuViewSaved, MenuCursorX
 extern MenuCursorY, MenuCursorShown, MenuMouseMode, MenuStartSelection
 global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, SetGameBackdrop, GetSavedViewSize, RunMenu, SetMenuMouse
-global unk_663B9, jpt_66539, jpt_66549, jpt_66569, jpt_66579, MainMenuScreen, MainMenuScreen_B4, MainMenuScreen_C9
+global MainMenuHotspots, jpt_66539, jpt_66549, jpt_66569, jpt_66579, MainMenuScreen, MainMenuScreen_B4, MainMenuScreen_C9
 global MainMenuScreen_DE, MainMenuScreen_F3, MainMenuScreen_621, MainMenuScreen_671, MainMenuScreen_6FC, MainMenuScreen_724, MainMenuScreen_74C, MainMenuScreen_774
 global MainMenuScreen_8A9, MainMenuScreen_8B5, MainMenuScreen_92D, MainMenuScreen_939, MainMenuScreen_996, MainMenuScreen_9EE, MainMenuScreen_A0B, MainMenuScreen_A14
 global MainMenuScreen_A1D, MainMenuScreen_A26
@@ -2323,7 +2323,7 @@ SetMenuMouse:
         pop ecx
         pop ebx
         ret
-unk_663B9:
+MainMenuHotspots:
         db 085h,00h,00h,00h,084h,00h,00h,00h,019h,01h,00h,00h,084h,00h,00h,00h
         db 019h,01h,00h,00h,09Dh,00h,00h,00h,085h,00h,00h,00h,09Dh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -2386,7 +2386,7 @@ MainMenuScreen:
         sub ebp, 82h
         mov ecx, 60h
         lea edi, [dword ebp-015Ah]
-        mov esi, unk_663B9
+        mov esi, MainMenuHotspots
         mov eax, 4
         xor edx, edx
         rep movsd

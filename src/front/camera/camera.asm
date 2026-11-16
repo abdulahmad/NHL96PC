@@ -32,8 +32,8 @@ extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock
 extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin, SetViewFov
 
 extern ReplayCamTarget, CameraPathPoints, CamPathTarget
-extern unk_5D549, unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84
-extern str_D_SetGameViewSize, unk_5D65D, unk_5D681, vecdist, PerTimeTotal, ReplayObjX, ReplayObjY
+extern NearNetZeroVec, CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, unk_5D591_84
+extern str_D_SetGameViewSize, ViewSizeWidths, ViewSizeHeights, vecdist, PerTimeTotal, ReplayObjX, ReplayObjY
 
 global CameraPathCoeffs, CameraPathEval, CameraPathEval_70, CameraPathSlope, CameraPathCurve, CameraPathPoint, CameraPathDerivs, SetCameraShot
 global AngleXZ, AnglePitch, CameraTrackPuck, CameraLeadOffset, CameraNearNet, CameraNearNet_12E, ResetCameraShake, CameraAim
@@ -889,7 +889,7 @@ CameraNearNet:
         cmp dword [byte ebp-04h], byte 0
         je near .7
         lea edi, [byte ebp-010h]
-        mov esi, unk_5D549
+        mov esi, NearNetZeroVec
         movsd
         movsd
         movsd
@@ -969,7 +969,7 @@ CameraAim:
         push edi
         enter 3Ch, 0
         lea edi, [byte ebp-0Ch]
-        mov esi, unk_5D555
+        mov esi, CamAimZeroVec
         movsd
         movsd
         movsd
@@ -2847,7 +2847,7 @@ CamShot242:
         push edi
         enter 3Ch, 0
         lea edi, [byte ebp-0Ch]
-        mov esi, unk_5D561
+        mov esi, ShotFromZeroVec
         movsd
         movsd
         movsd
@@ -2926,7 +2926,7 @@ CamShot242_126:
         push edi
         enter 3Ch, 0
         lea edi, [byte ebp-018h]
-        mov esi, unk_5D56D
+        mov esi, ShotToZeroVec
         movsd
         movsd
         movsd
@@ -3090,7 +3090,7 @@ CamShot246:
         push edi
         enter 3Ch, 0
         lea edi, [byte ebp-0Ch]
-        mov esi, unk_5D579
+        mov esi, ShotNearZeroVec
         movsd
         movsd
         movsd
@@ -3153,7 +3153,7 @@ CamShot247:
         push edi
         enter 60h, 0
         lea edi, [byte ebp-030h]
-        mov esi, unk_5D585
+        mov esi, CamTargetZeroVec
         movsd
         movsd
         movsd
@@ -3267,7 +3267,7 @@ CamShot244:
         enter 84h, 0
         mov ecx, 21h
         lea edi, [dword ebp-084h]
-        mov esi, unk_5D591
+        mov esi, CamShotPositions
         rep movsd
         mov byte [ScoreClockOn], 1
         mov al, byte [StandsOn]
@@ -3666,11 +3666,11 @@ SetGameViewSize:
         rep movsd
         mov ecx, 9
         lea edi, [byte ebp-06Ch]
-        mov esi, unk_5D65D
+        mov esi, ViewSizeWidths
         rep movsd
         mov ecx, 9
         lea edi, [dword ebp-090h]
-        mov esi, unk_5D681
+        mov esi, ViewSizeHeights
         rep movsd
         mov eax, dword [ViewSizeStep]
         shl eax, 2

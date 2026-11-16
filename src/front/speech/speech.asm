@@ -12,7 +12,7 @@ extern DosSeekFile, SpeechStarting, TeamPairClips, SpeechQueueHead, SpeechQueueT
 extern SpeechActiveCount, SpeechPlaying
 global FindClipIndex, FindClipIndex_55, FindClipIndex_56, FindTeamPairClip, FindTeamPairClip_85, ResetSpeechChannels, OpenSpeechBanks, InitSpeech
 global ShutdownSpeech, FreeSpeechBuffer, RestoreSpeechBuffer, RestoreSpeechBuffer_32, SetSpeechVolume, SpeechBusy, QueueSpeechClip, CountRecordGame
-global RecordPctClip, RecordStreakClips, unk_67981, jpt_6799B, unk_679D3, jpt_679E7, jpt_67A13, jpt_67A43
+global RecordPctClip, RecordStreakClips, PaMasksFrom12Bits, jpt_6799B, PaMasksFrom9Bits, jpt_679E7, jpt_67A13, jpt_67A43
 global PaEvent, PaEvent_50, PaEvent_64, PaEvent_CD, PaEvent_1B4, PaEvent_1C6, PaEvent_1D8, PaEvent_1DF
 global PaEvent_1E6, PaEvent_1ED, PaEvent_1F4, PaEvent_1FB, PaEvent_202, PaEvent_209, PaEvent_20E, PaEvent_231
 global PaEvent_2AD, PaEvent_2B7, PaEvent_2C1, PaEvent_2CB, PaEvent_2DC, PaEvent_307, PaEvent_31C, PaEvent_334
@@ -941,7 +941,7 @@ RecordStreakClips:
         pop edi
         pop esi
         ret
-unk_67981:
+PaMasksFrom12Bits:
         db 0FFh,0Fh,0FFh,07h,0FFh,03h,0FFh,01h,0FFh,00h,07Fh,00h,03Fh,00h,01Fh,00h
         db 0Fh,00h,07h,00h,03h,00h,01h,00h,00h,00h
 jpt_6799B:
@@ -959,7 +959,7 @@ jpt_6799B:
         dd PaEvent_4A9
         dd PaEvent_64
         dd PaEvent_50
-unk_679D3:
+PaMasksFrom9Bits:
         db 0FFh,01h,0FFh,00h,07Fh,00h,03Fh,00h,01Fh,00h,0Fh,00h,07h,00h,03h,00h
         db 01h,00h,00h,00h
 jpt_679E7:
@@ -1019,7 +1019,7 @@ PaEvent:
         cmp eax, 0FFFh
         ja near FindClipIndex_55
         mov ecx, 0Eh
-        mov edi, unk_67981
+        mov edi, PaMasksFrom12Bits
         repne scasw
         lea eax, [byte ebp+020h]
         add eax, byte 4
@@ -1145,7 +1145,7 @@ PaEvent_CD:
         cmp eax, 1FFh
         ja near PaEvent_20E
         mov ecx, 0Bh
-        mov edi, unk_679D3
+        mov edi, PaMasksFrom9Bits
         repne scasw
         jmp dword [nosplit cs:ecx*4+jpt_679E7]
 PaEvent_1B4:

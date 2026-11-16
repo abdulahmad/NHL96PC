@@ -19,7 +19,7 @@ extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, s
 extern ModemPanelY
 global str_B, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
-global RunModemGameSetup, unk_A49D1, str_Z, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9, jpt_A4FB7
+global RunModemGameSetup, PlayoffSetupKeyTable, str_Z, PlayoffSeriesLabels, PlayoffSetupOptionRows, PlayoffSeedPairs, PlayoffMenuCommands, jpt_A4FB7
 str_B:
         db 062h,00h,00h,00h,0E4h,00h,00h,00h,077h,00h,00h,00h,0CFh,00h,00h,00h
         db 077h,00h,00h,00h,0F9h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -1064,7 +1064,7 @@ RunModemGameSetup:
         mov eax, edx
         pop edx
         ret
-unk_A49D1:
+PlayoffSetupKeyTable:
         db 01Ch,00h,00h,013h,024h,01h,014h,01h,02h,03h,015h,012h,02h,04h,016h,012h
         db 03h,05h,017h,012h,04h,06h,018h,012h,05h,07h,019h,012h,06h,08h,01Ah,012h
         db 07h,09h,01Bh,012h,08h,013h,01Ch,012h,0Ah,0Bh,012h,01Dh,0Ah,0Ch,012h,01Eh
@@ -1156,17 +1156,17 @@ str_Z:
         db 08Bh,01h,00h,00h,06Ch,00h,00h,00h,093h,01h,00h,00h,073h,00h,00h,00h
         db 093h,01h,00h,00h,084h,00h,00h,00h,08Bh,01h,00h,00h,08Bh,00h,00h,00h
         db 0F8h,00h,00h,00h,08Ah,00h,00h,00h,0F0h,00h,00h,00h,082h,00h,00h,00h
-unk_A4F69:
+PlayoffSeriesLabels:
         dd str_7GM
         dd str_5GM
         dd str_3GM
         dd str_1GM
-unk_A4F79:
+PlayoffSetupOptionRows:
         db 06h,05h,03h,014h,013h,017h,04h,016h,012h,0Eh,010h,02h,011h,018h,0Ch,01h
-unk_A4F89:
+PlayoffSeedPairs:
         db 01h,00h,00h,00h,08h,00h,00h,00h,02h,00h,00h,00h,07h,00h,00h,00h
         db 03h,00h,00h,00h,06h,00h,00h,00h,04h,00h,00h,00h,05h,00h,00h,00h
-unk_A4FA9:
+PlayoffMenuCommands:
         db 0A4h,0A5h,0A3h,0A5h,0A2h,0A5h,0A1h,0A5h,0A0h,0A5h,09Fh,0A5h,00h,00h
 jpt_A4FB7:
         dd RunPlayoffMenus_A6

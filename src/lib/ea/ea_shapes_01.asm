@@ -4,7 +4,7 @@ bits 32
 section s_C3CC0 progbits alloc exec nowrite align=1
 extern FatalError, str_RemovewindowROWSPACE, RowTable, RowTableSize, FillRectSpans_AC, FillRectSpans_CD, FillRectSpans_F1, FillRectSpans_111
 extern FillRectSpans_131, FillRectSpans_182, FillRectSpans_1D3, FillRectSpans_21D, FillRectSpans_263
-global FillRowTable, removewindow, unk_C3E10
+global FillRowTable, removewindow, FillRectSpansModeTable
 ;-----------------------------------------------------------------------------
 ; FillRowTable                                    C3CC0  96 PC, low confidence
 ; Fills the screen row address table for a range of rows of the current
@@ -168,7 +168,7 @@ removewindow:
         pop ebx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_C3E10:
+FillRectSpansModeTable:
         dd FillRectSpans_AC
         dd FillRectSpans_AC
         dd FillRectSpans_CD

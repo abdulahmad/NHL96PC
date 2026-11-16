@@ -6,7 +6,7 @@ extern KbdCapsLock, KeyStateTable, KeyboardHooked
 extern KeyAscii, KeyAsciiShift, KeyAsciiNum, KeyAsciiCtrl, KeyAsciiAlt, NearClipZ, DebugKeysEnabled, KeyBuffer
 extern KeyBufferHead, KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, bailout_vec, BiosKeyFunc
 extern RestoreDS, PrintScreenInt, DosSetVector, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
-global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall, unk_DFDDD
+global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall, IretStub
 ;-----------------------------------------------------------------------------
 ; RemoveKeyboardHandler                           DFC33  96 PC, low confidence
 ; Keyboard: restores the original keyboard interrupt
@@ -144,7 +144,7 @@ RemoveKeyboardHandler_6F:
         cmp dword [DebugKeysEnabled], byte 0
         je near .3
         call dword [bailout_vec]
-unk_DFDDD:
+IretStub:
         db 0CFh
 ;-----------------------------------------------------------------------------
 ; Int16Handler                                    DFDDE  96 PC, low confidence

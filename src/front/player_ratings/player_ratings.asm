@@ -19,14 +19,14 @@ extern str_S1dw, str_S1ug, str_S1up, str_S22, str_S2dg, str_S2dw, str_S2ug, str_
 extern str_S32, str_S3dg, str_S3dw, str_S3ug, str_S3up, str_SD5, str_TR00, str_TR01
 extern str_TR02, str_TR0D, str_XTbl2, SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record
 extern StatsDb2Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
-extern DrawArtOpaqueAtOwnPos, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed, unk_93BE6, unk_93CA6
-extern unk_93D26
+extern DrawArtOpaqueAtOwnPos, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed, PlayerRatingsHotspots, PlayerRatingsTabHotspots
+extern PlayerRatingsNavLinks
 global PlayerRatingsScreen, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B, PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68
-global PlayerRatingsScreen_E71, unk_955D7, unk_95603, DrawRatingBars, DrawRatingBars_2CA, DrawRatingBars_30B, DrawRatingBars_331, DrawRatingBars_38D
+global PlayerRatingsScreen_E71, GoalieRatingBarJumpTable, SkaterRatingBarJumpTable, DrawRatingBars, DrawRatingBars_2CA, DrawRatingBars_30B, DrawRatingBars_331, DrawRatingBars_38D
 global DrawRatingBars_3B9, DrawRatingBars_3E5, DrawRatingBars_411, DrawRatingBars_43D, DrawRatingBars_469, DrawRatingBars_495, DrawRatingBars_4C1, DrawRatingBars_5E5
 global DrawRatingBars_620, DrawRatingBars_640, DrawRatingBars_660, DrawRatingBars_680, DrawRatingBars_6A6, DrawRatingBars_6CC, DrawRatingBars_6F2, DrawRatingBars_718
-global DrawRatingBars_73E, DrawRatingsTitle, DrawRatingsTitle_109, LoadRatingsPicture, SwitchRatingsCard, DrawRatingsList, DrawRatingsName, unk_96949
-global str_X_RosterScreen, unk_96C49, str_Punct_CreatePlayerScreen, unk_96DC9, unk_96FD9
+global DrawRatingBars_73E, DrawRatingsTitle, DrawRatingsTitle_109, LoadRatingsPicture, SwitchRatingsCard, DrawRatingsList, DrawRatingsName, RosterHotspots
+global str_X_RosterScreen, RosterKeyTable, str_Punct_CreatePlayerScreen, CreateSkaterNavLinks, CreateGoalieNavLinks
 ;-----------------------------------------------------------------------------
 ; PlayerRatingsScreen                          93E6A  96 PC, medium confidence
 ; The player ratings screen (X-tbl, RAT0, HD01 / HD02, ban2, BALL list): a
@@ -44,15 +44,15 @@ PlayerRatingsScreen:
         sub ebp, 82h
         mov ecx, 30h
         lea edi, [dword ebp-0276h]
-        mov esi, unk_93BE6
+        mov esi, PlayerRatingsHotspots
         rep movsd
         mov ecx, 20h
         lea edi, [dword ebp-096h]
-        mov esi, unk_93CA6
+        mov esi, PlayerRatingsTabHotspots
         rep movsd
         mov ecx, 48h
         lea edi, [dword ebp-0396h]
-        mov esi, unk_93D26
+        mov esi, PlayerRatingsNavLinks
         rep movsd
         mov dword [RatingsGoalieShown], 0FFFFFFFFh
         mov dword [RatingsSkaterShown], 0FFFFFFFFh
@@ -1535,7 +1535,7 @@ PlayerRatingsScreen_E71:
         pop edi
         pop esi
         ret
-unk_955D7:
+GoalieRatingBarJumpTable:
         dd DrawRatingBars_2CA
         dd DrawRatingBars_30B
         dd DrawRatingBars_331
@@ -1547,7 +1547,7 @@ unk_955D7:
         dd DrawRatingBars_469
         dd DrawRatingBars_495
         dd DrawRatingBars_4C1
-unk_95603:
+SkaterRatingBarJumpTable:
         dd DrawRatingBars_5E5
         dd DrawRatingBars_620
         dd DrawRatingBars_640
@@ -2059,7 +2059,7 @@ DrawRatingBars_4C1:
         jge near DrawRatingBars_73E.105
         cmp eax, byte 0Ah
         ja short .59
-        jmp dword [dword cs:edi+unk_955D7]
+        jmp dword [dword cs:edi+GoalieRatingBarJumpTable]
 .64:
         cmp esi, byte 3
         jb short .65
@@ -2106,7 +2106,7 @@ DrawRatingBars_4C1:
 .72:
         cmp eax, byte 9
         ja near DrawRatingBars_73E.99
-        jmp dword [dword cs:ecx+unk_95603]
+        jmp dword [dword cs:ecx+SkaterRatingBarJumpTable]
 DrawRatingBars_5E5:
         cmp esi, byte 3
         je short .73
@@ -3248,7 +3248,7 @@ DrawRatingsName:
         pop esi
         pop ecx
         ret
-unk_96949:
+RosterHotspots:
         db 0F9h,00h,00h,00h,0E4h,00h,00h,00h,02h,01h,00h,00h,0DAh,00h,00h,00h
         db 07Fh,01h,00h,00h,0DAh,00h,00h,00h,088h,01h,00h,00h,0E6h,00h,00h,00h
         db 07Dh,01h,00h,00h,0F0h,00h,00h,00h,01h,01h,00h,00h,0EFh,00h,00h,00h
@@ -3298,7 +3298,7 @@ str_X_RosterScreen:
         db 01Fh,02h,00h,00h,0BAh,01h,00h,00h,029h,02h,00h,00h,0C5h,01h,00h,00h
         db 01Fh,02h,00h,00h,0CEh,01h,00h,00h,0B4h,01h,00h,00h,0CEh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_96C49:
+RosterKeyTable:
         db 016h,00h,00h,0Ah,01Bh,01h,0Bh,01h,02h,014h,02h,010h,03h,04h,01Ch,026h
         db 03h,07h,01Dh,027h,04h,08h,020h,07h,04h,08h,07h,02Ah,04h,08h,05h,06h
         db 07h,09h,025h,02Fh,08h,09h,0Ah,0Bh,025h,0Ah,00h,09h,02Fh,0Bh,09h,01h
@@ -3324,7 +3324,7 @@ str_Punct_CreatePlayerScreen:
         db 08Eh,01h,00h,00h,0A0h,00h,00h,00h,095h,01h,00h,00h,0A8h,00h,00h,00h
         db 093h,01h,00h,00h,0B4h,00h,00h,00h,08Fh,01h,00h,00h,0BAh,00h,00h,00h
         db 0F9h,00h,00h,00h,0BBh,00h,00h,00h,0F1h,00h,00h,00h,0B5h,00h,00h,00h
-unk_96DC9:
+CreateSkaterNavLinks:
         db 02h,00h,00h,01Dh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03h,01h,01Fh,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 02h,00h,02h,04h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -3358,7 +3358,7 @@ unk_96DC9:
         db 01Ah,01Eh,01Dh,020h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01Bh,01Fh,020h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01Ch,020h,01Eh,01Fh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_96FD9:
+CreateGoalieNavLinks:
         db 02h,00h,00h,015h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03h,01h,013h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 02h,00h,02h,04h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

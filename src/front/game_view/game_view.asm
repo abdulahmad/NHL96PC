@@ -49,7 +49,7 @@ extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTa
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, str_Empty, OverlayPanelQueue, IdentityMatrix, hmteamrec, awteamrec
 extern HomeSpriteShades, AwaySpriteShades, RefSpriteShades, PuckModelPoints, DrawList, DrawListCount, ZoneRects
-extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, OverlayRemap, str_T_DrawOverlayCaption, unk_5848C, vtoa
+extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, OverlayRemap, str_T_DrawOverlayCaption, LineEnergyBarSteps, vtoa
 extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, SavedViewMode, ovlstep
 extern SlotDevice
 extern hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
@@ -62,9 +62,9 @@ global DrawPlayers, DrawPlayerMarkers, DrawRinkView, DrawGameFrame, DrawPanelLog
 global DrawOverlayCaption_DC, DrawOverlayCaption_E1, ResetGameOverlays, DrawTimedPanel, DrawGameClock, DrawPenaltyClock, DrawPowerPlayPanel, DrawPlayerPctPanel
 global DrawClockPanel, DrawTimeLeftPanel, jpt_5BD6D, GetPeriodText, GetPeriodText_1F, GetPeriodText_3C, GetPeriodText_59, GetPeriodText_86
 global jpt_5BE45, DrawScorePanel, DrawScorePanel_689, DrawScorePanel_690, DrawScorePanel_697, DrawScorePanel_69E, DrawEventPanel, DrawPlayerNamePanel
-global DrawPenaltyEventPanel, DrawGoalEventPanel, QueueOverlayPanel, DrawGameOverlays, DrawLineEnergyBar, DrawLineChangeBox, DrawLineChangeBoxes, unk_5D549
-global unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84, str_D_SetGameViewSize
-global unk_5D65D, unk_5D681
+global DrawPenaltyEventPanel, DrawGoalEventPanel, QueueOverlayPanel, DrawGameOverlays, DrawLineEnergyBar, DrawLineChangeBox, DrawLineChangeBoxes, NearNetZeroVec
+global CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, unk_5D591_84, str_D_SetGameViewSize
+global ViewSizeWidths, ViewSizeHeights
 ;-----------------------------------------------------------------------------
 ; DrawScaledSprite                                584A0  96 PC, low confidence
 ; Draws one scaled sprite frame clipped to the view (DrawClipLeft-1228E4),
@@ -5689,7 +5689,7 @@ DrawLineEnergyBar:
         push edx
         lea edi, [byte ebp-014h]
         mov eax, ebx
-        mov esi, unk_5848C
+        mov esi, LineEnergyBarSteps
         shl eax, 2
         movsd
         movsd
@@ -6349,19 +6349,19 @@ DrawLineChangeBoxes:
         pop ecx
         pop ebx
         ret
-unk_5D549:
+NearNetZeroVec:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_5D555:
+CamAimZeroVec:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_5D561:
+ShotFromZeroVec:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_5D56D:
+ShotToZeroVec:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_5D579:
+ShotNearZeroVec:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_5D585:
+CamTargetZeroVec:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_5D591:
+CamShotPositions:
         db 0B0h,0FAh,0FFh,0FFh,0F0h,0Ah,00h,00h,030h,0F8h,0FFh,0FFh,0C0h,0F9h,0FFh,0FFh
         db 028h,0Ah,00h,00h,00h,00h,00h,00h,0B0h,0FAh,0FFh,0FFh,060h,09h,00h,00h
         db 0D0h,07h,00h,00h,00h,00h,00h,00h,098h,08h,00h,00h,0A0h,0Fh,00h,00h
@@ -6383,11 +6383,11 @@ str_D_SetGameViewSize:
         db 064h,00h,00h,00h,071h,00h,00h,00h,07Dh,00h,00h,00h,08Ah,00h,00h,00h
         db 096h,00h,00h,00h,0A3h,00h,00h,00h,0AFh,00h,00h,00h,0BCh,00h,00h,00h
         db 0C8h,00h,00h,00h
-unk_5D65D:
+ViewSizeWidths:
         db 040h,01h,00h,00h,068h,01h,00h,00h,090h,01h,00h,00h,0B8h,01h,00h,00h
         db 0E0h,01h,00h,00h,08h,02h,00h,00h,030h,02h,00h,00h,058h,02h,00h,00h
         db 080h,02h,00h,00h
-unk_5D681:
+ViewSizeHeights:
         db 0F0h,00h,00h,00h,0Eh,01h,00h,00h,02Ch,01h,00h,00h,04Ah,01h,00h,00h
         db 068h,01h,00h,00h,086h,01h,00h,00h,0A4h,01h,00h,00h,0C2h,01h,00h,00h
         db 0E0h,01h,00h,00h,053h,051h,056h,0C8h,048h,00h,00h

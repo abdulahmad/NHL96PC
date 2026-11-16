@@ -35,7 +35,7 @@ extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, DrawShape
 extern CreateBitmap, TintRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
 extern FindShape, RemapPolygonArgs, TextSetFont, WaitTicks, SlotUserNames, hmtmPwrGoals, hmtmPwrPlays
 extern hmscore, awtmPwrGoals, awtmPwrPlays, awscore
-global unk_2A3D6, unk_2A3E2, unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, str_3_UserRecordsScreen, ClearSlotUser
+global UserRatingScaleTwoToFour, UserRatingScaleOneToOneHalf, UserRatingScalePair, UserRatingScaleQuarterSteps, UserRecordsLeftButton, UserRecordsRightButton, str_3_UserRecordsScreen, ClearSlotUser
 global ClearSlotUsers, UserRecordRating, CreateUserRecord, DeleteUser, NewUser, NewUser_159, DrawUserList, GetUserName
 global LoadUserIndex, ScrollUserList, PickUsersScreen, UpdateUserRecords, UpdateUserRecords_47F, UpdateUserRecords_ret, CompareUsersByName, CompareUsersByRating
 global CompareUsersByRecord, CompareUsersByRecord_127, CompareUsersByRecord_12C, CompareUsersByRecord_ret, CompareUsersByGoalsFor, CompareUsersByGoalsAgainst, CompareUsersByPowerPlay, CompareUsersByPenaltyKill
@@ -46,20 +46,20 @@ global UserRecordsScreen, UserRecordsScreen_A1A, UserRecordsScreen_A2B, UserReco
 global UserRecordsScreen_AA8, UserRecordsScreen_AB1, UserRecordsScreen_ABA, UserRecordsScreen_AC3, UserRecordsScreen_ACC, UserRecordsScreen_AD5, UserRecordsScreen_B4F, UserRecordsScreen_B73
 global UserRecordsScreen_B93, UserRecordsScreen_C6C, UserRecordsScreen_C75, UserRecordsScreen_C7E, UserRecordsScreen_C87, UserRecordsScreen_C90, UserRecordsScreen_C99, UserRecordsScreen_CA2
 global UserRecordsScreen_CAB, UserRecordsScreen_CB4, UserRecordsScreen_CBD, UserRecordsScreen_CC6
-unk_2A3D6:
+UserRatingScaleTwoToFour:
         db 00h,00h,02h,00h,00h,00h,03h,00h,00h,00h,04h,00h
-unk_2A3E2:
+UserRatingScaleOneToOneHalf:
         db 00h,00h,01h,00h,00h,080h,01h,00h,00h,00h,00h,00h
-unk_2A3EE:
+UserRatingScalePair:
         db 00h,00h,01h,00h,00h,080h,01h,00h
-unk_2A3F6:
+UserRatingScaleQuarterSteps:
         db 00h,00h,01h,00h,00h,040h,01h,00h,00h,080h,01h,00h
-unk_2A402:
+UserRecordsLeftButton:
         db 095h,00h,00h,00h,0BDh,01h,00h,00h,01Ah,01h,00h,00h,0BDh,01h,00h,00h
         db 01Ah,01h,00h,00h,0D2h,01h,00h,00h,095h,00h,00h,00h,0D2h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_2A442:
+UserRecordsRightButton:
         db 064h,01h,00h,00h,0BDh,01h,00h,00h,0E9h,01h,00h,00h,0BDh,01h,00h,00h
         db 0E9h,01h,00h,00h,0D2h,01h,00h,00h,064h,01h,00h,00h,0D2h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -1312,23 +1312,23 @@ UpdateUserRecords:
         enter 1B0h, 0
         sub ebp, 82h
         lea edi, [byte ebp+02Eh]
-        mov esi, unk_2A3D6
+        mov esi, UserRatingScaleTwoToFour
         movsd
         movsd
         movsd
         lea edi, [byte ebp+022h]
-        mov esi, unk_2A3E2
+        mov esi, UserRatingScaleOneToOneHalf
         movsd
         movsd
         movsd
         lea edi, [byte ebp+046h]
-        mov esi, unk_2A3EE
+        mov esi, UserRatingScalePair
         mov ecx, 1
         movsd
         movsd
         lea eax, [byte ebp+052h]
         lea edi, [byte ebp+03Ah]
-        mov esi, unk_2A3F6
+        mov esi, UserRatingScaleQuarterSteps
         mov dword [byte ebp+07Ah], 0
         mov dword [byte ebp+076h], 0
         movsd
@@ -3323,11 +3323,11 @@ UserRecordsScreen:
         sub ebp, 82h
         mov ecx, 10h
         lea edi, [byte ebp-056h]
-        mov esi, unk_2A402
+        mov esi, UserRecordsLeftButton
         rep movsd
         mov ecx, 10h
         lea edi, [dword ebp-096h]
-        mov esi, unk_2A442
+        mov esi, UserRecordsRightButton
         rep movsd
         mov ecx, 20h
         lea edi, [dword ebp-0116h]

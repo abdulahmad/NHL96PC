@@ -11,7 +11,7 @@ global AsyncCurFile, AsyncCurOffset, AsyncFreeList, AsyncCurRequest, AsyncCdFile
 global AsyncFileHandle, AsyncBytesLeft, AsyncFileStart, AsyncFileSize, AsyncDestBlock, AsyncReqUser, AsyncSkip, AsyncDestPos
 global AsyncBudget, AsyncStreamFile, AsyncWaitTimer, AsyncTicksPerRead, AsyncReadResult, AsyncMeasuredSpeed, AsyncReadTime
 global AsyncBytesRead, AsyncBaseTicks, StreamSpeed, StreamRate, StreamWalk, StreamHandle, SpriteArtPtrs, SpriteFrameArt
-global dword_1571B3, AttractResetFlag, GameExtraBlock, hmroster, LinkRxHeader, LinkRxBuffer
+global RosterStatsBase, AttractResetFlag, GameExtraBlock, hmroster, LinkRxHeader, LinkRxBuffer
 global MsgTextBuf, str_WesternConference2, RosterTextBuf, AsyncHeader, hmplstats, awplstats, hmglstats, awglstats
 global hmglattr, awglattr, hmplattr, awplattr, awlinetab, hmteamrec
 global awteamrec, hmlinetab, DataFilePath
@@ -152,7 +152,7 @@ hmrosterflags:
 hmrosterpos:
         resb 1
         resb 32
-dword_1571B3:
+RosterStatsBase:
         resb 1165
 awroster:
         resb 1204

@@ -6,7 +6,7 @@ extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, Deb
 extern DebugAttr, DebugMode, DebugScreenBase, DebugLineWidth, DebugLogOn, fclose_, fopen_, DebugLog
 extern FindWildcardDigits, FormatDateStamp, bcopy, ZeroMem, str_Wt, vsprintf_
 global DebugPrintf, DebugShowLines_D5, DebugShowLines_E6, DebugShowLines_124, DebugShowLines_140, DebugShowLines_149, DebugSetLine, DebugShowLines
-global DebugScrollUp, DebugClearScreen, DebugSetRow, DebugSetAttr, unk_ACABC
+global DebugScrollUp, DebugClearScreen, DebugSetRow, DebugSetAttr, DebugShowLinesJumpTable
 ;-----------------------------------------------------------------------------
 ; DebugPrintf                                  AC9F0  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -68,7 +68,7 @@ DebugSetLine:
         add esp, 104h
         pop esi
         ret
-unk_ACABC:
+DebugShowLinesJumpTable:
         dd DebugShowLines_D5
         dd DebugShowLines_E6
         dd DebugShowLines_124
@@ -147,7 +147,7 @@ DebugShowLines:
         sar edx, 1Fh
         mov eax, esi
         idiv dword [byte esp+04h]
-        jmp dword [dword cs:ebp+unk_ACABC]
+        jmp dword [dword cs:ebp+DebugShowLinesJumpTable]
 DebugShowLines_D5:
         cmp esi, byte 2
         jl near DebugShowLines_149.7

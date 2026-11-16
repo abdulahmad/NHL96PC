@@ -25,30 +25,30 @@ extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56
 extern PutBlockAtOwnPos, BlitShapeAt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
 extern DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, PutBlockKeyed, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed
 extern str_Punct_ExportPlayerCard, str_CardSpace, str_Percent, str_WesternConference2, UpdateProgressBox
-global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
-global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
+global PlayerCardSlideHotspots, PlayerCardTabLabels, PlayerCardHotspots, PlayerCardNavLinks, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
+global SlideCardLeft, SlideCardRight, PlayerCardScreen, GoalieStatsJumpTable, SkaterStatsJumpTable, GoalieCareerJumpTable, SkaterCareerJumpTable, DrawPlayerCardStats
 global DrawPlayerCardStats_1C4, DrawPlayerCardStats_1DE, DrawPlayerCardStats_1E4, DrawPlayerCardStats_217, DrawPlayerCardStats_21D, DrawPlayerCardStats_223, DrawPlayerCardStats_229, DrawPlayerCardStats_22F
 global DrawPlayerCardStats_235, DrawPlayerCardStats_23B, DrawPlayerCardStats_241, DrawPlayerCardStats_3D9, DrawPlayerCardStats_3F3, DrawPlayerCardStats_3F9, DrawPlayerCardStats_3FF, DrawPlayerCardStats_405
 global DrawPlayerCardStats_40B, DrawPlayerCardStats_411, DrawPlayerCardStats_417, DrawPlayerCardStats_41D, DrawPlayerCardStats_423, DrawPlayerCardStats_5E6, DrawPlayerCardStats_601, DrawPlayerCardStats_607
 global DrawPlayerCardStats_63A, DrawPlayerCardStats_640, DrawPlayerCardStats_646, DrawPlayerCardStats_64C, DrawPlayerCardStats_652, DrawPlayerCardStats_658, DrawPlayerCardStats_65E, DrawPlayerCardStats_664
 global DrawPlayerCardStats_7FC, DrawPlayerCardStats_817, DrawPlayerCardStats_81D, DrawPlayerCardStats_823, DrawPlayerCardStats_829, DrawPlayerCardStats_82F, DrawPlayerCardStats_835, DrawPlayerCardStats_83B
-global DrawPlayerCardStats_841, DrawPlayerCardStats_847, LoadPlayerCardArt, DrawPlayerCardName, unk_93072, unk_9309E, unk_930CA, unk_930F2
+global DrawPlayerCardStats_841, DrawPlayerCardStats_847, LoadPlayerCardArt, DrawPlayerCardName, ExportGoalieStatsJumpTable, ExportGoalieCareerJumpTable, ExportSkaterStatsJumpTable, ExportSkaterCareerJumpTable
 global ExportPlayerCard, ExportPlayerCard_2BF, ExportPlayerCard_2D9, ExportPlayerCard_2DF, ExportPlayerCard_312, ExportPlayerCard_318, ExportPlayerCard_31E, ExportPlayerCard_324
 global ExportPlayerCard_32A, ExportPlayerCard_330, ExportPlayerCard_336, ExportPlayerCard_33C, ExportPlayerCard_438, ExportPlayerCard_453, ExportPlayerCard_459, ExportPlayerCard_48C
 global ExportPlayerCard_492, ExportPlayerCard_498, ExportPlayerCard_49E, ExportPlayerCard_4A4, ExportPlayerCard_4AA, ExportPlayerCard_4B0, ExportPlayerCard_4B6, ExportPlayerCard_703
 global ExportPlayerCard_71D, ExportPlayerCard_723, ExportPlayerCard_729, ExportPlayerCard_72F, ExportPlayerCard_735, ExportPlayerCard_73B, ExportPlayerCard_741, ExportPlayerCard_747
 global ExportPlayerCard_74D, ExportPlayerCard_860, ExportPlayerCard_87B, ExportPlayerCard_881, ExportPlayerCard_887, ExportPlayerCard_88D, ExportPlayerCard_893, ExportPlayerCard_899
-global ExportPlayerCard_89F, ExportPlayerCard_8A5, ExportPlayerCard_8AB, ScaleBlock, unk_93BE6, unk_93CA6, unk_93D26, jpt_93E46
-unk_903B5:
+global ExportPlayerCard_89F, ExportPlayerCard_8A5, ExportPlayerCard_8AB, ScaleBlock, PlayerRatingsHotspots, PlayerRatingsTabHotspots, PlayerRatingsNavLinks, jpt_93E46
+PlayerCardSlideHotspots:
         db 018h,01h,00h,00h,064h,00h,00h,00h,068h,01h,00h,00h,064h,00h,00h,00h
         db 068h,01h,00h,00h,0AAh,00h,00h,00h,018h,01h,00h,00h,0AAh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_903F5:
+PlayerCardTabLabels:
         dd str_RAT
         dd str_SEA4
         dd str_PLY4
-unk_90401:
+PlayerCardHotspots:
         db 0FFh,00h,00h,00h,0C3h,01h,00h,00h,07h,01h,00h,00h,0B8h,01h,00h,00h
         db 080h,01h,00h,00h,0B8h,01h,00h,00h,08Ah,01h,00h,00h,0C5h,01h,00h,00h
         db 07Fh,01h,00h,00h,0D0h,01h,00h,00h,07h,01h,00h,00h,0CEh,01h,00h,00h
@@ -65,7 +65,7 @@ unk_90401:
         db 0E1h,00h,00h,00h,0CFh,01h,00h,00h,073h,00h,00h,00h,0CFh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_90501:
+PlayerCardNavLinks:
         db 00h,02h,04h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 06h,01h,08h,02h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,02h,01h,02h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -543,21 +543,21 @@ PlayerCardScreen:
         push ecx
         mov ecx, 10h
         lea edi, [dword ebp-0110h]
-        mov esi, unk_903B5
+        mov esi, PlayerCardSlideHotspots
         rep movsd
         lea edi, [byte ebp-058h]
-        mov esi, unk_903F5
+        mov esi, PlayerCardTabLabels
         movsd
         movsd
         movsd
         mov ecx, 40h
         lea edi, [dword ebp-031Ch]
-        mov esi, unk_90401
+        mov esi, PlayerCardHotspots
         rep movsd
         push byte 0
         mov ecx, 28h
         lea edi, [dword ebp-021Ch]
-        mov esi, unk_90501
+        mov esi, PlayerCardNavLinks
         push dword 0F1h
         rep movsd
         push dword 0ADh
@@ -1828,7 +1828,7 @@ PlayerCardScreen:
         pop edi
         pop esi
         ret 4
-unk_91F1C:
+GoalieStatsJumpTable:
         dd DrawPlayerCardStats_1C4
         dd DrawPlayerCardStats_1DE
         dd DrawPlayerCardStats_1E4
@@ -1840,7 +1840,7 @@ unk_91F1C:
         dd DrawPlayerCardStats_235
         dd DrawPlayerCardStats_23B
         dd DrawPlayerCardStats_241
-unk_91F48:
+SkaterStatsJumpTable:
         dd DrawPlayerCardStats_3D9
         dd DrawPlayerCardStats_3F3
         dd DrawPlayerCardStats_3F9
@@ -1851,7 +1851,7 @@ unk_91F48:
         dd DrawPlayerCardStats_417
         dd DrawPlayerCardStats_41D
         dd DrawPlayerCardStats_423
-unk_91F70:
+GoalieCareerJumpTable:
         dd DrawPlayerCardStats_5E6
         dd DrawPlayerCardStats_601
         dd DrawPlayerCardStats_607
@@ -1863,7 +1863,7 @@ unk_91F70:
         dd DrawPlayerCardStats_658
         dd DrawPlayerCardStats_65E
         dd DrawPlayerCardStats_664
-unk_91F9C:
+SkaterCareerJumpTable:
         dd DrawPlayerCardStats_7FC
         dd DrawPlayerCardStats_817
         dd DrawPlayerCardStats_81D
@@ -2011,7 +2011,7 @@ DrawPlayerCardStats:
         call DrawColorText
         cmp dword [byte ebp+06Ah], byte 0Ah
         ja near DrawPlayerCardStats_241.18
-        jmp dword [dword cs:edi+unk_91F1C]
+        jmp dword [dword cs:edi+GoalieStatsJumpTable]
 DrawPlayerCardStats_1C4:
         movzx eax, word [esi]
 .15:
@@ -2190,7 +2190,7 @@ DrawPlayerCardStats_241:
         call DrawColorText
         cmp dword [byte ebp+06Eh], byte 9
         ja near DrawPlayerCardStats_423.36
-        jmp dword [dword cs:esi+unk_91F48]
+        jmp dword [dword cs:esi+SkaterStatsJumpTable]
 DrawPlayerCardStats_3D9:
         movzx eax, word [edi]
 .34:
@@ -2361,7 +2361,7 @@ DrawPlayerCardStats_423:
         call DrawColorText
         cmp dword [byte ebp+072h], byte 0Ah
         ja near DrawPlayerCardStats_664.55
-        jmp dword [dword cs:edi+unk_91F70]
+        jmp dword [dword cs:edi+GoalieCareerJumpTable]
 DrawPlayerCardStats_5E6:
         movzx eax, word [byte esi+016h]
 .52:
@@ -2540,7 +2540,7 @@ DrawPlayerCardStats_664:
         call DrawColorText
         cmp dword [byte ebp+076h], byte 9
         ja near DrawPlayerCardStats_847.73
-        jmp dword [dword cs:ecx+unk_91F9C]
+        jmp dword [dword cs:ecx+SkaterCareerJumpTable]
 DrawPlayerCardStats_7FC:
         movzx eax, word [byte edi+012h]
 .71:
@@ -3259,7 +3259,7 @@ DrawPlayerCardName:
         pop edi
         pop esi
         ret
-unk_93072:
+ExportGoalieStatsJumpTable:
         dd ExportPlayerCard_2BF
         dd ExportPlayerCard_2D9
         dd ExportPlayerCard_2DF
@@ -3271,7 +3271,7 @@ unk_93072:
         dd ExportPlayerCard_330
         dd ExportPlayerCard_336
         dd ExportPlayerCard_33C
-unk_9309E:
+ExportGoalieCareerJumpTable:
         dd ExportPlayerCard_438
         dd ExportPlayerCard_453
         dd ExportPlayerCard_459
@@ -3283,7 +3283,7 @@ unk_9309E:
         dd ExportPlayerCard_4AA
         dd ExportPlayerCard_4B0
         dd ExportPlayerCard_4B6
-unk_930CA:
+ExportSkaterStatsJumpTable:
         dd ExportPlayerCard_703
         dd ExportPlayerCard_71D
         dd ExportPlayerCard_723
@@ -3294,7 +3294,7 @@ unk_930CA:
         dd ExportPlayerCard_741
         dd ExportPlayerCard_747
         dd ExportPlayerCard_74D
-unk_930F2:
+ExportSkaterCareerJumpTable:
         dd ExportPlayerCard_860
         dd ExportPlayerCard_87B
         dd ExportPlayerCard_881
@@ -3534,7 +3534,7 @@ ExportPlayerCard:
 .19:
         cmp dword [byte ebp-08h], byte 0Ah
         ja near ExportPlayerCard_33C.23
-        jmp dword [dword cs:edi+unk_93072]
+        jmp dword [dword cs:edi+ExportGoalieStatsJumpTable]
 ExportPlayerCard_2BF:
         movzx eax, word [ebx]
 .20:
@@ -3675,7 +3675,7 @@ ExportPlayerCard_33C:
 .30:
         cmp dword [byte ebp-0Ch], byte 0Ah
         ja near ExportPlayerCard_4B6.34
-        jmp dword [dword cs:edi+unk_9309E]
+        jmp dword [dword cs:edi+ExportGoalieCareerJumpTable]
 ExportPlayerCard_438:
         movzx eax, word [byte ebx+016h]
 .31:
@@ -3932,7 +3932,7 @@ ExportPlayerCard_4B6:
 .54:
         cmp ecx, byte 9
         ja near ExportPlayerCard_74D.57
-        jmp dword [dword cs:edi+unk_930CA]
+        jmp dword [dword cs:edi+ExportSkaterStatsJumpTable]
 ExportPlayerCard_703:
         movzx eax, word [ebx]
 .55:
@@ -4063,7 +4063,7 @@ ExportPlayerCard_74D:
 .64:
         cmp ecx, byte 9
         ja near ExportPlayerCard_8AB.67
-        jmp dword [dword cs:edi+unk_930F2]
+        jmp dword [dword cs:edi+ExportSkaterCareerJumpTable]
 ExportPlayerCard_860:
         movzx eax, word [byte ebx+012h]
 .65:
@@ -4299,7 +4299,7 @@ ScaleBlock:
         pop ecx
         pop ebx
         ret 0Ch
-unk_93BE6:
+PlayerRatingsHotspots:
         db 0F4h,00h,00h,00h,0C3h,00h,00h,00h,0F7h,00h,00h,00h,0BCh,00h,00h,00h
         db 07Eh,01h,00h,00h,0BCh,00h,00h,00h,084h,01h,00h,00h,0C3h,00h,00h,00h
         db 084h,01h,00h,00h,0CFh,00h,00h,00h,07Dh,01h,00h,00h,0D4h,00h,00h,00h
@@ -4312,7 +4312,7 @@ unk_93BE6:
         db 02Dh,00h,00h,00h,0DFh,01h,00h,00h,00h,00h,00h,00h,0DFh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_93CA6:
+PlayerRatingsTabHotspots:
         db 0F9h,00h,00h,00h,0AFh,00h,00h,00h,01Dh,01h,00h,00h,08Ah,00h,00h,00h
         db 05Eh,01h,00h,00h,08Ah,00h,00h,00h,081h,01h,00h,00h,0AEh,00h,00h,00h
         db 05Eh,01h,00h,00h,0D6h,00h,00h,00h,01Ch,01h,00h,00h,0D5h,00h,00h,00h
@@ -4321,7 +4321,7 @@ unk_93CA6:
         db 082h,01h,00h,00h,0E3h,00h,00h,00h,087h,01h,00h,00h,0EBh,00h,00h,00h
         db 086h,01h,00h,00h,0F8h,00h,00h,00h,081h,01h,00h,00h,0FDh,00h,00h,00h
         db 0FCh,00h,00h,00h,0FDh,00h,00h,00h,0F5h,00h,00h,00h,0F7h,00h,00h,00h
-unk_93D26:
+PlayerRatingsNavLinks:
         db 0Ch,0Dh,05h,0Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01h,02h,01h,08h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 05h,02h,02h,0Fh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

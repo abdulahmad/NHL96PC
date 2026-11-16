@@ -30,10 +30,10 @@ extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, SaveLeagueDb, DrawArt, Dra
 extern CreateBitmap, TintRows, DrawRectOutline, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr, OpenArtArchive
 extern SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, SetScreenTarget, SetPaletteEntries, FindShape, ClearClipRect
 extern TextSetFont, TickDeadlinePassed, str_WesternConference2, SeasonUserRecords, SeasonUserName, PlayoffHeader, PlayoffName, str_Punct
-extern unk_79303, unk_79483, unk_794C3, UpdateProgressBox
+extern SeasonMenuHotspots, StandingsHotspots, SimPlayoffBracketOrder, UpdateProgressBox
 global SeasonMenuScreen, SeasonMenuScreen_794, SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61
 global SeasonMenuScreen_ADF, SeasonMenuScreen_AEB, SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, SeasonMenuScreen_D9C, StandingsScreen
-global CompareTeamPoints, DrawStandings, SimulateRestOfSeason, str_T_PickIndexEntryScreen, unk_7BA11, jpt_7BA27, RunSeasonMenus, RunSeasonMenus_6E
+global CompareTeamPoints, DrawStandings, SimulateRestOfSeason, str_T_PickIndexEntryScreen, SeasonMenuCommands, jpt_7BA27, RunSeasonMenus, RunSeasonMenus_6E
 global RunSeasonMenus_CB, RunSeasonMenus_D2, RunSeasonMenus_138, RunSeasonMenus_182, RunSeasonMenus_189, RunSeasonMenus_1E1, RunSeasonMenus_224, RunSeasonMenus_238
 global RunSeasonMenus_24E, RunSeasonMenus_25A, RunSeasonMenus_533, PickIndexEntryScreen, DrawIndexEntries
 ;-----------------------------------------------------------------------------
@@ -58,7 +58,7 @@ SeasonMenuScreen:
         movsd
         mov ecx, 60h
         lea edi, [dword ebp-03A2h]
-        mov esi, unk_79303
+        mov esi, SeasonMenuHotspots
         lea edx, [dword ebp-0BC2h]
         xor eax, eax
         rep movsd
@@ -963,7 +963,7 @@ StandingsScreen:
         mov dword [byte ebp+07Ah], 0
         mov ecx, 10h
         lea edi, [byte ebp-03Ah]
-        mov esi, unk_79483
+        mov esi, StandingsHotspots
         mov eax, 0FCh
         xor edx, edx
         rep movsd
@@ -2392,7 +2392,7 @@ SimulateRestOfSeason:
         mov dword [SeasonPlayoffs], 1
         mov byte [byte ebp+076h], 0FFh
         lea edi, [byte ebp+02Eh]
-        mov esi, unk_794C3
+        mov esi, SimPlayoffBracketOrder
         mov byte [byte ebp+072h], 0FFh
         mov byte [byte ebp+07Ah], 0FFh
         movsd
@@ -2704,7 +2704,7 @@ str_T_PickIndexEntryScreen:
         db 07h,02h,00h,00h,0B4h,01h,00h,00h,013h,02h,00h,00h,0BBh,01h,00h,00h
         db 013h,02h,00h,00h,0C4h,01h,00h,00h,05h,02h,00h,00h,0CBh,01h,00h,00h
         db 097h,01h,00h,00h,0CBh,01h,00h,00h,08Dh,01h,00h,00h,0C2h,01h,00h,00h
-unk_7BA11:
+SeasonMenuCommands:
         db 0A1h,0A5h,03h,027h,02h,027h,01h,027h,00h,027h,0FFh,026h,0FEh,026h,0FDh,026h
         db 0FCh,026h,0FBh,026h,00h,00h
 jpt_7BA27:
@@ -2822,7 +2822,7 @@ RunSeasonMenus_138:
         cmp eax, 0A5A1h
         ja near RunSeasonMenus_CB
         mov ecx, 0Ch
-        mov edi, unk_7BA11
+        mov edi, SeasonMenuCommands
         repne scasw
         jmp dword [nosplit cs:ecx*4+jpt_7BA27]
 RunSeasonMenus_182:

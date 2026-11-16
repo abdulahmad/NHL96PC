@@ -32,7 +32,7 @@ extern SaveLeagueDb, PlayoffWinsNeeded, PlayoffLeadersScreens, DrawArt, PutBlock
 extern DrawRectOutline, FreeBitmap, TextSetFont, DosFileInfo, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaque, DrawArtOpaqueAtOwnPos
 extern FileSizeByName, DrawArtKeyed, SetScreenTarget, MouseRead, FindShape, ClearClipRect, str_S6, str_D17
 extern str_Punct_PlayoffTreeScreen, PlayoffTreeTemplate, TreeShapeLeft, TreeShapeRight, TreeShapeCentre, TreeShapeFinal, str_WesternConference2, optblock_end
-extern PlayoffHeader, PlayoffName, unk_A49D1, str_Z, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9
+extern PlayoffHeader, PlayoffName, PlayoffSetupKeyTable, str_Z, PlayoffSeriesLabels, PlayoffSetupOptionRows, PlayoffSeedPairs, PlayoffMenuCommands
 extern hmscore, awscore
 global RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6, RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, RunPlayoffMenus_102, RunPlayoffMenus_115
 global PickPlayoffTeam_1B9, PlayoffSetupScreen_114B, DrawPlayoffSlotLogo_ED, PlayoffRound1_162, PlayoffRound1_16C, PlayoffRound1_172, PlayoffRound1_173, RunPlayoffMenus
@@ -100,7 +100,7 @@ RunPlayoffMenus_A6:
         cmp eax, 0A5A4h
         ja short RunPlayoffMenus_A6
         mov ecx, 8
-        mov edi, unk_A4FA9
+        mov edi, PlayoffMenuCommands
         repne scasw
         jmp dword [nosplit cs:ecx*4+jpt_A4FB7]
 RunPlayoffMenus_CD:
@@ -390,14 +390,14 @@ PlayoffSetupScreen:
         sub ebp, 82h
         mov ecx, 26h
         lea edi, [dword ebp-0266h]
-        mov esi, unk_A49D1
+        mov esi, PlayoffSetupKeyTable
         rep movsd
         mov ecx, 140h
         lea edi, [dword ebp-0B66h]
         mov esi, str_Z
         rep movsd
         lea edi, [byte ebp+012h]
-        mov esi, unk_A4F69
+        mov esi, PlayoffSeriesLabels
         mov dword [byte ebp+04Ah], 0FFFFFFFFh
         movsd
         movsd
@@ -405,7 +405,7 @@ PlayoffSetupScreen:
         movsd
         mov dword [byte ebp+03Eh], 0
         lea edi, [byte ebp+022h]
-        mov esi, unk_A4F79
+        mov esi, PlayoffSetupOptionRows
         mov eax, 0FCh
         xor edx, edx
         movsd
@@ -1701,7 +1701,7 @@ DrawPlayoffTeamList:
         mov ecx, 8
         push byte 14h
         lea edi, [byte ebp-024h]
-        mov esi, unk_A4F89
+        mov esi, PlayoffSeedPairs
         push byte 64h
         rep movsd
         call CreateBitmap

@@ -20,7 +20,7 @@ global InverseTableSlice, InverseTablePass, InverseTableScan, InverseTableFill, 
 global CreateColourLookup, SerialConfigure, SerialOpen, SerialClose, SerialCloseAll, SerialSetBaud, SerialRaiseDtr, SerialDropDtr
 global SerialCarrier, SerialWrite, SerialTxFree, SerialFlushTx, SerialWaitTxEmpty, SerialRead, SerialReadWait, SerialFlushRx
 global SerialIsrCom1, atoi_, LinkCrc16, CloseFile, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
-global unk_B15DE
+global SerialIsrJumpTable
 ;-----------------------------------------------------------------------------
 ; GetRandState                                                    B03F2  96 PC
 ; Returns the C library's rand state address
@@ -1861,8 +1861,8 @@ SerialIsrCom1_85:
 .2:
         LD mov, esi, eax
         and esi, byte 6
-        jmp dword [nosplit cs:esi*2+unk_B15DE]
-unk_B15DE:
+        jmp dword [nosplit cs:esi*2+SerialIsrJumpTable]
+SerialIsrJumpTable:
         dd unk_B15DE_10.1
         dd unk_B15DE_10.6
         dd unk_B15DE_10.12

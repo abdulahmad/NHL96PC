@@ -30,7 +30,7 @@ extern str_S4, str_S4dg, str_S4dw, str_S4ug, str_S4up, str_SD6, str_SGID, str_SS
 extern str_StatDBPTRs2, str_Tra12, str_Tra22, str_Tra32, str_TraD, strcat_, strcpy_, DrawArt
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr
 extern SaveFileBlock, DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TickDeadlinePassed, RosterTextBuf, LineForwardOrder, LineDefenceOrder
-extern RosterRecords, unk_96949, str_X_RosterScreen, unk_96C49, str_Punct_CreatePlayerScreen, unk_96DC9, unk_96FD9
+extern RosterRecords, RosterHotspots, str_X_RosterScreen, RosterKeyTable, str_Punct_CreatePlayerScreen, CreateSkaterNavLinks, CreateGoalieNavLinks
 global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScreen, DrawRosterTeams, DrawRosterTeams_17B, FormatRosterLine, FormatRosterLine_26D
 global DrawRosterPlayerInfo, RosterSlotStatus, CountRosterSlots, FindRosterSlot, ListRosterPlayers, ValidateRoster, EditPlayerName, EditPlayerName_131
 global ConfirmTrade, ResetTeamLines, CycleLoadingArt, jpt_9ADF0, jpt_9AE04, CreatePlayerScreen, CreatePlayerScreen_6BE, CreatePlayerScreen_71A
@@ -218,7 +218,7 @@ RosterScreen:
         mov dword [byte ebp+026h], 0
         mov dword [byte ebp+022h], 0
         mov dword [byte ebp+016h], 0
-        mov esi, unk_96949
+        mov esi, RosterHotspots
         mov dword [byte ebp+012h], 0
         mov dword [byte ebp+0Eh], 0
         rep movsd
@@ -232,7 +232,7 @@ RosterScreen:
         mov dword [byte ebp-02h], 0
         mov ecx, 30h
         lea edi, [dword ebp-023Eh]
-        mov esi, unk_96C49
+        mov esi, RosterKeyTable
         mov dword [byte ebp-06h], 0
         mov dword [byte ebp-0Ah], 0
         rep movsd
@@ -4350,12 +4350,12 @@ CreatePlayerScreen:
         rep movsd
         mov ecx, 84h
         lea edi, [dword ebp-04EEh]
-        mov esi, unk_96DC9
+        mov esi, CreateSkaterNavLinks
         rep movsd
         mov dword [byte ebp+056h], 0FFFFFFFFh
         mov ecx, 84h
         lea edi, [dword ebp-06FEh]
-        mov esi, unk_96FD9
+        mov esi, CreateGoalieNavLinks
         lea edx, [dword ebp-01F32h]
         xor eax, eax
         rep movsd

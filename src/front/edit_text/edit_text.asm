@@ -6,7 +6,7 @@ extern TextCharH, ViewScreenWidth, FillRect, TextStringWidth, PutBlock, SetDrawB
 extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, CopyBitmap
 extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, DrawShapeCore, AllocMemLocked, FreeMemBlock, CreateBitmap
 extern TintRect, DrawRectOutline, FreeBitmap, TextSetColor, TextPrintAt, SetScreenTarget, GetPaletteRange, KeyIsDown
-extern KbdGetKey, MsgTextBuf, unk_19382
+extern KbdGetKey, MsgTextBuf, TwoSpaces
 global EditText
 ;-----------------------------------------------------------------------------
 ; EditText                                                        197ED  96 PC
@@ -21,7 +21,7 @@ EditText:
         sub ebp, byte 76h
         mov esi, ebx
         mov dword [byte ebp-06h], ecx
-        mov ax, word [unk_19382]
+        mov ax, word [TwoSpaces]
         mov word [byte ebp+066h], ax
 .1:
         call KbdGetKey

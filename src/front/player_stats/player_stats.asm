@@ -43,7 +43,7 @@ extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRec
 extern StatsDb1Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, DrawArtKeyed, SetScreenTarget, FindShape, TextSetFont, TickDeadlinePassed
 extern str_Punct_ExportPlayerStats, CompareButtonDef, PlayerStatsItems, PlayerStatsHScroll
-extern PlayerStatsVScroll, unk_8B87F, str_U_PlayerStatsScreen, unk_8BF1F, UpdateProgressBox, SlotsTwoPlayer, hmscore, PlayerStatColFlags
+extern PlayerStatsVScroll, PlayerStatsNavLinks, str_U_PlayerStatsScreen, PlayerStatsColumnLabels, UpdateProgressBox, SlotsTwoPlayer, hmscore, PlayerStatColFlags
 
 
 global AnimatePlayerStatsButton, AnimatePlayerStatsButtons, ComparePlayerNames, ComparePlayerStatRows, ShowPlayerStatsTitle, jpt_8C4AB, jpt_8C4BB, jpt_8C4CB
@@ -571,7 +571,7 @@ PlayerStatsScreen:
         sub ebp, 82h
         mov ecx, 148h
         lea edi, [dword ebp-0B8Eh]
-        mov esi, unk_8B87F
+        mov esi, PlayerStatsNavLinks
         rep movsd
         mov ecx, 60h
         lea edi, [dword ebp-046Eh]
@@ -580,7 +580,7 @@ PlayerStatsScreen:
         mov dword [byte ebp+036h], 0FFFFFFFFh
         mov ecx, 8
         lea edi, [byte ebp-01Eh]
-        mov esi, unk_8BF1F
+        mov esi, PlayerStatsColumnLabels
         mov dword [byte ebp+01Eh], 7
         mov dword [byte ebp+01Ah], 4
         rep movsd

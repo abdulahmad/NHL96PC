@@ -1969,6 +1969,7 @@ D1A88,BuildFixedTableMax,sub_D1A88,new,low,builds the right edge table of a mapp
 D1B3C,MapPolySpans,sub_D1B3C,new,low,draws the texture mapped spans of a clipped polygon,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
 D1BEC,MapPolySpansRemap,sub_D1BEC,new,low,draws the texture mapped spans of a clipped polygon through the remap table,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
 D1CE0,FillFlatPolyCore,sub_D1CE0,new,low,builds the edge tables of a polygon and fills its spans,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
+D244C,EmuRegLastSlot,,new,low,offset of the last emulator register slot,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
 D27B8,__int7_pl3,,WATCOM,high,IDA FLIRT library signature,
 D27DC,__int7_X32VM,,WATCOM,high,IDA FLIRT library signature,
 D2828,__int7,,WATCOM,high,IDA FLIRT library signature,
@@ -5970,6 +5971,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 15718C,hmroster,,95PC,medium,NHL95PC DB3A8 (refset): referenced by the same 3 matched functions,
 157191,hmrosterflags,byte_157191,new,low,flags byte in each home roster entry,src/data/front/main_bss_01.asm
 157192,hmrosterpos,,95PC,medium,NHL95PC DB3AE (refset): referenced by the same 3 matched functions,
+1571B3,RosterStatsBase,dword_1571B3,new,low,"roster player stat words, indexed by team and player",src/data/front/main_bss_01.asm
 157640,awroster,byte_157640,new,low,Away roster,src/data/front/main_bss_01.asm
 157AF4,AttractResetFlag,dword_157AF4,new,low,flag cleared when an attract or menu game starts,src/data/front/main_bss_01.asm
 157AF8,hmglstats,unk_157AF8,new,low,Home goalie game stats (clearteams: hmtmglstats),src/data/front/main_bss_01.asm

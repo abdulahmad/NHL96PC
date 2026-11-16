@@ -23,15 +23,15 @@ extern str_Off0, str_Off1, str_Onn0, str_Onn1, str_Pal13, str_PICKS, str_PICKS2,
 extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, str_WFC2
 extern str_YES0, str_YES1, strcpy_, strlen_, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlockAtOwnPos
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SetScreenTarget, KeyIsDown, KbdGetKey
-extern FindShape, TextSetFont, GsPhoneNumber, GsModemInit, ControlPicksItems, unk_708A9, unk_70901, unk_70BC1
-extern unk_70BCB, str_N_ControlSetupScreen, str_R, str_F, SlotsTwoPlayer, BaudChoices, GsComPort, GsBaudIndex
+extern FindShape, TextSetFont, GsPhoneNumber, GsModemInit, ControlPicksItems, ControlPicksSlotPoints, ControlPicksHotspots, ControlSetupRowY
+extern ControlSetupColumnX, str_N_ControlSetupScreen, str_R, str_F, SlotsTwoPlayer, BaudChoices, GsComPort, GsBaudIndex
 extern GsDirectLink, GsWaitForCall, GsLinkOption, GsDialMode, WriteGlobalSet
 global DrawOnOffSlider, jpt_7130F, PollOptionKeys, PollOptionKeys_94, PollOptionKeys_B6, PollOptionKeys_D5, PollOptionKeys_F6, PollOptionKeys_117
-global PollOptionKeys_138, PollOptionKeys_156, PollOptionKeys_174, PollOptionKeys_192, unk_7158B, jpt_715AF, jpt_715D3, ControlPicksScreen
+global PollOptionKeys_138, PollOptionKeys_156, PollOptionKeys_174, PollOptionKeys_192, ControlPicksJumpTable, jpt_715AF, jpt_715D3, ControlPicksScreen
 global ControlPicksScreen_124, ControlPicksScreen_12E, ControlPicksScreen_13B, ControlPicksScreen_145, ControlPicksScreen_14F, ControlPicksScreen_159, ControlPicksScreen_163, ControlPicksScreen_16D
 global ControlPicksScreen_177, ControlPicksScreen_657, ControlPicksScreen_67C, ControlPicksScreen_69B, ControlPicksScreen_6BC, ControlPicksScreen_6DD, ControlPicksScreen_6FE, ControlPicksScreen_71C
 global ControlPicksScreen_73A, ControlPicksScreen_758, ControlPicksScreen_84D, ControlPicksScreen_96B, ControlPicksScreen_AF2, ControlPicksScreen_B00, ControlPicksScreen_B50, ControlPicksScreen_B57
-global ControlSetupScreen, RunControlSetup, unk_73BD5, unk_73C35, unk_73F35, unk_73F7D, ModemSettingsScreen, ModemSettingsScreen_D42
+global ControlSetupScreen, RunControlSetup, ModemSettingsLabelPos, ModemSettingsHotspots, ModemDialLabelPos, ModemDialHotspots, ModemSettingsScreen, ModemSettingsScreen_D42
 global ModemSettingsScreen_D49, ModemWaitIdle, DrawPhoneNumber, jpt_7510E, ModemDialScreen, ModemDialScreen_75A, ModemDialScreen_81F, ModemDialScreen_8DB
 global ModemDialScreen_9DA, ModemDialScreen_AB2, ModemDialScreen_BB5, ModemDialScreen_BC1, ModemDialScreen_BD2, RunModemSetup, LinkSetupScreen
 ;-----------------------------------------------------------------------------
@@ -325,7 +325,7 @@ PollOptionKeys_192:
 .9:
         leave
         jmp near ControlPicksScreen_B57
-unk_7158B:
+ControlPicksJumpTable:
         dd ControlPicksScreen_124
         dd ControlPicksScreen_12E
         dd ControlPicksScreen_13B
@@ -364,13 +364,13 @@ ControlPicksScreen:
         sub ebp, 82h
         mov ecx, 16h
         lea edi, [byte ebp-06h]
-        mov esi, unk_708A9
+        mov esi, ControlPicksSlotPoints
         push byte 20h
         rep movsd
         push dword 52Eh
         mov ecx, 0B0h
         lea edi, [dword ebp-02C6h]
-        mov esi, unk_70901
+        mov esi, ControlPicksHotspots
         push str_PICKS
         rep movsd
         call AllocMemBlock
@@ -427,7 +427,7 @@ ControlPicksScreen:
         cmp dword [byte ebp+05Eh], byte 8
         ja near ControlPicksScreen_177.4
         mov eax, dword [byte ebp+076h]
-        jmp dword [dword cs:eax+unk_7158B]
+        jmp dword [dword cs:eax+ControlPicksJumpTable]
 ControlPicksScreen_124:
         mov eax, dword [ControlPickFlags]
         and eax, byte 1
@@ -1106,12 +1106,12 @@ ControlSetupScreen:
         enter 0F20h, 0
         sub ebp, 82h
         lea edi, [byte ebp+06h]
-        mov esi, unk_70BC1
+        mov esi, ControlSetupRowY
         movsd
         movsd
         movsw
         lea edi, [byte ebp+012h]
-        mov esi, unk_70BCB
+        mov esi, ControlSetupColumnX
         movsd
         movsd
         movsw
@@ -2886,14 +2886,14 @@ RunControlSetup:
         je short .1
         pop edx
         ret
-unk_73BD5:
+ModemSettingsLabelPos:
         db 0B6h,01h,00h,00h,089h,00h,00h,00h,0EBh,01h,00h,00h,089h,00h,00h,00h
         db 01Bh,02h,00h,00h,089h,00h,00h,00h,04Ah,02h,00h,00h,089h,00h,00h,00h
         db 0CBh,01h,00h,00h,0C3h,00h,00h,00h,0FBh,01h,00h,00h,0C3h,00h,00h,00h
         db 02Eh,02h,00h,00h,0C3h,00h,00h,00h,059h,02h,00h,00h,0C3h,00h,00h,00h
         db 0Ch,02h,00h,00h,01h,01h,00h,00h,019h,02h,00h,00h,02Ch,01h,00h,00h
         db 026h,02h,00h,00h,057h,01h,00h,00h,033h,02h,00h,00h,081h,01h,00h,00h
-unk_73C35:
+ModemSettingsHotspots:
         db 097h,01h,00h,00h,07Fh,00h,00h,00h,0A2h,01h,00h,00h,079h,00h,00h,00h
         db 0C5h,01h,00h,00h,079h,00h,00h,00h,0C5h,01h,00h,00h,092h,00h,00h,00h
         db 0A1h,01h,00h,00h,092h,00h,00h,00h,097h,01h,00h,00h,089h,00h,00h,00h
@@ -2942,13 +2942,13 @@ unk_73C35:
         db 06Ah,02h,00h,00h,074h,01h,00h,00h,074h,02h,00h,00h,07Ch,01h,00h,00h
         db 074h,02h,00h,00h,085h,01h,00h,00h,065h,02h,00h,00h,08Ah,01h,00h,00h
         db 0F9h,01h,00h,00h,08Ah,01h,00h,00h,0EEh,01h,00h,00h,082h,01h,00h,00h
-unk_73F35:
+ModemDialLabelPos:
         db 0C4h,01h,00h,00h,091h,00h,00h,00h,047h,02h,00h,00h,091h,00h,00h,00h
         db 0B3h,01h,00h,00h,0DCh,00h,00h,00h,0A7h,01h,00h,00h,022h,01h,00h,00h
         db 062h,01h,00h,00h,06Ch,01h,00h,00h,09Ch,01h,00h,00h,06Ch,01h,00h,00h
         db 0DCh,01h,00h,00h,06Ch,01h,00h,00h,012h,02h,00h,00h,06Dh,01h,00h,00h
         db 064h,02h,00h,00h,06Dh,01h,00h,00h
-unk_73F7D:
+ModemDialHotspots:
         db 07Ch,01h,00h,00h,086h,00h,00h,00h,086h,01h,00h,00h,07Ch,00h,00h,00h
         db 0F0h,01h,00h,00h,07Ch,00h,00h,00h,0F0h,01h,00h,00h,09Bh,00h,00h,00h
         db 086h,01h,00h,00h,09Bh,00h,00h,00h,07Ch,01h,00h,00h,091h,00h,00h,00h
@@ -3000,11 +3000,11 @@ ModemSettingsScreen:
         sub ebp, 82h
         mov ecx, 18h
         lea edi, [byte ebp-06Eh]
-        mov esi, unk_73BD5
+        mov esi, ModemSettingsLabelPos
         rep movsd
         mov ecx, 0C0h
         lea edi, [dword ebp-036Eh]
-        mov esi, unk_73C35
+        mov esi, ModemSettingsHotspots
         mov eax, 2
         rep movsd
         call SoundSecondsToBytes
@@ -4200,11 +4200,11 @@ ModemDialScreen:
         sub ebp, 82h
         mov ecx, 12h
         lea edi, [byte ebp-012h]
-        mov esi, unk_73F35
+        mov esi, ModemDialLabelPos
         rep movsd
         mov ecx, 90h
         lea edi, [dword ebp-0252h]
-        mov esi, unk_73F7D
+        mov esi, ModemDialHotspots
         rep movsd
         mov ax, word [SlotsTwoPlayer]
         xor ah, ah

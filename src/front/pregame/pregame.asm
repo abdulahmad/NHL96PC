@@ -20,7 +20,7 @@ extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, s
 extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
 extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, SetColourRemap, GetColourRemap, FindShape, ClearClipRect, TextSetFont
-extern str_PreGameBlank, str_WesternConference2, unk_849C1, unk_849C7, unk_849CB, unk_849D1, SlotsTwoPlayer
+extern str_PreGameBlank, str_WesternConference2, ThreeCardColumnsX, ThreeCardRowsY, TwoCardColumnsX, TwoCardRowsY, SlotsTwoPlayer
 global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
 ;-----------------------------------------------------------------------------
@@ -2101,8 +2101,8 @@ PreGameCardsB:
         enter 218h, 0
         sub ebp, 82h
         lea edi, [byte ebp+04Eh]
-        mov eax, dword [unk_849C7]
-        mov esi, unk_849C1
+        mov eax, dword [ThreeCardRowsY]
+        mov esi, ThreeCardColumnsX
         mov dword [byte ebp+056h], eax
         mov eax, 4
         movsd
@@ -2652,8 +2652,8 @@ PreGameCardsC:
         enter 200h, 0
         sub ebp, 82h
         lea edi, [byte ebp+04Eh]
-        mov eax, dword [unk_849D1]
-        mov esi, unk_849CB
+        mov eax, dword [TwoCardRowsY]
+        mov esi, TwoCardColumnsX
         mov dword [byte ebp+056h], eax
         mov eax, 2
         movsd

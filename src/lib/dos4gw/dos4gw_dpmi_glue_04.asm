@@ -21,8 +21,8 @@ extern EmuFdivToSt, EmuFfree, EmuFstSt, EmuFucom, EmuFucomp, EmuFstpSt, EmuFaddp
 extern EmuFcompp, EmuFsubrp, EmuFsubp, EmuFdivrp, EmuFdivp, EmuDispatchDFReg
 global _DoINTR_, __int7, __int7_X32VM, __int7_pl3, EmuOpcodeJumpTable, EmuModRmJumpTable, IntrLoadRegs, BuildEdgeTableMin
 global BuildEdgeTableMax, BuildFixedTableMin, BuildFixedTableMax, MapPolySpans, MapPolySpansRemap, FillFlatPolyCore, IntrStubs, EmuZeroTbyte
-global unk_D2444, unk_D2448, EmuRegRing, str_F_EmuSignOpsJumpTable, unk_D244E, EmuRegTagMasks, unk_D249C, unk_D24A0
-global unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
+global EmuRegRing, EmuRegLastSlot, EmuRegSlots, EmuRegTagMasks
+global EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 ;-----------------------------------------------------------------------------
 ; _DoINTR_                                                      D14D1  library
 ;-----------------------------------------------------------------------------
@@ -1162,15 +1162,17 @@ FillFlatPolyCore:
         db 00h,00h
 EmuZeroTbyte:
         db 00h,00h,00h,00h
-unk_D2444:
         db 00h,00h,00h,00h
-unk_D2448:
         db 00h,00h
 EmuRegRing:
         db 0Ah,00h
-str_F_EmuSignOpsJumpTable:
+;-----------------------------------------------------------------------------
+; EmuRegLastSlot                                  D244C  96 PC, low confidence
+; Offset of the last emulator register slot
+;-----------------------------------------------------------------------------
+EmuRegLastSlot:
         db 046h,00h
-unk_D244E:
+EmuRegSlots:
         db 00h,00h,00h,00h,00h,00h,014h,00h,00h,00h,00h,08h,01h,00h,00h,00h
         db 01Eh,00h,0Ah,00h,00h,010h,02h,00h,00h,00h,028h,00h,014h,00h,00h,018h
         db 03h,00h,00h,00h,032h,00h,01Eh,00h,00h,020h,04h,00h,00h,00h,03Ch,00h
@@ -1178,11 +1180,8 @@ unk_D244E:
         db 00h,00h,00h,00h,03Ch,00h,00h,038h,07h,00h,00h,00h
 EmuRegTagMasks:
         db 0FCh,0FFh
-unk_D249C:
         db 01h,00h,00h,00h
-unk_D24A0:
         db 02h,00h
-unk_D24A2:
         db 03h,00h,0F3h,0FFh,04h,00h,00h,00h,08h,00h,0Ch,00h,0CFh,0FFh,010h,00h
         db 00h,00h,020h,00h,030h,00h,03Fh,0FFh,040h,00h,00h,00h,080h,00h,0C0h,00h
         db 0FFh,0FCh,00h,01h,00h,00h,00h,02h,00h,03h,0FFh,0F3h,00h,04h,00h,00h

@@ -1840,7 +1840,22 @@ D0343,toupper_,,WATCOM,high,IDA FLIRT library signature,
 D0692,CMainHook,sub_D0692,new,low,start-up hook (returns at once),src/lib/sound/snd_pcspeaker.asm
 D069B,__CommonInit_,sub_D069B,WATCOM,high,IDA FLIRT library signature (wa32rtd/wa32rt_),src/lib/watcom/watcom_clib_17.asm
 D06B0,IsTextModeWidth,sub_D06B0,new,low,"returns whether the saved video state is a text mode of 40, 80, 100, 128 or 132 columns",src/lib/watcom/watcom_clib_17.asm
+D06FC,SaveTextScreen,sub_D06FC,new,low,"saves the text mode screen and video state at start-up (""Save Text"")",src/lib/watcom/watcom_clib_17.asm
+D077C,RestoreTextScreen,sub_D077C,new,low,restores the text mode screen and video state at shutdown,src/lib/watcom/watcom_clib_17.asm
+D0800,PointerOnTarget,sub_D0800,new,low,returns 1 when the draw target is the screen the mouse pointer is drawn on,src/lib/watcom/watcom_clib_17.asm
+D0848,DrawPointer,sub_D0848,new,low,saves the background under the mouse pointer and draws the pointer shape,src/lib/watcom/watcom_clib_17.asm
+D0918,UpdatePointerPos,sub_D0918,new,low,takes the new mouse position and works out the pointer's rectangle,src/lib/watcom/watcom_clib_17.asm
+D0984,HidePointerKeep,sub_D0984,new,low,counts the mouse pointer hidden without restoring its background,src/lib/watcom/watcom_clib_17.asm
+D09FC,HidePointer,sub_D09FC,new,low,counts the mouse pointer hidden and puts back the background under it,src/lib/watcom/watcom_clib_17.asm
+D0AA4,ShowPointer,,new,low,counts the mouse pointer shown and draws it when the count reaches one,src/lib/watcom/watcom_clib_17.asm
+D0B78,RestoreUnderPointer,sub_D0B78,new,low,"puts back the saved background in part of the pointer's rectangle, clipped",src/lib/watcom/watcom_clib_17.asm
+D0C18,PointerService,,new,low,"moves the mouse pointer when the mouse has moved, redrawing only what changed",src/lib/watcom/watcom_clib_17.asm
+D0E90,PointerSetupBitmaps,sub_D0E90,new,low,frees and recreates the mouse pointer's shape and background bitmaps,src/lib/watcom/watcom_clib_17.asm
+D0FB8,PointerLoadShapes,sub_D0FB8,new,low,loads the mouse pointer shapes and sets them up,src/lib/watcom/watcom_clib_17.asm
+D1080,InitPointer,sub_D1080,new,low,"sets up the mouse and its pointer shapes (""ptr0ptr1ptr2"")",src/lib/watcom/watcom_clib_17.asm
+D1280,InstallDebugHotkeys,sub_D1280,new,low,"sets the debug hotkeys: memory viewer, screenshot, joystick calibration, keyboard display and others",src/lib/watcom/watcom_clib_17.asm
 D1368,DrawTextBoxedAt,sub_D1368,new,medium,"font library: (x, y, string) moves the text position and draws the string on its box",src/lib/watcom/watcom_clib_17.asm
+D142C,SaveStackSegment,sub_D142C,new,low,saves the stack segment selector,src/lib/watcom/watcom_clib_17.asm
 D1434,__CHK,,WATCOM,high,IDA FLIRT library signature,
 D1444,__GRO,,WATCOM,high,IDA FLIRT library signature,
 D1447,__STK,,WATCOM,high,IDA FLIRT library signature,
@@ -2068,6 +2083,34 @@ D7BFA,__cnvs2d_,,WATCOM,high,IDA FLIRT library signature,
 D7C08,__setenvp_,,WATCOM,high,IDA FLIRT library signature,
 D7CDC,__exit_with_msg_,,WATCOM,high,IDA FLIRT library signature,
 D7CE1,__fatal_runtime_error_,,WATCOM,high,IDA FLIRT library signature,
+D7DB0,DebugGetKey,sub_D7DB0,new,low,debug viewers: polls the hotkeys and returns the key pressed in upper case,src/lib/ea/ea_debug_02.asm
+D7DE0,MemViewer,,new,low,debug memory viewer: saves the screen and text state and runs the viewer,src/lib/ea/ea_debug_02.asm
+D7EF7,MemViewerKeys,,new,low,debug memory viewer: reads a key and moves the cursor or runs a command,src/lib/ea/ea_debug_02.asm
+D7FE8,MemViewerOpenAlt,,new,low,opens the debug memory viewer in its second display mode,src/lib/ea/ea_debug_02.asm
+D7FFC,MemViewerListHead,sub_D7FFC,new,low,"returns the head of the current memory list, or of its guard list",src/lib/ea/ea_debug_02.asm
+D8029,MemViewerLoopNext,,new,low,"debug memory viewer: pages the cursor down, then carries on in the command loop",src/lib/ea/ea_debug_02.asm
+D8046,MemViewerLoop,,new,low,"debug memory viewer command loop: cursor keys, block info, hex dump, shapes, palette, map dump and screenshots",src/lib/ea/ea_debug_02.asm
+D83B8,MemViewerSelectRow,sub_D83B8,new,low,debug memory viewer: records the block on the cursor row while drawing the list,src/lib/ea/ea_debug_02.asm
+D842C,FormatBlockFlags,sub_D842C,new,low,"writes a memory block's flag letters (h, r, p and others) into a string",src/lib/ea/ea_debug_02.asm
+D84AC,MemViewerDrawList,sub_D84AC,new,low,debug memory viewer: draws the memory totals and the list of blocks,src/lib/ea/ea_debug_02.asm
+D8AC4,MemPoolTotals,sub_D8AC4,new,low,"adds up the used, free and largest free sizes of the current memory list",src/lib/ea/ea_debug_02.asm
+D8B2C,MemViewerDrawTitle,sub_D8B2C,new,low,"debug memory viewer: draws the ""MEM MANAGER"" title bar",src/lib/ea/ea_debug_02.asm
+D8BEC,DebugSprintf,sub_D8BEC,new,low,formats a string through sprintf for the debug viewers,src/lib/ea/ea_debug_02.asm
+D8BFC,MemViewerBlockInfo,sub_D8BFC,new,low,debug memory viewer: shows a popup describing a memory block's flags,src/lib/ea/ea_debug_02.asm
+D8E98,MemViewerHexDump,sub_D8E98,new,low,debug memory viewer: hex dump of a memory block with paging keys,src/lib/ea/ea_debug_02.asm
+D9170,HexDumpRow,sub_D9170,new,low,"prints one row of a hex dump: offset, bytes and characters",src/lib/ea/ea_debug_02.asm
+D930C,WriteMemMap,sub_D930C,new,low,"writes the memory map to an open text file with a file, date and time header",src/lib/ea/ea_debug_02.asm
+D9410,DumpMemoryMap,sub_D9410,new,low,"writes the memory map to the next free ""xxMMAP??.TXT"" file",src/lib/ea/ea_debug_02.asm
+D94C0,ShapeViewer,sub_D94C0,new,low,debug shape viewer: steps through the shapes of a shape file and draws them,src/lib/ea/ea_debug_02.asm
+D9874,ReadShapeFileHeader,sub_D9874,new,low,"reads a shape file's name, size, count and directory",src/lib/ea/ea_debug_02.asm
+D98F4,ShapeInfo,sub_D98F4,new,low,"debug shape viewer: shows a shape's size, position and packing",src/lib/ea/ea_debug_02.asm
+D9AAC,DumpShapesList,sub_D9AAC,new,low,"writes a shape file's list of shapes to the next free ""MEMSHP??.TXT"" file",src/lib/ea/ea_debug_02.asm
+D9D5C,PaletteViewer,sub_D9D5C,new,low,debug palette viewer: shows the palette and lets each colour's RGB be edited,src/lib/ea/ea_debug_02.asm
+DA2D4,PaletteViewerLabel,sub_DA2D4,new,low,debug palette viewer: prints a colour number label,src/lib/ea/ea_debug_02.asm
+DA338,SaveScreenshot,sub_DA338,new,low,"saves the screen to the next free ""SCREEN??.tga"" file",src/lib/ea/ea_debug_02.asm
+DA3D0,MemViewerShowArt,sub_DA3D0,new,low,debug memory viewer: draws the art in a memory block,src/lib/ea/ea_debug_02.asm
+DA48C,FormatDateTime,sub_DA48C,new,low,formats the current DOS date and time as strings,src/lib/ea/ea_debug_02.asm
+DA508,NextFreeFileName,sub_DA508,new,low,fills in the ?? of a file name pattern with the first number not in use,src/lib/ea/ea_debug_02.asm
 DA5AF,outp_,,WATCOM,high,IDA FLIRT library signature,
 DA5BD,inp_,,WATCOM,high,IDA FLIRT library signature,
 DA5D0,GusSetupDmaChannel,sub_DA5D0,new,low,"fills the port table of an ISA DMA channel (mask, mode, clear, address, count and page registers)",src/lib/sound/snd_gus_sdk_02.asm
@@ -2226,6 +2269,8 @@ E17B8,TransposeMatrix,sub_E17B8,new,low,"transposes a 3x3 matrix, in place or in
 E1824,FillMem,sub_E1824,new,medium,"fills memory (dst, count, byte value)",src/lib/video/video_bios_vga_02.asm
 E1836,ZeroMem,sub_E1836,new,medium,"clears memory (dst, count) to zero",src/lib/video/video_bios_vga_02.asm
 E1927,PollHotkeys,sub_E1927,new,low,reads a key and dispatches its hotkey handler,src/lib/video/video_bios_vga_02.asm
+E193C,SaveDrawState,sub_E193C,new,medium,"copies the drawing state (screen sizes, clip rectangle, target) into a buffer",src/lib/input/input_joystick_misc_03.asm
+E1956,RestoreDrawState,sub_E1956,new,medium,copies a saved drawing state back,src/lib/input/input_joystick_misc_03.asm
 E19FE,SetupRectFill,sub_E19FE,new,medium,clips a rectangle and fills in its fill description,src/lib/video/video_bios_vga_03.asm
 E22DC,DispatchHotkey,sub_E22DC,new,medium,looks up the handler registered for a key (ASCII or extended scan code) and calls it,src/lib/video/video_bios_vga_03.asm
 E2335,SetHotkey,sub_E2335,new,low,"sets the routine run for a hotkey, adding it to the hotkey list",src/lib/video/video_bios_vga_03.asm

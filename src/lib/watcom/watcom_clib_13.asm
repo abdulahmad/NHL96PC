@@ -14,13 +14,13 @@ extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, o
 extern off_14F078, sprintf_, stricmp_, sub_AA9CC, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
 extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaqueAtOwnPos, InitMemoryPoolDefault, NumLockOff, NearestColour
 extern FileSizeByName, AddVec3, OriScaleVector, InitReciprocalTable, sub_BEAE4, initgraphics, sub_C2AEC, ArtBitDepth
-extern PixelToRgb, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
-extern sub_D1280, DrawTextBoxedAt, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
+extern PixelToRgb, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, SaveTextScreen, RestoreTextScreen, InitPointer
+extern InstallDebugHotkeys, DrawTextBoxedAt, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
 extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, SetBlitSource, CopyMappedSpan, CopyScaledSpanShadow
 extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, FillSpansSet, FillSpansXor, FillSpansAnd, FillSpansOr
 extern RemapSpans, sub_DFB84, sub_DFB88, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
-extern sub_E0486, AddExitHandler, sub_E0584, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, sub_E193C
-extern sub_E1956, RestoreTextMode, sub_E272C, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
+extern sub_E0486, AddExitHandler, sub_E0584, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, SaveDrawState
+extern RestoreDrawState, RestoreTextMode, sub_E272C, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
 extern FiniRtnsEntry, unk_15158C, unk_18584C, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
@@ -651,7 +651,7 @@ JoystickCalibrateScreen:
         jne near .5
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
@@ -1072,7 +1072,7 @@ JoystickCalibrateScreen:
         add esp, byte 4
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
         jmp short .5
 .4:
@@ -1252,7 +1252,7 @@ ShutdownSystem:
         je short .1
         mov eax, edx
         xor ebx, ebx
-        call sub_D077C
+        call RestoreTextScreen
         mov dword [dword_12443C], ebx
 .1:
         pop edx
@@ -1336,7 +1336,7 @@ InitSystem:
 .5:
         cmp dword [dword_11F5A0], byte 0
         jne short .6
-        call sub_D06FC
+        call SaveTextScreen
         db 068h                                 ; insn: push 0B5AF0h
         dd ShutdownSystem
         mov dword [dword_12443C], eax
@@ -1372,7 +1372,7 @@ InitSystem:
         call SetScreenTarget
         cmp dword [MousePresent], byte 0
         jne short .7
-        call sub_D1080
+        call InitPointer
 .7:
         push byte 64h
         call InstallTimer
@@ -1385,7 +1385,7 @@ InitSystem:
         push ZeroMem_29
         call SetKbdIdleHook
         add esp, byte 4
-        call sub_D1280
+        call InstallDebugHotkeys
         mov edx, dword [dword_11F5C4]
         push edx
         mov ebx, dword [dword_11F5C0]

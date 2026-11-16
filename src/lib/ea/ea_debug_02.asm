@@ -22,16 +22,17 @@ extern sub_ADA80, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, Neare
 extern sub_BF04B, initgraphics, sub_C2AEC, PrintBoxedText, ToUpperChar, sub_CFE0C, sub_CFE8C, sub_D0650
 extern DrawTextBoxedAt, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, SetScreenTarget, GetPaletteRange
 extern FillRectColor, SetClipWindow, sub_DD7B8, KbdGetKey, sub_DFF7C, FindShape, sub_E0584, PollHotkeys
-extern sub_E193C, sub_E1956, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
+extern SaveDrawState, RestoreDrawState, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
 extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, str_Un, unk_114930, unk_1213DC
-global sub_D7DB0_30, sub_D7DB0_147, sub_D7DB0_238, sub_D7FFC_2D, sub_D7FFC_4A, sub_D7DB0, sub_D7FFC, sub_D83B8
-global sub_D842C, sub_D84AC, sub_D8AC4, sub_D8B2C, sub_D8BEC, sub_D8BFC, sub_D8E98, sub_D9170
-global sub_D930C, sub_D9410, sub_D94C0, sub_D9874, sub_D98F4, sub_D9AAC, sub_D9D5C, sub_DA2D4
-global sub_DA338, sub_DA3D0, sub_DA48C, sub_DA508
+global MemViewer, MemViewerKeys, MemViewerOpenAlt, MemViewerLoopNext, MemViewerLoop, DebugGetKey, MemViewerListHead, MemViewerSelectRow
+global FormatBlockFlags, MemViewerDrawList, MemPoolTotals, MemViewerDrawTitle, DebugSprintf, MemViewerBlockInfo, MemViewerHexDump, HexDumpRow
+global WriteMemMap, DumpMemoryMap, ShapeViewer, ReadShapeFileHeader, ShapeInfo, DumpShapesList, PaletteViewer, PaletteViewerLabel
+global SaveScreenshot, MemViewerShowArt, FormatDateTime, NextFreeFileName
 ;-----------------------------------------------------------------------------
-; sub_D7DB0                                                            D7DB0  
+; DebugGetKey                                     D7DB0  96 PC, low confidence
+; Debug viewers: polls the hotkeys and returns the key pressed in upper case
 ;-----------------------------------------------------------------------------
-sub_D7DB0:
+DebugGetKey:
         push ebx
         push ecx
         push edx
@@ -56,7 +57,11 @@ sub_D7DB0:
         pop ebx
         ret
         db 08Dh,040h,00h
-sub_D7DB0_30:
+;-----------------------------------------------------------------------------
+; MemViewer                                       D7DE0  96 PC, low confidence
+; Debug memory viewer: saves the screen and text state and runs the viewer
+;-----------------------------------------------------------------------------
+MemViewer:
         cmp dword [dword_11F5A0], byte 9
         jne short .1
         push byte 0
@@ -79,7 +84,7 @@ sub_D7DB0_30:
         mov dword [dword esp+0B0h], eax
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
@@ -128,7 +133,11 @@ sub_D7DB0_30:
         xor edi, edi
         mov dword [dword esp+0BCh], eax
         mov dword [dword esp+0B8h], edi
-sub_D7DB0_147:
+;-----------------------------------------------------------------------------
+; MemViewerKeys                                   D7EF7  96 PC, low confidence
+; Debug memory viewer: reads a key and moves the cursor or runs a command
+;-----------------------------------------------------------------------------
+MemViewerKeys:
         mov ebx, dword [dword esp+0B0h]
         cmp ebx, dword [dword_1513BC]
         je short .4
@@ -145,7 +154,7 @@ sub_D7DB0_147:
         mov dword [dword esp+0BCh], eax
 .4:
         mov eax, 1
-        call sub_D7FFC
+        call MemViewerListHead
         xor ebx, ebx
         test eax, eax
         je short .6
@@ -159,7 +168,7 @@ sub_D7DB0_147:
         mov edx, dword [dword esp+0B4h]
         inc ebx
         mov eax, ebp
-        call sub_D84AC
+        call MemViewerDrawList
         mov edx, dword [dword esp+0B4h]
         add edx, byte 14h
         mov dword [dword esp+0C0h], eax
@@ -189,23 +198,28 @@ sub_D7DB0_147:
         mov ebp, dword [dword esp+0B4h]
 .9:
         cmp edi, 5100h
-        jne near sub_D7FFC_4A
+        jne near MemViewerLoop
         mov eax, dword [dword esp+0C4h]
         cmp ebp, eax
-        je short sub_D7FFC_2D
+        je short MemViewerLoopNext
         mov ebp, eax
-        jmp short sub_D7FFC_4A
+        jmp short MemViewerLoop
         db 090h
-sub_D7DB0_238:
+;-----------------------------------------------------------------------------
+; MemViewerOpenAlt                                D7FE8  96 PC, low confidence
+; Opens the debug memory viewer in its second display mode
+;-----------------------------------------------------------------------------
+MemViewerOpenAlt:
         mov edx, 1
         mov eax, edx
         mov dword [dword_1513BC], edx
-        jmp near sub_D7DB0_30.2
+        jmp near MemViewer.2
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D7FFC                                                            D7FFC  
+; MemViewerListHead                               D7FFC  96 PC, low confidence
+; Returns the head of the current memory list, or of its guard list
 ;-----------------------------------------------------------------------------
-sub_D7FFC:
+MemViewerListHead:
         push ebx
         push edx
         mov ebx, eax
@@ -224,14 +238,24 @@ sub_D7FFC:
         pop edx
         pop ebx
         ret
-sub_D7FFC_2D:
+;-----------------------------------------------------------------------------
+; MemViewerLoopNext                               D8029  96 PC, low confidence
+; Debug memory viewer: pages the cursor down, then carries on in the command
+; loop
+;-----------------------------------------------------------------------------
+MemViewerLoopNext:
         cmp eax, dword [dword esp+0C0h]
-        jge short sub_D7FFC_4A
+        jge short MemViewerLoop
         mov ebx, dword [dword esp+0B4h]
         add ebx, byte 15h
         lea ebp, [byte eax+015h]
         mov dword [dword esp+0B4h], ebx
-sub_D7FFC_4A:
+;-----------------------------------------------------------------------------
+; MemViewerLoop                                   D8046  96 PC, low confidence
+; Debug memory viewer command loop: cursor keys, block info, hex dump,
+; shapes, palette, map dump and screenshots
+;-----------------------------------------------------------------------------
+MemViewerLoop:
         cmp edi, 4800h
         jne short .2
         test ebp, ebp
@@ -287,7 +311,7 @@ sub_D7FFC_4A:
         mov ebx, dword [dword esp+0B0h]
         mov edx, dword [dword_1A11E0]
         mov eax, dword [dword_1A11C4]
-        call sub_D8E98
+        call MemViewerHexDump
 .9:
         cmp edi, byte 43h
         jne short .10
@@ -314,7 +338,7 @@ sub_D7FFC_4A:
         mov ebx, dword [dword esp+0B0h]
         mov edx, dword [dword_1A11D4]
         mov eax, dword [dword_1A11D8]
-        call sub_D8BFC
+        call MemViewerBlockInfo
 .13:
         cmp edi, byte 3Eh
         jne short .14
@@ -333,7 +357,7 @@ sub_D7FFC_4A:
         cmp edi, byte 20h
         jne short .18
 .17:
-        call sub_D9410
+        call DumpMemoryMap
 .18:
         cmp edi, byte 53h
         je short .19
@@ -352,7 +376,7 @@ sub_D7FFC_4A:
         mov edx, dword [dword_1A11E0]
         mov eax, dword [dword_1A11C4]
         mov ecx, edi
-        call sub_D94C0
+        call ShapeViewer
         jmp short .22
 .20:
         mov esi, dword [dword_1513C0]
@@ -369,18 +393,18 @@ sub_D7FFC_4A:
 .22:
         cmp edi, byte 56h
         jne short .23
-        call sub_DA338
+        call SaveScreenshot
 .23:
         cmp edi, byte 54h
         jne short .24
         mov eax, dword [dword esp+0B0h]
-        call sub_D9D5C
+        call PaletteViewer
 .24:
         cmp edi, byte 57h
         jne short .25
         mov edx, dword [dword esp+0B0h]
         mov eax, dword [dword_1A11C4]
-        call sub_DA3D0
+        call MemViewerShowArt
 .25:
         mov esi, dword [dword_1513C0]
         cmp edi, byte 41h
@@ -440,7 +464,7 @@ sub_D7FFC_4A:
         mov eax, dword [dword esp+0B8h]
         mov dword [dword_1513C0], esi
         test eax, eax
-        je near sub_D7DB0_147
+        je near MemViewerKeys
         mov eax, dword [dword esp+0B4h]
         mov dword [dword_1513C8], ebp
         mov dword [dword_1513C4], eax
@@ -465,7 +489,7 @@ sub_D7FFC_4A:
         add esp, byte 4
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         mov esi, dword [dword_1513C0]
         add esp, byte 4
         add esp, 0CCh
@@ -499,9 +523,11 @@ sub_D7FFC_4A:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D83B8                                                            D83B8  
+; MemViewerSelectRow                              D83B8  96 PC, low confidence
+; Debug memory viewer: records the block on the cursor row while drawing the
+; list
 ;-----------------------------------------------------------------------------
-sub_D83B8:
+MemViewerSelectRow:
         cmp edx, byte 2
         je short .4
         cmp eax, ebx
@@ -538,9 +564,10 @@ sub_D83B8:
         xor eax, eax
         ret 10h
 ;-----------------------------------------------------------------------------
-; sub_D842C                                                            D842C  
+; FormatBlockFlags                                D842C  96 PC, low confidence
+; Writes a memory block's flag letters (h, r, p and others) into a string
 ;-----------------------------------------------------------------------------
-sub_D842C:
+FormatBlockFlags:
         push ebx
         test al, 20h
         je short .1
@@ -595,9 +622,10 @@ sub_D842C:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_D84AC                                                            D84AC  
+; MemViewerDrawList                               D84AC  96 PC, low confidence
+; Debug memory viewer: draws the memory totals and the list of blocks
 ;-----------------------------------------------------------------------------
-sub_D84AC:
+MemViewerDrawList:
         push esi
         push edi
         push ebp
@@ -612,7 +640,7 @@ sub_D84AC:
         lea ebx, [byte ebp+062h]
         lea edx, [byte ebp+066h]
         lea eax, [byte ebp+05Eh]
-        call sub_D8AC4
+        call MemPoolTotals
         mov edx, dword [dword_185848]
         mov eax, dword [byte ebp+05Eh]
         push edx
@@ -815,7 +843,7 @@ sub_D84AC:
         push eax
         lea edx, [byte ebp+052h]
         mov eax, edi
-        call sub_D8B2C
+        call MemViewerDrawTitle
         mov eax, dword [byte ebp+03Eh]
         mov edx, dword [byte ebp+056h]
         cmp eax, edx
@@ -829,15 +857,15 @@ sub_D84AC:
         push edx
         mov eax, esi
         mov edx, dword [byte ebp+07Eh]
-        call sub_D83B8
+        call MemViewerSelectRow
         test eax, eax
         jne near .15
         lea edx, [byte ebp+032h]
         mov eax, dword [byte ebp+056h]
-        call sub_D8BEC
+        call DebugSprintf
         lea edx, [byte ebp+026h]
         mov eax, dword [byte ebp+046h]
-        call sub_D842C
+        call FormatBlockFlags
         mov eax, dword [byte ebp+03Eh]
         mov edx, dword [byte ebp+056h]
         mov ebx, dword [byte ebp+07Eh]
@@ -944,7 +972,7 @@ sub_D84AC:
         push edx
         mov eax, esi
         mov edx, dword [byte ebp+07Eh]
-        call sub_D83B8
+        call MemViewerSelectRow
         test eax, eax
         jne near .24
         cmp esi, dword [byte ebp+076h]
@@ -956,11 +984,11 @@ sub_D84AC:
 .17:
         lea edx, [byte ebp+032h]
         mov eax, dword [byte ebp+03Eh]
-        call sub_D8BEC
+        call DebugSprintf
         lea edx, [byte ebp+026h]
         mov eax, dword [byte ebp+046h]
         mov ecx, dword [byte ebp+07Eh]
-        call sub_D842C
+        call FormatBlockFlags
         test ecx, ecx
         jne short .20
         lea eax, [byte ebp+026h]
@@ -1140,9 +1168,10 @@ sub_D84AC:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_D8AC4                                                            D8AC4  
+; MemPoolTotals                                   D8AC4  96 PC, low confidence
+; Adds up the used, free and largest free sizes of the current memory list
 ;-----------------------------------------------------------------------------
-sub_D8AC4:
+MemPoolTotals:
         push esi
         push edi
         push ebp
@@ -1191,9 +1220,10 @@ sub_D8AC4:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_D8B2C                                                            D8B2C  
+; MemViewerDrawTitle                              D8B2C  96 PC, low confidence
+; Debug memory viewer: draws the "MEM MANAGER" title bar
 ;-----------------------------------------------------------------------------
-sub_D8B2C:
+MemViewerDrawTitle:
         push esi
         push edi
         push ebp
@@ -1266,9 +1296,10 @@ sub_D8B2C:
         pop esi
         ret 10h
 ;-----------------------------------------------------------------------------
-; sub_D8BEC                                                            D8BEC  
+; DebugSprintf                                    D8BEC  96 PC, low confidence
+; Formats a string through sprintf for the debug viewers
 ;-----------------------------------------------------------------------------
-sub_D8BEC:
+DebugSprintf:
         push eax
         push unk_114570
         push edx
@@ -1276,9 +1307,10 @@ sub_D8BEC:
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_D8BFC                                                            D8BFC  
+; MemViewerBlockInfo                              D8BFC  96 PC, low confidence
+; Debug memory viewer: shows a popup describing a memory block's flags
 ;-----------------------------------------------------------------------------
-sub_D8BFC:
+MemViewerBlockInfo:
         push ecx
         push esi
         push edi
@@ -1497,7 +1529,7 @@ sub_D8BFC:
         call sub_CFE0C
         call sub_DFF7C
 .14:
-        call sub_D7DB0
+        call DebugGetKey
         test eax, eax
         je short .14
 .15:
@@ -1509,9 +1541,10 @@ sub_D8BFC:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_D8E98                                                            D8E98  
+; MemViewerHexDump                                D8E98  96 PC, low confidence
+; Debug memory viewer: hex dump of a memory block with paging keys
 ;-----------------------------------------------------------------------------
-sub_D8E98:
+MemViewerHexDump:
         push ecx
         push esi
         push edi
@@ -1574,7 +1607,7 @@ sub_D8E98:
         mov ebx, eax
         mov eax, dword [byte esp+034h]
         mov dword [byte esp+014h], esi
-        call sub_D9170
+        call HexDumpRow
         call sub_CFE0C
 .6:
         call KbdGetKey
@@ -1796,9 +1829,10 @@ sub_D8E98:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D9170                                                            D9170  
+; HexDumpRow                                      D9170  96 PC, low confidence
+; Prints one row of a hex dump: offset, bytes and characters
 ;-----------------------------------------------------------------------------
-sub_D9170:
+HexDumpRow:
         push esi
         push edi
         push ebp
@@ -1940,9 +1974,11 @@ sub_D9170:
         pop esi
         ret 8
 ;-----------------------------------------------------------------------------
-; sub_D930C                                                            D930C  
+; WriteMemMap                                     D930C  96 PC, low confidence
+; Writes the memory map to an open text file with a file, date and time
+; header
 ;-----------------------------------------------------------------------------
-sub_D930C:
+WriteMemMap:
         push esi
         push edi
         push ebp
@@ -1954,7 +1990,7 @@ sub_D930C:
         mov eax, esp
         mov dword [dword_1A11D0], edx
         lea edx, [byte esp+014h]
-        call sub_DA48C
+        call FormatDateTime
         mov edx, dword [off_1513B0]
         push edx
         push str_S9
@@ -2006,7 +2042,7 @@ sub_D930C:
         add esp, byte 0Ch
         mov eax, 1
         xor ebx, ebx
-        call sub_D7FFC
+        call MemViewerListHead
         test eax, eax
         je short .4
 .3:
@@ -2019,7 +2055,7 @@ sub_D930C:
         inc ebx
         xor edx, edx
         xor eax, eax
-        call sub_D84AC
+        call MemViewerDrawList
         mov eax, 1
 .5:
         add esp, byte 28h
@@ -2029,9 +2065,10 @@ sub_D930C:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_D9410                                                            D9410  
+; DumpMemoryMap                                   D9410  96 PC, low confidence
+; Writes the memory map to the next free "xxMMAP??.TXT" file
 ;-----------------------------------------------------------------------------
-sub_D9410:
+DumpMemoryMap:
         push ebx
         push ecx
         push edx
@@ -2049,7 +2086,7 @@ sub_D9410:
         mov byte [esp], ah
         mov eax, esp
         mov byte [byte esp+01h], dl
-        call sub_DA508
+        call NextFreeFileName
         mov edx, dword [dword_11F5A0]
         mov esi, dword [dword_18573C]
         test edx, edx
@@ -2080,7 +2117,7 @@ sub_D9410:
         mov esi, esp
         push esi
         push eax
-        call sub_D930C
+        call WriteMemMap
         add esp, byte 8
         mov eax, dword [dword_1A11D0]
         call fclose_
@@ -2104,9 +2141,10 @@ sub_D9410:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_D94C0                                                            D94C0  
+; ShapeViewer                                     D94C0  96 PC, low confidence
+; Debug shape viewer: steps through the shapes of a shape file and draws them
 ;-----------------------------------------------------------------------------
-sub_D94C0:
+ShapeViewer:
         push esi
         push edi
         push ebp
@@ -2123,7 +2161,7 @@ sub_D94C0:
         push eax
         lea edx, [byte esp+030h]
         mov eax, dword [byte esp+038h]
-        call sub_D9874
+        call ReadShapeFileHeader
         mov edx, dword [byte esp+024h]
         push edx
         call sub_BF02C
@@ -2159,7 +2197,7 @@ sub_D94C0:
         call sub_CFE0C
         call sub_DFF7C
 .2:
-        call sub_D7DB0
+        call DebugGetKey
         test eax, eax
         je short .2
         cmp eax, byte 59h
@@ -2290,7 +2328,7 @@ sub_D94C0:
         cmp eax, byte 21h
         je near .20
         mov eax, edi
-        call sub_D98F4
+        call ShapeInfo
         mov dword [byte esp+040h], eax
         test eax, eax
         je short .19
@@ -2433,11 +2471,11 @@ sub_D94C0:
         cmp ebp, byte 50h
         jne short .33
         mov eax, dword [byte esp+02Ch]
-        call sub_D9AAC
+        call DumpShapesList
 .33:
         cmp ebp, byte 56h
         jne short .34
-        call sub_DA338
+        call SaveScreenshot
 .34:
         cmp dword [byte esp+030h], byte 0
         je near .13
@@ -2448,9 +2486,10 @@ sub_D94C0:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_D9874                                                            D9874  
+; ReadShapeFileHeader                             D9874  96 PC, low confidence
+; Reads a shape file's name, size, count and directory
 ;-----------------------------------------------------------------------------
-sub_D9874:
+ReadShapeFileHeader:
         push esi
         push edi
         push ebp
@@ -2503,9 +2542,10 @@ sub_D9874:
         ret 0Ch
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D98F4                                                            D98F4  
+; ShapeInfo                                       D98F4  96 PC, low confidence
+; Debug shape viewer: shows a shape's size, position and packing
 ;-----------------------------------------------------------------------------
-sub_D98F4:
+ShapeInfo:
         push ebx
         push ecx
         push edx
@@ -2642,7 +2682,7 @@ sub_D98F4:
         call sub_CFE0C
         call sub_DFF7C
 .6:
-        call sub_D7DB0
+        call DebugGetKey
         test eax, eax
         je short .6
         cmp eax, byte 59h
@@ -2664,9 +2704,10 @@ sub_D98F4:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_D9AAC                                                            D9AAC  
+; DumpShapesList                                  D9AAC  96 PC, low confidence
+; Writes a shape file's list of shapes to the next free "MEMSHP??.TXT" file
 ;-----------------------------------------------------------------------------
-sub_D9AAC:
+DumpShapesList:
         push ebx
         push ecx
         push edx
@@ -2683,7 +2724,7 @@ sub_D9AAC:
         push edx
         lea ebx, [dword esp+08Ch]
         lea edx, [dword esp+090h]
-        call sub_D9874
+        call ReadShapeFileHeader
         mov eax, dword [byte esp+07Ch]
         mov eax, dword [eax]
         mov edi, esp
@@ -2696,7 +2737,7 @@ sub_D9AAC:
         movsd
         movsd
         movsb
-        call sub_DA508
+        call NextFreeFileName
         push byte 14h
         lea eax, [byte esp+04h]
         push eax
@@ -2721,7 +2762,7 @@ sub_D9AAC:
         lea edx, [byte esp+054h]
         lea eax, [byte esp+040h]
         mov dword [dword_18573C], esi
-        call sub_DA48C
+        call FormatDateTime
         mov edx, dword [off_1513B0]
         push edx
         push str_S9
@@ -2877,9 +2918,11 @@ sub_D9AAC:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_D9D5C                                                            D9D5C  
+; PaletteViewer                                   D9D5C  96 PC, low confidence
+; Debug palette viewer: shows the palette and lets each colour's RGB be
+; edited
 ;-----------------------------------------------------------------------------
-sub_D9D5C:
+PaletteViewer:
         push ebx
         push ecx
         push edx
@@ -2900,7 +2943,7 @@ sub_D9D5C:
         add esp, byte 4
         call sub_CFE0C
         xor eax, eax
-        call sub_DA2D4
+        call PaletteViewerLabel
         push dword 0FFh
         push dword 0A3h
         push dword 120h
@@ -2979,12 +3022,12 @@ sub_D9D5C:
         cmp eax, byte 30h
         jne short .4
         xor eax, eax
-        call sub_DA2D4
+        call PaletteViewerLabel
 .4:
         cmp ebp, byte 31h
         jne short .5
         mov eax, 1
-        call sub_DA2D4
+        call PaletteViewerLabel
 .5:
         cmp ebp, byte 52h
         jne short .8
@@ -3080,7 +3123,7 @@ sub_D9D5C:
         cmp ebp, byte 76h
         jne short .23
 .22:
-        call sub_DA338
+        call SaveScreenshot
 .23:
         cmp ebp, 4700h
         jne short .25
@@ -3292,9 +3335,10 @@ sub_D9D5C:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_DA2D4                                                            DA2D4  
+; PaletteViewerLabel                              DA2D4  96 PC, low confidence
+; Debug palette viewer: prints a colour number label
 ;-----------------------------------------------------------------------------
-sub_DA2D4:
+PaletteViewerLabel:
         push ebx
         push ecx
         push edx
@@ -3338,9 +3382,10 @@ sub_DA2D4:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_DA338                                                            DA338  
+; SaveScreenshot                                  DA338  96 PC, low confidence
+; Saves the screen to the next free "SCREEN??.tga" file
 ;-----------------------------------------------------------------------------
-sub_DA338:
+SaveScreenshot:
         push esi
         push edi
         push ebp
@@ -3353,7 +3398,7 @@ sub_DA338:
         movsd
         movsw
         movsb
-        call sub_DA508
+        call NextFreeFileName
         lea edi, [byte esp+068h]
         push byte 14h
         lea eax, [byte esp+064h]
@@ -3366,7 +3411,7 @@ sub_DA338:
         call sub_CFE0C
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
         call SetScreenTarget
         mov edx, dword [dword_11F5C4]
@@ -3383,7 +3428,7 @@ sub_DA338:
         add esp, byte 4
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
         mov dword [dword_18573C], ebp
         add esp, 0A0h
@@ -3393,9 +3438,10 @@ sub_DA338:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_DA3D0                                                            DA3D0  
+; MemViewerShowArt                                DA3D0  96 PC, low confidence
+; Debug memory viewer: draws the art in a memory block
 ;-----------------------------------------------------------------------------
-sub_DA3D0:
+MemViewerShowArt:
         push ebx
         push ecx
         push esi
@@ -3413,7 +3459,7 @@ sub_DA3D0:
         mov esi, dword [byte eax+02Ch]
         call SetScreenTarget
         mov eax, esi
-        call sub_D98F4
+        call ShapeInfo
         test eax, eax
         je near .9
         mov edx, dword [esi]
@@ -3453,13 +3499,13 @@ sub_DA3D0:
         call sub_CFE0C
         call sub_DFF7C
 .7:
-        call sub_D7DB0
+        call DebugGetKey
         test eax, eax
         je short .7
         mov edx, 1
         cmp eax, byte 56h
         jne short .8
-        call sub_DA338
+        call SaveScreenshot
         mov edx, esi
 .8:
         test edx, edx
@@ -3471,9 +3517,10 @@ sub_DA3D0:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_DA48C                                                            DA48C  
+; FormatDateTime                                  DA48C  96 PC, low confidence
+; Formats the current DOS date and time as strings
 ;-----------------------------------------------------------------------------
-sub_DA48C:
+FormatDateTime:
         push ebx
         push ecx
         push esi
@@ -3522,9 +3569,10 @@ sub_DA48C:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_DA508                                                            DA508  
+; NextFreeFileName                                DA508  96 PC, low confidence
+; Fills in the ?? of a file name pattern with the first number not in use
 ;-----------------------------------------------------------------------------
-sub_DA508:
+NextFreeFileName:
         push ebx
         push ecx
         push edx

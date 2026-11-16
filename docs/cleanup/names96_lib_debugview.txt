@@ -1,0 +1,28 @@
+sub_D7DB0 DebugGetKey {confidence=low,source=new} debug viewers: polls the hotkeys and returns the key pressed in upper case
+sub_D7DB0_30 MemViewer {confidence=low,source=new} debug memory viewer: saves the screen and text state and runs the viewer
+sub_D7DB0_147 MemViewerKeys {confidence=low,source=new} debug memory viewer: reads a key and moves the cursor or runs a command
+sub_D7DB0_238 MemViewerOpenAlt {confidence=low,source=new} opens the debug memory viewer in its second display mode
+sub_D7FFC MemViewerListHead {confidence=low,source=new} returns the head of the current memory list, or of its guard list
+sub_D7FFC_2D MemViewerLoopNext {confidence=low,source=new} debug memory viewer: pages the cursor down, then carries on in the command loop
+sub_D7FFC_4A MemViewerLoop {confidence=low,source=new} debug memory viewer command loop: cursor keys, block info, hex dump, shapes, palette, map dump and screenshots
+sub_D83B8 MemViewerSelectRow {confidence=low,source=new} debug memory viewer: records the block on the cursor row while drawing the list
+sub_D842C FormatBlockFlags {confidence=low,source=new} writes a memory block's flag letters (h, r, p and others) into a string
+sub_D84AC MemViewerDrawList {confidence=low,source=new} debug memory viewer: draws the memory totals and the list of blocks
+sub_D8AC4 MemPoolTotals {confidence=low,source=new} adds up the used, free and largest free sizes of the current memory list
+sub_D8B2C MemViewerDrawTitle {confidence=low,source=new} debug memory viewer: draws the "MEM MANAGER" title bar
+sub_D8BEC DebugSprintf {confidence=low,source=new} formats a string through sprintf for the debug viewers
+sub_D8BFC MemViewerBlockInfo {confidence=low,source=new} debug memory viewer: shows a popup describing a memory block's flags
+sub_D8E98 MemViewerHexDump {confidence=low,source=new} debug memory viewer: hex dump of a memory block with paging keys
+sub_D9170 HexDumpRow {confidence=low,source=new} prints one row of a hex dump: offset, bytes and characters
+sub_D930C WriteMemMap {confidence=low,source=new} writes the memory map to an open text file with a file, date and time header
+sub_D9410 DumpMemoryMap {confidence=low,source=new} writes the memory map to the next free "xxMMAP??.TXT" file
+sub_D94C0 ShapeViewer {confidence=low,source=new} debug shape viewer: steps through the shapes of a shape file and draws them
+sub_D9874 ReadShapeFileHeader {confidence=low,source=new} reads a shape file's name, size, count and directory
+sub_D98F4 ShapeInfo {confidence=low,source=new} debug shape viewer: shows a shape's size, position and packing
+sub_D9AAC DumpShapesList {confidence=low,source=new} writes a shape file's list of shapes to the next free "MEMSHP??.TXT" file
+sub_D9D5C PaletteViewer {confidence=low,source=new} debug palette viewer: shows the palette and lets each colour's RGB be edited
+sub_DA2D4 PaletteViewerLabel {confidence=low,source=new} debug palette viewer: prints a colour number label
+sub_DA338 SaveScreenshot {confidence=low,source=new} saves the screen to the next free "SCREEN??.tga" file
+sub_DA3D0 MemViewerShowArt {confidence=low,source=new} debug memory viewer: draws the art in a memory block
+sub_DA48C FormatDateTime {confidence=low,source=new} formats the current DOS date and time as strings
+sub_DA508 NextFreeFileName {confidence=low,source=new} fills in the ?? of a file name pattern with the first number not in use

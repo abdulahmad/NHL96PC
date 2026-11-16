@@ -1,0 +1,17 @@
+sub_E193C SaveDrawState {confidence=medium,source=new} copies the drawing state (screen sizes, clip rectangle, target) into a buffer
+sub_E1956 RestoreDrawState {confidence=medium,source=new} copies a saved drawing state back
+sub_D06FC SaveTextScreen {confidence=low,source=new} saves the text mode screen and video state at start-up ("Save Text")
+sub_D077C RestoreTextScreen {confidence=low,source=new} restores the text mode screen and video state at shutdown
+sub_D0800 PointerOnTarget {confidence=low,source=new} returns 1 when the draw target is the screen the mouse pointer is drawn on
+sub_D0848 DrawPointer {confidence=low,source=new} saves the background under the mouse pointer and draws the pointer shape
+sub_D0918 UpdatePointerPos {confidence=low,source=new} takes the new mouse position and works out the pointer's rectangle
+sub_D0984 HidePointerKeep {confidence=low,source=new} counts the mouse pointer hidden without restoring its background
+sub_D09FC HidePointer {confidence=low,source=new} counts the mouse pointer hidden and puts back the background under it
+sub_D09FC_A8 ShowPointer {confidence=low,source=new} counts the mouse pointer shown and draws it when the count reaches one
+sub_D0B78 RestoreUnderPointer {confidence=low,source=new} puts back the saved background in part of the pointer's rectangle, clipped
+sub_D0B78_A0 PointerService {confidence=low,source=new} moves the mouse pointer when the mouse has moved, redrawing only what changed
+sub_D0E90 PointerSetupBitmaps {confidence=low,source=new} frees and recreates the mouse pointer's shape and background bitmaps
+sub_D0FB8 PointerLoadShapes {confidence=low,source=new} loads the mouse pointer shapes and sets them up
+sub_D1080 InitPointer {confidence=low,source=new} sets up the mouse and its pointer shapes ("ptr0ptr1ptr2")
+sub_D1280 InstallDebugHotkeys {confidence=low,source=new} sets the debug hotkeys: memory viewer, screenshot, joystick calibration, keyboard display and others
+sub_D142C SaveStackSegment {confidence=low,source=new} saves the stack segment selector

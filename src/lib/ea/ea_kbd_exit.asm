@@ -5,7 +5,7 @@ section s_C27F8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, BackBufferWidth, joycalactive, mousepollfn, off_11F5F4
 extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, CreateBitmap, FillRect, sub_ADA80, FreeBitmap
 extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, NearestColour, DrawArtFast, sub_CFE0C
-extern sub_CFE20, sub_CFE70, SetScreenTarget, SetClipRect, KbdGetKey, sub_E193C, sub_E1956, DebugLineCount
+extern sub_CFE20, sub_CFE70, SetScreenTarget, SetClipRect, KbdGetKey, SaveDrawState, RestoreDrawState, DebugLineCount
 extern unk_1213DC
 global sub_C27F8, sub_C2AC4, sub_C2AEC, sub_C2C5C, DosGetVector, DosSetVector
 ;-----------------------------------------------------------------------------
@@ -41,7 +41,7 @@ sub_C27F8:
         mov dword [dword esp+0A8h], eax
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
@@ -182,7 +182,7 @@ sub_C27F8:
         add esp, byte 4
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
         mov esi, dword [dword esp+0A8h]
         push esi
@@ -243,7 +243,7 @@ sub_C2AEC:
         mov esi, eax
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
@@ -313,7 +313,7 @@ sub_C2AEC:
         add esp, byte 4
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
         push esi
         call FreeBitmap

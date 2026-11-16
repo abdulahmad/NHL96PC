@@ -3,11 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_E193C progbits alloc exec nowrite align=1
 extern ScreenWidth
-global sub_E193C, sub_E1956
+global SaveDrawState, RestoreDrawState
 ;-----------------------------------------------------------------------------
-; sub_E193C                                                            E193C  
+; SaveDrawState                                E193C  96 PC, medium confidence
+; Copies the drawing state (screen sizes, clip rectangle, target) into a
+; buffer
 ;-----------------------------------------------------------------------------
-sub_E193C:
+SaveDrawState:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -22,9 +24,10 @@ sub_E193C:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_E1956                                                            E1956  
+; RestoreDrawState                             E1956  96 PC, medium confidence
+; Copies a saved drawing state back
 ;-----------------------------------------------------------------------------
-sub_E1956:
+RestoreDrawState:
         push ebp
         LD mov, ebp, esp
         push esi

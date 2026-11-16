@@ -5,7 +5,7 @@ section s_AD680 progbits alloc exec nowrite align=1
 extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, ScreenWidth, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, dword_123934, FreeMemBlock
 extern sub_ABF88, removewindow, SetScreenTarget, VesaSetBank, FillRectCore, XorRectCore, sub_E0584, FillMem
-extern sub_E193C, sub_E1956
+extern SaveDrawState, RestoreDrawState
 global fputchar, mem_putc_, FillRect, sub_AD824, XorRect, sub_AD9DC, sub_ADA50, sub_ADA80
 global sub_ADB30, FreeBitmap
 ;-----------------------------------------------------------------------------
@@ -409,7 +409,7 @@ sub_ADA50:
         sub esp, byte 60h
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
         call SetScreenTarget
         mov edx, dword [byte esp+064h]
@@ -418,7 +418,7 @@ sub_ADA50:
         add esp, byte 4
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
         add esp, byte 60h
         ret

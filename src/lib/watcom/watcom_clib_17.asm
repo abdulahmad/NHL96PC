@@ -8,15 +8,15 @@ extern dword_11FA18, TextOriginX, TextOriginY, ClipTopRow, ClipLeftCol, ClipRigh
 extern BackBufferWidth, _STACKLOW, __amblksiz, dword_14FAD8, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4
 extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
-extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, sub_D7DB0_30, sub_D7DB0_238, SetHotkey_5B
+extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, MemViewer, MemViewerOpenAlt, SetHotkey_5B
 extern SetHotkey_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, DrawArtRemapFunc, sprintf_
 extern DrawShapeCore, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
 extern FreeBitmap, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
-extern JoystickCalibrateScreen, ShowKeyboardOn, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
-extern MouseReadMotion, sub_DFA98, bcopy, sub_E193C, sub_E1956, SetHotkey, IntrStubs, SavedStackSegment
-global __CHK, __GRO, __STK, __int386x_, sub_D09FC_A8, sub_D0B78_A0, __CommonInit_, IsTextModeWidth
-global sub_D06FC, sub_D077C, sub_D0800, sub_D0848, sub_D0918, sub_D0984, sub_D09FC, sub_D0B78
-global sub_D0E90, sub_D0FB8, sub_D1080, sub_D1280, DrawTextBoxedAt, sub_D142C, IntrLoadSegRegs
+extern JoystickCalibrateScreen, ShowKeyboardOn, sub_CFE8C, SaveScreenshot, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
+extern MouseReadMotion, sub_DFA98, bcopy, SaveDrawState, RestoreDrawState, SetHotkey, IntrStubs, SavedStackSegment
+global __CHK, __GRO, __STK, __int386x_, ShowPointer, PointerService, __CommonInit_, IsTextModeWidth
+global SaveTextScreen, RestoreTextScreen, PointerOnTarget, DrawPointer, UpdatePointerPos, HidePointerKeep, HidePointer, RestoreUnderPointer
+global PointerSetupBitmaps, PointerLoadShapes, InitPointer, InstallDebugHotkeys, DrawTextBoxedAt, SaveStackSegment, IntrLoadSegRegs
 ;-----------------------------------------------------------------------------
 ; __CommonInit_                                                 D069B  library
 ;-----------------------------------------------------------------------------
@@ -65,9 +65,10 @@ IsTextModeWidth:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_D06FC                                                            D06FC  
+; SaveTextScreen                                  D06FC  96 PC, low confidence
+; Saves the text mode screen and video state at start-up ("Save Text")
 ;-----------------------------------------------------------------------------
-sub_D06FC:
+SaveTextScreen:
         push ebx
         push ecx
         push edx
@@ -122,9 +123,10 @@ sub_D06FC:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D077C                                                            D077C  
+; RestoreTextScreen                               D077C  96 PC, low confidence
+; Restores the text mode screen and video state at shutdown
 ;-----------------------------------------------------------------------------
-sub_D077C:
+RestoreTextScreen:
         push ebx
         push ecx
         push edx
@@ -181,9 +183,10 @@ sub_D077C:
         ret
         db 00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_D0800                                                            D0800  
+; PointerOnTarget                                 D0800  96 PC, low confidence
+; Returns 1 when the draw target is the screen the mouse pointer is drawn on
 ;-----------------------------------------------------------------------------
-sub_D0800:
+PointerOnTarget:
         mov edx, dword [dword_1A10CC]
         mov eax, dword [dword_1228FC]
         cmp eax, dword [byte edx+02Ch]
@@ -208,9 +211,10 @@ sub_D0800:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_D0848                                                            D0848  
+; DrawPointer                                     D0848  96 PC, low confidence
+; Saves the background under the mouse pointer and draws the pointer shape
 ;-----------------------------------------------------------------------------
-sub_D0848:
+DrawPointer:
         push esi
         push ebp
         sub esp, byte 60h
@@ -219,7 +223,7 @@ sub_D0848:
         je near .3
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
         mov ebx, dword [dword_1A10F0]
         push ebx
@@ -245,9 +249,9 @@ sub_D0848:
         add esp, byte 0Ch
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
-        call sub_D0800
+        call PointerOnTarget
         test eax, eax
         jne short .2
         mov eax, dword [dword_1A10CC]
@@ -271,7 +275,7 @@ sub_D0848:
         add esp, byte 0Ch
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
 .3:
         add esp, byte 60h
@@ -280,9 +284,10 @@ sub_D0848:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_D0918                                                            D0918  
+; UpdatePointerPos                                D0918  96 PC, low confidence
+; Takes the new mouse position and works out the pointer's rectangle
 ;-----------------------------------------------------------------------------
-sub_D0918:
+UpdatePointerPos:
         push esi
         mov eax, dword [MouseMoved]
         mov dword [dword_1A10C0], eax
@@ -316,9 +321,10 @@ sub_D0918:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D0984                                                            D0984  
+; HidePointerKeep                                 D0984  96 PC, low confidence
+; Counts the mouse pointer hidden without restoring its background
 ;-----------------------------------------------------------------------------
-sub_D0984:
+HidePointerKeep:
         sub esp, byte 60h
         mov edx, dword [dword_11F5B4]
         dec edx
@@ -326,9 +332,9 @@ sub_D0984:
         jne short .3
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
-        call sub_D0800
+        call PointerOnTarget
         test eax, eax
         jne short .2
         mov eax, dword [dword_1A10CC]
@@ -351,15 +357,16 @@ sub_D0984:
         mov dword [dword_1A10FC], eax
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
 .3:
         add esp, byte 60h
         ret
 ;-----------------------------------------------------------------------------
-; sub_D09FC                                                            D09FC  
+; HidePointer                                     D09FC  96 PC, low confidence
+; Counts the mouse pointer hidden and puts back the background under it
 ;-----------------------------------------------------------------------------
-sub_D09FC:
+HidePointer:
         push esi
         push edi
         push ebp
@@ -370,9 +377,9 @@ sub_D09FC:
         jne near .4
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
-        call sub_D0800
+        call PointerOnTarget
         test eax, eax
         jne short .2
         mov eax, dword [dword_1A10CC]
@@ -407,7 +414,7 @@ sub_D09FC:
 .3:
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
 .4:
         add esp, byte 60h
@@ -416,7 +423,11 @@ sub_D09FC:
         pop esi
         ret
         db 08Bh,0C0h
-sub_D09FC_A8:
+;-----------------------------------------------------------------------------
+; ShowPointer                                     D0AA4  96 PC, low confidence
+; Counts the mouse pointer shown and draws it when the count reaches one
+;-----------------------------------------------------------------------------
+ShowPointer:
         push esi
         push edi
         push ebp
@@ -430,9 +441,9 @@ sub_D09FC_A8:
         jne near .10
         lea eax, [byte ebp-060h]
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
-        call sub_D0800
+        call PointerOnTarget
         test eax, eax
         jne short .6
         mov eax, dword [dword_1A10CC]
@@ -477,10 +488,10 @@ sub_D09FC_A8:
         call DrawShapeCore
         add esp, byte 0Ch
 .9:
-        call sub_D0848
+        call DrawPointer
         lea eax, [byte ebp-060h]
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
 .10:
         mov dword [dword_11F5B4], 1
@@ -492,9 +503,10 @@ sub_D09FC_A8:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D0B78                                                            D0B78  
+; RestoreUnderPointer                             D0B78  96 PC, low confidence
+; Puts back the saved background in part of the pointer's rectangle, clipped
 ;-----------------------------------------------------------------------------
-sub_D0B78:
+RestoreUnderPointer:
         push esi
         push edi
         push ebp
@@ -504,7 +516,7 @@ sub_D0B78:
         mov edi, dword [dword esp+084h]
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         mov edx, dword [ClipTopRow]
         add esp, byte 4
         cmp ebp, edx
@@ -548,14 +560,19 @@ sub_D0B78:
 .5:
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
         add esp, byte 60h
         pop ebp
         pop edi
         pop esi
         ret
-sub_D0B78_A0:
+;-----------------------------------------------------------------------------
+; PointerService                                  D0C18  96 PC, low confidence
+; Moves the mouse pointer when the mouse has moved, redrawing only what
+; changed
+;-----------------------------------------------------------------------------
+PointerService:
         call MouseReadMotion
         lea eax, [byte eax+00h]
         push esi
@@ -584,9 +601,9 @@ sub_D0B78_A0:
         je near .15
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
-        call sub_D0800
+        call PointerOnTarget
         test eax, eax
         jne short .8
         mov eax, dword [dword_1A10CC]
@@ -602,7 +619,7 @@ sub_D0B78_A0:
         call sub_CFE8C
         mov esi, dword [dword_1A10D4]
         mov edi, dword [dword_1A10D0]
-        call sub_D0918
+        call UpdatePointerPos
         cmp esi, dword [dword_1A10D4]
         jne short .9
         cmp edi, dword [dword_1A10D0]
@@ -637,9 +654,9 @@ sub_D0B78_A0:
         add esp, byte 0Ch
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
-        call sub_D0800
+        call PointerOnTarget
         test eax, eax
         jne short .11
         mov eax, dword [dword_1A10CC]
@@ -667,7 +684,7 @@ sub_D0B78_A0:
         mov edx, dword [ScreenHeight]
         push esi
         mov dword [byte esp+07Ch], edx
-        call sub_D0B78
+        call RestoreUnderPointer
         add esp, byte 18h
         mov eax, dword [dword_1A10D0]
         mov edx, dword [byte esp+064h]
@@ -680,7 +697,7 @@ sub_D0B78_A0:
         push ebp
         push edi
         push esi
-        call sub_D0B78
+        call RestoreUnderPointer
         mov eax, dword [dword_1A10D0]
         mov edx, dword [dword_1A10E0]
         add esp, byte 18h
@@ -693,7 +710,7 @@ sub_D0B78_A0:
         push ebp
         push edi
         push esi
-        call sub_D0B78
+        call RestoreUnderPointer
         mov eax, dword [dword_1A10D0]
         mov ebp, dword [dword_1A10E0]
         add esp, byte 18h
@@ -709,13 +726,13 @@ sub_D0B78_A0:
         push eax
         push edi
         push esi
-        call sub_D0B78
+        call RestoreUnderPointer
         add esp, byte 18h
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
-        call sub_D0800
+        call PointerOnTarget
         test eax, eax
         jne short .13
         mov eax, dword [dword_1A10CC]
@@ -734,10 +751,10 @@ sub_D0B78_A0:
         mov dword [dword_1A10C4], eax
         mov dword [dword_1A10DC], esi
 .14:
-        call sub_D0848
+        call DrawPointer
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
 .15:
         mov eax, dword [dword_1A10C0]
@@ -755,9 +772,10 @@ sub_D0B78_A0:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_D0E90                                                            D0E90  
+; PointerSetupBitmaps                             D0E90  96 PC, low confidence
+; Frees and recreates the mouse pointer's shape and background bitmaps
 ;-----------------------------------------------------------------------------
-sub_D0E90:
+PointerSetupBitmaps:
         push esi
         push edi
         push ebp
@@ -851,9 +869,10 @@ sub_D0E90:
         mov dword [byte edx+08h], eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_D0FB8                                                            D0FB8  
+; PointerLoadShapes                               D0FB8  96 PC, low confidence
+; Loads the mouse pointer shapes and sets them up
 ;-----------------------------------------------------------------------------
-sub_D0FB8:
+PointerLoadShapes:
         push esi
         push edi
         push ebp
@@ -902,7 +921,7 @@ sub_D0FB8:
         push edi
         mov esi, dword [byte esp+0Ch]
         push esi
-        call sub_D0E90
+        call PointerSetupBitmaps
         add esp, byte 10h
         xor eax, eax
 .5:
@@ -932,9 +951,10 @@ sub_D0FB8:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D1080                                                            D1080  
+; InitPointer                                     D1080  96 PC, low confidence
+; Sets up the mouse and its pointer shapes ("ptr0ptr1ptr2")
 ;-----------------------------------------------------------------------------
-sub_D1080:
+InitPointer:
         push esi
         push edi
         push ebp
@@ -1010,17 +1030,17 @@ sub_D1080:
 .4:
         lea eax, [dword esp+080h]
         push eax
-        mov edi, sub_D09FC_A8
-        mov ebp, sub_D0B78_A0
-        call sub_D0FB8
-        mov ebx, sub_D0984
-        mov ecx, sub_D09FC
+        mov edi, ShowPointer
+        mov ebp, PointerService
+        call PointerLoadShapes
+        mov ebx, HidePointerKeep
+        mov ecx, HidePointer
         add esp, byte 4
         mov dword [off_11F5FC], edi
         mov dword [mousepollfn], ebp
         mov dword [off_11F5F4], ebx
         mov dword [off_11F5F8], ecx
-        call sub_D0918
+        call UpdatePointerPos
         mov dword [dword_14FAD8], 1
 .5:
         mov eax, esi
@@ -1073,16 +1093,18 @@ sub_D1080:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_D1280                                                            D1280  
+; InstallDebugHotkeys                             D1280  96 PC, low confidence
+; Sets the debug hotkeys: memory viewer, screenshot, joystick calibration,
+; keyboard display and others
 ;-----------------------------------------------------------------------------
-sub_D1280:
-        push sub_D7DB0_30
+InstallDebugHotkeys:
+        push MemViewer
         mov edx, 1
         push byte 4
         mov dword [dword_11F61C], edx
         call SetHotkey
         add esp, byte 8
-        push sub_D7DB0_238
+        push MemViewerOpenAlt
         push byte 5
         call SetHotkey
         add esp, byte 8
@@ -1110,7 +1132,7 @@ sub_D1280:
         push byte 18h
         call SetHotkey
         add esp, byte 8
-        push sub_DA338
+        push SaveScreenshot
         push byte 16h
         call SetHotkey
         add esp, byte 8
@@ -1221,9 +1243,10 @@ DrawTextBoxedAt:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_D142C                                                            D142C  
+; SaveStackSegment                                D142C  96 PC, low confidence
+; Saves the stack segment selector
 ;-----------------------------------------------------------------------------
-sub_D142C:
+SaveStackSegment:
         o16 mov word [SavedStackSegment], ss
         ret
 ;-----------------------------------------------------------------------------

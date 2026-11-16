@@ -7,7 +7,7 @@ extern RowCopyFunc, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLef
 extern KeyedDraw, dword_1228FC, dword_122930, dword_123934, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
 extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, BlitBlock, BlitBlockXor, BlitBlockAnd
-extern AndPixel, BlitBlockOr, OrPixel, bcopy, sub_E193C, sub_E1956
+extern AndPixel, BlitBlockOr, OrPixel, bcopy, SaveDrawState, RestoreDrawState
 global PutBlock_25F, DrawArtAnd_132, DrawShapeAtOwnPos, sub_AA9CC, DrawArt, DrawShape, sub_AAADC, PutBlock
 global PutBlockAtOwnPos, BlitShapeAt, CopyRowXor, DrawArtAnd, DrawArtOr, AddMemRegion, AddMemRegions, AddHighMemRegion
 global TrimMemList, MemListEnd, sub_AB6D8, AllocMemBlockLocked, AllocMemBlock, AllocMemLocked
@@ -55,7 +55,7 @@ sub_AA9CC:
         mov edi, dword [byte esp+074h]
         mov eax, esp
         push eax
-        call sub_E193C
+        call SaveDrawState
         add esp, byte 4
         mov esi, dword [dword_1228FC]
         call SetScreenTarget
@@ -81,7 +81,7 @@ sub_AA9CC:
         add esp, byte 0Ch
         mov eax, esp
         push eax
-        call sub_E1956
+        call RestoreDrawState
         add esp, byte 4
         add esp, byte 60h
         pop ebp

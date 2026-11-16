@@ -1,16 +1,17 @@
 ; The pre-game screens between the controller screen and the game: matchup, teams, player cards (96 PC).
 bits 32
 %include "hockey.inc"
+extern SimWork
 extern BottomBarArt
 section s_849D5 progbits alloc exec nowrite align=1
-extern BlackPalette, byte_11FA2F, byte_17CFB1, byte_17D262, byte_17DB78, byte_17DC14, byte_17DC15, byte_17DC16
+extern BlackPalette, byte_11FA2F, PlayoffTeams, byte_17D262, byte_17DC14, byte_17DC15, byte_17DC16
 extern byte_17DC17, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, dword_1174E4, statsplayoffs
-extern dword_1174F8, dword_117518, dword_11D674, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, MenuBoxStyle
-extern PlayoffTreeData, SeasonType, SeasonDay, SeasonGamePending, dword_17CED6, cddriveptr, dword_17CF92, dword_17CF96
+extern dword_1174F8, dword_117518, TeamConferenceIds, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, MenuBoxStyle
+extern PlayoffTreeData, SeasonType, SeasonDay, SeasonGamePending, PlayoffGameOpts, cddriveptr, PlayoffRound, PlayoffTreeShape
 extern dword_17D1E2, dword_17D26B, dword_17DB7C, dword_17DBC0, dword_17DBC4, dword_17DC0C, dword_17DC10, FadeOut
 extern FadePalette, FileClose, FileOpenRead, FillMusicStream, gameopts, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LoadPackedFile, LoadTeamLogo, MakeSeasonDbPath, ModemChat, MouseRead, mousex
-extern mousey, off_11D44C, off_11D52C, OpenScreen, optflags, PaEvent, PutBlock, RemapScreenColors
+extern mousey, TeamCityNames, TeamNicknames, OpenScreen, optflags, PaEvent, PutBlock, RemapScreenColors
 extern RunMenu, SetDrawBitmap, SetMenuMouse, SetScreenColors, SetScreenPalette, SetTextColors, SetTextColorsRgb, SlideInBottomBar
 extern SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, StopSpeech, str_04d2, str_A07d
 extern str_Ard, str_Bkgd13, str_BKGD14, str_Card, str_CS3, str_D2, str_dbgSpace, str_Down
@@ -124,7 +125,7 @@ PreGameMatchupScreen:
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
         shr eax, 1Bh
-        push dword [nosplit eax*4+off_11D44C]
+        push dword [nosplit eax*4+TeamCityNames]
         lea eax, [byte ebp+042h]
         push eax
         call sprintf_
@@ -141,7 +142,7 @@ PreGameMatchupScreen:
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
         shr eax, 1Bh
-        mov edx, dword [nosplit eax*4+off_11D52C]
+        mov edx, dword [nosplit eax*4+TeamNicknames]
         lea eax, [byte ebp+042h]
         call strcat_
 .1:
@@ -158,7 +159,7 @@ PreGameMatchupScreen:
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        push dword [nosplit eax*4+off_11D44C]
+        push dword [nosplit eax*4+TeamCityNames]
         lea eax, [byte ebp+042h]
         push eax
         call sprintf_
@@ -175,7 +176,7 @@ PreGameMatchupScreen:
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        mov edx, dword [nosplit eax*4+off_11D52C]
+        mov edx, dword [nosplit eax*4+TeamNicknames]
         lea eax, [byte ebp+042h]
         call strcat_
 .2:
@@ -281,7 +282,7 @@ PreGameMatchupScreen:
 .8:
         cmp eax, byte 20h
         jne short .9
-        mov edx, dword [dword_17CF92]
+        mov edx, dword [PlayoffRound]
         jmp short .10
 .9:
         mov edx, 1
@@ -302,7 +303,7 @@ PreGameMatchupScreen:
         push edx
         cmp eax, byte 20h
         jne short .11
-        mov eax, dword [dword_17CF96]
+        mov eax, dword [PlayoffTreeShape]
         inc eax
         jmp short .12
 .11:
@@ -768,7 +769,7 @@ PreGameTeamsScreen:
         mov edx, dword [byte ebp+076h]
         inc dword [byte ebp+04Ah]
         add dword [byte ebp+076h], byte 4
-        mov dword [dword edx+byte_17DB78], eax
+        mov dword [dword edx+SimWork+250h], eax
         cmp dword [byte ebp+04Ah], byte 13h
         jl near .2
         call SetScreenTarget
@@ -963,12 +964,12 @@ PreGameTeamsScreen:
         and eax, byte 70h
         cmp eax, byte 20h
         jne near .55
-        mov eax, dword [dword_17CED6]
+        mov eax, dword [PlayoffGameOpts]
         shl eax, 0Ah
         shr eax, 1Bh
         mov dword [byte ebp+036h], 0
         mov dword [byte ebp+05Ah], eax
-        mov eax, dword [dword_17CED6]
+        mov eax, dword [PlayoffGameOpts]
         mov edx, 0FFFFFFFFh
         shl eax, 0Fh
         xor ecx, ecx
@@ -981,7 +982,7 @@ PreGameTeamsScreen:
         jge short .36
         cmp edx, byte 2
         jge short .36
-        cmp byte [dword esi+byte_17CFB1], 0
+        cmp byte [dword esi+PlayoffTeams], 0
         je short .35
         mov edi, dword [dword eax+dword_17D1E2]
         lea ebx, [byte edx+01h]
@@ -1010,7 +1011,7 @@ PreGameTeamsScreen:
         shr eax, 1Dh
         test ecx, ecx
         je near .49
-        mov esi, dword [dword_17CED6]
+        mov esi, dword [PlayoffGameOpts]
         shl esi, 0Fh
         shr esi, 1Bh
         cmp edx, eax
@@ -1051,7 +1052,7 @@ PreGameTeamsScreen:
         cmp eax, byte 2
         jne short .45
 .44:
-        cmp dword [nosplit esi*4+dword_11D674], byte 3
+        cmp dword [nosplit esi*4+TeamConferenceIds], byte 3
         setne al
         movzx eax, al
         add eax, byte 5
@@ -1074,7 +1075,7 @@ PreGameTeamsScreen:
 .49:
         cmp dword [byte ebp+036h], byte 0
         je short .55
-        mov esi, dword [dword_17CED6]
+        mov esi, dword [PlayoffGameOpts]
         shl esi, 0Ah
         shr esi, 1Bh
         cmp edx, eax
@@ -1649,8 +1650,8 @@ PreGameCardsA:
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        push dword [nosplit eax*4+off_11D52C]
-        push dword [nosplit eax*4+off_11D44C]
+        push dword [nosplit eax*4+TeamNicknames]
+        push dword [nosplit eax*4+TeamCityNames]
         push str_SS3
         lea eax, [byte ebp+0Eh]
         push eax
@@ -1674,8 +1675,8 @@ PreGameCardsA:
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
         shr eax, 1Bh
-        push dword [nosplit eax*4+off_11D52C]
-        push dword [nosplit eax*4+off_11D44C]
+        push dword [nosplit eax*4+TeamNicknames]
+        push dword [nosplit eax*4+TeamCityNames]
         push str_SS3
         lea eax, [byte ebp+0Eh]
         push eax

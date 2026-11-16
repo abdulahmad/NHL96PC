@@ -15,7 +15,7 @@ extern ScorePanelState, TimeLeftPanelState, TimedPanelState, RinkSpriteMode, Gam
 extern GoalReplayPending, PanelOpenTime, PanelCloseTime, TimedPanelTimer, PlayerPctPanelTimer, ClockPanelTimer, TimeLeftPanelTimer, ScorePanelTimer
 extern PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap
 extern ViewPixels, ViewSizeStep, CamFollowObj, CamViewBits, CameraViewSlots, ShadowToggle, MarkerToggle, NameToggle
-extern LastPaletteMode, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
+extern LastPaletteMode, InMenuOverlay, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
 extern DrawClipBottom, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC
 extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, DrawFrameCount
@@ -2522,7 +2522,7 @@ DrawPlayerMarkers:
         push esi
         push edi
         enter 24h, 0
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         jne near PlaceGoalNets_20B
         mov eax, dword [MarkerSpriteFile]
         mov dword [byte ebp-01Ch], 0
@@ -2896,7 +2896,7 @@ DrawGameFrame:
         call DrawPlayerMarkers
 .19:
         call DrawRinkFront
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         jne near .31
         xor ebx, ebx
         xor eax, eax
@@ -3006,7 +3006,7 @@ DrawGameFrame:
         push byte 0
         call SetClipWindow
         add esp, byte 10h
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         je short .32
         call DrawPauseFrame
         jmp short .36

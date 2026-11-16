@@ -4918,33 +4918,126 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11D1BC,MenuMoveSfx,dword_11D1BC,new,low,"Menu move sound, -1 for none",src/data/front/front_5D993_data_02.asm
 11D1C0,MenuSelectSfx,dword_11D1C0,new,low,"Menu select sound, -1 for none",src/data/front/front_5D993_data_02.asm
 11D1C4,MenuInputReady,word_11D1C4,new,low,Menu input ready,src/data/front/front_5D993_data_02.asm
+11D1C8,SoundCardPort,dword_11D1C8,new,low,sound card I/O port,src/data/front/front_67000_data_01.asm
+11D1CC,SoundCardIrq,dword_11D1CC,new,low,sound card IRQ,src/data/front/front_67000_data_01.asm
+11D1D0,CdSpeedTested,word_11D1D0,new,low,set once the CD speed test has run,src/data/front/front_67000_data_01.asm
+11D1D2,MusicStream,dword_11D1D2,new,low,music stream handle,src/data/front/front_67000_data_01.asm
+11D1D6,ArenaClipStream,dword_11D1D6,new,low,arena clip stream handle,src/data/front/front_67000_data_01.asm
 11D1DA,sndcard,dword_11D1DA,new,medium,the sound driver StartSoundCard started (-1: none),src/data/front/front_67000_data_01.asm
+11D1DE,MusicFlags,byte_11D1DE,new,low,music playback flags,src/data/front/front_67000_data_01.asm
 11D1E2,SpeechStreamFile,dword_11D1E2,new,low,speech stream file,src/data/front/front_67000_data_01.asm
 11D1E6,SpeechStreamTimer,dword_11D1E6,new,low,speech stream timer handle (-1 none),src/data/front/front_67000_data_01.asm
+11D1EA,CrowdSfxHandle,dword_11D1EA,new,low,crowd sound effect handle,src/data/front/front_67000_data_01.asm
+11D1EE,AmbientSfxHandle,dword_11D1EE,new,low,ambient sound effect handle,src/data/front/front_67000_data_01.asm
+11D1F2,LastSfxHandle,dword_11D1F2,new,low,handle of the last sound effect started,src/data/front/front_67000_data_01.asm
+11D1F6,CrowdFading,dword_11D1F6,new,low,set while the crowd sound fades,src/data/front/front_67000_data_01.asm
+11D1FA,CrowdActive,dword_11D1FA,new,low,crowd sound is playing,src/data/front/front_67000_data_01.asm
+11D1FE,CrowdLevel,dword_11D1FE,new,low,current crowd volume level,src/data/front/front_67000_data_01.asm
+11D202,CrowdTarget,dword_11D202,new,low,crowd volume the fade is heading to,src/data/front/front_67000_data_01.asm
+11D206,GameSoundOn,dword_11D206,new,low,in-game sound enabled,src/data/front/front_67000_data_01.asm
+11D20A,MusicFileName,byte_11D20A,new,low,music file name buffer,src/data/front/front_67000_data_01.asm
+11D232,CurrentMusicTrack,dword_11D232,new,low,music track that is playing,src/data/front/front_67000_data_01.asm
+11D236,SoundCardOn,dword_11D236,new,low,a sound card was found and set up,src/data/front/front_67000_data_01.asm
+11D23A,SpeechStarting,word_11D23A,new,low,set while speech is being started,src/data/front/front_67000_data_01.asm
+11D23C,CdSpeed,word_11D23C,new,low,measured CD speed,src/data/front/front_67000_data_01.asm
 11D23E,str_Z_OpenSpeechBanks,dword_11D23E,new,high,"string ""Z""",src/data/front/front_67000_data_01.asm
+11D242,ClipIndexTable,dword_11D242,new,low,index of sound clips by id,src/data/front/front_67000_data_01.asm
+11D356,TeamPairClips,word_11D356,new,low,sound clips for team match-ups,src/data/front/front_67000_data_01.asm
 11D376,str_Punct_OpenSpeechBanks,dword_11D376,new,high,"string ""[""",src/data/front/front_67000_data_01.asm
 11D37A,speechq,dword_11D37A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
+11D37E,SpeechBankHandle,dword_11D37E,new,low,speech bank file handle,src/data/front/front_67000_data_01.asm
+11D382,SpeechQueueHead,word_11D382,new,low,speech queue read index,src/data/front/front_67000_data_01.asm
+11D384,SpeechQueueTail,word_11D384,new,low,speech queue write index,src/data/front/front_67000_data_01.asm
+11D386,SpeechOpen,word_11D386,new,low,speech system is open,src/data/front/front_67000_data_01.asm
+11D388,SpeechChannelCount,word_11D388,new,low,number of speech channels,src/data/front/front_67000_data_01.asm
+11D38A,SpeechBanksOpen,dword_11D38A,new,low,number of open speech banks,src/data/front/front_67000_data_01.asm
 11D38E,speechinit,dword_11D38E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
+11D392,SfxChannelBusy,byte_11D392,new,low,busy flag per sound effect channel,src/data/front/front_67000_data_01.asm
 11D3A2,lastsfx,word_11D3A2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
+11D3A4,CrowdHeld,word_11D3A4,new,low,crowd sound is held,src/data/front/front_67000_data_01.asm
+11D3A6,SfxMask,dword_11D3A6,new,low,mask of sound effects allowed,src/data/front/front_67000_data_01.asm
+11D3AA,ArenaClipState,dword_11D3AA,new,low,arena clip playback state,src/data/front/front_67000_data_01.asm
+11D3AE,ArenaClipTime,dword_11D3AE,new,low,time the arena clip started,src/data/front/front_67000_data_01.asm
+11D3B2,ArenaClipId,dword_11D3B2,new,low,id of the arena clip,src/data/front/front_67000_data_01.asm
+11D3B6,CdSpeedChecked,word_11D3B6,new,low,set once the CD speed was checked,src/data/front/front_67000_data_01.asm
+11D3B8,TgvFpsSetting,dword_11D3B8,new,low,movie frame rate,src/data/front/front_67000_data_01.asm
+11D3BC,TgvFlags,dword_11D3BC,new,low,movie player flags,src/data/front/front_67000_data_01.asm
+11D3C0,TgvStartTick,dword_11D3C0,new,low,tick count when the movie started,src/data/front/front_67000_data_01.asm
+11D3C4,TgvPauseTick,dword_11D3C4,new,low,tick count when the movie paused,src/data/front/front_67000_data_01.asm
 11D3C8,DirPathTable,dword_11D3C8,new,low,directory path table,src/data/front/front_67000_data_01.asm
 11D3DC,LogoNames,off_11D3DC,new,low,team logo names,src/data/front/front_67000_data_01.asm
+11D44C,TeamCityNames,off_11D44C,new,low,pointers to team city names,src/data/front/front_67000_data_01.asm
+11D4BC,TeamFullNames,off_11D4BC,new,low,pointers to full team names,src/data/front/front_67000_data_01.asm
+11D52C,TeamNicknames,off_11D52C,new,low,pointers to team nicknames,src/data/front/front_67000_data_01.asm
+11D59C,TeamDivisions,dword_11D59C,new,low,division of each team,src/data/front/front_67000_data_01.asm
+11D604,TeamJerseyStyle,word_11D604,new,low,jersey style of each team,src/data/front/front_67000_data_01.asm
+11D674,TeamConferenceIds,dword_11D674,new,low,conference of each team,src/data/front/front_67000_data_01.asm
+11D744,SeasonTeamOrder,dword_11D744,new,low,teams in each division for the season screens,src/data/front/front_67000_data_01.asm
+11D754,DivisionTeamStarts,byte_11D754,new,low,first team index of each division,src/data/front/front_77642_data_02.asm
 11D7A0,InGameMenuRequest,dword_11D7A0,new,medium,"1 pause menu, 2 replay menu, 3 other",
+11D7A4,InGameMenuItems,unk_11D7A4,new,low,in-game menu item list,src/data/front/front_77642_data_02.asm
+11D7BC,PauseMenuItemsShort,unk_11D7BC,new,low,short pause menu item list,src/data/front/front_77642_data_02.asm
 11D7D4,str_Punct_InGameMenu,unk_11D7D4,new,high,"string ""\t""",src/data/front/front_77642_data_02.asm
+11D7EC,PauseMenuItemsLong,unk_11D7EC,new,low,long pause menu item list,src/data/front/front_77642_data_02.asm
 11D804,str_N_InGameMenu,unk_11D804,new,high,"string ""N""",src/data/front/front_77642_data_02.asm
 11D80A,str_F_InGameMenu,unk_11D80A,new,high,"string ""F""",src/data/front/front_77642_data_02.asm
+11D810,PauseMenuBoxX,unk_11D810,new,low,pause menu box x positions,src/data/front/front_77642_data_02.asm
+11D816,PauseMenuBoxY,unk_11D816,new,low,pause menu box y positions,src/data/front/front_77642_data_02.asm
+11D81C,PauseMenuTextIds,unk_11D81C,new,low,pause menu text ids,src/data/front/front_77642_data_02.asm
+11D89C,PauseMenuTextIdsAlt,unk_11D89C,new,low,pause menu text ids when the option bit is set,src/data/front/front_77642_data_02.asm
+11D910,ControllerSlotX,dword_11D910,new,low,controller screen slot x position,src/data/front/front_77642_data_02.asm
+11D914,ControllerSlotY,dword_11D914,new,low,controller screen slot y position,src/data/front/front_77642_data_02.asm
+11D91F,InMenuOverlay,dword_11D91F,new,low,set while a menu overlays the game,src/data/front/front_77642_data_02.asm
+11D923,PauseRedraw,dword_11D923,new,low,pause screen needs redrawing,src/data/front/front_77642_data_02.asm
+11D927,PauseMenuOpen,word_11D927,new,low,pause menu is open,src/data/front/front_77642_data_02.asm
+11D929,PauseFrameDrawn,word_11D929,new,low,pause frame has been drawn,src/data/front/front_77642_data_02.asm
+11D92C,ControllerPreGame,word_11D92C,new,low,controller screen opened before a game,src/data/front/front_6E233_data_02.asm
+11D92E,ControllerColumnsDrawn,word_11D92E,new,low,controller columns have been drawn,src/data/front/front_6E233_data_02.asm
+11D930,ControllerSlotStates,dword_11D930,new,low,state of each controller slot,src/data/front/front_6E233_data_02.asm
+11D940,ControllerSlotItems,dword_11D940,new,low,item shown in each controller slot,src/data/front/front_6E233_data_02.asm
 11D950,str_dbgO,dword_11D950,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
+11D954,ControllerLayout,dword_11D954,new,low,controller screen layout table,src/data/front/front_6E233_data_02.asm
 11D968,str_feO,word_11D968,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
 11DE50,str_Punct_ControllerScreen,unk_11DE50,new,high,"string ""~""",src/data/front/front_6E233_data_02.asm
+11DE90,ControllerTextIds,unk_11DE90,new,low,controller screen text ids,src/data/front/front_6E233_data_02.asm
 11DED0,str_G,dword_11DED0,new,high,"string ""g""",src/data/front/front_6E233_data_02.asm
+11DED4,ControllerOptionRows,dword_11DED4,new,low,controller option rows,src/data/front/front_6E233_data_02.asm
+11DF70,ControllerTitlePos,dword_11DF70,new,low,controller screen title position,src/data/front/front_6E233_data_02.asm
+11DF80,ControlPickRows,dword_11DF80,new,low,control pick rows,src/data/front/front_6E233_data_02.asm
 11DF84,str_Punct_ControlPicksScreen,dword_11DF84,new,high,"string ""[""",src/data/front/front_6E233_data_02.asm
 11DFC8,str_GenericHayesCompatible,asc_11DFC8,new,high,"string ""Generic Hayes-Compatible""",src/data/front/front_741BD_data_02.asm
+11E270,BaudChoices,word_11E270,new,low,baud rate choices,src/data/front/front_741BD_data_02.asm
+11E278,DialAborted,dword_11E278,new,low,dialling was aborted,src/data/front/front_741BD_data_02.asm
 11E27C,LinkSetupSlots,dword_11E27C,new,low,link setup slot records,src/data/front/front_741BD_data_02.asm
+11E280,TeamSelectY,word_11E280,new,low,team select panel y position,src/data/front/front_741BD_data_02.asm
+11E284,AwayPanelX,dword_11E284,new,low,away team panel x position,src/data/front/front_741BD_data_02.asm
+11E288,HomePanelX,dword_11E288,new,low,home team panel x position,src/data/front/front_741BD_data_02.asm
+11E2A0,HomePanelBmp,dword_11E2A0,new,low,home team panel bitmap,src/data/front/front_741BD_data_02.asm
+11E2A4,AwayPanelBmp,dword_11E2A4,new,low,away team panel bitmap,src/data/front/front_741BD_data_02.asm
+11E2A8,HomePanelLogo,dword_11E2A8,new,low,home team panel logo,src/data/front/front_741BD_data_02.asm
+11E2AC,AwayPanelLogo,dword_11E2AC,new,low,away team panel logo,src/data/front/front_741BD_data_02.asm
 11E2B0,TeamSelectDrawn,dword_11E2B0,new,low,set once the team select screen is drawn,src/data/front/front_741BD_data_02.asm
+11E2B4,AwayPanelName,dword_11E2B4,new,low,away team panel name,src/data/front/front_741BD_data_02.asm
 11E2B8,PanelTeamNameShift,dword_11E2B8,new,low,team name shift on the team panels,src/data/front/front_741BD_data_02.asm
+11E2BC,AwayPanelText,dword_11E2BC,new,low,away team panel text,src/data/front/front_741BD_data_02.asm
 11E2C0,LangTextHandle,dword_11E2C0,new,low,language text data handle,src/data/front/front_741BD_data_02.asm
 11E2C4,LangTextLoaded,dword_11E2C4,new,low,set once language text is loaded,src/data/front/front_741BD_data_02.asm
 11E2C8,str_LFERROR,asc_11E2C8,new,high,string 'LFERROR!!!',src/data/front/front_741BD_data_02.asm
-11E2D4,str_2_DrawSeasonTeams,dword_11E2D4,new,high,"string ""2""",src/data/front/front_77642_data_03.asm
+11E2D4,SixTeamColX,dword_11E2D4,new,low,team column x positions for a six team division,src/data/front/front_77642_data_03.asm
+11E2EC,SixTeamRowY,dword_11E2EC,new,low,team row y positions for a six team division,src/data/front/front_77642_data_03.asm
+11E304,SevenTeamColX,dword_11E304,new,low,team column x positions for a seven team division,src/data/front/front_77642_data_03.asm
+11E320,SevenTeamRowY,dword_11E320,new,low,team row y positions for a seven team division,src/data/front/front_77642_data_03.asm
+11E33C,SixTeamGrid,unk_11E33C,new,low,team grid for a six team division,src/data/front/front_77642_data_03.asm
+11E354,SevenTeamGrid,unk_11E354,new,low,team grid for a seven team division,src/data/front/front_77642_data_03.asm
+11E370,SeasonDbExts,off_11E370,new,low,season database file extensions,src/data/front/front_77642_data_03.asm
+11E39C,SeasonMenuLast,dword_11E39C,new,low,last season menu choice,src/data/front/front_77642_data_03.asm
+11E3A0,CalMonthNumbers,byte_11E3A0,new,low,month numbers shown on the calendar,src/data/front/front_77642_data_03.asm
+11E3A8,CalMonthDays,byte_11E3A8,new,low,days in each calendar month,src/data/front/front_77642_data_03.asm
+11E3B6,CalButtonDefs,unk_11E3B6,new,low,calendar button definitions,src/data/front/front_77642_data_03.asm
+11E4B8,SimStatWeights,dword_11E4B8,new,low,stat weights for simulated games,src/data/front/front_77642_data_03.asm
+11E4C4,SimTeamFactors,dword_11E4C4,new,low,team factors for simulated games,src/data/front/front_77642_data_03.asm
+11E514,SimPlayerOrder,dword_11E514,new,low,player order for simulated games,src/data/front/front_77642_data_03.asm
+11E5FC,TeamMovieTextIds,word_11E5FC,new,low,text ids for team movies,src/data/front/front_77642_data_03.asm
 11E668,StatsMenuItems,dword_11E668,new,low,stats menu items,src/data/front/front_88E09_data_02.asm
 11E8FC,RatingsGoalieShown,dword_11E8FC,new,low,goalie shown on the ratings page,src/data/front/front_93E6A_data_02.asm
 11E900,RatingsSkaterShown,dword_11E900,new,low,skater shown on the ratings page,src/data/front/front_93E6A_data_02.asm
@@ -6022,7 +6115,39 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 17C470,MenuStartSelection,word_17C470,new,low,Selection the next menu starts on,src/data/front/front_64F59_bss_01.asm
 17C474,ArenaClipName,unk_17C474,new,low,Arena clip file name,src/data/front/front_64F59_bss_01.asm
 17C49C,SpeechClipQueue,word_17C49C,new,low,Speech clip queue entries,src/data/front/front_64F59_bss_01.asm
+17C5BC,SpeechBankPtrs,dword_17C5BC,new,low,pointers to the loaded speech banks,src/data/front/front_67000_bss_01.asm
+17C5C0,SpeechChannels,dword_17C5C0,new,low,speech channel handles,src/data/front/front_67000_bss_01.asm
+17C5FC,SpeechVolume,dword_17C5FC,new,low,speech volume level,src/data/front/front_67000_bss_01.asm
+17C600,SpeechBankFiles,dword_17C600,new,low,open speech bank file handles,src/data/front/front_67000_bss_01.asm
+17C604,MusicVolume,dword_17C604,new,low,music volume level,src/data/front/front_67000_bss_01.asm
+17C608,ArenaClipHandle,dword_17C608,new,low,handle of the arena sound clip that is playing,src/data/front/front_67000_bss_01.asm
+17C60C,SpeechBankNames,byte_17C60C,new,low,speech bank file name buffer,src/data/front/front_67000_bss_01.asm
+17C63E,SpeechActiveCount,word_17C63E,new,low,number of speech clips playing,src/data/front/front_67000_bss_01.asm
+17C640,SpeechPlaying,word_17C640,new,low,non-zero while a speech clip plays,src/data/front/front_67000_bss_01.asm
+17C644,TgvFrameBuf,unk_17C644,new,low,movie frame decode buffer,src/data/front/front_67000_bss_01.asm
+17C944,TgvBufSize,dword_17C944,new,low,size of the movie buffer,src/data/front/front_67000_bss_01.asm
+17C948,TgvFrameCallback,dword_17C948,new,low,routine called for each decoded movie frame,src/data/front/front_67000_bss_01.asm
+17C94C,MovieSkipped,dword_17C94C,new,low,set when the player skips a movie,src/data/front/front_67000_bss_01.asm
+17C950,TgvFrame,dword_17C950,new,low,current movie frame number,src/data/front/front_67000_bss_01.asm
+17C954,TgvHeaderRead,dword_17C954,new,low,set once the movie header has been read,src/data/front/front_67000_bss_01.asm
+17C958,TgvState,dword_17C958,new,low,movie player state,src/data/front/front_67000_bss_01.asm
+17C95C,TgvStatus,byte_17C95C,new,low,movie player status code,src/data/front/front_67000_bss_01.asm
+17C960,TgvChunkLen,dword_17C960,new,low,length of the current movie chunk,src/data/front/front_67000_bss_01.asm
+17C964,TgvAudioOn,dword_17C964,new,low,movie audio track enabled,src/data/front/front_67000_bss_01.asm
+17C968,TgvVideoOn,dword_17C968,new,low,movie video track enabled,src/data/front/front_67000_bss_01.asm
 17C96C,tgvpalpending,dword_17C96C,new,medium,the TGV player has a palette chunk for this frame,src/data/front/front_67000_bss_01.asm
+17C970,TgvDataPtr,dword_17C970,new,low,read pointer into movie data,src/data/front/front_67000_bss_01.asm
+17C974,TgvDataEnd,dword_17C974,new,low,end of the movie data in the buffer,src/data/front/front_67000_bss_01.asm
+17C978,TgvChunkType,dword_17C978,new,low,type of the current movie chunk,src/data/front/front_67000_bss_01.asm
+17C97C,TgvLastFrame,dword_17C97C,new,low,last movie frame number,src/data/front/front_67000_bss_01.asm
+17C980,TgvFramesDecoded,dword_17C980,new,low,count of decoded movie frames,src/data/front/front_67000_bss_01.asm
+17C984,TgvAborted,dword_17C984,new,low,set when movie playback is aborted,src/data/front/front_67000_bss_01.asm
+17C988,TgvFileHandle,dword_17C988,new,low,open movie file handle,src/data/front/front_67000_bss_01.asm
+17C98C,TgvAudioBuf,dword_17C98C,new,low,movie audio buffer,src/data/front/front_67000_bss_01.asm
+17C990,TgvAudioPos,dword_17C990,new,low,movie audio buffer position,src/data/front/front_67000_bss_01.asm
+17C994,TgvVideoBmp,dword_17C994,new,low,movie video bitmap,src/data/front/front_67000_bss_01.asm
+17C998,TgvFrameTime,dword_17C998,new,low,time stamp of the current movie frame,src/data/front/front_67000_bss_01.asm
+17C99C,TgvMemBlock,dword_17C99C,new,low,memory block that holds the movie,src/data/front/front_67000_bss_01.asm
 17C9A0,gameopts,,95PC,medium,NHL95PC C53FF (refset): referenced by the same 7 matched functions,
 17C9A4,GlobalSetData,dword_17C9A4,new,low,GLOBAL.SET settings,src/data/front/front_67000_bss_01.asm
 17C9A8,optflags,dword_17C9A8,new,medium,"game option flags (bits 7-8 the skill level: 0 Rookie, 80h Pro, 100h All-Star)",src/data/front/front_67000_bss_01.asm
@@ -6065,12 +6190,36 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 17CECB,SeasonGameHome,byte_17CECB,new,low,Season: home team of the game to play,src/data/front/front_10010_bss_02.asm
 17CECC,SeasonGameAway,byte_17CECC,new,low,Season: away team of the game to play,src/data/front/front_10010_bss_02.asm
 17CED1,SeasonRandomSeed,dword_17CED1,new,low,season random seed,src/data/front/front_794FF_bss_01.asm
+17CED5,PlayoffHeader,unk_17CED5,new,low,playoff file header byte,src/data/front/front_794FF_bss_01.asm
+17CED6,PlayoffGameOpts,dword_17CED6,new,low,playoff game options,src/data/front/front_794FF_bss_01.asm
 17CF8E,cddriveptr,dword_17CF8E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_794FF_bss_01.asm
+17CF92,PlayoffRound,dword_17CF92,new,low,current playoff round,src/data/front/front_794FF_bss_01.asm
+17CF96,PlayoffTreeShape,dword_17CF96,new,low,playoff tree shape,src/data/front/front_794FF_bss_01.asm
+17CF9A,PlayoffName,unk_17CF9A,new,low,playoff name,src/data/front/front_794FF_bss_01.asm
+17CFB1,PlayoffTeams,byte_17CFB1,new,low,playoff team table,src/data/front/front_794FF_bss_01.asm
+17D13A,SaveFileName,byte_17D13A,new,low,save file name,src/data/front/front_794FF_bss_01.asm
+17D162,RosterFileHandle,dword_17D162,new,low,roster file handle,src/data/front/front_794FF_bss_01.asm
 17D18E,PlayoffFormatTeams,dword_17D18E,new,low,teams per playoff format,src/data/front/playoff_bss_01.asm
 17D263,cupseries,dword_17D263,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/playoff_bss_01.asm
 17D518,PauseClockArea,dword_17D518,new,low,pause clock area,src/data/front/pause_menu_bss_01.asm
 17D528,FrontShapeFile,dword_17D528,new,low,front end shape file,src/data/front/pause_menu_bss_01.asm
+17D678,DialCursor,dword_17D678,new,low,cursor in the dial number field,src/data/front/front_741BD_bss_01.asm
+17D67C,DialLength,dword_17D67C,new,low,length of the number typed,src/data/front/front_741BD_bss_01.asm
+17D680,DialDigitsBmp,dword_17D680,new,low,dial digits bitmap,src/data/front/front_741BD_bss_01.asm
+17D684,DialAbort,dword_17D684,new,low,dial was cancelled,src/data/front/front_741BD_bss_01.asm
+17D688,TeamSelectCursor,dword_17D688,new,low,team select cursor,src/data/front/front_741BD_bss_01.asm
+17D68C,HomePanelArt,dword_17D68C,new,low,home team panel art,src/data/front/front_741BD_bss_01.asm
+17D690,TeamPanelFont,dword_17D690,new,low,team panel font,src/data/front/front_741BD_bss_01.asm
+17D694,LangBlockState,dword_17D694,new,low,state of each language text block,src/data/front/front_741BD_bss_01.asm
+17D6A0,LangBlockText,dword_17D6A0,new,low,language text for the current block,src/data/front/front_741BD_bss_01.asm
+17D6A4,LangBlockPtrs,dword_17D6A4,new,low,pointers to the language text blocks,src/data/front/front_741BD_bss_01.asm
+17D6B0,LangBlockLastId,dword_17D6B0,new,low,last id loaded into each language block,src/data/front/front_741BD_bss_01.asm
+17D6B4,LangBlockIds,dword_17D6B4,new,low,id of each language text block,src/data/front/front_741BD_bss_01.asm
+17D6C4,LangFileHandle,dword_17D6C4,new,low,language text file handle,src/data/front/front_741BD_bss_01.asm
+17D6C8,GreyColorOrder,byte_17D6C8,new,low,grey colour order table,src/data/front/front_741BD_bss_01.asm
+17D7C8,NewSeasonChoice,dword_17D7C8,new,low,choice on the new season screen,src/data/front/front_741BD_bss_01.asm
 17D7CC,statsbgshapes,dword_17D7CC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_741BD_bss_01.asm
+17D7D0,SeasonMenuActive,dword_17D7D0,new,low,season menu is active,src/data/front/front_741BD_bss_01.asm
 17D7D4,CalCellBmp,dword_17D7D4,new,low,"Calendar day cell bitmaps, one per cell",src/data/front/calendar_bss_01.asm
 17D804,CalCellHiliteBmp,dword_17D804,new,low,"Calendar day cell bitmaps, highlighted",src/data/front/calendar_bss_01.asm
 17D834,CalBtnUpBmp,dword_17D834,new,low,"Calendar button bitmaps, up (copied to the button's normal art; indexed from 1)",src/data/front/calendar_bss_01.asm
@@ -6090,7 +6239,13 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 17D91C,CalFrameAltUpBmp,dword_17D91C,new,low,"Second calendar frame button, up",src/data/front/calendar_bss_01.asm
 17D920,CalSimRestBmp,dword_17D920,new,low,Calendar sim button art (third sim shape),src/data/front/calendar_bss_01.asm
 17D924,CalFrameAltBmp,dword_17D924,new,low,Second calendar frame art,src/data/front/calendar_bss_01.asm
+17D928,SimWork,dword_17D928,new,low,simulated game work area,src/data/front/front_81EEA_bss_01.asm
+17D938,SimGoalieBufs,dword_17D938,new,low,goalie stat buffers for simulated games,src/data/front/front_81EEA_bss_01.asm
+17D950,SimPlayerBufs,dword_17D950,new,low,player stat buffers for simulated games,src/data/front/front_81EEA_bss_01.asm
 17DA50,AwayShotTotals,dword_17DA50,new,low,away shot totals,src/data/front/front_81EEA_bss_01.asm
+17DA58,SimAwayStatsBufs,dword_17DA58,new,low,away stat buffers for simulated games,src/data/front/front_81EEA_bss_01.asm
+17DA60,SimAwaySetBufs,dword_17DA60,new,low,away game set buffers for simulated games,src/data/front/front_81EEA_bss_01.asm
+17DAE0,SimLineCounts,byte_17DAE0,new,low,line appearance counts for simulated games,src/data/front/front_81EEA_bss_01.asm
 17DC20,LineSteep,dword_17DC20,new,low,set when the line is steeper than 45 degrees,src/data/front/front_849D5_bss_01.asm
 17DC2C,LineErrX,dword_17DC2C,new,low,error term of a shallow line,src/data/front/front_849D5_bss_01.asm
 17DC30,LineErrStepY,dword_17DC30,new,low,error step of a steep line,src/data/front/front_849D5_bss_01.asm

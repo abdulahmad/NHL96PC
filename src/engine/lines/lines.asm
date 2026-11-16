@@ -7,7 +7,7 @@ extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2C
 extern lineslotgroups, lineslotgroupstart, CamLastSort, hmrosterpos, byte_176B83, defsort_d, dressflags
 extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, crowdlevel, dword_1150D4
 extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, SpinPuckFrame
-extern ViewSizeStep, CamFollowObj, dword_11D91F, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
+extern ViewSizeStep, CamFollowObj, InMenuOverlay, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
 extern MenuBitmapPixels, dword_157AF4, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
 extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, ReplayBufferTop, lineslotmark
 extern AttractOptTeams, SpriteSortDelay, ZoneBufFront, ZoneBufBack, ZoneBufCount, ZoneMarksFront, ZoneMarksBack, ZonePrevList
@@ -3228,7 +3228,7 @@ DrawDirtyZones:
         call SetScreenTarget
         cmp dword [ViewSizeStep], byte 8
         jge near .5
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         jne near .5
         cmp dword [ZonesDirty], byte 0
         jne near .5
@@ -3292,7 +3292,7 @@ DrawDirtyZones:
         jle near ResolveZones_16C
         jmp near .1
 .5:
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         jne short .6
         cmp dword [ZonesDirty], byte 0
         jne short .6
@@ -3396,7 +3396,7 @@ CopyZonesToScreen:
         push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         jne short .1
         cmp dword [ZonesDirty], byte 0
         jne short .1

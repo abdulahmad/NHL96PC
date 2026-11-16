@@ -7,9 +7,9 @@ section s_168DA progbits alloc exec nowrite align=1
 extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, textline2, textline3, textline4, textline5
 extern TitleTextStyle, SeasonGameHome, SeasonGameAway, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
 extern DrawGameStats_DD0, SimSlotButtons, InputRecordIndex, GameLoopFrames, dword_1150D4
-extern gameresult, LastEventPlayer, dword_11D3A6, dword_11D91F, dword_11F5C0, dword_11F5C4, SlotInput
+extern gameresult, LastEventPlayer, SfxMask, InMenuOverlay, dword_11F5C0, dword_11F5C4, SlotInput
 extern GameFrameCount, MenuRemoteCursorArt, MenuCursorPixels
-extern dword_152F58, MenuBitmapPixels, dword_157AF4, PlayoffTreeData, dword_17D162, dword_17D267, exitgame, fadeinpending
+extern dword_152F58, MenuBitmapPixels, dword_157AF4, PlayoffTreeData, RosterFileHandle, dword_17D267, exitgame, fadeinpending
 extern GameLoopActive, gameopts, gameover, GetTicks, gmode, InGameMenuRequest, InitSlotTable, InputRecordBusy
 extern InputRecordCount, InputRecordHead, InputRecordPhase, InputRecordRing, InputRecordTicks, LineChangeLine, LineChangeReq, LinkExchangeInput
 extern LinkResyncInput, LoadGameState, NormalizeDressFlags, optblock, optblock_end, optflags, PauseReplayPending, penshotlive
@@ -22,7 +22,7 @@ extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScree
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
 extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
-extern FindShape, SeasonUserRecords, unk_17CED5, unk_17D272, unk_17D32C, SlotsTwoPlayer, PauseRequested
+extern FindShape, SeasonUserRecords, PlayoffHeader, unk_17D272, unk_17D32C, SlotsTwoPlayer, PauseRequested
 extern bannermsg, bannertimer, PeriodEventCount, GameEventFlags
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
@@ -91,7 +91,7 @@ PlayMenuGame_85:
 PlayMenuGame_9F:
         xor edx, edx
         xor eax, eax
-        mov dword [gameopts], unk_17CED5
+        mov dword [gameopts], PlayoffHeader
         jmp short PlayMenuGame_AF.1
 PlayMenuGame_AF:
         xor edx, edx
@@ -207,7 +207,7 @@ PlayMenuGame_25F:
 PlayMenuGame_26B:
         cmp dword [dword_17D267], byte 0
         jne short PlayMenuGame_25F
-        mov eax, dword [dword_17D162]
+        mov eax, dword [RosterFileHandle]
         call LoadPlayoffStats
         jmp short PlayMenuGame_280.10
 PlayMenuGame_280:
@@ -506,11 +506,11 @@ RunSimFrames:
         push ebx
         push edx
         mov ebx, eax
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         jne short .1
         call HandleSlotButtons
 .1:
-        mov dword [dword_11D3A6], 0
+        mov dword [SfxMask], 0
         xor edx, edx
         jmp near .8
 .2:

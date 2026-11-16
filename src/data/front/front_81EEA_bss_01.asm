@@ -2,108 +2,66 @@
 bits 32
 %include "hockey.inc"
 section s_17D928 nobits alloc noexec write align=1
-global byte_17DADF, byte_17DAE0, byte_17DB12, byte_17DB44, byte_17DB78, dword_17D928, dword_17D930, dword_17D938
-global dword_17D950, dword_17DA18, dword_17DA20, dword_17DA28, dword_17DA30, dword_17DA38, dword_17DA40, dword_17DA48
-global AwayShotTotals, dword_17DA54, dword_17DA58, dword_17DA5C, dword_17DA60, dword_17DA68, dword_17DA6C, dword_17DA70
-global dword_17DA74, dword_17DA78, dword_17DA80, dword_17DA84, dword_17DA88, dword_17DA90, dword_17DA98, dword_17DA9C
-global dword_17DAA0, dword_17DAA4, dword_17DAA8, dword_17DAAC, dword_17DAB0, dword_17DAB4, dword_17DAB8, dword_17DABC
-global dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dword_17DAD4, dword_17DAD8, dword_17DADC
-global word_17DB76
-dword_17D928:
+global SimLineCounts, SimWork, SimGoalieBufs
+global SimPlayerBufs
+global AwayShotTotals, SimAwayStatsBufs, SimAwaySetBufs
+
+
+
+
+SimWork:
         resb 8
-dword_17D930:
         resb 8
-dword_17D938:
+SimGoalieBufs:
         resb 24
-dword_17D950:
+SimPlayerBufs:
         resb 200
-dword_17DA18:
         resb 8
-dword_17DA20:
         resb 8
-dword_17DA28:
         resb 8
-dword_17DA30:
         resb 8
-dword_17DA38:
         resb 8
-dword_17DA40:
         resb 8
-dword_17DA48:
         resb 8
 AwayShotTotals:
         resb 4
-dword_17DA54:
         resb 4
-dword_17DA58:
+SimAwayStatsBufs:
         resb 4
-dword_17DA5C:
         resb 4
-dword_17DA60:
+SimAwaySetBufs:
         resb 8
-dword_17DA68:
         resb 4
-dword_17DA6C:
         resb 4
-dword_17DA70:
         resb 4
-dword_17DA74:
         resb 4
-dword_17DA78:
         resb 8
-dword_17DA80:
         resb 4
-dword_17DA84:
         resb 4
-dword_17DA88:
         resb 8
-dword_17DA90:
         resb 8
-dword_17DA98:
         resb 4
-dword_17DA9C:
         resb 4
-dword_17DAA0:
         resb 4
-dword_17DAA4:
         resb 4
-dword_17DAA8:
         resb 4
-dword_17DAAC:
         resb 4
-dword_17DAB0:
         resb 4
-dword_17DAB4:
         resb 4
-dword_17DAB8:
         resb 4
-dword_17DABC:
         resb 4
-dword_17DAC0:
         resb 4
-dword_17DAC4:
         resb 4
-dword_17DAC8:
         resb 4
-dword_17DACC:
         resb 4
-dword_17DAD0:
         resb 4
-dword_17DAD4:
         resb 4
-dword_17DAD8:
         resb 4
-dword_17DADC:
         resb 3
-byte_17DADF:
         resb 1
-byte_17DAE0:
+SimLineCounts:
         resb 50
-byte_17DB12:
         resb 50
-byte_17DB44:
         resb 50
-word_17DB76:
         resb 2
-byte_17DB78:
         resb 4

@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_7FF7F progbits alloc exec nowrite align=1
-extern BlackPalette, HmGoalieSwapped, HmStarterGoalieMarks, AwGoalieSwapped, TitleTextStyle, SeasonUserSim, SeasonUserSlot, byte_17CFB1
+extern BlackPalette, HmGoalieSwapped, HmStarterGoalieMarks, AwGoalieSwapped, TitleTextStyle, SeasonUserSim, SeasonUserSlot, PlayoffTeams
 extern byte_17D262, byte_17D26F, byte_17D270, byte_17D271, CompareTeamPoints, seasondb, dword_1174EC, statsplayoffs
-extern dword_117500, dword_117510, dword_11E4B8, hmtmlines, hmtmplstats, hmtmglstats, hmtmroster, SeasonGameOpts
-extern PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonDay, SeasonRandomSeed, dword_17CED6, dword_17D162, dword_17D1E2
+extern dword_117500, dword_117510, SimStatWeights, hmtmlines, hmtmplstats, hmtmglstats, hmtmroster, SeasonGameOpts
+extern PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonDay, SeasonRandomSeed, PlayoffGameOpts, RosterFileHandle, dword_17D1E2
 extern dword_17D202, dword_17D267, dword_17D26B, FillMusicStream, gameopts, GetLangText, HideMessage, HideProgressBox
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
 extern SoundIdle, SoundSecondsToBytes, sprintf_, srand_, str_05dCNZDB, str_S05dCNZDB, strcat_, strlen_
 extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, FreeMemBlock, OpenArtArchiveErr, SaveFileBlock
-extern FileSizeByName, SeasonUserRecords, SeasonUserName, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, hmtmPwrPlays
+extern FileSizeByName, SeasonUserRecords, SeasonUserName, PlayoffHeader, PlayoffName, unk_7FF77, UpdateProgressBox, hmtmPwrPlays
 extern hmscore, awscore
 global UpdateTeamDbs, UpdateTeamDbs_86F, ApplyDayResults, SimSeasonGames, ApplyPlayoffDayResults, SaveSeasonTeams, unk_81ED1
 ;-----------------------------------------------------------------------------
@@ -67,7 +67,7 @@ UpdateTeamDbs:
         mov eax, dword [nosplit eax*4+dword_17D1E2]
         add eax, byte 41h
         push eax
-        push dword [dword_17D162]
+        push dword [RosterFileHandle]
 .4:
         push str_05dCNZDB
         lea eax, [byte ebp-052h]
@@ -209,7 +209,7 @@ UpdateTeamDbs:
         je short .21
         movsx eax, byte [byte_17D270]
         imul eax, dword [nosplit eax*4+dword_17D1E2], byte 1Ah
-        cmp byte [dword eax+byte_17CFB1], 0
+        cmp byte [dword eax+PlayoffTeams], 0
         je short .21
 .20:
         cmp dword [byte ebp+012h], byte 1
@@ -222,7 +222,7 @@ UpdateTeamDbs:
         je short .21
         movsx eax, byte [byte_17D271]
         imul eax, dword [nosplit eax*4+dword_17D1E2], byte 1Ah
-        cmp byte [dword eax+byte_17CFB1], 0
+        cmp byte [dword eax+PlayoffTeams], 0
         jne near .71
 .21:
         cmp dword [byte ebp+012h], byte 0
@@ -1239,7 +1239,7 @@ ApplyDayResults:
         mov eax, dword [SeasonGameOpts]
         shl eax, 15h
         shr eax, 1Eh
-        imul eax, dword [nosplit eax*4+dword_11E4B8], byte 64h
+        imul eax, dword [nosplit eax*4+SimStatWeights], byte 64h
         movzx edx, word [byte ebx+0Eh]
         imul eax, edx
         movzx esi, word [byte ebx+0Ch]
@@ -1867,7 +1867,7 @@ SimSeasonGames:
         jl short .43
         mov dword [byte ebp+052h], 0
         mov dword [byte ebp+022h], 0
-        mov ebx, unk_17CF9A
+        mov ebx, PlayoffName
         xor edx, edx
 .46:
         imul eax, dword [byte ebp+022h], byte 1Ah
@@ -1878,7 +1878,7 @@ SimSeasonGames:
         mov dword [byte ebp+01Eh], eax
         rep movsb
         mov eax, dword [byte ebp+01Eh]
-        cmp byte [dword eax+byte_17CFB1], 0
+        cmp byte [dword eax+PlayoffTeams], 0
         jne short .47
         imul eax, dword [dword edx+dword_17D1E2], dword 31Bh
         add eax, dword [byte ebp+06Eh]
@@ -1922,7 +1922,7 @@ SimSeasonGames:
         mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 39Dh
-        push unk_17CED5
+        push PlayoffHeader
         lea eax, [byte ebp-062h]
         push eax
         call SaveFileBlock
@@ -2455,10 +2455,10 @@ ApplyPlayoffDayResults:
 .42:
         cmp word [byte ebx+022h], byte 0
         jbe short .43
-        mov eax, dword [dword_17CED6]
+        mov eax, dword [PlayoffGameOpts]
         shl eax, 15h
         shr eax, 1Eh
-        imul eax, dword [nosplit eax*4+dword_11E4B8], byte 64h
+        imul eax, dword [nosplit eax*4+SimStatWeights], byte 64h
         movzx edx, word [byte ebx+024h]
         imul eax, edx
         movzx esi, word [byte ebx+022h]
@@ -2528,7 +2528,7 @@ ApplyPlayoffDayResults:
 .50:
         mov ebx, 5
         lea eax, [byte ebp+03Eh]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
 .51:
         push dword [dword_117500]
@@ -2547,7 +2547,7 @@ ApplyPlayoffDayResults:
 .52:
         mov ebx, 4
         lea eax, [byte ebp+03Eh]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
 .53:
         push dword [dword_117510]
@@ -2565,7 +2565,7 @@ ApplyPlayoffDayResults:
         ret
 ;-----------------------------------------------------------------------------
 ; SaveSeasonTeams                                 81D7C  96 PC, low confidence
-; Writes the changed teams' %s%05d%cNZ.DB files (byte_17CFB1 marks)
+; Writes the changed teams' %s%05d%cNZ.DB files (PlayoffTeams marks)
 ;-----------------------------------------------------------------------------
 SaveSeasonTeams:
         push ebx
@@ -2579,7 +2579,7 @@ SaveSeasonTeams:
         xor esi, esi
 .1:
         mov eax, dword [byte ebp-08h]
-        movsx eax, byte [dword eax+byte_17CFB1]
+        movsx eax, byte [dword eax+PlayoffTeams]
         cmp eax, byte 1
         jne near .9
         cmp dword [dword_17D267], byte 0
@@ -2619,7 +2619,7 @@ SaveSeasonTeams:
         mov eax, dword [dword esi+dword_17D1E2]
         add eax, byte 41h
         push eax
-        push dword [dword_17D162]
+        push dword [RosterFileHandle]
         lea eax, [byte ebp-05Ch]
         push eax
         push str_S05dCNZDB

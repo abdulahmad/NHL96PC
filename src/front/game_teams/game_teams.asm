@@ -5,7 +5,7 @@ section s_1F300 progbits alloc exec nowrite align=1
 extern byte_115109, byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116, byte_115117
 extern byte_117575, byte_157191, awroster, byte_157FD2, byte_158646, pad2dev, pad1dev, curperiod
 extern dword_1150D8, dword_1571B3, dword_15803D, dword_1580A1, dword_158654, TeamRosterPtrs
-extern ObjCleanupSlot, PlayoffTreeData, dword_17D162, dword_17D267, FatalError, FileClose, FileOpenRead
+extern ObjCleanupSlot, PlayoffTreeData, RosterFileHandle, dword_17D267, FatalError, FileClose, FileOpenRead
 extern FileReadAt, GameLoopActive, gameopts, GameOver, gmode, hmroster, hmrosterpos, lseek_
 extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath
 extern FreeMemBlock, DosFindFirst, hmplstats, hmglstats, hmglattr, hmplattr, awlinetab, hmteamrec
@@ -84,7 +84,7 @@ LoadGameRosters:
         jne short .2
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
         jmp short .6
 .4:
@@ -203,7 +203,7 @@ LoadGameRosters:
         jne short .16
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
         jmp short .20
 .18:
@@ -696,7 +696,7 @@ OpenRosterDb:
         cmp dword [dword_17D267], byte 0
         jne short .2
         lea eax, [byte ebp-02Ch]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         xor ebx, ebx
         call MakePlayoffDbPath
         jmp short .6
@@ -756,7 +756,7 @@ OpenRosterDb:
         jne short .10
         mov ebx, 2
         lea eax, [byte ebp-02Ch]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
         jmp short .14
 .12:
@@ -815,7 +815,7 @@ OpenRosterDb:
         jne short .18
         mov ebx, 5
         lea eax, [byte ebp-02Ch]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
         jmp short .22
 .20:
@@ -880,7 +880,7 @@ OpenRosterDb:
         jne short .27
         mov ebx, 1
         lea eax, [byte ebp-02Ch]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
         jmp short .31
 .29:

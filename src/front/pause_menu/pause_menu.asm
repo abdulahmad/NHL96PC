@@ -8,9 +8,9 @@ section s_6A7D3 progbits alloc exec nowrite align=1
 extern awtmstruct, byte_11D91C, byte_11FA2F, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox, DrawColorTextCentred, DrawFrameAt
 extern DrawGameClock, DrawGameFrame, dword_1150D4, gameresult, dword_1174EC, statsplayoffs, dword_1174F4, ReplayRemoteShape
-extern ViewLeft, str_D_DrawGameFrame, LastPaletteMode, dword_11D91F, dword_11D923, dword_11F5C0, dword_11F5C4, dword_152F4C
+extern ViewLeft, str_D_DrawGameFrame, LastPaletteMode, InMenuOverlay, PauseRedraw, dword_11F5C0, dword_11F5C4, dword_152F4C
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, ReplayBufferTop, DrawFrameCount, NameFont, NamePanelBmp
-extern SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC
+extern SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs, PlayoffGameOpts, RosterFileHandle, dword_17D267, dword_17D4E8, dword_17D4EC
 extern dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C
 extern dword_17D510, dword_17D514, PauseClockArea, dword_17D51C, dword_17D520, dword_17D524, FrontShapeFile, dword_1843AC
 extern dword_1843B0, dword_1843B4, EditText, EndCameraShot, EndGameSound, FadeOut, FadeOutMusic, FadePalette
@@ -30,9 +30,9 @@ extern str_Qui22, str_Rep0, str_Rep1, str_Ret02, str_Ret12, str_Ret22, str_Sav02
 extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, RefreshControlSlots, ReplayBufferEnd
 extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, ClearClipRect
-extern TextSetFont, unk_11D7A4, unk_11D7BC, str_Punct_InGameMenu, unk_11D7EC, str_N_InGameMenu, str_F_InGameMenu, unk_11D810
-extern unk_11D816, unk_11D81C, unk_11D89C, SeasonUserRecords, unk_17CED5, unk_17D3E8, unk_17D52C
-extern UpdateCamera, SlotsTwoPlayer, PauseRequested, clockticks, word_11D927, word_11D929, hmscore, awscore
+extern TextSetFont, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu, str_F_InGameMenu, PauseMenuBoxX
+extern PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, SeasonUserRecords, PlayoffHeader, unk_17D3E8, unk_17D52C
+extern UpdateCamera, SlotsTwoPlayer, PauseRequested, clockticks, PauseMenuOpen, PauseFrameDrawn, hmscore, awscore
 global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, jpt_6B476, SaveGameFile
 global SaveGameFile_59, SaveGameFile_60, SaveGameFile_6C, SaveGameFile_81, jpt_6B878, PauseMenu, PauseMenu_66B, PauseMenu_6F1
 global PauseMenu_6FD, PauseMenu_724, PauseMenu_730, PauseMenu_73C, PauseMenu_748, PauseToFrontEnd, PauseBackToGame, PauseBackToGame_28A
@@ -269,7 +269,7 @@ DrawPauseFrame:
         cdq
         idiv ebx
         mov dword [byte ebp-0Ch], eax
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         je near DrawPauseFrame_9C2
         call GetTicks
         mov edi, eax
@@ -305,7 +305,7 @@ DrawPauseFrame:
         idiv ecx
         add esp, byte 10h
         mov esi, eax
-        cmp dword [dword_11D923], byte 0
+        cmp dword [PauseRedraw], byte 0
         jne short .2
         mov esi, ebx
         sub esi, eax
@@ -470,7 +470,7 @@ DrawPauseFrame:
         idiv ecx
         mov esi, dword [dword_11F5C0]
         sub esi, eax
-        cmp dword [dword_11D923], byte 0
+        cmp dword [PauseRedraw], byte 0
         jne short .7
         add ebx, dword [dword_11F5C0]
         sub ebx, esi
@@ -636,7 +636,7 @@ DrawPauseFrame:
         idiv ecx
         mov esi, dword [dword_11F5C4]
         sub esi, eax
-        cmp dword [dword_11D923], byte 0
+        cmp dword [PauseRedraw], byte 0
         jne short .12
         add ebx, dword [dword_11F5C4]
         sub ebx, esi
@@ -761,7 +761,7 @@ DrawPauseFrame:
         cdq
         idiv ebx
         mov edi, eax
-        cmp dword [dword_11D923], byte 0
+        cmp dword [PauseRedraw], byte 0
         jne short .27
         mov eax, dword [dword_17D4F8]
         sub eax, esi
@@ -808,7 +808,7 @@ DrawPauseFrame:
         mov edx, eax
         mov eax, unk_17D3E8
         call FillBox
-        cmp word [word_11D929], byte 0
+        cmp word [PauseFrameDrawn], byte 0
         jne short .28
         mov eax, dword [dword_17D4F4]
         sub eax, edi
@@ -972,7 +972,7 @@ DrawPauseFrame:
         add esp, byte 4
         xor eax, eax
         call DrawPauseButtons
-        mov word [word_11D929], 0
+        mov word [PauseFrameDrawn], 0
 DrawPauseFrame_9C2:
         leave
 DrawPauseFrame_9C3:
@@ -993,7 +993,7 @@ RunPausedFrame:
         push edx
         push esi
         push edi
-        mov dword [dword_11D923], eax
+        mov dword [PauseRedraw], eax
         test eax, eax
         je short .1
         mov edx, 0FFFFFFFFh
@@ -1076,7 +1076,7 @@ SaveGameFile_60:
 SaveGameFile_6C:
         cmp dword [dword_17D267], byte 0
         jne short SaveGameFile_60
-        mov eax, dword [dword_17D162]
+        mov eax, dword [RosterFileHandle]
         call LoadPlayoffStats
         jmp short SaveGameFile_81.2
 SaveGameFile_81:
@@ -1292,16 +1292,16 @@ SaveGameFile_81:
 .13:
         mov ecx, 39Dh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_17CED5
+        mov edx, PlayoffHeader
         mov eax, dword [byte ebp-018h]
         call FileWriteAt
         mov ebx, 7
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         mov dword [byte ebp-04h], eax
         lea eax, [byte ebp-044h]
         call MakePlayoffDbPath
         push dword 39Dh
-        push unk_17CED5
+        push PlayoffHeader
         lea eax, [byte ebp-044h]
         push eax
         call SaveDataFile
@@ -1342,7 +1342,7 @@ PauseMenu:
         enter 30Ch, 0
         sub ebp, 82h
         mov dword [byte ebp+07Eh], 0FFFFFFFFh
-        cmp word [word_11D927], byte 0
+        cmp word [PauseMenuOpen], byte 0
         je short .1
         push dword [ReplayRemoteShape]
         call SetDrawBitmap
@@ -1361,7 +1361,7 @@ PauseMenu:
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
-        mov word [word_11D927], 0
+        mov word [PauseMenuOpen], 0
         add esp, byte 0Ch
 .1:
         push byte 20h
@@ -1374,11 +1374,11 @@ PauseMenu:
         test byte [GsOptions+1], 20h
         je short .2
         mov ecx, 80h
-        mov esi, unk_11D89C
+        mov esi, PauseMenuTextIdsAlt
         jmp short .3
 .2:
         mov ecx, 80h
-        mov esi, unk_11D81C
+        mov esi, PauseMenuTextIds
 .3:
         rep movsb
         lea edx, [dword ebp-028Ah]
@@ -1827,7 +1827,7 @@ PauseMenu_748:
         mov eax, unk_17D52C
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17D162]
+        push dword [RosterFileHandle]
 .17:
         push str_05d4
         lea eax, [byte ebp+06Eh]
@@ -1837,7 +1837,7 @@ PauseMenu_748:
         lea edx, [byte ebp+06Eh]
         mov eax, unk_17D52C
         call strcat_
-        mov eax, dword [dword_17CED6]
+        mov eax, dword [PlayoffGameOpts]
         shl eax, 0Fh
         shr eax, 1Bh
         add eax, byte 41h
@@ -1949,7 +1949,7 @@ PauseMenu_748:
         mov dword [gameresult], 2
         mov dword [byte ebp+07Eh], 0FFFFFFFEh
 .23:
-        mov word [word_11D927], 1
+        mov word [PauseMenuOpen], 1
 .24:
         test esi, esi
         je short .25
@@ -2212,7 +2212,7 @@ PauseBackToGame:
         mov edx, TeamRosterPtrs+320h
         call DrawPauseButtons
         xor eax, eax
-        mov word [word_11D927], 0
+        mov word [PauseMenuOpen], 0
         call FadePalette
         mov eax, 1
         call LinkSync
@@ -2252,7 +2252,7 @@ LoadCurrentSeasonStats:
 LoadPlayoffOrSeasonStats:
         cmp dword [dword_17D267], byte 0
         jne short LoadCurrentSeasonStats
-        mov eax, dword [dword_17D162]
+        mov eax, dword [RosterFileHandle]
         jmp near LoadPlayoffStats
 jpt_6C680:
         dd PauseGame_375
@@ -2280,7 +2280,7 @@ PauseGame:
         jge short .1
         call FreeSpriteCache
 .1:
-        mov dword [dword_11D91F], 1
+        mov dword [InMenuOverlay], 1
         call GetCrowdTarget
         mov dword [byte ebp-018h], eax
         xor eax, eax
@@ -2288,14 +2288,14 @@ PauseGame:
         test byte [GsOptions+1], 20h
         je short .2
         mov dword [dword_17D51C], str_Punct_InGameMenu
-        mov dword [dword_17D520], unk_11D7EC
-        mov dword [dword_17D4EC], unk_11D810
-        mov dword [dword_17D4F0], unk_11D816
+        mov dword [dword_17D520], PauseMenuItemsLong
+        mov dword [dword_17D4EC], PauseMenuBoxX
+        mov dword [dword_17D4F0], PauseMenuBoxY
         mov dword [dword_17D524], 87AEh
         jmp short .3
 .2:
-        mov dword [dword_17D51C], unk_11D7A4
-        mov dword [dword_17D520], unk_11D7BC
+        mov dword [dword_17D51C], InGameMenuItems
+        mov dword [dword_17D520], PauseMenuItemsShort
         mov dword [dword_17D4EC], str_N_InGameMenu
         mov dword [dword_17D4F0], str_F_InGameMenu
         mov dword [dword_17D524], 3D70h
@@ -2462,7 +2462,7 @@ PauseGame:
         mov eax, dword [gameopts]
         test byte [byte eax+02h], 8
         je short .8
-        mov dword [dword_11D923], 1
+        mov dword [PauseRedraw], 1
         call GetTicks
         sub eax, 0FBh
         mov dword [dword_17D510], eax
@@ -2476,7 +2476,7 @@ PauseGame:
         call RunPausedFrame
 .9:
         xor eax, eax
-        mov word [word_11D929], 1
+        mov word [PauseFrameDrawn], 1
         call DrawGameFrame
         cmp word [PauseRequested], byte 0
         je short .10
@@ -2486,7 +2486,7 @@ PauseGame:
         call FadePalette
         mov word [PauseRequested], 0
 .10:
-        mov word [word_11D927], 0
+        mov word [PauseMenuOpen], 0
         call CrowdPause
 .11:
         call PauseMenu
@@ -2539,7 +2539,7 @@ PauseGame_3A3:
         call Crowd_Noise
         call CrowdPause
 .14:
-        mov word [word_11D927], 1
+        mov word [PauseMenuOpen], 1
         jmp near PauseGame_620
 .15:
         xor eax, eax
@@ -2857,5 +2857,5 @@ PauseGame_620:
         add esp, byte 4
         call FreeSpriteCache
         call RestoreSpeechBuffer
-        mov dword [dword_11D91F], 0
+        mov dword [InMenuOverlay], 0
         jmp near DrawPauseFrame_9C2

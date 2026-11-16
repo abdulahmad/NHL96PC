@@ -56,7 +56,7 @@
 #define LOW_DOS_POOL       0x24000u
 #define ORIG_SND_CARD      SYM_sndcard  /* sndcard: the sound driver StartSoundCard started (-1: none) */
 #define ORIG_SND_DRIVER    SYM_snddriver  /* snddriver: the driver table index SndSetDriver made current (0: none) */
-#define ORIG_SND_FLAGS     SYM_byte_11D1DE  /* dword_11D1DE: the sound code's state bits */
+#define ORIG_SND_FLAGS     SYM_MusicFlags  /* dword_11D1DE: the sound code's state bits */
 #define ORIG_TIMER_LIST    SYM_timercallbacks  /* timercallbacks: the 8 callbacks the timer interrupt (TimerISR) calls */
 #define ORIG_CFG_SOUND     SYM_globalset  /* globalset: GLOBAL.SET options (bits 0-2 the card) */
 #define ORIG_GETDS_SEL     SYM___saved_DS   /* __GETDS: mov ds, cs:[this word] (interrupt handlers) */

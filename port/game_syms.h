@@ -54,7 +54,7 @@
 #define SYM_gsp                     0x1178FEu   /* data/front/front_2A692_data_02.asm */
 #define SYM_seed                    0x117934u   /* data/front/front_2A692_data_02.asm */
 #define SYM_sndcard                 0x11D1DAu   /* data/front/front_67000_data_01.asm */
-#define SYM_byte_11D1DE             0x11D1DEu   /* data/front/front_67000_data_01.asm */
+#define SYM_MusicFlags              0x11D1DEu   /* data/front/front_67000_data_01.asm */
 #define SYM_InGameMenuRequest       0x11D7A0u   /* data/front/front_77642_data_02.asm */
 #define SYM_mouseminx               0x11F568u   /* data/lib/lib_A8B9B_data_02.asm */
 #define SYM_mouseminy               0x11F56Cu   /* data/lib/lib_A8B9B_data_02.asm */

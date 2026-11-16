@@ -8,7 +8,7 @@ extern _nfree_, _nmalloc_, _searchenv_, InputDeviceMask, EscReplayKeyMap, JoyPor
 extern GripSlotPresent, JoyPadBits, GripLinkByte, GripPadState
 extern KeyPollTick, MousePollTick, KeyRepeatTick, JoyPollTicks, KeyPadActive, JoyPadActive
 extern MousePadActive, InputRecordIndex, Joy1NeedsCalib, Joy2NeedsCalib, GripLinked, GripLibHandle, GripSlotsScanned, GripPadBitsPrev
-extern dword_11D91F, dword_11F5C0, dword_11F5C4, SlotPollState, SlotWords, LastKeyPollTick, SlotInput, KeyBindingSet
+extern InMenuOverlay, dword_11F5C0, dword_11F5C4, SlotPollState, SlotWords, LastKeyPollTick, SlotInput, KeyBindingSet
 extern GripPadBits, GripShootMap, GripPassMap, Joy1MinX, Joy1MinY
 extern Joy1MaxX, Joy1X, Joy1Y, Joy1CentreX, Joy2MinX, Joy2MinY, Joy2MaxX
 extern Joy2X, Joy2Y, Joy2CentreX, GripSlotMask, GripButtonsRaw, GripCurSlot, fclose_, fopen_
@@ -965,7 +965,7 @@ PollControllers:
 .2:
         mov eax, SlotWords
         call ReadEscReplayKeys
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         je short .3
         mov edx, 1
         mov eax, SlotWords
@@ -1040,7 +1040,7 @@ PollControllers:
         movsx edx, byte [byte edx+esi+05h]
         call ReadKeyboardPad
 .14:
-        cmp dword [dword_11D91F], byte 0
+        cmp dword [InMenuOverlay], byte 0
         jne short .16
         mov ebx, dword [SlotWords]
         sar ebx, 2

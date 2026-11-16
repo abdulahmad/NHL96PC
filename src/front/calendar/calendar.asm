@@ -8,7 +8,7 @@ extern SetDrawBitmap, SetTickDeadline, TickDeadlinePassed, __CHP, str_MonthChoic
 extern str_DK00, str_Bkgd12, str_Pal17, str_DK02d, str_LFDK, str_RTDK, str_LT02d, str_LFLT
 extern str_RTLT, str_Sim1, str_Sim2, str_Sim3, str_Hmaw, str_WhtD, str_Rd, str_Bl
 extern str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, str_Tttt, str_Llll
-extern str_Wwww, str_Punct_DrawCalendar, str_DarD, str_Dashes, byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9
+extern str_Wwww, str_Punct_DrawCalendar, str_DarD, str_Dashes, CalMonthNumbers, CalMonthDays
 extern TitleTextStyle, SeasonUserSlot, SeasonGameHome, F32_65536, statsfromleague, statsplayoffs
 extern TeamStatsBitmap, optflags, PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonOver, SeasonDay
 extern SeasonGamePending, CalCellBmp, CalCellHiliteBmp, CalBtnUpBmp, CalBtnDownBmp, CalCellGameBmp
@@ -19,7 +19,7 @@ extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, S
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, DrawArt, DrawShape
 extern PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect, FillRect, DrawRectOutline, FreeBitmap
 extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, DrawArtFast, PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, ClearClipRect
-extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, str_WesternConference2, SeasonUserRecords, unk_7D4F4, unk_7D500
+extern CalButtonDefs, str_WesternConference2, SeasonUserRecords, unk_7D4F4, unk_7D500
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
 global unk_7FF77
 ;-----------------------------------------------------------------------------
@@ -231,7 +231,7 @@ CalendarScreen:
         mov eax, dword [byte ebp+0Eh]
         movzx eax, byte [eax]
         mov dword [byte ebp+076h], eax
-        movzx edx, byte [dword eax+byte_11E3A9]
+        movzx edx, byte [dword eax+CalMonthDays+1]
         mov eax, dword [byte ebp+0Eh]
         movzx eax, byte [byte eax+01h]
         add eax, edx
@@ -1181,7 +1181,7 @@ CalendarScreen:
         mov eax, dword [byte ebp+0Ah]
         movsx edx, word [byte eax+0Eh]
         mov eax, dword [byte ebp-0Eh]
-        mov dword [dword eax+0E0h], unk_11E3B6
+        mov dword [dword eax+0E0h], CalButtonDefs
         mov dword [dword eax+0DCh], 4
         mov byte [dword eax+0110h], 3
         mov dword [dword eax+0F6h], edx
@@ -1220,7 +1220,7 @@ CalendarScreen:
         mov dword [dword eax+015Ch], edx
         mov edx, dword [byte ebp-0Eh]
         mov eax, dword [dword eax+0158h]
-        mov dword [dword edx+0146h], unk_11E3F6
+        mov dword [dword edx+0146h], CalButtonDefs+40h
         mov dword [dword edx+0142h], 5
         mov byte [dword edx+0176h], 0
         add eax, byte 0Ah
@@ -1261,7 +1261,7 @@ CalendarScreen:
         mov dword [dword eax+01D2h], edx
         mov edx, dword [byte ebp-0Eh]
         mov eax, dword [dword eax+01C2h]
-        mov dword [dword edx+01ACh], unk_11E436
+        mov dword [dword edx+01ACh], CalButtonDefs+80h
         mov dword [dword edx+01A8h], 5
         mov byte [dword edx+01DCh], 2
         mov byte [dword edx+01DDh], 1
@@ -1307,7 +1307,7 @@ CalendarScreen:
         mul ah
         mov dword [byte ebp+04Eh], 0
         mov dword [byte ebp+052h], 0
-        mov dword [dword edx+0212h], unk_11E476
+        mov dword [dword edx+0212h], CalButtonDefs+0C0h
         mov dword [byte ebp+056h], 96h
         mov dword [dword edx+020Eh], 6
         mov dword [byte ebp+05Ah], 52h
@@ -1443,7 +1443,7 @@ CalendarScreen:
         jne short .21
         mov edx, dword [byte ebp+076h]
         mov eax, dword [byte ebp+0Eh]
-        movzx edx, byte [dword edx+byte_11E3A9]
+        movzx edx, byte [dword edx+CalMonthDays+1]
         movzx eax, byte [byte eax+01h]
         add eax, edx
         lea esi, [byte eax-01h]
@@ -1638,7 +1638,7 @@ CalendarScreen_153A:
         mov eax, dword [byte ebp+036h]
         add dword [byte ebp+06Eh], eax
         mov eax, dword [byte ebp+02Ah]
-        movsx eax, byte [dword eax+byte_11E3A0]
+        movsx eax, byte [dword eax+CalMonthNumbers]
         push eax
         push str_DK02d
         lea eax, [byte ebp-03Ah]
@@ -1646,7 +1646,7 @@ CalendarScreen_153A:
         call sprintf_
         mov eax, dword [byte ebp+02Ah]
         add esp, byte 0Ch
-        movsx eax, byte [dword eax+byte_11E3A1]
+        movsx eax, byte [dword eax+CalMonthNumbers+1]
         push eax
         push str_DK02d
         lea eax, [byte ebp-026h]
@@ -1744,7 +1744,7 @@ CalendarScreen_153A:
         add esp, byte 0Ch
 .27:
         mov eax, dword [byte ebp+02Ah]
-        movsx eax, byte [dword eax+byte_11E3A0]
+        movsx eax, byte [dword eax+CalMonthNumbers]
         push eax
         push str_LT02d
         lea eax, [byte ebp-03Ah]
@@ -1887,7 +1887,7 @@ CalendarScreen_153A:
         cmp dword [byte ebp-012h], byte 0Ah
         je short .31
         mov eax, dword [byte ebp-012h]
-        movsx eax, byte [dword eax+byte_11E3A0]
+        movsx eax, byte [dword eax+CalMonthNumbers]
         inc eax
         mov dword [byte ebp+076h], eax
 .31:
@@ -2163,7 +2163,7 @@ CalendarScreen_1B6C:
         cmp eax, byte 1Dh
         jle short .44
         mov edx, dword [byte ebp+076h]
-        movzx edx, byte [dword edx+byte_11E3A9]
+        movzx edx, byte [dword edx+CalMonthDays+1]
         add eax, edx
         lea esi, [byte eax-01h]
         mov eax, esi
@@ -2212,7 +2212,7 @@ CalendarScreen_1B6C:
         jne near .49
         mov edx, dword [byte ebp+076h]
         mov eax, dword [byte ebp+06Ah]
-        movzx edx, byte [dword edx+byte_11E3A9]
+        movzx edx, byte [dword edx+CalMonthDays+1]
         movzx eax, byte [byte eax+01h]
         add eax, edx
         lea esi, [byte eax-01h]
@@ -2537,7 +2537,7 @@ DrawCalendar:
         jmp near .5
 .2:
         mov eax, dword [dword ebp+086h]
-        movzx eax, byte [dword eax+byte_11E3A9]
+        movzx eax, byte [dword eax+CalMonthDays+1]
         mov esi, dword [byte ebp+072h]
         dec eax
         add esi, eax
@@ -2674,7 +2674,7 @@ DrawCalendar:
         movzx eax, byte [esi]
         cmp eax, dword [dword ebp+086h]
         jne short .12
-        movzx eax, byte [dword eax+byte_11E3A9]
+        movzx eax, byte [dword eax+CalMonthDays+1]
         movzx edi, byte [byte esi+01h]
         dec eax
         add edi, eax
@@ -2693,7 +2693,7 @@ DrawCalendar:
         jmp short .13
 .12:
         mov eax, dword [dword ebp+086h]
-        movzx eax, byte [dword eax+byte_11E3A8]
+        movzx eax, byte [dword eax+CalMonthDays]
         movzx edi, byte [byte esi+01h]
         dec eax
         add edi, eax

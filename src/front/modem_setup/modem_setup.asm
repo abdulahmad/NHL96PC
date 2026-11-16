@@ -5,9 +5,9 @@ extern BottomBarArt
 section s_711ED progbits alloc exec nowrite align=1
 extern str_GenericHayesCompatible, BlackPalette, byte_11FA2F, TitleTextStyle
 extern byte_17D650, byte_17D651, CopyBitmap, DrawColorText, DrawFrameAt
-extern GripLibHandle, MenuMouseX, dword_11DF80, str_Punct_ControlPicksScreen, dword_11E278, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
+extern GripLibHandle, MenuMouseX, ControlPickRows, str_Punct_ControlPicksScreen, DialAborted, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
 extern MenuBoxStyle, GlobalSetData, GsModemDial, GsOptions, dword_17D590, dword_17D594, dword_17D654
-extern dword_17D678, dword_17D67C, dword_17D680, dword_17D684, EditText, FadeOut, FadeOutMusic, FadePalette
+extern DialCursor, DialLength, DialDigitsBmp, DialAbort, EditText, FadeOut, FadeOutMusic, FadePalette
 extern FillMusicStream, TextStringWidth, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
 extern LoadPackedFile, MessageBox, ModemChat, ModemGameClose, ModemGameConnect, ModemGameOpen, ModemGameQuit, MouseRead
 extern mousex, mousey, OpenScreen, optblock, PlayMusic, PlaySfx, PutBlock, QueueCurrentMusic
@@ -24,7 +24,7 @@ extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, 
 extern str_YES0, str_YES1, strcpy_, strlen_, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlockAtOwnPos
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SetScreenTarget, KeyIsDown, KbdGetKey
 extern FindShape, TextSetFont, GsPhoneNumber, GsModemInit, unk_17D598, unk_708A9, unk_70901, unk_70BC1
-extern unk_70BCB, str_N_ControlSetupScreen, str_R, str_F, SlotsTwoPlayer, word_11E270, GsComPort, GsBaudIndex
+extern unk_70BCB, str_N_ControlSetupScreen, str_R, str_F, SlotsTwoPlayer, BaudChoices, GsComPort, GsBaudIndex
 extern GsDirectLink, GsWaitForCall, GsLinkOption, GsDialMode, WriteGlobalSet
 global DrawOnOffSlider, jpt_7130F, PollOptionKeys, PollOptionKeys_94, PollOptionKeys_B6, PollOptionKeys_D5, PollOptionKeys_F6, PollOptionKeys_117
 global PollOptionKeys_138, PollOptionKeys_156, PollOptionKeys_174, PollOptionKeys_192, unk_7158B, jpt_715AF, jpt_715D3, ControlPicksScreen
@@ -285,7 +285,7 @@ PollOptionKeys_192:
 .5:
         mov esi, dword [byte ebp-0Ch]
         mov ebx, dword [nosplit esi*8+str_Punct_ControlPicksScreen]
-        mov edx, dword [nosplit esi*8+dword_11DF80]
+        mov edx, dword [nosplit esi*8+ControlPickRows]
         imul esi, byte 66h
         mov eax, dword [dword_17D590]
         mov ecx, edi
@@ -501,7 +501,7 @@ ControlPicksScreen_177:
         mov edx, dword [byte ebp+072h]
         mov dword [byte esi+eax+014h], edx
         mov eax, dword [dword_17D594]
-        mov edx, dword [dword edi+dword_11DF80]
+        mov edx, dword [dword edi+ControlPickRows]
         mov dword [byte esi+eax+026h], edx
         mov eax, dword [dword_17D594]
         mov edx, dword [dword edi+str_Punct_ControlPicksScreen]
@@ -824,7 +824,7 @@ ControlPicksScreen_758:
         mov eax, dword [byte ebp+05Ah]
         mov ecx, dword [byte ebp+07Ah]
         mov ebx, dword [nosplit eax*8+str_Punct_ControlPicksScreen]
-        mov edx, dword [nosplit eax*8+dword_11DF80]
+        mov edx, dword [nosplit eax*8+ControlPickRows]
         mov eax, dword [dword_17D590]
         call DrawOnOffSlider
         cmp dword [byte ebp+07Ah], byte 0
@@ -3543,9 +3543,9 @@ ModemSettingsScreen:
         mov word [GsComPort], ax
         cwde
         add eax, eax
-        mov dx, word [dword eax+word_11E270]
+        mov dx, word [dword eax+BaudChoices]
         mov edi, esi
-        cmp dx, word [nosplit esi*2+word_11E270]
+        cmp dx, word [nosplit esi*2+BaudChoices]
         je near .28
         movsx esi, word [GsBaudIndex]
         push esi
@@ -4024,9 +4024,9 @@ DrawPhoneNumber:
         mov dword [byte ebp-024h], 0
         xor esi, esi
 .1:
-        cmp dword [dword esi+dword_17D678], byte 0
+        cmp dword [dword esi+DialCursor], byte 0
         je short .2
-        push dword [dword esi+dword_17D678]
+        push dword [dword esi+DialCursor]
         call FreeMemBlock
         add esp, byte 4
 .2:
@@ -4112,10 +4112,10 @@ DrawPhoneNumber:
         xor edx, edx
         mov eax, dword [byte eax+02Ch]
         call CopyBitmap
-        mov dword [dword esi+dword_17D678], eax
-        cmp dword [dword esi+dword_17D680], byte 0
+        mov dword [dword esi+DialCursor], eax
+        cmp dword [dword esi+DialDigitsBmp], byte 0
         je short .6
-        push dword [dword esi+dword_17D680]
+        push dword [dword esi+DialDigitsBmp]
         call FreeMemBlock
         add esp, byte 4
 .6:
@@ -4166,7 +4166,7 @@ DrawPhoneNumber:
         add esi, byte 4
         call CopyBitmap
         push dword [byte ebp-04h]
-        mov dword [dword esi+dword_17D67C], eax
+        mov dword [dword esi+DialLength], eax
         call FreeBitmap
         add esp, byte 4
         cmp dword [byte ebp-024h], byte 2
@@ -4335,24 +4335,24 @@ ModemDialScreen:
         push dword [dword ebp-0636h]
         mov dword [dword ebp-0612h], eax
         call DrawArt
-        mov dword [dword_17D684], 0
-        mov dword [dword_17D680], 0
-        mov dword [dword_17D67C], 0
+        mov dword [DialAbort], 0
+        mov dword [DialDigitsBmp], 0
+        mov dword [DialLength], 0
         add esp, byte 0Ch
         mov eax, dword [byte ebp+072h]
-        mov dword [dword_17D678], 0
+        mov dword [DialCursor], 0
         call DrawPhoneNumber
         call SetScreenTarget
         cmp word [GsWaitForCall], byte 0
         jne short .6
-        mov eax, dword [dword_17D678]
+        mov eax, dword [DialCursor]
         mov dword [dword ebp-05D0h], eax
-        mov eax, dword [dword_17D67C]
+        mov eax, dword [DialLength]
         jmp short .7
 .6:
-        mov eax, dword [dword_17D680]
+        mov eax, dword [DialDigitsBmp]
         mov dword [dword ebp-05D0h], eax
-        mov eax, dword [dword_17D684]
+        mov eax, dword [DialAbort]
         mov word [dword ebp-05D2h], 2
 .7:
         mov dword [dword ebp-05CCh], eax
@@ -4638,10 +4638,10 @@ ModemDialScreen_75A:
         mov dword [dword ebp-06AAh], 1
         mov word [dword ebp-05D2h], 0
         mov dword [dword ebp-069Ch], eax
-        mov eax, dword [dword_17D678]
+        mov eax, dword [DialCursor]
         mov dword [dword ebp-05DEh], 1
         mov dword [dword ebp-05D0h], eax
-        mov eax, dword [dword_17D67C]
+        mov eax, dword [DialLength]
 .20:
         add esp, byte 8
 .21:
@@ -4675,10 +4675,10 @@ ModemDialScreen_81F:
         mov dword [dword ebp-0644h], 1
         mov word [dword ebp-05D2h], 2
         mov dword [dword ebp-0636h], eax
-        mov eax, dword [dword_17D680]
+        mov eax, dword [DialDigitsBmp]
         mov dword [dword ebp-05DEh], 1
         mov dword [dword ebp-05D0h], eax
-        mov eax, dword [dword_17D684]
+        mov eax, dword [DialAbort]
         jmp near ModemDialScreen_75A.20
 ModemDialScreen_8DB:
         push dword [MatchupLayer]
@@ -4729,14 +4729,14 @@ ModemDialScreen_8DB:
         call DrawPhoneNumber
         cmp word [GsWaitForCall], byte 0
         jne short .25
-        mov eax, dword [dword_17D678]
+        mov eax, dword [DialCursor]
         mov dword [dword ebp-05D0h], eax
-        mov eax, dword [dword_17D67C]
+        mov eax, dword [DialLength]
         jmp near ModemDialScreen_75A.21
 .25:
-        mov eax, dword [dword_17D680]
+        mov eax, dword [DialDigitsBmp]
         mov dword [dword ebp-05D0h], eax
-        mov eax, dword [dword_17D684]
+        mov eax, dword [DialAbort]
         jmp near ModemDialScreen_75A.21
 .26:
         call GetLangText
@@ -4829,7 +4829,7 @@ ModemDialScreen_AB2:
         sub eax, byte 4
         mov word [GsComPort], ax
         cwde
-        mov ax, word [nosplit eax*2+word_11E270]
+        mov ax, word [nosplit eax*2+BaudChoices]
         push str_CMD02
         mov word [GsBaudIndex], ax
         lea eax, [byte ebp+04Eh]
@@ -4904,7 +4904,7 @@ ModemDialScreen_BD2:
         shl eax, 12h
         shr eax, 1Fh
         mov dword [byte ebp+06Ah], 12h
-        mov dword [dword_11E278], eax
+        mov dword [DialAborted], eax
         test eax, eax
         je short .36
         and byte [GsOptions+1], 0DFh
@@ -4936,15 +4936,15 @@ ModemDialScreen_BD2:
         jl near ModemDialScreen.17
         xor esi, esi
 .37:
-        cmp dword [dword esi+dword_17D678], byte 0
+        cmp dword [dword esi+DialCursor], byte 0
         je short .38
-        push dword [dword esi+dword_17D678]
+        push dword [dword esi+DialCursor]
         call FreeMemBlock
         add esp, byte 4
 .38:
-        cmp dword [dword esi+dword_17D680], byte 0
+        cmp dword [dword esi+DialDigitsBmp], byte 0
         je short .39
-        push dword [dword esi+dword_17D680]
+        push dword [dword esi+DialDigitsBmp]
         call FreeMemBlock
         add esp, byte 4
 .39:
@@ -5101,7 +5101,7 @@ LinkSetupScreen:
 .5:
         call SlideInTitleBar
         call ModemGameQuit
-        cmp dword [dword_11E278], byte 0
+        cmp dword [DialAborted], byte 0
         je short .6
         mov eax, dword [LinkSetupSlots]
         or byte [GsOptions+1], 20h

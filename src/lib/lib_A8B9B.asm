@@ -7,12 +7,12 @@ extern __STOSB, __set_errno_, access_, str_Pal19, str_Bkgd27, str_FSH6, str_Plyr
 extern str_Card4, str_Ard4, str_DSS5, str_SD8, str_SDD, str_S0, str_SDD2, str_0000
 extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, seasondb, dword_1174EC
 extern statsplayoffs, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, TeamStatsBitmap, PlayoffTreeData
-extern SeasonType, cddriveptr, dword_17D162, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
+extern SeasonType, cddriveptr, RosterFileHandle, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
 extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
 extern RunMenu, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, DosFileInfo, LoadResourceDataShared, SaveFileBlock
-extern DrawArtOpaqueAtOwnPos, DrawArtKeyedAtOrigin, PutBlockKeyed, ErrnoPtr, SetColourRemap, FindShape, unk_17CED5, unk_184B78
+extern DrawArtOpaqueAtOwnPos, DrawArtKeyedAtOrigin, PutBlockKeyed, ErrnoPtr, SetColourRemap, FindShape, PlayoffHeader, unk_184B78
 extern unk_184BB4, unk_184BF0, unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48
 extern unk_184F48, unk_184F77, unk_185292
 global _searchenv_, BuildPlayoffLeaders_555, SaveLeagueDb, PlayoffWinsNeeded, BuildPlayoffLeaders, ShowPlayoffLeaderCard, PlayoffLeadersScreens
@@ -37,11 +37,11 @@ SaveLeagueDb:
 .1:
         mov ebx, 7
         lea eax, [byte ebp-020h]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
 .2:
         push dword 39Dh
-        push unk_17CED5
+        push PlayoffHeader
         lea eax, [byte ebp-020h]
         push eax
         call SaveFileBlock
@@ -56,7 +56,7 @@ SaveLeagueDb:
 .3:
         mov ebx, 5
         lea eax, [byte ebp-020h]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
 .4:
         push dword [dword_117500]
@@ -75,7 +75,7 @@ SaveLeagueDb:
 .5:
         mov ebx, 4
         lea eax, [byte ebp-020h]
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
 .6:
         push dword [dword_117510]

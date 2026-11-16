@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_11DFC8 progbits alloc noexec write align=1
-global str_GenericHayesCompatible, str_LFERROR, dword_11E278, LinkSetupSlots, dword_11E284, dword_11E288, dword_11E2A0, dword_11E2A4
-global dword_11E2A8, dword_11E2AC, TeamSelectDrawn, dword_11E2B4, PanelTeamNameShift, dword_11E2BC, LangTextHandle, LangTextLoaded
-global word_11E270, word_11E280
+global str_GenericHayesCompatible, str_LFERROR, DialAborted, LinkSetupSlots, AwayPanelX, HomePanelX, HomePanelBmp, AwayPanelBmp
+global HomePanelLogo, AwayPanelLogo, TeamSelectDrawn, AwayPanelName, PanelTeamNameShift, AwayPanelText, LangTextHandle, LangTextLoaded
+global BaudChoices, TeamSelectY
 str_GenericHayesCompatible:
         db 047h,065h,06Eh,065h,072h,069h,063h,020h,048h,061h,079h,065h,073h,02Dh,043h,06Fh
         db 06Dh,070h,061h,074h,069h,062h,06Ch,065h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -49,34 +49,34 @@ str_GenericHayesCompatible:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,041h,054h,020h,026h,046h,025h
         db 043h,030h,026h,04Bh,030h,04Eh,030h,053h,033h,037h,03Dh,039h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-word_11E270:
+BaudChoices:
         db 02h,00h,01h,00h,02h,00h,01h,00h
-dword_11E278:
+DialAborted:
         db 00h,00h,00h,00h
 LinkSetupSlots:
         db 00h,00h,00h,00h
-word_11E280:
+TeamSelectY:
         db 081h,00h,00h,00h
-dword_11E284:
+AwayPanelX:
         db 04h,02h,00h,00h
-dword_11E288:
+HomePanelX:
         db 038h,01h,00h,00h,04Eh,01h,00h,00h,064h,01h,00h,00h,07Ah,01h,00h,00h
         db 090h,01h,00h,00h,0A6h,01h,00h,00h
-dword_11E2A0:
+HomePanelBmp:
         db 00h,00h,00h,00h
-dword_11E2A4:
+AwayPanelBmp:
         db 00h,00h,00h,00h
-dword_11E2A8:
+HomePanelLogo:
         db 00h,00h,00h,00h
-dword_11E2AC:
+AwayPanelLogo:
         db 00h,00h,00h,00h
 TeamSelectDrawn:
         db 00h,00h,00h,00h
-dword_11E2B4:
+AwayPanelName:
         db 00h,00h,00h,00h
 PanelTeamNameShift:
         db 00h,00h,00h,00h
-dword_11E2BC:
+AwayPanelText:
         db 00h,00h,00h,00h
 LangTextHandle:
         db 00h,00h,00h,00h

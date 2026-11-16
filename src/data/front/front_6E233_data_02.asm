@@ -2,32 +2,28 @@
 bits 32
 %include "hockey.inc"
 section s_11D92C progbits alloc noexec write align=1
-global dword_11D930, dword_11D940, str_dbgO, dword_11D954, str_G, dword_11DED4, dword_11DF70, dword_11DF74
-global dword_11DF78, dword_11DF7C, dword_11DF80, str_Punct_ControlPicksScreen, str_Punct_ControllerScreen, unk_11DE90, word_11D92C, word_11D92E
-global str_feO, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
-word_11D92C:
+global ControllerSlotStates, ControllerSlotItems, str_dbgO, ControllerLayout, str_G, ControllerOptionRows, ControllerTitlePos
+global ControlPickRows, str_Punct_ControlPicksScreen, str_Punct_ControllerScreen, ControllerTextIds, ControllerPreGame, ControllerColumnsDrawn
+
+ControllerPreGame:
         db 00h,00h
-word_11D92E:
+ControllerColumnsDrawn:
         db 01h,00h
-dword_11D930:
+ControllerSlotStates:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_11D940:
+ControllerSlotItems:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 str_dbgO:
         db 04Fh,00h,00h,00h
-dword_11D954:
+ControllerLayout:
         db 0F5h,00h,00h,00h,077h,00h,00h,00h,0F5h,00h,00h,00h,077h,00h,00h,00h
         db 023h,01h,00h,00h
-str_feO:
         db 04Fh,00h,00h,00h
-word_11D96C:
         db 023h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,07Ch,00h,00h,00h,0Ch,01h,00h,00h,086h,00h,00h,00h
         db 0F7h,00h,00h,00h,0BCh,00h,00h,00h,0F7h,00h,00h,00h
-word_11D9A8:
         db 0C6h,00h,00h,00h
-word_11D9AC:
         db 0Ch,01h,00h,00h,0BCh,00h,00h,00h,021h,01h,00h,00h,087h,00h,00h,00h
         db 021h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,01Ah,01h,00h,00h,0Ch,01h,00h,00h,024h,01h,00h,00h
@@ -35,9 +31,7 @@ word_11D9AC:
         db 0Ch,01h,00h,00h,05Ah,01h,00h,00h,020h,01h,00h,00h,025h,01h,00h,00h
         db 020h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-word_11DA10:
         db 0B7h,01h,00h,00h
-word_11DA14:
         db 0Dh,01h,00h,00h,0C1h,01h,00h,00h,0F7h,00h,00h,00h,0F7h,01h,00h,00h
         db 0F7h,00h,00h,00h,01h,02h,00h,00h,0Dh,01h,00h,00h,0F7h,01h,00h,00h
         db 021h,01h,00h,00h,0C3h,01h,00h,00h,021h,01h,00h,00h,00h,00h,00h,00h
@@ -111,14 +105,14 @@ str_Punct_ControllerScreen:
         db 0FAh,00h,00h,00h,0BEh,01h,00h,00h,05h,01h,00h,00h,0C5h,01h,00h,00h
         db 05h,01h,00h,00h,0CFh,01h,00h,00h,0FAh,00h,00h,00h,0D4h,01h,00h,00h
         db 08Ah,00h,00h,00h,0D4h,01h,00h,00h,07Eh,00h,00h,00h,0CDh,01h,00h,00h
-unk_11DE90:
+ControllerTextIds:
         db 07Eh,01h,00h,00h,0C4h,01h,00h,00h,089h,01h,00h,00h,0BDh,01h,00h,00h
         db 0F7h,01h,00h,00h,0BDh,01h,00h,00h,03h,02h,00h,00h,0C5h,01h,00h,00h
         db 03h,02h,00h,00h,0CFh,01h,00h,00h,0F5h,01h,00h,00h,0D5h,01h,00h,00h
         db 088h,01h,00h,00h,0D5h,01h,00h,00h,07Eh,01h,00h,00h,0CDh,01h,00h,00h
 str_G:
         db 067h,00h,00h,00h
-dword_11DED4:
+ControllerOptionRows:
         db 011h,01h,00h,00h,0A5h,00h,00h,00h,011h,01h,00h,00h,043h,01h,00h,00h
         db 011h,01h,00h,00h,0E0h,01h,00h,00h,011h,01h,00h,00h,020h,02h,00h,00h
         db 011h,01h,00h,00h,067h,00h,00h,00h,042h,01h,00h,00h,0A5h,00h,00h,00h
@@ -129,15 +123,12 @@ dword_11DED4:
         db 072h,01h,00h,00h,067h,00h,00h,00h,0A3h,01h,00h,00h,0A5h,00h,00h,00h
         db 0A3h,01h,00h,00h,043h,01h,00h,00h,0A3h,01h,00h,00h,0E0h,01h,00h,00h
         db 0A3h,01h,00h,00h,020h,02h,00h,00h,0A3h,01h,00h,00h
-dword_11DF70:
+ControllerTitlePos:
         db 0BDh,00h,00h,00h
-dword_11DF74:
         db 0CAh,01h,00h,00h
-dword_11DF78:
         db 0BCh,01h,00h,00h
-dword_11DF7C:
         db 0CAh,01h,00h,00h
-dword_11DF80:
+ControlPickRows:
         db 0D3h,01h,00h,00h
 str_Punct_ControlPicksScreen:
         db 05Bh,00h,00h,00h,0CAh,01h,00h,00h,07Ah,00h,00h,00h,0C1h,01h,00h,00h

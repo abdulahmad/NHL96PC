@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_884BD progbits alloc exec nowrite align=1
-extern abs_, TitleTextStyle, SeasonUserTeam, byte_17D13A, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague
-extern statsplayoffs, dword_11D59C, dword_11D674, dword_11E624, dword_11E664, StatsMenuItems, dword_11E66C, dword_11E670
+extern abs_, TitleTextStyle, SeasonUserTeam, SaveFileName, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague
+extern statsplayoffs, TeamDivisions, TeamConferenceIds, dword_11E624, dword_11E664, StatsMenuItems, dword_11E66C, dword_11E670
 extern dword_11E678, TeamStatsBitmap, dword_17DC74, dword_17DC78, dword_17DC7C, dword_17DC80, dword_17DD34, dword_17DD38
 extern dword_17DD3C, dword_17DD40, dword_17DD44, dword_17DD48, dword_17DD4C, dword_17DD50, dword_17DD54, dword_17DD58
 extern dword_17DD5C, dword_17DD60, dword_17DD64, dword_17DD68, dword_17DD6C, dword_17DD70, dword_17DD74, dword_17DD78
@@ -29,7 +29,7 @@ extern str_SEA2, str_SEA3, str_Space2, str_spDDDD, str_TEA0, str_TEA1, str_TEA2,
 extern str_VBAL, str_VERT, str_WES, str_WES0, str_Wt2, strcat_, strcmp_, strlen_
 extern PlayerCardScreen, PlayerRatingsScreen, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtKeyed, SetScreenTarget, FillRectColor, FindShape, TickDeadlinePassed, str_Punct_ExportTeamStats
-extern unk_11263E, str_Punct_DumpSaveTimes, UpdateProgressBox, word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900
+extern unk_11263E, str_Punct_DumpSaveTimes, UpdateProgressBox, CdSpeedTested, TeamMovieTextIds, word_17E894, word_17E8C8, word_17E900
 extern word_17E934, word_17E968, word_17E99C
 global unk_884BD, jpt_884F1, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
 global RunStatsMenu_1AD, PlayTeamMovie, GetTeamMovieText, str_U, unk_888E7, unk_88917, CompareTeamStatRows, AnimateTeamStatsButton
@@ -164,7 +164,7 @@ RunStatsMenu_169:
 RunStatsMenu_183:
         mov eax, dword [byte ebp-08h]
         movsx ebx, word [dword ebp+eax*2-014868h]
-        cmp word [word_11D1D0], byte 0
+        cmp word [CdSpeedTested], byte 0
         je short .8
         mov eax, 0CCh
         jmp short .9
@@ -198,7 +198,7 @@ RunStatsMenu_1AD:
         ret
 ;-----------------------------------------------------------------------------
 ; PlayTeamMovie                                886F6  96 PC, medium confidence
-; (team): plays the team's movie when it has one (word_11E5FC, 20 teams; data
+; (team): plays the team's movie when it has one (TeamMovieTextIds, 20 teams; data
 ; D6h or EAh by CD speed)
 ;-----------------------------------------------------------------------------
 PlayTeamMovie:
@@ -209,10 +209,10 @@ PlayTeamMovie:
 .1:
         cmp eax, byte 14h
         jge short .5
-        movsx edx, word [nosplit eax*2+word_11E5FC]
+        movsx edx, word [nosplit eax*2+TeamMovieTextIds]
         cmp edx, ebx
         jne short .4
-        cmp word [word_11D1D0], byte 0
+        cmp word [CdSpeedTested], byte 0
         je short .2
         mov edx, 0EAh
         jmp short .3
@@ -232,7 +232,7 @@ PlayTeamMovie:
 ;-----------------------------------------------------------------------------
 ; GetTeamMovieText                                88735  96 PC, low confidence
 ; (team): the text (248h + index) of a team in the team movie list
-; (word_11E5FC)
+; (TeamMovieTextIds)
 ;-----------------------------------------------------------------------------
 GetTeamMovieText:
         push ebx
@@ -243,7 +243,7 @@ GetTeamMovieText:
 .1:
         cmp eax, byte 14h
         jge short .3
-        movsx edx, word [nosplit eax*2+word_11E5FC]
+        movsx edx, word [nosplit eax*2+TeamMovieTextIds]
         cmp edx, ebx
         jne short .2
         add eax, 248h
@@ -1481,7 +1481,7 @@ TeamStatsScreen_96F:
         push eax
         call DrawArtOpaqueAtOwnPos
         add esp, byte 4
-        push byte_17D13A
+        push SaveFileName
         mov eax, 1D9h
 .26:
         call GetLangText
@@ -2416,7 +2416,7 @@ CopyTeamStatName:
         mov esi, edx
 .3:
         movsx edx, byte [eax]
-        cmp dword [nosplit edx*4+dword_11D674], byte 3
+        cmp dword [nosplit edx*4+TeamConferenceIds], byte 3
         jne short .4
         mov dl, byte [eax]
         mov byte [esi], dl
@@ -2431,7 +2431,7 @@ CopyTeamStatName:
         mov eax, esi
 .6:
         movsx ebx, byte [eax]
-        cmp dword [nosplit ebx*4+dword_11D674], byte 0Ch
+        cmp dword [nosplit ebx*4+TeamConferenceIds], byte 0Ch
         jne short .7
         mov bl, byte [eax]
         mov byte [edx], bl
@@ -2464,7 +2464,7 @@ CopyTeamStatName_97:
         mov dword [byte ebp-08h], esi
 .10:
         movsx ecx, byte [eax]
-        cmp edi, dword [nosplit ecx*4+dword_11D59C]
+        cmp edi, dword [nosplit ecx*4+TeamDivisions]
         jne short .11
         mov cl, byte [eax]
         inc ebx

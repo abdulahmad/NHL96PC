@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_771F0 progbits alloc exec nowrite align=1
-extern LangTextHandle, LangTextLoaded, dword_17D690, dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4
-extern dword_17D6C4, fclose_, fopen_, fread_, fseek_, LoadDataFile, MakeDataPath, str_LFERROR
+extern LangTextHandle, LangTextLoaded, TeamPanelFont, LangBlockState, LangBlockText, LangBlockPtrs, LangBlockLastId, LangBlockIds
+extern LangFileHandle, fclose_, fopen_, fread_, fseek_, LoadDataFile, MakeDataPath, str_LFERROR
 extern str_Localize, str_Rb, AllocMemBlock, FreeMemBlock
 global LoadLangText, FreeLangText, LoadLangBlock, GetLangText
 ;-----------------------------------------------------------------------------
@@ -17,7 +17,7 @@ LoadLangText:
         push edx
         push esi
         mov esi, eax
-        mov dword [dword_17D6C4], eax
+        mov dword [LangFileHandle], eax
         cmp dword [LangTextHandle], byte 0
         je short .1
         push dword [LangTextHandle]
@@ -46,12 +46,12 @@ LoadLangText:
 .3:
         add eax, byte 4
         mov esi, dword [LangTextLoaded]
-        mov dword [dword eax+dword_17D690], edx
-        mov dword [dword eax+dword_17D6B0], 0FFFFFFFFh
+        mov dword [dword eax+TeamPanelFont], edx
+        mov dword [dword eax+LangBlockLastId], 0FFFFFFFFh
         dec edx
         add esi, ebx
         add ebx, 200h
-        mov dword [dword eax+dword_17D6A0], esi
+        mov dword [dword eax+LangBlockText], esi
         cmp eax, byte 10h
         jne short .3
         pop esi
@@ -99,8 +99,8 @@ LoadLangBlock:
         mov ebx, edx
         mov esi, eax
         shl esi, 2
-        mov dword [dword esi+dword_17D6B4], edx
-        mov edx, dword [dword_17D6C4]
+        mov dword [dword esi+LangBlockIds], edx
+        mov edx, dword [LangFileHandle]
         lea eax, [byte ebp-034h]
         add edx, 134h
         call MakeDataPath
@@ -117,12 +117,12 @@ LoadLangBlock:
         call fseek_
         mov ebx, 200h
         mov edx, 1
-        mov eax, dword [dword esi+dword_17D6A4]
+        mov eax, dword [dword esi+LangBlockPtrs]
         call fread_
         test eax, eax
         jg short .2
 .1:
-        mov dword [dword esi+dword_17D6B4], 0FFFFFFFFh
+        mov dword [dword esi+LangBlockIds], 0FFFFFFFFh
 .2:
         mov eax, edi
         call fclose_
@@ -159,7 +159,7 @@ GetLangText:
         mov esi, eax
         jmp short .3
 .1:
-        cmp esi, dword [dword ecx+dword_17D6B4]
+        cmp esi, dword [dword ecx+LangBlockIds]
         jne short .2
         mov ebx, edi
 .2:
@@ -177,7 +177,7 @@ GetLangText:
         xor edi, edi
         jmp short .7
 .5:
-        cmp dword [dword edi+dword_17D6B4], byte 0
+        cmp dword [dword edi+LangBlockIds], byte 0
         jge short .6
         mov edx, esi
         mov eax, ecx
@@ -198,7 +198,7 @@ GetLangText:
         xor ecx, ecx
         xor eax, eax
 .9:
-        cmp dword [dword eax+dword_17D694], byte 3
+        cmp dword [dword eax+LangBlockState], byte 3
         jne short .10
         mov ebx, ecx
 .10:
@@ -212,7 +212,7 @@ GetLangText:
 .11:
         mov ecx, ebx
         shl ecx, 2
-        cmp dword [dword ecx+dword_17D6B4], byte 0
+        cmp dword [dword ecx+LangBlockIds], byte 0
         jge short .12
         mov ecx, str_LFERROR
         jmp short .13
@@ -221,15 +221,15 @@ GetLangText:
         mov esi, 200h
         cdq
         idiv esi
-        mov ecx, dword [dword ecx+dword_17D6A4]
+        mov ecx, dword [dword ecx+LangBlockPtrs]
         add ecx, edx
 .13:
-        mov dword [nosplit ebx*4+dword_17D694], 0FFFFFFFFh
+        mov dword [nosplit ebx*4+LangBlockState], 0FFFFFFFFh
         xor eax, eax
 .14:
-        cmp dword [dword eax+dword_17D694], byte 3
+        cmp dword [dword eax+LangBlockState], byte 3
         jge short .15
-        inc dword [dword eax+dword_17D694]
+        inc dword [dword eax+LangBlockState]
 .15:
         add eax, byte 4
         cmp eax, byte 10h

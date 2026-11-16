@@ -3,20 +3,20 @@ bits 32
 %include "hockey.inc"
 section s_81EEA progbits alloc exec nowrite align=1
 extern __CHP, str_Ags, awtmgoalie, HmGoalieSwapped, HmStarterGoalieMarks, HmBackupGoalieMarks, AwGoalieSwapped, SeasonUserSlot
-extern byte_17CFB1, byte_17D26F, byte_17DADF, byte_17DAE0, byte_17DB12, byte_17DB44, byte_17DB78, seasondb
-extern statsfromleague, statsplayoffs, dword_11E4B8, dword_11E4C4, dword_11E514, hmtmlines, hmtmplstats, hmtmglstats
-extern hmtmroster, SeasonGameOpts, SeasonDay, dword_17CED6, dword_17D1E2, dword_17D928, dword_17D930, dword_17D938
-extern dword_17D950, dword_17DA18, dword_17DA20, dword_17DA28, dword_17DA30, dword_17DA38, dword_17DA40, dword_17DA48
-extern AwayShotTotals, dword_17DA54, dword_17DA58, dword_17DA5C, dword_17DA60, dword_17DA68, dword_17DA6C, dword_17DA70
-extern dword_17DA74, dword_17DA78, dword_17DA80, dword_17DA84, dword_17DA88, dword_17DA90, dword_17DA98, dword_17DA9C
-extern dword_17DAA0, dword_17DAA4, dword_17DAA8, dword_17DAAC, dword_17DAB0, dword_17DAB4, dword_17DAB8, dword_17DABC
-extern dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dword_17DAD4, dword_17DAD8, dword_17DADC
+extern PlayoffTeams, byte_17D26F, SimLineCounts, seasondb
+extern statsfromleague, statsplayoffs, SimStatWeights, SimTeamFactors, SimPlayerOrder, hmtmlines, hmtmplstats, hmtmglstats
+extern hmtmroster, SeasonGameOpts, SeasonDay, PlayoffGameOpts, dword_17D1E2, SimWork, SimGoalieBufs
+extern SimPlayerBufs
+extern AwayShotTotals, SimAwayStatsBufs, SimAwaySetBufs
+
+
+
 extern gameopts, hmtmgoalie, optflags, F64_0p333333, F64_0p75, F64_0p0119048, F64_0p0166667, F64_0p8
 extern F64_10, F64_1000, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
 extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, StatsDb5Record, StatsDb1Record
 extern AllocMemBlock, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, str_Gk
 extern str_Gs, unk_81ED1, UpdateTeamDbs, hmtmPwrPlays, hmtmPenalties, hmscore, awtmPwrPlays, awscore
-extern word_17DB76
+
 global SimulateGame, unk_849C1, unk_849C7, unk_849CB, unk_849D1
 ;-----------------------------------------------------------------------------
 ; SimulateGame                                 81EEA  96 PC, medium confidence
@@ -51,12 +51,12 @@ SimulateGame:
         jl short .1
         mov eax, dword [dword ebp-012Ah]
         movzx eax, byte [byte eax+02h]
-        mov dword [dword_17DAA8], eax
+        mov dword [SimWork+180h], eax
         mov eax, dword [dword ebp-012Ah]
         mov byte [dword ebp+0126h], 0
         movzx eax, byte [byte eax+03h]
         mov byte [dword ebp+0122h], 0
-        mov dword [dword_17DAAC], eax
+        mov dword [SimWork+184h], eax
         cmp dword [dword ebp-012Eh], byte 0
         je short .3
         lea eax, [dword ebp+0D6h]
@@ -89,15 +89,15 @@ SimulateGame:
         push byte 0
         push byte 64h
         push str_Ps
-        mov dword [dword esi+dword_17DA90], eax
+        mov dword [dword esi+SimWork+168h], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 64h
         push tag_pset
-        mov dword [dword esi+dword_17D930], eax
+        mov dword [dword esi+SimWork+8], eax
         call AllocMemBlock
-        mov dword [dword esi+dword_17DA48], eax
+        mov dword [dword esi+SimWork+120h], eax
         imul eax, dword [byte ebp-062h], byte 64h
         mov dword [dword ebp+08Ah], eax
         mov eax, dword [dword ebp+09Ah]
@@ -112,7 +112,7 @@ SimulateGame:
         mov ecx, 2Fh
         add esp, byte 0Ch
         mov edi, eax
-        mov dword [dword edx+dword_17D950], eax
+        mov dword [dword edx+SimPlayerBufs], eax
         xor eax, eax
         add dword [dword ebp+08Ah], byte 4
         rep stosb
@@ -132,7 +132,7 @@ SimulateGame:
         mov ecx, 36h
         add esp, byte 0Ch
         mov edi, eax
-        mov dword [dword edx+dword_17D938], eax
+        mov dword [dword edx+SimGoalieBufs], eax
         xor eax, eax
         add dword [dword ebp+092h], byte 4
         rep stosb
@@ -147,43 +147,43 @@ SimulateGame:
         push byte 0
         push byte 12h
         push str_Tmgstats
-        mov dword [dword esi+dword_17DA18], eax
+        mov dword [dword esi+SimWork+0F0h], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 433h
         push str_Tmdata
-        mov dword [dword esi+dword_17D928], eax
+        mov dword [dword esi+SimWork], eax
         call AllocMemBlock
         mov ecx, 190h
         add esp, byte 0Ch
-        mov edi, dword [dword esi+dword_17DA18]
-        mov dword [dword esi+dword_17DA38], eax
+        mov edi, dword [dword esi+SimWork+0F0h]
+        mov dword [dword esi+SimWork+110h], eax
         xor eax, eax
         rep stosb
         mov ecx, 433h
-        mov edi, dword [dword esi+dword_17DA38]
+        mov edi, dword [dword esi+SimWork+110h]
         xor eax, eax
         mov edx, dword [dword ebp-0A6h]
         rep stosb
-        mov eax, dword [dword esi+dword_17DA18]
+        mov eax, dword [dword esi+SimWork+0F0h]
         mov dword [dword edx+hmtmplstats], eax
-        mov eax, dword [dword esi+dword_17D928]
+        mov eax, dword [dword esi+SimWork]
         mov dword [dword edx+hmtmglstats], eax
-        imul eax, dword [dword esi+dword_17DAA8], dword 31Bh
+        imul eax, dword [dword esi+SimWork+180h], dword 31Bh
         mov edx, dword [statsplayoffs]
         add eax, edx
         mov edx, dword [dword ebp-0A6h]
         mov word [dword edx+hmtmPenalties], 0
         push byte 0
         mov word [dword edx+hmtmPwrPlays], 0
-        mov dword [dword esi+dword_17DA80], eax
+        mov dword [dword esi+SimWork+158h], eax
         mov byte [dword edx+HmStarterGoalieMarks], 0
         add eax, 0D3h
         mov byte [dword edx+HmBackupGoalieMarks], 0
         push dword 497h
         mov dword [dword edx+hmtmlines], eax
-        mov eax, dword [dword esi+dword_17DA38]
+        mov eax, dword [dword esi+SimWork+110h]
         push str_Aps
         mov dword [dword edx+hmtmroster], eax
         call AllocMemBlock
@@ -191,40 +191,40 @@ SimulateGame:
         push byte 0
         push byte 64h
         push tag_apset
-        mov dword [dword esi+dword_17DA28], eax
+        mov dword [dword esi+SimWork+100h], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push str_Gk
-        mov dword [dword esi+dword_17DA40], eax
+        mov dword [dword esi+SimWork+118h], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push str_Gs
-        mov dword [dword esi+dword_17DA88], eax
+        mov dword [dword esi+SimWork+160h], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push tag_gset
-        mov dword [dword esi+dword_17DA20], eax
+        mov dword [dword esi+SimWork+0F8h], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push str_Ags
-        mov dword [dword esi+dword_17DA58], eax
+        mov dword [dword esi+SimAwayStatsBufs], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push tag_agset
-        mov dword [dword esi+dword_17DA78], eax
+        mov dword [dword esi+SimWork+150h], eax
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword esi+dword_17DA60], eax
+        mov dword [dword esi+SimAwaySetBufs], eax
         cmp dword [dword ebp-012Eh], byte 0
         je short .8
         push byte 0
@@ -247,10 +247,10 @@ SimulateGame:
 .9:
         mov eax, dword [byte ebp-062h]
         mov byte [dword eax+ebp+0E6h], 0
-        imul eax, dword [dword ebx+dword_17DAA8], dword 31Bh
+        imul eax, dword [dword ebx+SimWork+180h], dword 31Bh
         mov edx, dword [statsplayoffs]
         add eax, edx
-        mov dword [dword ebx+dword_17DA80], eax
+        mov dword [dword ebx+SimWork+158h], eax
         cmp dword [dword ebp-0126h], byte 0
         je short .10
         cmp dword [dword ebp-012Eh], byte 0
@@ -266,18 +266,18 @@ SimulateGame:
 .12:
         mov eax, dword [byte ebp-062h]
         mov byte [dword eax+ebp+0DAh], 0B4h
-        imul eax, dword [dword ebx+dword_17DAA8], byte 63h
+        imul eax, dword [dword ebx+SimWork+180h], byte 63h
         mov edx, dword [statsfromleague]
         add eax, edx
-        mov dword [dword ebx+dword_17DA68], 0
-        mov dword [dword ebx+dword_17DA30], eax
+        mov dword [dword ebx+SimWork+140h], 0
+        mov dword [dword ebx+SimWork+108h], eax
         mov ecx, eax
         movzx eax, word [byte eax+037h]
         imul eax, dword 3E8h
         movzx esi, word [byte ecx+039h]
         cdq
         idiv esi
-        mov dword [dword ebx+dword_17DA98], eax
+        mov dword [dword ebx+SimWork+170h], eax
         movzx eax, word [byte ecx+03Bh]
         imul eax, dword 3E8h
         movzx ecx, word [byte ecx+03Dh]
@@ -285,7 +285,7 @@ SimulateGame:
         idiv ecx
         add ebx, byte 4
         inc dword [byte ebp-062h]
-        mov dword [dword ebx+dword_17DA9C], eax
+        mov dword [dword ebx+SimWork+174h], eax
         cmp dword [byte ebp-062h], byte 2
         jl near .9
         mov dword [byte ebp-062h], 0
@@ -304,27 +304,27 @@ SimulateGame:
         jmp near .28
 .14:
         mov byte [dword edi+ebp-0122h], 0
-        mov byte [dword edi+byte_17DB44], 0
-        mov eax, dword [dword ebx+dword_17DA80]
-        mov byte [dword edi+byte_17DB12], 0
-        mov byte [dword edi+byte_17DAE0], 0
+        mov byte [dword edi+SimWork+21Ch], 0
+        mov eax, dword [dword ebx+SimWork+158h]
+        mov byte [dword edi+SimWork+1EAh], 0
+        mov byte [dword edi+SimLineCounts], 0
         mov eax, dword [byte ecx+eax+063h]
         cmp eax, byte 0FFFFFFFFh
         je near .27
         call PlayerDbRecord
         mov edx, eax
-        mov eax, dword [dword ebx+dword_17DA90]
+        mov eax, dword [dword ebx+SimWork+168h]
         mov dword [ecx+eax], edx
         cmp dword [byte ebp-06Eh], byte 0
         jne near .22
-        mov eax, dword [dword ebx+dword_17DA90]
+        mov eax, dword [dword ebx+SimWork+168h]
         mov eax, dword [ecx+eax]
         mov eax, dword [byte eax+028h]
         call StatsDb1Record
         mov edx, eax
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov dword [ecx+eax], edx
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+eax]
         cmp word [esi], byte 0
         je near .17
@@ -341,7 +341,7 @@ SimulateGame:
         imul ax, word [byte esi+0Eh], byte 3
         mov word [byte esi+0Eh], ax
 .15:
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+eax]
         cmp word [byte esi+0Eh], byte 0
         je short .16
@@ -357,7 +357,7 @@ SimulateGame:
         jge short .16
         shl word [byte esi+0Eh], 1
 .16:
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+0Eh]
         imul eax, byte 54h
@@ -366,7 +366,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+0Eh], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+0Ch]
         imul eax, byte 54h
@@ -375,7 +375,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+0Ch], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+0Ah]
         imul eax, byte 54h
@@ -384,7 +384,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+0Ah], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+08h]
         imul eax, byte 54h
@@ -393,7 +393,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+08h], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+04h]
         imul eax, byte 54h
@@ -402,7 +402,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+04h], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+02h]
         imul eax, byte 54h
@@ -411,16 +411,16 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+02h], ax
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov eax, dword [ecx+eax]
         mov dx, word [byte eax+02h]
         add dx, word [byte eax+04h]
         mov word [byte eax+06h], dx
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov eax, dword [ecx+eax]
         mov word [eax], 54h
 .17:
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+eax]
         cmp word [byte esi+012h], byte 0
         je near .19
@@ -437,7 +437,7 @@ SimulateGame:
         imul ax, word [byte esi+020h], byte 3
         mov word [byte esi+020h], ax
 .18:
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+020h]
         imul eax, byte 54h
@@ -446,7 +446,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+020h], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+01Eh]
         imul eax, byte 54h
@@ -455,7 +455,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+01Eh], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+01Ch]
         imul eax, byte 54h
@@ -464,7 +464,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+01Ch], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+01Ah]
         imul eax, byte 54h
@@ -473,7 +473,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+01Ah], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+016h]
         imul eax, byte 54h
@@ -482,7 +482,7 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+016h], ax
-        mov esi, dword [dword ebx+dword_17DA28]
+        mov esi, dword [dword ebx+SimWork+100h]
         mov esi, dword [ecx+esi]
         movzx eax, word [byte esi+014h]
         imul eax, byte 54h
@@ -491,62 +491,62 @@ SimulateGame:
         cdq
         idiv dword [byte ebp+06Ah]
         mov word [byte esi+014h], ax
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov eax, dword [ecx+eax]
         mov dx, word [byte eax+014h]
         add dx, word [byte eax+016h]
         mov word [byte eax+018h], dx
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov eax, dword [ecx+eax]
         mov word [byte eax+012h], 54h
 .19:
         cmp dword [dword ebp-0126h], byte 0
         je short .20
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov edx, dword [ecx+eax]
-        mov eax, dword [dword ebx+dword_17DA40]
+        mov eax, dword [dword ebx+SimWork+118h]
         add edx, byte 12h
         mov dword [ecx+eax], edx
         jmp short .21
 .20:
-        mov eax, dword [dword ebx+dword_17DA28]
-        mov edx, dword [dword ebx+dword_17DA40]
+        mov eax, dword [dword ebx+SimWork+100h]
+        mov edx, dword [dword ebx+SimWork+118h]
         mov eax, dword [ecx+eax]
         mov dword [ecx+edx], eax
 .21:
-        mov eax, dword [dword ebx+dword_17DA28]
+        mov eax, dword [dword ebx+SimWork+100h]
         mov eax, dword [ecx+eax]
         movzx eax, word [byte eax+0Ch]
-        add dword [dword ebx+dword_17DA68], eax
+        add dword [dword ebx+SimWork+140h], eax
 .22:
         cmp dword [byte ebp-06Eh], byte 0
         jne short .27
-        mov eax, dword [dword ebx+dword_17DA90]
+        mov eax, dword [dword ebx+SimWork+168h]
         mov eax, dword [ecx+eax]
         mov eax, dword [byte eax+02Ch]
         cmp dword [dword ebp-012Eh], byte 0
         je short .23
         mov eax, dword [byte ebp-05Ah]
-        mov edx, dword [dword ebx+dword_17D930]
-        mov eax, dword [dword ecx+eax+dword_17D950]
+        mov edx, dword [dword ebx+SimWork+8]
+        mov eax, dword [dword ecx+eax+SimPlayerBufs]
         mov dword [ecx+edx], eax
         jmp short .24
 .23:
         call StatsDb5Record
         mov edx, eax
-        mov eax, dword [dword ebx+dword_17D930]
+        mov eax, dword [dword ebx+SimWork+8]
         mov dword [ecx+eax], edx
 .24:
         cmp dword [dword ebp-0126h], byte 0
         je short .25
-        mov eax, dword [dword ebx+dword_17D930]
+        mov eax, dword [dword ebx+SimWork+8]
         mov edx, dword [ecx+eax]
-        mov eax, dword [dword ebx+dword_17DA48]
+        mov eax, dword [dword ebx+SimWork+120h]
         add edx, byte 12h
         jmp short .26
 .25:
-        mov edx, dword [dword ebx+dword_17D930]
-        mov eax, dword [dword ebx+dword_17DA48]
+        mov edx, dword [dword ebx+SimWork+8]
+        mov eax, dword [dword ebx+SimWork+120h]
         mov edx, dword [ecx+edx]
 .26:
         mov dword [ecx+eax], edx
@@ -567,55 +567,55 @@ SimulateGame:
         shl ebx, 2
         jmp near .36
 .30:
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov eax, dword [dword esi+eax+0C7h]
         cmp eax, byte 0FFFFFFFFh
         je near .35
         call PlayerDbRecord
         mov edx, eax
-        mov eax, dword [dword ebx+dword_17DA88]
+        mov eax, dword [dword ebx+SimWork+160h]
         mov dword [esi+eax], edx
         cmp dword [byte ebp-06Eh], byte 0
         jne short .31
-        mov eax, dword [dword ebx+dword_17DA88]
+        mov eax, dword [dword ebx+SimWork+160h]
         mov eax, dword [esi+eax]
         mov eax, dword [byte eax+028h]
         call StatsDb1Record
         mov edx, eax
-        mov eax, dword [dword ebx+dword_17DA78]
+        mov eax, dword [dword ebx+SimWork+150h]
         mov dword [esi+eax], edx
-        mov eax, dword [dword ebx+dword_17DA78]
-        mov edx, dword [dword ebx+dword_17DA60]
+        mov eax, dword [dword ebx+SimWork+150h]
+        mov edx, dword [dword ebx+SimAwaySetBufs]
         mov eax, dword [esi+eax]
         mov dword [edx+esi], eax
 .31:
         cmp dword [byte ebp-06Eh], byte 0
         jne short .35
-        mov eax, dword [dword ebx+dword_17DA88]
+        mov eax, dword [dword ebx+SimWork+160h]
         mov eax, dword [esi+eax]
         mov eax, dword [byte eax+02Ch]
         cmp dword [dword ebp-012Eh], byte 0
         je short .32
-        mov eax, dword [dword ebx+dword_17DA20]
-        mov edx, dword [dword ecx+esi+dword_17D938]
+        mov eax, dword [dword ebx+SimWork+0F8h]
+        mov edx, dword [dword ecx+esi+SimGoalieBufs]
         jmp short .33
 .32:
         call StatsDb5Record
         mov edx, eax
-        mov eax, dword [dword ebx+dword_17DA20]
+        mov eax, dword [dword ebx+SimWork+0F8h]
 .33:
         mov dword [esi+eax], edx
         cmp dword [dword ebp-0126h], byte 0
         je short .34
-        mov eax, dword [dword ebx+dword_17DA20]
+        mov eax, dword [dword ebx+SimWork+0F8h]
         mov edx, dword [esi+eax]
-        mov eax, dword [dword ebx+dword_17DA58]
+        mov eax, dword [dword ebx+SimAwayStatsBufs]
         add edx, byte 16h
         mov dword [esi+eax], edx
         jmp short .35
 .34:
-        mov eax, dword [dword ebx+dword_17DA20]
-        mov edx, dword [dword ebx+dword_17DA58]
+        mov eax, dword [dword ebx+SimWork+0F8h]
+        mov edx, dword [dword ebx+SimAwayStatsBufs]
         mov eax, dword [esi+eax]
         mov dword [edx+esi], eax
 .35:
@@ -644,12 +644,12 @@ SimulateGame:
 .40:
         mov eax, dword [byte ebp-062h]
         mov byte [dword eax+ebp+0D2h], 5
-        imul eax, dword [dword ebx+dword_17DA68], dword 3E8h
+        imul eax, dword [dword ebx+SimWork+140h], dword 3E8h
         mov ecx, 54h
         cdq
         idiv ecx
         mov ecx, 7FFFh
-        mov dword [dword ebx+dword_17DA68], eax
+        mov dword [dword ebx+SimWork+140h], eax
         call rand_
         cdq
         idiv ecx
@@ -660,14 +660,14 @@ SimulateGame:
         idiv ecx
         cmp edx, 136h
         jle short .41
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov al, byte [dword eax+0107h]
         mov edx, dword [byte ebp-062h]
         sub al, 19h
         mov dword [dword ebx+ebp-0B6h], 0
         jmp short .42
 .41:
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov al, byte [dword eax+0108h]
         mov edx, dword [byte ebp-062h]
         sub al, 19h
@@ -678,7 +678,7 @@ SimulateGame:
         mov edx, dword [byte ebp-062h]
         inc byte [eax]
         movzx edx, byte [dword edx+ebp+0CEh]
-        mov eax, dword [dword ebx+dword_17DA58]
+        mov eax, dword [dword ebx+SimAwayStatsBufs]
         shl edx, 2
         mov eax, dword [edx+eax]
         mov edx, esi
@@ -686,12 +686,12 @@ SimulateGame:
         imul eax, dword [byte ebp-062h], byte 19h
 .43:
         inc eax
-        mov byte [dword eax+byte_17DADF], 0
+        mov byte [dword eax+SimWork+1B7h], 0
         cmp eax, edx
         jne short .43
         imul eax, dword [byte ebp-062h], byte 19h
         mov dword [byte ebp-066h], 19h
-        mov edi, dword [dword ebx+dword_17DA80]
+        mov edi, dword [dword ebx+SimWork+158h]
         mov dword [byte ebp-066h], 0
         lea ecx, [byte edi+03h]
         mov dword [byte ebp-052h], eax
@@ -707,7 +707,7 @@ SimulateGame:
         jge short .46
         mov edx, dword [byte ebp-052h]
         add edx, dword [byte ebp-056h]
-        inc byte [dword edx+byte_17DAE0]
+        inc byte [dword edx+SimLineCounts]
 .46:
         inc eax
         cmp eax, dword [dword ebp+0AAh]
@@ -718,7 +718,7 @@ SimulateGame:
         jl short .44
         imul eax, dword [byte ebp-062h], byte 19h
         mov dword [byte ebp-04Ah], eax
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov dword [byte ebp-066h], 0
         mov dword [byte ebp-04Eh], eax
         lea ecx, [byte eax+02h]
@@ -733,7 +733,7 @@ SimulateGame:
         cmp edx, byte 19h
         jge short .49
         add edx, dword [byte ebp-04Ah]
-        inc byte [dword edx+byte_17DAE0]
+        inc byte [dword edx+SimLineCounts]
 .49:
         inc eax
         cmp eax, dword [dword ebp+0AEh]
@@ -745,7 +745,7 @@ SimulateGame:
         jl short .47
         imul eax, dword [byte ebp-062h], byte 19h
         mov dword [byte ebp-042h], eax
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov dword [byte ebp-066h], 0
         mov dword [byte ebp-046h], eax
         lea ecx, [byte eax+05h]
@@ -760,7 +760,7 @@ SimulateGame:
         cmp eax, byte 19h
         jge short .52
         add eax, dword [byte ebp-042h]
-        inc byte [dword eax+byte_17DAE0]
+        inc byte [dword eax+SimLineCounts]
 .52:
         inc edx
         cmp edx, dword [byte ebp+07Ah]
@@ -771,7 +771,7 @@ SimulateGame:
         jl short .50
         imul eax, dword [byte ebp-062h], byte 19h
         mov dword [byte ebp-03Ah], eax
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov dword [byte ebp-066h], 0
         mov dword [byte ebp-03Eh], eax
         lea ecx, [byte eax+04h]
@@ -786,7 +786,7 @@ SimulateGame:
         cmp edx, byte 19h
         jge short .55
         add edx, dword [byte ebp-03Ah]
-        inc byte [dword edx+byte_17DAE0]
+        inc byte [dword edx+SimLineCounts]
 .55:
         inc eax
         cmp eax, dword [dword ebp+0B2h]
@@ -795,7 +795,7 @@ SimulateGame:
         add ecx, byte 4
         cmp dword [byte ebp-066h], byte 2
         jl short .53
-        mov edx, dword [dword ebx+dword_17DA80]
+        mov edx, dword [dword ebx+SimWork+158h]
         mov eax, edx
         inc edx
         inc edx
@@ -806,7 +806,7 @@ SimulateGame:
         movzx edx, dl
         cmp edx, byte 19h
         jge short .57
-        inc byte [dword ecx+edx+byte_17DAE0]
+        inc byte [dword ecx+edx+SimLineCounts]
 .57:
         inc eax
         cmp eax, dword [dword ebp-09Eh]
@@ -815,15 +815,15 @@ SimulateGame:
         xor ecx, ecx
         imul eax, dword [byte ebp-062h], byte 19h
 .58:
-        cmp byte [dword eax+byte_17DAE0], 0
+        cmp byte [dword eax+SimLineCounts], 0
         je short .59
-        mov edx, dword [dword edi+dword_17DA48]
+        mov edx, dword [dword edi+SimWork+120h]
         mov edx, dword [ecx+edx]
         inc word [edx]
 .59:
         inc eax
         add ecx, byte 4
-        mov byte [dword eax+byte_17DADF], 0
+        mov byte [dword eax+SimWork+1B7h], 0
         cmp ecx, byte 64h
         jne short .58
         inc dword [byte ebp-062h]
@@ -872,12 +872,12 @@ SimulateGame:
         cmp edx, ecx
         je short .68
         mov eax, edx
-        mov edx, dword [dword edi+eax*4+dword_11E4C4]
-        xor dword [dword ebx+dword_11E4C4], edx
-        mov edx, dword [dword ebx+dword_11E4C4]
-        xor dword [dword edi+eax*4+dword_11E4C4], edx
-        mov eax, dword [dword edi+eax*4+dword_11E4C4]
-        xor dword [dword ebx+dword_11E4C4], eax
+        mov edx, dword [dword edi+eax*4+SimTeamFactors]
+        xor dword [dword ebx+SimTeamFactors], edx
+        mov edx, dword [dword ebx+SimTeamFactors]
+        xor dword [dword edi+eax*4+SimTeamFactors], edx
+        mov eax, dword [dword edi+eax*4+SimTeamFactors]
+        xor dword [dword ebx+SimTeamFactors], eax
 .68:
         inc ecx
         add ebx, byte 4
@@ -902,12 +902,12 @@ SimulateGame:
         cmp edx, ecx
         je short .72
         mov eax, edx
-        mov edx, dword [dword edi+eax*4+dword_11E514]
-        xor dword [dword ebx+dword_11E514], edx
-        mov edx, dword [dword ebx+dword_11E514]
-        xor dword [dword edi+eax*4+dword_11E514], edx
-        mov eax, dword [dword edi+eax*4+dword_11E514]
-        xor dword [dword ebx+dword_11E514], eax
+        mov edx, dword [dword edi+eax*4+SimPlayerOrder]
+        xor dword [dword ebx+SimPlayerOrder], edx
+        mov edx, dword [dword ebx+SimPlayerOrder]
+        xor dword [dword edi+eax*4+SimPlayerOrder], edx
+        mov eax, dword [dword edi+eax*4+SimPlayerOrder]
+        xor dword [dword ebx+SimPlayerOrder], eax
 .72:
         inc ecx
         add ebx, byte 4
@@ -944,7 +944,7 @@ SimulateGame:
         jne short .75
         add edx, byte 4
         inc dword [byte ebp-062h]
-        mov dword [dword edx+dword_17DA6C], 0
+        mov dword [dword edx+SimWork+144h], 0
         cmp dword [byte ebp-062h], byte 2
         jl short .74
         mov al, byte [dword ebp+0DEh]
@@ -962,7 +962,7 @@ SimulateGame:
         ja short .79
         mov eax, dword [AwayShotTotals]
         inc word [byte eax+0Ah]
-        mov eax, dword [dword_17DA54]
+        mov eax, dword [SimWork+12Ch]
         inc word [hmtmPwrPlays]
         jmp short .80
 .79:
@@ -972,7 +972,7 @@ SimulateGame:
         mov al, byte [dword ebp+0DFh]
         cmp al, byte [dword ebp+0DEh]
         ja short .81
-        mov eax, dword [dword_17DA54]
+        mov eax, dword [SimWork+12Ch]
         inc word [byte eax+0Ah]
         mov eax, dword [AwayShotTotals]
         inc word [awtmPwrPlays]
@@ -982,9 +982,9 @@ SimulateGame:
         mov al, byte [dword ebp+0D2h]
         cmp al, byte [dword ebp+0D3h]
         jbe short .82
-        mov eax, dword [dword_17DA98]
+        mov eax, dword [SimWork+170h]
         add eax, eax
-        add eax, dword [dword_17DAA4]
+        add eax, dword [SimWork+17Ch]
         cdq
         shl edx, 3
         LD sbb, eax, edx
@@ -993,18 +993,18 @@ SimulateGame:
         movzx edx, byte [dword ebp+0D2h]
         sub edx, ebx
         imul eax, edx
-        mov dword [dword_17DA70], eax
+        mov dword [SimWork+148h], eax
         neg eax
         add eax, eax
-        mov dword [dword_17DA74], eax
+        mov dword [SimWork+14Ch], eax
         jmp short .83
 .82:
         mov al, byte [dword ebp+0D3h]
         cmp al, byte [dword ebp+0D2h]
         jbe short .83
-        mov eax, dword [dword_17DA9C]
+        mov eax, dword [SimWork+174h]
         add eax, eax
-        add eax, dword [dword_17DAA0]
+        add eax, dword [SimWork+178h]
         cdq
         shl edx, 3
         LD sbb, eax, edx
@@ -1013,10 +1013,10 @@ SimulateGame:
         movzx edx, byte [dword ebp+0D2h]
         sub ebx, edx
         imul eax, ebx
-        mov dword [dword_17DA74], eax
+        mov dword [SimWork+14Ch], eax
         neg eax
         add eax, eax
-        mov dword [dword_17DA70], eax
+        mov dword [SimWork+148h], eax
 .83:
         mov dword [byte ebp-062h], 0
         mov eax, dword [byte ebp-076h]
@@ -1036,7 +1036,7 @@ SimulateGame:
         idiv ecx
         mov esi, dword [byte ebp-062h]
         movzx esi, byte [dword esi+ebp+0DAh]
-        mov eax, dword [dword ebx+dword_17DA68]
+        mov eax, dword [dword ebx+SimWork+140h]
         mov ecx, edx
         cdq
         idiv esi
@@ -1049,17 +1049,17 @@ SimulateGame:
         mov eax, dword [dword ebp+0BAh]
         mov dword [byte ebp-026h], ebx
         mov dword [byte ebp-036h], eax
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov dword [byte ebp-02Ah], edi
         mov dword [byte ebp-032h], eax
-        mov eax, dword [dword ebx+dword_17DA40]
+        mov eax, dword [dword ebx+SimWork+118h]
         xor ecx, ecx
         mov dword [byte ebp-02Eh], eax
 .85:
         movzx eax, byte [dword ebp+0126h]
         shl eax, 2
         add eax, dword [byte ebp-036h]
-        imul eax, dword [dword eax+dword_11E4C4], byte 3
+        imul eax, dword [dword eax+SimTeamFactors], byte 3
         add eax, dword [byte ebp-032h]
         mov al, byte [dword ecx+eax+0D3h]
         movzx esi, al
@@ -1083,19 +1083,19 @@ SimulateGame:
         imul eax, dword 3E8h
         sub edx, eax
         movzx eax, byte [dword ebp+0F2h]
-        mov dword [dword_17DAD0], edx
+        mov dword [SimWork+1A8h], edx
         cmp eax, 0FFh
         je short .86
-        cmp edx, dword [dword_17DAD4]
+        cmp edx, dword [SimWork+1ACh]
         jle short .87
 .86:
         mov edx, dword [byte ebp-026h]
         movzx eax, byte [dword ebp+010Eh]
-        mov edx, dword [dword edx+dword_17DA48]
+        mov edx, dword [dword edx+SimWork+120h]
         mov eax, dword [edx+eax*4]
-        mov dword [dword_17DAC4], eax
-        mov eax, dword [dword_17DAD0]
-        mov dword [dword_17DAD4], eax
+        mov dword [SimWork+19Ch], eax
+        mov eax, dword [SimWork+1A8h]
+        mov dword [SimWork+1ACh], eax
         mov al, byte [dword ebp+010Eh]
         mov byte [dword ebp+0F2h], cl
         mov byte [dword ebp+010Ah], al
@@ -1109,17 +1109,17 @@ SimulateGame:
         mov al, cl
         add al, 3
         mov byte [dword ebp+011Ah], al
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov dword [dword ebp+086h], ebx
         mov dword [byte ebp-01Eh], eax
-        mov eax, dword [dword ebx+dword_17DA40]
+        mov eax, dword [dword ebx+SimWork+118h]
         mov dword [byte ebp-012h], edi
         mov dword [byte ebp-016h], eax
 .88:
         movzx eax, byte [dword ebp+0122h]
         shl eax, 2
         add eax, dword [byte ebp-022h]
-        mov eax, dword [dword eax+dword_11E514]
+        mov eax, dword [dword eax+SimPlayerOrder]
         add eax, eax
         add eax, dword [byte ebp-01Eh]
         mov al, byte [dword ecx+eax+0DFh]
@@ -1145,18 +1145,18 @@ SimulateGame:
         movzx eax, byte [dword eax+ebp-0122h]
         imul eax, dword 3E8h
         sub edx, eax
-        mov dword [dword_17DAD0], edx
-        cmp edx, dword [dword_17DAD4]
+        mov dword [SimWork+1A8h], edx
+        cmp edx, dword [SimWork+1ACh]
         jle short .89
         mov eax, dword [dword ebp+086h]
-        mov eax, dword [dword eax+dword_17DA48]
+        mov eax, dword [dword eax+SimWork+120h]
         add eax, dword [byte ebp-01Ah]
         mov eax, dword [eax]
-        mov dword [dword_17DAC4], eax
+        mov dword [SimWork+19Ch], eax
         mov al, byte [dword ebp+011Ah]
         mov byte [dword ebp+0F2h], al
         mov al, byte [dword ebp+0102h]
-        mov dword [dword_17DAD4], edx
+        mov dword [SimWork+1ACh], edx
         mov byte [dword ebp+010Ah], al
 .89:
         inc ecx
@@ -1184,7 +1184,7 @@ SimulateGame:
         inc dh
         mov byte [dword eax+ebp-0D6h], dh
         movzx cx, dl
-        mov eax, dword [dword_17DAC4]
+        mov eax, dword [SimWork+19Ch]
         movzx edx, byte [dword ebp+010Ah]
         add word [byte eax+0Ch], cx
         add edx, edi
@@ -1192,7 +1192,7 @@ SimulateGame:
         inc byte [dword edx+ebp-0122h]
         add word [byte eax+010h], cx
         mov eax, dword [byte ebp+03Ah]
-        sub dword [dword ebx+dword_17DA68], 3E8h
+        sub dword [dword ebx+SimWork+140h], 3E8h
         inc word [dword eax+hmtmPenalties]
 .92:
         mov eax, dword [byte ebp-062h]
@@ -1201,7 +1201,7 @@ SimulateGame:
         add dword [byte ebp+036h], byte 0Ch
         add dword [byte ebp+03Ah], 136h
         add dword [dword ebp-096h], byte 5
-        mov edx, dword [dword ebx+dword_17DA58]
+        mov edx, dword [dword ebx+SimAwayStatsBufs]
         movzx eax, byte [dword eax+ebp+0CEh]
         add edi, byte 19h
         mov eax, dword [edx+eax*4]
@@ -1243,7 +1243,7 @@ SimulateGame:
         cmp dword [byte ebp-062h], byte 0
         sete al
         movzx eax, al
-        mov eax, dword [nosplit eax*4+dword_17DA60]
+        mov eax, dword [nosplit eax*4+SimAwaySetBufs]
         mov eax, dword [edx+eax]
         cmp word [eax], byte 0
         je short .96
@@ -1255,7 +1255,7 @@ SimulateGame:
         cmp dword [byte ebp-062h], byte 0
         sete al
         movzx eax, al
-        mov eax, dword [nosplit eax*4+dword_17DA60]
+        mov eax, dword [nosplit eax*4+SimAwaySetBufs]
         mov eax, dword [edx+eax]
         movzx eax, word [byte eax+012h]
         imul esi, eax, dword 3E8h
@@ -1267,7 +1267,7 @@ SimulateGame:
         cmp dword [byte ebp-062h], byte 0
         sete al
         movzx eax, al
-        mov eax, dword [nosplit eax*4+dword_17DA60]
+        mov eax, dword [nosplit eax*4+SimAwaySetBufs]
         mov eax, dword [edx+eax]
         movzx ecx, word [eax]
         mov eax, esi
@@ -1276,20 +1276,20 @@ SimulateGame:
         mov ecx, 3Ch
         cdq
         idiv ecx
-        mov dword [dword_17DABC], eax
+        mov dword [SimWork+194h], eax
         jmp short .97
 .96:
-        mov dword [dword_17DABC], 3E8h
+        mov dword [SimWork+194h], 3E8h
 .97:
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov esi, dword [dword ebp+0BAh]
         mov dword [byte ebp-0Eh], eax
-        mov eax, dword [dword ebx+dword_17DA40]
+        mov eax, dword [dword ebx+SimWork+118h]
         xor ecx, ecx
         mov dword [byte ebp-0Ah], eax
 .98:
         movzx eax, byte [dword ebp+0126h]
-        imul eax, dword [dword esi+eax*4+dword_11E4C4], byte 3
+        imul eax, dword [dword esi+eax*4+SimTeamFactors], byte 3
         add eax, dword [byte ebp-0Eh]
         mov al, byte [dword ecx+eax+0D3h]
         movzx eax, al
@@ -1305,18 +1305,18 @@ SimulateGame:
         cdq
         idiv dword [dword ebp+0CAh]
         inc ecx
-        add dword [dword_17DABC], eax
+        add dword [SimWork+194h], eax
         cmp ecx, byte 3
         jl short .98
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov esi, dword [byte ebp+036h]
         mov dword [byte ebp-06h], eax
-        mov eax, dword [dword ebx+dword_17DA40]
+        mov eax, dword [dword ebx+SimWork+118h]
         xor ecx, ecx
         mov dword [byte ebp-02h], eax
 .99:
         movzx eax, byte [dword ebp+0122h]
-        mov eax, dword [dword esi+eax*4+dword_11E514]
+        mov eax, dword [dword esi+eax*4+SimPlayerOrder]
         add eax, eax
         add eax, dword [byte ebp-06h]
         mov al, byte [dword ecx+eax+0DFh]
@@ -1333,23 +1333,23 @@ SimulateGame:
         cdq
         idiv dword [dword ebp+0CAh]
         inc ecx
-        add dword [dword_17DABC], eax
+        add dword [SimWork+194h], eax
         cmp ecx, byte 2
         jl short .99
         movzx eax, byte [dword ebp+0126h]
         shl eax, 2
         add eax, dword [dword ebp+0BAh]
         mov edx, dword [dword ebp-096h]
-        add edx, dword [dword eax+dword_11E4C4]
+        add edx, dword [dword eax+SimTeamFactors]
         movzx eax, byte [dword edx+ebp-0CAh]
         imul eax, dword 3E8h
-        mov edx, dword [dword_17DABC]
+        mov edx, dword [SimWork+194h]
         imul edx, dword [byte ebp+02h]
         fild dword [byte ebp-07Ah]
         fmul qword [F64_0p333333]
         sub edx, eax
-        mov dword [dword_17DABC], edx
-        fild dword [dword_17DABC]
+        mov dword [SimWork+194h], edx
+        fild dword [SimWork+194h]
         fdivrp
         fcomp qword [F64_1000]
         fnstsw ax
@@ -1360,17 +1360,17 @@ SimulateGame:
         mov esi, dword [dword ebp-096h]
         mov dword [byte ebp+016h], ebx
         mov dword [byte ebp+06h], eax
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov dword [byte ebp+012h], edi
         mov dword [byte ebp+0Ah], eax
-        mov eax, dword [dword ebx+dword_17DA40]
+        mov eax, dword [dword ebx+SimWork+118h]
         xor ecx, ecx
         mov dword [byte ebp+0Eh], eax
 .100:
         movzx eax, byte [dword ebp+0126h]
         shl eax, 2
         add eax, dword [byte ebp+06h]
-        imul eax, dword [dword eax+dword_11E4C4], byte 3
+        imul eax, dword [dword eax+SimTeamFactors], byte 3
         add eax, dword [byte ebp+0Ah]
         mov al, byte [dword ecx+eax+0D3h]
         mov byte [dword ebp+0106h], al
@@ -1390,15 +1390,15 @@ SimulateGame:
         mov dword [byte ebp+06Ah], eax
         mov eax, dword [byte ebp+012h]
         add eax, dword [byte ebp+07Eh]
-        movzx eax, byte [dword eax+byte_17DB44]
+        movzx eax, byte [dword eax+SimWork+21Ch]
         imul eax, dword 3E8h
         mov edx, dword [byte ebp+06Ah]
         sub edx, eax
         movzx eax, byte [dword ebp+0EAh]
-        mov dword [dword_17DAD8], edx
+        mov dword [SimWork+1B0h], edx
         cmp eax, 0FFh
         je short .101
-        cmp edx, dword [dword_17DADC]
+        cmp edx, dword [SimWork+1B4h]
         jle short .102
 .101:
         cmp byte [dword esi+ebp-0D6h], 0
@@ -1407,12 +1407,12 @@ SimulateGame:
         shl eax, 2
         mov dword [byte ebp+06Ah], eax
         mov eax, dword [byte ebp+016h]
-        mov eax, dword [dword eax+dword_17DA48]
+        mov eax, dword [dword eax+SimWork+120h]
         add eax, dword [byte ebp+06Ah]
         mov eax, dword [eax]
-        mov dword [dword_17DAC4], eax
-        mov eax, dword [dword_17DAD8]
-        mov dword [dword_17DADC], eax
+        mov dword [SimWork+19Ch], eax
+        mov eax, dword [SimWork+1B0h]
+        mov dword [SimWork+1B4h], eax
         mov al, byte [dword ebp+0106h]
         mov byte [dword ebp+0EAh], cl
         mov byte [dword ebp+010Ah], al
@@ -1425,17 +1425,17 @@ SimulateGame:
         mov edx, dword [dword ebp-096h]
         mov dword [dword ebp+082h], ebx
         mov dword [byte ebp+01Ah], eax
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov dword [byte ebp+032h], edi
         mov dword [byte ebp+01Eh], eax
-        mov eax, dword [dword ebx+dword_17DA40]
+        mov eax, dword [dword ebx+SimWork+118h]
         xor ecx, ecx
         mov dword [byte ebp+02Ah], eax
 .103:
         movzx eax, byte [dword ebp+0122h]
         shl eax, 2
         add eax, dword [byte ebp+01Ah]
-        mov eax, dword [dword eax+dword_11E514]
+        mov eax, dword [dword eax+SimPlayerOrder]
         add eax, eax
         add eax, dword [byte ebp+01Eh]
         mov al, byte [dword ecx+eax+0DFh]
@@ -1452,7 +1452,7 @@ SimulateGame:
         mov dword [byte ebp+06Ah], eax
         mov eax, dword [byte ebp+032h]
         add eax, dword [byte ebp+022h]
-        movzx eax, byte [dword eax+byte_17DB44]
+        movzx eax, byte [dword eax+SimWork+21Ch]
         imul eax, dword 3E8h
         fild dword [byte ebp+06Ah]
         fmul qword [F64_0p75]
@@ -1462,19 +1462,19 @@ SimulateGame:
         fild dword [byte ebp+06Ah]
         fsubp
         call __CHP
-        fistp dword [dword_17DAD8]
-        mov eax, dword [dword_17DAD8]
-        cmp eax, dword [dword_17DADC]
+        fistp dword [SimWork+1B0h]
+        mov eax, dword [SimWork+1B0h]
+        cmp eax, dword [SimWork+1B4h]
         jle short .104
         cmp byte [dword edx+ebp-0D3h], 0
         jne short .104
         mov eax, dword [dword ebp+082h]
-        mov eax, dword [dword eax+dword_17DA48]
+        mov eax, dword [dword eax+SimWork+120h]
         add eax, dword [byte ebp+026h]
         mov eax, dword [eax]
-        mov dword [dword_17DAC4], eax
-        mov eax, dword [dword_17DAD8]
-        mov dword [dword_17DADC], eax
+        mov dword [SimWork+19Ch], eax
+        mov eax, dword [SimWork+1B0h]
+        mov dword [SimWork+1B4h], eax
         mov al, byte [dword ebp+0112h]
         mov byte [dword ebp+010Ah], al
 .104:
@@ -1486,13 +1486,13 @@ SimulateGame:
         shl eax, 2
         add eax, dword [dword ebp+0BAh]
         mov edx, dword [dword ebp-096h]
-        add edx, dword [dword eax+dword_11E4C4]
+        add edx, dword [dword eax+SimTeamFactors]
         mov eax, edx
         movzx edx, byte [dword ebp+010Ah]
         inc byte [dword eax+ebp-0CAh]
         lea eax, [edi+edx]
-        mov edx, dword [dword_17DAC4]
-        inc byte [dword eax+byte_17DB44]
+        mov edx, dword [SimWork+19Ch]
+        inc byte [dword eax+SimWork+21Ch]
         inc word [byte edx+0Eh]
         cmp dword [byte ebp-062h], byte 0
         sete al
@@ -1502,13 +1502,13 @@ SimulateGame:
         cmp dword [byte ebp-062h], byte 0
         sete al
         movzx eax, al
-        mov eax, dword [nosplit eax*4+dword_17DA58]
+        mov eax, dword [nosplit eax*4+SimAwayStatsBufs]
         mov eax, dword [edx+eax]
         mov edx, dword [byte ebp-062h]
         xor dl, 1
         inc word [byte eax+012h]
         movzx eax, byte [dword edx+ebp+0CEh]
-        mov edx, dword [nosplit edx*4+dword_17DA60]
+        mov edx, dword [nosplit edx*4+SimAwaySetBufs]
         mov eax, dword [edx+eax*4]
         cmp word [byte eax+012h], byte 0
         je short .105
@@ -1518,7 +1518,7 @@ SimulateGame:
         mov eax, edx
         cdq
         idiv ecx
-        mov dword [dword_17DAB8], eax
+        mov dword [SimWork+190h], eax
         jmp short .106
 .105:
         call rand_
@@ -1531,7 +1531,7 @@ SimulateGame:
         cdq
         idiv ecx
         inc edx
-        mov dword [dword_17DAB8], edx
+        mov dword [SimWork+190h], edx
 .106:
         mov eax, dword [byte ebp-062h]
         movzx eax, byte [dword eax+ebp+0E6h]
@@ -1539,9 +1539,9 @@ SimulateGame:
         mov ecx, 21h
         cdq
         idiv ecx
-        sub dword [dword_17DAB8], eax
+        sub dword [SimWork+190h], eax
         mov eax, dword [byte ebp-076h]
-        add dword [dword_17DAB8], 0A5h
+        add dword [SimWork+190h], 0A5h
         cmp eax, dword [byte ebp+076h]
         jne short .107
         cmp dword [byte ebp-062h], byte 0
@@ -1554,10 +1554,10 @@ SimulateGame:
         dec eax
         cmp edx, eax
         jne short .107
-        mov dword [dword_17DAB8], 3E8h
+        mov dword [SimWork+190h], 3E8h
 .107:
         movzx eax, byte [dword ebp+010Ah]
-        mov edx, dword [dword ebx+dword_17DA40]
+        mov edx, dword [dword ebx+SimWork+118h]
         mov eax, dword [edx+eax*4]
         cmp word [byte eax+0Eh], byte 0
         je short .110
@@ -1570,14 +1570,14 @@ SimulateGame:
         fmul qword [F64_0p8]
         fmul qword [F64_10]
         call __CHP
-        fistp dword [dword_17DACC]
+        fistp dword [SimWork+1A4h]
         jmp short .109
 .108:
         imul eax, byte 0Ah
-        mov dword [dword_17DACC], eax
+        mov dword [SimWork+1A4h], eax
 .109:
         movzx eax, byte [dword ebp+010Ah]
-        mov edx, dword [dword ebx+dword_17DA40]
+        mov edx, dword [dword ebx+SimWork+118h]
         mov eax, dword [edx+eax*4]
         movzx edx, word [byte eax+02h]
         imul edx, dword 3E8h
@@ -1585,9 +1585,9 @@ SimulateGame:
         mov eax, edx
         cdq
         idiv ecx
-        mov edx, dword [dword_17DACC]
+        mov edx, dword [SimWork+1A4h]
         add eax, edx
-        mov dword [dword_17DAC8], eax
+        mov dword [SimWork+1A0h], eax
         jmp short .111
 .110:
         call rand_
@@ -1600,7 +1600,7 @@ SimulateGame:
         cdq
         idiv ecx
         inc edx
-        mov dword [dword_17DAC8], edx
+        mov dword [SimWork+1A0h], edx
 .111:
         mov eax, dword [byte ebp-076h]
         cmp eax, dword [byte ebp-07Ah]
@@ -1608,27 +1608,27 @@ SimulateGame:
         mov eax, dword [dword ebp-0132h]
         cmp eax, dword [byte ebp-062h]
         jne short .112
-        mov dword [dword_17DAC0], 3E8h
+        mov dword [SimWork+198h], 3E8h
         jmp short .114
 .112:
         movzx eax, byte [dword ebp+010Ah]
-        mov edx, dword [dword ebx+dword_17DA40]
+        mov edx, dword [dword ebx+SimWork+118h]
         mov eax, dword [edx+eax*4]
         cmp word [byte eax+0Eh], byte 0
         jne short .113
         cmp dword [dword ebp-0126h], byte 0
         je short .113
-        mov dword [dword_17DAC0], 32h
+        mov dword [SimWork+198h], 32h
         jmp short .114
 .113:
-        mov eax, dword [dword_17DAC8]
-        add eax, dword [dword_17DAB8]
+        mov eax, dword [SimWork+1A0h]
+        add eax, dword [SimWork+190h]
         cdq
         LD sub, eax, edx
         sar eax, 1
-        add eax, dword [dword ebx+dword_17DA70]
+        add eax, dword [dword ebx+SimWork+148h]
         add eax, byte 1Ah
-        mov dword [dword_17DAC0], eax
+        mov dword [SimWork+198h], eax
 .114:
         call rand_
         mov ecx, 3E8h
@@ -1654,24 +1654,24 @@ SimulateGame:
         cmp byte [dword ecx+ebp+0E6h], 0
         jne short .117
 .116:
-        mov esi, dword [dword_17DAC0]
+        mov esi, dword [SimWork+198h]
         inc esi
 .117:
-        cmp esi, dword [dword_17DAC0]
+        cmp esi, dword [SimWork+198h]
         jg near .92
         mov al, byte [dword ebp+010Ah]
         mov byte [dword ebp+012Eh], al
-        mov eax, dword [dword_17DAC4]
+        mov eax, dword [SimWork+19Ch]
         inc word [byte eax+02h]
-        mov eax, dword [dword_17DAC4]
+        mov eax, dword [SimWork+19Ch]
         movzx edx, byte [dword ebp+010Ah]
         inc word [byte eax+06h]
         lea eax, [edi+edx]
         mov edx, dword [byte ebp-062h]
         xor dl, 1
         movzx ecx, byte [dword edx+ebp+0CEh]
-        mov edx, dword [nosplit edx*4+dword_17DA58]
-        inc byte [dword eax+byte_17DAE0]
+        mov edx, dword [nosplit edx*4+SimAwayStatsBufs]
+        inc byte [dword eax+SimLineCounts]
         mov eax, dword [edx+ecx*4]
         inc word [byte eax+0Eh]
         mov eax, dword [dword ebx+AwayShotTotals]
@@ -1711,7 +1711,7 @@ SimulateGame:
         cmp dword [byte ebp-062h], byte 0
         sete al
         movzx eax, al
-        mov eax, dword [nosplit eax*4+dword_17DA58]
+        mov eax, dword [nosplit eax*4+SimAwayStatsBufs]
         mov eax, dword [edx+eax]
         inc word [byte eax+0Ah]
 .119:
@@ -1719,12 +1719,12 @@ SimulateGame:
         inc byte [eax]
         mov eax, dword [byte ebp-062h]
         inc byte [dword eax+ebp+0E6h]
-        cmp dword [dword ebx+dword_17DA70], byte 0
+        cmp dword [dword ebx+SimWork+148h], byte 0
         jle short .122
         mov eax, dword [dword ebx+AwayShotTotals]
         inc word [byte eax+08h]
         mov edx, dword [byte ebp-062h]
-        mov eax, dword [dword_17DAC4]
+        mov eax, dword [SimWork+19Ch]
         xor dl, 1
         inc word [byte eax+08h]
         mov eax, dword [nosplit edx*4+AwayShotTotals]
@@ -1744,12 +1744,12 @@ SimulateGame:
         xor al, 1
         mov eax, dword [nosplit eax*4+AwayShotTotals]
         inc word [byte eax+06h]
-        cmp dword [dword ebx+dword_17DA70], byte 0
+        cmp dword [dword ebx+SimWork+148h], byte 0
         jge short .123
-        mov eax, dword [dword_17DAC4]
+        mov eax, dword [SimWork+19Ch]
         inc word [byte eax+0Ah]
 .123:
-        cmp dword [dword ebx+dword_17DA70], byte 0
+        cmp dword [dword ebx+SimWork+148h], byte 0
         jne near .126
         mov edx, dword [byte ebp-062h]
         mov eax, dword [dword ebp+0BAh]
@@ -1766,28 +1766,28 @@ SimulateGame:
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [byte ebp+042h]
         add eax, dword [byte ebp+07Eh]
-        imul eax, dword [dword eax+dword_11E4C4], byte 3
+        imul eax, dword [dword eax+SimTeamFactors], byte 3
         mov dword [byte ebp+06Ah], eax
         mov eax, dword [byte ebp+046h]
-        mov eax, dword [dword eax+dword_17DA80]
+        mov eax, dword [dword eax+SimWork+158h]
         add eax, dword [byte ebp+06Ah]
         mov al, byte [dword ecx+eax+0D3h]
         movzx eax, al
         shl eax, 2
         mov dword [byte ebp+06Ah], eax
         mov eax, dword [byte ebp+046h]
-        mov eax, dword [dword eax+dword_17DA48]
+        mov eax, dword [dword eax+SimWork+120h]
         add eax, dword [byte ebp+06Ah]
         mov eax, dword [eax]
         inc word [byte eax+010h]
         mov eax, dword [byte ebp+04Ah]
         add eax, dword [byte ebp+07Eh]
-        imul eax, dword [dword eax+dword_11E4C4], byte 3
-        mov esi, dword [dword edx+dword_17DA80]
+        imul eax, dword [dword eax+SimTeamFactors], byte 3
+        mov esi, dword [dword edx+SimWork+158h]
         add eax, esi
         mov al, byte [dword ecx+eax+0D3h]
         movzx eax, al
-        mov esi, dword [dword edx+dword_17DA48]
+        mov esi, dword [dword edx+SimWork+120h]
         shl eax, 2
         add eax, esi
         mov eax, dword [eax]
@@ -1808,36 +1808,36 @@ SimulateGame:
 .125:
         movzx edx, byte [dword ebp+0122h]
         mov eax, dword [byte ebp+04Eh]
-        mov eax, dword [dword eax+edx*4+dword_11E514]
+        mov eax, dword [dword eax+edx*4+SimPlayerOrder]
         add eax, eax
         mov dword [byte ebp+06Ah], eax
-        mov eax, dword [dword esi+dword_17DA80]
+        mov eax, dword [dword esi+SimWork+158h]
         add eax, dword [byte ebp+06Ah]
         mov al, byte [dword ecx+eax+0DFh]
         movzx eax, al
         shl eax, 2
         mov dword [byte ebp+06Ah], eax
-        mov eax, dword [dword esi+dword_17DA48]
+        mov eax, dword [dword esi+SimWork+120h]
         add eax, dword [byte ebp+06Ah]
         mov eax, dword [eax]
         inc word [byte eax+010h]
         mov eax, dword [byte ebp+052h]
-        mov eax, dword [dword eax+edx*4+dword_11E514]
+        mov eax, dword [dword eax+edx*4+SimPlayerOrder]
         mov edx, dword [byte ebp+056h]
         add eax, eax
-        mov edx, dword [dword edx+dword_17DA80]
+        mov edx, dword [dword edx+SimWork+158h]
         add eax, edx
         mov al, byte [dword ecx+eax+0DFh]
         mov edx, dword [byte ebp+056h]
         movzx eax, al
-        mov edx, dword [dword edx+dword_17DA48]
+        mov edx, dword [dword edx+SimWork+120h]
         mov eax, dword [edx+eax*4]
         inc ecx
         dec word [byte eax+010h]
         cmp ecx, byte 2
         jl short .125
 .126:
-        mov byte [byte_17DB78], 0
+        mov byte [SimWork+250h], 0
         mov ecx, 3E8h
         call rand_
         cdq
@@ -1848,7 +1848,7 @@ SimulateGame:
         movzx eax, byte [dword eax+ebp+0D2h]
         cmp eax, byte 2
         jl short .127
-        mov byte [byte_17DB78], 2
+        mov byte [SimWork+250h], 2
         jmp short .128
 .127:
         cmp edx, 384h
@@ -1857,7 +1857,7 @@ SimulateGame:
         movzx eax, byte [dword eax+ebp+0D2h]
         cmp eax, byte 1
         jl short .128
-        mov byte [byte_17DB78], 1
+        mov byte [SimWork+250h], 1
 .128:
         mov eax, dword [byte ebp+036h]
         mov byte [dword ebp+012Ah], 0FFh
@@ -1869,11 +1869,11 @@ SimulateGame:
         mov dword [dword ebp-0AAh], edi
         mov dword [byte ebp+05Ah], eax
 .129:
-        cmp byte [byte_17DB78], 0
+        cmp byte [SimWork+250h], 0
         je near .92
-        mov eax, dword [dword esi+dword_17DA80]
+        mov eax, dword [dword esi+SimWork+158h]
         mov dword [byte ebp+05Eh], eax
-        mov eax, dword [dword esi+dword_17DA40]
+        mov eax, dword [dword esi+SimWork+118h]
         mov byte [dword ebp+0F6h], 0FFh
         mov dword [byte ebp+062h], eax
         mov eax, dword [byte ebp+072h]
@@ -1883,7 +1883,7 @@ SimulateGame:
         movzx eax, byte [dword ebp+0126h]
         shl eax, 2
         add eax, dword [byte ebp+05Ah]
-        imul eax, dword [dword eax+dword_11E4C4], byte 3
+        imul eax, dword [dword eax+SimTeamFactors], byte 3
         add eax, dword [byte ebp+05Eh]
         mov al, byte [dword ecx+eax+0D3h]
         mov byte [dword ebp+0FEh], al
@@ -1903,15 +1903,15 @@ SimulateGame:
         mov dword [byte ebp+06Ah], eax
         mov eax, dword [dword ebp-0AAh]
         add eax, dword [byte ebp+07Eh]
-        movzx eax, byte [dword eax+byte_17DB12]
+        movzx eax, byte [dword eax+SimWork+1EAh]
         imul eax, dword 3E8h
         mov edx, dword [byte ebp+06Ah]
         sub edx, eax
         movzx eax, byte [dword ebp+0F6h]
-        mov dword [dword_17DAB4], edx
+        mov dword [SimWork+18Ch], edx
         cmp eax, 0FFh
         je short .131
-        cmp edx, dword [dword_17DAB0]
+        cmp edx, dword [SimWork+188h]
         jle short .132
 .131:
         mov eax, dword [byte ebp+02Eh]
@@ -1924,14 +1924,14 @@ SimulateGame:
         cmp al, byte [dword ebp+0FEh]
         je short .132
         movzx eax, byte [dword ebp+0FEh]
-        mov edx, dword [dword esi+dword_17DA48]
+        mov edx, dword [dword esi+SimWork+120h]
         shl eax, 2
         add eax, edx
         mov eax, dword [eax]
-        mov dword [dword_17DAC4], eax
-        mov eax, dword [dword_17DAB4]
+        mov dword [SimWork+19Ch], eax
+        mov eax, dword [SimWork+18Ch]
         mov byte [dword ebp+0F6h], cl
-        mov dword [dword_17DAB0], eax
+        mov dword [SimWork+188h], eax
         mov al, byte [dword ebp+0FEh]
         mov byte [dword ebp+010Ah], al
 .132:
@@ -1939,9 +1939,9 @@ SimulateGame:
         inc dword [byte ebp+02Eh]
         cmp ecx, byte 3
         jl near .130
-        mov eax, dword [dword esi+dword_17DA80]
+        mov eax, dword [dword esi+SimWork+158h]
         mov dword [byte ebp+066h], eax
-        mov eax, dword [dword esi+dword_17DA40]
+        mov eax, dword [dword esi+SimWork+118h]
         mov dword [byte ebp+06Eh], eax
         mov eax, dword [byte ebp+072h]
         xor ecx, ecx
@@ -1953,7 +1953,7 @@ SimulateGame:
         movzx eax, byte [dword ebp+0122h]
         shl eax, 2
         add eax, dword [dword ebp-0AEh]
-        mov eax, dword [dword eax+dword_11E514]
+        mov eax, dword [dword eax+SimPlayerOrder]
         add eax, eax
         add eax, dword [byte ebp+066h]
         mov al, byte [dword ecx+eax+0DFh]
@@ -1974,15 +1974,15 @@ SimulateGame:
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [dword ebp-0AAh]
         add eax, dword [byte ebp+06Ah]
-        movzx eax, byte [dword eax+byte_17DB12]
+        movzx eax, byte [dword eax+SimWork+1EAh]
         imul eax, dword 3E8h
         mov edx, dword [byte ebp+07Eh]
         sub edx, eax
         movzx eax, byte [dword ebp+0F6h]
-        mov dword [dword_17DAB4], edx
+        mov dword [SimWork+18Ch], edx
         cmp eax, 0FFh
         je short .134
-        cmp edx, dword [dword_17DAB0]
+        cmp edx, dword [SimWork+188h]
         jle short .135
 .134:
         mov eax, dword [dword ebp+0B6h]
@@ -1995,15 +1995,15 @@ SimulateGame:
         cmp al, byte [dword ebp+0FAh]
         je short .135
         movzx eax, byte [dword ebp+0FAh]
-        mov edx, dword [dword esi+dword_17DA48]
+        mov edx, dword [dword esi+SimWork+120h]
         shl eax, 2
         add eax, edx
         mov eax, dword [eax]
-        mov dword [dword_17DAC4], eax
+        mov dword [SimWork+19Ch], eax
         mov al, byte [dword ebp+011Eh]
         mov byte [dword ebp+0F6h], al
-        mov eax, dword [dword_17DAB4]
-        mov dword [dword_17DAB0], eax
+        mov eax, dword [SimWork+18Ch]
+        mov dword [SimWork+188h], eax
         mov al, byte [dword ebp+0FAh]
         mov byte [dword ebp+010Ah], al
 .135:
@@ -2019,15 +2019,15 @@ SimulateGame:
         mov byte [dword ebp+012Ah], al
         movzx eax, al
         add eax, dword [dword ebp-0AAh]
-        mov edx, dword [dword_17DAC4]
-        inc byte [dword eax+byte_17DB12]
+        mov edx, dword [SimWork+19Ch]
+        inc byte [dword eax+SimWork+1EAh]
         inc word [byte edx+04h]
-        mov eax, dword [dword_17DAC4]
+        mov eax, dword [SimWork+19Ch]
         inc word [byte eax+06h]
-        dec byte [byte_17DB78]
+        dec byte [SimWork+250h]
         jmp near .129
 .136:
-        mov byte [byte_17DB78], 0
+        mov byte [SimWork+250h], 0
         jmp near .129
 .137:
         mov eax, dword [dword ebp-0BEh]
@@ -2057,21 +2057,21 @@ SimulateGame:
         jne short .142
         mov eax, dword [AwayShotTotals]
         inc byte [byte eax+03h]
-        mov eax, dword [dword_17DA54]
+        mov eax, dword [SimWork+12Ch]
         inc byte [byte eax+03h]
         movzx eax, byte [dword ebp+0CEh]
-        mov edx, dword [dword_17DA58]
+        mov edx, dword [SimAwayStatsBufs]
         mov eax, dword [edx+eax*4]
         inc word [byte eax+06h]
         movzx eax, byte [dword ebp+0CFh]
-        mov edx, dword [dword_17DA5C]
+        mov edx, dword [SimWork+134h]
         mov eax, dword [edx+eax*4]
         inc word [byte eax+06h]
         cmp dword [dword ebp-012Eh], byte 0
         jne near .146
-        mov eax, dword [dword_17DA80]
+        mov eax, dword [SimWork+158h]
         inc byte [byte eax+05Ah]
-        mov eax, dword [dword_17DA84]
+        mov eax, dword [SimWork+15Ch]
         inc byte [byte eax+056h]
         jmp near .146
 .142:
@@ -2082,14 +2082,14 @@ SimulateGame:
         jbe near .144
         mov eax, dword [AwayShotTotals]
         inc byte [byte eax+01h]
-        mov eax, dword [dword_17DA54]
+        mov eax, dword [SimWork+12Ch]
         inc byte [byte eax+02h]
         movzx eax, byte [dword ebp+0CEh]
-        mov edx, dword [dword_17DA58]
+        mov edx, dword [SimAwayStatsBufs]
         mov eax, dword [edx+eax*4]
         inc word [byte eax+02h]
         movzx edx, byte [dword ebp+0CFh]
-        mov eax, dword [dword_17DA5C]
+        mov eax, dword [SimWork+134h]
         shl edx, 2
         mov eax, dword [edx+eax]
         inc word [byte eax+04h]
@@ -2097,44 +2097,44 @@ SimulateGame:
         jne near .146
         cmp dword [dword ebp-0126h], byte 0
         jne short .143
-        mov eax, dword [dword_17DA80]
+        mov eax, dword [SimWork+158h]
         inc byte [byte eax+058h]
-        mov eax, dword [dword_17DA84]
+        mov eax, dword [SimWork+15Ch]
         inc byte [byte eax+055h]
         jmp near .146
 .143:
-        mov eax, dword [dword_17DA80]
+        mov eax, dword [SimWork+158h]
         inc byte [byte eax+060h]
-        mov eax, dword [dword_17DA84]
+        mov eax, dword [SimWork+15Ch]
         inc byte [byte eax+05Dh]
         jmp short .146
 .144:
-        mov eax, dword [dword_17DA54]
+        mov eax, dword [SimWork+12Ch]
         inc byte [byte eax+01h]
         mov eax, dword [AwayShotTotals]
         inc byte [byte eax+02h]
         movzx edx, byte [dword ebp+0CFh]
-        mov eax, dword [dword_17DA5C]
+        mov eax, dword [SimWork+134h]
         shl edx, 2
         mov eax, dword [edx+eax]
         inc word [byte eax+02h]
         movzx eax, byte [dword ebp+0CEh]
-        mov edx, dword [dword_17DA58]
+        mov edx, dword [SimAwayStatsBufs]
         mov eax, dword [edx+eax*4]
         inc word [byte eax+04h]
         cmp dword [dword ebp-012Eh], byte 0
         jne short .146
         cmp dword [dword ebp-0126h], byte 0
         jne short .145
-        mov eax, dword [dword_17DA80]
+        mov eax, dword [SimWork+158h]
         inc byte [byte eax+059h]
-        mov eax, dword [dword_17DA84]
+        mov eax, dword [SimWork+15Ch]
         inc byte [byte eax+054h]
         jmp short .146
 .145:
-        mov eax, dword [dword_17DA80]
+        mov eax, dword [SimWork+158h]
         inc byte [byte eax+061h]
-        mov eax, dword [dword_17DA84]
+        mov eax, dword [SimWork+15Ch]
         inc byte [byte eax+05Ch]
 .146:
         xor eax, eax
@@ -2167,7 +2167,7 @@ SimulateGame:
         cmp byte [edx], 0
         jne short .153
         movzx ebx, byte [dword ebp+0CFh]
-        mov edx, dword [dword_17DA5C]
+        mov edx, dword [SimWork+134h]
         shl ebx, 2
         mov edx, dword [edx+ebx]
         inc word [byte edx+08h]
@@ -2185,7 +2185,7 @@ SimulateGame:
         cmp byte [edx], 0
         jne short .154
         movzx edx, byte [dword ebp+0CEh]
-        mov ebx, dword [dword_17DA58]
+        mov ebx, dword [SimAwayStatsBufs]
         mov edx, dword [ebx+edx*4]
         inc word [byte edx+08h]
         movzx edx, byte [dword ebp+0CEh]
@@ -2209,15 +2209,15 @@ SimulateGame:
         mov ebx, esi
         jmp short .159
 .156:
-        movzx edi, byte [dword ebx+byte_17DAE0]
+        movzx edi, byte [dword ebx+SimLineCounts]
         add edi, edi
         mov dword [dword ebp+0CAh], edi
-        movzx edi, byte [dword ebx+byte_17DB12]
+        movzx edi, byte [dword ebx+SimWork+1EAh]
         mov dword [byte ebp+07Eh], edi
         mov edi, dword [dword ebp+0CAh]
         add edi, dword [byte ebp+07Eh]
         mov dword [byte ebp+07Eh], edi
-        movzx edi, byte [dword ebx+byte_17DB44]
+        movzx edi, byte [dword ebx+SimWork+21Ch]
         mov dword [dword ebp+0CAh], edi
         mov edi, dword [byte ebp+07Eh]
         add edi, dword [dword ebp+0CAh]
@@ -2272,7 +2272,7 @@ SimulateGame:
         jmp short .168
 .165:
         movzx esi, byte [dword ebp+0EEh]
-        movzx edi, byte [dword edx+byte_17DAE0]
+        movzx edi, byte [dword edx+SimLineCounts]
         cmp esi, 0FFh
         je short .166
         cmp edi, ecx
@@ -2323,7 +2323,7 @@ SimulateGame:
         mov ebx, esi
         jmp short .177
 .174:
-        movzx edi, byte [dword ebx+byte_17DB12]
+        movzx edi, byte [dword ebx+SimWork+1EAh]
         mov dword [dword ebp+0C6h], edi
         movzx edi, dl
         cmp edi, 0FFh
@@ -2381,12 +2381,12 @@ SimulateGame:
         shl esi, 2
         cmp eax, byte 19h
         jl short .183
-        mov eax, dword [dword ecx+dword_17DA20]
+        mov eax, dword [dword ecx+SimWork+0F8h]
         mov eax, dword [byte esi+eax-064h]
         inc word [byte edx+eax+030h]
         jmp short .184
 .183:
-        mov eax, dword [dword ecx+dword_17D930]
+        mov eax, dword [dword ecx+SimWork+8]
         mov eax, dword [esi+eax]
         inc word [byte edx+eax+028h]
 .184:
@@ -2405,7 +2405,7 @@ SimulateGame:
 .187:
         mov eax, dword [byte ebp-062h]
         movzx edx, byte [dword eax+ebp+0CEh]
-        mov eax, dword [dword ebx+dword_17DA58]
+        mov eax, dword [dword ebx+SimAwayStatsBufs]
         mov eax, dword [eax+edx*4]
         cmp word [eax], byte 0
         je short .190
@@ -2413,16 +2413,16 @@ SimulateGame:
         and eax, byte 70h
         cmp eax, byte 20h
         jne short .188
-        mov eax, dword [dword_17CED6]
+        mov eax, dword [PlayoffGameOpts]
         jmp short .189
 .188:
         mov eax, dword [SeasonGameOpts]
 .189:
         shl eax, 15h
         shr eax, 1Eh
-        mov edx, dword [nosplit eax*4+dword_11E4B8]
+        mov edx, dword [nosplit eax*4+SimStatWeights]
         mov ecx, dword [byte ebp-062h]
-        mov eax, dword [dword ebx+dword_17DA58]
+        mov eax, dword [dword ebx+SimAwayStatsBufs]
         movzx ecx, byte [dword ecx+ebp+0CEh]
         mov ecx, dword [eax+ecx*4]
         movzx eax, word [byte ecx+0Eh]
@@ -2437,16 +2437,16 @@ SimulateGame:
         mov word [byte eax+010h], 0
 .191:
         mov eax, dword [byte ebp-062h]
-        mov ecx, dword [dword ebx+dword_17DA58]
+        mov ecx, dword [dword ebx+SimAwayStatsBufs]
         movzx eax, byte [dword eax+ebp+0CEh]
         mov eax, dword [ecx+eax*4]
         mov ax, word [byte eax+012h]
-        mov word [word_17DB76], ax
+        mov word [SimWork+24Eh], ax
         test ax, ax
         je short .192
         mov eax, dword [byte ebp-062h]
         movzx eax, byte [dword eax+ebp+0CEh]
-        movzx esi, word [word_17DB76]
+        movzx esi, word [SimWork+24Eh]
         mov ecx, dword [ecx+eax*4]
         mov edx, esi
         movzx eax, word [byte ecx+0Eh]
@@ -2480,16 +2480,16 @@ SimulateGame:
         xor edx, edx
         jmp short .197
 .195:
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov eax, dword [byte edx+eax+063h]
         cmp eax, byte 0FFFFFFFFh
         je short .196
         cmp dword [dword ebp-012Eh], byte 0
         jne short .196
-        mov eax, dword [dword ebx+dword_17DA90]
+        mov eax, dword [dword ebx+SimWork+168h]
         mov eax, dword [edx+eax]
         mov edi, dword [byte eax+02Ch]
-        mov eax, dword [dword ebx+dword_17D930]
+        mov eax, dword [dword ebx+SimWork+8]
         mov esi, dword [edx+eax]
         mov eax, dword [seasondb]
         mov ecx, 2Fh
@@ -2509,16 +2509,16 @@ SimulateGame:
         xor edx, edx
         jmp short .201
 .199:
-        mov eax, dword [dword ebx+dword_17DA80]
+        mov eax, dword [dword ebx+SimWork+158h]
         mov eax, dword [dword edx+eax+0C7h]
         cmp eax, byte 0FFFFFFFFh
         je short .200
         cmp dword [dword ebp-012Eh], byte 0
         jne short .200
-        mov eax, dword [dword ebx+dword_17DA88]
+        mov eax, dword [dword ebx+SimWork+160h]
         mov eax, dword [edx+eax]
         mov edi, dword [byte eax+02Ch]
-        mov eax, dword [dword ebx+dword_17DA20]
+        mov eax, dword [dword ebx+SimWork+0F8h]
         mov esi, dword [edx+eax]
         mov eax, dword [seasondb]
         mov ecx, 2Fh
@@ -2554,18 +2554,18 @@ SimulateGame:
         xor esi, esi
         mov dword [dword ebp-092h], ecx
 .206:
-        mov edx, dword [dword ebx+dword_17DA80]
+        mov edx, dword [dword ebx+SimWork+158h]
         mov edx, dword [byte edx+esi+063h]
         cmp edx, byte 0FFFFFFFFh
         je near .208
-        mov edx, dword [dword ebx+dword_17DA48]
+        mov edx, dword [dword ebx+SimWork+120h]
         mov edi, dword [dword eax+hmtmplstats]
         mov edx, dword [edx+esi]
         add edi, ecx
         mov dx, word [byte edx+02h]
         mov word [edi], dx
         mov edi, dword [dword eax+hmtmplstats]
-        mov edx, dword [dword ebx+dword_17DA48]
+        mov edx, dword [dword ebx+SimWork+120h]
         add edi, ecx
         mov edx, dword [edx+esi]
         mov dword [dword ebp+0CAh], edi
@@ -2573,7 +2573,7 @@ SimulateGame:
         mov edx, dword [dword ebp+0CAh]
         mov word [byte edx+0Eh], di
         mov edi, dword [dword eax+hmtmplstats]
-        mov edx, dword [dword ebx+dword_17DA48]
+        mov edx, dword [dword ebx+SimWork+120h]
         add edi, ecx
         mov edx, dword [edx+esi]
         mov dword [dword ebp+0CAh], edi
@@ -2581,7 +2581,7 @@ SimulateGame:
         mov edx, dword [dword ebp+0CAh]
         mov word [byte edx+02h], di
         mov edi, dword [dword eax+hmtmplstats]
-        mov edx, dword [dword ebx+dword_17DA48]
+        mov edx, dword [dword ebx+SimWork+120h]
         add edi, ecx
         mov edx, dword [edx+esi]
         mov dword [dword ebp+0CAh], edi
@@ -2589,7 +2589,7 @@ SimulateGame:
         mov edx, dword [dword ebp+0CAh]
         mov word [byte edx+04h], di
         mov edi, dword [dword eax+hmtmplstats]
-        mov edx, dword [dword ebx+dword_17DA48]
+        mov edx, dword [dword ebx+SimWork+120h]
         add edi, ecx
         mov edx, dword [edx+esi]
         mov dword [dword ebp+0CAh], edi
@@ -2597,7 +2597,7 @@ SimulateGame:
         mov edx, dword [dword ebp+0CAh]
         mov word [byte edx+06h], di
         mov edi, dword [dword eax+hmtmplstats]
-        mov edx, dword [dword ebx+dword_17DA48]
+        mov edx, dword [dword ebx+SimWork+120h]
         add edi, ecx
         mov edx, dword [edx+esi]
         mov dword [dword ebp+0CAh], edi
@@ -2605,14 +2605,14 @@ SimulateGame:
         mov edx, dword [dword ebp+0CAh]
         mov word [byte edx+08h], di
         mov edi, dword [dword eax+hmtmplstats]
-        mov edx, dword [dword ebx+dword_17DA48]
+        mov edx, dword [dword ebx+SimWork+120h]
         add edi, ecx
         mov edx, dword [edx+esi]
         mov dword [dword ebp+0CAh], edi
         mov di, word [byte edx+0Ah]
         mov edx, dword [dword ebp+0CAh]
         mov word [byte edx+0Ah], di
-        mov edx, dword [dword ebx+dword_17DA48]
+        mov edx, dword [dword ebx+SimWork+120h]
         mov edx, dword [edx+esi]
         cmp word [edx], byte 0
         je short .207
@@ -2654,24 +2654,24 @@ SimulateGame:
         xor ecx, ecx
         xor esi, esi
 .210:
-        mov edx, dword [dword ebx+dword_17DA80]
+        mov edx, dword [dword ebx+SimWork+158h]
         mov edx, dword [dword edx+esi+0C7h]
         cmp edx, byte 0FFFFFFFFh
         je short .211
-        mov edx, dword [dword ebx+dword_17DA58]
+        mov edx, dword [dword ebx+SimAwayStatsBufs]
         mov edx, dword [edx+esi]
         imul dx, word [byte edx+0Ch], byte 3Ch
         mov dword [dword ebp+0E2h], edx
         mov edx, dword [dword eax+hmtmglstats]
         mov edi, dword [dword ebp+0E2h]
         mov word [ecx+edx], di
-        mov edx, dword [dword ebx+dword_17DA58]
+        mov edx, dword [dword ebx+SimAwayStatsBufs]
         mov edi, dword [dword eax+hmtmglstats]
         mov edx, dword [edx+esi]
         add edi, ecx
         mov dx, word [byte edx+0Eh]
         mov word [byte edi+04h], dx
-        mov edx, dword [dword ebx+dword_17DA58]
+        mov edx, dword [dword ebx+SimAwayStatsBufs]
         mov edi, dword [dword eax+hmtmglstats]
         mov edx, dword [edx+esi]
         add edi, ecx
@@ -2768,7 +2768,7 @@ SimulateGame:
         cmp eax, dword [dword ebx+dword_17D1E2]
         jne short .219
 .218:
-        movsx eax, byte [dword ecx+byte_17CFB1]
+        movsx eax, byte [dword ecx+PlayoffTeams]
         cmp eax, byte 1
         jne short .219
         mov al, byte [byte ebp-062h]
@@ -2791,40 +2791,40 @@ SimulateGame:
         xor esi, esi
 .222:
         imul edi, dword [byte ebp-062h], byte 64h
-        push dword [dword esi+dword_17DA60]
+        push dword [dword esi+SimAwaySetBufs]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17DA78]
+        push dword [dword esi+SimWork+150h]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17DA58]
+        push dword [dword esi+SimAwayStatsBufs]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17DA20]
+        push dword [dword esi+SimWork+0F8h]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17DA88]
+        push dword [dword esi+SimWork+160h]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17DA40]
+        push dword [dword esi+SimWork+118h]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17DA28]
+        push dword [dword esi+SimWork+100h]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17DA48]
+        push dword [dword esi+SimWork+120h]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17D930]
+        push dword [dword esi+SimWork+8]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17DA90]
+        push dword [dword esi+SimWork+168h]
         call FreeMemBlock
         mov eax, dword [byte ebp-07Eh]
         add esp, byte 4
         mov dword [dword ebp-086h], eax
 .223:
-        push dword [dword edi+dword_17D950]
+        push dword [dword edi+SimPlayerBufs]
         call FreeMemBlock
         add edi, byte 4
         add esp, byte 4
@@ -2834,7 +2834,7 @@ SimulateGame:
         mov dword [dword ebp-082h], eax
         imul edi, dword [byte ebp-062h], byte 0Ch
 .224:
-        push dword [dword edi+dword_17D938]
+        push dword [dword edi+SimGoalieBufs]
         call FreeMemBlock
         add edi, byte 4
         add esp, byte 4
@@ -2846,16 +2846,16 @@ SimulateGame:
         call FreeMemBlock
         add esp, byte 4
 .225:
-        push dword [dword esi+dword_17DA18]
+        push dword [dword esi+SimWork+0F0h]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword esi+dword_17D928]
+        push dword [dword esi+SimWork]
         add dword [byte ebp-07Eh], byte 64h
         call FreeMemBlock
         add esp, byte 4
         add dword [dword ebp+0C2h], byte 0Ch
         inc dword [byte ebp-062h]
-        push dword [dword esi+dword_17DA38]
+        push dword [dword esi+SimWork+110h]
         add esi, byte 4
         call FreeMemBlock
         add esp, byte 4

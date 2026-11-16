@@ -10,7 +10,7 @@ extern F32_0p001, F32_0p0208333, F32_0p00333333, F32_390, F32_0p005, F32_100, F3
 extern F32_0p0111111, F32_0p1, F32_0p0142857, F32_0p0333333, F32_58, F32_90, F32_0p01, F32_347
 extern dword_1174E4, dword_1174EC, statsplayoffs, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514
 extern dword_11E670, dword_11E678, dword_11E7E0, dword_11E85B, dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown
-extern dword_11E904, TeamStatsBitmap, PlayoffTreeData, dword_17D162, dword_17EEF0, dword_17FDF0, dword_17FDF4
+extern dword_11E904, TeamStatsBitmap, PlayoffTreeData, RosterFileHandle, dword_17EEF0, dword_17FDF0, dword_17FDF4
 extern dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_182140, dword_182144, dword_1822B8
 extern dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, RosterBackFile, dword_183024, dword_1843B0, dword_1843B4
 extern EditText, FadeOut, FadePalette, FillBox, FillRect, FreeScrollBar, gameopts, GetLangText
@@ -120,7 +120,7 @@ RunRosterScreens:
         jne short .5
         mov ebx, dword [byte ebp-04h]
         mov eax, 63h
-        mov edx, dword [dword_17D162]
+        mov edx, dword [RosterFileHandle]
         jmp short .3
 .5:
         mov ebx, dword [byte ebp-04h]

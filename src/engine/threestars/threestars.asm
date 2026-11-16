@@ -12,7 +12,7 @@ extern dword_152F4C, gwgteam, gwgplayer, DrawFrameCount
 extern NameFont, NamePanelBmp, OverlayBmp, CamShotKeys, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
 extern hmtmstruct, InGameMenuRequest, InputRecordCount, InputRecordRing, IsCupClinched, lasttouch, lcblink, lineuptime
-extern PtrPuckFlags, PtrPuckObject, off_11D44C, off_11D4BC, off_11D52C, optblock, puckc, qsort_
+extern PtrPuckFlags, PtrPuckObject, TeamCityNames, TeamFullNames, TeamNicknames, optblock, puckc, qsort_
 extern randomd0, reenergizeteam, regd0, regd1, regd2, resetplstuff, RunSimFrames, SetClipWindow
 extern setpersonel, SetSPA, sflags, sfx, skateto, SkateToSpot, SlotButtons, SortCords
 extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncInput, LoadTeamLogo, EndGameCleanup
@@ -23,7 +23,7 @@ extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledI
 extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
 extern str_V_DrawOverlayPanels, hmplstats, hmplattr, AwSortCords, PreGameSkatePaths, unk_165354, unk_17D3E8
 extern updateanim, vtoa, camx, camy, xc1, HomeControlSlot, RefStep, energywarn_aw
-extern lcblink_aw, CupShown, IntroStandSpots, word_11D604, word_156E6E, hmglstats_w2, word_157AFC
+extern lcblink_aw, CupShown, IntroStandSpots, TeamJerseyStyle, word_156E6E, hmglstats_w2, word_157AFC
 extern hmglstats_w8, hmglstats_w14, hmscore, hmtmtouch1, hmtmpdst, awscore, word_176BB8
 extern starpl, yc1
 global RunPreGameSkate, RunPreGameSkate_450, RunPreGameSkate_451, RunLineupLoop, LineupLoopFrame, FillPanelEdge, FillPanelEdge_5C, DrawPanelBorder
@@ -56,7 +56,7 @@ RunPreGameSkate:
         mov dword [PreGameSkateOn], 0
         shr eax, 1Bh
         mov dword [lineuptime], 334h
-        mov ax, word [nosplit eax*4+word_11D604]
+        mov ax, word [nosplit eax*4+TeamJerseyStyle]
         mov word [exitgame], 0
         mov dword [byte ebp-08h], eax
         xor eax, eax
@@ -715,7 +715,7 @@ DrawOverlayPanels:
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        cmp dword [nosplit eax*4+word_11D604], byte 0
+        cmp dword [nosplit eax*4+TeamJerseyStyle], byte 0
         jne short .10
         mov eax, 3Eh
         jmp short .11
@@ -937,7 +937,7 @@ DrawOverlayPanels:
         shl eax, 0Ah
         shr eax, 1Bh
         movsx edx, word [byte ebp-01Ch]
-        mov eax, dword [nosplit eax*4+off_11D44C]
+        mov eax, dword [nosplit eax*4+TeamCityNames]
 .29:
         call DrawColorText
         cmp dword [byte ebp-05Ch], byte 0
@@ -972,7 +972,7 @@ DrawOverlayPanels:
         shl eax, 0Fh
         shr eax, 1Bh
         movsx edx, word [byte ebp-01Ch]
-        mov eax, dword [nosplit eax*4+off_11D44C]
+        mov eax, dword [nosplit eax*4+TeamCityNames]
 .35:
         call DrawColorText
         movsx eax, word [hmscore]
@@ -1044,7 +1044,7 @@ DrawOverlayPanels:
         shl eax, 0Fh
         shr eax, 1Bh
         movsx edx, word [byte ebp-01Ah]
-        mov eax, dword [nosplit eax*4+off_11D44C]
+        mov eax, dword [nosplit eax*4+TeamCityNames]
 .46:
         call DrawColorTextRight
         push dword [NamePanelBmp]
@@ -1080,7 +1080,7 @@ DrawOverlayPanels:
         shl eax, 0Ah
         shr eax, 1Bh
         movsx edx, word [byte ebp-01Ch]
-        mov eax, dword [nosplit eax*4+off_11D52C]
+        mov eax, dword [nosplit eax*4+TeamNicknames]
 .52:
         call DrawColorText
         mov eax, dword [gameopts]
@@ -1132,7 +1132,7 @@ DrawOverlayPanels:
         shl eax, 0Fh
         shr eax, 1Bh
         movsx edx, word [byte ebp-01Ch]
-        mov eax, dword [nosplit eax*4+off_11D52C]
+        mov eax, dword [nosplit eax*4+TeamNicknames]
         jmp short .55
 .62:
         test byte [GsOptions+1], 20h
@@ -1149,7 +1149,7 @@ DrawOverlayPanels:
         shl eax, 0Fh
         shr eax, 1Bh
         movsx edx, word [byte ebp-01Ah]
-        mov eax, dword [nosplit eax*4+off_11D52C]
+        mov eax, dword [nosplit eax*4+TeamNicknames]
 .65:
         call DrawColorTextRight
 .66:
@@ -1162,7 +1162,7 @@ DrawOverlayPanels:
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        push dword [nosplit eax*4+off_11D4BC]
+        push dword [nosplit eax*4+TeamFullNames]
         mov eax, 92h
         call GetLangText
         push eax

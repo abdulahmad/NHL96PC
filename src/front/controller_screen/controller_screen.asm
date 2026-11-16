@@ -4,21 +4,21 @@ bits 32
 extern BottomBarArt
 section s_6CF0D progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, dword_1150D8
-extern dword_11D910, dword_11D914, dword_11D930, dword_11D940, dword_11D954, str_G, dword_11DED4, dword_11DF70
-extern dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5C0, dword_11F5C4, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap
-extern MenuBoxStyle, PlayoffTreeData, dword_17D162, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
+extern ControllerSlotX, ControllerSlotY, ControllerSlotStates, ControllerSlotItems, ControllerLayout, str_G, ControllerOptionRows, ControllerTitlePos
+extern dword_11F5C0, dword_11F5C4, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap
+extern MenuBoxStyle, PlayoffTreeData, RosterFileHandle, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
 extern dword_17D57C, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut
 extern FadePalette, FillMusicStream, TextStringWidth, gameopts, GetInputDevices, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LinkSyncWithMessage, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey
 extern MusicDone, OpenScreen, optflags, PickUsersScreen, PlayMusic, PlaySfx, PreGameScreens, PutBlock
 extern RunEditLines, RunMenu, SetDrawBitmap, SetMenuMouse, SetScreenColors, SetTextColors, SlideInBottomBar, SlideInSideBar
-extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Bkgd6, str_dbgO, str_feO, str_Jy1D
+extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Bkgd6, str_dbgO, str_Jy1D
 extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, str_MCONTROL
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
 extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, DrawShapeCore
 extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
-extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, str_Punct_ControllerScreen, unk_11DE90, str_WesternConference2, SlotsTwoPlayer
-extern ControllerScreenMode, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
+extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, str_Punct_ControllerScreen, ControllerTextIds, str_WesternConference2, SlotsTwoPlayer
+extern ControllerScreenMode, ControllerPreGame, ControllerColumnsDrawn
 extern SlotUserNames, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
 global ControllerSlotDefaults, ControllerColumnDefaults, ControllerUsersPanel, NextControllerDeviceMasks, NextControllerDeviceJumpTable, NextControllerDevice, NextControllerDevice_2C, NextControllerDevice_F2
 global NextControllerDevice_199, NextControllerDevice_240, NextControllerDevice_2E7, NextControllerDevice_38E, NextControllerDevice_435, NextControllerDevice_4D0, ScanControllers, DeviceIconCodes
@@ -1757,7 +1757,7 @@ DrawControllerColumns:
         cdq
         idiv ecx
         mov dword [byte ebp-04h], eax
-        cmp word [word_11D92E], byte 0
+        cmp word [ControllerColumnsDrawn], byte 0
         je short .1
         mov eax, 34h
         call PlaySfx
@@ -1968,9 +1968,9 @@ DrawControllerColumns:
         shl edx, 2
         add esp, byte 8
         mov dword [byte ebp-014h], edx
-        cmp dword [dword edx+dword_11D940], byte 0
+        cmp dword [dword edx+ControllerSlotItems], byte 0
         je short .16
-        push dword [dword edx+dword_11D940]
+        push dword [dword edx+ControllerSlotItems]
         call PutBlockAtOwnPos
         add esp, byte 4
         jmp near .17
@@ -1992,10 +1992,10 @@ DrawControllerColumns:
         push str_Utext
         call AllocMemBlock
         mov edx, dword [byte ebp-014h]
-        mov dword [dword edx+dword_11D940], eax
+        mov dword [dword edx+ControllerSlotItems], eax
         mov eax, dword [dword_17D580]
         add esp, byte 0Ch
-        mov edi, dword [dword edx+dword_11D940]
+        mov edi, dword [dword edx+ControllerSlotItems]
         mov esi, dword [byte esi+eax+01Ah]
         push dword [byte ebp-01Ch]
         movsd
@@ -2006,11 +2006,11 @@ DrawControllerColumns:
         call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-014h]
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-014h]
         movzx dx, byte [byte_11FA2F]
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         inc edx
         add esp, byte 4
         mov word [byte eax+06h], dx
@@ -2021,20 +2021,20 @@ DrawControllerColumns:
         mov esi, eax
         mov dword [byte ebp-020h], eax
         shl esi, 2
-        mov dx, word [dword edi+str_feO]
-        mov eax, dword [dword esi+dword_11D940]
+        mov dx, word [dword edi+ControllerLayout+14h]
+        mov eax, dword [dword esi+ControllerSlotItems]
         add edx, byte 6
         mov word [byte eax+0Ch], dx
-        mov dx, word [dword edi+word_11D96C]
-        mov eax, dword [dword esi+dword_11D940]
+        mov dx, word [dword edi+ControllerLayout+18h]
+        mov eax, dword [dword esi+ControllerSlotItems]
         sub edx, byte 5
         mov word [byte eax+0Eh], dx
-        push dword [dword esi+dword_11D940]
+        push dword [dword esi+ControllerSlotItems]
         call DrawShapeAtOwnPos
         imul eax, dword [byte ebp-020h], byte 21h
         add esp, byte 4
-        mov ebx, dword [dword edi+word_11D96C]
-        mov edx, dword [dword edi+str_feO]
+        mov ebx, dword [dword edi+ControllerLayout+18h]
+        mov edx, dword [dword edi+ControllerLayout+14h]
         sub ebx, byte 5
         add eax, SlotUserNames
         add edx, byte 6
@@ -2044,7 +2044,7 @@ DrawControllerColumns:
         push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
-        cmp dword [dword esi+dword_11D930], byte 0
+        cmp dword [dword esi+ControllerSlotStates], byte 0
         jne short .18
         mov eax, dword [byte ebp-028h]
         dec eax
@@ -2053,10 +2053,10 @@ DrawControllerColumns:
         mov eax, dword [byte edx+eax+01Ah]
         mov edx, 20h
         call CopyBitmap
-        mov dword [dword esi+dword_11D930], eax
+        mov dword [dword esi+ControllerSlotStates], eax
         jmp short .19
 .18:
-        push dword [dword esi+dword_11D930]
+        push dword [dword esi+ControllerSlotStates]
         call PutBlockAtOwnPos
         add esp, byte 4
 .19:
@@ -2065,14 +2065,14 @@ DrawControllerColumns:
         imul esi, byte 66h
         movsx eax, word [byte ebp-04h]
         mov edi, dword [dword_17D580]
-        mov ebx, dword [nosplit eax*4+dword_11D930]
+        mov ebx, dword [nosplit eax*4+ControllerSlotStates]
         mov dx, word [byte edi+esi+026h]
         mov word [byte ebx+0Ch], dx
         mov ebx, dword [dword_17D580]
-        mov edi, dword [nosplit eax*4+dword_11D930]
+        mov edi, dword [nosplit eax*4+ControllerSlotStates]
         mov dx, word [byte esi+ebx+02Ah]
         mov word [byte edi+0Eh], dx
-        push dword [nosplit eax*4+dword_11D930]
+        push dword [nosplit eax*4+ControllerSlotStates]
         call DrawShapeAtOwnPos
         mov eax, dword [dword_17D580]
         add esp, byte 4
@@ -2209,20 +2209,20 @@ DrawControllerColumns:
         jne short .32
 .31:
         movsx esi, word [byte ebp-04h]
-        push dword [nosplit esi*4+dword_11D930]
+        push dword [nosplit esi*4+ControllerSlotStates]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [nosplit esi*4+dword_11D930]
+        push dword [nosplit esi*4+ControllerSlotStates]
         call FreeMemBlock
         add esp, byte 4
-        push dword [nosplit esi*4+dword_11D940]
-        mov dword [nosplit esi*4+dword_11D930], 0
+        push dword [nosplit esi*4+ControllerSlotItems]
+        mov dword [nosplit esi*4+ControllerSlotStates], 0
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [nosplit esi*4+dword_11D940]
+        push dword [nosplit esi*4+ControllerSlotItems]
         call FreeMemBlock
         add esp, byte 4
-        mov dword [nosplit esi*4+dword_11D940], 0
+        mov dword [nosplit esi*4+ControllerSlotItems], 0
 .32:
         movsx ebx, word [byte ebp-04h]
         mov eax, ebx
@@ -2423,9 +2423,9 @@ DrawControllerColumns:
         shl edx, 2
         add esp, byte 8
         mov dword [byte ebp-010h], edx
-        cmp dword [dword edx+dword_11D940], byte 0
+        cmp dword [dword edx+ControllerSlotItems], byte 0
         je short .44
-        push dword [dword edx+dword_11D940]
+        push dword [dword edx+ControllerSlotItems]
         call PutBlockAtOwnPos
         add esp, byte 4
         jmp near .45
@@ -2447,10 +2447,10 @@ DrawControllerColumns:
         push str_Utext
         call AllocMemBlock
         mov edx, dword [byte ebp-010h]
-        mov dword [dword edx+dword_11D940], eax
+        mov dword [dword edx+ControllerSlotItems], eax
         mov eax, dword [dword_17D580]
         add esp, byte 0Ch
-        mov edi, dword [dword edx+dword_11D940]
+        mov edi, dword [dword edx+ControllerSlotItems]
         mov esi, dword [byte esi+eax+01Ah]
         push dword [byte ebp-01Ch]
         movsd
@@ -2461,11 +2461,11 @@ DrawControllerColumns:
         call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-010h]
         movzx dx, byte [byte_11FA2F]
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         inc edx
         add esp, byte 4
         mov word [byte eax+06h], dx
@@ -2477,19 +2477,19 @@ DrawControllerColumns:
         shl edi, 6
         shl esi, 2
         mov dx, word [dword edi+str_dbgO]
-        mov eax, dword [dword esi+dword_11D940]
+        mov eax, dword [dword esi+ControllerSlotItems]
         sub edx, byte 4
         sub dx, word [byte eax+04h]
         mov word [byte eax+0Ch], dx
-        mov dx, word [dword edi+dword_11D954]
-        mov eax, dword [dword esi+dword_11D940]
+        mov dx, word [dword edi+ControllerLayout]
+        mov eax, dword [dword esi+ControllerSlotItems]
         sub edx, byte 5
         mov word [byte eax+0Eh], dx
-        push dword [dword esi+dword_11D940]
+        push dword [dword esi+ControllerSlotItems]
         call DrawShapeAtOwnPos
         imul eax, dword [byte ebp-018h], byte 21h
         add esp, byte 4
-        mov ebx, dword [dword edi+dword_11D954]
+        mov ebx, dword [dword edi+ControllerLayout]
         mov edx, dword [dword edi+str_dbgO]
         sub ebx, byte 5
         add eax, SlotUserNames
@@ -2500,7 +2500,7 @@ DrawControllerColumns:
         push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
-        cmp dword [dword esi+dword_11D930], byte 0
+        cmp dword [dword esi+ControllerSlotStates], byte 0
         jne short .46
         mov eax, dword [byte ebp-028h]
         inc eax
@@ -2509,10 +2509,10 @@ DrawControllerColumns:
         mov eax, dword [byte edx+eax+01Ah]
         mov edx, 20h
         call CopyBitmap
-        mov dword [dword esi+dword_11D930], eax
+        mov dword [dword esi+ControllerSlotStates], eax
         jmp short .47
 .46:
-        push dword [dword esi+dword_11D930]
+        push dword [dword esi+ControllerSlotStates]
         call PutBlockAtOwnPos
         add esp, byte 4
 .47:
@@ -2521,14 +2521,14 @@ DrawControllerColumns:
         imul edi, byte 66h
         movsx eax, word [byte ebp-04h]
         mov ebx, dword [dword_17D580]
-        mov esi, dword [nosplit eax*4+dword_11D930]
+        mov esi, dword [nosplit eax*4+ControllerSlotStates]
         mov dx, word [byte edi+ebx+026h]
         mov word [byte esi+0Ch], dx
         mov esi, dword [dword_17D580]
-        mov ebx, dword [nosplit eax*4+dword_11D930]
+        mov ebx, dword [nosplit eax*4+ControllerSlotStates]
         mov dx, word [byte edi+esi+02Ah]
         mov word [byte ebx+0Eh], dx
-        push dword [nosplit eax*4+dword_11D930]
+        push dword [nosplit eax*4+ControllerSlotStates]
         call DrawShapeAtOwnPos
         mov eax, dword [dword_17D580]
         add esp, byte 4
@@ -2817,7 +2817,7 @@ ControllerScreen:
         and eax, byte 70h
         cmp eax, byte 30h
         jne short .3
-        cmp word [word_11D92C], byte 0
+        cmp word [ControllerPreGame], byte 0
         je short .3
         mov word [dword esi+word_17D562], 1
         mov eax, edx
@@ -2874,7 +2874,7 @@ ControllerScreen:
         jl near .2
         mov eax, 19h
         mov edx, dword [dword_17D580]
-        mov word [word_11D92C], 0
+        mov word [ControllerPreGame], 0
         call InitMenuItems
         push str_Key1
         mov dword [byte ebp-048h], 0
@@ -2906,14 +2906,14 @@ ControllerScreen:
         mov ebx, dword [dword eax+str_dbgO]
         mov dword [byte edx+esi+026h], ebx
         mov edx, dword [dword_17D580]
-        mov eax, dword [dword eax+dword_11D954]
+        mov eax, dword [dword eax+ControllerLayout]
         mov dword [byte edx+esi+02Ah], eax
         mov eax, dword [byte ebp-04Ch]
         mov edx, dword [dword_17D580]
         mov ebx, dword [nosplit eax*8+str_G]
         mov dword [byte edx+esi+03Ah], ebx
         mov edx, dword [dword_17D580]
-        mov eax, dword [nosplit eax*8+dword_11DED4]
+        mov eax, dword [nosplit eax*8+ControllerOptionRows]
         mov dword [byte edx+esi+03Eh], eax
         mov eax, dword [dword_17D580]
         mov dword [byte esi+eax+032h], 0
@@ -2971,11 +2971,11 @@ ControllerScreen:
         push str_Utext
         call AllocMemBlock
         mov edx, dword [byte ebp-018h]
-        mov dword [dword edx+dword_11D940], eax
+        mov dword [dword edx+ControllerSlotItems], eax
         mov eax, dword [dword_17D580]
         add eax, dword [byte ebp-08h]
         add esp, byte 0Ch
-        mov edi, dword [dword edx+dword_11D940]
+        mov edi, dword [dword edx+ControllerSlotItems]
         mov esi, dword [byte eax+01Ah]
         push dword [byte ebp-014h]
         movsd
@@ -2986,33 +2986,33 @@ ControllerScreen:
         call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-018h]
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-018h]
         movzx dx, byte [byte_11FA2F]
         mov esi, dword [byte ebp-04Ch]
         inc edx
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         shl esi, 6
         mov word [byte eax+06h], dx
         mov eax, dword [byte ebp-018h]
-        mov dx, word [dword esi+word_11D9A8]
-        mov eax, dword [dword eax+dword_11D940]
+        mov dx, word [dword esi+ControllerLayout+54h]
+        mov eax, dword [dword eax+ControllerSlotItems]
         add edx, byte 6
         mov word [byte eax+0Ch], dx
         mov eax, dword [byte ebp-018h]
-        mov dx, word [dword esi+word_11D9AC]
-        mov eax, dword [dword eax+dword_11D940]
+        mov dx, word [dword esi+ControllerLayout+58h]
+        mov eax, dword [dword eax+ControllerSlotItems]
         sub edx, byte 5
         add esp, byte 4
         mov word [byte eax+0Eh], dx
         mov eax, dword [byte ebp-018h]
-        push dword [dword eax+dword_11D940]
+        push dword [dword eax+ControllerSlotItems]
         call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-014h]
         add esp, byte 4
-        mov ebx, dword [dword esi+word_11D9AC]
-        mov edx, dword [dword esi+word_11D9A8]
+        mov ebx, dword [dword esi+ControllerLayout+58h]
+        mov edx, dword [dword esi+ControllerLayout+54h]
         sub ebx, byte 5
         add edx, byte 6
         call DrawColorText
@@ -3022,21 +3022,21 @@ ControllerScreen:
         mov eax, dword [byte eax+01Ah]
         call CopyBitmap
         mov edx, dword [byte ebp-018h]
-        mov dword [dword edx+dword_11D930], eax
+        mov dword [dword edx+ControllerSlotStates], eax
         mov edx, dword [dword_17D580]
         mov eax, dword [byte ebp-018h]
         add edx, dword [byte ebp-08h]
-        mov eax, dword [dword eax+dword_11D930]
+        mov eax, dword [dword eax+ControllerSlotStates]
         mov dx, word [byte edx+026h]
         mov word [byte eax+0Ch], dx
         mov eax, dword [dword_17D580]
         mov edx, dword [byte ebp-018h]
         add eax, dword [byte ebp-08h]
-        mov edx, dword [dword edx+dword_11D930]
+        mov edx, dword [dword edx+ControllerSlotStates]
         mov ax, word [byte eax+02Ah]
         mov word [byte edx+0Eh], ax
         mov eax, dword [byte ebp-018h]
-        push dword [dword eax+dword_11D930]
+        push dword [dword eax+ControllerSlotStates]
         call DrawShapeAtOwnPos
         mov eax, dword [dword_17D580]
         add esp, byte 4
@@ -3118,7 +3118,7 @@ ControllerScreen:
         mov dword [byte esi+eax+03Ah], edx
         mov edx, dword [byte ebp-02Ch]
         mov eax, dword [dword_17D580]
-        mov edx, dword [dword edx+dword_11DED4]
+        mov edx, dword [dword edx+ControllerOptionRows]
         mov dword [byte esi+eax+03Eh], edx
         mov eax, dword [dword_17D580]
         add eax, esi
@@ -3186,14 +3186,14 @@ ControllerScreen:
         mov ebx, dword [dword esi+str_dbgO]
         mov dword [byte edx+eax+026h], ebx
         mov edx, dword [dword_17D580]
-        mov ebx, dword [dword esi+dword_11D954]
+        mov ebx, dword [dword esi+ControllerLayout]
         mov dword [byte edx+eax+02Ah], ebx
         mov ebx, dword [byte ebp-04Ch]
         mov edx, dword [dword_17D580]
         mov ecx, dword [nosplit ebx*8+str_G]
         mov dword [byte edx+eax+03Ah], ecx
         mov edx, dword [dword_17D580]
-        mov ebx, dword [nosplit ebx*8+dword_11DED4]
+        mov ebx, dword [nosplit ebx*8+ControllerOptionRows]
         mov dword [byte edx+eax+03Eh], ebx
         mov edx, dword [dword_17D580]
         mov dword [byte edx+eax+032h], 0
@@ -3252,11 +3252,11 @@ ControllerScreen:
         push str_Utext
         call AllocMemBlock
         mov edx, dword [byte ebp-018h]
-        mov dword [dword edx+dword_11D940], eax
+        mov dword [dword edx+ControllerSlotItems], eax
         mov eax, dword [dword_17D580]
         add eax, dword [byte ebp-08h]
         add esp, byte 0Ch
-        mov edi, dword [dword edx+dword_11D940]
+        mov edi, dword [dword edx+ControllerSlotItems]
         mov esi, dword [byte eax+01Ah]
         push dword [byte ebp-014h]
         movsd
@@ -3267,34 +3267,34 @@ ControllerScreen:
         call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-018h]
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-018h]
         movzx dx, byte [byte_11FA2F]
         mov esi, dword [byte ebp-04Ch]
         inc edx
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         shl esi, 6
         mov word [byte eax+06h], dx
         mov eax, dword [byte ebp-018h]
-        mov dx, word [dword esi+dword_11D910]
-        mov eax, dword [dword eax+dword_11D940]
+        mov dx, word [dword esi+ControllerSlotX]
+        mov eax, dword [dword eax+ControllerSlotItems]
         sub edx, byte 4
         sub dx, word [byte eax+04h]
         mov word [byte eax+0Ch], dx
         mov eax, dword [byte ebp-018h]
-        mov dx, word [dword esi+dword_11D914]
-        mov eax, dword [dword eax+dword_11D940]
+        mov dx, word [dword esi+ControllerSlotY]
+        mov eax, dword [dword eax+ControllerSlotItems]
         sub edx, byte 5
         add esp, byte 4
         mov word [byte eax+0Eh], dx
         mov eax, dword [byte ebp-018h]
-        push dword [dword eax+dword_11D940]
+        push dword [dword eax+ControllerSlotItems]
         call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-014h]
         add esp, byte 4
-        mov ebx, dword [dword esi+dword_11D914]
-        mov edx, dword [dword esi+dword_11D910]
+        mov ebx, dword [dword esi+ControllerSlotY]
+        mov edx, dword [dword esi+ControllerSlotX]
         sub ebx, byte 5
         sub edx, byte 4
         call DrawColorTextRight
@@ -3304,20 +3304,20 @@ ControllerScreen:
         mov eax, dword [byte eax+01Ah]
         call CopyBitmap
         mov edx, dword [byte ebp-018h]
-        mov dword [dword edx+dword_11D930], eax
+        mov dword [dword edx+ControllerSlotStates], eax
         mov eax, dword [dword_17D580]
         add eax, dword [byte ebp-08h]
-        mov edx, dword [dword edx+dword_11D930]
+        mov edx, dword [dword edx+ControllerSlotStates]
         mov ax, word [byte eax+026h]
         mov word [byte edx+0Ch], ax
         mov edx, dword [dword_17D580]
         mov eax, dword [byte ebp-018h]
         add edx, dword [byte ebp-08h]
-        mov eax, dword [dword eax+dword_11D930]
+        mov eax, dword [dword eax+ControllerSlotStates]
         mov dx, word [byte edx+02Ah]
         mov word [byte eax+0Eh], dx
         mov eax, dword [byte ebp-018h]
-        push dword [dword eax+dword_11D930]
+        push dword [dword eax+ControllerSlotStates]
         call DrawShapeAtOwnPos
         mov eax, dword [dword_17D580]
         add esp, byte 4
@@ -3405,10 +3405,10 @@ ControllerScreen:
         movsx edx, word [byte edx+0Eh]
         mov dword [dword eax+0822h], edx
         mov eax, dword [dword_17D580]
-        mov edx, dword [dword_11DF70]
+        mov edx, dword [ControllerTitlePos]
         mov dword [dword eax+0832h], edx
         mov eax, dword [dword_17D580]
-        mov edx, dword [dword_11DF74]
+        mov edx, dword [ControllerTitlePos+4]
         mov dword [dword eax+0836h], edx
         mov eax, dword [dword_17D580]
         push dword [dword eax+0822h]
@@ -3463,7 +3463,7 @@ ControllerScreen:
         mov eax, dword [dword_17D580]
         mov dword [dword eax+086Eh], 8
         mov eax, dword [dword_17D580]
-        mov dword [dword eax+0872h], unk_11DE90
+        mov dword [dword eax+0872h], ControllerTextIds
         mov eax, dword [dword_17D580]
         mov edx, dword [dword eax+0878h]
         movsx edx, word [byte edx+0Ch]
@@ -3473,10 +3473,10 @@ ControllerScreen:
         movsx edx, word [byte edx+0Eh]
         mov dword [dword eax+0888h], edx
         mov eax, dword [dword_17D580]
-        mov edx, dword [dword_11DF78]
+        mov edx, dword [ControllerTitlePos+8]
         mov dword [dword eax+0898h], edx
         mov eax, dword [dword_17D580]
-        mov edx, dword [dword_11DF7C]
+        mov edx, dword [ControllerTitlePos+0Ch]
         mov dword [dword eax+089Ch], edx
         mov eax, dword [dword_17D580]
         push dword [dword eax+0888h]
@@ -3758,7 +3758,7 @@ ControllerScreen_11AB:
         mov eax, dword [byte ebp-048h]
         shl esi, 2
         movsx eax, word [nosplit eax*8+word_17D560]
-        mov ecx, dword [dword esi+dword_11D930]
+        mov ecx, dword [dword esi+ControllerSlotStates]
         cmp eax, byte 2
         sete al
         mov edx, dword [byte ebp-048h]
@@ -3771,12 +3771,12 @@ ControllerScreen_11AB:
         push dword [FrontEndScreenBmp]
         call TextSetFont
         add esp, byte 4
-        cmp dword [dword esi+dword_11D940], byte 0
+        cmp dword [dword esi+ControllerSlotItems], byte 0
         je short .49
-        push dword [dword esi+dword_11D940]
+        push dword [dword esi+ControllerSlotItems]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [dword esi+dword_11D940]
+        push dword [dword esi+ControllerSlotItems]
         call FreeMemBlock
         add esp, byte 4
 .49:
@@ -3798,7 +3798,7 @@ ControllerScreen_11AB:
         call AllocMemBlock
         mov edx, dword [byte ebp-048h]
         shl edx, 2
-        mov dword [dword edx+dword_11D940], eax
+        mov dword [dword edx+ControllerSlotItems], eax
         mov eax, dword [byte ebp-044h]
         inc eax
         imul eax, byte 66h
@@ -3806,7 +3806,7 @@ ControllerScreen_11AB:
         mov edi, dword [byte ebp-034h]
         mov edx, dword [dword_17D580]
         add esp, byte 0Ch
-        mov edi, dword [dword edi+dword_11D940]
+        mov edi, dword [dword edi+ControllerSlotItems]
         mov esi, dword [byte edx+eax+01Ah]
         push dword [byte ebp-08h]
         movsd
@@ -3817,11 +3817,11 @@ ControllerScreen_11AB:
         call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-034h]
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-034h]
         movzx dx, byte [byte_11FA2F]
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         inc edx
         mov word [byte eax+06h], dx
         mov edx, dword [byte ebp-048h]
@@ -3831,27 +3831,27 @@ ControllerScreen_11AB:
         cmp word [nosplit edx*8+word_17D560], byte 0
         jne short .50
         mov edx, dword [byte ebp-034h]
-        mov bx, word [dword eax+word_11D9A8]
-        mov edx, dword [dword edx+dword_11D940]
+        mov bx, word [dword eax+ControllerLayout+54h]
+        mov edx, dword [dword edx+ControllerSlotItems]
         add ebx, byte 6
         mov word [byte edx+0Ch], bx
-        mov dx, word [dword eax+word_11D9AC]
+        mov dx, word [dword eax+ControllerLayout+58h]
         jmp short .51
 .50:
         mov ebx, dword [byte ebp-034h]
-        mov dx, word [dword eax+word_11DA10]
-        mov ebx, dword [dword ebx+dword_11D940]
+        mov dx, word [dword eax+ControllerLayout+0BCh]
+        mov ebx, dword [dword ebx+ControllerSlotItems]
         sub edx, byte 4
         sub dx, word [byte ebx+04h]
         mov word [byte ebx+0Ch], dx
-        mov dx, word [dword eax+word_11DA14]
+        mov dx, word [dword eax+ControllerLayout+0C0h]
 .51:
         mov eax, dword [byte ebp-034h]
-        mov eax, dword [dword eax+dword_11D940]
+        mov eax, dword [dword eax+ControllerSlotItems]
         sub edx, byte 5
         mov word [byte eax+0Eh], dx
         mov eax, dword [byte ebp-048h]
-        push dword [nosplit eax*4+dword_11D940]
+        push dword [nosplit eax*4+ControllerSlotItems]
         call DrawShapeAtOwnPos
         mov edx, dword [byte ebp-048h]
         imul esi, edx, byte 21h
@@ -3863,16 +3863,16 @@ ControllerScreen_11AB:
         inc esi
         cmp word [nosplit edx*8+word_17D560], byte 0
         jne short .52
-        mov ebx, dword [dword eax+word_11D9AC]
-        mov edx, dword [dword eax+word_11D9A8]
+        mov ebx, dword [dword eax+ControllerLayout+58h]
+        mov edx, dword [dword eax+ControllerLayout+54h]
         sub ebx, byte 5
         add edx, byte 6
         mov eax, esi
         call DrawColorText
         jmp short .53
 .52:
-        mov ebx, dword [dword eax+word_11DA14]
-        mov edx, dword [dword eax+word_11DA10]
+        mov ebx, dword [dword eax+ControllerLayout+0C0h]
+        mov edx, dword [dword eax+ControllerLayout+0BCh]
         sub ebx, byte 5
         sub edx, byte 4
         mov eax, esi
@@ -3937,7 +3937,7 @@ ControllerScreen_11AB:
         jmp near ControllerScreen_16D6.76
 ControllerScreen_149D:
         movsx eax, word [dword eax+word_17D560]
-        mov word [word_11D92E], 0
+        mov word [ControllerColumnsDrawn], 0
         cmp eax, byte 1
         jne short .64
 .63:
@@ -3956,10 +3956,10 @@ ControllerScreen_149D:
         mov edx, dword [byte ebp-044h]
 .66:
         call DrawControllerColumns
-        mov word [word_11D92E], 1
+        mov word [ControllerColumnsDrawn], 1
         jmp near ControllerScreen_16D6.76
 ControllerScreen_14E4:
-        mov word [word_11D92E], 0
+        mov word [ControllerColumnsDrawn], 0
         cmp word [dword eax+word_17D560], byte 0
         jne short ControllerScreen_149D.63
 .67:
@@ -3968,7 +3968,7 @@ ControllerScreen_14E4:
         add eax, ecx
         jmp short ControllerScreen_149D.66
 ControllerScreen_1503:
-        mov word [word_11D92E], 0
+        mov word [ControllerColumnsDrawn], 0
         cmp word [dword eax+word_17D560], byte 0
         jne short ControllerScreen_14E4.67
         mov eax, dword [byte ebp-044h]
@@ -3980,7 +3980,7 @@ ControllerScreen_1503:
         sub edx, byte 14h
         cmp edx, byte 4
         ja near ControllerScreen_16D6.76
-        mov ebx, dword [dword_17D162]
+        mov ebx, dword [RosterFileHandle]
         mov eax, dword [optflags]
         add ebx, 2710h
         and eax, byte 70h
@@ -4100,19 +4100,19 @@ ControllerScreen_16D6:
         xor esi, esi
         xor edi, edi
 .77:
-        cmp dword [dword esi+dword_11D930], byte 0
+        cmp dword [dword esi+ControllerSlotStates], byte 0
         je short .78
-        push dword [dword esi+dword_11D930]
+        push dword [dword esi+ControllerSlotStates]
         call FreeMemBlock
         add esp, byte 4
-        mov dword [dword esi+dword_11D930], 0
+        mov dword [dword esi+ControllerSlotStates], 0
 .78:
-        cmp dword [dword esi+dword_11D940], byte 0
+        cmp dword [dword esi+ControllerSlotItems], byte 0
         je short .79
-        push dword [dword esi+dword_11D940]
+        push dword [dword esi+ControllerSlotItems]
         call FreeMemBlock
         add esp, byte 4
-        mov dword [dword esi+dword_11D940], 0
+        mov dword [dword esi+ControllerSlotItems], 0
 .79:
         cmp dword [dword edi+dword_17D564], byte 0
         je short .80
@@ -4172,7 +4172,7 @@ RunControllerScreen:
         push ecx
         push edx
         mov ebx, eax
-        mov word [word_11D92C], 1
+        mov word [ControllerPreGame], 1
 .1:
         mov eax, ebx
         call ControllerScreen
@@ -4201,7 +4201,7 @@ RunControllerScreen:
 .5:
         cmp eax, byte 3
         je short .1
-        mov word [word_11D92C], 0
+        mov word [ControllerPreGame], 0
         pop edx
         pop ecx
         pop ebx

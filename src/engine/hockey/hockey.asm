@@ -13,7 +13,7 @@ extern awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode, AwRosterMap, Li
 extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, curperiod, hmslotcount
 extern awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, onetimerflag, penshotteam, AwayGoalsPeriod
 extern HomeGoalsPeriod, PassTargetLocked, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn, playsuspended, SeriesDecided
-extern InReplay, ScorePanelState, dword_11D3A6, dword_11D674
+extern InReplay, ScorePanelState, SfxMask, TeamConferenceIds
 extern dword_165166, dword_16516A, dword_165240, dword_165244, CrowdExciteTotal, hmtmnear, hmtmcoachenergy, hmtmlines
 extern hmtmplattr, hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmnear
 extern awtmcoachenergy, awtmlines, awtmplattr, awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec
@@ -1913,7 +1913,7 @@ Goal_1FC:
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        cmp dword [nosplit eax*4+dword_11D674], byte 0Ch
+        cmp dword [nosplit eax*4+TeamConferenceIds], byte 0Ch
         jne short .26
         mov eax, 3Ch
         jmp short .27
@@ -3754,7 +3754,7 @@ StartPer:
         mov word [LineChangeReq], 0
         call InitCoachModes
         mov word [SpeechPatchNext], 0
-        mov dword [dword_11D3A6], 0
+        mov dword [SfxMask], 0
         call StopAllSfx
         call setupice
         call ResetInputRepeat

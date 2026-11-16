@@ -3,18 +3,18 @@ bits 32
 %include "hockey.inc"
 extern GsOptions
 section s_68D25 progbits alloc exec nowrite align=1
-extern AsyncClose, AsyncInit, asyncreader, byte_11D1DE, byte_11D392
-extern CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, delstream, dword_11D1C8, dword_11D1CC, dword_11D1D2
-extern dword_11D1D6, SpeechStreamFile, SpeechStreamTimer, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
-extern dword_11D1FE, dword_11D202, dword_11D206, dword_11D236, dword_11D37E, dword_11D3A6, dword_11D3AA, dword_11D3AE
-extern dword_11D3B2, dword_17C604, dword_17C608, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
+extern AsyncClose, AsyncInit, asyncreader, MusicFlags, SfxChannelBusy
+extern CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, delstream, SoundCardPort, SoundCardIrq, MusicStream
+extern ArenaClipStream, SpeechStreamFile, SpeechStreamTimer, CrowdSfxHandle, AmbientSfxHandle, LastSfxHandle, CrowdFading, CrowdActive
+extern CrowdLevel, CrowdTarget, GameSoundOn, SoundCardOn, SpeechBankHandle, SfxMask, ArenaClipState, ArenaClipTime
+extern ArenaClipId, MusicVolume, ArenaClipHandle, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
 extern globalset, InitSpeech, MakeDataPath, OpenSpeechBanks, optblock, setstreamspeed, SetTickDeadline, ShutdownSpeech
 extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadDataFileFlag0, LoadDataFileHandle, FreeMemBlock
 extern MemLargestFreeLocked, MemLargestFreeOfList, DriveLetterIndex, IsCdDrive, AllocCdBuffer, SpeechQueueBusy, FadeChannelVolume, SetChannelVolume
 extern StopSoundChannel, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamPosition, RegisterSfxBank, UnregisterSfxBank, PlaySfxVolume
 extern PauseCrowdChannels, ResumeCrowdChannels, TriggerCrowdEvent, SetCrowdIntensity, CloseCrowdSound, LoadCrowdBank, SetCrowdVolume, StartCrowdSound
-extern StopCrowdChannels, DetectSoundDriver, SetSoundMixMode, SndCloseDriver, TicksSinceLast, ArenaClipName, WaitTickDeadline, word_11D1D0
-extern word_11D23A, word_11D23C, word_11D386, lastsfx, word_11D3A4, word_11D3B6, word_17C640
+extern StopCrowdChannels, DetectSoundDriver, SetSoundMixMode, SndCloseDriver, TicksSinceLast, ArenaClipName, WaitTickDeadline, CdSpeedTested
+extern SpeechStarting, CdSpeed, SpeechOpen, lastsfx, CrowdHeld, CdSpeedChecked, SpeechPlaying
 global StopAllSfx, StopAllSfx_8D, StopAllSfx_BA, StopAllSfx_BF, StopAllSfx_F7, PlaySfxOr, PlaySfx, Crowd_Noise
 global CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdPause, CrowdResume, CrowdFadeOut, sfx, sfx_3B
 global CrowdReaction, PlayArenaClip, ArenaClipService, ArenaClipReady, StartArenaClip, StopArenaClip, GetSoundCard, jpt_693BF
@@ -23,7 +23,7 @@ global StartGameSound, EndGameSound, ShutdownSound, SoundSecondsToBytes, SoundId
 ;-----------------------------------------------------------------------------
 ; StopAllSfx                                   68D25  96 PC, medium confidence
 ; With a sound effect bank loaded, stops every sound effect voice that is
-; playing (16, byte_11D392)
+; playing (16, SfxChannelBusy)
 ;-----------------------------------------------------------------------------
 StopAllSfx:
         push edx
@@ -33,18 +33,18 @@ StopAllSfx:
         jge short .1
         cmp dword [SpeechStreamTimer], byte 0
         jge short .1
-        cmp dword [dword_11D1EA], byte 0
+        cmp dword [CrowdSfxHandle], byte 0
         jge short .1
-        cmp dword [dword_11D1EE], byte 0
+        cmp dword [AmbientSfxHandle], byte 0
         jl short .4
 .1:
         xor edx, edx
 .2:
-        cmp byte [dword edx+byte_11D392], 0
+        cmp byte [dword edx+SfxChannelBusy], 0
         je short .3
         mov eax, edx
         call StopSoundChannel
-        mov byte [dword edx+byte_11D392], 0
+        mov byte [dword edx+SfxChannelBusy], 0
 .3:
         inc edx
         cmp edx, byte 10h
@@ -59,9 +59,9 @@ StopAllSfx:
         jge near StopSoundChannel
         cmp dword [SpeechStreamTimer], byte 0
         jge near StopSoundChannel
-        cmp dword [dword_11D1EA], byte 0
+        cmp dword [CrowdSfxHandle], byte 0
         jge near StopSoundChannel
-        cmp dword [dword_11D1EE], byte 0
+        cmp dword [AmbientSfxHandle], byte 0
         jl short .5
         jmp near StopSoundChannel
 StopAllSfx_8D:
@@ -69,9 +69,9 @@ StopAllSfx_8D:
         jge short .6
         cmp dword [SpeechStreamTimer], byte 0
         jge short .6
-        cmp dword [dword_11D1EA], byte 0
+        cmp dword [CrowdSfxHandle], byte 0
         jge short .6
-        cmp dword [dword_11D1EE], byte 0
+        cmp dword [AmbientSfxHandle], byte 0
         jl short StopAllSfx_BF
 .6:
         test byte [globalset+2], 10h
@@ -92,7 +92,7 @@ StopAllSfx_BF:
         jl short StopAllSfx_F7
         cmp eax, byte 10h
         jge short StopAllSfx_F7
-        mov byte [dword eax+byte_11D392], 1
+        mov byte [dword eax+SfxChannelBusy], 1
         cmp ebx, byte 2Eh
         jge short StopAllSfx_F7
         mov word [lastsfx], bx
@@ -104,12 +104,12 @@ StopAllSfx_F7:
 ;-----------------------------------------------------------------------------
 ; PlaySfxOr                                    68E21  96 PC, medium confidence
 ; (id, other): plays other instead of id when id is 40h+ and the extra bank
-; (dword_11D1F2) is not loaded
+; (LastSfxHandle) is not loaded
 ;-----------------------------------------------------------------------------
 PlaySfxOr:
         cmp eax, byte 40h
         jl short PlaySfx
-        cmp dword [dword_11D1F2], byte 0
+        cmp dword [LastSfxHandle], byte 0
         jge short PlaySfx
         mov eax, edx
 ;-----------------------------------------------------------------------------
@@ -132,41 +132,41 @@ PlaySfx:
         jge short StopAllSfx_F7
         cmp ebx, byte 40h
         jl near StopAllSfx_8D
-        cmp dword [dword_11D1F2], byte 0
+        cmp dword [LastSfxHandle], byte 0
         jl short StopAllSfx_BF
         test byte [globalset+2], 10h
         je near StopAllSfx_BF
         jmp near StopAllSfx_BA
 ;-----------------------------------------------------------------------------
 ; Crowd_Noise                                  68E72  96 PC, medium confidence
-; (step): eases the crowd level (dword_11D1FE) toward its target by at most
+; (step): eases the crowd level (CrowdLevel) toward its target by at most
 ; step and sets it in the crowd driver (the 95 PC Crowd_Noise job)
 ;-----------------------------------------------------------------------------
 Crowd_Noise:
         push edx
         cmp dword [sndcard], byte 0
         jl short .5
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         je short .5
-        mov edx, dword [dword_11D1FE]
-        sub edx, dword [dword_11D202]
+        mov edx, dword [CrowdLevel]
+        sub edx, dword [CrowdTarget]
         test edx, edx
         jge short .1
         neg edx
 .1:
         cmp edx, eax
         jge short .2
-        mov eax, dword [dword_11D202]
-        mov dword [dword_11D1FE], eax
+        mov eax, dword [CrowdTarget]
+        mov dword [CrowdLevel], eax
         jmp short .4
 .2:
-        mov edx, dword [dword_11D202]
-        cmp edx, dword [dword_11D1FE]
+        mov edx, dword [CrowdTarget]
+        cmp edx, dword [CrowdLevel]
         jg short .3
         neg eax
 .3:
-        add dword [dword_11D1FE], eax
-        mov eax, dword [dword_11D1FE]
+        add dword [CrowdLevel], eax
+        mov eax, dword [CrowdLevel]
 .4:
         call SetCrowdVolume
 .5:
@@ -185,16 +185,16 @@ CrowdNoiseReset:
         mov esi, eax
         cmp dword [sndcard], byte 0
         jl near .4
-        cmp dword [dword_11D1F6], byte 0
+        cmp dword [CrowdFading], byte 0
         je near .4
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         jne near .4
         test byte [globalset+3], 10h
         je near .4
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         jne short .1
         mov eax, 1
-        mov dword [dword_11D1FE], 1
+        mov dword [CrowdLevel], 1
         call StartCrowdSound
         push byte 5
         call SetTickDeadline
@@ -208,7 +208,7 @@ CrowdNoiseReset:
         call WaitTickDeadline
         xor eax, eax
         call SetCrowdIntensity
-        mov dword [dword_11D1FA], 1
+        mov dword [CrowdActive], 1
 .1:
         cmp esi, byte 1
         jge short .2
@@ -220,7 +220,7 @@ CrowdNoiseReset:
         jbe short .3
         mov esi, eax
 .3:
-        mov dword [dword_11D202], esi
+        mov dword [CrowdTarget], esi
 .4:
         pop esi
         pop edx
@@ -229,10 +229,10 @@ CrowdNoiseReset:
         ret
 ;-----------------------------------------------------------------------------
 ; GetCrowdTarget                                                  68F7C  96 PC
-; The crowd level target (dword_11D202)
+; The crowd level target (CrowdTarget)
 ;-----------------------------------------------------------------------------
 GetCrowdTarget:
-        mov eax, dword [dword_11D202]
+        mov eax, dword [CrowdTarget]
         ret
 ;-----------------------------------------------------------------------------
 ; SetCrowdTarget                                                  68F82  96 PC
@@ -243,7 +243,7 @@ SetCrowdTarget:
         push edx
         cmp dword [sndcard], byte 0
         jl short .3
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         je short .3
         cmp eax, byte 1
         jge short .1
@@ -255,13 +255,13 @@ SetCrowdTarget:
         jbe short .2
         mov eax, edx
 .2:
-        mov dword [dword_11D202], eax
+        mov dword [CrowdTarget], eax
 .3:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
 ; CrowdPause                                   68FB5  96 PC, medium confidence
-; Pauses the crowd noise once (word_11D3A4)
+; Pauses the crowd noise once (CrowdHeld)
 ;-----------------------------------------------------------------------------
 CrowdPause:
         push ebx
@@ -269,13 +269,13 @@ CrowdPause:
         push edx
         cmp dword [sndcard], byte 0
         jl short .1
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         je short .1
-        cmp dword [dword_11D1FE], byte 0
+        cmp dword [CrowdLevel], byte 0
         jl short .1
-        cmp word [word_11D3A4], byte 0
+        cmp word [CrowdHeld], byte 0
         jne short .1
-        mov word [word_11D3A4], 1
+        mov word [CrowdHeld], 1
         call PauseCrowdChannels
         push byte 5
         call SetTickDeadline
@@ -296,11 +296,11 @@ CrowdResume:
         push edx
         cmp dword [sndcard], byte 0
         jl short .1
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         je short .1
-        cmp dword [dword_11D1FE], byte 0
+        cmp dword [CrowdLevel], byte 0
         jl short .1
-        cmp word [word_11D3A4], byte 0
+        cmp word [CrowdHeld], byte 0
         je short .1
         mov eax, 1
         call ResumeCrowdChannels
@@ -308,7 +308,7 @@ CrowdResume:
         call SetTickDeadline
         add esp, byte 4
         call WaitTickDeadline
-        mov word [word_11D3A4], 0
+        mov word [CrowdHeld], 0
 .1:
         pop edx
         pop ecx
@@ -328,12 +328,12 @@ CrowdFadeOut:
         mov esi, eax
         cmp dword [sndcard], byte 0
         jl near FindClipIndex_55
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         je near FindClipIndex_55
         test eax, eax
         je short .4
         call TicksSinceLast
-        mov eax, dword [dword_11D1FE]
+        mov eax, dword [CrowdLevel]
         xor edi, edi
         mov dword [byte ebp-04h], eax
 .1:
@@ -361,17 +361,17 @@ CrowdFadeOut:
         call SetTickDeadline
         add esp, byte 4
         call WaitTickDeadline
-        mov dword [dword_11D1FA], 0
+        mov dword [CrowdActive], 0
 .4:
         call StopCrowdChannels
-        mov dword [dword_11D1FA], 0
-        mov dword [dword_11D1FE], 0
+        mov dword [CrowdActive], 0
+        mov dword [CrowdLevel], 0
         jmp near FindClipIndex_55
         cmp dword [sndcard], byte 0
         jl short .5
-        cmp dword [dword_11D1F6], byte 0
+        cmp dword [CrowdFading], byte 0
         je short .5
-        mov eax, dword [dword_11D1FA]
+        mov eax, dword [CrowdActive]
         ret
 .5:
         xor eax, eax
@@ -393,12 +393,12 @@ sfx:
         mov edx, 1
         mov cl, al
         shl edx, cl
-        test dword [dword_11D3A6], edx
+        test dword [SfxMask], edx
         jne short .1
-        or dword [dword_11D3A6], edx
+        or dword [SfxMask], edx
         cmp dword [sndcard], byte 0
         jl short .1
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         je short .1
         call TriggerCrowdEvent
 .1:
@@ -414,7 +414,7 @@ sfx_3B:
 CrowdReaction:
         cmp dword [sndcard], byte 0
         jl short sfx_3B
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         je short sfx_3B
         test eax, eax
         jl short sfx_3B
@@ -433,24 +433,24 @@ PlayArenaClip:
         push edx
         mov edx, eax
         xor ebx, ebx
-        cmp dword [dword_11D1D6], byte 0
+        cmp dword [ArenaClipStream], byte 0
         je near .6
         cmp dword [sndcard], byte 0
         jl near .6
         test byte [optblock], 80h
         je near .6
-        cmp dword [dword_11D3AA], byte 0
+        cmp dword [ArenaClipState], byte 0
         jne near .6
         mov ebx, 1
         xor ecx, ecx
         cmp dword [sndcard], byte 0
         jl short .2
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jl short .2
         call SpeechQueueBusy
         test eax, eax
         jne short .1
-        cmp word [word_11D386], byte 0
+        cmp word [SpeechOpen], byte 0
         je short .2
 .1:
         mov ecx, 1
@@ -472,17 +472,17 @@ PlayArenaClip:
         test ebx, ebx
         je short .6
         mov eax, ArenaClipName
-        mov dword [dword_11D3B2], edx
+        mov dword [ArenaClipId], edx
         call MakeDataPath
         push ArenaClipName
-        push dword [dword_11D1D6]
+        push dword [ArenaClipStream]
         call CdStreamQueue
         add esp, byte 8
-        mov eax, dword [dword_11D1D6]
+        mov eax, dword [ArenaClipStream]
         mov ebx, 1
         call InitAudioStream
-        mov dword [dword_11D3AA], 2
-        mov dword [dword_17C608], eax
+        mov dword [ArenaClipState], 2
+        mov dword [ArenaClipHandle], eax
 .6:
         mov eax, ebx
         pop edx
@@ -498,11 +498,11 @@ ArenaClipService:
         push ecx
         push edx
         push esi
-        cmp dword [dword_11D3AA], byte 0
+        cmp dword [ArenaClipState], byte 0
         jle near .5
-        cmp dword [dword_11D3AA], byte 1
+        cmp dword [ArenaClipState], byte 1
         jle near .4
-        push dword [dword_11D1D6]
+        push dword [ArenaClipStream]
         call CdStreamNextPacket
         add esp, byte 4
         mov esi, eax
@@ -521,9 +521,9 @@ ArenaClipService:
 .2:
         cmp eax, byte 0FFFFFFFFh
         jne short .5
-        cmp dword [dword_11D3AA], byte 4
+        cmp dword [ArenaClipState], byte 4
         jge short .3
-        mov dword [dword_11D3AA], 3
+        mov dword [ArenaClipState], 3
         pop esi
         pop edx
         pop ecx
@@ -531,7 +531,7 @@ ArenaClipService:
         ret
 .3:
         xor eax, eax
-        mov dword [dword_11D3AA], 1
+        mov dword [ArenaClipState], 1
         call AudioStreamPosition
         imul eax, byte 64h
         mov esi, 55F0h
@@ -540,7 +540,7 @@ ArenaClipService:
         mov esi, eax
         call GetTicks
         add eax, esi
-        mov dword [dword_11D3AE], eax
+        mov dword [ArenaClipTime], eax
         pop esi
         pop edx
         pop ecx
@@ -548,11 +548,11 @@ ArenaClipService:
         ret
 .4:
         call GetTicks
-        cmp eax, dword [dword_11D3AE]
+        cmp eax, dword [ArenaClipTime]
         jle short .5
-        mov eax, dword [dword_17C608]
+        mov eax, dword [ArenaClipHandle]
         call StopSoundChannel
-        mov dword [dword_11D3AA], 0
+        mov dword [ArenaClipState], 0
 .5:
         pop esi
         pop edx
@@ -564,9 +564,9 @@ ArenaClipService:
 ; 1 when the arena clip has 2AF8h bytes buffered
 ;-----------------------------------------------------------------------------
 ArenaClipReady:
-        cmp dword [dword_11D3AA], byte 2
+        cmp dword [ArenaClipState], byte 2
         jl short .1
-        cmp dword [dword_11D3AA], byte 4
+        cmp dword [ArenaClipState], byte 4
         jge short .1
         xor eax, eax
         call AudioStreamPosition
@@ -583,18 +583,18 @@ ArenaClipReady:
 ;-----------------------------------------------------------------------------
 StartArenaClip:
         push edx
-        cmp dword [dword_11D3AA], byte 1
+        cmp dword [ArenaClipState], byte 1
         jle short .1
-        cmp dword [dword_11D3AA], byte 4
+        cmp dword [ArenaClipState], byte 4
         jge short .1
         call StartAudioStream
         mov eax, dword [optblock]
         shl eax, 11h
         shr eax, 19h
         lea edx, [byte eax+028h]
-        mov eax, dword [dword_17C608]
+        mov eax, dword [ArenaClipHandle]
         call SetChannelVolume
-        mov dword [dword_11D3AA], 4
+        mov dword [ArenaClipState], 4
 .1:
         pop edx
         ret
@@ -608,17 +608,17 @@ StopArenaClip:
         push edx
         push esi
         mov esi, eax
-        cmp dword [dword_11D3AA], byte 1
+        cmp dword [ArenaClipState], byte 1
         jle short .3
-        cmp dword [dword_11D3AA], byte 4
+        cmp dword [ArenaClipState], byte 4
         jl short .1
         test eax, eax
         jne short .2
 .1:
-        mov eax, dword [dword_17C608]
+        mov eax, dword [ArenaClipHandle]
         call StopSoundChannel
-        mov dword [dword_11D3AE], 0
-        mov dword [dword_11D3AA], 0
+        mov dword [ArenaClipTime], 0
+        mov dword [ArenaClipState], 0
         pop esi
         pop edx
         pop ecx
@@ -626,13 +626,13 @@ StopArenaClip:
         ret
 .2:
         mov ebx, 0FFFFFFFFh
-        mov eax, dword [dword_17C608]
+        mov eax, dword [ArenaClipHandle]
         mov edx, esi
         call FadeChannelVolume
         call GetTicks
         add eax, esi
-        mov dword [dword_11D3AA], 1
-        mov dword [dword_11D3AE], eax
+        mov dword [ArenaClipState], 1
+        mov dword [ArenaClipTime], eax
 .3:
         pop esi
         pop edx
@@ -687,7 +687,7 @@ jpt_693BF:
 ;-----------------------------------------------------------------------------
 ; TestCdSpeed                                     6941E  96 PC, low confidence
 ; At start-up: checks the CD drive and measures its read speed
-; (setstreamspeed > 7A120h sets word_11D1D0)
+; (setstreamspeed > 7A120h sets CdSpeedTested)
 ;-----------------------------------------------------------------------------
 TestCdSpeed:
         push ebx
@@ -697,7 +697,7 @@ TestCdSpeed:
         enter 4, 0
         mov edi, eax
         mov dword [byte ebp-04h], edx
-        cmp word [word_11D3B6], byte 0
+        cmp word [CdSpeedChecked], byte 0
         jne near FindTeamPairClip_85
         push eax
         call DriveLetterIndex
@@ -705,9 +705,9 @@ TestCdSpeed:
         push eax
         mov esi, eax
         call IsCdDrive
-        mov word [word_11D1D0], 0
+        mov word [CdSpeedTested], 0
         add esp, byte 4
-        mov word [word_11D23C], ax
+        mov word [CdSpeed], ax
         test ax, ax
         je short .1
         push byte 0
@@ -716,7 +716,7 @@ TestCdSpeed:
         add esp, byte 8
         jmp short .2
 .1:
-        mov word [word_11D1D0], 1
+        mov word [CdSpeedTested], 1
 .2:
         push dword [byte ebp-04h]
         push edi
@@ -724,9 +724,9 @@ TestCdSpeed:
         add esp, byte 8
         cmp eax, 7A120h
         jle short .3
-        mov word [word_11D1D0], 1
+        mov word [CdSpeedTested], 1
 .3:
-        mov word [word_11D3B6], 1
+        mov word [CdSpeedChecked], 1
         jmp near FindTeamPairClip_85
 jpt_694A1:
         dd StartSoundCard_23
@@ -749,7 +749,7 @@ StartSoundCard:
         mov edi, edx
         test eax, eax
         jle near StartSoundCard_3F.5
-        mov dword [dword_11D1CC], eax
+        mov dword [SoundCardIrq], eax
         dec eax
         cmp eax, byte 5
         ja short StartSoundCard_3F.1
@@ -785,7 +785,7 @@ StartSoundCard_3F:
         call AsyncInit
         add esp, byte 0Ch
         mov dword [sndcard], esi
-        mov dword [dword_11D1C8], edi
+        mov dword [SoundCardPort], edi
         cmp dword [SpeechStreamFile], byte 0
         jge short .3
         mov edx, 20h
@@ -801,9 +801,9 @@ StartSoundCard_3F:
         push dword 2000h
         push dword 35B60h
         call CdStreamOpenDefault
-        mov dword [byte_11D1DE], 0
+        mov dword [MusicFlags], 0
         add esp, byte 0Ch
-        mov dword [dword_11D1D2], eax
+        mov dword [MusicStream], eax
         cmp dword [SpeechStreamTimer], byte 0
         jge short .4
         mov eax, 31h
@@ -814,7 +814,7 @@ StartSoundCard_3F:
         call RegisterSfxBank
         mov dword [SpeechStreamTimer], eax
 .4:
-        mov dword [dword_11D236], 0
+        mov dword [SoundCardOn], 0
         jmp short .6
 .5:
         mov dword [sndcard], 0FFFFFFFFh
@@ -838,7 +838,7 @@ StartGameSound:
         push esi
         cmp dword [sndcard], byte 0
         jl near .22
-        cmp dword [dword_11D236], byte 0
+        cmp dword [SoundCardOn], byte 0
         jne near .22
         cmp dword [SpeechStreamTimer], byte 0
         jl short .1
@@ -852,19 +852,19 @@ StartGameSound:
         call FadeOutMusic
         cmp dword [sndcard], byte 0
         jl short .2
-        test byte [byte_11D1DE], 1
+        test byte [MusicFlags], 1
         je short .2
-        test byte [byte_11D1DE], 4
+        test byte [MusicFlags], 4
         je short .2
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         call StopSoundChannel
-        mov dword [byte_11D1DE], 0FFFFFFFBh
+        mov dword [MusicFlags], 0FFFFFFFBh
 .2:
-        push dword [dword_11D1D2]
-        mov dword [byte_11D1DE], 0
+        push dword [MusicStream]
+        mov dword [MusicFlags], 0
         call delstream
         add esp, byte 4
-        mov dword [dword_11D1D2], 0
+        mov dword [MusicStream], 0
         call StopSpeech
         mov eax, 1
         call OpenSpeechBanks
@@ -874,7 +874,7 @@ StartGameSound:
         call CdStreamOpenDefault
         add esp, byte 0Ch
         push byte 0
-        mov dword [dword_11D1D6], eax
+        mov dword [ArenaClipStream], eax
         call MemLargestFreeOfList
         add esp, byte 4
         cmp eax, 600000h
@@ -903,7 +903,7 @@ StartGameSound:
 .8:
         xor edx, edx
         call LoadDataFileFlag0
-        mov dword [dword_11D206], eax
+        mov dword [GameSoundOn], eax
         call MemLargestFreeLocked
         cmp eax, 500000h
         jle short .9
@@ -912,10 +912,10 @@ StartGameSound:
         call LoadDataFileHandle
         test eax, eax
         je short .9
-        cmp dword [dword_11D1F2], byte 0FFFFFFFFh
+        cmp dword [LastSfxHandle], byte 0FFFFFFFFh
         jne short .9
         call RegisterSfxBank
-        mov dword [dword_11D1F2], eax
+        mov dword [LastSfxHandle], eax
 .9:
         cmp esi, byte 2
         jne short .12
@@ -924,10 +924,10 @@ StartGameSound:
         call LoadDataFileHandle
         test eax, eax
         je short .10
-        cmp dword [dword_11D1EA], byte 0FFFFFFFFh
+        cmp dword [CrowdSfxHandle], byte 0FFFFFFFFh
         jne short .10
         call RegisterSfxBank
-        mov dword [dword_11D1EA], eax
+        mov dword [CrowdSfxHandle], eax
 .10:
         mov eax, 33h
 .11:
@@ -935,7 +935,7 @@ StartGameSound:
         call LoadDataFileHandle
         test eax, eax
         je near .17
-        cmp dword [dword_11D1EE], byte 0FFFFFFFFh
+        cmp dword [AmbientSfxHandle], byte 0FFFFFFFFh
         jne near .17
         jmp near .16
 .12:
@@ -946,10 +946,10 @@ StartGameSound:
         call LoadDataFileHandle
         test eax, eax
         je short .13
-        cmp dword [dword_11D1EA], byte 0FFFFFFFFh
+        cmp dword [CrowdSfxHandle], byte 0FFFFFFFFh
         jne short .13
         call RegisterSfxBank
-        mov dword [dword_11D1EA], eax
+        mov dword [CrowdSfxHandle], eax
 .13:
         mov eax, 36h
         jmp short .11
@@ -959,34 +959,34 @@ StartGameSound:
         call LoadDataFileHandle
         test eax, eax
         je short .15
-        cmp dword [dword_11D1EA], byte 0FFFFFFFFh
+        cmp dword [CrowdSfxHandle], byte 0FFFFFFFFh
         jne short .15
         call RegisterSfxBank
-        mov dword [dword_11D1EA], eax
+        mov dword [CrowdSfxHandle], eax
 .15:
         mov eax, 39h
         xor edx, edx
         call LoadDataFileHandle
         test eax, eax
         je short .17
-        cmp dword [dword_11D1EE], byte 0FFFFFFFFh
+        cmp dword [AmbientSfxHandle], byte 0FFFFFFFFh
         jne short .17
 .16:
         call RegisterSfxBank
-        mov dword [dword_11D1EE], eax
+        mov dword [AmbientSfxHandle], eax
 .17:
-        cmp dword [dword_11D206], byte 0
+        cmp dword [GameSoundOn], byte 0
         je near .21
-        mov eax, dword [dword_11D206]
+        mov eax, dword [GameSoundOn]
         call LoadCrowdBank
         test eax, eax
         jl short .18
-        mov dword [dword_11D1F6], 1
+        mov dword [CrowdFading], 1
 .18:
         mov esi, 1
         cmp dword [sndcard], byte 0
         jl short .20
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         je short .20
         mov eax, dword [optblock]
         and eax, byte 7Fh
@@ -994,19 +994,19 @@ StartGameSound:
         jae short .19
         mov esi, eax
 .19:
-        mov dword [dword_11D202], esi
+        mov dword [CrowdTarget], esi
 .20:
-        mov dword [dword_11D1FE], 1
+        mov dword [CrowdLevel], 1
         mov eax, 7Fh
-        mov dword [dword_11D202], 2
+        mov dword [CrowdTarget], 2
         call Crowd_Noise
         push byte 5
         call SetTickDeadline
         add esp, byte 4
         call WaitTickDeadline
 .21:
-        mov dword [byte_11D1DE], 0
-        mov dword [dword_11D236], 1
+        mov dword [MusicFlags], 0
+        mov dword [SoundCardOn], 1
 .22:
         pop esi
         pop edx
@@ -1024,57 +1024,57 @@ EndGameSound:
         push edx
         cmp dword [sndcard], byte 0
         jl near .8
-        cmp dword [dword_11D236], byte 0
+        cmp dword [SoundCardOn], byte 0
         je near .8
-        cmp dword [dword_11D1D6], byte 0
+        cmp dword [ArenaClipStream], byte 0
         je short .1
         xor eax, eax
         call StopArenaClip
-        push dword [dword_11D1D6]
+        push dword [ArenaClipStream]
         call delstream
-        mov dword [dword_11D1D6], 0
-        mov dword [byte_11D1DE], 0
+        mov dword [ArenaClipStream], 0
+        mov dword [MusicFlags], 0
         add esp, byte 4
 .1:
-        cmp dword [dword_11D1EE], byte 0
+        cmp dword [AmbientSfxHandle], byte 0
         jl short .2
         call StopAllSfx
-        mov eax, dword [dword_11D1EE]
+        mov eax, dword [AmbientSfxHandle]
         call UnregisterSfxBank
-        mov dword [dword_11D1EE], 0FFFFFFFFh
+        mov dword [AmbientSfxHandle], 0FFFFFFFFh
 .2:
-        cmp dword [dword_11D1EA], byte 0
+        cmp dword [CrowdSfxHandle], byte 0
         jl short .3
         call StopAllSfx
-        mov eax, dword [dword_11D1EA]
+        mov eax, dword [CrowdSfxHandle]
         call UnregisterSfxBank
-        mov dword [dword_11D1EA], 0FFFFFFFFh
+        mov dword [CrowdSfxHandle], 0FFFFFFFFh
 .3:
-        cmp dword [dword_11D206], byte 0
+        cmp dword [GameSoundOn], byte 0
         je short .6
-        cmp dword [dword_11D1FA], byte 0
+        cmp dword [CrowdActive], byte 0
         je short .4
         call StopCrowdChannels
-        mov dword [dword_11D1FA], 0
+        mov dword [CrowdActive], 0
 .4:
-        cmp dword [dword_11D1F6], byte 0
+        cmp dword [CrowdFading], byte 0
         je short .5
         call CloseCrowdSound
-        mov dword [dword_11D1F6], 0
+        mov dword [CrowdFading], 0
 .5:
-        push dword [dword_11D206]
+        push dword [GameSoundOn]
         call FreeMemBlock
-        mov dword [dword_11D206], 0
+        mov dword [GameSoundOn], 0
         add esp, byte 4
 .6:
-        cmp dword [dword_11D1F2], byte 0
+        cmp dword [LastSfxHandle], byte 0
         jl short .7
         call StopAllSfx
-        mov eax, dword [dword_11D1F2]
+        mov eax, dword [LastSfxHandle]
         call UnregisterSfxBank
-        mov dword [dword_11D1F2], 0FFFFFFFFh
+        mov dword [LastSfxHandle], 0FFFFFFFFh
 .7:
-        mov dword [dword_11D236], 0
+        mov dword [SoundCardOn], 0
         call StopSpeech
         xor eax, eax
         call OpenSpeechBanks
@@ -1083,7 +1083,7 @@ EndGameSound:
         push dword 35B60h
         call CdStreamOpenDefault
         add esp, byte 0Ch
-        mov dword [dword_11D1D2], eax
+        mov dword [MusicStream], eax
         cmp dword [SpeechStreamTimer], byte 0
         jge short .8
         mov eax, 31h
@@ -1131,19 +1131,19 @@ ShutdownSound:
         call FadeOutMusic
         cmp dword [sndcard], byte 0
         jl short .3
-        test byte [byte_11D1DE], 1
+        test byte [MusicFlags], 1
         je short .3
-        test byte [byte_11D1DE], 4
+        test byte [MusicFlags], 4
         je short .3
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         call StopSoundChannel
-        mov dword [byte_11D1DE], 0FFFFFFFBh
+        mov dword [MusicFlags], 0FFFFFFFBh
 .3:
-        push dword [dword_11D1D2]
-        mov dword [byte_11D1DE], 0
+        push dword [MusicStream]
+        mov dword [MusicFlags], 0
         call delstream
         add esp, byte 4
-        mov dword [dword_11D1D2], 0
+        mov dword [MusicStream], 0
         call AsyncClose
         call SndCloseDriver
 .4:
@@ -1164,10 +1164,10 @@ SoundSecondsToBytes:
 ; service
 ;-----------------------------------------------------------------------------
 SoundIdle:
-        cmp dword [dword_11D236], byte 0
+        cmp dword [SoundCardOn], byte 0
         je short SpeechService_58
         call ArenaClipService
-        cmp dword [dword_11D3AA], byte 0
+        cmp dword [ArenaClipState], byte 0
         jne short SpeechService_6B
 ;-----------------------------------------------------------------------------
 ; SpeechService                                                   69AB2  96 PC
@@ -1184,17 +1184,17 @@ SpeechService:
         jl near FindClipIndex_55
         test byte [globalset+1], 10h
         je near FindClipIndex_55
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jl near FindClipIndex_55
-        mov word [word_11D23A], 0
-        cmp word [word_17C640], byte 0
+        mov word [SpeechStarting], 0
+        cmp word [SpeechPlaying], byte 0
         je near StopSpeech_207
         call asyncreader
         mov dword [byte ebp-04h], 0
         jmp near StopSpeech_1FA
 SpeechService_58:
         call SpeechService
-        cmp word [word_11D23A], byte 0
+        cmp word [SpeechStarting], byte 0
         je near FeedMusicStream
 SpeechService_6B:
         ret

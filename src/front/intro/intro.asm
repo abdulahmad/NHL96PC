@@ -9,7 +9,7 @@ extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, So
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
 extern str_Scr1, str_Scr2, RunAttractMode, GetLangText, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern FreeBitmap, SaveTextState, SetDrawTarget, DrawArtFast, FindShapeList, SetScreenTarget, SetPaletteEntries, KbdGetKey
-extern FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, CreditsText, word_11D1D0
+extern FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, CreditsText, CdSpeedTested
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
 global RunSlideShow_A3, RunSlideShow_C7, RunSlideShow_E2, RunSlideShow_118, RunSlideShow_127, RunSlideShow_145, RunSlideShow_180, RunSlideShow_1A1
 global RunSlideShow_1B2, RunSlideShow_1D3, RunSlideShow_206, RunSlideShow_215, RunSlideShow_248, RunSlideShow_27C, RunSlideShow_2C3, RunSlideShow_2E0
@@ -28,7 +28,7 @@ PlayIntroMovies:
         call SetScreenMode
 .1:
         call CloseMusic
-        mov ax, word [word_11D1D0]
+        mov ax, word [CdSpeedTested]
         xor ah, ah
         and al, 1
         mov ecx, GetPressedDevice
@@ -43,7 +43,7 @@ PlayIntroMovies:
         mov edx, eax
         test eax, eax
         jne short .2
-        mov ax, word [word_11D1D0]
+        mov ax, word [CdSpeedTested]
         xor ah, ah
         and al, 1
         mov ecx, GetPressedDevice

@@ -16,62 +16,62 @@ extern str_WinnipegManitoba, str_MightyDucks2, str_Bruins, str_Sabres, str_Flame
 extern str_Oilers, str_Panthers, str_Whalers, str_Kings, str_Canadiens, str_Devils, str_Islanders, str_Rangers
 extern str_Senators, str_Flyers, str_Penguins, str_Nordiques, str_Blues, str_Sharks, str_Lightning, str_MapleLeafs
 extern str_Canucks, str_Capitals, str_Jets, str_AllStars
-global byte_11D1DE, byte_11D20A, byte_11D392, byte_11D74B, dword_11D1C8, dword_11D1CC, dword_11D1D2, dword_11D1D6
-global sndcard, SpeechStreamFile, SpeechStreamTimer, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
-global dword_11D1FE, dword_11D202, dword_11D206, dword_11D232, dword_11D236, str_Z_OpenSpeechBanks, dword_11D242, str_Punct_OpenSpeechBanks
-global speechq, dword_11D37E, dword_11D38A, speechinit, dword_11D3A6, dword_11D3AA, dword_11D3AE, dword_11D3B2
-global dword_11D3B8, dword_11D3BC, dword_11D3C0, dword_11D3C4, DirPathTable, dword_11D59C, dword_11D674, dword_11D744
-global LogoNames, off_11D44C, off_11D4BC, off_11D52C, word_11D1D0, word_11D23A, word_11D23C, word_11D356
-global word_11D382, word_11D384, word_11D386, word_11D388, lastsfx, word_11D3A4, word_11D3B6, word_11D604
-dword_11D1C8:
+global MusicFlags, MusicFileName, SfxChannelBusy, SoundCardPort, SoundCardIrq, MusicStream, ArenaClipStream
+global sndcard, SpeechStreamFile, SpeechStreamTimer, CrowdSfxHandle, AmbientSfxHandle, LastSfxHandle, CrowdFading, CrowdActive
+global CrowdLevel, CrowdTarget, GameSoundOn, CurrentMusicTrack, SoundCardOn, str_Z_OpenSpeechBanks, ClipIndexTable, str_Punct_OpenSpeechBanks
+global speechq, SpeechBankHandle, SpeechBanksOpen, speechinit, SfxMask, ArenaClipState, ArenaClipTime, ArenaClipId
+global TgvFpsSetting, TgvFlags, TgvStartTick, TgvPauseTick, DirPathTable, TeamDivisions, TeamConferenceIds, SeasonTeamOrder
+global LogoNames, TeamCityNames, TeamFullNames, TeamNicknames, CdSpeedTested, SpeechStarting, CdSpeed, TeamPairClips
+global SpeechQueueHead, SpeechQueueTail, SpeechOpen, SpeechChannelCount, lastsfx, CrowdHeld, CdSpeedChecked, TeamJerseyStyle
+SoundCardPort:
         db 00h,00h,00h,00h
-dword_11D1CC:
+SoundCardIrq:
         db 00h,00h,00h,00h
-word_11D1D0:
+CdSpeedTested:
         db 00h,00h
-dword_11D1D2:
+MusicStream:
         db 00h,00h,00h,00h
-dword_11D1D6:
+ArenaClipStream:
         db 00h,00h,00h,00h
 sndcard:
         db 0FFh,0FFh,0FFh,0FFh
-byte_11D1DE:
+MusicFlags:
         db 00h,00h,00h,00h
 SpeechStreamFile:
         db 0FFh,0FFh,0FFh,0FFh
 SpeechStreamTimer:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11D1EA:
+CrowdSfxHandle:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11D1EE:
+AmbientSfxHandle:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11D1F2:
+LastSfxHandle:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11D1F6:
+CrowdFading:
         db 00h,00h,00h,00h
-dword_11D1FA:
+CrowdActive:
         db 00h,00h,00h,00h
-dword_11D1FE:
+CrowdLevel:
         db 00h,00h,00h,00h
-dword_11D202:
+CrowdTarget:
         db 00h,00h,00h,00h
-dword_11D206:
+GameSoundOn:
         db 00h,00h,00h,00h
-byte_11D20A:
+MusicFileName:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-dword_11D232:
+CurrentMusicTrack:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11D236:
+SoundCardOn:
         db 00h,00h,00h,00h
-word_11D23A:
+SpeechStarting:
         db 00h,00h
-word_11D23C:
+CdSpeed:
         db 00h,00h
 str_Z_OpenSpeechBanks:
         db 05Ah,00h,00h,00h
-dword_11D242:
+ClipIndexTable:
         db 00h,00h,00h,00h,03Ch,00h,00h,00h,054h,06h,00h,00h,090h,06h,00h,00h
         db 0CCh,06h,00h,00h,0E4h,0Ch,00h,00h,020h,0Dh,00h,00h,038h,013h,00h,00h
         db 074h,013h,00h,00h,0B0h,013h,00h,00h,0C8h,019h,00h,00h,04h,01Ah,00h,00h
@@ -90,50 +90,50 @@ dword_11D242:
         db 0C0h,099h,00h,00h,0D8h,09Fh,00h,00h,014h,0A0h,00h,00h,0F0h,0A5h,00h,00h
         db 02Ch,0A6h,00h,00h,068h,0A6h,00h,00h,0CCh,0ABh,00h,00h,08h,0ACh,00h,00h
         db 044h,0ACh,00h,00h
-word_11D356:
+TeamPairClips:
         db 09h,01h,0Bh,01h,017h,03h,06h,04h,013h,04h,016h,06h,03h,07h,00h,0Ah
         db 012h,0Bh,016h,0Bh,0Ch,0Eh,0Dh,0Eh,010h,011h,08h,015h,0Eh,016h,0Eh,017h
 str_Punct_OpenSpeechBanks:
         db 05Bh,00h,00h,00h
 speechq:
         db 00h,00h,00h,00h
-dword_11D37E:
+SpeechBankHandle:
         db 0FFh,0FFh,0FFh,0FFh
-word_11D382:
+SpeechQueueHead:
         db 00h,00h
-word_11D384:
+SpeechQueueTail:
         db 00h,00h
-word_11D386:
+SpeechOpen:
         db 00h,00h
-word_11D388:
+SpeechChannelCount:
         db 00h,00h
-dword_11D38A:
+SpeechBanksOpen:
         db 00h,00h,00h,00h
 speechinit:
         db 00h,00h,00h,00h
-byte_11D392:
+SfxChannelBusy:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 lastsfx:
         db 0FFh,0FFh
-word_11D3A4:
+CrowdHeld:
         db 00h,00h
-dword_11D3A6:
+SfxMask:
         db 00h,00h,00h,00h
-dword_11D3AA:
+ArenaClipState:
         db 00h,00h,00h,00h
-dword_11D3AE:
+ArenaClipTime:
         db 00h,00h,00h,00h
-dword_11D3B2:
+ArenaClipId:
         db 00h,00h,00h,00h
-word_11D3B6:
+CdSpeedChecked:
         db 00h,00h
-dword_11D3B8:
+TgvFpsSetting:
         db 0Fh,00h,00h,00h
-dword_11D3BC:
+TgvFlags:
         db 00h,00h,00h,00h
-dword_11D3C0:
+TgvStartTick:
         db 00h,00h,00h,00h
-dword_11D3C4:
+TgvPauseTick:
         db 00h,00h,00h,00h
 DirPathTable:
         db 00h,00h,00h,00h,019h,01h,00h,00h,01Ah,01h,00h,00h,01Bh,01h,00h,00h
@@ -167,7 +167,7 @@ LogoNames:
         dd str_WPG2
         dd str_ASW2
         dd str_ASE2
-off_11D44C:
+TeamCityNames:
         dd str_Anaheim
         dd str_Boston
         dd str_Buffalo
@@ -196,7 +196,7 @@ off_11D44C:
         dd str_Winnipeg
         dd str_Western
         dd str_Eastern
-off_11D4BC:
+TeamFullNames:
         dd str_AnaheimCalifornia
         dd str_BostonMassachusetts
         dd str_BuffaloNewYork
@@ -225,7 +225,7 @@ off_11D4BC:
         dd str_WinnipegManitoba
         dd str_SanJoseCalifornia
         dd str_SanJoseCalifornia
-off_11D52C:
+TeamNicknames:
         dd str_MightyDucks2
         dd str_Bruins
         dd str_Sabres
@@ -254,7 +254,7 @@ off_11D52C:
         dd str_Jets
         dd str_AllStars
         dd str_AllStars
-dword_11D59C:
+TeamDivisions:
         db 01h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,01h,00h,00h,00h
         db 02h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h,01h,00h,00h,00h
         db 08h,00h,00h,00h,04h,00h,00h,00h,01h,00h,00h,00h,04h,00h,00h,00h
@@ -262,7 +262,7 @@ dword_11D59C:
         db 08h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,02h,00h,00h,00h
         db 01h,00h,00h,00h,08h,00h,00h,00h,02h,00h,00h,00h,01h,00h,00h,00h
         db 08h,00h,00h,00h,02h,00h,00h,00h
-word_11D604:
+TeamJerseyStyle:
         db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
@@ -270,7 +270,7 @@ word_11D604:
         db 01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h
         db 01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h
-dword_11D674:
+TeamConferenceIds:
         db 03h,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h
         db 03h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h
         db 0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h,0Ch,00h,00h,00h
@@ -284,7 +284,6 @@ dword_11D674:
         db 09h,00h,00h,00h,0Bh,00h,00h,00h,0Fh,00h,00h,00h,011h,00h,00h,00h
         db 012h,00h,00h,00h,08h,00h,00h,00h,0Ch,00h,00h,00h,0Dh,00h,00h,00h
         db 0Eh,00h,00h,00h,010h,00h,00h,00h,015h,00h,00h,00h,018h,00h,00h,00h
-dword_11D744:
+SeasonTeamOrder:
         db 06h,00h,00h,00h,06h,00h,00h
-byte_11D74B:
         db 00h,07h,00h,00h

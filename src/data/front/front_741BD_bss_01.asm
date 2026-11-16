@@ -2,40 +2,40 @@
 bits 32
 %include "hockey.inc"
 section s_17D678 nobits alloc noexec write align=1
-global byte_17D6C8, dword_17D678, dword_17D67C, dword_17D680, dword_17D684, dword_17D688, dword_17D68C, dword_17D690
-global dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4, dword_17D6C4, dword_17D7C8, statsbgshapes
-global dword_17D7D0
-dword_17D678:
+global GreyColorOrder, DialCursor, DialLength, DialDigitsBmp, DialAbort, TeamSelectCursor, HomePanelArt, TeamPanelFont
+global LangBlockState, LangBlockText, LangBlockPtrs, LangBlockLastId, LangBlockIds, LangFileHandle, NewSeasonChoice, statsbgshapes
+global SeasonMenuActive
+DialCursor:
         resb 4
-dword_17D67C:
+DialLength:
         resb 4
-dword_17D680:
+DialDigitsBmp:
         resb 4
-dword_17D684:
+DialAbort:
         resb 4
-dword_17D688:
+TeamSelectCursor:
         resb 4
-dword_17D68C:
+HomePanelArt:
         resb 4
-dword_17D690:
+TeamPanelFont:
         resb 4
-dword_17D694:
+LangBlockState:
         resb 12
-dword_17D6A0:
+LangBlockText:
         resb 4
-dword_17D6A4:
+LangBlockPtrs:
         resb 12
-dword_17D6B0:
+LangBlockLastId:
         resb 4
-dword_17D6B4:
+LangBlockIds:
         resb 16
-dword_17D6C4:
+LangFileHandle:
         resb 4
-byte_17D6C8:
+GreyColorOrder:
         resb 256
-dword_17D7C8:
+NewSeasonChoice:
         resb 4
 statsbgshapes:
         resb 4
-dword_17D7D0:
+SeasonMenuActive:
         resb 4

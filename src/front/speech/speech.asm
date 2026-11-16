@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_67000 progbits alloc exec nowrite align=1
 extern _dos_gettime_, AsyncCancelRequest, AsyncClose, AsyncInit, asyncreader, AsyncRequestDone, AsyncRequestOpen, AsyncRequestSection
-extern byte_17C60C, str_Z_OpenSpeechBanks, dword_11D242, str_Punct_OpenSpeechBanks, speechq, dword_11D37E, dword_11D38A
-extern speechinit, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
-extern dword_17C5D0, dword_17C5FC, dword_17C600, GetTicks, globalset, MakeDataPath, optflags, rand_
+extern SpeechBankNames, str_Z_OpenSpeechBanks, ClipIndexTable, str_Punct_OpenSpeechBanks, speechq, SpeechBankHandle, SpeechBanksOpen
+extern speechinit, SpeechBankPtrs, SpeechChannels
+extern SpeechVolume, SpeechBankFiles, GetTicks, globalset, MakeDataPath, optflags, rand_
 extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, OpenSpeechQueue, SetSpeechQueueVolume
 extern AddSpeechQueueClip, SpeechQueueBusy, StartSpeechQueue, FlushSpeechQueue, CloseSpeechQueue, DosOpenReadOnly, DosCloseFile, DosReadFile
-extern DosSeekFile, word_11D23A, word_11D356, word_11D382, word_11D384, word_11D386, word_11D388, SpeechClipQueue
-extern word_17C63E, word_17C640
+extern DosSeekFile, SpeechStarting, TeamPairClips, SpeechQueueHead, SpeechQueueTail, SpeechOpen, SpeechChannelCount, SpeechClipQueue
+extern SpeechActiveCount, SpeechPlaying
 global FindClipIndex, FindClipIndex_55, FindClipIndex_56, FindTeamPairClip, FindTeamPairClip_85, ResetSpeechChannels, OpenSpeechBanks, InitSpeech
 global ShutdownSpeech, FreeSpeechBuffer, RestoreSpeechBuffer, RestoreSpeechBuffer_32, SetSpeechVolume, SpeechBusy, QueueSpeechClip, CountRecordGame
 global RecordPctClip, RecordStreakClips, unk_67981, jpt_6799B, unk_679D3, jpt_679E7, jpt_67A13, jpt_67A43
@@ -21,7 +21,7 @@ global PaEvent_61F, PaEvent_6BB, PaEvent_71D, PaEvent_757, PaEvent_768, PaEvent_
 global PaEvent_7AC, PaEvent_7DE, PaEvent_965, PaEvent_AAB, StopSpeech, StopSpeech_1FA, StopSpeech_207
 ;-----------------------------------------------------------------------------
 ; FindClipIndex                                   67000  96 PC, low confidence
-; Binary search of the 45h-entry table dword_11D242 for [eax]; stores the
+; Binary search of the 45h-entry table ClipIndexTable for [eax]; stores the
 ; index (or -1) back
 ;-----------------------------------------------------------------------------
 FindClipIndex:
@@ -45,7 +45,7 @@ FindClipIndex:
         mov edi, dword [eax]
         mov dword [byte ebp-08h], edx
         shl edx, 2
-        cmp edi, dword [dword edx+dword_11D242]
+        cmp edi, dword [dword edx+ClipIndexTable]
         jle short .2
         mov ebx, dword [byte ebp-04h]
         jmp short .4
@@ -75,7 +75,7 @@ FindClipIndex_56:
         ret
 ;-----------------------------------------------------------------------------
 ; FindTeamPairClip                             6705C  96 PC, medium confidence
-; (a, b): finds the pair a<<8|b or b<<8|a in the 16-entry table word_11D356
+; (a, b): finds the pair a<<8|b or b<<8|a in the 16-entry table TeamPairClips
 ; (two teams 0-1Ch from the event 8 call); the play-by-play adds 81h to the
 ; index
 ;-----------------------------------------------------------------------------
@@ -120,7 +120,7 @@ FindTeamPairClip:
         movsx edx, dx
         mov dword [byte ebp-014h], edx
         add edx, edx
-        cmp di, word [dword edx+word_11D356]
+        cmp di, word [dword edx+TeamPairClips]
         jle short .5
         mov ecx, esi
         jmp short .7
@@ -151,29 +151,29 @@ FindTeamPairClip_85:
         ret
 ;-----------------------------------------------------------------------------
 ; ResetSpeechChannels                                             670E7  96 PC
-; Clears the 3 speech play channels (3 x 14h at dword_17C5C0, request -1) and
+; Clears the 3 speech play channels (3 x 14h at SpeechChannels, request -1) and
 ; their counters
 ;-----------------------------------------------------------------------------
 ResetSpeechChannels:
         push ecx
         push edi
         mov ecx, 3Ch
-        mov edi, dword_17C5C0
+        mov edi, SpeechChannels
         xor eax, eax
         rep stosb
-        mov word [word_17C63E], 0
+        mov word [SpeechActiveCount], 0
         jmp short .2
 .1:
         imul eax, byte 14h
-        inc word [word_17C63E]
-        mov dword [dword eax+dword_17C5D0], 0FFFFFFFFh
+        inc word [SpeechActiveCount]
+        mov dword [dword eax+SpeechChannels+10h], 0FFFFFFFFh
 .2:
-        movsx eax, word [word_17C63E]
+        movsx eax, word [SpeechActiveCount]
         cmp eax, byte 3
         jl short .1
-        mov word [word_17C63E], 0
-        mov word [word_17C640], 0
-        mov word [word_11D388], 0
+        mov word [SpeechActiveCount], 0
+        mov word [SpeechPlaying], 0
+        mov word [SpeechChannelCount], 0
         pop edi
         pop ecx
         ret
@@ -193,17 +193,17 @@ OpenSpeechBanks:
         push eax
         cmp dword [sndcard], byte 0
         jl near FindClipIndex_55
-        cmp dword [dword_11D37E], byte 0FFFFFFFFh
+        cmp dword [SpeechBankHandle], byte 0FFFFFFFFh
         jl near FindClipIndex_55
         call StopSpeech
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jl short .2
-        mov dword [dword_11D37E], 0FFFFFFFFh
-        cmp byte [byte_17C60C], 0
+        mov dword [SpeechBankHandle], 0FFFFFFFFh
+        cmp byte [SpeechBankNames], 0
         je short .1
-        mov byte [byte_17C60C], 0
-        push dword [dword_17C600]
-        mov dword [dword_17C5BC], 0
+        mov byte [SpeechBankNames], 0
+        push dword [SpeechBankFiles]
+        mov dword [SpeechBankPtrs], 0
         call FreeMemBlock
         add esp, byte 4
 .1:
@@ -211,23 +211,23 @@ OpenSpeechBanks:
         mov edi, SpeechClipQueue
         xor eax, eax
         rep stosb
-        mov word [word_11D386], 0
-        mov word [word_11D382], 0
-        mov word [word_11D384], 0
+        mov word [SpeechOpen], 0
+        mov word [SpeechQueueHead], 0
+        mov word [SpeechQueueTail], 0
         call ResetSpeechChannels
 .2:
         cmp dword [byte ebp-018h], byte 0
         je short .3
-        mov dword [dword_11D38A], 1
-        mov dword [dword_17C5FC], 64h
+        mov dword [SpeechBanksOpen], 1
+        mov dword [SpeechVolume], 64h
         jmp short .4
 .3:
-        mov dword [dword_11D38A], 1
-        mov dword [dword_17C5FC], 0
+        mov dword [SpeechBanksOpen], 1
+        mov dword [SpeechVolume], 0
 .4:
         mov dword [byte ebp-04h], 0
-        mov edi, byte_17C60C
-        mov dword [byte ebp-08h], dword_17C5BC
+        mov edi, SpeechBankNames
+        mov dword [byte ebp-08h], SpeechBankPtrs
         jmp near .11
 .5:
         shl eax, 2
@@ -267,18 +267,18 @@ OpenSpeechBanks:
         mov esi, dword [byte ebp-04h]
         call DosReadFile
         add esp, byte 0Ch
-        mov eax, dword [nosplit esi*4+dword_17C5BC]
+        mov eax, dword [nosplit esi*4+SpeechBankPtrs]
         push byte 20h
         shl eax, 2
         push eax
         push edi
         call AllocMemBlock
-        mov dword [nosplit esi*4+dword_17C600], eax
-        mov eax, dword [nosplit esi*4+dword_17C5BC]
+        mov dword [nosplit esi*4+SpeechBankFiles], eax
+        mov eax, dword [nosplit esi*4+SpeechBankPtrs]
         add esp, byte 0Ch
         shl eax, 2
         push eax
-        push dword [nosplit esi*4+dword_17C600]
+        push dword [nosplit esi*4+SpeechBankFiles]
         push dword [byte ebp-0Ch]
         call DosReadFile
         add esp, byte 0Ch
@@ -286,18 +286,18 @@ OpenSpeechBanks:
         call DosCloseFile
         mov eax, dword [byte ebp-018h]
         add esp, byte 4
-        mov dword [dword_11D37E], eax
+        mov dword [SpeechBankHandle], eax
         jmp short .10
 .9:
-        mov dword [dword_11D37E], 0FFFFFFFFh
-        mov byte [dword esi+byte_17C60C], 0
+        mov dword [SpeechBankHandle], 0FFFFFFFFh
+        mov byte [dword esi+SpeechBankNames], 0
 .10:
         add dword [byte ebp-08h], byte 4
         inc dword [byte ebp-04h]
         add edi, byte 32h
 .11:
         mov eax, dword [byte ebp-04h]
-        cmp eax, dword [dword_11D38A]
+        cmp eax, dword [SpeechBanksOpen]
         jl near .5
         call AsyncClose
         push byte 20h
@@ -305,7 +305,7 @@ OpenSpeechBanks:
         push byte 18h
         call AsyncInit
         add esp, byte 0Ch
-        push byte_17C60C
+        push SpeechBankNames
         call AsyncRequestOpen
         add esp, byte 4
         call asyncreader
@@ -341,15 +341,15 @@ InitSpeech:
         mov eax, 0Eh
         mov edi, SpeechClipQueue
         call OpenSpeechQueue
-        mov dword [dword_11D37E], 0FFFFFFFFh
-        mov byte [byte_17C60C], 0
-        mov dword [dword_17C5BC], 0
+        mov dword [SpeechBankHandle], 0FFFFFFFFh
+        mov byte [SpeechBankNames], 0
+        mov dword [SpeechBankPtrs], 0
         xor eax, eax
-        mov dword [dword_17C600], 0
+        mov dword [SpeechBankFiles], 0
         rep stosb
-        mov word [word_11D386], 0
-        mov word [word_11D382], 0
-        mov word [word_11D384], 0
+        mov word [SpeechOpen], 0
+        mov word [SpeechQueueHead], 0
+        mov word [SpeechQueueTail], 0
         call ResetSpeechChannels
         push byte 0
         push dword 56AEAh
@@ -395,12 +395,12 @@ ShutdownSpeech:
         xor edx, edx
         cmp dword [sndcard], byte 0
         jl short .2
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jl short .2
         call SpeechQueueBusy
         test eax, eax
         jne short .1
-        cmp word [word_11D386], byte 0
+        cmp word [SpeechOpen], byte 0
         je short .2
 .1:
         mov edx, 1
@@ -409,11 +409,11 @@ ShutdownSpeech:
         je short .3
         call StopSpeech
 .3:
-        cmp byte [byte_17C60C], 0
+        cmp byte [SpeechBankNames], 0
         je short .4
-        mov byte [byte_17C60C], 0
-        push dword [dword_17C600]
-        mov dword [dword_17C5BC], 0
+        mov byte [SpeechBankNames], 0
+        push dword [SpeechBankFiles]
+        mov dword [SpeechBankPtrs], 0
         call FreeMemBlock
         add esp, byte 4
 .4:
@@ -438,13 +438,13 @@ FreeSpeechBuffer:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11D37E], byte 1
+        cmp dword [SpeechBankHandle], byte 1
         jne short .1
         call StopSpeech
         push dword [speechq]
         call FreeMemBlock
         mov dword [speechq], 0
-        mov dword [dword_11D37E], 0FFFFFFFEh
+        mov dword [SpeechBankHandle], 0FFFFFFFEh
         add esp, byte 4
 .1:
         pop edx
@@ -459,13 +459,13 @@ RestoreSpeechBuffer:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11D37E], byte 0FFFFFFFEh
+        cmp dword [SpeechBankHandle], byte 0FFFFFFFEh
         jne short .1
         push byte 0
         push dword 56AEAh
         push str_SPEECHBUF
         call AllocMemBlock
-        mov dword [dword_11D37E], 1
+        mov dword [SpeechBankHandle], 1
         add esp, byte 0Ch
         mov dword [speechq], eax
 .1:
@@ -482,7 +482,7 @@ RestoreSpeechBuffer_32:
 SetSpeechVolume:
         cmp dword [sndcard], byte 0
         jl short RestoreSpeechBuffer_32
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jl short RestoreSpeechBuffer_32
         test eax, eax
         jge short .1
@@ -496,19 +496,19 @@ SetSpeechVolume:
         jmp near SetSpeechQueueVolume
 ;-----------------------------------------------------------------------------
 ; SpeechBusy                                                      6755B  96 PC
-; 1 while the driver plays speech or clips are queued (word_11D386)
+; 1 while the driver plays speech or clips are queued (SpeechOpen)
 ;-----------------------------------------------------------------------------
 SpeechBusy:
         push edx
         xor edx, edx
         cmp dword [sndcard], byte 0
         jl short .2
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jl short .2
         call SpeechQueueBusy
         test eax, eax
         jne short .1
-        cmp word [word_11D386], byte 0
+        cmp word [SpeechOpen], byte 0
         je short .2
 .1:
         mov edx, 1
@@ -519,7 +519,7 @@ SpeechBusy:
 ;-----------------------------------------------------------------------------
 ; QueueSpeechClip                                                 6758C  96 PC
 ; (bank, clip): adds the clip's file offset and length (from the bank's table
-; at dword_17C600) to the 24-entry clip queue
+; at SpeechBankFiles) to the 24-entry clip queue
 ;-----------------------------------------------------------------------------
 QueueSpeechClip:
         push ebx
@@ -527,30 +527,30 @@ QueueSpeechClip:
         push esi
         mov ebx, eax
         mov ecx, edx
-        movsx eax, word [word_11D384]
+        movsx eax, word [SpeechQueueTail]
         inc eax
         mov esi, 18h
         cdq
         idiv esi
-        mov word [word_11D384], dx
-        cmp dx, word [word_11D382]
+        mov word [SpeechQueueTail], dx
+        cmp dx, word [SpeechQueueHead]
         jne short .1
         movsx eax, dx
         inc eax
         cdq
         idiv esi
-        mov word [word_11D382], dx
+        mov word [SpeechQueueHead], dx
 .1:
-        movsx eax, word [word_11D384]
+        movsx eax, word [SpeechQueueTail]
         imul eax, byte 0Ch
         mov word [dword eax+SpeechClipQueue], bx
-        mov edx, dword [nosplit ebx*4+dword_17C600]
+        mov edx, dword [nosplit ebx*4+SpeechBankFiles]
         mov word [dword eax+SpeechClipQueue+2], cx
         mov ebx, dword [edx+ecx*4]
         mov dword [dword eax+SpeechClipQueue+4], ebx
         mov edx, dword [byte edx+ecx*4+04h]
         sub edx, ebx
-        inc word [word_11D386]
+        inc word [SpeechOpen]
         mov dword [dword eax+SpeechClipQueue+8], edx
         pop esi
         pop ecx
@@ -1025,12 +1025,12 @@ PaEvent:
         add eax, byte 4
         jmp dword [nosplit cs:ecx*4+jpt_6799B]
 PaEvent_50:
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
         xor edx, edx
         jmp near PaEvent_965.91
 PaEvent_64:
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
         xor eax, eax
 .1:
@@ -1066,7 +1066,7 @@ PaEvent_64:
         add edx, 21Bh
         jmp near PaEvent_965.92
 PaEvent_CD:
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
         xor eax, eax
 .6:
@@ -1198,7 +1198,7 @@ PaEvent_20E:
         add edx, byte 65h
         jmp near PaEvent_965.92
 PaEvent_231:
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
         mov eax, dword [edx]
         add edx, byte 4
@@ -1331,7 +1331,7 @@ PaEvent_3B0:
         add edx, 14Bh
         jmp short PaEvent_34C.25
 PaEvent_3D8:
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
         xor eax, eax
 .26:
@@ -1383,17 +1383,17 @@ PaEvent_3D8:
         mov edx, 18Eh
         jmp near PaEvent_965.91
 PaEvent_47B:
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
         mov edx, 219h
         jmp near PaEvent_965.91
 PaEvent_492:
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
         mov edx, 21Ah
         jmp near PaEvent_965.91
 PaEvent_4A9:
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
         xor eax, eax
 .32:
@@ -1490,7 +1490,7 @@ PaEvent_4A9:
         mov edx, dword [byte ebp-018h]
         jmp short .46
 PaEvent_5BD:
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jne near FindClipIndex_55
         mov ebx, 1
         mov eax, dword [edx]
@@ -1647,7 +1647,7 @@ PaEvent_79B:
         mov edx, 179h
         jmp near PaEvent_965.91
 PaEvent_7AC:
-        cmp dword [dword_11D37E], byte 1
+        cmp dword [SpeechBankHandle], byte 1
         jne near FindClipIndex_55
         mov eax, dword [byte eax-04h]
         mov dword [byte ebp-028h], eax
@@ -1661,7 +1661,7 @@ PaEvent_7AC:
         mov edx, 3
         jmp near PaEvent_965.91
 PaEvent_7DE:
-        cmp dword [dword_11D37E], byte 1
+        cmp dword [SpeechBankHandle], byte 1
         jne near FindClipIndex_55
         mov edx, eax
         mov eax, dword [byte eax-04h]
@@ -1807,7 +1807,7 @@ PaEvent_7DE:
         add edx, 3B6h
         jmp near PaEvent_965.92
 PaEvent_965:
-        cmp dword [dword_11D37E], byte 1
+        cmp dword [SpeechBankHandle], byte 1
         jne near FindClipIndex_55
         mov edx, eax
         mov eax, dword [byte eax-04h]
@@ -1928,7 +1928,7 @@ PaEvent_965:
         je near FindClipIndex_55
         jmp short .90
 PaEvent_AAB:
-        cmp dword [dword_11D37E], byte 1
+        cmp dword [SpeechBankHandle], byte 1
         jne near FindClipIndex_55
         mov edx, eax
         mov eax, dword [byte eax-04h]
@@ -2097,17 +2097,17 @@ StopSpeech:
         push edi
         cmp dword [sndcard], byte 0
         jl near FindClipIndex_56
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jl near FindClipIndex_56
         xor esi, esi
         cmp dword [sndcard], byte 0
         jl short .2
-        cmp dword [dword_11D37E], byte 0
+        cmp dword [SpeechBankHandle], byte 0
         jl short .2
         call SpeechQueueBusy
         test eax, eax
         jne short .1
-        cmp word [word_11D386], byte 0
+        cmp word [SpeechOpen], byte 0
         je short .2
 .1:
         mov esi, 1
@@ -2121,13 +2121,13 @@ StopSpeech:
         xor eax, eax
         rep stosb
         xor esi, esi
-        mov word [word_11D386], 0
-        mov word [word_11D382], 0
-        mov word [word_11D384], 0
+        mov word [SpeechOpen], 0
+        mov word [SpeechQueueHead], 0
+        mov word [SpeechQueueTail], 0
 .4:
-        cmp dword [dword esi+dword_17C5C4], byte 0
+        cmp dword [dword esi+SpeechChannels+4], byte 0
         je short .5
-        push dword [dword esi+dword_17C5C4]
+        push dword [dword esi+SpeechChannels+4]
         call AsyncCancelRequest
         add esp, byte 4
         call asyncreader
@@ -2139,26 +2139,26 @@ StopSpeech:
         jmp near FindClipIndex_56
 .6:
         imul esi, byte 14h
-        cmp dword [dword esi+dword_17C5C4], byte 0
+        cmp dword [dword esi+SpeechChannels+4], byte 0
         je short .7
-        push dword [dword esi+dword_17C5C4]
-        mov word [word_11D23A], 1
+        push dword [dword esi+SpeechChannels+4]
+        mov word [SpeechStarting], 1
         call AsyncRequestDone
         add esp, byte 4
         test eax, eax
         je near .11
-        inc word [word_11D388]
-        mov dword [dword esi+dword_17C5C4], 0
+        inc word [SpeechChannelCount]
+        mov dword [dword esi+SpeechChannels+4], 0
         jmp near .11
 .7:
-        cmp dword [dword esi+dword_17C5C8], byte 0
+        cmp dword [dword esi+SpeechChannels+8], byte 0
         je near .11
-        cmp dword [dword esi+dword_17C5D0], byte 0
+        cmp dword [dword esi+SpeechChannels+10h], byte 0
         jge near .10
-        movsx eax, word [word_11D388]
+        movsx eax, word [SpeechChannelCount]
         cmp eax, byte 3
         je short .8
-        cmp word [word_11D386], byte 0
+        cmp word [SpeechOpen], byte 0
         je short .8
         call SpeechQueueBusy
         test eax, eax
@@ -2166,51 +2166,51 @@ StopSpeech:
 .8:
         movsx esi, word [byte ebp-04h]
         imul edi, esi, byte 14h
-        imul eax, dword [dword edi+dword_17C5CC], byte 68h
+        imul eax, dword [dword edi+SpeechChannels+0Ch], byte 68h
         mov ebx, 2B11h
-        mov cl, byte [dword_11D37E]
+        mov cl, byte [SpeechBankHandle]
         shl ebx, cl
         cdq
         idiv ebx
-        sub eax, dword [dword_17C5FC]
+        sub eax, dword [SpeechVolume]
         add eax, byte 0Fh
-        mov dword [dword edi+dword_17C5D0], eax
+        mov dword [dword edi+SpeechChannels+10h], eax
         lea eax, [byte esi+02h]
         mov ebx, 3
         cdq
         idiv ebx
         movsx esi, dx
         imul esi, byte 14h
-        cmp dword [dword esi+dword_17C5C8], byte 0
+        cmp dword [dword esi+SpeechChannels+8], byte 0
         je short .9
-        cmp dword [dword esi+dword_17C5D0], byte 0
+        cmp dword [dword esi+SpeechChannels+10h], byte 0
         jle short .9
         call GetTicks
-        cmp eax, dword [dword esi+dword_17C5D0]
+        cmp eax, dword [dword esi+SpeechChannels+10h]
         jge short .9
         call GetTicks
-        mov edx, dword [dword esi+dword_17C5D0]
+        mov edx, dword [dword esi+SpeechChannels+10h]
         sub edx, eax
         lea eax, [byte edx-0Fh]
-        add dword [dword edi+dword_17C5D0], eax
+        add dword [dword edi+SpeechChannels+10h], eax
 .9:
         movsx esi, word [byte ebp-04h]
         imul esi, byte 14h
-        mov edx, dword [dword_17C5FC]
-        mov eax, dword [dword esi+dword_17C5C8]
+        mov edx, dword [SpeechVolume]
+        mov eax, dword [dword esi+SpeechChannels+8]
         call AddSpeechQueueClip
         call StartSpeechQueue
         call GetTicks
-        add dword [dword esi+dword_17C5D0], eax
+        add dword [dword esi+SpeechChannels+10h], eax
         jmp short .11
 .10:
         call GetTicks
-        cmp eax, dword [dword esi+dword_17C5D0]
+        cmp eax, dword [dword esi+SpeechChannels+10h]
         jle short .11
-        dec word [word_17C640]
-        mov dword [dword esi+dword_17C5C8], 0
-        dec word [word_11D388]
-        mov dword [dword esi+dword_17C5D0], 0FFFFFFFFh
+        dec word [SpeechPlaying]
+        mov dword [dword esi+SpeechChannels+8], 0
+        dec word [SpeechChannelCount]
+        mov dword [dword esi+SpeechChannels+10h], 0FFFFFFFFh
 .11:
         inc dword [byte ebp-04h]
 StopSpeech_1FA:
@@ -2218,19 +2218,19 @@ StopSpeech_1FA:
         cmp esi, byte 3
         jl near StopSpeech.6
 StopSpeech_207:
-        movsx eax, word [word_17C640]
+        movsx eax, word [SpeechPlaying]
         cmp eax, byte 3
         jge near FindClipIndex_55
-        cmp word [word_11D386], byte 0
+        cmp word [SpeechOpen], byte 0
         je near FindClipIndex_55
         mov ebx, 3
-        mov si, word [word_17C63E]
+        mov si, word [SpeechActiveCount]
 .12:
         movsx edx, si
         imul eax, edx, byte 14h
-        cmp dword [dword eax+dword_17C5C4], byte 0
+        cmp dword [dword eax+SpeechChannels+4], byte 0
         je short .13
-        cmp dword [dword eax+dword_17C5C8], byte 0
+        cmp dword [dword eax+SpeechChannels+8], byte 0
         je short .13
         lea eax, [byte edx+01h]
         cdq
@@ -2238,37 +2238,37 @@ StopSpeech_207:
         mov esi, edx
         jmp short .12
 .13:
-        movsx eax, word [word_11D382]
+        movsx eax, word [SpeechQueueHead]
         inc eax
         mov ebx, 18h
         cdq
         idiv ebx
         movsx eax, dx
         imul eax, byte 0Ch
-        mov word [word_11D382], dx
+        mov word [SpeechQueueHead], dx
         movsx edx, si
         imul esi, edx, byte 14h
         movsx edi, word [dword eax+SpeechClipQueue]
-        mov dword [dword esi+dword_17C5C0], edi
+        mov dword [dword esi+SpeechChannels], edi
         imul edi, edx, dword 1CE4Eh
         mov edx, dword [speechq]
         add edx, edi
-        mov dword [dword esi+dword_17C5C8], edx
+        mov dword [dword esi+SpeechChannels+8], edx
         mov edx, dword [dword eax+SpeechClipQueue+8]
         push edx
-        push dword [dword esi+dword_17C5C8]
-        mov dword [dword esi+dword_17C5D0], 0FFFFFFFFh
+        push dword [dword esi+SpeechChannels+8]
+        mov dword [dword esi+SpeechChannels+10h], 0FFFFFFFFh
         push dword [dword eax+SpeechClipQueue+4]
-        mov dword [dword esi+dword_17C5CC], edx
+        mov dword [dword esi+SpeechChannels+0Ch], edx
         call AsyncRequestSection
-        mov dword [dword esi+dword_17C5C4], eax
-        movsx eax, word [word_17C63E]
+        mov dword [dword esi+SpeechChannels+4], eax
+        movsx eax, word [SpeechActiveCount]
         inc eax
         mov ebx, 3
         cdq
         idiv ebx
-        inc word [word_17C640]
-        dec word [word_11D386]
+        inc word [SpeechPlaying]
+        dec word [SpeechOpen]
         add esp, byte 0Ch
-        mov word [word_17C63E], dx
+        mov word [SpeechActiveCount], dx
         jmp near StopSpeech_207

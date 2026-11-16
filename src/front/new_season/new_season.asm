@@ -3,14 +3,14 @@ bits 32
 %include "hockey.inc"
 extern BottomBarArt
 section s_77442 progbits alloc exec nowrite align=1
-extern __CHP, __STOSB, __STOSD, byte_11D74F, byte_11D754, TitleTextStyle, SeasonUserTeam, SeasonUsers
-extern SeasonUserFlag, SeasonUserSlot, byte_17D13A, byte_17D6C8, DrawArtOpaque, DrawColorTextCentred, DrawFrameAt, dword_11D59C
-extern dword_11D744, str_2_DrawSeasonTeams, dword_11E2EC, dword_11E304, dword_11E320, MatchupLayer, TeamStatsBitmap
-extern PlayoffTreeData, SeasonType, SeasonOver, SeasonRandomSeed, cddriveptr, dword_17D1E2, dword_17D267, dword_17D7C8
-extern dword_17D7D0, EditText, FadeOut, FadePalette, FileClose, FileCopy, FileOpenRead, FileOpenReadWrite
+extern __CHP, __STOSB, __STOSD, DivisionTeamStarts, TitleTextStyle, SeasonUserTeam, SeasonUsers
+extern SeasonUserFlag, SeasonUserSlot, SaveFileName, GreyColorOrder, DrawArtOpaque, DrawColorTextCentred, DrawFrameAt, TeamDivisions
+extern SeasonTeamOrder, SixTeamColX, SixTeamRowY, SevenTeamColX, SevenTeamRowY, MatchupLayer, TeamStatsBitmap
+extern PlayoffTreeData, SeasonType, SeasonOver, SeasonRandomSeed, cddriveptr, dword_17D1E2, dword_17D267, NewSeasonChoice
+extern SeasonMenuActive, EditText, FadeOut, FadePalette, FileClose, FileCopy, FileOpenRead, FileOpenReadWrite
 extern FileReadAt, FileWriteAt, FillMusicStream, FreeStatsTables, gameopts, GetLangText, GetTicks, HideProgressBox
 extern InitMenuItems, itoa_, LoadPackedFile, LoadTeamLogo, MakeDatabasePath, MakeDataPath, MakeDirPath, MessageBox
-extern NameIndexAdd, NameIndexFirstId, NameIndexNew, NameIndexSave, off_11E370, OpenScreen, optblock_end, PutBlock
+extern NameIndexAdd, NameIndexFirstId, NameIndexNew, NameIndexSave, SeasonDbExts, OpenScreen, optblock_end, PutBlock
 extern qsort_, F64_143p964, F64_neg20, rand_, RunMenu, SetDrawBitmap, SetScreenColors, SetTextColors
 extern SetTickDeadline, ShowProgressBox, SlideInSideBar, SlideInTitleBar, SoundSecondsToBytes, sprintf_, srand_, str_05d2
 extern str_Bkgd9, str_Bt014, str_Bt024, str_Bt02d2, str_Bt103, str_Bt113, str_Bt192, str_Bt202
@@ -20,8 +20,8 @@ extern str_Teams, strcat_, strcpy_, strlen_, WriteDbRecord6, ReadSeasonHeader, G
 extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
 extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern TintRect, FreeBitmap, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, DrawArtKeyedAtOrigin
-extern PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, unk_11E33C
-extern unk_11E354, str_WesternConference2, SeasonUserRecords, SeasonUserName, unk_17CED5, UpdateProgressBox
+extern PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, SixTeamGrid
+extern SevenTeamGrid, str_WesternConference2, SeasonUserRecords, SeasonUserName, PlayoffHeader, UpdateProgressBox
 global unk_77442, unk_7745A, CompareGrey, SortGreyColors, jpt_7761E, jpt_77632, NewSeasonScreen, NewSeasonScreen_5FB
 global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonScreen_7F2, NewSeasonScreen_8AF, NewSeasonScreen_8BB, NewSeasonScreen_8CB, NewSeasonScreen_8E0
 global NewSeasonScreen_9A9, NewSeasonScreen_9AA, SetGreyPalette, DrawSeasonTeams, CreateSeason, EditSeasonName, EditSeasonName_D3, EditSeasonName_E0
@@ -45,14 +45,14 @@ unk_7745A:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; CompareGrey                                     7751A  96 PC, low confidence
-; Qsort compare of two grey palette entries by brightness (byte_17D6C8)
+; Qsort compare of two grey palette entries by brightness (GreyColorOrder)
 ;-----------------------------------------------------------------------------
 CompareGrey:
         push ebx
         movzx eax, byte [eax]
-        movzx ebx, byte [dword eax+byte_17D6C8]
+        movzx ebx, byte [dword eax+GreyColorOrder]
         movzx eax, byte [edx]
-        movzx eax, byte [dword eax+byte_17D6C8]
+        movzx eax, byte [dword eax+GreyColorOrder]
         sub ebx, eax
         mov eax, ebx
         pop ebx
@@ -87,7 +87,7 @@ SortGreyColors:
         mov ecx, dword [byte ebp-04h]
         add bh, bl
         mov byte [dword ecx+ebp-021Ch], dl
-        mov byte [dword ecx+byte_17D6C8], bh
+        mov byte [dword ecx+GreyColorOrder], bh
         mov ebx, ecx
         mov cl, byte [byte ebp-04h]
         inc dword [byte ebp-04h]
@@ -118,7 +118,7 @@ SortGreyColors:
         jmp short .6
 .4:
         movzx edx, byte [dword ebx+ebp-011Ch]
-        movzx ecx, byte [dword edx+byte_17D6C8]
+        movzx ecx, byte [dword edx+GreyColorOrder]
         mov dword [byte ebp-01Ch], ecx
         mov ecx, dword [byte ebp-018h]
         cmp ecx, dword [byte ebp-01Ch]
@@ -505,7 +505,7 @@ NewSeasonScreen:
         mov edx, 4
         call GetLangText
         call MessageBox
-        mov dword [dword_17D7C8], eax
+        mov dword [NewSeasonChoice], eax
         jmp near .6
 .7:
         test edx, edx
@@ -722,7 +722,7 @@ NewSeasonScreen_7F2:
         mov ebx, 0FFFFFFFFh
         lea edx, [dword ebp-0B06h]
         push eax
-        mov eax, dword [dword edi+dword_11D744]
+        mov eax, dword [dword edi+SeasonTeamOrder]
         xor ecx, ecx
         add eax, byte 5
         call RunMenu
@@ -756,7 +756,7 @@ NewSeasonScreen_8E0:
         jne short .21
         cmp dword [SeasonOver], byte 0
         jle short .23
-        mov eax, dword [dword_17D7C8]
+        mov eax, dword [NewSeasonChoice]
         mov dword [byte ebp+07Eh], 0
         call CreateSeason
         test eax, eax
@@ -779,7 +779,7 @@ NewSeasonScreen_8E0:
 .24:
         imul eax, dword [byte ebp+072h], byte 7
         add eax, dword [byte ebp+066h]
-        movzx eax, byte [dword eax+byte_11D74F]
+        movzx eax, byte [dword eax+SeasonTeamOrder+0Bh]
         call EditSeasonName
         jmp near NewSeasonScreen_7F2.17
 .25:
@@ -874,10 +874,10 @@ DrawSeasonTeams:
         imul eax, edi, byte 7
         add esp, byte 0Ch
         lea ebx, [byte esi+042h]
-        cmp dword [nosplit edi*4+dword_11D744], byte 6
+        cmp dword [nosplit edi*4+SeasonTeamOrder], byte 6
         jne near .15
         mov dword [byte ebp-0Ch], 0
-        mov dword [byte ebp-040h], unk_11E33C
+        mov dword [byte ebp-040h], SixTeamGrid
         mov dword [byte ebp-030h], eax
         mov dword [byte ebp-020h], eax
         mov dword [byte ebp-034h], ebx
@@ -891,7 +891,7 @@ DrawSeasonTeams:
         push dword 0FFh
         call ClearClipRect
         mov eax, dword [byte ebp-030h]
-        movzx eax, byte [dword eax+byte_11D754]
+        movzx eax, byte [dword eax+DivisionTeamStarts]
         imul eax, byte 1Ah
         movsx edx, byte [dword eax+SeasonUserSlot]
         add esp, byte 4
@@ -913,7 +913,7 @@ DrawSeasonTeams:
         push byte 0
         mov eax, dword [byte ebp-020h]
         push byte 0
-        movzx eax, byte [dword eax+byte_11D754]
+        movzx eax, byte [dword eax+DivisionTeamStarts]
         call LoadTeamLogo
         push eax
         call PutBlockKeyed
@@ -925,36 +925,36 @@ DrawSeasonTeams:
         mov edx, dword [byte ebp-01Ch]
         mov eax, 0C000h
         add esp, byte 4
-        mov ecx, dword [dword esi+dword_11E2EC]
-        mov ebx, dword [dword esi+str_2_DrawSeasonTeams]
+        mov ecx, dword [dword esi+SixTeamRowY]
+        mov ebx, dword [dword esi+SixTeamColX]
         mov edx, dword [byte edx+02Ch]
         call DrawFrameAt
         mov eax, 0FCh
         xor edx, edx
         call SetTextColors
         mov eax, dword [byte ebp-020h]
-        movzx eax, byte [dword eax+byte_11D754]
+        movzx eax, byte [dword eax+DivisionTeamStarts]
         imul eax, byte 1Ah
         movsx edx, byte [dword eax+SeasonUserSlot]
         cmp edx, byte 1
         jne short .6
         add eax, SeasonUserName
-        mov ebx, dword [dword esi+dword_11E2EC]
-        mov edx, dword [dword esi+str_2_DrawSeasonTeams]
+        mov ebx, dword [dword esi+SixTeamRowY]
+        mov edx, dword [dword esi+SixTeamColX]
         add ebx, byte 5Dh
         add edx, byte 5Ah
         call DrawColorTextCentred
 .6:
         mov edx, dword [byte ebp-0Ch]
-        mov eax, dword [nosplit edx*4+str_2_DrawSeasonTeams]
+        mov eax, dword [nosplit edx*4+SixTeamColX]
         add eax, dword [byte ebp+014h]
         mov ebx, dword [byte ebp-018h]
         add eax, byte 12h
         mov dword [ebx], eax
-        mov eax, dword [nosplit edx*4+dword_11E2EC]
+        mov eax, dword [nosplit edx*4+SixTeamRowY]
         add eax, dword [byte ebp+018h]
         mov dword [byte ebx+04h], eax
-        mov eax, dword [nosplit edx*4+str_2_DrawSeasonTeams]
+        mov eax, dword [nosplit edx*4+SixTeamColX]
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
@@ -963,10 +963,10 @@ DrawSeasonTeams:
         fistp dword [byte ebp-044h]
         mov eax, dword [byte ebp-044h]
         mov dword [byte ebx+08h], eax
-        mov eax, dword [nosplit edx*4+dword_11E2EC]
+        mov eax, dword [nosplit edx*4+SixTeamRowY]
         add eax, dword [byte ebp+018h]
         mov dword [byte ebx+0Ch], eax
-        mov eax, dword [nosplit edx*4+str_2_DrawSeasonTeams]
+        mov eax, dword [nosplit edx*4+SixTeamColX]
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
@@ -975,15 +975,15 @@ DrawSeasonTeams:
         fistp dword [byte ebp-044h]
         mov eax, dword [byte ebp-044h]
         mov dword [byte ebx+010h], eax
-        mov eax, dword [nosplit edx*4+dword_11E2EC]
+        mov eax, dword [nosplit edx*4+SixTeamRowY]
         add eax, dword [byte ebp+018h]
         add eax, byte 5Bh
         mov dword [byte ebx+014h], eax
-        mov eax, dword [nosplit edx*4+str_2_DrawSeasonTeams]
+        mov eax, dword [nosplit edx*4+SixTeamColX]
         add eax, dword [byte ebp+014h]
         add eax, byte 12h
         mov dword [byte ebx+018h], eax
-        mov eax, dword [nosplit edx*4+dword_11E2EC]
+        mov eax, dword [nosplit edx*4+SixTeamRowY]
         add eax, dword [byte ebp+018h]
         add eax, byte 5Bh
         mov dword [byte ebx+01Ch], eax
@@ -1067,7 +1067,7 @@ DrawSeasonTeams:
         jmp near .2
 .15:
         mov dword [byte ebp-0Ch], 0
-        mov dword [byte ebp-024h], unk_11E354
+        mov dword [byte ebp-024h], SevenTeamGrid
         mov edx, dword [byte ebp+010h]
         mov dword [byte ebp-010h], 0
         mov dword [byte ebp-038h], eax
@@ -1083,7 +1083,7 @@ DrawSeasonTeams:
         push dword 0FFh
         call ClearClipRect
         mov eax, dword [byte ebp-038h]
-        movzx eax, byte [dword eax+byte_11D754]
+        movzx eax, byte [dword eax+DivisionTeamStarts]
         imul eax, byte 1Ah
         movsx edx, byte [dword eax+SeasonUserSlot]
         add esp, byte 4
@@ -1105,7 +1105,7 @@ DrawSeasonTeams:
         push byte 0
         mov eax, dword [byte ebp-03Ch]
         push byte 0
-        movzx eax, byte [dword eax+byte_11D754]
+        movzx eax, byte [dword eax+DivisionTeamStarts]
         call LoadTeamLogo
         push eax
         call PutBlockKeyed
@@ -1117,35 +1117,35 @@ DrawSeasonTeams:
         mov edx, dword [byte ebp-01Ch]
         mov eax, 0B333h
         add esp, byte 4
-        mov ecx, dword [dword ecx+dword_11E320]
-        mov ebx, dword [dword ebx+dword_11E304]
+        mov ecx, dword [dword ecx+SevenTeamRowY]
+        mov ebx, dword [dword ebx+SevenTeamColX]
         mov edx, dword [byte edx+02Ch]
         call DrawFrameAt
         cmp dword [byte ebp-0Ch], byte 2
         jge short .20
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11E304]
+        mov eax, dword [dword eax+SevenTeamColX]
         add eax, dword [byte ebp+014h]
         mov edx, dword [byte ebp-014h]
         add eax, byte 21h
         jmp short .21
 .20:
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11E304]
+        mov eax, dword [dword eax+SevenTeamColX]
         add eax, dword [byte ebp+014h]
         mov edx, dword [byte ebp-014h]
         add eax, byte 12h
 .21:
         mov dword [edx], eax
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11E320]
+        mov eax, dword [dword eax+SevenTeamRowY]
         mov edx, dword [byte ebp-014h]
         add eax, dword [byte ebp+018h]
         mov dword [byte edx+04h], eax
         cmp dword [byte ebp-0Ch], byte 2
         jne short .22
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11E304]
+        mov eax, dword [dword eax+SevenTeamColX]
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
@@ -1154,7 +1154,7 @@ DrawSeasonTeams:
         jmp short .23
 .22:
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11E304]
+        mov eax, dword [dword eax+SevenTeamColX]
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
@@ -1165,12 +1165,12 @@ DrawSeasonTeams:
         mov eax, dword [byte ebp-044h]
         mov dword [byte edx+08h], eax
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11E320]
+        mov eax, dword [dword eax+SevenTeamRowY]
         mov edx, dword [byte ebp-014h]
         add eax, dword [byte ebp+018h]
         mov dword [byte edx+0Ch], eax
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11E304]
+        mov eax, dword [dword eax+SevenTeamColX]
         add eax, dword [byte ebp+014h]
         mov dword [byte ebp-044h], eax
         fild dword [byte ebp-044h]
@@ -1180,14 +1180,14 @@ DrawSeasonTeams:
         mov eax, dword [byte ebp-044h]
         mov dword [byte edx+010h], eax
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11E320]
+        mov eax, dword [dword eax+SevenTeamRowY]
         add eax, dword [byte ebp+018h]
         add eax, byte 5Dh
         mov dword [byte edx+014h], eax
         mov eax, dword [edx]
         mov dword [byte edx+018h], eax
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [dword eax+dword_11E320]
+        mov eax, dword [dword eax+SevenTeamRowY]
         add eax, dword [byte ebp+018h]
         add eax, byte 5Dh
         mov dword [byte edx+01Ch], eax
@@ -1261,15 +1261,15 @@ DrawSeasonTeams:
         add byte [byte edx+045h], al
 .31:
         mov eax, dword [byte ebp-02Ch]
-        movzx eax, byte [dword eax+byte_11D754]
+        movzx eax, byte [dword eax+DivisionTeamStarts]
         imul eax, byte 1Ah
         movsx edx, byte [dword eax+SeasonUserSlot]
         cmp edx, byte 1
         jne short .32
         mov edx, dword [byte ebp-010h]
         add eax, SeasonUserName
-        mov ebx, dword [dword edx+dword_11E320]
-        mov edx, dword [dword edx+dword_11E304]
+        mov ebx, dword [dword edx+SevenTeamRowY]
+        mov edx, dword [dword edx+SevenTeamColX]
         add ebx, byte 5Dh
         add edx, byte 5Ah
         call DrawColorTextCentred
@@ -1325,7 +1325,7 @@ CreateSeason:
         mov edx, eax
         call srand_
         mov dword [SeasonRandomSeed], edx
-        cmp dword [dword_17D7D0], byte 0
+        cmp dword [SeasonMenuActive], byte 0
         jne short .1
         mov edx, 4
         lea eax, [byte ebp-02Eh]
@@ -1334,11 +1334,11 @@ CreateSeason:
         mov edx, str_SEASONNDX
         lea eax, [byte ebp-02Eh]
         call NameIndexNew
-        mov dword [dword_17D7D0], eax
+        mov dword [SeasonMenuActive], eax
 .1:
         mov ebx, 0Ah
         lea edx, [byte ebp-02Eh]
-        mov eax, dword [dword_17D7D0]
+        mov eax, dword [SeasonMenuActive]
         mov ecx, 0F0h
         call NameIndexFirstId
         mov esi, eax
@@ -1538,9 +1538,9 @@ CreateSeason:
         movsx eax, bl
         movsx edi, byte [byte edx+ebp+01Ah]
         movsx ebx, byte [byte eax+ebp+01Ah]
-        mov ebx, dword [nosplit ebx*4+dword_11D59C]
+        mov ebx, dword [nosplit ebx*4+TeamDivisions]
         shl edi, 2
-        cmp ebx, dword [dword edi+dword_11D59C]
+        cmp ebx, dword [dword edi+TeamDivisions]
         jne short .15
         mov bh, byte [byte eax+ebp+01Ah]
         mov bl, byte [byte edx+ebp+01Ah]
@@ -1760,12 +1760,12 @@ CreateSeason:
         mov dword [byte ebp+07Eh], eax
 .28:
         mov ecx, 39Dh
-        mov edi, unk_17CED5
+        mov edi, PlayoffHeader
         xor eax, eax
         mov esi, SeasonUserRecords
         rep stosb
         mov ecx, 0B9h
-        mov edi, unk_17CED5
+        mov edi, PlayoffHeader
         mov edx, 63h
         rep movsb
         mov ecx, 1Fh
@@ -1778,7 +1778,7 @@ CreateSeason:
         inc eax
         and byte [cddriveptr], 0F8h
         and eax, byte 7
-        mov edi, byte_17D13A
+        mov edi, SaveFileName
         or dword [cddriveptr], eax
         mov eax, SeasonUserTeam
         mov dword [dword_17D267], 1
@@ -1791,7 +1791,7 @@ CreateSeason:
         cmp dword [byte ebp+07Eh], byte 0
         jne short .29
         push dword 39Dh
-        push unk_17CED5
+        push PlayoffHeader
         lea eax, [byte ebp-07Eh]
         push eax
         call SaveFileBlock
@@ -1824,9 +1824,9 @@ CreateSeason:
 .30:
         mov ebx, SeasonUserTeam
         lea edx, [byte ebp-02Eh]
-        mov eax, dword [dword_17D7D0]
+        mov eax, dword [SeasonMenuActive]
         call NameIndexAdd
-        mov dword [dword_17D7D0], eax
+        mov dword [SeasonMenuActive], eax
         call NameIndexSave
 .31:
         mov eax, dword [byte ebp+07Eh]
@@ -1981,7 +1981,7 @@ WriteSeasonHeader:
 ;-----------------------------------------------------------------------------
 ; MakeSeasonDbPath                             78E9E  96 PC, medium confidence
 ; (path, season, file): the path of a season database file (directory 4,
-; %05d, %s.DB from off_11E370)
+; %05d, %s.DB from SeasonDbExts)
 ;-----------------------------------------------------------------------------
 MakeSeasonDbPath:
         push ecx
@@ -2003,7 +2003,7 @@ MakeSeasonDbPath:
         mov eax, ecx
         call strcat_
         mov eax, esi
-        push dword [nosplit eax*4+off_11E370]
+        push dword [nosplit eax*4+SeasonDbExts]
         push str_SDB
         lea eax, [byte ebp-014h]
         push eax
@@ -2041,7 +2041,7 @@ MakePlayoffDbPath:
         mov eax, ecx
         call strcat_
         mov eax, esi
-        push dword [nosplit eax*4+off_11E370]
+        push dword [nosplit eax*4+SeasonDbExts]
         push str_SDB
         lea eax, [byte ebp-0Ch]
         push eax

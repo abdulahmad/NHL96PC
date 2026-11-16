@@ -2,85 +2,81 @@
 bits 32
 %include "hockey.inc"
 section s_17C5BC nobits alloc noexec write align=1
-global byte_17C60C, byte_17C95C, GsModemFlags, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
-global dword_17C5D0, dword_17C5FC, dword_17C600, dword_17C604, dword_17C608, dword_17C944, dword_17C948, dword_17C94C
-global dword_17C950, dword_17C954, dword_17C958, dword_17C960, dword_17C964, dword_17C968, tgvpalpending, dword_17C970
-global dword_17C974, dword_17C978, dword_17C97C, dword_17C980, dword_17C984, dword_17C988, dword_17C98C, dword_17C990
-global dword_17C994, dword_17C998, dword_17C99C, GlobalSetData, optflags, gameopts, unk_17C644, word_17C63E
-global word_17C640
-dword_17C5BC:
+global SpeechBankNames, TgvStatus, GsModemFlags, SpeechBankPtrs, SpeechChannels
+global SpeechVolume, SpeechBankFiles, MusicVolume, ArenaClipHandle, TgvBufSize, TgvFrameCallback, MovieSkipped
+global TgvFrame, TgvHeaderRead, TgvState, TgvChunkLen, TgvAudioOn, TgvVideoOn, tgvpalpending, TgvDataPtr
+global TgvDataEnd, TgvChunkType, TgvLastFrame, TgvFramesDecoded, TgvAborted, TgvFileHandle, TgvAudioBuf, TgvAudioPos
+global TgvVideoBmp, TgvFrameTime, TgvMemBlock, GlobalSetData, optflags, gameopts, TgvFrameBuf, SpeechActiveCount
+global SpeechPlaying
+SpeechBankPtrs:
         resb 4
-dword_17C5C0:
+SpeechChannels:
         resb 4
-dword_17C5C4:
         resb 4
-dword_17C5C8:
         resb 4
-dword_17C5CC:
         resb 4
-dword_17C5D0:
         resb 44
-dword_17C5FC:
+SpeechVolume:
         resb 4
-dword_17C600:
+SpeechBankFiles:
         resb 4
-dword_17C604:
+MusicVolume:
         resb 4
-dword_17C608:
+ArenaClipHandle:
         resb 4
-byte_17C60C:
+SpeechBankNames:
         resb 50
-word_17C63E:
+SpeechActiveCount:
         resb 2
-word_17C640:
+SpeechPlaying:
         resb 4
-unk_17C644:
+TgvFrameBuf:
         resb 768
-dword_17C944:
+TgvBufSize:
         resb 4
-dword_17C948:
+TgvFrameCallback:
         resb 4
-dword_17C94C:
+MovieSkipped:
         resb 4
-dword_17C950:
+TgvFrame:
         resb 4
-dword_17C954:
+TgvHeaderRead:
         resb 4
-dword_17C958:
+TgvState:
         resb 4
-byte_17C95C:
+TgvStatus:
         resb 4
-dword_17C960:
+TgvChunkLen:
         resb 4
-dword_17C964:
+TgvAudioOn:
         resb 4
-dword_17C968:
+TgvVideoOn:
         resb 4
 tgvpalpending:
         resb 4
-dword_17C970:
+TgvDataPtr:
         resb 4
-dword_17C974:
+TgvDataEnd:
         resb 4
-dword_17C978:
+TgvChunkType:
         resb 4
-dword_17C97C:
+TgvLastFrame:
         resb 4
-dword_17C980:
+TgvFramesDecoded:
         resb 4
-dword_17C984:
+TgvAborted:
         resb 4
-dword_17C988:
+TgvFileHandle:
         resb 4
-dword_17C98C:
+TgvAudioBuf:
         resb 4
-dword_17C990:
+TgvAudioPos:
         resb 4
-dword_17C994:
+TgvVideoBmp:
         resb 4
-dword_17C998:
+TgvFrameTime:
         resb 4
-dword_17C99C:
+TgvMemBlock:
         resb 4
 gameopts:
         resb 4

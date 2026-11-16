@@ -4,14 +4,14 @@ bits 32
 extern TeamRosterPtrs
 section s_A17D5 progbits alloc exec nowrite align=1
 extern AwayClinchesSeries, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
-extern byte_11D91C, byte_11D91D, byte_11FA2F, byte_1820F1, byte_1843CC, byte_18444E, byte_184451
+extern byte_11D91C, byte_11FA2F, byte_1820F1, byte_1843CC, byte_18444E, byte_184451
 extern byte_1844B4, byte_1844B6, byte_18451B, byte_184580, byte_184581, byte_184583, byte_1845E6, byte_1845E7
 extern byte_1845E8, byte_18464C, byte_18464E, byte_18464F, byte_1846C4, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdFadeOut, CrowdNoiseReset, CrowdReaction, curperiod, DrawArtOpaque, DrawBox, DrawColorTextCentred
 extern DrawFrameAt, DrawGameFrame, DrawRinkView, dword_1150D4, gameresult, ReplayRemoteShape, ViewSizeStep, LastPaletteMode
-extern dword_11D3A6, dword_11D91F, dword_11ED30, dword_11F5C0, dword_11F5C4, dword_152F4C, MenuRemoteCursorArt, MenuCursorPixels
+extern SfxMask, InMenuOverlay, dword_11ED30, dword_11F5C0, dword_11F5C4, dword_152F4C, MenuRemoteCursorArt, MenuCursorPixels
 extern dword_152F58, MenuBitmapPixels, NameFont, NamePanelBmp, GsOptions, SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs
-extern dword_17CED6, dword_17CF92, dword_17D162, FrontShapeFile, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0
+extern PlayoffGameOpts, PlayoffRound, RosterFileHandle, FrontShapeFile, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0
 extern dword_1843D0, dword_1843E4, dword_1843F8, dword_1843FC, dword_184400, dword_184404, dword_184408, dword_18441C
 extern dword_184420, dword_184426, dword_18442A, dword_18442E, dword_184432, dword_184436, dword_184446, dword_18444A
 extern dword_184482, dword_184486, dword_18448C, dword_184490, dword_184494, dword_184498, dword_18449C, dword_1844AC
@@ -33,8 +33,8 @@ extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str
 extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, FreeZamboni
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, SetGameBackdrop, SaveGameFile, LoadModeStats
 extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, FreeColourLookup, SetAaPalLut, SetScreenTarget
-extern FindShape, ClearClipRect, TextSetFont, unk_11D7A4, unk_11D7BC, str_Punct_InGameMenu, unk_11D7EC, str_N_InGameMenu
-extern str_F_InGameMenu, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_17D3E8, unk_18440C
+extern FindShape, ClearClipRect, TextSetFont, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu
+extern str_F_InGameMenu, PauseMenuBoxX, PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, unk_17D3E8, unk_18440C
 extern unk_184688, unk_184692, UpdateCamera, SlotsTwoPlayer, PauseRequested, word_11ED34, hmscore, awscore
 global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, jpt_A25B5
 global InGameMenu, InGameMenu_A9C, InGameMenu_ABD, InGameMenu_D17, InGameMenu_F31, InGameMenu_F42, InGameMenu_FA8
@@ -79,7 +79,7 @@ DrawInGameMenuFrame:
         je near .15
         mov eax, dword [dword_152F4C]
         call SetAaPalLut
-        movzx edx, byte [byte_11D91D]
+        movzx edx, byte [byte_11D91C+1]
         movzx eax, byte [byte_11D91C]
         mov dword [LastPaletteMode], 0FFFFFFFFh
         call SetTextColors
@@ -177,7 +177,7 @@ DrawInGameMenuFrame:
         call DrawBox
         push dword [NameFont]
         call TextSetFont
-        movzx edx, byte [byte_11D91D]
+        movzx edx, byte [byte_11D91C+1]
         add esp, byte 4
         movzx eax, byte [byte_11D91C]
         call SetTextColors
@@ -306,7 +306,7 @@ DrawInGameMenuFrame:
         call DrawBox
         push dword [NameFont]
         call TextSetFont
-        movzx edx, byte [byte_11D91D]
+        movzx edx, byte [byte_11D91C+1]
         add esp, byte 4
         movzx eax, byte [byte_11D91C]
         call SetTextColors
@@ -359,7 +359,7 @@ DrawInGameMenuFrame:
         call DrawBox
         push dword [NameFont]
         call TextSetFont
-        movzx edx, byte [byte_11D91D]
+        movzx edx, byte [byte_11D91C+1]
         add esp, byte 4
         movzx eax, byte [byte_11D91C]
         call SetTextColors
@@ -1068,7 +1068,7 @@ InGameMenu:
         call UpdateCamera
         cmp edx, 15Eh
         jl short .4
-        mov dword [dword_11D91F], 1
+        mov dword [InMenuOverlay], 1
         movsx ax, byte [byte_1175A4]
         mov byte [byte_1175A4], 1
         mov word [byte ebp-030h], ax
@@ -1117,21 +1117,21 @@ InGameMenu:
         test byte [GsOptions+1], 20h
         je short .5
         mov dword [dword_18467C], str_Punct_InGameMenu
-        mov dword [dword_184680], unk_11D7EC
-        mov dword [dword_184670], unk_11D810
+        mov dword [dword_184680], PauseMenuItemsLong
+        mov dword [dword_184670], PauseMenuBoxX
         mov ecx, 80h
-        mov esi, unk_11D89C
+        mov esi, PauseMenuTextIdsAlt
         mov edi, dword [dword_184408]
-        mov dword [dword_184674], unk_11D816
+        mov dword [dword_184674], PauseMenuBoxY
         rep movsb
         mov dword [dword_184678], 87AEh
         jmp short .6
 .5:
-        mov dword [dword_18467C], unk_11D7A4
-        mov dword [dword_184680], unk_11D7BC
+        mov dword [dword_18467C], InGameMenuItems
+        mov dword [dword_184680], PauseMenuItemsShort
         mov dword [dword_184670], str_N_InGameMenu
         mov ecx, 80h
-        mov esi, unk_11D81C
+        mov esi, PauseMenuTextIds
         mov edi, dword [dword_184408]
         mov dword [dword_184674], str_F_InGameMenu
         rep movsb
@@ -1554,7 +1554,7 @@ InGameMenu:
         test eax, eax
         je near .39
 .26:
-        mov eax, dword [dword_17CF92]
+        mov eax, dword [PlayoffRound]
         cmp eax, byte 20h
         jb short .28
         jbe short .32
@@ -1779,7 +1779,7 @@ InGameMenu_ABD:
         mov al, byte [byte ebp-026h]
         mov byte [byte_1175A7], al
         movsx eax, word [byte ebp-024h]
-        mov dword [dword_11D91F], 0
+        mov dword [InMenuOverlay], 0
         mov dword [ViewSizeStep], eax
         call SetGameViewSize
         cmp dword [byte ebp-08h], byte 0
@@ -1802,7 +1802,7 @@ InGameMenu_ABD:
         xor edx, edx
         call CrowdNoiseReset
 .52:
-        mov dword [dword_11D3A6], 0
+        mov dword [SfxMask], 0
         mov eax, 2
         inc edx
         call sfx
@@ -2100,14 +2100,14 @@ InGameMenu_FA8:
         mov eax, unk_184692
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17D162]
+        push dword [RosterFileHandle]
         jmp short .76
 .78:
         push esi
         push esi
         jmp near InGameMenu_ABD.48
 .79:
-        mov eax, dword [dword_17CED6]
+        mov eax, dword [PlayoffGameOpts]
         shl eax, 0Fh
         shr eax, 1Bh
         add eax, byte 41h

@@ -11,7 +11,7 @@ extern PreGameSkateOn, onetimerflag, penshotfox, penshotteam, AwayGoalsPeriod, H
 extern sopathend, sopathpoint, pspathside, pspathdir, CamFollowObj, GameFrameCount, hmtmlines, hmtmplattr
 extern hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmlines, awtmplattr
 extern awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec, awtmsort, ReplayBufferTop, SeasonGameOpts
-extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, dword_17D162, dword_17D267, energywarn, exitgame, fadeinpending
+extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, RosterFileHandle, dword_17D267, energywarn, exitgame, fadeinpending
 extern FileReadAt, fodir1, fodir2, fox, foy, gameclock, gameopts, gameover
 extern GetPeriodTime, gmode, gmode2, goalevent, gsp, hmroster, hmtmstruct, lastplayer
 extern lasttouch, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq, replaystart, OOlist
@@ -21,7 +21,7 @@ extern shotongoal, shotontarget, SortCords, sprintf_, SprSort, str_05d, str_05dC
 extern str_DB, strcat_, FileMissing, DeleteFiles, FileOpenRead, FileClose, FileWriteAt, MakeDirPath
 extern LoadGameRosters, InitBenchSprites, ResetPeriodState, UnlinkJump, threat, gsumheader, gsumtail, hmplstats
 extern awplstats, hmglstats, awglstats, hmglattr, awglattr, hmplattr, awplattr, awlinetab
-extern hmteamrec, awteamrec, hmlinetab, AwSortCords, SeasonUserRecords, unk_17CED5, VisTeam, passdir
+extern hmteamrec, awteamrec, hmlinetab, AwSortCords, SeasonUserRecords, PlayoffHeader, VisTeam, passdir
 extern passspeed, xc1, ltx, HomeControlSlot, AwayControlSlot, HomeSecondControlSlot, AwaySecondControlSlot, ClockFrameCount
 extern refsignal, RefStep, StoppageReason, Penaltytimer, clockticks, SortPending, energywarn_aw, lcblink_aw
 extern lcblinktime, lcblinktime_aw, lcsel, lcsel_aw, lcline_aw, lctimer, lctimer_aw, lcboxon_aw
@@ -1584,7 +1584,7 @@ ReadPlayoffDbHeader:
         enter 78Ch, 0
         mov esi, eax
         mov dword [byte ebp-04h], 0FFFFFFFFh
-        mov dword [gameopts], unk_17CED5
+        mov dword [gameopts], PlayoffHeader
         cmp dword [SeasonPlayoffs], byte 0
         je short .1
         mov edx, 4
@@ -1598,7 +1598,7 @@ ReadPlayoffDbHeader:
         lea eax, [byte ebp-044h]
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17D162]
+        push dword [RosterFileHandle]
 .2:
         push str_05d
         lea eax, [byte ebp-010h]
@@ -1666,7 +1666,7 @@ ReadPlayoffDbHeader:
         jne near ReadSeasonDbHeader_C4
         mov ecx, 0B9h
         lea esi, [dword ebp-03E4h]
-        mov edi, unk_17CED5
+        mov edi, PlayoffHeader
         jmp near ReadSeasonDbHeader_C2
 ;-----------------------------------------------------------------------------
 ; DeleteSeasonFiles                               4F2A8  96 PC, low confidence
@@ -1776,7 +1776,7 @@ DeleteSeasonDb:
         lea eax, [byte ebp-040h]
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17D162]
+        push dword [RosterFileHandle]
         push str_05d
         lea eax, [byte ebp-0Ch]
         push eax

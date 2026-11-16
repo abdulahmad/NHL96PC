@@ -2,36 +2,36 @@
 bits 32
 %include "hockey.inc"
 section s_689D1 progbits alloc exec nowrite align=1
-extern byte_11D1DE, byte_11D20A, CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, CdStreamSyncTime, delstream, dword_11D1D2
-extern dword_11D232, dword_11D236, dword_17C604, FindClipIndex_56, globalset, MakeDataPath, SetTickDeadline, sndcard
+extern MusicFlags, MusicFileName, CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, CdStreamSyncTime, delstream, MusicStream
+extern CurrentMusicTrack, SoundCardOn, MusicVolume, FindClipIndex_56, globalset, MakeDataPath, SetTickDeadline, sndcard
 extern FadeChannelVolume, SetChannelVolume, StopSoundChannel, ChannelIdle, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamPosition
 extern TicksSinceLast, TickDeadlinePassed
 global StopMusic, QueueCurrentMusic, QueueMusic, FillMusicStream, CloseMusic, OpenMusicStream, SetMusicVolume, PlayMusic
 global FadeOutMusic, MusicDone, FeedMusicStream, SyncMusicStream
 ;-----------------------------------------------------------------------------
 ; StopMusic                                                       689D1  96 PC
-; Stops the music voice if playing (byte_11D1DE bits 1, 4) and clears the
+; Stops the music voice if playing (MusicFlags bits 1, 4) and clears the
 ; music flags
 ;-----------------------------------------------------------------------------
 StopMusic:
         cmp dword [sndcard], byte 0
         jl short .1
-        test byte [byte_11D1DE], 1
+        test byte [MusicFlags], 1
         je short .1
-        test byte [byte_11D1DE], 4
+        test byte [MusicFlags], 4
         je short .1
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         call StopSoundChannel
-        mov dword [byte_11D1DE], 0FFFFFFFBh
+        mov dword [MusicFlags], 0FFFFFFFBh
 .1:
-        mov dword [byte_11D1DE], 0
+        mov dword [MusicFlags], 0
         ret
 ;-----------------------------------------------------------------------------
 ; QueueCurrentMusic                            68A0B  96 PC, medium confidence
-; QueueMusic with the current music file (dword_11D232)
+; QueueMusic with the current music file (CurrentMusicTrack)
 ;-----------------------------------------------------------------------------
 QueueCurrentMusic:
-        mov eax, dword [dword_11D232]
+        mov eax, dword [CurrentMusicTrack]
 ;-----------------------------------------------------------------------------
 ; QueueMusic                                                      68A10  96 PC
 ; (file id): with music on (globalset 10h) stops the music and queues the
@@ -41,38 +41,38 @@ QueueMusic:
         push ebx
         push ecx
         push edx
-        cmp eax, dword [dword_11D232]
+        cmp eax, dword [CurrentMusicTrack]
         je short .1
-        mov dword [dword_11D232], eax
+        mov dword [CurrentMusicTrack], eax
         mov edx, eax
-        mov eax, byte_11D20A
+        mov eax, MusicFileName
         call MakeDataPath
 .1:
         cmp dword [sndcard], byte 0
         jl near .3
         test byte [globalset], 10h
         je short .3
-        cmp byte [byte_11D20A], 0
+        cmp byte [MusicFileName], 0
         je short .3
         cmp dword [sndcard], byte 0
         jl short .2
-        test byte [byte_11D1DE], 1
+        test byte [MusicFlags], 1
         je short .2
-        test byte [byte_11D1DE], 4
+        test byte [MusicFlags], 4
         je short .2
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         call StopSoundChannel
-        mov dword [byte_11D1DE], 0FFFFFFFBh
+        mov dword [MusicFlags], 0FFFFFFFBh
 .2:
-        push byte_11D20A
-        push dword [dword_11D1D2]
-        mov dword [byte_11D1DE], 0
+        push MusicFileName
+        push dword [MusicStream]
+        mov dword [MusicFlags], 0
         call CdStreamQueue
         add esp, byte 8
-        mov eax, dword [dword_11D1D2]
+        mov eax, dword [MusicStream]
         call InitAudioStream
-        or byte [byte_11D1DE], 1
-        mov dword [dword_17C604], eax
+        or byte [MusicFlags], 1
+        mov dword [MusicVolume], eax
 .3:
         pop edx
         pop ecx
@@ -90,14 +90,14 @@ FillMusicStream:
         push esi
         push edi
         mov edi, eax
-        cmp dword [dword_11D236], byte 0
+        cmp dword [SoundCardOn], byte 0
         je short .1
         xor eax, eax
         jmp near FindClipIndex_56
 .1:
         cmp dword [sndcard], byte 0
         jl short .7
-        test byte [byte_11D1DE], 1
+        test byte [MusicFlags], 1
         je short .7
         call TicksSinceLast
         xor esi, esi
@@ -108,7 +108,7 @@ FillMusicStream:
         jge short .5
         cmp esi, 0C8h
         jge short .5
-        push dword [dword_11D1D2]
+        push dword [MusicStream]
         call CdStreamNextPacket
         add esp, byte 4
         mov edx, eax
@@ -129,7 +129,7 @@ FillMusicStream:
         jge short .6
         xor esi, esi
 .6:
-        or byte [byte_11D1DE], 2
+        or byte [MusicFlags], 2
 .7:
         mov eax, esi
         jmp near FindClipIndex_56
@@ -146,22 +146,22 @@ CloseMusic:
         call FadeOutMusic
         cmp dword [sndcard], byte 0
         jl short .1
-        test byte [byte_11D1DE], 1
+        test byte [MusicFlags], 1
         je short .1
-        test byte [byte_11D1DE], 4
+        test byte [MusicFlags], 4
         je short .1
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         call StopSoundChannel
-        mov dword [byte_11D1DE], 0FFFFFFFBh
+        mov dword [MusicFlags], 0FFFFFFFBh
 .1:
-        mov dword [byte_11D1DE], 0
-        cmp dword [dword_11D1D2], byte 0
+        mov dword [MusicFlags], 0
+        cmp dword [MusicStream], byte 0
         je short .2
-        push dword [dword_11D1D2]
+        push dword [MusicStream]
         call delstream
         add esp, byte 4
 .2:
-        mov dword [dword_11D1D2], 0
+        mov dword [MusicStream], 0
         pop edx
         pop ecx
         pop ebx
@@ -174,14 +174,14 @@ OpenMusicStream:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11D1D2], byte 0
+        cmp dword [MusicStream], byte 0
         jne short .1
         push byte 20h
         push dword 2000h
         push dword 35B60h
         call CdStreamOpenDefault
         add esp, byte 0Ch
-        mov dword [dword_11D1D2], eax
+        mov dword [MusicStream], eax
 .1:
         pop edx
         pop ecx
@@ -195,13 +195,13 @@ SetMusicVolume:
         push edx
         cmp dword [sndcard], byte 0
         jl short .1
-        test byte [byte_11D1DE], 1
+        test byte [MusicFlags], 1
         je short .1
         mov eax, dword [globalset]
         shl eax, 14h
         shr eax, 19h
         lea edx, [byte eax+028h]
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         call SetChannelVolume
 .1:
         pop edx
@@ -214,16 +214,16 @@ PlayMusic:
         push edx
         cmp dword [sndcard], byte 0
         jl short .1
-        test byte [byte_11D1DE], 1
+        test byte [MusicFlags], 1
         je short .1
         call StartAudioStream
         mov eax, dword [globalset]
         shl eax, 14h
         shr eax, 19h
         lea edx, [byte eax+028h]
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         call SetChannelVolume
-        or byte [byte_11D1DE], 6
+        or byte [MusicFlags], 6
 .1:
         pop edx
         ret
@@ -240,10 +240,10 @@ FadeOutMusic:
         mov dword [byte ebp-04h], edx
         cmp dword [sndcard], byte 0
         jl short .3
-        test byte [byte_11D1DE], 4
+        test byte [MusicFlags], 4
         je short .3
         mov ebx, 0FFFFFFFFh
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         mov edx, ecx
         add ecx, byte 0Ah
         call FadeChannelVolume
@@ -259,7 +259,7 @@ FadeOutMusic:
         call TickDeadlinePassed
         test eax, eax
         je short .1
-        and byte [byte_11D1DE], 0FBh
+        and byte [MusicFlags], 0FBh
 .3:
         leave
         pop ecx
@@ -272,9 +272,9 @@ FadeOutMusic:
 MusicDone:
         cmp dword [sndcard], byte 0
         jl short .1
-        test byte [byte_11D1DE], 4
+        test byte [MusicFlags], 4
         je short .1
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         call ChannelIdle
         test eax, eax
         sete al
@@ -293,13 +293,13 @@ FeedMusicStream:
         push edx
         cmp dword [sndcard], byte 0
         jl short .2
-        test byte [byte_11D1DE], 1
+        test byte [MusicFlags], 1
         je short .2
-        mov eax, dword [dword_17C604]
+        mov eax, dword [MusicVolume]
         call ChannelIdle
         test eax, eax
         jne short .2
-        push dword [dword_11D1D2]
+        push dword [MusicStream]
         call CdStreamNextPacket
         add esp, byte 4
         mov edx, eax
@@ -326,9 +326,9 @@ SyncMusicStream:
         push edx
         cmp dword [sndcard], byte 0
         jl short .1
-        test byte [byte_11D1DE], 4
+        test byte [MusicFlags], 4
         je short .1
-        push dword [dword_11D1D2]
+        push dword [MusicStream]
         call CdStreamSyncTime
         add esp, byte 4
 .1:

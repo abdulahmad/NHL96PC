@@ -2,29 +2,27 @@
 bits 32
 %include "hockey.inc"
 section s_17CECD nobits alloc noexec write align=1
-global byte_17CECD, byte_17CECE, byte_17CFB1, byte_17D13A, SeasonRandomSeed, dword_17CED6, cddriveptr, dword_17CF92
-global dword_17CF96, dword_17D162, unk_17CED5, unk_17CF9A
-byte_17CECD:
+global PlayoffTeams, SaveFileName, SeasonRandomSeed, PlayoffGameOpts, cddriveptr, PlayoffRound
+global PlayoffTreeShape, RosterFileHandle, PlayoffHeader, PlayoffName
         resb 1
-byte_17CECE:
         resb 3
 SeasonRandomSeed:
         resb 4
-unk_17CED5:
+PlayoffHeader:
         resb 1
-dword_17CED6:
+PlayoffGameOpts:
         resb 184
 cddriveptr:
         resb 4
-dword_17CF92:
+PlayoffRound:
         resb 4
-dword_17CF96:
+PlayoffTreeShape:
         resb 4
-unk_17CF9A:
+PlayoffName:
         resb 23
-byte_17CFB1:
+PlayoffTeams:
         resb 393
-byte_17D13A:
+SaveFileName:
         resb 40
-dword_17D162:
+RosterFileHandle:
         resb 4

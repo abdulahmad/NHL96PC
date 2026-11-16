@@ -1,14 +1,15 @@
 ; The player ratings screen: pictures and rating bars (96 PC).
 bits 32
 %include "hockey.inc"
+extern TeamScoringScore
 section s_93E6A progbits alloc exec nowrite align=1
 extern __CHP, SkaterRatingOrder, GoalieRatingOrder, PlayerPosCodes, RatingsPosCodes, DrawColorText, DrawColorTextCentred, DrawColorTextRight
 extern DrawLeagueLogo, DrawScrollBar, RosterDbPtrs, RosterPlayerIds, SkaterCardTextIds, GoalieCardTextIds, SkaterRatingTextIds, GoalieRatingTextIds
-extern dword_11E890, dword_11E894, dword_11E898, dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC
+extern SkaterCardFlash, GoalieCardFlash, SkaterFlashTime, GoalieFlashTime, SkaterCardPhoto, GoalieCardPhoto, SkaterPhotoLoaded, GoaliePhotoLoaded
 extern RatingsGoalieShown, RatingsSkaterShown, TeamStatsBitmap, PlayerRecPtrs, PlayerHeightPtrs, PlayerWeightPtrs, RatingsPlayerId, RosterFirstNamePtrs
-extern RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, BackgroundShapes, dword_182128, RatingsGoalieOrder, dword_182130
-extern dword_182134, dword_182138, dword_18213C, dword_182140, FadeOut, FadePalette, FillMusicStream, FillRect
-extern FreeScrollBar, GetLangText, GetTicks, InitMenuItems, InitVScrollBar, jpt_93E46, LoadPackedFile, off_11E8B0
+extern RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, BackgroundShapes, RatingsCardBmp, RatingsGoalieOrder, GoalieCardRemap
+extern SkaterCardRemap, RatingsDimRemap, RatingsShownId, FadeOut, FadePalette, FillMusicStream, FillRect
+extern FreeScrollBar, GetLangText, GetTicks, InitMenuItems, InitVScrollBar, jpt_93E46, LoadPackedFile, RatingsTabNames
 extern OpenScreen, optflags, PutBlock, F64_2p54_DrawRatingsName, F64_0p454545_DrawRatingsName, RatingBar, RunMenu, ScrollBarDown
 extern ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScrollBarPos, SetTextColors, SetTickDeadline, SlideCardLeft
 extern SlideCardRight, SlideInSideBar, SoundSecondsToBytes, sprintf_, str_003, str_Ard3, str_BALL4, str_Ban2
@@ -85,33 +86,33 @@ PlayerRatingsScreen:
         push byte 0
         push dword 100h
         push str_XTbl2
-        mov dword [dword_182134], eax
+        mov dword [SkaterCardRemap], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 100h
         push str_XTbl2
         mov dword [byte ebp+042h], 0
-        mov dword [dword_182130], eax
+        mov dword [GoalieCardRemap], eax
         call AllocMemBlock
         mov dh, byte [byte ebp+042h]
         add dh, 82h
         add esp, byte 0Ch
         mov dl, byte [byte ebp+042h]
-        mov dword [dword_182138], eax
+        mov dword [RatingsDimRemap], eax
         add dl, 1Eh
 .5:
         cmp dword [byte ebp+042h], byte 64h
         jge short .6
-        mov eax, dword [dword_182134]
+        mov eax, dword [SkaterCardRemap]
         add eax, dword [byte ebp+042h]
         mov byte [eax], dl
-        mov eax, dword [dword_182130]
+        mov eax, dword [GoalieCardRemap]
         add eax, dword [byte ebp+042h]
         mov byte [eax], dh
 .6:
         mov bl, byte [byte ebp+042h]
-        mov eax, dword [dword_182138]
+        mov eax, dword [RatingsDimRemap]
         inc dh
         add eax, dword [byte ebp+042h]
         inc dl
@@ -119,9 +120,9 @@ PlayerRatingsScreen:
         mov byte [eax], bl
         cmp dword [byte ebp+042h], 100h
         jl short .5
-        mov eax, dword [dword_182134]
+        mov eax, dword [SkaterCardRemap]
         mov byte [dword eax+0FFh], 0FFh
-        mov eax, dword [dword_182130]
+        mov eax, dword [GoalieCardRemap]
         mov byte [dword eax+0FFh], 0FFh
         mov eax, dword [RatingsPlayerId]
         movsx eax, byte [dword eax+PlayerPosCodes]
@@ -158,7 +159,7 @@ PlayerRatingsScreen:
         push byte 0
         push dword 0B1h
         push dword 0A0h
-        mov dword [dword_182128], eax
+        mov dword [RatingsCardBmp], eax
         call CreateBitmap
         add esp, byte 0Ch
         push byte 0
@@ -204,7 +205,7 @@ PlayerRatingsScreen:
 .10:
         push dword [byte ebp+03Eh]
         mov eax, dword [byte ebp+072h]
-        push dword [dword eax+off_11E8B0]
+        push dword [dword eax+RatingsTabNames]
         push str_SD5
         lea eax, [byte ebp+032h]
         push eax
@@ -381,15 +382,15 @@ PlayerRatingsScreen:
 .21:
         mov edx, ecx
         call LoadRatingsPicture
-        push dword [dword_182134]
+        push dword [SkaterCardRemap]
         call SetColourRemap
         mov edx, 0Ah
-        mov ebx, dword [dword_182128]
+        mov ebx, dword [RatingsCardBmp]
         add esp, byte 4
-        mov eax, dword [dword_11E8A0]
+        mov eax, dword [SkaterCardPhoto]
         xor ecx, ecx
         call SlideCardRight
-        push dword [dword_182130]
+        push dword [GoalieCardRemap]
         call SetColourRemap
         mov esi, dword [RatingsPlayerId]
         add esp, byte 4
@@ -400,15 +401,15 @@ PlayerRatingsScreen:
 .22:
         mov edx, 0Ah
         mov ebx, dword [RatingsGoalieOrder]
-        mov eax, dword [dword_11E8A4]
+        mov eax, dword [GoalieCardPhoto]
         xor ecx, ecx
         call SlideCardRight
-        mov dword [dword_11E890], 0
-        mov dword [dword_11E894], 0
+        mov dword [SkaterCardFlash], 0
+        mov dword [GoalieCardFlash], 0
         mov dword [RatingsPlayerId], esi
         call SetScreenTarget
         push byte 68h
-        mov eax, dword [dword_182128]
+        mov eax, dword [RatingsCardBmp]
         push byte 48h
         push dword [byte eax+02Ch]
         call PutBlock
@@ -1072,23 +1073,23 @@ PlayerRatingsScreen_E71:
         mov dword [byte ebp+066h], 0
         mov dword [dword ebp-0F90h], eax
 .62:
-        cmp dword [dword_11E890], byte 0
+        cmp dword [SkaterCardFlash], byte 0
         jne short .63
-        mov dword [dword_11E890], 1
+        mov dword [SkaterCardFlash], 1
         call GetTicks
-        mov dword [dword_11E898], eax
+        mov dword [SkaterFlashTime], eax
 .63:
-        cmp dword [dword_11E890], byte 2
+        cmp dword [SkaterCardFlash], byte 2
         jne short .64
         call GetTicks
-        mov dword [dword_11E898], eax
+        mov dword [SkaterFlashTime], eax
 .64:
-        cmp dword [dword_11E890], byte 3
+        cmp dword [SkaterCardFlash], byte 3
         jne short .67
-        mov dword [dword_11E890], 1
+        mov dword [SkaterCardFlash], 1
         call GetTicks
         mov esi, eax
-        sub esi, dword [dword_11E898]
+        sub esi, dword [SkaterFlashTime]
         cmp esi, byte 1Eh
         jle short .65
         call GetTicks
@@ -1099,7 +1100,7 @@ PlayerRatingsScreen_E71:
         sub edx, esi
         sub eax, edx
 .66:
-        mov dword [dword_11E898], eax
+        mov dword [SkaterFlashTime], eax
 .67:
         mov eax, dword [dword ebp-04AAh]
         push dword [byte ebp+052h]
@@ -1108,7 +1109,7 @@ PlayerRatingsScreen_E71:
         mov ecx, dword [BackgroundShapes]
         mov eax, dword [edx+eax*4]
         mov edx, dword [byte ebp+066h]
-        mov dword [dword_18213C], eax
+        mov dword [RatingsShownId], eax
         mov eax, dword [byte ebp+06Ah]
         call DrawRatingsTitle
         push dword [byte ebp+04Eh]
@@ -1227,23 +1228,23 @@ PlayerRatingsScreen_E71:
 .81:
         mov dword [byte ebp+06Ah], 0
 .82:
-        cmp dword [dword_11E894], byte 0
+        cmp dword [GoalieCardFlash], byte 0
         jne short .83
-        mov dword [dword_11E894], 1
+        mov dword [GoalieCardFlash], 1
         call GetTicks
-        mov dword [dword_11E89C], eax
+        mov dword [GoalieFlashTime], eax
 .83:
-        cmp dword [dword_11E894], byte 2
+        cmp dword [GoalieCardFlash], byte 2
         jne short .84
         call GetTicks
-        mov dword [dword_11E89C], eax
+        mov dword [GoalieFlashTime], eax
 .84:
-        cmp dword [dword_11E894], byte 3
+        cmp dword [GoalieCardFlash], byte 3
         jne short .87
-        mov dword [dword_11E894], 1
+        mov dword [GoalieCardFlash], 1
         call GetTicks
         mov esi, eax
-        sub esi, dword [dword_11E89C]
+        sub esi, dword [GoalieFlashTime]
         cmp esi, byte 1Eh
         jle short .85
         call GetTicks
@@ -1254,7 +1255,7 @@ PlayerRatingsScreen_E71:
         sub edx, esi
         sub eax, edx
 .86:
-        mov dword [dword_11E89C], eax
+        mov dword [GoalieFlashTime], eax
 .87:
         mov eax, dword [dword ebp-071Ah]
         shl eax, 2
@@ -1270,7 +1271,7 @@ PlayerRatingsScreen_E71:
         mov ebx, dword [dword ebp-05E2h]
         mov edx, dword [byte ebp+066h]
         mov ecx, dword [BackgroundShapes]
-        mov dword [dword_182140], eax
+        mov dword [TeamScoringScore-4], eax
         mov eax, dword [byte ebp+06Ah]
         call DrawRatingsTitle
         push dword [byte ebp+04Eh]
@@ -1384,25 +1385,25 @@ PlayerRatingsScreen_E71:
         cmp dword [byte ebp+042h], byte 9
         jl short .99
         mov eax, dword [dword ebp-04AAh]
-        mov dword [dword_11E890], 1
+        mov dword [SkaterCardFlash], 1
         mov dword [RatingsGoalieShown], eax
         mov eax, dword [dword ebp-071Ah]
-        mov dword [dword_11E894], 1
+        mov dword [GoalieCardFlash], 1
         mov dword [RatingsSkaterShown], eax
         call GetTicks
         mov edx, dword [RosterPlayerIds]
-        mov dword [dword_11E89C], eax
-        mov dword [dword_11E898], eax
+        mov dword [GoalieFlashTime], eax
+        mov dword [SkaterFlashTime], eax
         mov eax, dword [dword ebp-04AAh]
         mov eax, dword [edx+eax*4]
         push dword [byte ebp+052h]
-        mov dword [dword_18213C], eax
+        mov dword [RatingsShownId], eax
         mov eax, dword [dword ebp-071Ah]
         mov ebx, dword [dword ebp-05E2h]
         mov ecx, dword [BackgroundShapes]
         mov eax, dword [byte edx+eax*4+070h]
         mov edx, dword [byte ebp+066h]
-        mov dword [dword_182140], eax
+        mov dword [TeamScoringScore-4], eax
         mov eax, dword [byte ebp+06Ah]
         call DrawRatingsTitle
         push dword [byte ebp+04Eh]
@@ -1463,27 +1464,27 @@ PlayerRatingsScreen_E71:
         call FreeScrollBar
         lea eax, [dword ebp-0606h]
         call FreeScrollBar
-        cmp dword [dword_11E8A8], byte 0
+        cmp dword [SkaterPhotoLoaded], byte 0
         je short .104
-        push dword [dword_11E8A8]
+        push dword [SkaterPhotoLoaded]
         call FreeMemBlock
-        mov dword [dword_11E8A8], 0
+        mov dword [SkaterPhotoLoaded], 0
         add esp, byte 4
 .104:
-        cmp dword [dword_11E8AC], byte 0
+        cmp dword [GoaliePhotoLoaded], byte 0
         je short .105
-        push dword [dword_11E8AC]
+        push dword [GoaliePhotoLoaded]
         call FreeMemBlock
-        mov dword [dword_11E8AC], 0
+        mov dword [GoaliePhotoLoaded], 0
         add esp, byte 4
 .105:
-        push dword [dword_182134]
+        push dword [SkaterCardRemap]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_182130]
+        push dword [GoalieCardRemap]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_182138]
+        push dword [RatingsDimRemap]
         call FreeMemBlock
         add esp, byte 4
         push dword [BackgroundShapes]
@@ -1498,7 +1499,7 @@ PlayerRatingsScreen_E71:
         push dword [byte ebp+04Eh]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_182128]
+        push dword [RatingsCardBmp]
         call FreeBitmap
         add esp, byte 4
         push dword [RatingsGoalieOrder]
@@ -2478,14 +2479,14 @@ LoadRatingsPicture:
         mov dword [byte ebp-04h], ecx
         test edx, edx
         jne short .1
-        cmp dword [dword_11E8A8], byte 0
+        cmp dword [SkaterPhotoLoaded], byte 0
         je short .3
-        push dword [dword_11E8A8]
+        push dword [SkaterPhotoLoaded]
         jmp short .2
 .1:
-        cmp dword [dword_11E8AC], byte 0
+        cmp dword [GoaliePhotoLoaded], byte 0
         je short .3
-        push dword [dword_11E8AC]
+        push dword [GoaliePhotoLoaded]
 .2:
         call FreeMemBlock
         add esp, byte 4
@@ -2521,20 +2522,20 @@ LoadRatingsPicture:
         add esp, byte 8
         push str_Plyr3
         push eax
-        mov dword [dword_11E8A8], eax
+        mov dword [SkaterPhotoLoaded], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_11E8A0], eax
+        mov dword [SkaterCardPhoto], eax
         cmp dword [byte ebp-04h], byte 0
         jne short .5
         push str_Pal24
 .4:
-        push dword [dword_11E8A8]
+        push dword [SkaterPhotoLoaded]
         jmp near .11
 .5:
         push str_Pal24
 .6:
-        push dword [dword_11E8A8]
+        push dword [SkaterPhotoLoaded]
         jmp near .15
 .7:
         push eax
@@ -2543,10 +2544,10 @@ LoadRatingsPicture:
         add esp, byte 8
         push str_Card3
         push eax
-        mov dword [dword_11E8A8], eax
+        mov dword [SkaterPhotoLoaded], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_11E8A0], eax
+        mov dword [SkaterCardPhoto], eax
         cmp dword [byte ebp-04h], byte 0
         jne short .8
         push str_Ard3
@@ -2568,15 +2569,15 @@ LoadRatingsPicture:
         add esp, byte 8
         push str_Plyr3
         push eax
-        mov dword [dword_11E8AC], eax
+        mov dword [GoaliePhotoLoaded], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_11E8A4], eax
+        mov dword [GoalieCardPhoto], eax
         cmp dword [byte ebp-04h], byte 0
         jne short .12
         push str_Pal24
 .10:
-        push dword [dword_11E8AC]
+        push dword [GoaliePhotoLoaded]
 .11:
         call FindShape
         add esp, byte 8
@@ -2592,7 +2593,7 @@ LoadRatingsPicture:
         ret
 .12:
         push str_Pal24
-        push dword [dword_11E8AC]
+        push dword [GoaliePhotoLoaded]
         jmp short .15
 .13:
         push eax
@@ -2601,17 +2602,17 @@ LoadRatingsPicture:
         add esp, byte 8
         push str_Card3
         push eax
-        mov dword [dword_11E8AC], eax
+        mov dword [GoaliePhotoLoaded], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_11E8A4], eax
+        mov dword [GoalieCardPhoto], eax
         cmp dword [byte ebp-04h], byte 0
         jne short .14
         push str_Ard3
         jmp short .10
 .14:
         push str_Ard3
-        push dword [dword_11E8AC]
+        push dword [GoaliePhotoLoaded]
 .15:
         call FindShape
         add esp, byte 8
@@ -2680,15 +2681,15 @@ SwitchRatingsCard:
         push esi
         push edi
         call GetTicks
-        push dword [dword_182134]
+        push dword [SkaterCardRemap]
         mov edi, eax
         mov esi, eax
         call SetColourRemap
-        mov eax, dword [dword_18213C]
-        mov ebx, dword [dword_11E898]
+        mov eax, dword [RatingsShownId]
+        mov ebx, dword [SkaterFlashTime]
         add esp, byte 4
         mov dword [RatingsPlayerId], eax
-        mov eax, dword [dword_11E890]
+        mov eax, dword [SkaterCardFlash]
         add ebx, byte 1Eh
         cmp eax, byte 2
         jb short .1
@@ -2702,35 +2703,35 @@ SwitchRatingsCard:
         cmp edi, ebx
         jle short .2
         mov edx, 0Ah
-        mov ebx, dword [dword_182128]
-        mov eax, dword [dword_11E8A0]
+        mov ebx, dword [RatingsCardBmp]
+        mov eax, dword [SkaterCardPhoto]
         xor ecx, ecx
         call SlideCardLeft
-        mov dword [dword_11E890], 2
-        mov dword [dword_11E898], edi
+        mov dword [SkaterCardFlash], 2
+        mov dword [SkaterFlashTime], edi
         jmp short .3
 .2:
         mov eax, edi
-        sub eax, dword [dword_11E898]
+        sub eax, dword [SkaterFlashTime]
         mov edi, 3
         cdq
         idiv edi
-        mov ebx, dword [dword_182128]
+        mov ebx, dword [RatingsCardBmp]
         xor ecx, ecx
-        mov edi, dword [dword_11E8A0]
+        mov edi, dword [SkaterCardPhoto]
         mov edx, eax
         mov eax, edi
         call SlideCardLeft
 .3:
         call SetScreenTarget
         push byte 68h
-        mov eax, dword [dword_182128]
+        mov eax, dword [RatingsCardBmp]
         push byte 48h
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
 .4:
-        mov eax, dword [dword_11E898]
+        mov eax, dword [SkaterFlashTime]
         add eax, byte 32h
         cmp esi, eax
         jle near .8
@@ -2739,42 +2740,42 @@ SwitchRatingsCard:
         xor ebx, ebx
         xor edx, edx
         call LoadRatingsPicture
-        mov dword [dword_11E890], 3
-        mov dword [dword_11E898], esi
+        mov dword [SkaterCardFlash], 3
+        mov dword [SkaterFlashTime], esi
         jmp short .8
 .5:
         cmp edi, ebx
         jle short .6
         mov edx, 0Ah
-        mov ebx, dword [dword_182128]
-        mov eax, dword [dword_11E8A0]
+        mov ebx, dword [RatingsCardBmp]
+        mov eax, dword [SkaterCardPhoto]
         xor ecx, ecx
         call SlideCardRight
-        mov dword [dword_11E890], 0
-        mov dword [dword_11E898], edi
+        mov dword [SkaterCardFlash], 0
+        mov dword [SkaterFlashTime], edi
         jmp short .7
 .6:
         mov edx, 0Ah
-        mov ebx, dword [dword_182128]
-        mov eax, dword [dword_11E8A0]
+        mov ebx, dword [RatingsCardBmp]
+        mov eax, dword [SkaterCardPhoto]
         xor ecx, ecx
         call SlideCardRight
 .7:
         call SetScreenTarget
         push byte 68h
-        mov eax, dword [dword_182128]
+        mov eax, dword [RatingsCardBmp]
         push byte 48h
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
 .8:
-        push dword [dword_182130]
+        push dword [GoalieCardRemap]
         call SetColourRemap
-        mov eax, dword [dword_182140]
-        mov ebx, dword [dword_11E89C]
+        mov eax, dword [TeamScoringScore-4]
+        mov ebx, dword [GoalieFlashTime]
         add esp, byte 4
         mov dword [RatingsPlayerId], eax
-        mov eax, dword [dword_11E894]
+        mov eax, dword [GoalieCardFlash]
         add ebx, byte 1Eh
         cmp eax, byte 2
         jb short .9
@@ -2789,21 +2790,21 @@ SwitchRatingsCard:
         jle short .10
         mov edx, 0Ah
         mov ebx, dword [RatingsGoalieOrder]
-        mov eax, dword [dword_11E8A4]
+        mov eax, dword [GoalieCardPhoto]
         xor ecx, ecx
         call SlideCardLeft
-        mov dword [dword_11E894], 2
-        mov dword [dword_11E89C], esi
+        mov dword [GoalieCardFlash], 2
+        mov dword [GoalieFlashTime], esi
         jmp short .11
 .10:
         mov eax, esi
-        sub eax, dword [dword_11E89C]
+        sub eax, dword [GoalieFlashTime]
         mov edi, 3
         cdq
         idiv edi
         mov ebx, dword [RatingsGoalieOrder]
         xor ecx, ecx
-        mov edi, dword [dword_11E8A4]
+        mov edi, dword [GoalieCardPhoto]
         mov edx, eax
         mov eax, edi
         call SlideCardLeft
@@ -2816,7 +2817,7 @@ SwitchRatingsCard:
         call PutBlock
         add esp, byte 0Ch
 .12:
-        mov eax, dword [dword_11E89C]
+        mov eax, dword [GoalieFlashTime]
         add eax, byte 32h
         cmp esi, eax
         jle near .16
@@ -2825,24 +2826,24 @@ SwitchRatingsCard:
         xor ecx, ecx
         xor ebx, ebx
         call LoadRatingsPicture
-        mov dword [dword_11E894], 3
-        mov dword [dword_11E89C], esi
+        mov dword [GoalieCardFlash], 3
+        mov dword [GoalieFlashTime], esi
         jmp short .16
 .13:
         cmp esi, ebx
         jle short .14
         mov edx, 0Ah
         mov ebx, dword [RatingsGoalieOrder]
-        mov eax, dword [dword_11E8A4]
+        mov eax, dword [GoalieCardPhoto]
         xor ecx, ecx
         call SlideCardRight
-        mov dword [dword_11E894], 0
-        mov dword [dword_11E89C], esi
+        mov dword [GoalieCardFlash], 0
+        mov dword [GoalieFlashTime], esi
         jmp short .15
 .14:
         mov edx, 0Ah
         mov ebx, dword [RatingsGoalieOrder]
-        mov eax, dword [dword_11E8A4]
+        mov eax, dword [GoalieCardPhoto]
         xor ecx, ecx
         call SlideCardRight
 .15:
@@ -2854,28 +2855,28 @@ SwitchRatingsCard:
         call PutBlock
         add esp, byte 0Ch
 .16:
-        push dword [dword_182138]
+        push dword [RatingsDimRemap]
         call SetColourRemap
-        mov eax, dword [dword_18213C]
+        mov eax, dword [RatingsShownId]
         add esp, byte 4
         mov dword [RatingsPlayerId], eax
-        cmp dword [dword_11E890], byte 2
+        cmp dword [SkaterCardFlash], byte 2
         jne short .17
         mov eax, dword [nosplit eax*4+PlayerRecPtrs]
-        mov edx, dword [dword_182128]
+        mov edx, dword [RatingsCardBmp]
         movsx eax, byte [eax]
         call DrawLeagueLogo
         call SetScreenTarget
         push byte 68h
-        mov eax, dword [dword_182128]
+        mov eax, dword [RatingsCardBmp]
         push byte 48h
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
 .17:
-        mov eax, dword [dword_182140]
+        mov eax, dword [TeamScoringScore-4]
         mov dword [RatingsPlayerId], eax
-        cmp dword [dword_11E894], byte 2
+        cmp dword [GoalieCardFlash], byte 2
         jne short .18
         mov eax, dword [nosplit eax*4+PlayerRecPtrs]
         mov edx, dword [RatingsGoalieOrder]

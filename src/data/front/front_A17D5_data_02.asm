@@ -2,54 +2,54 @@
 bits 32
 %include "hockey.inc"
 section s_11ED30 progbits alloc noexec write align=1
-global dword_11ED30, dword_11ED3C, dword_11ED40, dword_11ED58, dword_11ED5C, dword_11ED60, dword_11ED64, dword_11ED68
-global dword_11ED6C, dword_11ED70, dword_11ED74, dword_11ED78, str_5_PlayoffSetupScreen, dword_11ED9C, dword_11EDBC, dword_11EDCC
-global dword_11EDDC, dword_11EE18, word_11ED34, word_11ED38
-dword_11ED30:
+global InGameMenuStartTick, ModemAwayPanelX, ModemPanelXs, ModemHomeBmp, ModemAwayBmp, ModemHomeLogo, ModemAwayLogo, ModemHomeName
+global ModemAwayName, ModemHomeText, ModemAwayText, PlayoffMode, PlayoffSlotX, PlayoffSlotY, PlayoffSetupTextIds, PlayoffRoundTextIds
+global PlayoffSeriesWins, PlayoffTreeY, InGameMenuDrawn, ModemPanelY
+InGameMenuStartTick:
         db 00h,00h,00h,00h
-word_11ED34:
+InGameMenuDrawn:
         db 00h,00h,00h,00h
-word_11ED38:
+ModemPanelY:
         db 081h,00h,00h,00h
-dword_11ED3C:
+ModemAwayPanelX:
         db 0FFh,01h,00h,00h
-dword_11ED40:
+ModemPanelXs:
         db 020h,01h,00h,00h,03Ch,01h,00h,00h,058h,01h,00h,00h,074h,01h,00h,00h
         db 091h,01h,00h,00h,0ADh,01h,00h,00h
-dword_11ED58:
+ModemHomeBmp:
         db 00h,00h,00h,00h
-dword_11ED5C:
+ModemAwayBmp:
         db 00h,00h,00h,00h
-dword_11ED60:
+ModemHomeLogo:
         db 00h,00h,00h,00h
-dword_11ED64:
+ModemAwayLogo:
         db 00h,00h,00h,00h
-dword_11ED68:
+ModemHomeName:
         db 00h,00h,00h,00h
-dword_11ED6C:
+ModemAwayName:
         db 00h,00h,00h,00h
-dword_11ED70:
+ModemHomeText:
         db 00h,00h,00h,00h
-dword_11ED74:
+ModemAwayText:
         db 00h,00h,00h,00h
-dword_11ED78:
+PlayoffMode:
         db 00h,00h,00h,00h
-str_5_PlayoffSetupScreen:
+PlayoffSlotX:
         db 035h,00h,00h,00h,039h,00h,00h,00h,03Eh,00h,00h,00h,041h,00h,00h,00h
         db 046h,00h,00h,00h,04Ah,00h,00h,00h,04Eh,00h,00h,00h,052h,00h,00h,00h
-dword_11ED9C:
+PlayoffSlotY:
         db 087h,00h,00h,00h,0A8h,00h,00h,00h,0D4h,00h,00h,00h,0F4h,00h,00h,00h
         db 01Fh,01h,00h,00h,041h,01h,00h,00h,06Eh,01h,00h,00h,08Eh,01h,00h,00h
-dword_11EDBC:
+PlayoffSetupTextIds:
         db 026h,02h,00h,00h,021h,02h,00h,00h,01Eh,02h,00h,00h,01Ah,02h,00h,00h
-dword_11EDCC:
+PlayoffRoundTextIds:
         db 016h,02h,00h,00h,013h,02h,00h,00h,011h,02h,00h,00h,0Ch,02h,00h,00h
-dword_11EDDC:
+PlayoffSeriesWins:
         db 04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h
         db 08h,00h,00h,00h,08h,00h,00h,00h,010h,00h,00h,00h,020h,00h,00h,00h
         db 020h,00h,00h,00h,020h,00h,00h,00h,020h,00h,00h,00h,040h,00h,00h,00h
         db 040h,00h,00h,00h,080h,00h,00h,00h,00h,01h,00h,00h
-dword_11EE18:
+PlayoffTreeY:
         db 01Eh,00h,00h,00h,020h,00h,00h,00h,023h,00h,00h,00h,025h,00h,00h,00h
         db 027h,00h,00h,00h,02Ah,00h,00h,00h,02Dh,00h,00h,00h,030h,00h,00h,00h
         db 0BBh,03h,00h,00h,0B7h,03h,00h,00h,0B5h,03h,00h,00h,0B1h,03h,00h,00h

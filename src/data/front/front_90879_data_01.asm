@@ -6,10 +6,10 @@ global str_LG02d2, str_XTbl, str_PHT0, str_SLDH2, str_HBAL3, str_AR004, str_AR01
 global str_AR114, str_Pal23, str_HD022, str_HD00, str_RAT0, str_PRN02, str_PRN12, str_PRN22
 global str_CMP0, str_CMP1, str_CMP2, str_PHT1, str_PHT2, str_CRD0, str_CRD1, str_CRD2
 global str_PLY0, str_SD4, str_9495, str_9394, str_DD6, str_002, str_DD7, str_FSH4
-global str_Card2, str_Ard2, str_Plyr2, str_PROFILEFSH2, str_DNRS, str_DSS2, str_DSS3, asc_1129CF
+global str_Card2, str_Ard2, str_Plyr2, str_PROFILEFSH2, str_DNRS, str_DSS2, str_DSS3, str_CardExportIndent
 global str_S_ExportPlayerCard, str_DD8, F32_0p5_ScaleBlock, F64_0p1_SlideCardLeft, F64_0p1_SlideCardRight, F64_2p54_DrawPlayerCardName, F64_0p454545_DrawPlayerCardName, F64_0p1_ScaleBlock
-global str_fmtpd, str_Wt4, str_Punct_ExportPlayerCard, unk_1129E4, str_S5, unk_1129F7, unk_112A08, str_45S
-global str_45P, str_34S, str_34P, str_CRS, str_CRP, unk_112A24, str_PLA
+global str_fmtpd, str_Wt4, str_Punct_ExportPlayerCard, str_CardSpace, str_S5, str_Percent, str_RatingsRAT, str_45S
+global str_45P, str_34S, str_34P, str_CRS, str_CRP, str_RatingsSEA, str_PLA
 str_LG02d2:
         db 04Ch,047h,025h,030h,032h,064h,00h
 F64_0p1_SlideCardLeft:
@@ -102,10 +102,10 @@ str_Punct_ExportPlayerCard:
         db 0Ah,00h
 str_DSS3:
         db 023h,025h,064h,020h,025h,073h,020h,025h,073h,0Ah,00h
-asc_1129CF:
+str_CardExportIndent:
         db 0Ah,020h,020h,020h,020h,020h,020h,020h,020h,020h,020h,020h,020h,020h,020h,020h
         db 020h,020h,020h,020h,00h
-unk_1129E4:
+str_CardSpace:
         db 020h,00h
 str_S_ExportPlayerCard:
         db 0Ah,025h,073h,00h
@@ -113,13 +113,13 @@ str_S5:
         db 025h,073h,00h
 str_DD8:
         db 025h,064h,02Eh,025h,064h,025h,025h,025h,025h,00h
-unk_1129F7:
+str_Percent:
         db 025h,025h,00h
 F32_0p5_ScaleBlock:
         db 00h,00h,00h,03Fh
 F64_0p1_ScaleBlock:
         db 09Ah,099h,099h,099h,099h,099h,0B9h,03Fh,00h,00h
-unk_112A08:
+str_RatingsRAT:
         db 052h,041h,054h,00h
 str_45S:
         db 034h,035h,053h,00h
@@ -133,7 +133,7 @@ str_CRS:
         db 043h,052h,053h,00h
 str_CRP:
         db 043h,052h,050h,00h
-unk_112A24:
+str_RatingsSEA:
         db 053h,045h,041h,00h
 str_PLA:
         db 050h,04Ch,041h,00h

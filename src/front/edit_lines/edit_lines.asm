@@ -4,20 +4,20 @@ bits 32
 extern BottomBarArt
 extern SideBarArt
 section s_9CB19 progbits alloc exec nowrite align=1
-extern byte_157191, HmGoalieSwapped, TitleTextStyle, PlayerPosCodes, byte_183098, byte_183099, byte_18309A, byte_183D0A
-extern byte_1843B8, byte_1843B9, byte_1843BA, byte_1843C4, byte_1843C5, byte_1843CA, byte_1843CB, byte_1843CC
-extern byte_1843CD, byte_1843CE, byte_1843D4, byte_1843D5, byte_1843D6, byte_1843D7, byte_1843DC, byte_1843DD
-extern byte_1843DE, byte_1843DF, byte_1843E0, byte_1843E1, byte_1843E6, byte_1843E7, byte_1843E8, byte_1843EC
-extern byte_1843ED, byte_1843EE, DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, dword_1174EC, statsplayoffs
-extern MenuMouseX, MenuMouseY, RosterDbPtrs, RosterPlayerIds, dword_11E91C, dword_11E948, str_B_DrawLinesPanel, dword_11E9C0
-extern dword_11EA10, str_V_DrawLinesPanel, dword_11EAB0, dword_11EAFC, str_T_DrawLinesPanel, dword_11EB88, dword_11EBC0, dword_11EBF8
-extern dword_11ECE8, dword_11ECEC, dword_11ED2C, MenuCursorPixels, dword_152F58, hmtmlines, hmtmroster, TeamStatsBitmap
+extern byte_157191, HmGoalieSwapped, TitleTextStyle, PlayerPosCodes, LinesSlotTable
+extern LinesWorkTable
+
+
+extern DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, dword_1174EC, statsplayoffs
+extern MenuMouseX, MenuMouseY, RosterDbPtrs, RosterPlayerIds, ForwardLineSlots, DefenceLineSlots, LinesPanelEvenX, LinesPanelEvenY
+extern LinesPanelEvenNav, LinesPanelPowerX, LinesPanelPowerY, LinesPanelPowerNav, LinesPanelKillX, LinesPanelKillY, LinesPanelKillNav, LinesSlotMap
+extern LinesHeaderTextId, LinesTextIds, LinesIntroOn, MenuCursorPixels, dword_152F58, hmtmlines, hmtmroster, TeamStatsBitmap
 extern PlayerRecPtrs, PlayerHeightPtrs, PlayerWeightPtrs
-extern RatingsPlayerId, EditLinesBuffer, RosterFirstNamePtrs, RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, dword_183028
-extern dword_1836E8, dword_1836EC, dword_1836F0, dword_1836F4, dword_1836F8, dword_1836FC, dword_183700, dword_183704
-extern dword_183728, dword_18372C, dword_183730, dword_183734, dword_183738, dword_18373C, dword_183740, dword_183744
-extern dword_183BC4, dword_183C28, dword_183C98, dword_183D2C, dword_183D30, dword_183D34, LinesTeamText, dword_18439C
-extern dword_1843A0, LinesIntroTeam, dword_1843A8, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut, FadePalette
+extern RatingsPlayerId, EditLinesBuffer, RosterFirstNamePtrs, RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, LinesSortedPlayers
+extern LinesPanelItems
+
+extern LinesPanelPlayers, LinesPlayerOrder, LinesPlayerScore, LinesCursorArt
+extern LinesHoverArt, LinesIntroTeam, LinesCardSource, LinesEditAway, LinesEditMode, LinesEditTeam, FadeOut, FadePalette
 extern FileClose, FileOpenWrite, FileWriteAt, FillMusicStream, FreeScrollBar, gameopts, GetLangText, hmroster
 extern hmrosterpos, InitMenuItems, InitVScrollBar, LoadExhibitionStats, LoadPackedFile, LoadPlayoffStats, LoadSeasonStats, MakeDataPath
 extern MakePlayoffDbPath, MakeSeasonDbPath, MessageBox, MusicDone, OpenScreen, optflags, PlayerCardScreen, PlayMusic
@@ -30,7 +30,7 @@ extern str_LName3, str_Nhl1, str_Nhl2, str_Nhl3, str_Pal28, str_Player3, str_Pro
 extern str_Scr22, str_Scr3, str_Sld12, str_Sldw, str_Slid2, str_Slu12, str_Slup, str_Sta13
 extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, StatsDb2Record
 extern DrawArt, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DrawArtOpaqueAtOwnPos, SetScreenTarget
-extern FindShape, ClearClipRect, TickDeadlinePassed, hmglattr, hmplattr, hmteamrec, unk_183D08, MenuViewStored
+extern FindShape, ClearClipRect, TickDeadlinePassed, hmglattr, hmplattr, hmteamrec, EditLinesRecords, MenuViewStored
 extern hmscore, awscore
 global unk_9CB19, CompareRosterOrder, ComparePlayerPos, PositionOrder, EditLinesHoverPanel, RunEditLines, EditLinesScreen, LinesValid
 global CountLineSlots, CountLineSlots_4DD, HasDuplicateInLine, HasDuplicateInLine_45, DrawLinesPanel, DrawLineJersey, DrawLineJersey_104, DrawLinesPlayerList
@@ -54,14 +54,14 @@ unk_9CB19:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; CompareRosterOrder                              9CC19  96 PC, low confidence
-; Qsort compare by dword_183C98
+; Qsort compare by LinesPlayerScore
 ;-----------------------------------------------------------------------------
 CompareRosterOrder:
         push ebx
         mov edx, dword [edx]
         mov ebx, dword [eax]
-        mov eax, dword [nosplit edx*4+dword_183C98]
-        sub eax, dword [nosplit ebx*4+dword_183C98]
+        mov eax, dword [nosplit edx*4+LinesPlayerScore]
+        sub eax, dword [nosplit ebx*4+LinesPlayerScore]
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
@@ -76,8 +76,8 @@ ComparePlayerPos:
         mov ecx, edx
         mov edx, dword [eax]
         mov esi, dword [ecx]
-        mov edx, dword [nosplit edx*4+dword_183C28]
-        mov esi, dword [nosplit esi*4+dword_183C28]
+        mov edx, dword [nosplit edx*4+LinesPlayerOrder]
+        mov esi, dword [nosplit esi*4+LinesPlayerOrder]
         mov dl, byte [byte edx+02h]
         mov dh, byte [byte esi+02h]
         cmp dl, 47h
@@ -158,9 +158,9 @@ ComparePlayerPos:
         jmp short .18
 .17:
         mov edx, dword [ecx]
-        mov eax, dword [nosplit edx*4+dword_183C28]
+        mov eax, dword [nosplit edx*4+LinesPlayerOrder]
         mov edx, dword [ebx]
-        mov ebx, dword [nosplit edx*4+dword_183C28]
+        mov ebx, dword [nosplit edx*4+LinesPlayerOrder]
         add eax, byte 13h
         add ebx, byte 13h
         mov edx, eax
@@ -223,7 +223,7 @@ EditLinesHoverPanel:
         jle short .1
         cmp dword [MenuMouseY], 1BFh
         jge short .1
-        cmp dword [dword_11ED2C], byte 0
+        cmp dword [LinesIntroOn], byte 0
         je short .1
         mov eax, dword [LinesIntroTeam]
         mov word [MenuViewStored], 1
@@ -232,13 +232,13 @@ EditLinesHoverPanel:
         mov word [byte eax+08h], 19h
         mov eax, dword [dword_152F58]
         mov word [byte eax+0Ah], 19h
-        mov eax, dword [dword_1843A0]
+        mov eax, dword [LinesHoverArt]
         mov eax, dword [byte eax+02Ch]
         jmp short .2
 .1:
-        mov eax, dword [dword_18439C]
+        mov eax, dword [LinesCursorArt]
         mov dword [dword_152F58], eax
-        mov eax, dword [LinesTeamText]
+        mov eax, dword [EditLinesRecords+690h]
         mov word [MenuViewStored], 0
 .2:
         mov dword [MenuCursorPixels], eax
@@ -345,7 +345,7 @@ RunEditLines:
         mov ecx, 2Ah
 .7:
         mov edx, RatingsPlayerId
-        mov ebx, dword [dword_1843A8]
+        mov ebx, dword [LinesCardSource]
         mov eax, dword [RosterPlayerIds]
         call PlayerCardScreen
         mov edi, 1
@@ -416,7 +416,7 @@ EditLinesScreen:
         mov esi, unk_9CB19
         rep movsd
         mov eax, dword [dword_152F58]
-        mov dword [dword_11ED2C], 0
+        mov dword [LinesIntroOn], 0
         mov dword [byte ebp+042h], 0
         movsx ecx, word [byte eax+06h]
         mov edx, 32h
@@ -462,12 +462,12 @@ EditLinesScreen:
 .7:
         push esi
         call CreateBitmap
-        mov dword [dword_1843A0], eax
+        mov dword [LinesHoverArt], eax
         mov eax, dword [dword_152F58]
-        mov dword [dword_18439C], eax
+        mov dword [LinesCursorArt], eax
         mov eax, dword [MenuCursorPixels]
         add esp, byte 0Ch
-        mov dword [LinesTeamText], eax
+        mov dword [EditLinesRecords+690h], eax
         mov eax, 4
         xor edx, edx
         call SoundSecondsToBytes
@@ -476,7 +476,7 @@ EditLinesScreen:
         call LoadPackedFile
         mov esi, eax
         mov dword [byte ebp+05Eh], eax
-        mov eax, dword [dword_1843B4]
+        mov eax, dword [LinesEditTeam]
         xor edx, edx
         add eax, 116h
         call LoadDataFileLib
@@ -510,7 +510,7 @@ EditLinesScreen:
         mov dword [dword ebp-017C4h], eax
         mov eax, dword [dword ebp-017C8h]
         add eax, byte 0Ah
-        mov edx, dword_183728
+        mov edx, LinesPanelItems+40h
         mov dword [dword ebp-017B4h], eax
         mov eax, dword [dword ebp-017C4h]
         add esp, byte 8
@@ -588,36 +588,36 @@ EditLinesScreen:
         call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp+046h], eax
-        cmp dword [dword_1843B0], byte 0
+        cmp dword [LinesEditMode], byte 0
         jne short .12
         call LoadExhibitionStats
         jmp short .14
 .12:
-        cmp dword [dword_1843B0], 3E7h
+        cmp dword [LinesEditMode], 3E7h
         jle short .13
-        cmp dword [dword_1843B0], 2AF8h
+        cmp dword [LinesEditMode], 2AF8h
         jge short .13
-        mov eax, dword [dword_1843B0]
+        mov eax, dword [LinesEditMode]
         call LoadSeasonStats
         jmp short .14
 .13:
-        cmp dword [dword_1843B0], 2AF7h
+        cmp dword [LinesEditMode], 2AF7h
         jle short .14
-        mov eax, dword [dword_1843B0]
+        mov eax, dword [LinesEditMode]
         sub eax, 2710h
         call LoadPlayoffStats
 .14:
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         jne near .19
-        imul eax, dword [dword_1843AC], dword 31Bh
+        imul eax, dword [LinesEditAway], dword 31Bh
         mov edx, hmteamrec
         add edx, eax
-        mov eax, byte_183098
+        mov eax, LinesSlotTable
         mov dword [byte ebp+03Eh], 0
         add eax, byte 13h
         mov dword [byte ebp+07Eh], 0
         mov dword [byte ebp+076h], eax
-        mov eax, byte_183098
+        mov eax, LinesSlotTable
         mov dword [byte ebp+032h], edx
         add eax, byte 3
         mov dword [byte ebp+072h], edx
@@ -626,7 +626,7 @@ EditLinesScreen:
         cmp dword [dword ebp-017F6h], byte 0
         je short .16
         imul edi, dword [byte ebp+03Eh], byte 3Ch
-        add edi, byte_183098
+        add edi, LinesSlotTable
         cmp dword [byte ebp+03Eh], byte 19h
         mov eax, dword [byte ebp+072h]
         mov esi, dword [dword_1174EC]
@@ -635,24 +635,24 @@ EditLinesScreen:
         rep movsb
 .16:
         imul ebx, dword [byte ebp+03Eh], byte 3Ch
-        imul edx, dword [dword_1843AC], dword 4B4h
+        imul edx, dword [LinesEditAway], dword 4B4h
         mov eax, dword [byte ebp+07Eh]
         mov cl, byte [dword edx+eax+byte_157191]
         mov al, byte [dword edx+eax+hmrosterpos]
         add edx, hmroster
-        mov byte [dword ebx+byte_18309A], al
+        mov byte [dword ebx+LinesSlotTable+2], al
         add edx, dword [byte ebp+07Eh]
         mov eax, dword [byte ebp+07Ah]
         add edx, byte 7
-        mov byte [dword ebx+byte_183099], cl
+        mov byte [dword ebx+LinesSlotTable+1], cl
         call strcpy_
-        imul eax, dword [dword_1843AC], dword 4B4h
+        imul eax, dword [LinesEditAway], dword 4B4h
         add eax, hmroster
         add eax, dword [byte ebp+07Eh]
         lea edx, [byte eax+017h]
         mov eax, dword [byte ebp+076h]
         call strcpy_
-        cmp dword [dword_1843AC], byte 0
+        cmp dword [LinesEditAway], byte 0
         jne short .17
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
@@ -664,7 +664,7 @@ EditLinesScreen:
         shl eax, 0Ah
 .18:
         shr eax, 1Bh
-        mov byte [dword ebx+byte_183098], al
+        mov byte [dword ebx+LinesSlotTable], al
         add dword [byte ebp+072h], byte 4
         add dword [byte ebp+076h], byte 3Ch
         add dword [byte ebp+07Ah], byte 3Ch
@@ -674,24 +674,24 @@ EditLinesScreen:
         jge short .20
         jmp near .15
 .19:
-        imul eax, dword [dword_1843B4], dword 31Bh
+        imul eax, dword [LinesEditTeam], dword 31Bh
         mov edx, dword [statsplayoffs]
         add edx, eax
         mov dword [byte ebp+032h], edx
 .20:
         cmp dword [dword ebp-017F2h], byte 0
         je short .23
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         jne short .21
-        imul eax, dword [dword_1843AC], dword 136h
+        imul eax, dword [LinesEditAway], dword 136h
         mov ecx, 3Eh
-        mov edi, byte_1843B8
+        mov edi, LinesWorkTable
         mov esi, dword [dword eax+hmtmlines]
         jmp short .22
 .21:
         mov esi, dword [byte ebp+032h]
         mov ecx, 3Eh
-        mov edi, byte_1843B8
+        mov edi, LinesWorkTable
         add esi, 0D3h
 .22:
         rep movsb
@@ -699,7 +699,7 @@ EditLinesScreen:
         push dword [dword ebp-017F2h]
         lea eax, [byte ebp+04Eh]
         lea ecx, [byte ebp+052h]
-        mov ebx, dword_183028
+        mov ebx, LinesSortedPlayers
         push eax
         lea edx, [dword ebp-0146h]
         mov eax, dword [byte ebp+032h]
@@ -1200,7 +1200,7 @@ EditLinesScreen:
         mov byte [dword ebp-0EE8h], 8
         mov byte [dword ebp-0EE5h], 16h
         mov byte [dword ebp-0EE7h], 16h
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         jne short .31
         mov byte [dword ebp-0147Bh], 16h
         mov byte [dword ebp-0EE6h], 15h
@@ -1314,7 +1314,7 @@ EditLinesScreen:
         lea eax, [dword ebp-037Eh]
         push eax
         mov ecx, dword [dword ebp-035Ah]
-        mov ebx, dword_183028
+        mov ebx, LinesSortedPlayers
         push dword [byte ebp+062h]
         lea edx, [dword ebp-0146h]
         push dword [byte ebp+04Ah]
@@ -1364,7 +1364,7 @@ EditLinesScreen:
         mov ecx, dword [byte ebp+062h]
         push byte 0
         xor edx, edx
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         push dword [byte ebp+05Eh]
         movzx ebx, byte [byte eax+01h]
         xor eax, eax
@@ -1375,8 +1375,8 @@ EditLinesScreen:
         call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
-        mov dword [dword_11ED2C], 1
-        cmp dword [dword_1843B0], byte 3
+        mov dword [LinesIntroOn], 1
+        cmp dword [LinesEditMode], byte 3
         jne short .38
         cmp dword [dword ebp-017F6h], byte 0
         je short .37
@@ -1804,8 +1804,8 @@ EditLinesScreen:
 .62:
         mov ecx, 3Eh
         mov esi, dword [byte ebp+066h]
-        mov edi, byte_1843B8
-        mov ebx, dword_183028
+        mov edi, LinesWorkTable
+        mov ebx, LinesSortedPlayers
         rep movsb
         push byte 1
         lea eax, [byte ebp+04Eh]
@@ -1817,7 +1817,7 @@ EditLinesScreen:
         lea eax, [dword ebp-037Eh]
         push eax
         mov ecx, dword [dword ebp-035Ah]
-        mov ebx, dword_183028
+        mov ebx, LinesSortedPlayers
         push dword [byte ebp+062h]
         lea edx, [dword ebp-0146h]
         push dword [byte ebp+04Ah]
@@ -1839,12 +1839,12 @@ EditLinesScreen:
         je near .70
         mov eax, dword [byte ebp+03Ah]
         mov ecx, 3Eh
-        cmp dword [nosplit eax*4+dword_183028], byte 1
+        cmp dword [nosplit eax*4+LinesSortedPlayers], byte 1
         setne dl
-        mov esi, byte_1843B8
+        mov esi, LinesWorkTable
         movzx edx, dl
         lea edi, [byte ebp-07Ah]
-        mov dword [nosplit eax*4+dword_183028], edx
+        mov dword [nosplit eax*4+LinesSortedPlayers], edx
         rep movsb
         mov eax, dword [byte ebp+052h]
         mov ecx, dword [byte ebp+03Ah]
@@ -1875,7 +1875,7 @@ EditLinesScreen:
         jb short .64
         mov ecx, 3Eh
         lea esi, [byte ebp-07Ah]
-        mov edi, byte_1843B8
+        mov edi, LinesWorkTable
         rep movsb
         lea eax, [dword ebp-017EEh]
         push eax
@@ -1890,16 +1890,16 @@ EditLinesScreen:
         lea eax, [dword ebp-037Eh]
         push eax
         mov ecx, dword [dword ebp-035Ah]
-        mov ebx, dword_183028
+        mov ebx, LinesSortedPlayers
         push dword [byte ebp+062h]
         lea edx, [dword ebp-0146h]
         push dword [byte ebp+04Ah]
         mov eax, dword [byte ebp+03Ah]
         call DrawLinesPlayerList
         mov eax, dword [byte ebp+03Ah]
-        cmp dword [nosplit eax*4+dword_183028], byte 0
+        cmp dword [nosplit eax*4+LinesSortedPlayers], byte 0
         jne short .68
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         je short .68
         mov eax, dword [byte ebp-026h]
         mov eax, dword [byte eax+02Ch]
@@ -1910,7 +1910,7 @@ EditLinesScreen:
         mov eax, dword [byte ebp-01Eh]
         jmp short .69
 .68:
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         je short .70
         mov eax, dword [byte ebp-01Ah]
         mov eax, dword [byte eax+02Ch]
@@ -1927,7 +1927,7 @@ EditLinesScreen:
         je short .72
         mov esi, dword [byte ebp+03Ah]
         shl esi, 2
-        cmp dword [dword esi+dword_183028], byte 0
+        cmp dword [dword esi+LinesSortedPlayers], byte 0
         jne short .72
 .71:
         push dword [LinesIntroTeam]
@@ -1937,7 +1937,7 @@ EditLinesScreen:
         call ClearClipRect
         mov ecx, dword [byte ebp+062h]
         add esp, byte 4
-        mov eax, dword [dword esi+dword_183C28]
+        mov eax, dword [dword esi+LinesPlayerOrder]
         xor edx, edx
         push byte 0
         movzx ebx, byte [byte eax+01h]
@@ -1950,11 +1950,11 @@ EditLinesScreen:
         call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
-        mov dword [dword_11ED2C], 1
+        mov dword [LinesIntroOn], 1
         jmp near .120
 .72:
         mov word [MenuViewStored], 0
-        mov dword [dword_11ED2C], 0
+        mov dword [LinesIntroOn], 0
         jmp near .120
 .73:
         lea eax, [dword ebp-037Eh]
@@ -1962,7 +1962,7 @@ EditLinesScreen:
 .74:
         lea eax, [dword ebp-037Eh]
         push eax
-        mov ebx, dword_183028
+        mov ebx, LinesSortedPlayers
         lea edx, [dword ebp-0146h]
         push dword [byte ebp+062h]
         mov ecx, dword [dword ebp-035Ah]
@@ -2002,7 +2002,7 @@ EditLinesScreen:
         lea eax, [dword ebp-037Eh]
         push eax
         mov ecx, dword [dword ebp-035Ah]
-        mov ebx, dword_183028
+        mov ebx, LinesSortedPlayers
         push dword [byte ebp+062h]
         lea edx, [dword ebp-0146h]
         push dword [byte ebp+04Ah]
@@ -2019,9 +2019,9 @@ EditLinesScreen:
         mov eax, dword [byte ebp+042h]
         call DrawLinesPanel
         mov eax, dword [byte ebp+03Ah]
-        cmp dword [nosplit eax*4+dword_183028], byte 0
+        cmp dword [nosplit eax*4+LinesSortedPlayers], byte 0
         jne short .82
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         je short .84
         mov eax, dword [byte ebp-026h]
         mov eax, dword [byte eax+02Ch]
@@ -2032,7 +2032,7 @@ EditLinesScreen:
         mov eax, dword [byte ebp-01Eh]
         jmp short .83
 .82:
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         je short .84
         mov eax, dword [byte ebp-01Ah]
         mov eax, dword [byte eax+02Ch]
@@ -2049,7 +2049,7 @@ EditLinesScreen:
         je near .72
         mov esi, dword [byte ebp+03Ah]
         shl esi, 2
-        cmp dword [dword esi+dword_183028], byte 0
+        cmp dword [dword esi+LinesSortedPlayers], byte 0
         je near .71
         jmp near .72
 .85:
@@ -2057,13 +2057,13 @@ EditLinesScreen:
         jmp near .120
 .86:
         mov ecx, 3Eh
-        mov esi, byte_1843B8
+        mov esi, LinesWorkTable
         lea edi, [byte ebp-07Ah]
         call SlideInTitleBar
         rep movsb
         mov ebx, dword [byte ebp+04Eh]
         mov edx, dword [byte ebp+052h]
-        mov eax, dword_183028
+        mov eax, LinesSortedPlayers
         call CountLineSlots
         mov edx, eax
         mov esi, eax
@@ -2071,10 +2071,10 @@ EditLinesScreen:
         jge near .89
         test eax, eax
         je near .89
-        mov eax, dword [dword_11ECE8]
+        mov eax, dword [LinesHeaderTextId]
         call GetLangText
         mov dword [byte ebp+01Eh], eax
-        mov eax, dword [dword_11ECEC]
+        mov eax, dword [LinesTextIds]
         call GetLangText
         push byte 3
         push byte 0
@@ -2082,10 +2082,10 @@ EditLinesScreen:
         mov ecx, TitleTextStyle
         lea ebx, [byte ebp+01Eh]
         push dword 140h
-        mov dword [dword_11ED2C], 0
+        mov dword [LinesIntroOn], 0
         mov dword [byte ebp+022h], eax
         push byte 0
-        mov eax, dword [nosplit edx*4+dword_11ECEC]
+        mov eax, dword [nosplit edx*4+LinesTextIds]
         mov edx, 2
         call GetLangText
 .87:
@@ -2094,12 +2094,12 @@ EditLinesScreen:
         jne short .88
         mov ebx, dword [byte ebp+04Eh]
         mov edx, dword [byte ebp+052h]
-        mov eax, dword_183028
+        mov eax, LinesSortedPlayers
         call AutoSetLines
         lea eax, [dword ebp-037Eh]
         push eax
         mov ecx, dword [dword ebp-035Ah]
-        mov ebx, dword_183028
+        mov ebx, LinesSortedPlayers
         push dword [byte ebp+062h]
         lea edx, [dword ebp-0146h]
         push dword [byte ebp+04Ah]
@@ -2117,7 +2117,7 @@ EditLinesScreen:
         call DrawLinesPanel
 .88:
         mov eax, dword [byte ebp+03Ah]
-        cmp dword [nosplit eax*4+dword_183028], byte 0
+        cmp dword [nosplit eax*4+LinesSortedPlayers], byte 0
         jne near .93
         jmp near .92
 .89:
@@ -2125,16 +2125,16 @@ EditLinesScreen:
         jge short .90
         test esi, esi
         je short .90
-        mov eax, dword [dword_11ECE8]
+        mov eax, dword [LinesHeaderTextId]
         call GetLangText
         mov dword [byte ebp+01Eh], eax
-        mov eax, dword [dword_11ECEC]
+        mov eax, dword [LinesTextIds]
         call GetLangText
         mov dword [byte ebp+022h], eax
         lea eax, [byte esi-064h]
         push eax
         mov eax, 1E9h
-        mov dword [dword_11ED2C], 0
+        mov dword [LinesIntroOn], 0
         call GetLangText
         push eax
         lea eax, [dword ebp-0D6h]
@@ -2154,16 +2154,16 @@ EditLinesScreen:
 .90:
         test esi, esi
         je near .93
-        mov eax, dword [dword_11ECE8]
+        mov eax, dword [LinesHeaderTextId]
         call GetLangText
         mov dword [byte ebp+01Eh], eax
-        mov eax, dword [dword_11ECEC]
+        mov eax, dword [LinesTextIds]
         call GetLangText
         mov dword [byte ebp+022h], eax
         lea eax, [dword esi-096h]
         push eax
         mov eax, 1EAh
-        mov dword [dword_11ED2C], 0
+        mov dword [LinesIntroOn], 0
         call GetLangText
         push eax
         lea eax, [dword ebp-0D6h]
@@ -2184,12 +2184,12 @@ EditLinesScreen:
         jne short .91
         mov ebx, dword [byte ebp+04Eh]
         mov edx, dword [byte ebp+052h]
-        mov eax, dword_183028
+        mov eax, LinesSortedPlayers
         call AutoSetLines
         lea eax, [dword ebp-037Eh]
         push eax
         mov ecx, dword [dword ebp-035Ah]
-        mov ebx, dword_183028
+        mov ebx, LinesSortedPlayers
         push dword [byte ebp+062h]
         lea edx, [dword ebp-0146h]
         push dword [byte ebp+04Ah]
@@ -2207,26 +2207,26 @@ EditLinesScreen:
         call DrawLinesPanel
 .91:
         mov eax, dword [byte ebp+03Ah]
-        cmp dword [nosplit eax*4+dword_183028], byte 0
+        cmp dword [nosplit eax*4+LinesSortedPlayers], byte 0
         jne short .93
 .92:
-        mov dword [dword_11ED2C], 1
+        mov dword [LinesIntroOn], 1
 .93:
         test esi, esi
         jne near .120
         mov ecx, 3Eh
-        mov esi, byte_1843B8
+        mov esi, LinesWorkTable
         mov edi, dword [byte ebp+06Ah]
         rep movsb
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         jne short .95
-        mov eax, dword [dword_1843AC]
+        mov eax, dword [LinesEditAway]
         xor edx, edx
         call SetTeamGoalie
-        imul eax, dword [dword_1843AC], dword 136h
+        imul eax, dword [LinesEditAway], dword 136h
         mov edx, dword [dword eax+hmtmlines]
         mov dl, byte [byte edx+034h]
-        cmp dl, byte [byte_1843EC]
+        cmp dl, byte [LinesWorkTable+34h]
         je short .94
         mov dx, word [hmscore]
         cmp dx, word [awscore]
@@ -2235,34 +2235,34 @@ EditLinesScreen:
         sete dl
         mov byte [dword eax+HmGoalieSwapped], dl
 .94:
-        imul eax, dword [dword_1843AC], dword 136h
+        imul eax, dword [LinesEditAway], dword 136h
         mov ecx, 3Eh
-        mov esi, byte_1843B8
+        mov esi, LinesWorkTable
         mov edi, dword [dword eax+hmtmlines]
         rep movsb
         jmp near .99
 .95:
-        cmp dword [dword_1843B0], 3E7h
+        cmp dword [LinesEditMode], 3E7h
         jle short .96
-        cmp dword [dword_1843B0], 2AF8h
+        cmp dword [LinesEditMode], 2AF8h
         jge short .96
         mov ebx, 4
         lea eax, [byte ebp-02h]
-        mov edx, dword [dword_1843B0]
+        mov edx, dword [LinesEditMode]
         call MakeSeasonDbPath
         jmp short .98
 .96:
-        cmp dword [dword_1843B0], byte 0
+        cmp dword [LinesEditMode], byte 0
         jne short .97
         mov edx, 7
         lea eax, [byte ebp-02h]
         call MakeDataPath
         jmp short .98
 .97:
-        cmp dword [dword_1843B0], 2AF7h
+        cmp dword [LinesEditMode], 2AF7h
         jle short .99
         mov ebx, 4
-        mov edx, dword [dword_1843B0]
+        mov edx, dword [LinesEditMode]
         lea eax, [byte ebp-02h]
         sub edx, 2710h
         call MakePlayoffDbPath
@@ -2273,7 +2273,7 @@ EditLinesScreen:
         mov eax, 2
         call SoundSecondsToBytes
         call FillMusicStream
-        imul ebx, dword [dword_1843B4], dword 31Bh
+        imul ebx, dword [LinesEditTeam], dword 31Bh
         mov ecx, 31Bh
         mov edx, dword [byte ebp+032h]
         mov eax, dword [byte ebp+036h]
@@ -2289,17 +2289,17 @@ EditLinesScreen:
         push str_LinesSort
         mov dword [byte ebp+03Eh], 0
         call AllocMemBlock
-        mov ebx, unk_183D08
+        mov ebx, EditLinesRecords
         add esp, byte 0Ch
         mov dword [RosterPlayerIds], eax
         mov eax, dword [byte ebp+052h]
         xor edx, edx
-        mov dword [dword_1843A8], eax
+        mov dword [LinesCardSource], eax
         jmp short .105
 .101:
         mov eax, dword [dword_1174EC]
         add eax, 0A5F0h
-        cmp eax, dword [dword edx+dword_183C28]
+        cmp eax, dword [dword edx+LinesPlayerOrder]
         jae short .102
         mov eax, dword [RosterDbPtrs]
         mov dword [edx+eax], 0FFFFFFFFh
@@ -2307,7 +2307,7 @@ EditLinesScreen:
 .102:
         imul esi, dword [byte ebp+03Eh], byte 3Ch
         mov eax, dword [RosterDbPtrs]
-        mov ecx, dword [dword esi+dword_183D30]
+        mov ecx, dword [dword esi+EditLinesRecords+28h]
 .103:
         mov dword [edx+eax], ecx
 .104:
@@ -2329,13 +2329,13 @@ EditLinesScreen:
         mov dword [edx+eax], ecx
         imul eax, ecx, byte 3Ch
         mov edi, ebx
-        mov esi, dword [dword edx+dword_183C28]
+        mov esi, dword [dword edx+LinesPlayerOrder]
         mov ecx, 3Ch
         mov dword [byte ebp+02Eh], eax
         rep movsb
         mov ecx, dword [byte ebp+02Eh]
         mov eax, dword [RosterPlayerPtrs]
-        mov ecx, dword [dword ecx+dword_183D2C]
+        mov ecx, dword [dword ecx+EditLinesRecords+24h]
         mov dword [edx+eax], ecx
         mov eax, dword [RosterJerseyPtrs]
         lea ecx, [byte ebx+030h]
@@ -2355,7 +2355,7 @@ EditLinesScreen:
         mov dword [edx+eax], ecx
         mov eax, dword [byte ebp+02Eh]
         mov ecx, dword [byte ebp+03Eh]
-        mov al, byte [dword eax+byte_183D0A]
+        mov al, byte [dword eax+EditLinesRecords+2]
         mov byte [dword ecx+PlayerPosCodes], al
         mov eax, dword [optflags]
         shl eax, 19h
@@ -2366,7 +2366,7 @@ EditLinesScreen:
         ja near .101
         mov ecx, dword [byte ebp+02Eh]
         mov eax, dword [RosterDbPtrs]
-        mov ecx, dword [dword ecx+dword_183D34]
+        mov ecx, dword [dword ecx+EditLinesRecords+2Ch]
         jmp near .103
 .106:
         cmp dword [byte ebp+03Ah], byte 64h
@@ -2374,10 +2374,10 @@ EditLinesScreen:
         cmp dword [byte ebp+056h], byte 17h
         jle near .113
         mov eax, dword [byte ebp+03Ah]
-        cmp dword [nosplit eax*4+dword_183028], byte 0
+        cmp dword [nosplit eax*4+LinesSortedPlayers], byte 0
         jne near .113
         mov ecx, 3Eh
-        mov esi, byte_1843B8
+        mov esi, LinesWorkTable
         lea edi, [byte ebp-07Ah]
         mov ebx, dword [byte ebp+056h]
         rep movsb
@@ -2389,7 +2389,7 @@ EditLinesScreen:
         add eax, ebx
         cmp edx, dword [byte ebp+03Ah]
         jle short .109
-        mov eax, dword [dword eax+dword_11EBF8]
+        mov eax, dword [dword eax+LinesSlotMap]
         movzx edx, byte [byte eax+ebp-07Ah]
         cmp edx, dword [byte ebp+03Ah]
         jne short .108
@@ -2402,7 +2402,7 @@ EditLinesScreen:
 .109:
         mov ecx, 19h
         sub ecx, edx
-        mov eax, dword [dword eax+dword_11EBF8]
+        mov eax, dword [dword eax+LinesSlotMap]
         mov edx, ecx
         movzx ebx, byte [byte eax+ebp-07Ah]
         add edx, dword [byte ebp+03Ah]
@@ -2423,7 +2423,7 @@ EditLinesScreen:
         je short .112
         mov ecx, 3Eh
         lea esi, [byte ebp-07Ah]
-        mov edi, byte_1843B8
+        mov edi, LinesWorkTable
         rep movsb
 .112:
         lea eax, [dword ebp-017EEh]
@@ -2441,7 +2441,7 @@ EditLinesScreen:
         cmp dword [byte ebp+056h], byte 17h
         jle near .118
         mov ecx, 3Eh
-        mov esi, byte_1843B8
+        mov esi, LinesWorkTable
         lea edi, [byte ebp-07Ah]
         rep movsb
         mov eax, dword [byte ebp+056h]
@@ -2451,7 +2451,7 @@ EditLinesScreen:
         cmp eax, byte 11h
         jle short .114
         imul edx, dword [byte ebp+042h], byte 50h
-        mov eax, dword [dword edx+eax*4+dword_11EBF8]
+        mov eax, dword [dword edx+eax*4+LinesSlotMap]
         movzx eax, byte [byte eax+ebp-07Ah]
         cmp eax, byte 64h
         je short .116
@@ -2463,7 +2463,7 @@ EditLinesScreen:
         jmp short .115
 .114:
         imul edx, dword [byte ebp+042h], byte 50h
-        mov eax, dword [dword edx+eax*4+dword_11EBF8]
+        mov eax, dword [dword edx+eax*4+LinesSlotMap]
         movzx eax, byte [byte eax+ebp-07Ah]
         cmp eax, byte 64h
         je short .116
@@ -2483,7 +2483,7 @@ EditLinesScreen:
         lea eax, [dword ebp-037Eh]
         push eax
         mov ecx, dword [dword ebp-035Ah]
-        mov ebx, dword_183028
+        mov ebx, LinesSortedPlayers
         push dword [byte ebp+062h]
         lea edx, [dword ebp-0146h]
         push dword [byte ebp+04Ah]
@@ -2493,11 +2493,11 @@ EditLinesScreen:
         je near .117
         mov esi, dword [byte ebp+03Ah]
         shl esi, 2
-        cmp dword [dword esi+dword_183028], byte 0
+        cmp dword [dword esi+LinesSortedPlayers], byte 0
         jne short .117
-        mov eax, dword [dword_18439C]
+        mov eax, dword [LinesCursorArt]
         mov dword [dword_152F58], eax
-        mov eax, dword [LinesTeamText]
+        mov eax, dword [EditLinesRecords+690h]
         push dword [LinesIntroTeam]
         mov dword [MenuCursorPixels], eax
         call SetDrawBitmap
@@ -2506,7 +2506,7 @@ EditLinesScreen:
         call ClearClipRect
         mov ecx, dword [byte ebp+062h]
         add esp, byte 4
-        mov eax, dword [dword esi+dword_183C28]
+        mov eax, dword [dword esi+LinesPlayerOrder]
         xor edx, edx
         push byte 0
         movzx ebx, byte [byte eax+01h]
@@ -2519,16 +2519,16 @@ EditLinesScreen:
         call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
-        mov dword [dword_11ED2C], 1
+        mov dword [LinesIntroOn], 1
         jmp short .118
 .117:
         mov word [MenuViewStored], 0
-        mov dword [dword_11ED2C], 0
+        mov dword [LinesIntroOn], 0
 .118:
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         je short .120
         mov eax, dword [byte ebp+03Ah]
-        cmp dword [nosplit eax*4+dword_183028], byte 0
+        cmp dword [nosplit eax*4+LinesSortedPlayers], byte 0
         jne near .124
         mov eax, dword [byte ebp-026h]
         mov eax, dword [byte eax+02Ch]
@@ -2555,12 +2555,12 @@ EditLinesScreen:
         jle short .122
         cmp dword [MenuMouseY], 1BFh
         jge short .122
-        cmp dword [dword_11ED2C], byte 0
+        cmp dword [LinesIntroOn], byte 0
         jne short .123
 .122:
-        mov eax, dword [dword_18439C]
+        mov eax, dword [LinesCursorArt]
         mov dword [dword_152F58], eax
-        mov eax, dword [LinesTeamText]
+        mov eax, dword [EditLinesRecords+690h]
         mov word [MenuViewStored], 0
         mov dword [MenuCursorPixels], eax
 .123:
@@ -2575,9 +2575,9 @@ EditLinesScreen:
         call RunMenu
         cmp word [MenuViewStored], byte 0
         jne short .121
-        mov eax, dword [dword_18439C]
+        mov eax, dword [LinesCursorArt]
         mov dword [dword_152F58], eax
-        mov eax, dword [LinesTeamText]
+        mov eax, dword [EditLinesRecords+690h]
         mov dword [MenuCursorPixels], eax
         jmp near .121
 .124:
@@ -2615,15 +2615,15 @@ EditLinesScreen:
         push dword [LinesIntroTeam]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_1843A0]
+        push dword [LinesHoverArt]
         call FreeBitmap
         add esp, byte 4
         mov eax, 3
         mov word [MenuViewStored], 0
         call FadeOut
-        mov eax, dword [dword_18439C]
+        mov eax, dword [LinesCursorArt]
         mov dword [dword_152F58], eax
-        mov eax, dword [LinesTeamText]
+        mov eax, dword [EditLinesRecords+690h]
         mov dword [MenuCursorPixels], eax
         cmp dword [byte ebp+056h], byte 3
         je short .127
@@ -2804,7 +2804,7 @@ CountLineSlots:
         mov dword [byte ebp+01Ah], esi
         jmp short .7
 .5:
-        mov esi, dword [dword edx+dword_183C28]
+        mov esi, dword [dword edx+LinesPlayerOrder]
         movsx esi, byte [byte esi+02h]
         cmp esi, byte 47h
         jne short .6
@@ -2834,10 +2834,10 @@ CountLineSlots:
         mov eax, 0Fh
         jmp near CountLineSlots_4DD
 .10:
-        movzx eax, byte [byte_1843DC]
+        movzx eax, byte [LinesWorkTable+24h]
         cmp eax, byte 64h
         je near .35
-        movzx eax, byte [byte_1843DD]
+        movzx eax, byte [LinesWorkTable+25h]
         cmp eax, byte 64h
         je near .35
         xor eax, eax
@@ -2851,11 +2851,11 @@ CountLineSlots:
         mov dword [byte ebp-0Ah], 0
         mov esi, dword [byte ebp+02h]
 .13:
-        mov dl, byte [byte_1843DC]
-        cmp dl, byte [dword edi+byte_1843B8]
+        mov dl, byte [LinesWorkTable+24h]
+        cmp dl, byte [dword edi+LinesWorkTable]
         jne short .14
-        mov dl, byte [byte_1843DD]
-        cmp dl, byte [dword esi+byte_1843B8]
+        mov dl, byte [LinesWorkTable+25h]
+        cmp dl, byte [dword esi+LinesWorkTable]
         jne short .14
         mov eax, 1
         jmp near CountLineSlots_4DD
@@ -2883,11 +2883,11 @@ CountLineSlots:
         mov dword [byte ebp+04Eh], 0
         mov edi, dword [byte ebp+06h]
 .17:
-        mov dl, byte [byte_1843DC]
-        cmp dl, byte [dword esi+byte_1843C4]
+        mov dl, byte [LinesWorkTable+24h]
+        cmp dl, byte [dword esi+LinesWorkTable+0Ch]
         jne short .18
-        mov dl, byte [byte_1843DD]
-        cmp dl, byte [dword edi+byte_1843C4]
+        mov dl, byte [LinesWorkTable+25h]
+        cmp dl, byte [dword edi+LinesWorkTable+0Ch]
         jne short .18
         mov eax, 2
         jmp near CountLineSlots_4DD
@@ -2915,11 +2915,11 @@ CountLineSlots:
         mov dword [byte ebp+04Ah], 0
         mov edi, dword [byte ebp+0Ah]
 .21:
-        mov dl, byte [byte_1843DC]
-        cmp dl, byte [dword esi+byte_1843CA]
+        mov dl, byte [LinesWorkTable+24h]
+        cmp dl, byte [dword esi+LinesWorkTable+12h]
         jne short .22
-        mov dl, byte [byte_1843DD]
-        cmp dl, byte [dword edi+byte_1843CA]
+        mov dl, byte [LinesWorkTable+25h]
+        cmp dl, byte [dword edi+LinesWorkTable+12h]
         jne short .22
         mov eax, 3
         jmp near CountLineSlots_4DD
@@ -2947,11 +2947,11 @@ CountLineSlots:
         mov dword [byte ebp+046h], 0
         mov esi, dword [byte ebp+0Eh]
 .25:
-        mov dl, byte [byte_1843DC]
-        cmp dl, byte [dword edi+byte_1843D4]
+        mov dl, byte [LinesWorkTable+24h]
+        cmp dl, byte [dword edi+LinesWorkTable+1Ch]
         jne short .26
-        mov dl, byte [byte_1843DD]
-        cmp dl, byte [dword esi+byte_1843D4]
+        mov dl, byte [LinesWorkTable+25h]
+        cmp dl, byte [dword esi+LinesWorkTable+1Ch]
         jne short .26
         mov eax, 4
         jmp near CountLineSlots_4DD
@@ -2980,12 +2980,12 @@ CountLineSlots:
         mov dword [byte ebp+02Eh], edx
 .29:
         mov edi, dword [byte ebp+032h]
-        mov dl, byte [byte_1843DC]
-        cmp dl, byte [dword edi+byte_1843DE]
+        mov dl, byte [LinesWorkTable+24h]
+        cmp dl, byte [dword edi+LinesWorkTable+26h]
         jne short .30
         mov edi, dword [byte ebp+02Eh]
-        mov dl, byte [byte_1843DD]
-        cmp dl, byte [dword edi+byte_1843DE]
+        mov dl, byte [LinesWorkTable+25h]
+        cmp dl, byte [dword edi+LinesWorkTable+26h]
         jne short .30
         mov eax, 5
         jmp near CountLineSlots_4DD
@@ -3013,11 +3013,11 @@ CountLineSlots:
         mov dword [byte ebp+03Eh], 0
         mov edi, dword [byte ebp+016h]
 .33:
-        mov dl, byte [byte_1843DC]
-        cmp dl, byte [dword esi+byte_1843E6]
+        mov dl, byte [LinesWorkTable+24h]
+        cmp dl, byte [dword esi+LinesWorkTable+2Eh]
         jne short .34
-        mov dl, byte [byte_1843DD]
-        cmp dl, byte [dword edi+byte_1843E6]
+        mov dl, byte [LinesWorkTable+25h]
+        cmp dl, byte [dword edi+LinesWorkTable+2Eh]
         jne short .34
         mov eax, 6
         jmp near CountLineSlots_4DD
@@ -3041,7 +3041,7 @@ CountLineSlots:
         mov dword [byte ebp+066h], 0
         mov edx, esi
 .37:
-        movzx edi, byte [dword edx+byte_1843B8]
+        movzx edi, byte [dword edx+LinesWorkTable]
         cmp edi, byte 64h
         jne short .38
         mov eax, 7
@@ -3061,7 +3061,7 @@ CountLineSlots:
         mov dword [byte ebp+062h], 0
         mov edx, esi
 .40:
-        movzx edi, byte [dword edx+byte_1843C4]
+        movzx edi, byte [dword edx+LinesWorkTable+0Ch]
         cmp edi, byte 64h
         jne short .41
         mov eax, 8
@@ -3082,7 +3082,7 @@ CountLineSlots:
         mov dword [byte ebp+05Eh], 0
         mov edx, esi
 .43:
-        movzx edi, byte [dword edx+byte_1843CA]
+        movzx edi, byte [dword edx+LinesWorkTable+12h]
         cmp edi, byte 64h
         jne short .44
         mov eax, 9
@@ -3102,7 +3102,7 @@ CountLineSlots:
         mov dword [byte ebp+05Ah], 0
         mov edx, esi
 .46:
-        movzx edi, byte [dword edx+byte_1843D4]
+        movzx edi, byte [dword edx+LinesWorkTable+1Ch]
         cmp edi, byte 64h
         jne short .47
         mov eax, 0Ah
@@ -3122,7 +3122,7 @@ CountLineSlots:
         mov dword [byte ebp+056h], 0
         mov edx, esi
 .49:
-        movzx edi, byte [dword edx+byte_1843DE]
+        movzx edi, byte [dword edx+LinesWorkTable+26h]
         cmp edi, byte 64h
         jne short .50
         mov eax, 0Bh
@@ -3142,7 +3142,7 @@ CountLineSlots:
         mov dword [byte ebp+052h], 0
         mov edx, esi
 .52:
-        movzx edi, byte [dword edx+byte_1843E6]
+        movzx edi, byte [dword edx+LinesWorkTable+2Eh]
         cmp edi, byte 64h
         jne short .53
         mov eax, 0Ch
@@ -3158,7 +3158,7 @@ CountLineSlots:
         jl short .51
         xor eax, eax
 .54:
-        movzx edx, byte [dword eax+byte_1843EC]
+        movzx edx, byte [dword eax+LinesWorkTable+34h]
         cmp edx, byte 64h
         jne short .55
         mov eax, 0Dh
@@ -3169,7 +3169,7 @@ CountLineSlots:
         jl short .54
         xor eax, eax
 .56:
-        movzx edx, byte [dword eax+byte_1843DC]
+        movzx edx, byte [dword eax+LinesWorkTable+24h]
         cmp edx, byte 64h
         jne short .57
         mov eax, 0Eh
@@ -3194,12 +3194,12 @@ CountLineSlots:
         jne short .61
         cmp eax, dword [byte ebp-02h]
         jge short .59
-        mov byte [dword ebx+byte_1843EE], al
+        mov byte [dword ebx+LinesWorkTable+36h], al
         jmp short .60
 .59:
         mov dh, dl
         sub dh, byte [byte ebp+07Eh]
-        mov byte [dword ebx+byte_1843EE], dh
+        mov byte [dword ebx+LinesWorkTable+36h], dh
 .60:
         inc ebx
 .61:
@@ -3312,28 +3312,28 @@ DrawLinesPanel:
         mov dword [byte ebp-06h], eax
         xor eax, eax
 .2:
-        mov ebx, dword [dword edx+str_B_DrawLinesPanel]
-        mov dword [dword eax+dword_183728], ebx
-        mov ebx, dword [dword edx+dword_11E9C0]
-        mov ecx, dword [dword edx+dword_11E9C0]
-        mov dword [dword eax+dword_18372C], ebx
-        mov ebx, dword [dword edx+str_B_DrawLinesPanel]
-        mov dword [dword eax+dword_183734], ecx
+        mov ebx, dword [dword edx+LinesPanelEvenX]
+        mov dword [dword eax+LinesPanelItems+40h], ebx
+        mov ebx, dword [dword edx+LinesPanelEvenY]
+        mov ecx, dword [dword edx+LinesPanelEvenY]
+        mov dword [dword eax+LinesPanelItems+44h], ebx
+        mov ebx, dword [dword edx+LinesPanelEvenX]
+        mov dword [dword eax+LinesPanelItems+4Ch], ecx
         add ebx, byte 32h
-        mov dword [dword eax+dword_183730], ebx
-        mov dword [dword eax+dword_183738], ebx
+        mov dword [dword eax+LinesPanelItems+48h], ebx
+        mov dword [dword eax+LinesPanelItems+50h], ebx
         lea ebx, [byte ecx+032h]
-        mov ecx, dword [dword edx+str_B_DrawLinesPanel]
-        mov dword [dword eax+dword_18373C], ebx
-        mov dword [dword eax+dword_183740], ecx
+        mov ecx, dword [dword edx+LinesPanelEvenX]
+        mov dword [dword eax+LinesPanelItems+54h], ebx
+        mov dword [dword eax+LinesPanelItems+58h], ecx
         mov ecx, dword [byte ebp-06h]
-        mov dword [dword eax+dword_183744], ebx
-        mov ebx, dword [dword edx+dword_11EA10]
+        mov dword [dword eax+LinesPanelItems+5Ch], ebx
+        mov ebx, dword [dword edx+LinesPanelEvenNav]
         mov dword [byte ecx+042h], ebx
         movzx ebx, byte [byte ecx+043h]
         cmp ebx, byte 1
         jne short .3
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         jne short .3
         mov byte [byte ecx+043h], 15h
 .3:
@@ -3353,7 +3353,7 @@ DrawLinesPanel:
         mov dword [byte ebp+03Ah], eax
 .5:
         mov eax, dword [byte ebp+036h]
-        movzx eax, byte [dword eax+byte_1843B8]
+        movzx eax, byte [dword eax+LinesWorkTable]
         cmp eax, byte 64h
         jne short .6
         push byte 0
@@ -3363,17 +3363,17 @@ DrawLinesPanel:
 .6:
         cmp eax, dword [dword ebp+08Ah]
         sete dl
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         movzx edx, dl
         movzx ebx, byte [byte eax+01h]
         mov eax, dword [byte ebp+032h]
         push edx
 .7:
         mov ecx, esi
-        mov edx, dword [dword eax+dword_11E9C0]
+        mov edx, dword [dword eax+LinesPanelEvenY]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+str_B_DrawLinesPanel]
+        mov eax, dword [dword eax+LinesPanelEvenX]
         call DrawLineJersey
         inc dword [byte ebp+036h]
         add dword [byte ebp+032h], byte 4
@@ -3397,7 +3397,7 @@ DrawLinesPanel:
         mov dword [byte ebp+046h], eax
 .9:
         mov eax, dword [byte ebp+042h]
-        movzx eax, byte [dword eax+byte_1843C4]
+        movzx eax, byte [dword eax+LinesWorkTable+0Ch]
         cmp eax, byte 64h
         jne short .10
         push byte 0
@@ -3407,17 +3407,17 @@ DrawLinesPanel:
 .10:
         cmp eax, dword [dword ebp+08Ah]
         sete dl
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         movzx edx, dl
         movzx ebx, byte [byte eax+01h]
         mov eax, dword [byte ebp+03Eh]
         push edx
 .11:
         mov ecx, esi
-        mov edx, dword [dword eax+dword_11E9C0]
+        mov edx, dword [dword eax+LinesPanelEvenY]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+str_B_DrawLinesPanel]
+        mov eax, dword [dword eax+LinesPanelEvenX]
         call DrawLineJersey
         inc dword [byte ebp+042h]
         add dword [byte ebp+03Eh], byte 4
@@ -3434,7 +3434,7 @@ DrawLinesPanel:
         mov dword [byte ebp+04Ah], eax
 .12:
         mov eax, dword [byte ebp+052h]
-        movzx eax, byte [dword eax+byte_1843EC]
+        movzx eax, byte [dword eax+LinesWorkTable+34h]
         cmp eax, byte 64h
         jne short .13
         push byte 0
@@ -3447,17 +3447,17 @@ DrawLinesPanel:
         lea edx, [byte eax-019h]
         cmp edx, dword [dword ebp+08Ah]
         sete dl
-        mov eax, dword [nosplit eax*4+dword_183BC4]
+        mov eax, dword [nosplit eax*4+LinesPanelPlayers]
         movzx edx, dl
         movzx ebx, byte [byte eax+01h]
         mov eax, dword [byte ebp+04Ah]
         push edx
 .14:
         mov ecx, esi
-        mov edx, dword [dword eax+dword_11E9C0]
+        mov edx, dword [dword eax+LinesPanelEvenY]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+str_B_DrawLinesPanel]
+        mov eax, dword [dword eax+LinesPanelEvenX]
         call DrawLineJersey
         add dword [byte ebp+04Ah], byte 4
         inc dword [byte ebp+052h]
@@ -3481,24 +3481,24 @@ DrawLinesPanel:
         xor eax, eax
 .16:
         add eax, byte 40h
-        mov ebx, dword [dword edx+str_V_DrawLinesPanel]
-        mov dword [dword eax+dword_1836E8], ebx
-        mov ebx, dword [dword edx+dword_11EAB0]
-        mov ecx, dword [dword edx+dword_11EAB0]
-        mov dword [dword eax+dword_1836EC], ebx
-        mov ebx, dword [dword edx+str_V_DrawLinesPanel]
-        mov dword [dword eax+dword_1836F4], ecx
+        mov ebx, dword [dword edx+LinesPanelPowerX]
+        mov dword [dword eax+LinesPanelItems], ebx
+        mov ebx, dword [dword edx+LinesPanelPowerY]
+        mov ecx, dword [dword edx+LinesPanelPowerY]
+        mov dword [dword eax+LinesPanelItems+4], ebx
+        mov ebx, dword [dword edx+LinesPanelPowerX]
+        mov dword [dword eax+LinesPanelItems+0Ch], ecx
         add ebx, byte 32h
-        mov dword [dword eax+dword_1836F0], ebx
-        mov dword [dword eax+dword_1836F8], ebx
+        mov dword [dword eax+LinesPanelItems+8], ebx
+        mov dword [dword eax+LinesPanelItems+10h], ebx
         lea ebx, [byte ecx+032h]
-        mov dword [dword eax+dword_1836FC], ebx
-        mov ecx, dword [dword edx+str_V_DrawLinesPanel]
-        mov dword [dword eax+dword_183704], ebx
+        mov dword [dword eax+LinesPanelItems+14h], ebx
+        mov ecx, dword [dword edx+LinesPanelPowerX]
+        mov dword [dword eax+LinesPanelItems+1Ch], ebx
         add edx, byte 4
-        mov dword [dword eax+dword_183700], ecx
+        mov dword [dword eax+LinesPanelItems+18h], ecx
         mov ecx, dword [byte ebp-0Ah]
-        mov ebx, dword [dword edx+dword_11EAFC]
+        mov ebx, dword [dword edx+LinesPanelPowerNav]
         add dword [byte ebp-0Ah], byte 66h
         mov dword [byte ecx+042h], ebx
         cmp edx, byte 50h
@@ -3514,7 +3514,7 @@ DrawLinesPanel:
         mov dword [byte ebp+01Eh], eax
 .18:
         mov eax, dword [byte ebp+01Ah]
-        movzx eax, byte [dword eax+byte_1843CA]
+        movzx eax, byte [dword eax+LinesWorkTable+12h]
         cmp eax, byte 64h
         jne short .19
         push byte 0
@@ -3524,17 +3524,17 @@ DrawLinesPanel:
 .19:
         cmp eax, dword [dword ebp+08Ah]
         sete dl
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         movzx edx, dl
         movzx ebx, byte [byte eax+01h]
         mov eax, dword [byte ebp+016h]
         push edx
 .20:
         mov ecx, esi
-        mov edx, dword [dword eax+dword_11EAB0]
+        mov edx, dword [dword eax+LinesPanelPowerY]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+str_V_DrawLinesPanel]
+        mov eax, dword [dword eax+LinesPanelPowerX]
         call DrawLineJersey
         inc dword [byte ebp+01Ah]
         add dword [byte ebp+016h], byte 4
@@ -3557,7 +3557,7 @@ DrawLinesPanel:
         mov dword [byte ebp+02Ah], eax
 .22:
         mov eax, dword [byte ebp+026h]
-        movzx eax, byte [dword eax+byte_1843D4]
+        movzx eax, byte [dword eax+LinesWorkTable+1Ch]
         cmp eax, byte 64h
         jne short .23
         push byte 0
@@ -3567,17 +3567,17 @@ DrawLinesPanel:
 .23:
         cmp eax, dword [dword ebp+08Ah]
         sete dl
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         movzx edx, dl
         movzx ebx, byte [byte eax+01h]
         mov eax, dword [byte ebp+022h]
         push edx
 .24:
         mov ecx, esi
-        mov edx, dword [dword eax+dword_11EAB0]
+        mov edx, dword [dword eax+LinesPanelPowerY]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+str_V_DrawLinesPanel]
+        mov eax, dword [dword eax+LinesPanelPowerX]
         call DrawLineJersey
         inc dword [byte ebp+026h]
         add dword [byte ebp+022h], byte 4
@@ -3594,7 +3594,7 @@ DrawLinesPanel:
         mov dword [byte ebp+02Eh], eax
 .25:
         mov eax, dword [byte ebp+05Ah]
-        movzx eax, byte [dword eax+byte_1843DC]
+        movzx eax, byte [dword eax+LinesWorkTable+24h]
         cmp eax, byte 64h
         jne short .26
         push byte 0
@@ -3604,17 +3604,17 @@ DrawLinesPanel:
 .26:
         cmp eax, dword [dword ebp+08Ah]
         sete dl
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         movzx edx, dl
         movzx ebx, byte [byte eax+01h]
         mov eax, dword [byte ebp+02Eh]
         push edx
 .27:
         mov ecx, esi
-        mov edx, dword [dword eax+dword_11EAB0]
+        mov edx, dword [dword eax+LinesPanelPowerY]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+str_V_DrawLinesPanel]
+        mov eax, dword [dword eax+LinesPanelPowerX]
         call DrawLineJersey
         add dword [byte ebp+02Eh], byte 4
         inc dword [byte ebp+05Ah]
@@ -3638,29 +3638,29 @@ DrawLinesPanel:
         xor eax, eax
         xor edx, edx
 .29:
-        mov ecx, dword [dword edx+str_T_DrawLinesPanel]
-        mov dword [dword eax+dword_183728], ecx
-        mov ecx, dword [dword edx+dword_11EB88]
-        mov dword [dword eax+dword_18372C], ecx
-        mov ecx, dword [dword edx+str_T_DrawLinesPanel]
+        mov ecx, dword [dword edx+LinesPanelKillX]
+        mov dword [dword eax+LinesPanelItems+40h], ecx
+        mov ecx, dword [dword edx+LinesPanelKillY]
+        mov dword [dword eax+LinesPanelItems+44h], ecx
+        mov ecx, dword [dword edx+LinesPanelKillX]
         add ecx, byte 32h
         mov dword [byte ebp-0Eh], ecx
-        mov dword [dword eax+dword_183730], ecx
-        mov ecx, dword [dword edx+dword_11EB88]
-        mov dword [dword eax+dword_183734], ecx
+        mov dword [dword eax+LinesPanelItems+48h], ecx
+        mov ecx, dword [dword edx+LinesPanelKillY]
+        mov dword [dword eax+LinesPanelItems+4Ch], ecx
         mov ecx, dword [byte ebp-0Eh]
-        mov dword [dword eax+dword_183738], ecx
-        mov ecx, dword [dword edx+dword_11EB88]
+        mov dword [dword eax+LinesPanelItems+50h], ecx
+        mov ecx, dword [dword edx+LinesPanelKillY]
         add ecx, byte 32h
         add eax, byte 40h
         mov dword [byte ebp-0Eh], ecx
-        mov dword [dword eax+dword_1836FC], ecx
-        mov ecx, dword [dword edx+str_T_DrawLinesPanel]
-        mov dword [dword eax+dword_183700], ecx
+        mov dword [dword eax+LinesPanelItems+14h], ecx
+        mov ecx, dword [dword edx+LinesPanelKillX]
+        mov dword [dword eax+LinesPanelItems+18h], ecx
         mov ecx, dword [byte ebp-0Eh]
         add ebx, byte 66h
-        mov dword [dword eax+dword_183704], ecx
-        mov ecx, dword [dword edx+dword_11EBC0]
+        mov dword [dword eax+LinesPanelItems+1Ch], ecx
+        mov ecx, dword [dword edx+LinesPanelKillNav]
         add edx, byte 4
         mov dword [byte ebx-024h], ecx
         cmp edx, byte 38h
@@ -3668,14 +3668,14 @@ DrawLinesPanel:
         mov eax, 380h
 .30:
         add eax, byte 40h
-        mov dword [dword eax+dword_1836E8], 0
-        mov dword [dword eax+dword_1836EC], 0
-        mov dword [dword eax+dword_1836F0], 1
-        mov dword [dword eax+dword_1836F4], 0
-        mov dword [dword eax+dword_1836F8], 1
-        mov dword [dword eax+dword_1836FC], 1
-        mov dword [dword eax+dword_183700], 0
-        mov dword [dword eax+dword_183704], 1
+        mov dword [dword eax+LinesPanelItems], 0
+        mov dword [dword eax+LinesPanelItems+4], 0
+        mov dword [dword eax+LinesPanelItems+8], 1
+        mov dword [dword eax+LinesPanelItems+0Ch], 0
+        mov dword [dword eax+LinesPanelItems+10h], 1
+        mov dword [dword eax+LinesPanelItems+14h], 1
+        mov dword [dword eax+LinesPanelItems+18h], 0
+        mov dword [dword eax+LinesPanelItems+1Ch], 1
         cmp eax, 500h
         jne short .30
         mov dword [byte ebp+06Eh], 0
@@ -3690,7 +3690,7 @@ DrawLinesPanel:
         mov dword [byte ebp+06h], eax
 .32:
         mov eax, dword [byte ebp+02h]
-        movzx eax, byte [dword eax+byte_1843DE]
+        movzx eax, byte [dword eax+LinesWorkTable+26h]
         cmp eax, byte 64h
         jne short .33
         push byte 0
@@ -3700,17 +3700,17 @@ DrawLinesPanel:
 .33:
         cmp eax, dword [dword ebp+08Ah]
         sete dl
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         movzx edx, dl
         movzx ebx, byte [byte eax+01h]
         mov eax, dword [byte ebp-02h]
         push edx
 .34:
         mov ecx, esi
-        mov edx, dword [dword eax+dword_11EB88]
+        mov edx, dword [dword eax+LinesPanelKillY]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+str_T_DrawLinesPanel]
+        mov eax, dword [dword eax+LinesPanelKillX]
         call DrawLineJersey
         inc dword [byte ebp+02h]
         add dword [byte ebp-02h], byte 4
@@ -3732,7 +3732,7 @@ DrawLinesPanel:
         mov dword [byte ebp+012h], eax
 .36:
         mov eax, dword [byte ebp+0Eh]
-        movzx eax, byte [dword eax+byte_1843E6]
+        movzx eax, byte [dword eax+LinesWorkTable+2Eh]
         cmp eax, byte 64h
         jne short .37
         push byte 0
@@ -3742,17 +3742,17 @@ DrawLinesPanel:
 .37:
         cmp eax, dword [dword ebp+08Ah]
         sete dl
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         movzx edx, dl
         movzx ebx, byte [byte eax+01h]
         mov eax, dword [byte ebp+0Ah]
         push edx
 .38:
         mov ecx, esi
-        mov edx, dword [dword eax+dword_11EB88]
+        mov edx, dword [dword eax+LinesPanelKillY]
         push dword [byte ebp-012h]
         sub edx, byte 7Ah
-        mov eax, dword [dword eax+str_T_DrawLinesPanel]
+        mov eax, dword [dword eax+LinesPanelKillX]
         call DrawLineJersey
         inc dword [byte ebp+0Eh]
         add dword [byte ebp+0Ah], byte 4
@@ -3768,10 +3768,10 @@ DrawLinesPanel:
         xor eax, eax
         add edx, 990h
 .40:
-        mov ebx, dword [dword eax+dword_183728]
+        mov ebx, dword [dword eax+LinesPanelItems+40h]
         add ebx, byte 0Ah
         mov dword [byte edx+03Ah], ebx
-        mov ebx, dword [dword eax+dword_18372C]
+        mov ebx, dword [dword eax+LinesPanelItems+44h]
         add edx, byte 66h
         add ebx, byte 0Ah
         add eax, byte 40h
@@ -3952,14 +3952,14 @@ DrawLinesPlayerList:
         test byte [optflags], 0Ch
         jne short .5
         mov eax, dword [ecx]
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         movzx edi, byte [byte eax+01h]
         push edi
         movsx eax, byte [byte eax+02h]
         jmp near .13
 .5:
         mov eax, dword [ecx]
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         mov al, byte [byte eax+02h]
         cmp al, 47h
         jb short .6
@@ -3993,7 +3993,7 @@ DrawLinesPlayerList:
         mov byte [byte ebp-04h], 4Dh
 .12:
         mov eax, dword [ecx]
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         movzx eax, byte [byte eax+01h]
         push eax
         movsx eax, byte [byte ebp-04h]
@@ -4009,7 +4009,7 @@ DrawLinesPlayerList:
         xor edx, edx
         call DrawColorText
         mov eax, dword [ecx]
-        mov eax, dword [nosplit eax*4+dword_183C28]
+        mov eax, dword [nosplit eax*4+LinesPlayerOrder]
         lea edi, [byte eax+013h]
         push edi
         movsx eax, byte [byte eax+03h]
@@ -4298,7 +4298,7 @@ SortTeamPlayers:
         push ebx
         mov ebx, dword [byte ebp+010h]
         mov dword [ebx], 0
-        mov dword [byte ebp-01Ch], byte_183098
+        mov dword [byte ebp-01Ch], LinesSlotTable
         mov edx, dword [ebx]
         xor esi, esi
         mov dword [ecx], edx
@@ -4317,7 +4317,7 @@ SortTeamPlayers:
         je near .10
         mov edi, esi
         shl edi, 2
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         jne short .2
         mov eax, dword [byte ebp-01Ch]
         jmp short .3
@@ -4325,8 +4325,8 @@ SortTeamPlayers:
         mov eax, dword [byte ebp-010h]
         call PlayerDbRecord
 .3:
-        mov dword [dword edi+dword_183C28], eax
-        mov edi, dword [nosplit esi*4+dword_183C28]
+        mov dword [dword edi+LinesPlayerOrder], eax
+        mov edi, dword [nosplit esi*4+LinesPlayerOrder]
         movsx edi, byte [byte edi+02h]
         cmp edi, byte 47h
         jne short .4
@@ -4344,7 +4344,7 @@ SortTeamPlayers:
         mov dword [edi], 0
 .5:
         mov eax, dword [byte ebp-08h]
-        movzx eax, byte [dword eax+byte_1843EE]
+        movzx eax, byte [dword eax+LinesWorkTable+36h]
         cmp eax, dword [byte ebp-04h]
         jne short .6
         mov eax, dword [byte ebp-020h]
@@ -4354,7 +4354,7 @@ SortTeamPlayers:
         cmp dword [byte ebp-08h], byte 8
         jl short .5
 .7:
-        imul edi, dword [dword_1843AC], dword 136h
+        imul edi, dword [LinesEditAway], dword 136h
         mov edi, dword [dword edi+hmtmroster]
         add edi, dword [byte ebp-018h]
         movzx edi, byte [edi]
@@ -4363,7 +4363,7 @@ SortTeamPlayers:
         cmp edi, byte 6
         jne short .9
 .8:
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         jne short .9
         mov eax, dword [byte ebp-014h]
         mov dword [eax], 2
@@ -4406,14 +4406,14 @@ AutoSetLines:
         jmp near .10
 .1:
         mov dword [byte edx+ebp-03Ah], eax
-        mov eax, dword [dword edx+dword_183C28]
-        mov dword [dword edx+dword_183C98], 0
+        mov eax, dword [dword edx+LinesPlayerOrder]
+        mov dword [dword edx+LinesPlayerScore], 0
         movsx ebx, byte [byte eax+02h]
         cmp ebx, byte 47h
         je short .5
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         jne short .2
-        imul eax, dword [dword_1843AC], dword 20Dh
+        imul eax, dword [LinesEditAway], dword 20Dh
         mov ebx, dword [byte ebp+05Ah]
         add eax, hmplattr
         add ebx, eax
@@ -4428,17 +4428,17 @@ AutoSetLines:
         xor eax, eax
 .4:
         mov ebx, dword [byte ebp+052h]
-        add ebx, dword [dword eax+dword_11E91C]
+        add ebx, dword [dword eax+ForwardLineSlots]
         movsx ebx, byte [ebx]
         add eax, byte 4
-        add dword [dword edi+dword_183C98], ebx
+        add dword [dword edi+LinesPlayerScore], ebx
         cmp eax, byte 2Ch
         je short .9
         jmp short .4
 .5:
-        cmp dword [dword_1843B0], byte 3
+        cmp dword [LinesEditMode], byte 3
         jne short .6
-        imul eax, dword [dword_1843AC], byte 33h
+        imul eax, dword [LinesEditAway], byte 33h
         mov ebx, dword [byte ebp+056h]
         add eax, hmglattr
         add ebx, eax
@@ -4453,10 +4453,10 @@ AutoSetLines:
         xor eax, eax
 .8:
         mov ebx, dword [byte ebp+03Eh]
-        add ebx, dword [dword eax+dword_11E948]
+        add ebx, dword [dword eax+DefenceLineSlots]
         movsx ebx, byte [ebx]
         add eax, byte 4
-        add dword [dword edi+dword_183C98], ebx
+        add dword [dword edi+LinesPlayerScore], ebx
         cmp eax, byte 28h
         jne short .8
 .9:
@@ -4487,10 +4487,10 @@ AutoSetLines:
         add edi, edx
         jmp short .13
 .11:
-        movzx edx, byte [byte_1843EC]
+        movzx edx, byte [LinesWorkTable+34h]
         cmp edx, eax
         je short .12
-        movzx edx, byte [byte_1843ED]
+        movzx edx, byte [LinesWorkTable+35h]
         cmp edx, eax
         je short .12
         mov dword [edi], 1
@@ -4530,7 +4530,7 @@ AutoSetLines:
         jge short .19
         mov eax, dword [byte edx+ebp-03Ah]
         shl eax, 2
-        mov ebx, dword [dword eax+dword_183C28]
+        mov ebx, dword [dword eax+LinesPlayerOrder]
         movsx ebx, byte [byte ebx+02h]
         cmp ebx, byte 47h
         jne short .18
@@ -4555,7 +4555,7 @@ AutoSetLines:
         xor edx, edx
         mov dword [byte ebp+04Eh], ebx
 .20:
-        movzx eax, byte [dword edx+byte_1843EC]
+        movzx eax, byte [dword edx+LinesWorkTable+34h]
         cmp eax, byte 64h
         jne short .24
         xor edi, edi
@@ -4573,18 +4573,18 @@ AutoSetLines:
         mov ecx, dword [byte eax+ebp-03Ah]
         movzx ebx, byte [byte ebp+07Ah]
         add ecx, dword [byte ebp+04Eh]
-        movzx ebx, byte [dword ebx+byte_1843EC]
+        movzx ebx, byte [dword ebx+LinesWorkTable+34h]
         cmp ebx, ecx
         je short .22
         mov ebx, dword [byte ebp+04Ah]
-        mov ebx, dword [dword ebx+dword_183C28]
+        mov ebx, dword [dword ebx+LinesPlayerOrder]
         movsx ebx, byte [byte ebx+02h]
         cmp ebx, byte 47h
         jne short .22
         mov al, byte [byte eax+ebp-03Ah]
         add al, byte [byte ebp+076h]
         mov edi, dword [byte ebp+036h]
-        mov byte [dword edx+byte_1843EC], al
+        mov byte [dword edx+LinesWorkTable+34h], al
 .22:
         inc edi
 .23:
@@ -4626,7 +4626,7 @@ AutoSetLines:
         lea eax, [edx+edx*2]
         mov dword [byte ebp+05Eh], ebx
 .31:
-        movzx edi, byte [dword eax+byte_1843B8]
+        movzx edi, byte [dword eax+LinesWorkTable]
         cmp edi, byte 64h
         je short .32
         mov dword [esi+edi*4], 0
@@ -4644,7 +4644,7 @@ AutoSetLines:
         mov dword [byte ebp+062h], ebx
         lea eax, [edx+edx]
 .34:
-        movzx edi, byte [dword eax+byte_1843C4]
+        movzx edi, byte [dword eax+LinesWorkTable+0Ch]
         cmp edi, byte 64h
         je short .35
         mov dword [esi+edi*4], 0
@@ -4663,7 +4663,7 @@ AutoSetLines:
         xor eax, eax
         sub ebx, edx
 .36:
-        movzx edx, byte [dword eax+byte_1843EC]
+        movzx edx, byte [dword eax+LinesWorkTable+34h]
         cmp edx, byte 64h
         je short .37
         sub edx, ebx
@@ -4678,12 +4678,12 @@ AutoSetLines:
         lea eax, [edx+edx*4]
         mov dword [byte ebp+066h], ebx
 .39:
-        movzx edi, byte [dword eax+byte_1843CA]
+        movzx edi, byte [dword eax+LinesWorkTable+12h]
         cmp edi, byte 64h
         je short .40
         cmp dword [esi+edi*4], byte 1
         jne short .40
-        mov byte [dword eax+byte_1843CA], 64h
+        mov byte [dword eax+LinesWorkTable+12h], 64h
 .40:
         inc eax
         cmp eax, dword [byte ebp+066h]
@@ -4699,12 +4699,12 @@ AutoSetLines:
         mov dword [byte ebp+06Ah], ebx
         shl eax, 2
 .42:
-        movzx edi, byte [dword eax+byte_1843D4]
+        movzx edi, byte [dword eax+LinesWorkTable+1Ch]
         cmp edi, byte 64h
         je short .43
         cmp dword [esi+edi*4], byte 1
         jne short .43
-        mov byte [dword eax+byte_1843D4], 64h
+        mov byte [dword eax+LinesWorkTable+1Ch], 64h
 .43:
         inc eax
         cmp eax, dword [byte ebp+06Ah]
@@ -4720,12 +4720,12 @@ AutoSetLines:
         mov dword [byte ebp+06Eh], ebx
         shl eax, 2
 .45:
-        movzx edi, byte [dword eax+byte_1843DE]
+        movzx edi, byte [dword eax+LinesWorkTable+26h]
         cmp edi, byte 64h
         je short .46
         cmp dword [esi+edi*4], byte 1
         jne short .46
-        mov byte [dword eax+byte_1843DE], 64h
+        mov byte [dword eax+LinesWorkTable+26h], 64h
 .46:
         inc eax
         cmp eax, dword [byte ebp+06Eh]
@@ -4740,12 +4740,12 @@ AutoSetLines:
         lea eax, [edx+edx*2]
         mov dword [byte ebp+072h], edi
 .48:
-        movzx ebx, byte [dword eax+byte_1843E6]
+        movzx ebx, byte [dword eax+LinesWorkTable+2Eh]
         cmp ebx, byte 64h
         je short .49
         cmp dword [esi+ebx*4], byte 1
         jne short .49
-        mov byte [dword eax+byte_1843E6], 64h
+        mov byte [dword eax+LinesWorkTable+2Eh], 64h
 .49:
         inc eax
         cmp eax, dword [byte ebp+072h]
@@ -4756,12 +4756,12 @@ AutoSetLines:
         jl short .47
         xor edx, edx
 .50:
-        movzx eax, byte [dword edx+byte_1843DC]
+        movzx eax, byte [dword edx+LinesWorkTable+24h]
         cmp eax, byte 64h
         je short .51
         cmp dword [esi+eax*4], byte 1
         jne short .51
-        mov byte [dword edx+byte_1843DC], 64h
+        mov byte [dword edx+LinesWorkTable+24h], 64h
 .51:
         inc edx
         cmp edx, byte 2
@@ -4777,7 +4777,7 @@ AutoSetLines:
         shl ebx, 2
         cmp dword [edi], byte 0
         jne short .54
-        mov ebx, dword [dword ebx+dword_183C28]
+        mov ebx, dword [dword ebx+LinesPlayerOrder]
         movsx ebx, byte [byte ebx+02h]
         inc edx
         cmp ebx, byte 47h
@@ -4802,7 +4802,7 @@ AutoSetLines:
         lea eax, [esi+ebx]
         cmp dword [eax], byte 1
         jne short .57
-        mov ebx, dword [dword ebx+dword_183C28]
+        mov ebx, dword [dword ebx+LinesPlayerOrder]
         movsx ebx, byte [byte ebx+02h]
         cmp ebx, byte 47h
         je short .57
@@ -4824,7 +4824,7 @@ AutoSetLines:
         lea eax, [esi+ebx]
         cmp dword [eax], byte 1
         jne short .60
-        mov ebx, dword [dword ebx+dword_183C28]
+        mov ebx, dword [dword ebx+LinesPlayerOrder]
         movsx ebx, byte [byte ebx+02h]
         cmp ebx, byte 44h
         jne short .60
@@ -4836,7 +4836,7 @@ AutoSetLines:
 .61:
         xor edx, edx
 .62:
-        movzx eax, byte [dword edx+byte_1843DC]
+        movzx eax, byte [dword edx+LinesWorkTable+24h]
         cmp eax, byte 64h
         jne short .66
         xor edi, edi
@@ -4845,19 +4845,19 @@ AutoSetLines:
         jmp short .65
 .63:
         movzx eax, byte [byte ebp+07Eh]
-        movzx ebx, byte [dword eax+byte_1843DC]
+        movzx ebx, byte [dword eax+LinesWorkTable+24h]
         mov eax, edi
         shl eax, 2
         cmp ebx, dword [byte eax+ebp-03Ah]
         je short .64
         mov ebx, dword [byte eax+ebp-03Ah]
-        mov ebx, dword [nosplit ebx*4+dword_183C28]
+        mov ebx, dword [nosplit ebx*4+LinesPlayerOrder]
         movsx ebx, byte [byte ebx+02h]
         cmp ebx, byte 47h
         je short .64
         mov al, byte [byte eax+ebp-03Ah]
         mov edi, dword [byte ebp+036h]
-        mov byte [dword edx+byte_1843DC], al
+        mov byte [dword edx+LinesWorkTable+24h], al
 .64:
         inc edi
 .65:
@@ -4869,7 +4869,7 @@ AutoSetLines:
         jl short .62
         xor edi, edi
 .67:
-        movzx eax, byte [dword edi+byte_1843B8]
+        movzx eax, byte [dword edi+LinesWorkTable]
         cmp eax, byte 64h
         jne short .68
         push dword [byte ebp+036h]
@@ -4880,9 +4880,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843B8], al
+        mov byte [dword edi+LinesWorkTable], al
 .68:
-        movzx eax, byte [dword edi+byte_1843B8]
+        movzx eax, byte [dword edi+LinesWorkTable]
         cmp eax, byte 64h
         jne short .69
         push dword [byte ebp+036h]
@@ -4893,9 +4893,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843B8], al
+        mov byte [dword edi+LinesWorkTable], al
 .69:
-        movzx eax, byte [dword edi+byte_1843B8]
+        movzx eax, byte [dword edi+LinesWorkTable]
         cmp eax, byte 64h
         jne short .70
         push dword [byte ebp+036h]
@@ -4906,9 +4906,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843B8], al
+        mov byte [dword edi+LinesWorkTable], al
 .70:
-        movzx eax, byte [dword edi+byte_1843B8]
+        movzx eax, byte [dword edi+LinesWorkTable]
         cmp eax, byte 64h
         jne short .71
         push dword [byte ebp+036h]
@@ -4919,9 +4919,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843B8], al
+        mov byte [dword edi+LinesWorkTable], al
 .71:
-        movzx eax, byte [dword edi+byte_1843B9]
+        movzx eax, byte [dword edi+LinesWorkTable+1]
         cmp eax, byte 64h
         jne short .72
         push dword [byte ebp+036h]
@@ -4932,9 +4932,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843B9], al
+        mov byte [dword edi+LinesWorkTable+1], al
 .72:
-        movzx eax, byte [dword edi+byte_1843B9]
+        movzx eax, byte [dword edi+LinesWorkTable+1]
         cmp eax, byte 64h
         jne short .73
         push dword [byte ebp+036h]
@@ -4945,9 +4945,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843B9], al
+        mov byte [dword edi+LinesWorkTable+1], al
 .73:
-        movzx eax, byte [dword edi+byte_1843B9]
+        movzx eax, byte [dword edi+LinesWorkTable+1]
         cmp eax, byte 64h
         jne short .74
         push dword [byte ebp+036h]
@@ -4958,9 +4958,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843B9], al
+        mov byte [dword edi+LinesWorkTable+1], al
 .74:
-        movzx eax, byte [dword edi+byte_1843B9]
+        movzx eax, byte [dword edi+LinesWorkTable+1]
         cmp eax, byte 64h
         jne short .75
         push dword [byte ebp+036h]
@@ -4971,9 +4971,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843B9], al
+        mov byte [dword edi+LinesWorkTable+1], al
 .75:
-        movzx eax, byte [dword edi+byte_1843BA]
+        movzx eax, byte [dword edi+LinesWorkTable+2]
         cmp eax, byte 64h
         jne short .76
         push dword [byte ebp+036h]
@@ -4984,9 +4984,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843BA], al
+        mov byte [dword edi+LinesWorkTable+2], al
 .76:
-        movzx eax, byte [dword edi+byte_1843BA]
+        movzx eax, byte [dword edi+LinesWorkTable+2]
         cmp eax, byte 64h
         jne short .77
         push dword [byte ebp+036h]
@@ -4997,9 +4997,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843BA], al
+        mov byte [dword edi+LinesWorkTable+2], al
 .77:
-        movzx eax, byte [dword edi+byte_1843BA]
+        movzx eax, byte [dword edi+LinesWorkTable+2]
         cmp eax, byte 64h
         jne short .78
         push dword [byte ebp+036h]
@@ -5010,9 +5010,9 @@ AutoSetLines:
         xor edx, edx
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843BA], al
+        mov byte [dword edi+LinesWorkTable+2], al
 .78:
-        movzx eax, byte [dword edi+byte_1843BA]
+        movzx eax, byte [dword edi+LinesWorkTable+2]
         cmp eax, byte 64h
         jne short .79
         push dword [byte ebp+036h]
@@ -5023,14 +5023,14 @@ AutoSetLines:
         xor edx, edx
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843BA], al
+        mov byte [dword edi+LinesWorkTable+2], al
 .79:
         add edi, byte 3
         cmp edi, byte 0Ch
         jne near .67
         xor edi, edi
 .80:
-        movzx eax, byte [dword edi+byte_1843C4]
+        movzx eax, byte [dword edi+LinesWorkTable+0Ch]
         cmp eax, byte 64h
         jne short .81
         push dword [byte ebp+036h]
@@ -5041,9 +5041,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843C4], al
+        mov byte [dword edi+LinesWorkTable+0Ch], al
 .81:
-        movzx eax, byte [dword edi+byte_1843C4]
+        movzx eax, byte [dword edi+LinesWorkTable+0Ch]
         cmp eax, byte 64h
         jne short .82
         push dword [byte ebp+036h]
@@ -5054,9 +5054,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843C4], al
+        mov byte [dword edi+LinesWorkTable+0Ch], al
 .82:
-        movzx eax, byte [dword edi+byte_1843C4]
+        movzx eax, byte [dword edi+LinesWorkTable+0Ch]
         cmp eax, byte 64h
         jne short .83
         push dword [byte ebp+036h]
@@ -5067,7 +5067,7 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843C4], al
+        mov byte [dword edi+LinesWorkTable+0Ch], al
 .83:
         inc edi
         inc edi
@@ -5075,7 +5075,7 @@ AutoSetLines:
         jne near .80
         xor edi, edi
 .84:
-        movzx eax, byte [dword edi+byte_1843C5]
+        movzx eax, byte [dword edi+LinesWorkTable+0Dh]
         cmp eax, byte 64h
         jne short .85
         push dword [byte ebp+036h]
@@ -5086,9 +5086,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843C5], al
+        mov byte [dword edi+LinesWorkTable+0Dh], al
 .85:
-        movzx eax, byte [dword edi+byte_1843C5]
+        movzx eax, byte [dword edi+LinesWorkTable+0Dh]
         cmp eax, byte 64h
         jne short .86
         push dword [byte ebp+036h]
@@ -5099,9 +5099,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843C5], al
+        mov byte [dword edi+LinesWorkTable+0Dh], al
 .86:
-        movzx eax, byte [dword edi+byte_1843C5]
+        movzx eax, byte [dword edi+LinesWorkTable+0Dh]
         cmp eax, byte 64h
         jne short .87
         push dword [byte ebp+036h]
@@ -5112,7 +5112,7 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843C5], al
+        mov byte [dword edi+LinesWorkTable+0Dh], al
 .87:
         inc edi
         inc edi
@@ -5120,7 +5120,7 @@ AutoSetLines:
         jne near .84
         xor edi, edi
 .88:
-        movzx eax, byte [dword edi+byte_1843CA]
+        movzx eax, byte [dword edi+LinesWorkTable+12h]
         cmp eax, byte 64h
         jne short .89
         push dword [byte ebp+036h]
@@ -5131,9 +5131,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CA], al
+        mov byte [dword edi+LinesWorkTable+12h], al
 .89:
-        movzx eax, byte [dword edi+byte_1843CA]
+        movzx eax, byte [dword edi+LinesWorkTable+12h]
         cmp eax, byte 64h
         jne short .90
         push dword [byte ebp+036h]
@@ -5144,9 +5144,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CA], al
+        mov byte [dword edi+LinesWorkTable+12h], al
 .90:
-        movzx eax, byte [dword edi+byte_1843CA]
+        movzx eax, byte [dword edi+LinesWorkTable+12h]
         cmp eax, byte 64h
         jne short .91
         push dword [byte ebp+036h]
@@ -5157,14 +5157,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CA], al
+        mov byte [dword edi+LinesWorkTable+12h], al
 .91:
         add edi, byte 5
         cmp edi, byte 0Ah
         jne near .88
         xor edi, edi
 .92:
-        movzx eax, byte [dword edi+byte_1843CB]
+        movzx eax, byte [dword edi+LinesWorkTable+13h]
         cmp eax, byte 64h
         jne short .93
         push dword [byte ebp+036h]
@@ -5175,9 +5175,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CB], al
+        mov byte [dword edi+LinesWorkTable+13h], al
 .93:
-        movzx eax, byte [dword edi+byte_1843CB]
+        movzx eax, byte [dword edi+LinesWorkTable+13h]
         cmp eax, byte 64h
         jne short .94
         push dword [byte ebp+036h]
@@ -5188,9 +5188,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CB], al
+        mov byte [dword edi+LinesWorkTable+13h], al
 .94:
-        movzx eax, byte [dword edi+byte_1843CB]
+        movzx eax, byte [dword edi+LinesWorkTable+13h]
         cmp eax, byte 64h
         jne short .95
         push dword [byte ebp+036h]
@@ -5201,14 +5201,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CB], al
+        mov byte [dword edi+LinesWorkTable+13h], al
 .95:
         add edi, byte 5
         cmp edi, byte 0Ah
         jne near .92
         xor edi, edi
 .96:
-        movzx eax, byte [dword edi+byte_1843CC]
+        movzx eax, byte [dword edi+LinesWorkTable+14h]
         cmp eax, byte 64h
         jne short .97
         push dword [byte ebp+036h]
@@ -5219,9 +5219,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CC], al
+        mov byte [dword edi+LinesWorkTable+14h], al
 .97:
-        movzx eax, byte [dword edi+byte_1843CC]
+        movzx eax, byte [dword edi+LinesWorkTable+14h]
         cmp eax, byte 64h
         jne short .98
         push dword [byte ebp+036h]
@@ -5232,9 +5232,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CC], al
+        mov byte [dword edi+LinesWorkTable+14h], al
 .98:
-        movzx eax, byte [dword edi+byte_1843CC]
+        movzx eax, byte [dword edi+LinesWorkTable+14h]
         cmp eax, byte 64h
         jne short .99
         push dword [byte ebp+036h]
@@ -5245,14 +5245,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CC], al
+        mov byte [dword edi+LinesWorkTable+14h], al
 .99:
         add edi, byte 5
         cmp edi, byte 0Ah
         jne near .96
         xor edi, edi
 .100:
-        movzx eax, byte [dword edi+byte_1843CD]
+        movzx eax, byte [dword edi+LinesWorkTable+15h]
         cmp eax, byte 64h
         jne short .101
         push dword [byte ebp+036h]
@@ -5263,9 +5263,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CD], al
+        mov byte [dword edi+LinesWorkTable+15h], al
 .101:
-        movzx eax, byte [dword edi+byte_1843CD]
+        movzx eax, byte [dword edi+LinesWorkTable+15h]
         cmp eax, byte 64h
         jne short .102
         push dword [byte ebp+036h]
@@ -5276,9 +5276,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CD], al
+        mov byte [dword edi+LinesWorkTable+15h], al
 .102:
-        movzx eax, byte [dword edi+byte_1843CD]
+        movzx eax, byte [dword edi+LinesWorkTable+15h]
         cmp eax, byte 64h
         jne short .103
         push dword [byte ebp+036h]
@@ -5289,14 +5289,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CD], al
+        mov byte [dword edi+LinesWorkTable+15h], al
 .103:
         add edi, byte 5
         cmp edi, byte 0Ah
         jne near .100
         xor edi, edi
 .104:
-        movzx eax, byte [dword edi+byte_1843CE]
+        movzx eax, byte [dword edi+LinesWorkTable+16h]
         cmp eax, byte 64h
         jne short .105
         push dword [byte ebp+036h]
@@ -5307,9 +5307,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CE], al
+        mov byte [dword edi+LinesWorkTable+16h], al
 .105:
-        movzx eax, byte [dword edi+byte_1843CE]
+        movzx eax, byte [dword edi+LinesWorkTable+16h]
         cmp eax, byte 64h
         jne short .106
         push dword [byte ebp+036h]
@@ -5320,9 +5320,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CE], al
+        mov byte [dword edi+LinesWorkTable+16h], al
 .106:
-        movzx eax, byte [dword edi+byte_1843CE]
+        movzx eax, byte [dword edi+LinesWorkTable+16h]
         cmp eax, byte 64h
         jne short .107
         push dword [byte ebp+036h]
@@ -5333,14 +5333,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843CE], al
+        mov byte [dword edi+LinesWorkTable+16h], al
 .107:
         add edi, byte 5
         cmp edi, byte 0Ah
         jne near .104
         xor edi, edi
 .108:
-        movzx eax, byte [dword edi+byte_1843D4]
+        movzx eax, byte [dword edi+LinesWorkTable+1Ch]
         cmp eax, byte 64h
         jne short .109
         push dword [byte ebp+036h]
@@ -5351,9 +5351,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D4], al
+        mov byte [dword edi+LinesWorkTable+1Ch], al
 .109:
-        movzx eax, byte [dword edi+byte_1843D4]
+        movzx eax, byte [dword edi+LinesWorkTable+1Ch]
         cmp eax, byte 64h
         jne short .110
         push dword [byte ebp+036h]
@@ -5364,9 +5364,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D4], al
+        mov byte [dword edi+LinesWorkTable+1Ch], al
 .110:
-        movzx eax, byte [dword edi+byte_1843D4]
+        movzx eax, byte [dword edi+LinesWorkTable+1Ch]
         cmp eax, byte 64h
         jne short .111
         push dword [byte ebp+036h]
@@ -5377,14 +5377,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D4], al
+        mov byte [dword edi+LinesWorkTable+1Ch], al
 .111:
         add edi, byte 4
         cmp edi, byte 8
         jne near .108
         xor edi, edi
 .112:
-        movzx eax, byte [dword edi+byte_1843D5]
+        movzx eax, byte [dword edi+LinesWorkTable+1Dh]
         cmp eax, byte 64h
         jne short .113
         push dword [byte ebp+036h]
@@ -5395,9 +5395,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D5], al
+        mov byte [dword edi+LinesWorkTable+1Dh], al
 .113:
-        movzx eax, byte [dword edi+byte_1843D5]
+        movzx eax, byte [dword edi+LinesWorkTable+1Dh]
         cmp eax, byte 64h
         jne short .114
         push dword [byte ebp+036h]
@@ -5408,9 +5408,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D5], al
+        mov byte [dword edi+LinesWorkTable+1Dh], al
 .114:
-        movzx eax, byte [dword edi+byte_1843D5]
+        movzx eax, byte [dword edi+LinesWorkTable+1Dh]
         cmp eax, byte 64h
         jne short .115
         push dword [byte ebp+036h]
@@ -5421,14 +5421,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D5], al
+        mov byte [dword edi+LinesWorkTable+1Dh], al
 .115:
         add edi, byte 4
         cmp edi, byte 8
         jne near .112
         xor edi, edi
 .116:
-        movzx eax, byte [dword edi+byte_1843D6]
+        movzx eax, byte [dword edi+LinesWorkTable+1Eh]
         cmp eax, byte 64h
         jne short .117
         push dword [byte ebp+036h]
@@ -5439,9 +5439,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D6], al
+        mov byte [dword edi+LinesWorkTable+1Eh], al
 .117:
-        movzx eax, byte [dword edi+byte_1843D6]
+        movzx eax, byte [dword edi+LinesWorkTable+1Eh]
         cmp eax, byte 64h
         jne short .118
         push dword [byte ebp+036h]
@@ -5452,9 +5452,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D6], al
+        mov byte [dword edi+LinesWorkTable+1Eh], al
 .118:
-        movzx eax, byte [dword edi+byte_1843D6]
+        movzx eax, byte [dword edi+LinesWorkTable+1Eh]
         cmp eax, byte 64h
         jne short .119
         push dword [byte ebp+036h]
@@ -5465,14 +5465,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D6], al
+        mov byte [dword edi+LinesWorkTable+1Eh], al
 .119:
         add edi, byte 4
         cmp edi, byte 8
         jne near .116
         xor edi, edi
 .120:
-        movzx eax, byte [dword edi+byte_1843D7]
+        movzx eax, byte [dword edi+LinesWorkTable+1Fh]
         cmp eax, byte 64h
         jne short .121
         push dword [byte ebp+036h]
@@ -5483,9 +5483,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D7], al
+        mov byte [dword edi+LinesWorkTable+1Fh], al
 .121:
-        movzx eax, byte [dword edi+byte_1843D7]
+        movzx eax, byte [dword edi+LinesWorkTable+1Fh]
         cmp eax, byte 64h
         jne short .122
         push dword [byte ebp+036h]
@@ -5496,9 +5496,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D7], al
+        mov byte [dword edi+LinesWorkTable+1Fh], al
 .122:
-        movzx eax, byte [dword edi+byte_1843D7]
+        movzx eax, byte [dword edi+LinesWorkTable+1Fh]
         cmp eax, byte 64h
         jne short .123
         push dword [byte ebp+036h]
@@ -5509,14 +5509,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843D7], al
+        mov byte [dword edi+LinesWorkTable+1Fh], al
 .123:
         add edi, byte 4
         cmp edi, byte 8
         jne near .120
         xor edi, edi
 .124:
-        movzx eax, byte [dword edi+byte_1843DE]
+        movzx eax, byte [dword edi+LinesWorkTable+26h]
         cmp eax, byte 64h
         jne short .125
         push dword [byte ebp+036h]
@@ -5527,9 +5527,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843DE], al
+        mov byte [dword edi+LinesWorkTable+26h], al
 .125:
-        movzx eax, byte [dword edi+byte_1843DE]
+        movzx eax, byte [dword edi+LinesWorkTable+26h]
         cmp eax, byte 64h
         jne short .126
         push dword [byte ebp+036h]
@@ -5540,9 +5540,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843DE], al
+        mov byte [dword edi+LinesWorkTable+26h], al
 .126:
-        movzx eax, byte [dword edi+byte_1843DE]
+        movzx eax, byte [dword edi+LinesWorkTable+26h]
         cmp eax, byte 64h
         jne short .127
         push dword [byte ebp+036h]
@@ -5553,14 +5553,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843DE], al
+        mov byte [dword edi+LinesWorkTable+26h], al
 .127:
         add edi, byte 4
         cmp edi, byte 8
         jne near .124
         xor edi, edi
 .128:
-        movzx eax, byte [dword edi+byte_1843DF]
+        movzx eax, byte [dword edi+LinesWorkTable+27h]
         cmp eax, byte 64h
         jne short .129
         push dword [byte ebp+036h]
@@ -5571,9 +5571,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843DF], al
+        mov byte [dword edi+LinesWorkTable+27h], al
 .129:
-        movzx eax, byte [dword edi+byte_1843DF]
+        movzx eax, byte [dword edi+LinesWorkTable+27h]
         cmp eax, byte 64h
         jne short .130
         push dword [byte ebp+036h]
@@ -5584,9 +5584,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843DF], al
+        mov byte [dword edi+LinesWorkTable+27h], al
 .130:
-        movzx eax, byte [dword edi+byte_1843DF]
+        movzx eax, byte [dword edi+LinesWorkTable+27h]
         cmp eax, byte 64h
         jne short .131
         push dword [byte ebp+036h]
@@ -5597,14 +5597,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843DF], al
+        mov byte [dword edi+LinesWorkTable+27h], al
 .131:
         add edi, byte 4
         cmp edi, byte 8
         jne near .128
         xor edi, edi
 .132:
-        movzx eax, byte [dword edi+byte_1843E0]
+        movzx eax, byte [dword edi+LinesWorkTable+28h]
         cmp eax, byte 64h
         jne short .133
         push dword [byte ebp+036h]
@@ -5615,9 +5615,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E0], al
+        mov byte [dword edi+LinesWorkTable+28h], al
 .133:
-        movzx eax, byte [dword edi+byte_1843E0]
+        movzx eax, byte [dword edi+LinesWorkTable+28h]
         cmp eax, byte 64h
         jne short .134
         push dword [byte ebp+036h]
@@ -5628,9 +5628,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E0], al
+        mov byte [dword edi+LinesWorkTable+28h], al
 .134:
-        movzx eax, byte [dword edi+byte_1843E0]
+        movzx eax, byte [dword edi+LinesWorkTable+28h]
         cmp eax, byte 64h
         jne short .135
         push dword [byte ebp+036h]
@@ -5641,14 +5641,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E0], al
+        mov byte [dword edi+LinesWorkTable+28h], al
 .135:
         add edi, byte 4
         cmp edi, byte 8
         jne near .132
         xor edi, edi
 .136:
-        movzx eax, byte [dword edi+byte_1843E1]
+        movzx eax, byte [dword edi+LinesWorkTable+29h]
         cmp eax, byte 64h
         jne short .137
         push dword [byte ebp+036h]
@@ -5659,9 +5659,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E1], al
+        mov byte [dword edi+LinesWorkTable+29h], al
 .137:
-        movzx eax, byte [dword edi+byte_1843E1]
+        movzx eax, byte [dword edi+LinesWorkTable+29h]
         cmp eax, byte 64h
         jne short .138
         push dword [byte ebp+036h]
@@ -5672,9 +5672,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E1], al
+        mov byte [dword edi+LinesWorkTable+29h], al
 .138:
-        movzx eax, byte [dword edi+byte_1843E1]
+        movzx eax, byte [dword edi+LinesWorkTable+29h]
         cmp eax, byte 64h
         jne short .139
         push dword [byte ebp+036h]
@@ -5685,14 +5685,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E1], al
+        mov byte [dword edi+LinesWorkTable+29h], al
 .139:
         add edi, byte 4
         cmp edi, byte 8
         jne near .136
         xor edi, edi
 .140:
-        movzx eax, byte [dword edi+byte_1843E6]
+        movzx eax, byte [dword edi+LinesWorkTable+2Eh]
         cmp eax, byte 64h
         jne short .141
         push dword [byte ebp+036h]
@@ -5703,9 +5703,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 43h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E6], al
+        mov byte [dword edi+LinesWorkTable+2Eh], al
 .141:
-        movzx eax, byte [dword edi+byte_1843E6]
+        movzx eax, byte [dword edi+LinesWorkTable+2Eh]
         cmp eax, byte 64h
         jne short .142
         push dword [byte ebp+036h]
@@ -5716,9 +5716,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E6], al
+        mov byte [dword edi+LinesWorkTable+2Eh], al
 .142:
-        movzx eax, byte [dword edi+byte_1843E6]
+        movzx eax, byte [dword edi+LinesWorkTable+2Eh]
         cmp eax, byte 64h
         jne short .143
         push dword [byte ebp+036h]
@@ -5729,14 +5729,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E6], al
+        mov byte [dword edi+LinesWorkTable+2Eh], al
 .143:
         add edi, byte 3
         cmp edi, byte 6
         jne near .140
         xor edi, edi
 .144:
-        movzx eax, byte [dword edi+byte_1843E7]
+        movzx eax, byte [dword edi+LinesWorkTable+2Fh]
         cmp eax, byte 64h
         jne short .145
         push dword [byte ebp+036h]
@@ -5747,9 +5747,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E7], al
+        mov byte [dword edi+LinesWorkTable+2Fh], al
 .145:
-        movzx eax, byte [dword edi+byte_1843E7]
+        movzx eax, byte [dword edi+LinesWorkTable+2Fh]
         cmp eax, byte 64h
         jne short .146
         push dword [byte ebp+036h]
@@ -5760,9 +5760,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E7], al
+        mov byte [dword edi+LinesWorkTable+2Fh], al
 .146:
-        movzx eax, byte [dword edi+byte_1843E7]
+        movzx eax, byte [dword edi+LinesWorkTable+2Fh]
         cmp eax, byte 64h
         jne short .147
         push dword [byte ebp+036h]
@@ -5773,14 +5773,14 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E7], al
+        mov byte [dword edi+LinesWorkTable+2Fh], al
 .147:
         add edi, byte 3
         cmp edi, byte 6
         jne near .144
         xor edi, edi
 .148:
-        movzx eax, byte [dword edi+byte_1843E8]
+        movzx eax, byte [dword edi+LinesWorkTable+30h]
         cmp eax, byte 64h
         jne short .149
         push dword [byte ebp+036h]
@@ -5791,9 +5791,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 44h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E8], al
+        mov byte [dword edi+LinesWorkTable+30h], al
 .149:
-        movzx eax, byte [dword edi+byte_1843E8]
+        movzx eax, byte [dword edi+LinesWorkTable+30h]
         cmp eax, byte 64h
         jne short .150
         push dword [byte ebp+036h]
@@ -5804,9 +5804,9 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 4Ch
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E8], al
+        mov byte [dword edi+LinesWorkTable+30h], al
 .150:
-        movzx eax, byte [dword edi+byte_1843E8]
+        movzx eax, byte [dword edi+LinesWorkTable+30h]
         cmp eax, byte 64h
         jne short .151
         push dword [byte ebp+036h]
@@ -5817,7 +5817,7 @@ AutoSetLines:
         mov ecx, esi
         mov eax, 52h
         call FindUnusedLinePlayer
-        mov byte [dword edi+byte_1843E8], al
+        mov byte [dword edi+LinesWorkTable+30h], al
 .151:
         add edi, byte 3
         cmp edi, byte 6
@@ -5839,13 +5839,13 @@ AutoSetLines:
         shl ebx, 2
         cmp dword [esi+ebx], byte 0
         jne short .153
-        mov ebx, dword [dword ebx+dword_183C28]
+        mov ebx, dword [dword ebx+LinesPlayerOrder]
         movsx ebx, byte [byte ebx+02h]
         cmp ebx, byte 47h
         je short .153
         mov al, byte [byte eax+ebp-03Ah]
         mov edx, dword [byte ebp+036h]
-        mov byte [byte_1843DC], al
+        mov byte [LinesWorkTable+24h], al
 .153:
         inc edx
 .154:
@@ -5860,17 +5860,17 @@ AutoSetLines:
         shl eax, 2
         cmp dword [esi+eax], byte 0
         jne short .157
-        mov eax, dword [dword eax+dword_183C28]
+        mov eax, dword [dword eax+LinesPlayerOrder]
         movsx eax, byte [byte eax+02h]
         cmp eax, byte 47h
         je short .157
-        movzx eax, byte [byte_1843DC]
+        movzx eax, byte [LinesWorkTable+24h]
         cmp eax, dword [byte edx+ebp-03Ah]
         je short .157
         mov ebx, dword [byte ebp+03Ah]
         mov al, byte [byte edx+ebp-03Ah]
         mov edx, dword [byte ebp+036h]
-        mov byte [byte_1843DD], al
+        mov byte [LinesWorkTable+25h], al
         mov eax, esi
         call CountLineSlots
         test eax, eax
@@ -5900,7 +5900,7 @@ FindUnusedLinePlayer:
         mov dword [byte ebp-020h], eax
         mov eax, edx
         xor ecx, ecx
-        add eax, byte_1843B8
+        add eax, LinesWorkTable
         mov ebx, dword [byte ebp+010h]
         mov dword [byte ebp-01Ch], eax
         jmp near .6
@@ -5913,7 +5913,7 @@ FindUnusedLinePlayer:
         shl eax, 2
         cmp dword [edx+eax], byte 0
         jne short .5
-        mov eax, dword [dword eax+dword_183C28]
+        mov eax, dword [dword eax+LinesPlayerOrder]
         mov al, byte [byte eax+02h]
         cmp al, byte [byte ebp-04h]
         jne short .5

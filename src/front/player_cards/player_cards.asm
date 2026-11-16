@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_903B5 progbits alloc exec nowrite align=1
-extern __CHP, asc_1129CF, str_S_ExportPlayerCard, SkaterRatingOrder, GoalieRatingOrder, TitleTextStyle, SeasonUserTeam, SaveFileName
+extern __CHP, str_CardExportIndent, str_S_ExportPlayerCard, SkaterRatingOrder, GoalieRatingOrder, TitleTextStyle, SeasonUserTeam, SaveFileName
 extern PlayerPosCodes, CardTitleShown, CheckExportName, DrawColorText, DrawColorTextCentred, DrawFrameAt, DrawScrollBar, F32_0p5_ScaleBlock
 extern RosterDbPtrs, SkaterCardTextIds, GoalieCardTextIds, SkaterRatingTextIds, GoalieRatingTextIds, CardView, CardSliding, CardArtLoaded
 extern CardRemapOn, TeamStatsBitmap, PlayerRecPtrs, PlayerHeightPtrs, PlayerWeightPtrs, RatingsPlayerId, TitleBlinkFrame, PlayerCardArt
@@ -24,7 +24,7 @@ extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, Sta
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, DrawArt
 extern PutBlockAtOwnPos, BlitShapeAt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
 extern DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, PutBlockKeyed, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed
-extern str_Punct_ExportPlayerCard, unk_1129E4, unk_1129F7, str_WesternConference2, UpdateProgressBox
+extern str_Punct_ExportPlayerCard, str_CardSpace, str_Percent, str_WesternConference2, UpdateProgressBox
 global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
 global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
 global DrawPlayerCardStats_1C4, DrawPlayerCardStats_1DE, DrawPlayerCardStats_1E4, DrawPlayerCardStats_217, DrawPlayerCardStats_21D, DrawPlayerCardStats_223, DrawPlayerCardStats_229, DrawPlayerCardStats_22F
@@ -3468,7 +3468,7 @@ ExportPlayerCard:
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax*4]
         call StatsDb2Record
-        push asc_1129CF
+        push str_CardExportIndent
         push esi
         mov dword [byte ebp-010h], eax
         xor edx, edx
@@ -3483,7 +3483,7 @@ ExportPlayerCard:
         xor edi, edi
         jmp short .16
 .15:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc edi
 .16:
@@ -3517,7 +3517,7 @@ ExportPlayerCard:
         add esp, byte 0Ch
         jmp short .18
 .17:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc edi
         call fprintf_
@@ -3623,7 +3623,7 @@ ExportPlayerCard_33C:
         xor edx, edx
         jmp short .27
 .26:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc edx
 .27:
@@ -3658,7 +3658,7 @@ ExportPlayerCard_33C:
         add esp, byte 0Ch
         jmp short .29
 .28:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc edi
         call fprintf_
@@ -3764,7 +3764,7 @@ ExportPlayerCard_4B6:
         xor edx, edx
         jmp short .38
 .37:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc edx
 .38:
@@ -3798,7 +3798,7 @@ ExportPlayerCard_4B6:
         add esp, byte 0Ch
         jmp short .41
 .40:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc edi
         call fprintf_
@@ -3862,7 +3862,7 @@ ExportPlayerCard_4B6:
         mov edx, dword [RosterPlayerPtrs]
         mov eax, dword [edx+eax*4]
         call StatsDb2Record
-        push asc_1129CF
+        push str_CardExportIndent
         push esi
         mov dword [byte ebp-01Ch], eax
         xor edx, edx
@@ -3877,7 +3877,7 @@ ExportPlayerCard_4B6:
         xor ecx, ecx
         jmp short .51
 .50:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc ecx
 .51:
@@ -3894,7 +3894,7 @@ ExportPlayerCard_4B6:
         add edx, byte 4
         cmp edx, byte 24h
         jne short .49
-        push unk_1129F7
+        push str_Percent
         push esi
         call fprintf_
         add esp, byte 8
@@ -3915,7 +3915,7 @@ ExportPlayerCard_4B6:
         add esp, byte 0Ch
         jmp short .53
 .52:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc ecx
         call fprintf_
@@ -4010,7 +4010,7 @@ ExportPlayerCard_74D:
         xor edx, edx
         jmp short .61
 .60:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc edx
 .61:
@@ -4046,7 +4046,7 @@ ExportPlayerCard_74D:
         add esp, byte 0Ch
         jmp short .63
 .62:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc ecx
         call fprintf_
@@ -4141,7 +4141,7 @@ ExportPlayerCard_8AB:
         xor edx, edx
         jmp short .71
 .70:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc edx
 .71:
@@ -4176,7 +4176,7 @@ ExportPlayerCard_8AB:
         add esp, byte 0Ch
         jmp short .74
 .73:
-        push unk_1129E4
+        push str_CardSpace
         push esi
         inc edx
         call fprintf_

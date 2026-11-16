@@ -2,64 +2,64 @@
 bits 32
 %include "hockey.inc"
 section s_11E890 progbits alloc noexec write align=1
-extern unk_112A08, str_45S, str_45P, str_34S, str_34P, str_CRS, str_CRP, unk_112A24
-extern str_PLA, unk_112B14, str_LFT, str_RHT, unk_112B20, unk_112B24
-global dword_11E890, dword_11E894, dword_11E898, dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC
-global dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown, dword_11E904, dword_11E91C, dword_11E948, str_B_DrawLinesPanel
-global off_11E8B0, off_11E908
-dword_11E890:
+extern str_RatingsRAT, str_45S, str_45P, str_34S, str_34P, str_CRS, str_CRP, str_RatingsSEA
+extern str_PLA, str_PosCEN, str_LFT, str_RHT, str_PosDEF, str_PosGOL
+global SkaterCardFlash, GoalieCardFlash, SkaterFlashTime, GoalieFlashTime, SkaterCardPhoto, GoalieCardPhoto, SkaterPhotoLoaded, GoaliePhotoLoaded
+global TradeTextIds, RosterFirstRun, RatingsGoalieShown, RatingsSkaterShown, LoadingArtFrame, ForwardLineSlots, DefenceLineSlots, LinesPanelEvenX
+global RatingsTabNames, PositionTags
+SkaterCardFlash:
         db 00h,00h,00h,00h
-dword_11E894:
+GoalieCardFlash:
         db 00h,00h,00h,00h
-dword_11E898:
+SkaterFlashTime:
         db 00h,00h,00h,00h
-dword_11E89C:
+GoalieFlashTime:
         db 00h,00h,00h,00h
-dword_11E8A0:
+SkaterCardPhoto:
         db 00h,00h,00h,00h
-dword_11E8A4:
+GoalieCardPhoto:
         db 00h,00h,00h,00h
-dword_11E8A8:
+SkaterPhotoLoaded:
         db 00h,00h,00h,00h
-dword_11E8AC:
+GoaliePhotoLoaded:
         db 00h,00h,00h,00h
-off_11E8B0:
-        dd unk_112A08
+RatingsTabNames:
+        dd str_RatingsRAT
         dd str_45S
         dd str_45P
         dd str_34S
         dd str_34P
         dd str_CRS
         dd str_CRP
-        dd unk_112A24
+        dd str_RatingsSEA
         dd str_PLA
-dword_11E8D4:
+TradeTextIds:
         db 0EFh,01h,00h,00h,0F0h,01h,00h,00h,0F1h,01h,00h,00h,0F2h,01h,00h,00h
         db 0F3h,01h,00h,00h,0F4h,01h,00h,00h,0F5h,01h,00h,00h,0F6h,01h,00h,00h
         db 02Bh,02h,00h,00h
-dword_11E8F8:
+RosterFirstRun:
         db 01h,00h,00h,00h
 RatingsGoalieShown:
         db 0FFh,0FFh,0FFh,0FFh
 RatingsSkaterShown:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11E904:
+LoadingArtFrame:
         db 01h,00h,00h,00h
-off_11E908:
-        dd unk_112B14
+PositionTags:
+        dd str_PosCEN
         dd str_LFT
         dd str_RHT
-        dd unk_112B20
-        dd unk_112B24
-dword_11E91C:
+        dd str_PosDEF
+        dd str_PosGOL
+ForwardLineSlots:
         db 01h,00h,00h,00h,02h,00h,00h,00h,04h,00h,00h,00h,05h,00h,00h,00h
         db 06h,00h,00h,00h,07h,00h,00h,00h,08h,00h,00h,00h,09h,00h,00h,00h
         db 0Ah,00h,00h,00h,0Bh,00h,00h,00h,0Dh,00h,00h,00h
-dword_11E948:
+DefenceLineSlots:
         db 01h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h,04h,00h,00h,00h
         db 05h,00h,00h,00h,06h,00h,00h,00h,07h,00h,00h,00h,09h,00h,00h,00h
         db 0Ah,00h,00h,00h,0Bh,00h,00h,00h
-str_B_DrawLinesPanel:
+LinesPanelEvenX:
         db 042h,00h,00h,00h,07Dh,00h,00h,00h,0B8h,00h,00h,00h,042h,00h,00h,00h
         db 07Dh,00h,00h,00h,0B8h,00h,00h,00h,042h,00h,00h,00h,07Dh,00h,00h,00h
         db 0B8h,00h,00h,00h,042h,00h,00h,00h,07Dh,00h,00h,00h,0B8h,00h,00h,00h

@@ -2,25 +2,24 @@
 bits 32
 %include "hockey.inc"
 section s_182128 nobits alloc noexec write align=1
-global dword_182128, RatingsGoalieOrder, dword_182130, dword_182134, dword_182138, dword_18213C, dword_182140, dword_182144
-global unk_1821B4, unk_182224
-dword_182128:
+global RatingsCardBmp, RatingsGoalieOrder, GoalieCardRemap, SkaterCardRemap, RatingsDimRemap, RatingsShownId, TeamScoringScore
+global LineForwardOrder, LineDefenceOrder
+RatingsCardBmp:
         resb 4
 RatingsGoalieOrder:
         resb 4
-dword_182130:
+GoalieCardRemap:
         resb 4
-dword_182134:
+SkaterCardRemap:
         resb 4
-dword_182138:
+RatingsDimRemap:
         resb 4
-dword_18213C:
+RatingsShownId:
         resb 4
-dword_182140:
         resb 4
-dword_182144:
+TeamScoringScore:
         resb 112
-unk_1821B4:
+LineForwardOrder:
         resb 112
-unk_182224:
+LineDefenceOrder:
         resb 112

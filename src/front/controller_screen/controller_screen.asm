@@ -7,7 +7,7 @@ extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, Draw
 extern ControllerSlotX, ControllerSlotY, ControllerSlotStates, ControllerSlotItems, ControllerLayout, str_G, ControllerOptionRows, ControllerTitlePos
 extern dword_11F5C0, dword_11F5C4, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap
 extern MenuBoxStyle, PlayoffTreeData, RosterFileHandle, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
-extern dword_17D57C, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut
+extern dword_17D57C, dword_17D580, dword_17D584, dword_17D588, LinesEditAway, LinesEditMode, LinesEditTeam, FadeOut
 extern FadePalette, FillMusicStream, TextStringWidth, gameopts, GetInputDevices, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LinkSyncWithMessage, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey
 extern MusicDone, OpenScreen, optflags, PickUsersScreen, PlayMusic, PlaySfx, PreGameScreens, PutBlock
@@ -3994,25 +3994,25 @@ ControllerScreen_1548:
         cmp dword [dword edx+0816h], byte 0
         je near ControllerScreen_16D6.76
         mov edx, dword [gameopts]
-        mov dword [dword_1843AC], 0
+        mov dword [LinesEditAway], 0
         mov edx, dword [byte edx+01h]
         shl edx, 0Fh
         shr edx, 1Bh
-        mov dword [dword_1843B4], edx
+        mov dword [LinesEditTeam], edx
         test byte [optflags], 70h
         jne short .69
-        mov dword [dword_1843B0], 0
+        mov dword [LinesEditMode], 0
         jmp short .71
 .69:
         cmp eax, byte 20h
         jne short .70
         cmp dword [dword_17D267], byte 0
         jne short .70
-        mov dword [dword_1843B0], ebx
+        mov dword [LinesEditMode], ebx
         jmp short .71
 .70:
         mov eax, dword [PlayoffTreeData]
-        mov dword [dword_1843B0], eax
+        mov dword [LinesEditMode], eax
 .71:
         mov dword [byte ebp-040h], 0Fh
         jmp near ControllerScreen_16D6.76
@@ -4025,25 +4025,25 @@ ControllerScreen_15D1:
         cmp dword [dword edx+087Ch], byte 0
         je near ControllerScreen_16D6.76
         mov edx, dword [gameopts]
-        mov dword [dword_1843AC], 1
+        mov dword [LinesEditAway], 1
         mov edx, dword [byte edx+01h]
         shl edx, 0Ah
         shr edx, 1Bh
-        mov dword [dword_1843B4], edx
+        mov dword [LinesEditTeam], edx
         test byte [optflags], 70h
         jne short .72
-        mov dword [dword_1843B0], 0
+        mov dword [LinesEditMode], 0
         jmp short .74
 .72:
         cmp eax, byte 20h
         jne short .73
         cmp dword [dword_17D267], byte 0
         jne short .73
-        mov dword [dword_1843B0], ebx
+        mov dword [LinesEditMode], ebx
         jmp short .74
 .73:
         mov eax, dword [PlayoffTreeData]
-        mov dword [dword_1843B0], eax
+        mov dword [LinesEditMode], eax
 .74:
         xor edx, edx
         xor ebx, ebx

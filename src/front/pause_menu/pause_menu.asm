@@ -12,8 +12,8 @@ extern ViewLeft, str_D_DrawGameFrame, LastPaletteMode, InMenuOverlay, PauseRedra
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, ReplayBufferTop, DrawFrameCount, NameFont, NamePanelBmp
 extern SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs, PlayoffGameOpts, RosterFileHandle, dword_17D267, dword_17D4E8, dword_17D4EC
 extern dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C
-extern dword_17D510, dword_17D514, PauseClockArea, dword_17D51C, dword_17D520, dword_17D524, FrontShapeFile, dword_1843AC
-extern dword_1843B0, dword_1843B4, EditText, EndCameraShot, EndGameSound, FadeOut, FadeOutMusic, FadePalette
+extern dword_17D510, dword_17D514, PauseClockArea, dword_17D51C, dword_17D520, dword_17D524, FrontShapeFile, LinesEditAway
+extern LinesEditMode, LinesEditTeam, EditText, EndCameraShot, EndGameSound, FadeOut, FadeOutMusic, FadePalette
 extern FileClose, FileCreate, FileWriteAt, FillBox, FreeFightSprites, FreeFrontEndArt, FreeSpeechBuffer, FreeSpriteCache
 extern FreeStatsTables, FreeTotalSprites, gameclock, GameLoopActive, gameopts, GameStatsScreen, GetCrowdTarget, GetLangText
 extern GetSoundCard, GetTicks, gmode, gsp, hmtmstruct, InGameMenu, InGameMenuRequest, InitMenuItems
@@ -2503,7 +2503,7 @@ PauseGame_375:
         cmp eax, byte 0Fh
         jne short .13
         xor eax, eax
-        mov dword [dword_1843B0], 3
+        mov dword [LinesEditMode], 3
         call RunEditLines
 .13:
         cmp edx, byte 0Fh
@@ -2601,23 +2601,23 @@ PauseGame_47F:
         test edx, edx
         jne short .25
 .21:
-        mov dword [dword_1843B0], 3
+        mov dword [LinesEditMode], 3
         test eax, eax
         je short .22
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        mov dword [dword_1843AC], 0
+        mov dword [LinesEditAway], 0
         jmp short .23
 .22:
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
         shr eax, 1Bh
-        mov dword [dword_1843AC], 1
+        mov dword [LinesEditAway], 1
 .23:
-        mov dword [dword_1843B4], eax
+        mov dword [LinesEditTeam], eax
 .24:
         call PauseToFrontEnd
         xor eax, eax
@@ -2648,10 +2648,10 @@ PauseGame_47F:
         mov edx, 3
         call GetLangText
         call MessageBox
-        mov dword [dword_1843AC], eax
+        mov dword [LinesEditAway], eax
         test eax, eax
         je near PauseGame_620
-        mov dword [dword_1843B0], 3
+        mov dword [LinesEditMode], 3
         cmp eax, byte 2
         jne short .26
         mov eax, dword [gameopts]
@@ -2664,8 +2664,8 @@ PauseGame_47F:
         shl eax, 0Fh
 .27:
         shr eax, 1Bh
-        mov dword [dword_1843B4], eax
-        dec dword [dword_1843AC]
+        mov dword [LinesEditTeam], eax
+        dec dword [LinesEditAway]
         jmp near .24
 .28:
         call GetLangText

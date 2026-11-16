@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 extern BottomBarArt
 section s_A3851 progbits alloc exec nowrite align=1
-extern BlackPalette, byte_17D275, byte_17D283, ComputeTeamRanks, CopyBitmap, DrawFrameAt, dword_11ED3C, dword_11ED40
-extern dword_11ED58, dword_11ED5C, dword_11ED60, dword_11ED64, dword_11ED68, dword_11ED6C, dword_11ED70, dword_11ED74
+extern BlackPalette, byte_17D275, byte_17D283, ComputeTeamRanks, CopyBitmap, DrawFrameAt, ModemAwayPanelX, ModemPanelXs
+extern ModemHomeBmp, ModemAwayBmp, ModemHomeLogo, ModemAwayLogo, ModemHomeName, ModemAwayName, ModemHomeText, ModemAwayText
 extern MatchupLayer, TeamStatsBitmap, MenuBoxStyle, dword_17D273, dword_1846F0, dword_1846F4, dword_1846F8
 extern FadeOut, FadePalette, FillMusicStream, gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LinkSetupScreen
 extern LoadModemStats, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey, MusicDone, OpenScreen
@@ -16,7 +16,7 @@ extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_R
 extern str_Swt12, str_SwtD2, GameOptionsScreen, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
 extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, str_WesternConference2, unk_17D272, SlotsTwoPlayer
-extern word_11ED38
+extern ModemPanelY
 global str_B, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
 global RunModemGameSetup, unk_A49D1, str_Z, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9, jpt_A4FB7
@@ -62,12 +62,12 @@ DrawModemHomePanel:
         push edi
         enter 0Ch, 0
         push eax
-        push dword [dword_11ED58]
+        push dword [ModemHomeBmp]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
         push byte 0
-        push dword [dword_11ED60]
+        push dword [ModemHomeLogo]
         call PutBlock
         mov eax, dword [dword_17D273]
         add esp, byte 0Ch
@@ -95,13 +95,13 @@ DrawModemHomePanel:
         mov edx, eax
         mov eax, 0FAE1h
         call DrawFrameAt
-        push dword [dword_11ED68]
+        push dword [ModemHomeName]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
         push byte 0
         xor esi, esi
-        push dword [dword_11ED70]
+        push dword [ModemHomeText]
         xor edi, edi
         call PutBlock
         add esp, byte 0Ch
@@ -115,8 +115,8 @@ DrawModemHomePanel:
         lea eax, [byte ebp-0Ch]
         push eax
         call sprintf_
-        mov eax, dword [dword esi+dword_11ED40]
-        sub eax, dword [dword_11ED40]
+        mov eax, dword [dword esi+ModemPanelXs]
+        sub eax, dword [ModemPanelXs]
         add esp, byte 0Ch
         mov dword [byte ebp-04h], eax
         lea eax, [byte ebp-0Ch]
@@ -143,17 +143,17 @@ DrawModemHomePanel:
         mov ecx, 87h
         sar eax, 1
         sub ecx, eax
-        mov eax, dword [dword_11ED58]
+        mov eax, dword [ModemHomeBmp]
         push ecx
         push dword [byte eax+02Ch]
         call PutBlock
-        mov esi, dword [dword_11ED70]
+        mov esi, dword [ModemHomeText]
         add esp, byte 0Ch
         movsx eax, word [byte esi+0Eh]
         push eax
         movsx eax, word [byte esi+0Ch]
         push eax
-        mov eax, dword [dword_11ED68]
+        mov eax, dword [ModemHomeName]
 DrawModemHomePanel_151:
         push dword [byte eax+02Ch]
         call PutBlock
@@ -178,12 +178,12 @@ DrawModemAwayPanel:
         push edi
         enter 8, 0
         push eax
-        push dword [dword_11ED5C]
+        push dword [ModemAwayBmp]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
         push byte 0
-        push dword [dword_11ED64]
+        push dword [ModemAwayLogo]
         call PutBlock
         mov eax, dword [dword_17D273]
         add esp, byte 0Ch
@@ -211,13 +211,13 @@ DrawModemAwayPanel:
         mov edx, eax
         mov eax, 0FAE1h
         call DrawFrameAt
-        push dword [dword_11ED6C]
+        push dword [ModemAwayName]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
         push byte 0
         xor esi, esi
-        push dword [dword_11ED74]
+        push dword [ModemAwayText]
         xor edi, edi
         call PutBlock
         add esp, byte 0Ch
@@ -237,13 +237,13 @@ DrawModemAwayPanel:
         push dword [byte ebp-0Ch]
         add esi, byte 4
         call FindShape
-        mov edx, dword [dword_11ED74]
+        mov edx, dword [ModemAwayText]
         add esp, byte 8
-        mov ecx, dword [dword esi+dword_11ED3C]
+        mov ecx, dword [dword esi+ModemAwayPanelX]
         movsx edx, word [byte edx+04h]
         movsx ebx, word [byte eax+04h]
         sub edx, ebx
-        sub ecx, dword [dword_11ED40]
+        sub ecx, dword [ModemPanelXs]
         mov ebx, edx
         mov edx, eax
         mov eax, 0FAE1h
@@ -261,17 +261,17 @@ DrawModemAwayPanel:
         mov edx, 1FDh
         sar eax, 1
         sub edx, eax
-        mov eax, dword [dword_11ED5C]
+        mov eax, dword [ModemAwayBmp]
         push edx
         push dword [byte eax+02Ch]
         call PutBlock
-        mov esi, dword [dword_11ED74]
+        mov esi, dword [ModemAwayText]
         add esp, byte 0Ch
         movsx eax, word [byte esi+0Eh]
         push eax
         movsx eax, word [byte esi+0Ch]
         push eax
-        mov eax, dword [dword_11ED6C]
+        mov eax, dword [ModemAwayName]
         jmp near DrawModemHomePanel_151
 jpt_A3CD4:
         dd ModemTeamSelectScreen_7F1
@@ -557,15 +557,15 @@ ModemTeamSelectScreen:
         push dword [dword_1846F8]
         call CreateBitmap
         add esp, byte 0Ch
-        mov dword [dword_11ED58], eax
+        mov dword [ModemHomeBmp], eax
         mov eax, dword [dword_1846F0]
         push byte 0
         add eax, byte 10h
         push eax
         push str_HaBck02
         call AllocMemBlock
-        mov edx, dword [dword_11ED58]
-        mov dword [dword_11ED60], eax
+        mov edx, dword [ModemHomeBmp]
+        mov dword [ModemHomeLogo], eax
         mov edi, eax
         mov esi, dword [byte edx+02Ch]
         movsd
@@ -577,16 +577,16 @@ ModemTeamSelectScreen:
         mov edx, 87h
         sar eax, 1
         sub edx, eax
-        mov eax, dword [dword_11ED60]
+        mov eax, dword [ModemHomeLogo]
         mov word [byte eax+0Ch], dx
         mov eax, dword [dword_1846F4]
         mov edx, 8Ch
         sar eax, 1
         sub edx, eax
-        mov eax, dword [dword_11ED60]
+        mov eax, dword [ModemHomeLogo]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
-        push dword [dword_11ED60]
+        push dword [ModemHomeLogo]
         call DrawShapeAtOwnPos
         add esp, byte 4
         push byte 0
@@ -594,7 +594,7 @@ ModemTeamSelectScreen:
         push dword [dword_1846F8]
         call CreateBitmap
         add esp, byte 0Ch
-        mov dword [dword_11ED5C], eax
+        mov dword [ModemAwayBmp], eax
         mov eax, dword [dword_1846F0]
         push byte 0
         add eax, byte 10h
@@ -602,8 +602,8 @@ ModemTeamSelectScreen:
         push str_HaBck12
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_11ED64], eax
-        mov edx, dword [dword_11ED5C]
+        mov dword [ModemAwayLogo], eax
+        mov edx, dword [ModemAwayBmp]
         mov edi, eax
         mov esi, dword [byte edx+02Ch]
         movsd
@@ -615,15 +615,15 @@ ModemTeamSelectScreen:
         mov edx, 1FDh
         sar eax, 1
         sub edx, eax
-        mov eax, dword [dword_11ED64]
+        mov eax, dword [ModemAwayLogo]
         mov word [byte eax+0Ch], dx
         mov eax, dword [dword_1846F4]
         mov edx, 8Ch
         sar eax, 1
         sub edx, eax
-        mov eax, dword [dword_11ED64]
+        mov eax, dword [ModemAwayLogo]
         mov word [byte eax+0Eh], dx
-        push dword [dword_11ED64]
+        push dword [ModemAwayLogo]
         call DrawShapeAtOwnPos
         add esp, byte 4
         push byte 0
@@ -638,17 +638,17 @@ ModemTeamSelectScreen:
         push eax
         call CreateBitmap
         add esp, byte 0Ch
-        mov dword [dword_11ED68], eax
+        mov dword [ModemHomeName], eax
         xor edx, edx
         mov eax, dword [byte eax+02Ch]
         call CopyBitmap
-        mov dx, word [word_11ED38]
-        mov dword [dword_11ED70], eax
+        mov dx, word [ModemPanelY]
+        mov dword [ModemHomeText], eax
         mov word [byte eax+0Ch], dx
-        mov eax, dword [dword_11ED70]
-        mov dx, word [dword_11ED40]
+        mov eax, dword [ModemHomeText]
+        mov dx, word [ModemPanelXs]
         mov word [byte eax+0Eh], dx
-        push dword [dword_11ED70]
+        push dword [ModemHomeText]
         call DrawShapeAtOwnPos
         add esp, byte 4
         push byte 0
@@ -663,20 +663,20 @@ ModemTeamSelectScreen:
         push eax
         call CreateBitmap
         add esp, byte 0Ch
-        mov dword [dword_11ED6C], eax
+        mov dword [ModemAwayName], eax
         xor edx, edx
         mov eax, dword [byte eax+02Ch]
         call CopyBitmap
-        mov edx, dword [dword_11ED6C]
-        mov dword [dword_11ED74], eax
+        mov edx, dword [ModemAwayName]
+        mov dword [ModemAwayText], eax
         mov edx, dword [byte edx+02Ch]
-        mov si, word [dword_11ED3C]
+        mov si, word [ModemAwayPanelX]
         sub si, word [byte edx+04h]
         mov word [byte eax+0Ch], si
-        mov eax, dword [dword_11ED74]
-        mov dx, word [dword_11ED40]
+        mov eax, dword [ModemAwayText]
+        mov dx, word [ModemPanelXs]
         mov word [byte eax+0Eh], dx
-        push dword [dword_11ED74]
+        push dword [ModemAwayText]
         call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte ebp+076h]
@@ -977,33 +977,33 @@ ModemTeamSelectScreen_B78:
         jl near ModemTeamSelectScreen.2
         xor esi, esi
 .16:
-        cmp dword [dword esi+dword_11ED60], byte 0
+        cmp dword [dword esi+ModemHomeLogo], byte 0
         je short .17
-        push dword [dword esi+dword_11ED60]
+        push dword [dword esi+ModemHomeLogo]
         call FreeMemBlock
         add esp, byte 4
-        mov dword [dword esi+dword_11ED60], 0
+        mov dword [dword esi+ModemHomeLogo], 0
 .17:
-        cmp dword [dword esi+dword_11ED58], byte 0
+        cmp dword [dword esi+ModemHomeBmp], byte 0
         je short .18
-        push dword [dword esi+dword_11ED58]
+        push dword [dword esi+ModemHomeBmp]
         call FreeBitmap
         add esp, byte 4
-        mov dword [dword esi+dword_11ED58], 0
+        mov dword [dword esi+ModemHomeBmp], 0
 .18:
-        cmp dword [dword esi+dword_11ED70], byte 0
+        cmp dword [dword esi+ModemHomeText], byte 0
         je short .19
-        push dword [dword esi+dword_11ED70]
+        push dword [dword esi+ModemHomeText]
         call FreeMemBlock
         add esp, byte 4
-        mov dword [dword esi+dword_11ED70], 0
+        mov dword [dword esi+ModemHomeText], 0
 .19:
-        cmp dword [dword esi+dword_11ED68], byte 0
+        cmp dword [dword esi+ModemHomeName], byte 0
         je short .20
-        push dword [dword esi+dword_11ED68]
+        push dword [dword esi+ModemHomeName]
         call FreeBitmap
         add esp, byte 4
-        mov dword [dword esi+dword_11ED68], 0
+        mov dword [dword esi+ModemHomeName], 0
 .20:
         add esi, byte 4
         cmp esi, byte 8

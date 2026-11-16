@@ -10,7 +10,7 @@ extern str_Sav13, str_Sav2, str_Sav3, str_Exi1, str_Exi2, str_Exi3, str_Cmr1, st
 extern str_Cmr3, str_Cmm1, str_Cmm2, str_Cmm3, str_CmS, str_Ltrg, str_Rtrg, str_Aut1
 extern str_Aut2, str_Aut3, str_MmS, str_HILITES, str_HILITESNDX2, str_08d4, str_GloL4, str_GloR4
 extern str_GhiL4, str_GhiR4, str_FhiL6, str_FhiR6, str_HILITESNDX3, byte_110FCF, byte_1175A8, byte_1175A9
-extern byte_1175AA, byte_11A3F9, byte_11A3FB, byte_157166, byte_157191, byte_16597E, byte_165981, byte_176F94
+extern byte_1175AA, byte_11A3F9, byte_11A3FB, byte_157166, byte_157191, ReplayFrameFlags, ReplayFrameButtons, byte_176F94
 extern byte_176F95, byte_176F96, byte_176FA7, byte_17701E, byte_17702E, byte_17702F, byte_17703A, byte_17703B
 extern byte_17708F, byte_177090, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5, byte_1770A6, byte_1770A7
 extern byte_1770A8, byte_1770A9, byte_1770AA, byte_1770B1, byte_1770B2, byte_1770B3, byte_1770B4, byte_1770B5
@@ -26,7 +26,7 @@ extern dword_11B314, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFra
 extern dword_11B374, dword_11B9F4, dword_11BC24, ModeLinear, dword_11D1A8, dword_11D1AC, dword_11F5C0, dword_11F5C4
 extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, dword_152FEC, dword_15E4B0, dword_15E4B4, dword_15E4B8
 extern dword_15E4BC, dword_15E4C4, dword_15E8D8, dword_15E8E0, dword_164F1C, dword_164F20, dword_164F24, dword_164FBC
-extern dword_164FC0, dword_164FC4, dword_16596C, dword_165974, dword_17709E, dword_1770B7, dword_1770BB, dword_1770BF
+extern dword_164FC0, dword_164FC4, ReplayBufferTop, ReplayFrameCount, dword_17709E, dword_1770B7, dword_1770BB, dword_1770BF
 extern dword_1770C3, dword_1770C7, dword_1770CB, dword_1770CF, dword_17750C, dword_1778E8, dword_1778EC, dword_1778F0
 extern dword_1778F4, dword_1778F8, dword_1778FC, dword_177900, dword_177904, dword_17790C, dword_177914, dword_177918
 extern dword_17791C, dword_177922, dword_177926, dword_17792A, dword_17792E, dword_177932, dword_177942, dword_177946
@@ -145,7 +145,7 @@ StartReplay:
         mov byte [byte_178247], 0FFh
         mov dword [dword_1781F0], 0Eh
         mov dword [dword_1781F8], 0
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         mov eax, dword [dword_11B330]
         rep movsb
         mov dword [dword_177904], eax
@@ -356,16 +356,16 @@ StepReplay:
         xor edx, edx
         test eax, eax
         jl near .10
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         mov dword [byte ebp-04h], eax
 .1:
         cmp ebx, byte 1
         jl near .4
         mov eax, dword [replaystart]
-        add dword [dword_165974], 0E9h
+        add dword [ReplayFrameCount], 0E9h
         lea ecx, [dword eax+01110Ch]
         dec ebx
-        cmp ecx, dword [dword_165974]
+        cmp ecx, dword [ReplayFrameCount]
         jne near .6
         mov cx, word [sflags]
         xor ch, ch
@@ -374,7 +374,7 @@ StepReplay:
         test ecx, ecx
         jne near .5
         mov ebx, 0FFFFFFFFh
-        sub dword [dword_165974], 0E9h
+        sub dword [ReplayFrameCount], 0E9h
 .2:
         call CrowdPause
         cmp dword [dword_11A400], byte 0
@@ -402,21 +402,21 @@ StepReplay:
         movzx eax, byte [byte_178247]
         cmp eax, byte 0Ah
         je near .15
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         mov al, byte [eax]
         mov byte [byte_176F94], al
         jmp near .16
 .5:
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
 .6:
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         movzx ecx, byte [byte eax+01h]
         add edx, ecx
-        cmp eax, dword [dword_16596C]
+        cmp eax, dword [ReplayBufferTop]
         jne short .7
         sub eax, 0E9h
         mov ebx, 0FFFFFFFFh
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         jmp near .2
 .7:
         test edi, edi
@@ -428,7 +428,7 @@ StepReplay:
         je short .8
         call PlaySfx
 .8:
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         movzx eax, byte [dword eax+0C4h]
         cmp eax, 0FFh
         je short .9
@@ -440,7 +440,7 @@ StepReplay:
         cmp eax, byte 0Ah
         je near .1
         mov eax, dword [dword_1781CC]
-        mov esi, dword [dword_165974]
+        mov esi, dword [ReplayFrameCount]
         mov al, byte [eax]
         mov byte [esi], al
         jmp near .1
@@ -451,7 +451,7 @@ StepReplay:
 .11:
         test ebx, ebx
         jge near .4
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         inc ebx
         cmp eax, dword [replaystart]
         jne short .14
@@ -464,30 +464,30 @@ StepReplay:
 .13:
         mov eax, dword [replaystart]
         add eax, 1110Ch
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
 .14:
-        mov eax, dword [dword_165974]
-        cmp eax, dword [dword_16596C]
+        mov eax, dword [ReplayFrameCount]
+        cmp eax, dword [ReplayBufferTop]
         je short .12
-        sub dword [dword_165974], 0E9h
+        sub dword [ReplayFrameCount], 0E9h
         jmp short .11
 .15:
         mov byte [byte_176F94], 0Ah
 .16:
-        add dword [dword_165974], byte 2
+        add dword [ReplayFrameCount], byte 2
         mov byte [byte_176F95], dl
         xor eax, eax
         xor edx, edx
 .17:
-        mov ecx, dword [dword_165974]
+        mov ecx, dword [ReplayFrameCount]
         mov esi, dword [ecx]
         add ecx, byte 3
         mov dword [regd0], esi
-        mov dword [dword_165974], ecx
-        test byte [byte_16597E], 40h
+        mov dword [ReplayFrameCount], ecx
+        test byte [ReplayFrameFlags], 40h
         setne cl
         mov byte [dword eax+byte_176F96], cl
-        test byte [byte_16597E], 80h
+        test byte [ReplayFrameFlags], 80h
         setne cl
         mov byte [dword eax+byte_176FA7], cl
         mov cx, word [regd0]
@@ -499,7 +499,7 @@ StepReplay:
         movsx ecx, cx
         test ecx, ecx
         je short .18
-        or byte [byte_165981], 0FCh
+        or byte [ReplayFrameButtons], 0FCh
 .18:
         mov cx, word [regd1]
         sar dword [regd0], 0Ah
@@ -513,7 +513,7 @@ StepReplay:
         movsx ecx, cx
         test ecx, ecx
         je short .19
-        or byte [byte_165981], 0FCh
+        or byte [ReplayFrameButtons], 0FCh
 .19:
         mov cx, word [regd1]
         sar dword [regd0], 0Ah
@@ -521,7 +521,7 @@ StepReplay:
         mov cl, byte [regd0]
         and cl, 1
         mov byte [dword eax+byte_17701E], cl
-        mov ecx, dword [dword_165974]
+        mov ecx, dword [ReplayFrameCount]
         inc edx
         inc edx
         inc eax
@@ -529,14 +529,14 @@ StepReplay:
         inc ecx
         inc ecx
         mov word [dword edx+word_176FFA], si
-        mov dword [dword_165974], ecx
+        mov dword [ReplayFrameCount], ecx
         cmp eax, byte 11h
         jl near .17
         xor eax, eax
 .20:
-        mov edx, dword [dword_165974]
+        mov edx, dword [ReplayFrameCount]
         lea ecx, [byte edx+01h]
-        mov dword [dword_165974], ecx
+        mov dword [ReplayFrameCount], ecx
         inc eax
         mov dl, byte [edx]
         mov byte [dword eax+byte_17702E], dl
@@ -544,9 +544,9 @@ StepReplay:
         jl short .20
         xor eax, eax
 .21:
-        mov edx, dword [dword_165974]
+        mov edx, dword [ReplayFrameCount]
         lea ecx, [byte edx+01h]
-        mov dword [dword_165974], ecx
+        mov dword [ReplayFrameCount], ecx
         inc eax
         mov dl, byte [edx]
         mov byte [dword eax+byte_17703A], dl
@@ -554,33 +554,33 @@ StepReplay:
         jl short .21
         xor eax, eax
 .22:
-        mov edx, dword [dword_165974]
+        mov edx, dword [ReplayFrameCount]
         inc eax
         inc eax
         mov cx, word [edx]
         inc edx
         inc edx
         mov word [dword eax+word_17704A], cx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         cmp eax, byte 22h
         jne short .22
         xor eax, eax
 .23:
-        mov edx, dword [dword_165974]
+        mov edx, dword [ReplayFrameCount]
         inc eax
         inc eax
         mov cx, word [edx]
         inc edx
         inc edx
         mov word [dword eax+word_17706C], cx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         cmp eax, byte 22h
         jne short .23
         xor eax, eax
 .24:
-        mov edx, dword [dword_165974]
+        mov edx, dword [ReplayFrameCount]
         lea ecx, [byte edx+01h]
-        mov dword [dword_165974], ecx
+        mov dword [ReplayFrameCount], ecx
         mov dl, byte [edx]
         mov byte [regd0], dl
         and dl, 0Fh
@@ -605,18 +605,18 @@ StepReplay:
         mov byte [dword eax+byte_17708F], dl
         cmp eax, byte 0Ch
         jne short .24
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         lea edx, [byte eax+01h]
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         movsx ax, byte [eax]
         mov word [word_17709C], ax
         mov eax, edx
         mov edx, dword [edx]
         add eax, byte 6
         mov dword [dword_17709E], edx
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         lea edx, [byte eax+01h]
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [regd0], al
         and al, 0Fh
@@ -637,9 +637,9 @@ StepReplay:
         mov eax, 0FFFFFFFFh
 .28:
         mov byte [byte_1770A3], al
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         lea edx, [byte eax+01h]
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [regd0], al
         and al, 0Fh
@@ -660,14 +660,14 @@ StepReplay:
         mov eax, 0FFFFFFFFh
 .30:
         mov byte [byte_1770A5], al
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         lea edx, [byte eax+01h]
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [byte_1770A6], al
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [regd0], al
         and al, 0Fh
@@ -678,7 +678,7 @@ StepReplay:
         mov byte [byte_1770A8], al
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [regd0], al
         and al, 0Fh
@@ -692,72 +692,72 @@ StepReplay:
         inc eax
         inc eax
         mov word [crowdlevel], dx
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         lea edx, [byte eax+01h]
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         movsx ax, byte [eax]
         mov word [word_1770AB], ax
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         movsx ax, byte [eax]
         mov word [word_1770AD], ax
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         movsx ax, byte [eax]
         mov word [word_1770AF], ax
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [byte_1770B1], al
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [byte_1770B2], al
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [byte_1770B3], al
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [byte_1770B4], al
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [byte_1770B5], al
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [byte_1770B6], al
         mov eax, edx
         mov edx, dword [edx]
         add eax, byte 4
         mov dword [dword_1770BB], edx
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         mov edx, dword [eax]
         add eax, byte 4
         mov dword [dword_1770B7], edx
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         lea edx, [byte eax+01h]
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         movsx eax, byte [eax]
         mov dword [dword_1770BF], eax
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         movsx eax, byte [eax]
         mov dword [dword_1770C7], eax
         mov eax, edx
         inc edx
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         movsx eax, byte [eax]
         mov dword [dword_1770CB], eax
         mov eax, edx
@@ -765,28 +765,28 @@ StepReplay:
         inc eax
         inc eax
         mov dword [dword_1770C3], edx
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         movsx edx, word [eax]
         inc eax
         inc eax
         mov dword [dword_1770CF], edx
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         mov dx, word [eax]
         inc eax
         inc eax
         mov word [word_1770D3], dx
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         mov dx, word [eax]
         mov word [word_1770D5], dx
         inc eax
         inc eax
-        mov dword [dword_165974], eax
+        mov dword [ReplayFrameCount], eax
         lea edx, [byte eax+01h]
-        mov dword [dword_165974], edx
+        mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [byte_1770D7], al
         mov al, byte [byte_176F94]
-        sub dword [dword_165974], 0E9h
+        sub dword [ReplayFrameCount], 0E9h
         cmp al, byte [byte_178247]
         je short .31
         movzx eax, al
@@ -1268,8 +1268,8 @@ DrawReplayCounter:
         cwde
         test eax, eax
         je short .3
-        mov esi, dword [dword_165974]
-        sub esi, dword [dword_16596C]
+        mov esi, dword [ReplayFrameCount]
+        sub esi, dword [ReplayBufferTop]
         test esi, esi
         jl short .1
         mov eax, esi
@@ -1284,13 +1284,13 @@ DrawReplayCounter:
         mov edi, 12Ch
         jmp short .4
 .3:
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         sub eax, dword [replaystart]
         mov ebx, 0E9h
         cdq
         idiv ebx
         mov esi, eax
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         sub eax, dword [replaystart]
         cdq
         idiv ebx
@@ -3259,10 +3259,10 @@ ReplayScreen:
         je near ReplayScreen_E86
         mov eax, dword_178243
         call SetCameraShot
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         mov dl, byte [byte_178247]
         mov byte [eax], dl
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         mov dword [dword_1781CC], eax
         jmp near ReplayScreen_E86
 .25:
@@ -3538,7 +3538,7 @@ ReplayScreen_1255:
         movzx eax, byte [byte_178247]
         cmp eax, byte 0Ah
         jne near .48
-        mov eax, dword [dword_165974]
+        mov eax, dword [ReplayFrameCount]
         movsx eax, byte [eax]
         call SetReplayCamera
         test eax, eax
@@ -3901,7 +3901,7 @@ SaveHighlight:
         mov word [word_177508], ax
         mov ax, word [sflags]
         mov word [word_17750A], ax
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         sub eax, dword [replaystart]
         push unk_1774C4
         mov dword [dword_17750C], eax
@@ -4197,7 +4197,7 @@ WatchHighlight:
         jl short .2
         mov eax, dword [replaystart]
         add eax, dword [dword_17750C]
-        mov dword [dword_16596C], eax
+        mov dword [ReplayBufferTop], eax
         test byte [byte_17CA5D], 20h
         jne short .4
         push str_GloL4

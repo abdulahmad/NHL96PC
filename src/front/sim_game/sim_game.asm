@@ -15,7 +15,7 @@ extern gameopts, hmtmgoalie, optflags, F64_0p333333, F64_0p75, F64_0p0119048, F6
 extern F64_10, F64_1000, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
 extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, StatsDb5Record, StatsDb1Record
 extern AllocMemBlock, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, str_Gk
-extern str_Gs, unk_81ED1, UpdateTeamDbs, word_1656DC, word_1656E2, hmscore, word_165812, awscore
+extern str_Gs, unk_81ED1, UpdateTeamDbs, hmtmPwrPlays, word_1656E2, hmscore, word_165812, awscore
 extern word_17DB76
 global SimulateGame, unk_849C1, unk_849C7, unk_849CB, unk_849D1
 ;-----------------------------------------------------------------------------
@@ -176,7 +176,7 @@ SimulateGame:
         mov edx, dword [dword ebp-0A6h]
         mov word [dword edx+word_1656E2], 0
         push byte 0
-        mov word [dword edx+word_1656DC], 0
+        mov word [dword edx+hmtmPwrPlays], 0
         mov dword [dword esi+dword_17DA80], eax
         mov byte [dword edx+byte_16580B], 0
         add eax, 0D3h
@@ -963,7 +963,7 @@ SimulateGame:
         mov eax, dword [AwayShotTotals]
         inc word [byte eax+0Ah]
         mov eax, dword [dword_17DA54]
-        inc word [word_1656DC]
+        inc word [hmtmPwrPlays]
         jmp short .80
 .79:
         mov al, byte [dword ebp+0D3h]

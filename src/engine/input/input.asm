@@ -5,7 +5,7 @@ section s_38070 progbits alloc exec nowrite align=1
 extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, byte_114B4C
 extern lchoicetab, assonetimer_blade_y, byte_119F4B, byte_119F5A, byte_119F5B, byte_164741, byte_16507A, InputState
 extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
-extern dword_119173, dword_1191C7, dword_1191D7, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
+extern dword_119173, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
 extern dword_164744, dword_164748, dword_164750, PtrPuckZone, dword_1797B4, gameclock, gameopts, gmode
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, puckvy, puckc, PtrPuckFlags
 extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
@@ -1586,19 +1586,19 @@ doinput:
         je short .17
 .16:
         movsx eax, cx
-        mov dword [nosplit eax*4+dword_1191C7], 0
+        mov dword [nosplit eax*4+PassTargetLocked], 0
 .17:
         movsx eax, cx
-        mov dword [nosplit eax*4+dword_1191D7], 0
+        mov dword [nosplit eax*4+PassHoldFrames], 0
         jmp short .20
 .18:
         cmp word [byte ebx+01Ah], byte 0
         je short .20
         movsx eax, cx
         shl eax, 2
-        cmp dword [dword eax+dword_1191C7], byte 0
+        cmp dword [dword eax+PassTargetLocked], byte 0
         jne short .19
-        inc dword [dword eax+dword_1191D7]
+        inc dword [dword eax+PassHoldFrames]
 .19:
         cmp dword [playsuspended], byte 0
         jne short .20
@@ -1611,11 +1611,11 @@ doinput:
         movsx edx, cx
         mov esi, edx
         shl esi, 2
-        cmp dword [dword esi+dword_1191D7], byte 1Eh
+        cmp dword [dword esi+PassHoldFrames], byte 1Eh
         jle short .20
         mov eax, ebx
         call AutoSwitchPlayer
-        mov dword [dword esi+dword_1191C7], 1
+        mov dword [dword esi+PassTargetLocked], 1
 .20:
         mov al, byte [byte ebx+044h]
         and al, 20h

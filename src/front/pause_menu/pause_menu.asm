@@ -6,7 +6,7 @@ extern awtmstruct, byte_11D91C, byte_11FA2F, byte_17CA5D, byte_17CC37, CloseText
 extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox, DrawColorTextCentred, DrawFrameAt
 extern DrawGameClock, DrawGameFrame, dword_1150D4, gameresult, dword_1174EC, statsplayoffs, dword_1174F4, ReplayRemoteShape
 extern dword_11B320, str_D_DrawGameFrame, dword_11BC24, dword_11D91F, dword_11D923, dword_11F5C0, dword_11F5C4, dword_152F4C
-extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, dword_16596C, dword_177108, dword_179918, dword_179920
+extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, ReplayBufferTop, dword_177108, dword_179918, dword_179920
 extern dword_17CB2F, PlayoffTreeData, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC
 extern dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C
 extern dword_17D510, dword_17D514, PauseClockArea, dword_17D51C, dword_17D520, dword_17D524, FrontShapeFile, dword_1843AC
@@ -2510,7 +2510,7 @@ PauseGame_3A3:
         cmp dword [curperiod], byte 0FFFFFFFFh
         je near .15
         call ReplayBufferEnd
-        cmp eax, dword [dword_16596C]
+        cmp eax, dword [ReplayBufferTop]
         je short .15
         call CrowdResume
         mov eax, dword [byte ebp-018h]

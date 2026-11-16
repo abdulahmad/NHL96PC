@@ -3,10 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_11918B progbits alloc noexec write align=1
 global HotList, HotList_y, HotStickList, HotStickList_y, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
-global sopathend, sopathpoint, pspathside, pspathdir, dword_1191C7, dword_1191D7, OneTimerPasser, PuckChasers
-global dword_1191EF, dword_1191F3, dword_1191FB, dword_1191FF, dword_119D04, penshotlive, penshotmode, penshotstart
-global penshottimer, psendcount, shotontarget, word_11918B
-word_11918B:
+global sopathend, sopathpoint, pspathside, pspathdir, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers
+global FaceoffPuckDropped, PuckChaserPlayer, GameHitCount, FightingOn, ZonesDirty, penshotlive, penshotmode, penshotstart
+global penshottimer, psendcount, shotontarget, SavedGameMode
+SavedGameMode:
         db 00h,00h,00h,00h
 AwayGoalsPeriod:
         db 00h,00h,00h,00h
@@ -36,21 +36,21 @@ pspathside:
         db 00h,00h,00h,00h
 pspathdir:
         db 00h,00h,00h,00h
-dword_1191C7:
+PassTargetLocked:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_1191D7:
+PassHoldFrames:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 OneTimerPasser:
         db 00h,00h,00h,00h
 PuckChasers:
         db 00h,00h,00h,00h
-dword_1191EF:
+FaceoffPuckDropped:
         db 00h,00h,00h,00h
-dword_1191F3:
+PuckChaserPlayer:
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
-dword_1191FB:
+GameHitCount:
         db 00h,00h,00h,00h
-dword_1191FF:
+FightingOn:
         db 00h,00h,00h,00h
 HotList:
         db 0FDh
@@ -234,5 +234,5 @@ HotStickList_y:
         db 02h,0Ah,0F8h,02h,0F3h,0F8h,0F5h,0F3h,0FEh,0F5h,07h,0FEh,0Dh,07h,0Ah,0F6h
         db 00h,0F8h,07h,00h,0Ah,07h,07h,0Ah,00h,07h,0F8h,00h,0F6h,0F8h,0F8h,0F5h
         db 0FEh,0F6h,06h,0FEh,0Bh,06h,09h,0Bh,02h,09h,0F9h,02h,0F5h,0F9h,0F6h,00h
-dword_119D04:
+ZonesDirty:
         db 00h,00h,00h,00h

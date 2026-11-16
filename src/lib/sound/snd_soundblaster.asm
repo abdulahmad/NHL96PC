@@ -20,8 +20,8 @@ extern MixerFillBuffer, MixerStopChannel, strtoul_, WssCodecStart, WssCodecStop,
 extern DmaPlayedHalf, PicSendEoi, IrqUnmask, IrqMask, IrqSetHandler, InstallRealIrqStub, RemoveRealIrqStub, GusGetEnvConfig
 extern GusProbePort, GusOpen, GusClose, GusMemAlloc, GusStopStream, GusStreamBusy, GusServiceStream, GusStartStream
 extern SbIsrSingle, SbIsrAutoInit, BlitBlockRemapKeyed, bcopy, SndChannels, SbHighDma, SbProHighDma, SbIsrPicPort
-extern SbIsrAckPort, SbIsrWritePort, SbProIsrPicPort, SbProIsrAckPort, Sb16IsrPicPort, Sb16IsrAckPort, unk_F0000, unk_F000D
-extern unk_F001A, unk_F0027, SbBasePort, SbMixerAddrPort, word_1A0FA4, SbMixerDataPort, SbResetPort, SbReadPort
+extern SbIsrAckPort, SbIsrWritePort, SbProIsrPicPort, SbProIsrAckPort, Sb16IsrPicPort, Sb16IsrAckPort, SbProRealIsr220, SbProRealIsr240
+extern SbProRealIsrHigh220, SbProRealIsrHigh240, SbBasePort, SbMixerAddrPort, word_1A0FA4, SbMixerDataPort, SbResetPort, SbReadPort
 extern SbWritePort, GusConfig, GusConfigPort, SbPort, SbOldIrqSelector, SbProOldIrqSelector, Sb16Port, Sb16OldIrqSelector
 global WssOpenJumpTable, WssOpen_57, WssOpen_68, WssOpen_79, WssOpen_85, WssOpen_96, WssOpen_A2, WssOpen_AE
 global WssOpen_BD, WssOpen_218, WssQueryRate, WssQueryFormat, WssQueryNone, GusQueryRate, GusQueryFormat, GusQueryNone
@@ -1677,24 +1677,24 @@ SbProStartDma:
         jne short .1
         push byte 20h
         mov edx, SbProRealOldSegment
-        mov ebx, unk_F0000
+        mov ebx, SbProRealIsr220
         jmp short .4
 .1:
         push byte 20h
         mov edx, SbProRealOldSegment
-        mov ebx, unk_F000D
+        mov ebx, SbProRealIsr240
         jmp short .4
 .2:
         cmp dword [SbProPort], 220h
         jne short .3
         push byte 20h
         mov edx, SbProRealOldSegment
-        mov ebx, unk_F001A
+        mov ebx, SbProRealIsrHigh220
         jmp short .4
 .3:
         push byte 20h
         mov edx, SbProRealOldSegment
-        mov ebx, unk_F0027
+        mov ebx, SbProRealIsrHigh240
 .4:
         push SbProRealOldOffset
         mov eax, dword [SbProIrq]

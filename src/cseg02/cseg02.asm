@@ -2,12 +2,31 @@
 bits 32
 %include "hockey.inc"
 section s_F0000 progbits alloc noexec write align=1
-global unk_F0000, unk_F000D, unk_F001A, unk_F0027
-unk_F0000:
+global SbProRealIsr220, SbProRealIsr240, SbProRealIsrHigh220, SbProRealIsrHigh240
+;-----------------------------------------------------------------------------
+; SbProRealIsr220                                 F0000  96 PC, low confidence
+; Real mode interrupt stub (port 220h, low IRQ) that SbProStartDma installs:
+; EOI and chain
+;-----------------------------------------------------------------------------
+SbProRealIsr220:
         db 050h,052h,0B0h,020h,0E6h,020h,0BAh,02Eh,02h,0ECh,05Ah,058h,0CFh
-unk_F000D:
+;-----------------------------------------------------------------------------
+; SbProRealIsr240                                 F000D  96 PC, low confidence
+; Real mode interrupt stub (other port, low IRQ) that SbProStartDma installs
+;-----------------------------------------------------------------------------
+SbProRealIsr240:
         db 050h,052h,0B0h,020h,0E6h,020h,0BAh,04Eh,02h,0ECh,05Ah,058h,0CFh
-unk_F001A:
+;-----------------------------------------------------------------------------
+; SbProRealIsrHigh220                             F001A  96 PC, low confidence
+; Real mode interrupt stub (port 220h, IRQ 8 or above) that SbProStartDma
+; installs
+;-----------------------------------------------------------------------------
+SbProRealIsrHigh220:
         db 050h,052h,0B0h,020h,0E6h,0A0h,0BAh,02Eh,02h,0ECh,05Ah,058h,0CFh
-unk_F0027:
+;-----------------------------------------------------------------------------
+; SbProRealIsrHigh240                             F0027  96 PC, low confidence
+; Real mode interrupt stub (other port, IRQ 8 or above) that SbProStartDma
+; installs
+;-----------------------------------------------------------------------------
+SbProRealIsrHigh240:
         db 050h,052h,0B0h,020h,0E6h,0A0h,0BAh,04Eh,02h,0ECh,05Ah,058h,0CFh

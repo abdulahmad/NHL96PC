@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_119D08 progbits alloc noexec write align=1
-global starskatermin, stargoaliemin, Endfaceoff_ftab_m1, dword_119DE4, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, unk_119D36, str_V_DrawOverlayPanels
-global unk_119D7C, str_Q, word_119D08, word_119D62, word_119DBC, word_119DBE, word_119DE8, refsigdir
-word_119D08:
+global starskatermin, stargoaliemin, Endfaceoff_ftab_m1, ScoreCelebrating, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets, str_V_DrawOverlayPanels
+global ExtraAttackerSpots, str_Q, CupShown, IntroStandSpots, PuckCarrySpotX, PuckCarrySpotY, ScoreCelebrateAnims, refsigdir
+CupShown:
         db 00h,00h
 str_C_DrawOverlayPanels:
         db 043h,00h,047h,00h,0FEh,00h,017h,01h,02h,01h,024h,00h,03Dh,00h,039h,00h
@@ -12,34 +12,34 @@ str_C_DrawOverlayPanels:
 str_Punct_DrawOverlayPanels:
         db 024h,00h,037h,00h,03Dh,00h,04Eh,00h,061h,00h,074h,00h,07Ah,00h,08Bh,00h
         db 09Bh,00h,0A9h,00h
-unk_119D36:
+StarPanelOffsets:
         db 086h,00h,08Eh,00h,0FCh,01h,02Eh,02h,04h,02h,048h,00h,07Ah,00h,072h,00h
         db 0E8h,01h,0F0h,01h,0E0h,00h,082h,01h
 str_V_DrawOverlayPanels:
         db 056h,00h,084h,00h,092h,00h,0BBh,00h,0E9h,00h,016h,01h,025h,01h,04Eh,01h
         db 074h,01h,095h,01h
-word_119D62:
+IntroStandSpots:
         db 05h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h
         db 05h,00h,00h,00h
 starskatermin:
         db 0Ah,0Fh,014h
 stargoaliemin:
         db 0Ah,014h,028h
-unk_119D7C:
+ExtraAttackerSpots:
         db 00h,00h,055h,00h,0A0h,0FFh,0Ah,00h,00h,00h,055h,00h,056h,00h,0Ah,00h
         db 00h,00h,038h,00h,0ECh,00h,01Eh,00h,00h,00h,071h,00h,0ECh,00h,014h,00h
 str_Q:
         db 071h,00h,014h,00h,0A0h,0FFh,0Ah,00h,07Fh,00h,014h,00h,03Ah,00h,05h,00h
         db 03Fh,00h,032h,00h,046h,01h,014h,00h,071h,00h,01Eh,00h,050h,01h,014h,00h
-word_119DBC:
+PuckCarrySpotX:
         db 08Fh,0FFh
-word_119DBE:
+PuckCarrySpotY:
         db 0ECh,0FFh,0B0h,00h,0ECh,0FFh,081h,0FFh,024h,00h,03Ah,00h,024h,00h,07Fh,00h
         db 024h,00h,0C6h,0FFh,024h,00h,0C8h,0FFh,048h,01h,00h,00h,038h,01h,022h,00h
         db 042h,01h,02Ah,00h,042h,01h
-dword_119DE4:
+ScoreCelebrating:
         db 00h,00h,00h,00h
-word_119DE8:
+ScoreCelebrateAnims:
         db 0D9h,03h,00h,00h,0E3h,03h,00h,00h,0F1h,03h,00h,00h,0F9h,03h,00h
 Endfaceoff_ftab_m1:
         db 00h,00h,08h,010h,00h,08h,010h

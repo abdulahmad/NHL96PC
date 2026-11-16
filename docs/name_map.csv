@@ -2441,6 +2441,10 @@ E26A2,CosLookup,sub_E26A2,new,low,returns the cosine of a 10-bit angle from the 
 E270C,DebugLineCount,sub_E270C,new,low,returns the debug line count,src/lib/video/video_bios_vga_03.asm
 E272C,ReadKeyPadBits,sub_E272C,new,low,builds pad button bits from the keyboard keys set for the pad,src/lib/video/video_bios_vga_03.asm
 E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle from the quarter-wave tables,src/lib/video/video_bios_vga_03.asm
+F0000,SbProRealIsr220,unk_F0000,new,low,"real mode interrupt stub (port 220h, low IRQ) that SbProStartDma installs: EOI and chain",src/cseg02/cseg02.asm
+F000D,SbProRealIsr240,unk_F000D,new,low,"real mode interrupt stub (other port, low IRQ) that SbProStartDma installs",src/cseg02/cseg02.asm
+F001A,SbProRealIsrHigh220,unk_F001A,new,low,"real mode interrupt stub (port 220h, IRQ 8 or above) that SbProStartDma installs",src/cseg02/cseg02.asm
+F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other port, IRQ 8 or above) that SbProStartDma installs",src/cseg02/cseg02.asm
 100000,SbDmaPagePorts,byte_100000,new,low,Sound Blaster 8237 DMA page register port for each channel 0-3,src/dseg03/dseg03.asm
 100004,SbDmaMaskPorts,byte_100004,new,low,Sound Blaster 8237 DMA single-channel mask register port for each channel,src/dseg03/dseg03.asm
 100008,SbDmaModePorts,byte_100008,new,low,Sound Blaster 8237 DMA mode register port for each channel,src/dseg03/dseg03.asm
@@ -4565,6 +4569,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11917F,penshotfox,dword_11917F,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 119183,penshotteam,dword_119183,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 119187,penshotctl,,95PC,medium,NHL95PC CC108 (refset): referenced by the same 3 matched functions,
+11918B,SavedGameMode,word_11918B,new,low,game mode word kept in the saved game,src/data/engine/engine_4DED8_data_02.asm
 11918F,AwayGoalsPeriod,dword_11918F,new,low,away goals this period,src/data/engine/engine_4DED8_data_02.asm
 119193,HomeGoalsPeriod,dword_119193,new,low,home goals this period,src/data/engine/engine_4DED8_data_02.asm
 119197,penshotmode,,95PC,medium,NHL95PC CC118 (refset): referenced by the same 7 matched functions,
@@ -4579,18 +4584,33 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1191BB,sopathpoint,dword_1191BB,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
 1191BF,pspathside,dword_1191BF,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
 1191C3,pspathdir,dword_1191C3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+1191C7,PassTargetLocked,dword_1191C7,new,low,"per team: set when a pass target is locked (passmode, ShotMode, assgoalie)",src/data/engine/engine_4DED8_data_02.asm
+1191D7,PassHoldFrames,dword_1191D7,new,low,"per team: frames the pass button has been held (passmode, doinput)",src/data/engine/engine_4DED8_data_02.asm
 1191E7,OneTimerPasser,dword_1191E7,new,low,one-timer passer,src/data/engine/engine_4DED8_data_02.asm
 1191EB,PuckChasers,dword_1191EB,new,low,puck chaser per team,src/data/engine/engine_4DED8_data_02.asm
+1191EF,FaceoffPuckDropped,dword_1191EF,new,low,cleared at the face-off; set when puckfaceoff2 drops the puck,src/data/engine/engine_4DED8_data_02.asm
+1191F3,PuckChaserPlayer,dword_1191F3,new,low,"per team: player number chasing the puck, or -1",src/data/engine/engine_4DED8_data_02.asm
+1191FB,GameHitCount,dword_1191FB,new,low,"body checks counted in the game (FallDown, checkfight)",src/data/engine/engine_4DED8_data_02.asm
+1191FF,FightingOn,dword_1191FF,new,low,set from the fighting game option at the start of the game,src/data/engine/engine_4DED8_data_02.asm
 119203,HotList,byte_119203,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
 119204,HotList_y,byte_119204,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
 119CC3,HotStickList,byte_119CC3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
 119CC4,HotStickList_y,byte_119CC4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+119D04,ZonesDirty,dword_119D04,new,low,"set while screen zones wait to be redrawn (DrawDirtyZones, CopyZonesToScreen)",src/data/engine/engine_4DED8_data_02.asm
+119D08,CupShown,word_119D08,new,low,"set once the cup presentation has played (StartPreGame, DrawOverlayPanels)",src/data/engine/engine_2D9D9_data_01.asm
 119D0A,str_C_DrawOverlayPanels,unk_119D0A,new,high,"string ""C""",src/data/engine/engine_2D9D9_data_01.asm
 119D22,str_Punct_DrawOverlayPanels,unk_119D22,new,high,"string ""$""",src/data/engine/engine_2D9D9_data_01.asm
+119D36,StarPanelOffsets,unk_119D36,new,low,offsets of the three stars panel parts (DrawOverlayPanels),src/data/engine/engine_2D9D9_data_01.asm
 119D4E,str_V_DrawOverlayPanels,unk_119D4E,new,high,"string ""V""",src/data/engine/engine_2D9D9_data_01.asm
+119D62,IntroStandSpots,word_119D62,new,low,"intro stand positions, 4 bytes a player (assintrostand)",src/data/engine/engine_2D9D9_data_01.asm
 119D76,starskatermin,byte_119D76,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119D79,stargoaliemin,byte_119D79,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
+119D7C,ExtraAttackerSpots,unk_119D7C,new,low,spot table assextra4 sends the extra attacker to,src/data/engine/engine_2D9D9_data_01.asm
 119D9C,str_Q,unk_119D9C,new,high,"string ""q""",src/data/engine/engine_2D9D9_data_01.asm
+119DBC,PuckCarrySpotX,word_119DBC,new,low,x of the spots asspuckc skates the carrier to,src/data/engine/engine_2D9D9_data_01.asm
+119DBE,PuckCarrySpotY,word_119DBE,new,low,y of the spots asspuckc skates the carrier to,src/data/engine/engine_2D9D9_data_01.asm
+119DE4,ScoreCelebrating,dword_119DE4,new,low,set while a scorer celebrates (assscore),src/data/engine/engine_2D9D9_data_01.asm
+119DE8,ScoreCelebrateAnims,word_119DE8,new,low,celebration animations a scorer picks from at random (assscore),src/data/engine/engine_2D9D9_data_01.asm
 119DF7,Endfaceoff_ftab_m1,byte_119DF7,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119DFE,refsigdir,word_119DFE,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119E8A,str_wildcard,dword_119E8A,95PC,high,string '*',src/data/engine/logic_data_01.asm
@@ -5192,10 +5212,25 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 16505C,ViewScreenHeight,dword_16505C,new,low,full screen height the game view is sized against (compared with 300),src/data/front/replay_controls_bss_01.asm
 165250,InputState,byte_165250,new,low,input state,src/data/front/replay_controls_bss_01.asm
 165254,PtrPuckZone,dword_165254,new,low,pointer to the puck zone record,src/data/front/replay_controls_bss_01.asm
+165366,CupLeaveSlot,word_165366,new,low,cup celebration: per team (126h) and player (2Ah) record; set to -1 when the player leaves,src/data/engine/engine_2D9D9_bss_01.asm
+16536C,CupLeaveSlotNext,word_16536C,new,low,"cup celebration: second word of each player record, set to -1 when the player leaves",src/data/engine/engine_2D9D9_bss_01.asm
+165462,CupGoalieSlot,word_165462,new,low,"cup celebration: away goalie's record word, set to -1 when he leaves",src/data/engine/engine_2D9D9_bss_01.asm
+165468,CupGoalieSlotNext,word_165468,new,low,"cup celebration: away goalie's second record word, set to -1 when he leaves",src/data/engine/engine_2D9D9_bss_01.asm
+16548C,CupHomeGoalieSlot,word_16548C,new,low,"cup celebration: home goalie's record word, set to -1 when he leaves",src/data/engine/engine_2D9D9_bss_01.asm
+165492,CupHomeGoalieSlotNext,word_165492,new,low,"cup celebration: home goalie's second record word, set to -1 when he leaves",src/data/engine/engine_2D9D9_bss_01.asm
+1655A0,CrowdExciteTotal,dword_1655A0,new,low,"crowd excitement added up as it decays (RestoreBenchEnergy, periodicevents)",src/data/engine/engine_2D9D9_bss_01.asm
 1655A4,textline1,byte_1655A4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_bss_01.asm
+1655E0,textline2,byte_1655E0,new,low,second event caption line (scorer and assists),src/data/engine/engine_2D9D9_bss_01.asm
+16561C,textline3,byte_16561C,new,low,third event caption line,src/data/engine/engine_2D9D9_bss_01.asm
+165658,textline4,byte_165658,new,low,fourth event caption line,src/data/engine/engine_2D9D9_bss_01.asm
+165694,textline5,byte_165694,new,low,fifth event caption line,src/data/engine/engine_2D9D9_bss_01.asm
 1656D0,LineChangeReq,word_1656D0,new,medium,per team (2 words): line change requested,
+1656D2,PeriodEventCount,word_1656D2,new,low,count cleared at the start of each period and kept in the saved game,src/data/engine/engine_2D9D9_bss_01.asm
 1656D4,LineChangeLine,word_1656D4,new,medium,per team (2 words): which line (0-3),
+1656D6,GameEventFlags,word_1656D6,new,low,game word kept in the saved game and cleared with the game variables,src/data/engine/engine_2D9D9_bss_01.asm
 1656D8,hmtmstruct,,95PC,medium,NHL95PC DF614 (refset): referenced by the same 21 matched functions,
+1656DA,hmtmPwrGoals,word_1656DA,new,low,home team: power play goals,src/data/engine/engine_2D9D9_bss_01.asm
+1656DC,hmtmPwrPlays,word_1656DC,new,low,home team: power plays (cleared per team by SimulateGame),src/data/engine/engine_2D9D9_bss_01.asm
 1656E8,hmscore,word_1656E8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 165710,hmtmap,word_165710,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 165712,hmtmgoalie,,95PC,medium,NHL95PC DF64C (refset): referenced by the same 3 matched functions,
@@ -5232,15 +5267,26 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 165956,fofdata2_w6,word_165956,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
 165957,fofdata2_b7,byte_165957,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
 165958,fofdata,word_165958,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
+16595A,FaceoffDropTimer,word_16595A,new,low,face-off drop timer set to 8000h by puckfaceoff2,src/data/engine/faceoff_bss_01.asm
 16595C,regd2,,95PC,medium,NHL95PC E03AC (refset): referenced by the same 5 matched functions,
 165960,regd3,,95PC,medium,NHL95PC E03B0 (refset): referenced by the same 6 matched functions,
 165964,regd4,word_165964,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
 165968,regd5,,95PC,medium,NHL95PC E03B8 (refset): referenced by the same 4 matched functions,
+16596C,ReplayBufferTop,dword_16596C,new,low,where the replay buffer ends (ReplayBufferEnd),src/data/engine/faceoff_bss_01.asm
+165970,LastShooterTeam,word_165970,new,low,team of the last player to shoot (doshot); cleared with the game variables,src/data/engine/faceoff_bss_01.asm
+165974,ReplayFrameCount,dword_165974,new,low,frames recorded in the replay buffer,src/data/engine/faceoff_bss_01.asm
+165978,GameVarsClear,dword_165978,new,low,game word cleared with the game variables,src/data/engine/faceoff_bss_01.asm
 16597C,regd0,word_16597C,95PC,high,ClampYPosition clears it as NHL95PC regd0,src/data/engine/faceoff_bss_01.asm
+16597D,OffsideCalled,byte_16597D,new,low,cleared at a face-off; set when offside is called,src/data/engine/faceoff_bss_01.asm
+16597E,ReplayFrameFlags,byte_16597E,new,low,flags of the replay frame being played,src/data/engine/faceoff_bss_01.asm
 165980,regd1,word_165980,95PC,high,ClampYPosition clamps it as NHL95PC regd1,src/data/engine/faceoff_bss_01.asm
+165981,ReplayFrameButtons,byte_165981,new,low,button bits of the replay frame being played,src/data/engine/faceoff_bss_01.asm
+1659D6,ReplayBuffer,unk_1659D6,new,low,the replay buffer: frames of every object's position and animation,src/data/engine/faceoff_bss_01.asm
+176AE0,PenaltyTimes,byte_176AE0,new,low,"penalty box times, a word per slot (InProgress)",src/data/engine/faceoff_bss_01.asm
 176AE2,PenBuf,byte_176AE2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
 176AE3,PenBuf_pl,byte_176AE3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
 176B24,Ylist,word_176B24,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
+176B44,SavedPlayerWords,word_176B44,new,low,player words restored from the saved game (LoadGameState),src/data/engine/faceoff_bss_01.asm
 176B46,OOlistpos,,95PC,medium,NHL95PC E9A7A (refset): referenced by the same 4 matched functions,
 176B6A,SpeechPatchNext,word_176B6A,new,low,speech patch header: next (set to 0 at start up),src/data/front/main_bss_02.asm
 176B6C,joysampling,word_176B6C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm

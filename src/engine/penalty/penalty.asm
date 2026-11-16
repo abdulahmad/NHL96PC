@@ -4,8 +4,8 @@ bits 32
 section s_50154 progbits alloc exec nowrite align=1
 extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstruct, byte_1178C8
 extern byte_1178F9, byte_117938, byte_117945, byte_11795B, byte_117968, pendelaytab, byte_1179A5, LinePickOrderFrom1
-extern hmrosterpos, byte_1647E1, byte_1647E3, byte_165694, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
-extern byte_176AE0, PenBuf, PenBuf_pl, crowdlevel, HomeEbenPlayer, AwayEbenPlayer, penshotfox, penshotteam
+extern hmrosterpos, byte_1647E1, byte_1647E3, textline5, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
+extern PenaltyTimes, PenBuf, PenBuf_pl, crowdlevel, HomeEbenPlayer, AwayEbenPlayer, penshotfox, penshotteam
 extern AwayGoalsPeriod, HomeGoalsPeriod, PenaltyTypes, dword_11B310, lineslotmark, dword_176C44, fox, foy
 extern gameclock, gameopts, gmode, hmtmstruct, puckvy, puckc, PtrPuckFlags, PtrPuckObject
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
@@ -727,7 +727,7 @@ InProgress:
         mov eax, 0Ah
         call GetLangText
         push eax
-        push byte_165694
+        push textline5
         call sprintf_
         add esp, byte 0Ch
 .29:
@@ -865,7 +865,7 @@ InProgress_71B:
         cmp byte [nosplit edx*2+PenBuf], 0
         je near InProgress_7EE
         movsx edx, ax
-        movsx edx, byte [nosplit edx*2+byte_176AE0]
+        movsx edx, byte [nosplit edx*2+PenaltyTimes]
         cmp byte [dword edx+penmintab], 0
         je short .46
         mov word [Pencntdwn2], 0FFFFh

@@ -7,7 +7,7 @@ extern PenBuf, iflags, curevent, byte_17CC37, collflag, curperiod, dword_114F16,
 extern dword_118E89, dword_119173, penshotfox, penshotteam, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
 extern sopathend, sopathpoint, pspathside, pspathdir, dword_11B364, dword_151B84, hmtmlines, hmtmplattr
 extern dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, hmtmsort, dword_165920, dword_165924
-extern dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, hmtmroster, dword_16596C, dword_17CB2F
+extern dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, hmtmroster, ReplayBufferTop, dword_17CB2F
 extern PlayoffTreeData, dword_17CC17, dword_17CEC3, dword_17D162, dword_17D267, energywarn, exitgame, fadeinpending
 extern FileReadAt, fodir1, fodir2, fox, foy, gameclock, gameopts, gameover
 extern GetPeriodTime, gmode, gmode2, goalevent, gsp, hmroster, hmtmstruct, lastplayer
@@ -23,8 +23,8 @@ extern word_1178AE, word_1178B4, ltx, HomeControlSlot, word_1178CC, word_1178CE,
 extern refsignal, RefStep, word_1178FA, Penaltytimer, clockticks, word_118E8F, word_118E9F, word_118EA3
 extern lcblinktime, word_118EA7, lcsel, word_118EAB, word_118EAF, lctimer, word_118EB3, word_118EB7
 extern word_118FAF, word_118FB1, ovltimer, word_11910F, bannermsg, word_119113, lldispodd, word_11916B
-extern word_11918B, word_11B274, ovlstep, lastsfx, word_16474C, word_16474E, word_164792, puckcross
-extern word_1656D2, word_1656D6, word_165942, word_16594E, fofdata2, word_176B44, word_176B7C, PerTimeTotal
+extern SavedGameMode, word_11B274, ovlstep, lastsfx, word_16474C, word_16474E, word_164792, puckcross
+extern PeriodEventCount, GameEventFlags, word_165942, word_16594E, fofdata2, SavedPlayerWords, word_176B7C, PerTimeTotal
 extern LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, yc1
 global SaveGameState, SaveGameState_7DD, LoadGameState, ReadSeasonDbHeader, ReadSeasonDbHeader_C2, ReadSeasonDbHeader_C4, ReadSeasonDbHeader_C8, ReadPlayoffDbHeader
 global DeleteSeasonFiles, DeleteSeasonDb, GameEventStub
@@ -423,7 +423,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1656D2]
+        mov dx, word [PeriodEventCount]
         mov word [eax], dx
         inc eax
         inc eax
@@ -431,7 +431,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1656D6]
+        mov dx, word [GameEventFlags]
         mov word [eax], dx
         inc eax
         inc eax
@@ -483,7 +483,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_11918B]
+        mov dx, word [SavedGameMode]
         mov word [eax], dx
         inc eax
         inc eax
@@ -1128,7 +1128,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1656D2], dx
+        mov word [PeriodEventCount], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1136,7 +1136,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1656D6], dx
+        mov word [GameEventFlags], dx
         movsx edx, word [eax]
         inc eax
         inc eax
@@ -1188,7 +1188,7 @@ LoadGameState:
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [word_11918B], edx
+        mov dword [SavedGameMode], edx
         movsx edx, word [eax]
         inc eax
         inc eax
@@ -1380,7 +1380,7 @@ LoadGameState:
         mov eax, dword [replaystart]
         xor edx, edx
         xor esi, esi
-        mov dword [dword_16596C], eax
+        mov dword [ReplayBufferTop], eax
         call ResetPeriodState
         mov dword [fadeinpending], 1
         mov dword [hmtmsort], SortCords
@@ -1487,7 +1487,7 @@ LoadGameState:
         mov byte [dword edi+OOlist], cl
         mov ecx, dword [byte ebp+07Eh]
         inc dword [byte ebp+07Eh]
-        mov word [dword esi+word_176B44], cx
+        mov word [dword esi+SavedPlayerWords], cx
         cmp dword [byte ebp+07Eh], byte 11h
         jl near .24
         call InitBenchSprites

@@ -6,7 +6,7 @@ extern CompLine, Endfaceoff, PBnum, SetupPenaltyShot, ShotLaneOpen, SortCords, a
 extern awtmstruct, byte_1178C8, apl, byte_164797, byte_16479B, byte_1647E0, byte_1647E1, InputState
 extern byte_165713, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, crowdlevel
 extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_119173, penshotteam, pspathdir
-extern dword_1191C7, OneTimerPasser, PuckChasers, dword_1191EF, dword_119F6C, dword_11B2A8, dword_15E4C4, PtrPuckZone
+extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, dword_119F6C, dword_11B2A8, dword_15E4C4, PtrPuckZone
 extern dword_176BD0, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
 extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, lcfound
 extern puckvy, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer
@@ -21,7 +21,7 @@ extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, refsignal, RefStep, wo
 extern Penaltytimer, gsp, clockticks, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
 extern puckfaceoff2_ptab, ovltimer, word_11910F, bannermsg, word_119113, word_119F78, word_164716, word_16472A
 extern puckcross, word_165144, hmscore, word_165704, word_165706, hmtmpdst, awscore, awtmline
-extern word_16583C, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, fofdata, word_16595A, regd4
+extern word_16583C, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, fofdata, FaceoffDropTimer, regd4
 extern regd0, regd1, word_176B7A, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
 global AdjustFacingDirection, AllInPlace, GoalieToPuckVec, PenShotAssign, PullGoalie, SetTeamGoalie, assbenchwait, assrefpenshot
 global asstakeposition, check4bench, SetupPenaltyBoxSeats_7E, goalieposition_648, puckfaceoff, SetupPenaltyBoxSeats, TakePlayerFromBox, FreeBoxedPlayers
@@ -1393,7 +1393,7 @@ puckfaceoff2:
         mov dword [shotongoal], 0
         mov dword [OneTimerPasser], 0
         mov dword [dword_119173], 0
-        mov dword [dword_1191EF], 0
+        mov dword [FaceoffPuckDropped], 0
         mov dword [PuckChasers], 0
         mov word [bannermsg], 0FFFFh
         mov word [word_119113], 0
@@ -1870,7 +1870,7 @@ puckfaceoff2:
         and al, 2
         mov word [fofdata], 7
         movsx eax, al
-        mov word [word_16595A], 8000h
+        mov word [FaceoffDropTimer], 8000h
         test eax, eax
         jne short .53
         xor byte [fofdata2_b3], 8
@@ -4809,7 +4809,7 @@ assgoalie:
         cmp dword [byte esi+07Ah], byte 0
         jl near goalieposition_648
         mov eax, dword [byte esi+07Ah]
-        mov dword [nosplit eax*4+dword_1191C7], 1
+        mov dword [nosplit eax*4+PassTargetLocked], 1
         jmp near goalieposition_648
 .55:
         mov eax, dword [puckx]

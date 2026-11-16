@@ -2,44 +2,44 @@
 bits 32
 %include "hockey.inc"
 section s_165366 nobits alloc noexec write align=1
-global LineChangeLine, LineChangeReq, textline1, byte_1655E0, byte_16561C, byte_165658, byte_165694, dword_1655A0
-global hmtmstruct, word_165366, word_16536C, word_165462, word_165468, word_16548C, word_165492, word_1656D2
-global word_1656D6, word_1656DA, word_1656DC
-word_165366:
+global LineChangeLine, LineChangeReq, textline1, textline2, textline3, textline4, textline5, CrowdExciteTotal
+global hmtmstruct, CupLeaveSlot, CupLeaveSlotNext, CupGoalieSlot, CupGoalieSlotNext, CupHomeGoalieSlot, CupHomeGoalieSlotNext, PeriodEventCount
+global GameEventFlags, hmtmPwrGoals, hmtmPwrPlays
+CupLeaveSlot:
         resb 6
-word_16536C:
+CupLeaveSlotNext:
         resb 246
-word_165462:
+CupGoalieSlot:
         resb 6
-word_165468:
+CupGoalieSlotNext:
         resb 36
-word_16548C:
+CupHomeGoalieSlot:
         resb 6
-word_165492:
+CupHomeGoalieSlotNext:
         resb 270
-dword_1655A0:
+CrowdExciteTotal:
         resb 4
 textline1:
         resb 60
-byte_1655E0:
+textline2:
         resb 60
-byte_16561C:
+textline3:
         resb 60
-byte_165658:
+textline4:
         resb 60
-byte_165694:
+textline5:
         resb 60
 LineChangeReq:
         resb 2
-word_1656D2:
+PeriodEventCount:
         resb 2
 LineChangeLine:
         resb 2
-word_1656D6:
+GameEventFlags:
         resb 2
 hmtmstruct:
         resb 2
-word_1656DA:
+hmtmPwrGoals:
         resb 2
-word_1656DC:
+hmtmPwrPlays:
         resb 2

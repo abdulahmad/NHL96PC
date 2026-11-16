@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_165953 nobits alloc noexec write align=1
-global OOlistpos, fofdata2_b3, fofdata2_b7, byte_16597D, byte_16597E, byte_165981, byte_176AE0, PenBuf
-global PenBuf_pl, dword_16596C, dword_165974, dword_165978, regd2, regd3, unk_1659D6, fofdata2_w4
-global fofdata2_w6, fofdata, word_16595A, regd4, regd5, word_165970, regd0, regd1
-global Ylist, word_176B44
+global OOlistpos, fofdata2_b3, fofdata2_b7, OffsideCalled, ReplayFrameFlags, ReplayFrameButtons, PenaltyTimes, PenBuf
+global PenBuf_pl, ReplayBufferTop, ReplayFrameCount, GameVarsClear, regd2, regd3, ReplayBuffer, fofdata2_w4
+global fofdata2_w6, fofdata, FaceoffDropTimer, regd4, regd5, LastShooterTeam, regd0, regd1
+global Ylist, SavedPlayerWords
 fofdata2_b3:
         resb 1
 fofdata2_w4:
@@ -16,7 +16,7 @@ fofdata2_b7:
         resb 1
 fofdata:
         resb 2
-word_16595A:
+FaceoffDropTimer:
         resb 2
 regd2:
         resb 4
@@ -26,27 +26,27 @@ regd4:
         resb 4
 regd5:
         resb 4
-dword_16596C:
+ReplayBufferTop:
         resb 4
-word_165970:
+LastShooterTeam:
         resb 4
-dword_165974:
+ReplayFrameCount:
         resb 4
-dword_165978:
+GameVarsClear:
         resb 4
 regd0:
         resb 1
-byte_16597D:
+OffsideCalled:
         resb 1
-byte_16597E:
+ReplayFrameFlags:
         resb 2
 regd1:
         resb 1
-byte_165981:
+ReplayFrameButtons:
         resb 85
-unk_1659D6:
+ReplayBuffer:
         resb 69898
-byte_176AE0:
+PenaltyTimes:
         resb 2
 PenBuf:
         resb 1
@@ -54,7 +54,7 @@ PenBuf_pl:
         resb 65
 Ylist:
         resb 32
-word_176B44:
+SavedPlayerWords:
         resb 2
 OOlistpos:
         resb 34

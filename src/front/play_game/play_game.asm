@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_168DA progbits alloc exec nowrite align=1
-extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, byte_1655E0, byte_16561C, byte_165658, byte_165694
+extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, textline2, textline3, textline4, textline5
 extern byte_17BDAE, byte_17CA5D, byte_17CECB, byte_17CECC, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
 extern DrawGameStats_DD0, dword_114B88, dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114F16, dword_1150D4
 extern gameresult, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5C0, dword_11F5C4, InputPlaybackOn, dword_1515BE
@@ -21,7 +21,7 @@ extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
 extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
 extern FindShape, exhstate, SeasonUserRecords, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
-extern bannermsg, word_119113, word_1515E4, word_1656D2, word_1656D6
+extern bannermsg, word_119113, word_1515E4, PeriodEventCount, GameEventFlags
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
 global GameLoop_E, GameLoop_18, GameLoop_38, GameLoop_inputcheck, GameLoop_hotkeyscall, GameLoop_hotkeyscall_5, GameLoop_menucall, GameLoop_menucall_A
@@ -467,8 +467,8 @@ HandleSlotButtons:
         je short .15
         mov ebx, 3
 .15:
-        mov word [word_1656D2], 1
-        mov word [word_1656D6], bx
+        mov word [PeriodEventCount], 1
+        mov word [GameEventFlags], bx
 .16:
         test edx, 40000h
         je short .17
@@ -547,11 +547,11 @@ RunSimFrames:
         cmp dword [dword_11B310], byte 0
         jge short .7
         mov dword [dword_11B310], 0FFFFFFFFh
-        mov byte [byte_165694], 0
-        mov byte [byte_165658], 0
-        mov byte [byte_1655E0], 0
+        mov byte [textline5], 0
+        mov byte [textline4], 0
+        mov byte [textline2], 0
         mov byte [textline1], 0
-        mov byte [byte_16561C], 0
+        mov byte [textline3], 0
 .7:
         cmp dword [InGameMenuRequest], byte 0
         jne short .9
@@ -727,7 +727,7 @@ GameLoop_nextperiodcall:
 .1:
         mov dword [gameresult], 1
 .2:
-        mov word [word_1656D2], 0
+        mov word [PeriodEventCount], 0
         mov word [LineChangeReq], 0
         mov dword [fadeinpending], 1
         mov word [exitgame], 0

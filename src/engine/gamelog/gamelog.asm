@@ -4,7 +4,7 @@ bits 32
 section s_4F453 progbits alloc exec nowrite align=1
 extern GameLoopActive, str_SSS, str_CSS, str_SS, str_CS, str_CSCS, str_CS2, str_spCS
 extern str_D, str_2d02d, awtmstruct, byte_115114, byte_115116, byte_157191, byte_157193, byte_1647E3
-extern textline1, byte_1655E0, byte_16561C, byte_165658, byte_165694, byte_16580B, byte_16580C, byte_165941
+extern textline1, textline2, textline3, textline4, textline5, byte_16580B, byte_16580C, byte_165941
 extern curevent, byte_176B91, byte_176B92, curevent_b2, curevent_b5, byte_176B95, curevent_b6, curevent_b7
 extern curevent_b8, byte_176B99, curevent_b9, goalevent, byte_179DC1, byte_17CA5D, crowdlevel, curperiod
 extern penshotfox, penshotteam, dword_11A1BC, dword_11B310, dword_1571B3, plseasongoals, hmtmlines, dword_1798AC
@@ -208,7 +208,7 @@ FormatAssistNames:
         mov eax, 1Dh
         call GetLangText
         mov edx, eax
-        mov eax, byte_1655E0
+        mov eax, textline2
         call strcpy_
         leave
         pop edi
@@ -230,7 +230,7 @@ FormatAssistNames:
         movsx eax, byte [dword esi+byte_157193]
         push eax
         push str_CS
-        push byte_1655E0
+        push textline2
         jmp near .5
 .4:
         imul edx, byte 2Bh
@@ -245,13 +245,13 @@ FormatAssistNames:
         movsx eax, byte [dword esi+byte_157193]
         push eax
         push str_CSCS
-        push byte_1655E0
+        push textline2
         call sprintf_
         add esp, byte 18h
         push dword [dword_179918]
         call TextSetFont
         add esp, byte 4
-        push byte_1655E0
+        push textline2
         call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-0Ch]
@@ -260,14 +260,14 @@ FormatAssistNames:
         movsx eax, byte [dword esi+byte_157193]
         push eax
         push str_CS2
-        push byte_1655E0
+        push textline2
         call sprintf_
         add esp, byte 10h
         push dword [byte ebp-08h]
         movsx eax, byte [dword edi+byte_157193]
         push eax
         push str_spCS
-        push byte_165694
+        push textline5
 .5:
         call sprintf_
         add esp, byte 10h
@@ -292,12 +292,12 @@ BuildEventLines:
         push edi
         enter 10h, 0
         mov dword [dword_11B310], 0FFFFFFFFh
-        mov byte [byte_165694], 0
-        mov byte [byte_165658], 0
-        mov byte [byte_1655E0], 0
+        mov byte [textline5], 0
+        mov byte [textline4], 0
+        mov byte [textline2], 0
         mov byte [textline1], 0
         movsx eax, byte [curevent]
-        mov byte [byte_16561C], 0
+        mov byte [textline3], 0
         cmp eax, byte 1
         jne near .7
         movzx esi, byte [byte_176B91]
@@ -358,7 +358,7 @@ BuildEventLines:
         movzx eax, byte [dword edx+ebx+byte_157191]
         push eax
         push str_D
-        push byte_16561C
+        push textline3
         call sprintf_
         mov eax, hmroster
         add eax, ebx
@@ -378,7 +378,7 @@ BuildEventLines:
         movzx eax, byte [curevent_b7]
         push eax
         push str_2d02d
-        push byte_165658
+        push textline4
         call sprintf_
         add esp, byte 10h
         jmp near .14
@@ -395,13 +395,13 @@ BuildEventLines:
         movzx eax, byte [curevent_b6]
         push eax
         push str_2d02d
-        push byte_165694
+        push textline5
         call sprintf_
         add esp, byte 10h
         mov eax, 20h
         call GetLangText
         mov edx, eax
-        mov eax, byte_1655E0
+        mov eax, textline2
         call strcpy_
         imul edx, dword [penshotteam], dword 4B4h
         imul eax, dword [penshotfox], byte 2Bh
@@ -439,7 +439,7 @@ BuildEventLines:
         lea ecx, [byte edx+07h]
         call GetLangText
         mov edx, eax
-        mov eax, byte_165658
+        mov eax, textline4
         call FormatPlayerName
         test esi, esi
         sete al
@@ -452,13 +452,13 @@ BuildEventLines:
         movzx eax, byte [curevent_b6]
         push eax
         push str_2d02d
-        push byte_165694
+        push textline5
         call sprintf_
         add esp, byte 10h
         mov eax, 22h
         call GetLangText
         mov edx, eax
-        mov eax, byte_16561C
+        mov eax, textline3
         call strcpy_
         imul edx, esi, dword 4B4h
         imul eax, ebx, byte 2Bh
@@ -479,7 +479,7 @@ BuildEventLines:
         mov eax, 23h
         call GetLangText
         mov edx, eax
-        mov eax, byte_165658
+        mov eax, textline4
         call strcpy_
         jmp short .12
 .11:
@@ -487,7 +487,7 @@ BuildEventLines:
         mov eax, 24h
         call GetLangText
         push eax
-        push byte_165658
+        push textline4
         call sprintf_
         add esp, byte 0Ch
 .12:
@@ -495,7 +495,7 @@ BuildEventLines:
         mov eax, dword [nosplit eax*4+dword_11A1BC]
         call GetLangText
         mov edx, eax
-        mov eax, byte_1655E0
+        mov eax, textline2
         call strcat_
         mov dword [dword_1798AC], esi
         jmp near .14
@@ -510,7 +510,7 @@ BuildEventLines:
         mov dword [dword_1798AC], esi
         call GetLangText
         mov edx, eax
-        mov eax, byte_16561C
+        mov eax, textline3
         call strcpy_
         imul edx, esi, dword 4B4h
         imul eax, edi, byte 2Bh
@@ -530,7 +530,7 @@ BuildEventLines:
         movzx eax, byte [byte_176B95]
         push eax
         push str_2d02d
-        push byte_1655E0
+        push textline2
         mov ecx, dword [byte ebp-04h]
         mov ebx, esi
         call sprintf_

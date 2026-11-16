@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1D6C1 progbits alloc exec nowrite align=1
 extern assinsert, BuildDefaultLines, apl, curevent, crowdlevel, CrowdNoiseReset, curperiod, dword_114F16
-extern gameresult, dword_151B84, dword_164744, dword_164748, dword_1655A0, energywarn, exitgame, fadeinpending
+extern gameresult, dword_151B84, dword_164744, dword_164748, CrowdExciteTotal, energywarn, exitgame, fadeinpending
 extern forceteams, fox, foy, GameLoopActive, gameopts, gameover, goalevent, gsp
 extern InGameMenuRequest, introskipped, lastplayer, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq
 extern optblock, passplayer, Pencntdwn, Pencntdwn2, penshotlive, penshotmode, penshotplayer, penshotstart
@@ -12,7 +12,7 @@ extern SetupTeamLines, shotongoal, shotontarget, SortCords, StartGame, StartPreG
 extern SetScreenTarget, threat, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178F4, refsignal
 extern RefStep, word_1178FA, Penaltytimer, word_118E8F, word_118E9F, word_118EA3, lcblinktime, word_118EA7
 extern lcsel, word_118EAB, word_118EAF, lctimer, word_118EB3, word_118EB7, word_1190D7, puckfaceoff2_ptab
-extern ovltimer, word_11910F, word_119113, word_1656D2, word_1656D6, hmtmap, awtmap, regd4
+extern ovltimer, word_11910F, word_119113, PeriodEventCount, GameEventFlags, hmtmap, awtmap, regd4
 extern word_176B68, SpeechPatchNext, joysampling, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B7A
 extern word_176B7E
 global BlankForFadeIn, PlacePlayersAtStart, SetupGame, SetupDemoGame, ResetGameVars
@@ -285,9 +285,9 @@ ResetGameVars:
         mov word [lcblink], 0
         mov word [word_118E9F], 0
         mov word [energywarn], 0
-        mov word [word_1656D6], 0
+        mov word [GameEventFlags], 0
         mov word [LineChangeLine], 0
-        mov word [word_1656D2], 0
+        mov word [PeriodEventCount], 0
         mov word [LineChangeReq], 0
         mov word [word_118EB7], 0
         mov word [lcboxon], 0
@@ -315,9 +315,9 @@ ResetGameVars:
         mov word [word_176B70], 0
         mov word [word_176B6E], 0
         mov word [word_176B76], 0
-        mov dword [dword_1655A0], 0
+        mov dword [CrowdExciteTotal], 0
         mov word [word_176B68], 0FFFFh
-        mov word [word_1656D6], 0
+        mov word [GameEventFlags], 0
         mov word [LineChangeLine], 0
         call StartGame
         mov dword [curperiod], 1

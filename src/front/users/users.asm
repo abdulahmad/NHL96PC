@@ -32,7 +32,7 @@ extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetText
 extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, InitVScrollBar, ScrollBarUp, ScrollBarDown
 extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, DrawShapeCore, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock
 extern CreateBitmap, TintRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
-extern FindShape, RemapPolygonArgs, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
+extern FindShape, RemapPolygonArgs, TextSetFont, unk_160B50, WaitTicks, word_160ACC, hmtmPwrGoals, hmtmPwrPlays
 extern hmscore, word_165810, word_165812, awscore
 global unk_2A3D6, unk_2A3E2, unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, str_3_UserRecordsScreen, ClearSlotUser
 global ClearSlotUsers, UserRecordRating, CreateUserRecord, DeleteUser, NewUser, NewUser_159, DrawUserList, GetUserName
@@ -1376,9 +1376,9 @@ UpdateUserRecords:
         je near .6
         movsx eax, word [hmscore]
         mov dword [byte ebp+07Eh], eax
-        movsx eax, word [word_1656DC]
+        movsx eax, word [hmtmPwrPlays]
         mov dword [byte ebp+05Eh], eax
-        movsx eax, word [word_1656DA]
+        movsx eax, word [hmtmPwrGoals]
         mov dword [byte ebp+06Eh], eax
         movsx eax, word [word_165812]
         mov dword [byte ebp+06Ah], eax
@@ -1414,9 +1414,9 @@ UpdateUserRecords:
         mov dword [byte ebp+05Eh], eax
         movsx eax, word [word_165810]
         mov dword [byte ebp+06Eh], eax
-        movsx eax, word [word_1656DC]
+        movsx eax, word [hmtmPwrPlays]
         mov dword [byte ebp+06Ah], eax
-        movsx eax, word [word_1656DA]
+        movsx eax, word [hmtmPwrGoals]
         movsx ecx, word [hmscore]
         mov dword [byte ebp+056h], eax
         xor eax, eax

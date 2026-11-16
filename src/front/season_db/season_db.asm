@@ -10,7 +10,7 @@ extern dword_17D202, dword_17D267, dword_17D26B, FillMusicStream, gameopts, GetL
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
 extern SoundIdle, SoundSecondsToBytes, sprintf_, srand_, str_05dCNZDB, str_S05dCNZDB, strcat_, strlen_
 extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, FreeMemBlock, OpenArtArchiveErr, SaveFileBlock
-extern FileSizeByName, SeasonUserRecords, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, word_1656DC
+extern FileSizeByName, SeasonUserRecords, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, hmtmPwrPlays
 extern hmscore, awscore
 global UpdateTeamDbs, UpdateTeamDbs_86F, ApplyDayResults, SimSeasonGames, ApplyPlayoffDayResults, SaveSeasonTeams, unk_81ED1
 ;-----------------------------------------------------------------------------
@@ -499,7 +499,7 @@ UpdateTeamDbs:
         jl short .44
         mov eax, dword [byte ebp+06h]
         mov byte [ebx+eax], 0F7h
-        mov dl, byte [dword ecx+word_1656DC]
+        mov dl, byte [dword ecx+hmtmPwrPlays]
         lea ebx, [byte esi+01h]
         mov byte [esi+eax], dl
         mov eax, ebx

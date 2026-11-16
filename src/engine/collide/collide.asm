@@ -4,9 +4,9 @@ bits 32
 section s_3E6EC progbits alloc exec nowrite align=1
 extern Acheck, AddPenalty, CompLine, CountShotOnGoal, CwdExciteLvl, OOlist, OOlistpos, PBnum
 extern QuickShotChk, RemoveFromLines, ShotLaneOpen, SortCords, a2touchpuck, assinsert, assreplace, awtmstruct
-extern byte_115115, byte_115117, byte_1175A7, byte_1178C8, byte_16514E, byte_16514F, byte_16597D, PenBuf
+extern byte_115115, byte_115117, byte_1175A7, byte_1178C8, byte_16514E, byte_16514F, OffsideCalled, PenBuf
 extern PenBuf_pl, iflags, byte_176BA5, byte_176BA7, collflag, crowdlevel, hmslotcount, awslotcount
-extern dword_119173, dword_1191C7, dword_1191D7, OneTimerPasser, PuckChasers, dword_1191F3, dword_1191FB, dword_1191FF
+extern dword_119173, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn
 extern dword_119F90, nethit, dword_15E844, dword_16516E, dword_165172, dword_179D70, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, puckvy, puckc
 extern PtrPuckFlags, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
@@ -20,7 +20,7 @@ extern vtoa, wcradiusx, word_1178A0, word_1178A6, VisTeam, word_1178AC, word_117
 extern yc1, gmode2, HomeControlSlot, gsp, clockticks, dirtab, dirtab_y, refhitcount
 extern word_11910F, bannermsg, word_119113, word_11916B, blockspd, blockspd_y, word_119FB8, shotsets
 extern word_119FCA, puckcross, word_1647A2, word_165144, word_16514A, word_16514C, hmtmap, awtmap
-extern regd4, regd5, word_165970, regd0, regd1, Ylist, SpeechPatchNext, PerTimeTotal
+extern regd4, regd5, LastShooterTeam, regd0, regd1, Ylist, SpeechPatchNext, PerTimeTotal
 extern lastimpact
 global Bcheck, CPgoalie, CheckBump, ChkGoalies, ChkOffsides, ChkPullGoalieLate, FacingBoards, MarkTwoLinePlayers
 global PassLaneChk, PuckIChk, SkillForAnim, checkagr, checkcx, checkgoal, chk4lc, chk4pass
@@ -3244,7 +3244,7 @@ passmode:
         mov word [word_1178AC], dx
         cmp word [byte eax+01Ah], byte 0
         je short .3
-        cmp dword [nosplit ebx*4+dword_1191D7], byte 1Eh
+        cmp dword [nosplit ebx*4+PassHoldFrames], byte 1Eh
         jle short .3
         mov dl, byte [byte eax+044h]
         and dl, 40h
@@ -3260,10 +3260,10 @@ passmode:
         test edx, edx
         setne dl
         movzx edx, dl
-        mov dword [nosplit edx*4+dword_1191F3], ecx
+        mov dword [nosplit edx*4+PuckChaserPlayer], ecx
         call dopass
-        mov dword [nosplit ebx*4+dword_1191C7], 1
-        mov dword [nosplit ebx*4+dword_1191D7], 0
+        mov dword [nosplit ebx*4+PassTargetLocked], 1
+        mov dword [nosplit ebx*4+PassHoldFrames], 0
 .3:
         pop ecx
         pop ebx
@@ -5370,10 +5370,10 @@ FallDown:
 .6:
         movsx eax, byte [byte esi+047h]
         inc byte [dword edx+eax+0E4h]
-        inc dword [dword_1191FB]
+        inc dword [GameHitCount]
         cmp byte [byte esi+063h], 0
         jne short .7
-        inc dword [dword_1191FB]
+        inc dword [GameHitCount]
 .7:
         mov word [byte ecx+03Eh], 78h
         mov ax, word [byte esi+06h]
@@ -7803,7 +7803,7 @@ ShotMode:
         movsx edx, dx
         test edx, edx
         jne short .2
-        mov byte [byte_16597D], 0
+        mov byte [OffsideCalled], 0
         and byte [regd0], 7
         mov dx, word [regd0]
         mov word [word_1178AC], dx
@@ -7861,7 +7861,7 @@ ShotMode:
 .9:
         test ebx, ebx
         jl near .16
-        mov dword [nosplit ebx*4+dword_1191C7], 1
+        mov dword [nosplit ebx*4+PassTargetLocked], 1
         pop ebx
         ret
 .10:
@@ -9748,7 +9748,7 @@ checkfight:
         mov eax, dword [gameopts]
         test byte [byte eax+02h], 1
         je near .21
-        cmp dword [dword_1191FF], byte 0
+        cmp dword [FightingOn], byte 0
         je near .21
         movsx eax, word [dword ecx+086h]
         cmp eax, byte 0Bh
@@ -9802,7 +9802,7 @@ checkfight:
         cmp eax, byte 1Bh
         je near .21
         mov edi, 28h
-        sub edi, dword [dword_1191FB]
+        sub edi, dword [GameHitCount]
         test edi, edi
         jge short .1
         xor edi, edi
@@ -9822,10 +9822,10 @@ checkfight:
         movzx eax, al
         test eax, eax
         je near .21
-        mov dword [dword_1191FB], 0
+        mov dword [GameHitCount], 0
         mov edi, unk_1657BC
         mov eax, unk_1658F2
-        dec dword [dword_1191FF]
+        dec dword [FightingOn]
         xor edx, edx
 .2:
         mov byte [eax], 0
@@ -10176,7 +10176,7 @@ checkcx:
         imul eax, ebx
         add eax, dword [byte ebp-010h]
         sar eax, 4
-        mov word [word_165970], 0
+        mov word [LastShooterTeam], 0
         mov dword [byte ebp-014h], eax
         mov ax, word [byte ecx+0Ch]
         add eax, dword [byte ebp-014h]

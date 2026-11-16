@@ -20,7 +20,7 @@ extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, DrawArt, PutBlockAtOwn
 extern ClearScreenColour, FreeBitmap, UnpackTo, DosFileInfo, LoadResourceDataShared, SetScreenTarget, FindShape, bcopy
 extern ClearClipRect, TextSetFont, unk_144BD, unk_144C3, unk_144C9, str_N, unk_144ED, word_114CE0
 extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, str_Punct_DrawGameStats, word_114DE4, word_114DE6, word_114EA8
-extern word_114EAC, word_114EF8, word_114EFA, word_114EFC, word_114EFE, word_114F00, word_1656DA, word_1656DC
+extern word_114EAC, word_114EF8, word_114EFA, word_114EFC, word_114EFE, word_114F00, hmtmPwrGoals, hmtmPwrPlays
 extern word_1656DE, word_1656E0, word_1656E2, word_1656E4, word_1656E6, hmscore, word_1656EA, word_1656EC
 extern word_1656F2, word_1656F4, word_1656F6, word_1656F8, word_1656FA, word_1656FC, word_1656FE, word_165700
 extern word_165702, word_165810, word_165812, word_165814, word_165816, word_165818, word_16581A, word_16581C
@@ -343,9 +343,9 @@ DrawGameStats:
         movsx edx, word [word_114DD2]
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656DC]
+        movsx eax, word [hmtmPwrPlays]
         push eax
-        movsx eax, word [word_1656DA]
+        movsx eax, word [hmtmPwrGoals]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]

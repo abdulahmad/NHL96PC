@@ -7,8 +7,8 @@ extern dword_16523C, dword_165240, dword_165244, dword_165248, EvadePC, gmode, g
 extern off_117890, PBnum, Pencntdwn, playeracc, puckc, puckx, pucky, randomd0
 extern ReadJoy1, regd0, regd1, regd2, regd3, SetExitGame, SetSPA, skateto
 extern SkateToSpot, slotteam, SortCords, RunPreGameSkate_450, RunPreGameSkate_451, assexitjump, GameEventStub, PlayArenaClip
-extern SwapPosition, updateanim, vecdist, vtoa, word_165366, word_16536C, word_165462, word_165468
-extern word_16548C, word_165492
+extern SwapPosition, updateanim, vecdist, vtoa, CupLeaveSlot, CupLeaveSlotNext, CupGoalieSlot, CupGoalieSlotNext
+extern CupHomeGoalieSlot, CupHomeGoalieSlotNext
 global TurnToward, SkateToTarget, assboxenter, assbenchside, assstanley, asscupfollow, asscuptake, asscupleave
 global assextra2, GetPartner, defotarget, assdefo, asscoverdefo, defdtarget, assdefd, asscoverdefd
 global assextra3, asswingd
@@ -1177,7 +1177,7 @@ asscupleave:
         imul edx, eax, dword 126h
         movsx eax, cx
         imul eax, byte 2Ah
-        mov word [dword edx+eax+word_16536C], 0FFFFh
+        mov word [dword edx+eax+CupLeaveSlotNext], 0FFFFh
         movsx eax, word [dword ebx+086h]
         cmp eax, byte 6
         setl al
@@ -1185,11 +1185,11 @@ asscupleave:
         imul edx, eax, dword 126h
         movsx eax, cx
         imul eax, byte 2Ah
-        mov word [dword edx+eax+word_165366], 0FFFFh
+        mov word [dword edx+eax+CupLeaveSlot], 0FFFFh
         cmp word [dword ebx+086h], byte 0
         jne short .22
-        mov word [word_165492], 0FFFFh
-        mov word [word_16548C], 0FFFFh
+        mov word [CupHomeGoalieSlotNext], 0FFFFh
+        mov word [CupHomeGoalieSlot], 0FFFFh
         pop edx
         pop ecx
         pop ebx
@@ -1198,8 +1198,8 @@ asscupleave:
         movsx eax, word [dword ebx+086h]
         cmp eax, byte 0Bh
         jne short .23
-        mov word [word_165468], 0FFFFh
-        mov word [word_165462], 0FFFFh
+        mov word [CupGoalieSlotNext], 0FFFFh
+        mov word [CupGoalieSlot], 0FFFFh
 .23:
         pop edx
         pop ecx

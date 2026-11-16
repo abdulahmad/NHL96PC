@@ -6,10 +6,10 @@ extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
 extern lineslotgroups, lineslotgroupstart, byte_11BB20, hmrosterpos, byte_1647E0, byte_176B83, defsort_d, dressflags
 extern dressflags_aw, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, byte_17CA5D, crowdlevel, dword_1150D4
-extern dword_1175B5, dword_1175B9, dword_1176E1, seed, dword_119D04, dword_11A3F2, ReplayRemoteShape, dword_11B294
+extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, dword_11A3F2, ReplayRemoteShape, dword_11B294
 extern dword_11B330, dword_11B364, dword_11D91F, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
 extern MenuBitmapPixels, dword_157AF4, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
-extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, dword_16596C, lineslotmark
+extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, ReplayBufferTop, lineslotmark
 extern dword_176ED5, dword_176F90, dword_1770D8, dword_1770DC, dword_1770E0, dword_1770E4, dword_1770E8, dword_1770EC
 extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108, dword_1798BC
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, replaystart, puckvy
@@ -2074,7 +2074,7 @@ ReplayBufferStart:
         cwde
         test eax, eax
         je short .1
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         ret
 .1:
         mov eax, dword [replaystart]
@@ -2084,7 +2084,7 @@ ReplayBufferStart:
 ; Returns where the replay buffer ends
 ;-----------------------------------------------------------------------------
 ReplayBufferEnd:
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         cmp eax, dword [replaystart]
         jne short .2
         mov ax, word [sflags]
@@ -2146,15 +2146,15 @@ SortSpritesForDraw:
 .2:
         dec dword [dword_176F90]
 .3:
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
         mov edx, dword [dword_11B364]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov dl, byte [byte edx+0Ch]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [byte_11BB20]
         xor ebx, ebx
         mov byte [eax], dl
@@ -2179,25 +2179,25 @@ SortSpritesForDraw:
         movzx edx, dl
         shl edx, 14h
         or ecx, edx
-        mov edx, dword [dword_16596C]
+        mov edx, dword [ReplayBufferTop]
         mov dword [edx], ecx
         cmp dword [dword eax+09Ch], byte 0
         je short .5
-        mov edx, dword [dword_16596C]
+        mov edx, dword [ReplayBufferTop]
         or byte [byte edx+02h], 40h
 .5:
         cmp dword [byte eax+07Ah], byte 0FFFFFFFFh
         jne short .6
-        mov edx, dword [dword_16596C]
+        mov edx, dword [ReplayBufferTop]
         or byte [byte edx+02h], 80h
 .6:
-        add dword [dword_16596C], byte 3
-        mov edx, dword [dword_16596C]
+        add dword [ReplayBufferTop], byte 3
+        mov edx, dword [ReplayBufferTop]
         mov cx, word [byte eax+012h]
         inc ebx
         mov word [edx], cx
         add eax, 0A0h
-        add dword [dword_16596C], byte 2
+        add dword [ReplayBufferTop], byte 2
 .7:
         movsx edx, bx
         cmp edx, byte 11h
@@ -2206,9 +2206,9 @@ SortSpritesForDraw:
         xor ebx, ebx
         jmp short .9
 .8:
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ecx, [byte eax+01h]
-        mov dword [dword_16596C], ecx
+        mov dword [ReplayBufferTop], ecx
         inc ebx
         mov cl, byte [byte edx+047h]
         add edx, 0A0h
@@ -2221,9 +2221,9 @@ SortSpritesForDraw:
         xor ebx, ebx
         jmp short .11
 .10:
-        mov edx, dword [dword_16596C]
+        mov edx, dword [ReplayBufferTop]
         lea ecx, [byte edx+01h]
-        mov dword [dword_16596C], ecx
+        mov dword [ReplayBufferTop], ecx
         inc ebx
         mov cl, byte [byte eax+036h]
         add eax, 0A0h
@@ -2236,12 +2236,12 @@ SortSpritesForDraw:
         xor edx, edx
         jmp short .13
 .12:
-        mov ebx, dword [dword_16596C]
+        mov ebx, dword [ReplayBufferTop]
         mov cx, word [byte eax+038h]
         inc edx
         mov word [ebx], cx
         add eax, 0A0h
-        add dword [dword_16596C], byte 2
+        add dword [ReplayBufferTop], byte 2
 .13:
         movsx ebx, dx
         cmp ebx, byte 11h
@@ -2250,12 +2250,12 @@ SortSpritesForDraw:
         xor edx, edx
         jmp short .15
 .14:
-        mov ebx, dword [dword_16596C]
+        mov ebx, dword [ReplayBufferTop]
         mov cx, word [byte eax+03Ah]
         inc edx
         mov word [ebx], cx
         add eax, 0A0h
-        add dword [dword_16596C], byte 2
+        add dword [ReplayBufferTop], byte 2
 .15:
         movsx ebx, dx
         cmp ebx, byte 11h
@@ -2282,10 +2282,10 @@ SortSpritesForDraw:
         shl edx, 4
         or word [regd0], dx
 .20:
-        mov edx, dword [dword_16596C]
+        mov edx, dword [ReplayBufferTop]
         lea ecx, [byte edx+01h]
         add eax, 0A0h
-        mov dword [dword_16596C], ecx
+        mov dword [ReplayBufferTop], ecx
         mov cl, byte [regd0]
         inc ebx
         mov byte [edx], cl
@@ -2293,24 +2293,24 @@ SortSpritesForDraw:
         movsx edx, bx
         cmp edx, byte 6
         jl short .16
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
         mov edx, dword [puckz]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov dl, byte [edx]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         mov edx, dword [dword_11B294]
         mov dword [eax], edx
-        add dword [dword_16596C], byte 4
-        mov eax, dword [dword_16596C]
+        add dword [ReplayBufferTop], byte 4
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [word_11A3F0]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [lastsfx]
         mov byte [eax], dl
         mov dl, byte [word_1178CC]
@@ -2319,11 +2319,11 @@ SortSpritesForDraw:
         and al, 0Fh
         shl dl, 4
         or dl, al
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         mov word [lastsfx], 0FFFFh
         lea ebx, [byte eax+01h]
         mov word [word_11A3F0], 0FFFFh
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
         mov dl, byte [word_1178D0]
         mov ah, byte [word_1178CE]
@@ -2331,14 +2331,14 @@ SortSpritesForDraw:
         and ah, 0Fh
         shl dl, 4
         or dl, ah
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
         mov edx, dword [puckc]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov dl, byte [edx]
         mov byte [eax], dl
         mov dl, byte [byte_176B83]
@@ -2347,9 +2347,9 @@ SortSpritesForDraw:
         and al, 0Fh
         shl dl, 4
         or dl, al
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
         mov dl, byte [dword_1175B9]
         mov ah, byte [dword_1175B5]
@@ -2357,37 +2357,37 @@ SortSpritesForDraw:
         and ah, 0Fh
         shl dl, 4
         or dl, ah
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         mov dx, word [crowdlevel]
         mov word [eax], dx
         mov eax, dword [puckvx]
-        add dword [dword_16596C], byte 2
+        add dword [ReplayBufferTop], byte 2
         movsx eax, word [eax]
         sar eax, 8
         mov dl, al
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
         mov eax, dword [puckvy]
         movsx eax, word [eax]
         sar eax, 8
         mov dl, al
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
         mov eax, dword [puckvz]
         movsx eax, word [eax]
         sar eax, 8
         mov dl, al
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
         mov eax, dword [puckc]
         cmp byte [eax], 0
@@ -2401,87 +2401,87 @@ SortSpritesForDraw:
         movzx eax, al
         test eax, eax
         setne dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [dword_15E4A0]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [dword_15E4AC]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [dword_15E4A8]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [dword_15E4A4]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [dword_15E49C]
         mov byte [eax], dl
         mov edx, dword [dword_15E4C0]
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         sub edx, dword [dword_15E498]
         mov dword [eax], edx
-        add dword [dword_16596C], byte 4
-        mov eax, dword [dword_16596C]
+        add dword [ReplayBufferTop], byte 4
+        mov eax, dword [ReplayBufferTop]
         mov edx, dword [dword_15E494]
         mov dword [eax], edx
-        add dword [dword_16596C], byte 4
-        mov eax, dword [dword_16596C]
+        add dword [ReplayBufferTop], byte 4
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [dword_15E4B8]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [dword_1176E1]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
-        mov dword [dword_16596C], edx
+        mov dword [ReplayBufferTop], edx
         mov dl, byte [dword_15E4B4]
         mov byte [eax], dl
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         mov dx, word [dword_15E4B0]
         mov word [eax], dx
-        add dword [dword_16596C], byte 2
-        mov eax, dword [dword_16596C]
+        add dword [ReplayBufferTop], byte 2
+        mov eax, dword [ReplayBufferTop]
         mov dx, word [dword_15E4BC]
         mov word [eax], dx
-        add dword [dword_16596C], byte 2
-        mov eax, dword [dword_16596C]
+        add dword [ReplayBufferTop], byte 2
+        mov eax, dword [ReplayBufferTop]
         mov dx, word [gameclock]
         mov word [eax], dx
-        add dword [dword_16596C], byte 2
-        mov eax, dword [dword_16596C]
+        add dword [ReplayBufferTop], byte 2
+        mov eax, dword [ReplayBufferTop]
         mov dx, word [clockticks]
         mov word [eax], dx
-        add dword [dword_16596C], byte 2
+        add dword [ReplayBufferTop], byte 2
         call PuckInNet
         mov edx, eax
-        mov eax, dword [dword_16596C]
+        mov eax, dword [ReplayBufferTop]
         lea ebx, [byte eax+01h]
-        mov dword [dword_16596C], ebx
+        mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
         mov eax, dword [replaystart]
         lea edx, [dword eax+01110Ch]
-        cmp edx, dword [dword_16596C]
+        cmp edx, dword [ReplayBufferTop]
         ja short .23
         or byte [sflags], 10h
-        mov dword [dword_16596C], eax
+        mov dword [ReplayBufferTop], eax
 .23:
         pop edx
         pop ecx
@@ -3230,7 +3230,7 @@ DrawDirtyZones:
         jge near .5
         cmp dword [dword_11D91F], byte 0
         jne near .5
-        cmp dword [dword_119D04], byte 0
+        cmp dword [ZonesDirty], byte 0
         jne near .5
         cmp dword [dword_1798BC], byte 0
         jne near .5
@@ -3294,7 +3294,7 @@ DrawDirtyZones:
 .5:
         cmp dword [dword_11D91F], byte 0
         jne short .6
-        cmp dword [dword_119D04], byte 0
+        cmp dword [ZonesDirty], byte 0
         jne short .6
         cmp dword [dword_1798BC], byte 0
         je short .7
@@ -3398,7 +3398,7 @@ CopyZonesToScreen:
         add esp, byte 4
         cmp dword [dword_11D91F], byte 0
         jne short .1
-        cmp dword [dword_119D04], byte 0
+        cmp dword [ZonesDirty], byte 0
         jne short .1
         cmp dword [dword_1798BC], byte 0
         je short .2

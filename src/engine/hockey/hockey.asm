@@ -10,12 +10,12 @@ extern byte_164CE0, byte_165790, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtm
 extern awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode, AwRosterMap, LinePlayersAway, PenBuf, PenBuf_pl
 extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, curperiod, hmslotcount
 extern awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, dword_119173, penshotteam, AwayGoalsPeriod
-extern HomeGoalsPeriod, dword_1191C7, PuckChasers, dword_1191F3, dword_1191FB, dword_1191FF, playsuspended, dword_11A004
+extern HomeGoalsPeriod, PassTargetLocked, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn, playsuspended, dword_11A004
 extern dword_11A3F8, dword_11B23C, dword_11D3A6, dword_11D674, dword_164806, dword_164816, dword_164956, dword_164D16
-extern dword_165166, dword_16516A, dword_165240, dword_165244, dword_1655A0, dword_165718, hmtmcoachenergy, hmtmlines
+extern dword_165166, dword_16516A, dword_165240, dword_165244, CrowdExciteTotal, dword_165718, hmtmcoachenergy, hmtmlines
 extern hmtmplattr, dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, hmtmsort, dword_16584E
 extern awtmcoachenergy, dword_165920, dword_165924, dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938
-extern hmtmroster, dword_16596C, dword_165978, dword_176BD8, dword_1797B4, dword_179910, dword_179D6C, dword_179E0B
+extern hmtmroster, ReplayBufferTop, GameVarsClear, dword_176BD8, dword_1797B4, dword_179910, dword_179D6C, dword_179E0B
 extern optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts, gmode
 extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon, lcline
 extern replaystart, puckvy, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C
@@ -32,9 +32,9 @@ extern ltx, fodir1, fodir2, gmode2, HomeControlSlot, slotteam, word_1178F4, RefS
 extern gsp, clockticks, dirtab, dirtab_y, word_118E8F, exitgame, gameover, word_118E95
 extern word_118E9F, word_118EA3, word_118EAF, word_118EB7, ovltimer, bannermsg, word_119113, lldispodd
 extern word_11916B, word_119FF8, word_11A008, word_11A01A, word_11A0D9, lastsfx, puckcross, word_16479E
-extern word_1647B6, word_1647E4, word_165144, word_165146, word_165148, word_1656D2, hmscore, word_165704
+extern word_1647B6, word_1647E4, word_165144, word_165146, word_165148, PeriodEventCount, hmscore, word_165704
 extern word_165706, word_165708, hmtmap, word_16571C, word_1657D8, awscore, awtmline, word_16583C
-extern word_16583E, word_165852, word_16590E, regd4, regd5, word_165970, regd0, regd1
+extern word_16583E, word_165852, word_16590E, regd4, regd5, LastShooterTeam, regd0, regd1
 extern Ylist, SpeechPatchNext, word_176B70, word_176B72, word_176B78, word_176B7C, PerTimeTotal, LastTouchTeam
 extern PassDistY, StoppageFlag, LastPlayerTouch
 global ClearSortCords, CompLine, DoGameFrame, InitCoachModes, SetPlList, SetupTeamForIntermission, StartPer, TeamLineEnergy
@@ -144,13 +144,13 @@ changeplayer:
         je short .1
         movsx eax, dx
         mov dword [nosplit esi*4+PuckChasers], 0
-        mov dword [nosplit eax*4+dword_1191C7], 0
+        mov dword [nosplit eax*4+PassTargetLocked], 0
 .1:
         movsx eax, word [byte ebp-0Ch]
         shl eax, 2
-        cmp dword [dword eax+dword_1191C7], byte 0
+        cmp dword [dword eax+PassTargetLocked], byte 0
         je short .2
-        mov dword [dword eax+dword_1191C7], 0
+        mov dword [dword eax+PassTargetLocked], 0
         jmp near changeplayer_316
 .2:
         mov eax, ecx
@@ -158,7 +158,7 @@ changeplayer:
         cmp dword [dword eax+PuckChasers], byte 0
         je short .3
         movsx esi, word [dword ebx+086h]
-        cmp esi, dword [dword eax+dword_1191F3]
+        cmp esi, dword [dword eax+PuckChaserPlayer]
         jne short .3
         mov dword [dword eax+PuckChasers], 2
         jmp near changeplayer_316
@@ -3748,7 +3748,7 @@ setpersonel:
 ;-----------------------------------------------------------------------------
 StartPer:
         push edx
-        mov word [word_1656D2], 0
+        mov word [PeriodEventCount], 0
         mov word [LineChangeReq], 0
         call InitCoachModes
         mov word [SpeechPatchNext], 0
@@ -3805,7 +3805,7 @@ StartPer:
         or byte [gmode2], 4
         mov eax, dword [replaystart]
         and byte [sflags], 0AFh
-        mov dword [dword_16596C], eax
+        mov dword [ReplayBufferTop], eax
         call ResetPeriodState
         mov word [lastsfx], 0FFFFh
         call periodicevents
@@ -4166,7 +4166,7 @@ RestoreBenchEnergy:
         movsx eax, word [CwdExciteLvl]
         inc word [word_176B72]
         dec word [CwdExciteLvl]
-        add dword [dword_1655A0], eax
+        add dword [CrowdExciteTotal], eax
         cmp word [CwdExciteLvl], byte 0
         jge short .7
         mov word [CwdExciteLvl], 0
@@ -4219,7 +4219,7 @@ periodicevents:
         movsx eax, word [CwdExciteLvl]
         inc word [word_176B72]
         dec word [CwdExciteLvl]
-        add dword [dword_1655A0], eax
+        add dword [CrowdExciteTotal], eax
         cmp word [CwdExciteLvl], byte 0
         jge short .3
         mov word [CwdExciteLvl], 0
@@ -4756,7 +4756,7 @@ updateplayers:
         call PlaySfx
 .39:
         mov ax, word [dword esi+086h]
-        mov word [word_165970], ax
+        mov word [LastShooterTeam], ax
         cmp dword [byte esi+07Ah], byte 0
         jl short .40
         mov eax, dword [byte esi+07Ah]
@@ -5581,8 +5581,8 @@ updateanim:
 ; Clears per-game globals before StartGame
 ;-----------------------------------------------------------------------------
 cleargamevars:
-        mov dword [dword_165978], 0
-        mov dword [word_165970], 0
+        mov dword [GameVarsClear], 0
+        mov dword [LastShooterTeam], 0
         mov dword [regd5], 0
         mov dword [regd4], 0
         mov dword [regd3], 0
@@ -6360,12 +6360,12 @@ StartGame:
         call cleargamevars
         call clearteams
         mov eax, dword [gameopts]
-        mov dword [dword_1191FB], 0
+        mov dword [GameHitCount], 0
         mov eax, dword [byte eax+01h]
         shl eax, 17h
         shr eax, 1Fh
         mov word [gsp], 0
-        mov dword [dword_1191FF], eax
+        mov dword [FightingOn], eax
         call restoreteams
         movsx eax, word [gsp]
         cmp eax, byte 4

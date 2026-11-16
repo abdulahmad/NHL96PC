@@ -4,11 +4,11 @@ bits 32
 section s_313D2 progbits alloc exec nowrite align=1
 extern AddPenalty, ChkOffsides, ChkPullGoalieLate, CwdExciteLvl, DemoMode, EvadePlayers, GameLoopActive, MarkTwoLinePlayers
 extern OOlist, PBnum, PenShotAssign, Pencntdwn, PuckIChk, RemoveFromLines, SortCords, awtmstruct
-extern byte_1178C8, Endfaceoff_ftab_m1, byte_119FF0, byte_157B95, byte_157DA2, byte_1647E3, byte_16514E, byte_16597D
+extern byte_1178C8, Endfaceoff_ftab_m1, byte_119FF0, byte_157B95, byte_157DA2, byte_1647E3, byte_16514E, OffsideCalled
 extern PenBuf, PenBuf_pl, byte_176B83, iflags, icingPlayer, goalevent, byte_176B9E, byte_176B9F
 extern check4bench, chk4lc, chk4pass, crowdlevel, hmslotcount, awslotcount, HomeEbenPlayer, AwayEbenPlayer
 extern dword_119173, penshotteam, sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir
-extern OneTimerPasser, PuckChasers, dword_1191F3, dword_119DE4, str_wildcard, dword_119E8E, ShootoutPathData_y, dword_16523C
+extern OneTimerPasser, PuckChasers, PuckChaserPlayer, ScoreCelebrating, str_wildcard, dword_119E8E, ShootoutPathData_y, dword_16523C
 extern dword_165240, dword_165244, dword_165248, dword_16524C, dword_165718, dword_16584E, findpc, fox
 extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcblink
 extern lcboxon, lcline, puckvy, puckc, PtrPuckFlags, off_117890, PtrPuckObject, passplayer
@@ -18,11 +18,11 @@ extern SetPenaltyBoxDoor, GetPartner, defotarget, defdtarget, assextra3, assgoal
 extern checkpuckcoll, chk4lcauto, CompPass, chk4shot, SetShotMode, ShotMode, Findhittype, doshot
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
 extern PuckInNet, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, PlaySfxOr
-extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_119D7C
+extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, ExtraAttackerSpots
 extern str_Q, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
 extern fodir2, gmode2, HomeControlSlot, RefStep, word_1178FA, gsp, clockticks, dirtab
-extern dirtab_y, word_117AA2, lcblinktime, lcsel, lctimer, ovltimer, word_11910F, word_119DBC
-extern word_119DBE, word_119DE8, refsigdir, word_119E44, word_119EBA, puckcross2, puckcross6, word_16479E
+extern dirtab_y, word_117AA2, lcblinktime, lcsel, lctimer, ovltimer, word_11910F, PuckCarrySpotX
+extern PuckCarrySpotY, ScoreCelebrateAnims, refsigdir, word_119E44, word_119EBA, puckcross2, puckcross6, word_16479E
 extern word_1647A2, word_1647B6, word_1647DA, word_1650A6, word_165144, hmscore, hmtmap, awscore
 extern awtmap, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, regd4, regd0, regd1
 extern joysampling, word_176B7C, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
@@ -66,7 +66,7 @@ assextra4:
         jne short .2
 .1:
         mov cx, word [regd0]
-        mov dword [byte ebp-08h], unk_119D7C
+        mov dword [byte ebp-08h], ExtraAttackerSpots
         mov word [regd3], cx
         jmp short .3
 .2:
@@ -1039,9 +1039,9 @@ asspuckc:
 .9:
         cmp dword [dword ecx+PuckChasers], byte 2
         jne short .11
-        cmp dword [dword ecx+dword_1191F3], byte 0
+        cmp dword [dword ecx+PuckChaserPlayer], byte 0
         jl short .10
-        imul edx, dword [dword ecx+dword_1191F3], dword 0A0h
+        imul edx, dword [dword ecx+PuckChaserPlayer], dword 0A0h
         mov eax, ebx
         add edx, SortCords
         call CompPass
@@ -1068,9 +1068,9 @@ asspuckc:
         add eax, eax
         movsx ecx, ax
         mov word [regd0], ax
-        mov ax, word [nosplit ecx*2+word_119DBE]
+        mov ax, word [nosplit ecx*2+PuckCarrySpotY]
         mov word [regd1], ax
-        mov ax, word [nosplit ecx*2+word_119DBC]
+        mov ax, word [nosplit ecx*2+PuckCarrySpotX]
         mov word [regd0], ax
         mov al, byte [byte ebx+044h]
         and al, 80h
@@ -2894,7 +2894,7 @@ assscore:
         mov ax, word [dword ebx+086h]
         cmp ax, word [VisTeam]
         jne short .9
-        mov dword [dword_119DE4], 0
+        mov dword [ScoreCelebrating], 0
 .9:
         mov al, byte [gmode]
         and al, 80h
@@ -2930,7 +2930,7 @@ assscore:
         mov eax, 4
         call randomd0
         cwde
-        mov ax, word [nosplit eax*4+word_119DE8]
+        mov ax, word [nosplit eax*4+ScoreCelebrateAnims]
 .13:
         mov word [regd1], ax
         movsx edx, word [regd1]
@@ -4829,7 +4829,7 @@ Endfaceoff:
         cwde
         test eax, eax
         jne short .11
-        mov byte [byte_16597D], 0
+        mov byte [OffsideCalled], 0
         mov eax, 4
         and byte [regd0], 7
         call randomd0

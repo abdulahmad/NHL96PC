@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_2D9D9 progbits alloc exec nowrite align=1
 extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin, byte_164920
-extern byte_164CE0, textline1, byte_1655E0, byte_16561C, byte_165658, byte_165694, byte_17CA5D, CloseTextOverlay
+extern byte_164CE0, textline1, textline2, textline3, textline4, textline5, byte_17CA5D, CloseTextOverlay
 extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, dword_114B90, dword_114B94, dword_114B98, dword_114B9C
-extern dword_114F16, gameresult, dword_118E89, dword_119D04, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
+extern dword_114F16, gameresult, dword_118E89, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
 extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, gwgteam, gwgplayer, dword_177108
 extern dword_179918, dword_179920, dword_179924, dword_179DBD, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
@@ -18,10 +18,10 @@ extern AnimateBenchSprite, CrowdReactToPlay, AddZone, DrawGameFrame, GetPeriodTe
 extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
-extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, unk_119D36
+extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
 extern str_V_DrawOverlayPanels, hmplstats, hmplattr, exhstate, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
 extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, RefStep, word_118E9F
-extern word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4, word_156E6E, hmglstats_w2, word_157AFC
+extern word_118EA3, CupShown, IntroStandSpots, word_11D604, word_1515E4, word_156E6E, hmglstats_w2, word_157AFC
 extern hmglstats_w8, hmglstats_w14, word_1647CA, hmscore, word_16570A, hmtmpdst, awscore, word_176BB8
 extern starpl, yc1
 global RunPreGameSkate, RunPreGameSkate_450, RunPreGameSkate_451, RunLineupLoop, LineupLoopFrame, FillPanelEdge, FillPanelEdge_5C, DrawPanelBorder
@@ -42,11 +42,11 @@ RunPreGameSkate:
         mov dword [byte ebp-04h], 23Ah
         mov eax, dword [byte eax+01h]
         mov dword [dword_11B310], 0FFFFFFFFh
-        mov byte [byte_165694], 0
-        mov byte [byte_165658], 0
-        mov byte [byte_1655E0], 0
+        mov byte [textline5], 0
+        mov byte [textline4], 0
+        mov byte [textline2], 0
         mov byte [textline1], 0
-        mov byte [byte_16561C], 0
+        mov byte [textline3], 0
         mov dword [curperiod], 0FFFFFFFFh
         mov word [fox], 0
         mov word [foy], 0
@@ -408,7 +408,7 @@ LineupLoopFrame:
         mov dword [GameLoopActive], 0
         call SoundIdle
         mov dword [GameLoopActive], ecx
-        cmp dword [dword_119D04], byte 0
+        cmp dword [ZonesDirty], byte 0
         je short .5
         cmp dword [lineuptime], 2A8h
         jge short .6
@@ -597,7 +597,7 @@ DrawOverlayPanels:
         sub edi, 140h
         test byte [byte_17CA5D], 20h
         je short .1
-        mov esi, unk_119D36
+        mov esi, StarPanelOffsets
         mov dword [byte ebp-04h], str_V_DrawOverlayPanels
         jmp short .2
 .1:
@@ -705,7 +705,7 @@ DrawOverlayPanels:
         jne short .8
         jmp near .5
 .9:
-        cmp word [word_119D08], byte 0
+        cmp word [CupShown], byte 0
         jne short .12
         cmp dword [byte ebp-05Ch], byte 0
         jne short .12
@@ -723,7 +723,7 @@ DrawOverlayPanels:
         call PlayArenaClip
         xor eax, eax
         call sfx
-        mov word [word_119D08], 1
+        mov word [CupShown], 1
 .12:
         cmp dword [byte ebp-05Ch], byte 2
         jge short .13
@@ -1190,9 +1190,9 @@ DrawOverlayPanels:
         call DrawColorTextCentred
         jmp near RunPreGameSkate_450
 .71:
-        cmp dword [dword_119D04], byte 0
+        cmp dword [ZonesDirty], byte 0
         je near RunPreGameSkate_450
-        mov dword [dword_119D04], 0
+        mov dword [ZonesDirty], 0
         jmp near RunPreGameSkate_450
 ;-----------------------------------------------------------------------------
 ; StartPreGame                                 2E95C  95 PC, medium confidence
@@ -1228,10 +1228,10 @@ StartPreGame:
         jne short .2
         call RunPreGameSkate
 .2:
-        mov dword [dword_119D04], 1
+        mov dword [ZonesDirty], 1
         mov edx, 0FFFFFFFFh
         mov eax, 8
-        mov word [word_119D08], 0
+        mov word [CupShown], 0
         call CloseTextOverlay
         mov eax, 4
         call UpdateCamera
@@ -1308,7 +1308,7 @@ assintrostand:
         cdq
         idiv ecx
         mov eax, ebx
-        movsx edx, word [nosplit edx*4+word_119D62]
+        movsx edx, word [nosplit edx*4+IntroStandSpots]
         call SetSPA
         or byte [byte ebx+045h], 2
         pop edx

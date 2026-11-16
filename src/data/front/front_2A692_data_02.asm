@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1177F4 progbits alloc noexec write align=1
 extern dword_164F1C, dword_164FBC, ViewScreenHeight, unk_16505E, unk_165062, unk_165066, unk_165068, unk_16506A
-extern unk_16506C, unk_16509E, unk_1650FC, unk_16519C, unk_1659D6
+extern unk_16506C, unk_16509E, unk_1650FC, unk_16519C, ReplayBuffer
 global Pencntdwn, byte_1178C8, byte_1178F9, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J
 global str_V, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, seed
 global fox, foy, gameclock, gmode, lastplayer, replaystart, puckvy, puckc
@@ -30,7 +30,7 @@ str_V:
         db 06Ah,01h,00h,00h,076h,01h,00h,00h,082h,01h,00h,00h,08Fh,01h,00h,00h
         db 09Bh,01h,00h,00h,0A7h,01h,00h,00h
 replaystart:
-        dd unk_1659D6
+        dd ReplayBuffer
 puckx:
         dd unk_16505E
 puckvx:

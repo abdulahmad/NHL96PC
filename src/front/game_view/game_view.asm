@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_584A0 progbits alloc exec nowrite align=1
 extern str_LUT, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
-extern byte_1175AA, byte_1175AB, byte_1175AC, byte_157191, byte_1647E0, byte_1647FA, textline1, byte_1655E0
-extern byte_16561C, byte_165658, byte_165694, byte_176F96, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5
+extern byte_1175AA, byte_1175AB, byte_1175AC, byte_157191, byte_1647E0, byte_1647FA, textline1, textline2
+extern textline3, textline4, textline5, byte_176F96, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5
 extern byte_1770D7, byte_1796AC, byte_1796BF, byte_1796C0, byte_1796DC, byte_179700, byte_179701, byte_17970A
 extern byte_17970B, byte_17970D, byte_179712, byte_179713, byte_179715, byte_17971B, byte_17971C, byte_179722
 extern byte_179723, byte_17972D, byte_179733, byte_179743, byte_17974B, byte_179759, byte_17975A, byte_179763
 extern byte_179764, byte_1798A4, byte_179CB8, byte_179CB9, byte_179DC1, byte_179E06, byte_17CA5D, CloseTextOverlay
-extern curperiod, dword_1176E5, dword_118E89, dword_119D04, playsuspended, dword_11A3F8, ReplayRemoteShape, dword_11B238
+extern curperiod, dword_1176E5, dword_118E89, ZonesDirty, playsuspended, dword_11A3F8, ReplayRemoteShape, dword_11B238
 extern dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294, dword_11B298
 extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC, dword_11B300
 extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328
@@ -49,7 +49,7 @@ extern exhstate, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
 extern HomeControlSlot, clockticks, bannermsg, word_119117, word_11911F, word_119127, word_11B274, ovlstep
 extern word_1515B5, word_1647A8, word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A
-extern word_16514C, word_1656DA, word_1656DC, hmscore, word_165704, hmtmap, awscore, awtmline
+extern word_16514C, hmtmPwrGoals, hmtmPwrPlays, hmscore, word_165704, hmtmap, awscore, awtmline
 extern awtmap, word_17709C
 global DrawScaledSprite, DrawScaledSprite_1E2, BuildShadeMatch, BuildShadeLut, AllocShadeLut, AllocShadeLut_5A, LoadIceLogo, FullViewClip
 global DimGameView, InitGameView, InitGameView_709, InitGameView_70A, FreeGameView, DrawRosterName, DrawRosterNumber, DrawRinkSprite
@@ -856,13 +856,13 @@ InitGameView:
         push dword [dword_11F5C4]
         mov dword [dword_11B310], 0FFFFFFFFh
         push dword [dword_11F5C0]
-        mov byte [byte_165694], 0
+        mov byte [textline5], 0
         push byte 0
-        mov byte [byte_165658], 0
-        mov byte [byte_1655E0], 0
+        mov byte [textline4], 0
+        mov byte [textline2], 0
         push byte 0
         mov byte [textline1], 0
-        mov byte [byte_16561C], 0
+        mov byte [textline3], 0
         call SetViewRect
         add esp, byte 10h
         push dword [str_D_DrawGameFrame]
@@ -3010,7 +3010,7 @@ DrawGameFrame:
         call DrawPauseFrame
         jmp short .36
 .32:
-        cmp dword [dword_119D04], byte 0
+        cmp dword [ZonesDirty], byte 0
         je short .34
         xor eax, eax
 .33:
@@ -3853,7 +3853,7 @@ DrawPlayerPctPanel:
         cmp dword [byte esi+08h], byte 0FFFFFFFFh
         jne short .5
         imul eax, edi, dword 136h
-        movsx eax, word [dword eax+word_1656DC]
+        movsx eax, word [dword eax+hmtmPwrPlays]
         mov dword [byte esi+08h], eax
 .5:
         cmp dword [dword_11B2F4], byte 0
@@ -3909,7 +3909,7 @@ DrawPlayerPctPanel:
         mov eax, 0ADh
         call SetTextColors
         push dword [byte esi+08h]
-        movsx eax, word [dword edi+word_1656DA]
+        movsx eax, word [dword edi+hmtmPwrGoals]
         push eax
         mov eax, 7Fh
         call GetLangText
@@ -5044,7 +5044,7 @@ DrawEventPanel:
         push ecx
         push edx
         push esi
-        cmp byte [byte_16561C], 0
+        cmp byte [textline3], 0
         je near .5
         mov ebx, 5
         mov edx, 1
@@ -5068,7 +5068,7 @@ DrawEventPanel:
 .1:
         xor ebx, ebx
 .2:
-        mov eax, byte_16561C
+        mov eax, textline3
         mov edx, dword [dword_11B320]
         add ebx, dword [byte esi+08h]
         call DrawColorTextCentred
@@ -5086,7 +5086,7 @@ DrawEventPanel:
         sub eax, edx
         add ebx, dword [byte esi+08h]
         mov edx, eax
-        mov eax, byte_1655E0
+        mov eax, textline2
         call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
@@ -5226,7 +5226,7 @@ DrawPenaltyEventPanel:
         mov eax, 20h
         call GetLangText
         mov edx, eax
-        mov eax, byte_1655E0
+        mov eax, textline2
         call strcmp_
         test eax, eax
         jne near .5
@@ -5255,7 +5255,7 @@ DrawPenaltyEventPanel:
         mov ebx, dword [byte esi+08h]
         mov edx, dword [dword_11B320]
         add ebx, eax
-        mov eax, byte_1655E0
+        mov eax, textline2
         call DrawColorTextCentred
         cmp dword [dword_1798A8], byte 0
         je short .3
@@ -5271,7 +5271,7 @@ DrawPenaltyEventPanel:
         sub eax, edx
         add ebx, dword [byte esi+08h]
         mov edx, eax
-        mov eax, byte_165694
+        mov eax, textline5
         call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
@@ -5346,7 +5346,7 @@ DrawPenaltyEventPanel:
         mov edx, 72h
         mov ebx, eax
         sar edx, cl
-        mov eax, byte_1655E0
+        mov eax, textline2
         add edx, dword [esi]
         call DrawColorText
         mov ebx, 8
@@ -5359,7 +5359,7 @@ DrawPenaltyEventPanel:
         sub eax, ebx
         add edx, dword [esi]
         mov ebx, eax
-        mov eax, byte_165658
+        mov eax, textline4
         call DrawColorText
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
@@ -5373,7 +5373,7 @@ DrawPenaltyEventPanel:
         mov eax, dword [byte esi+04h]
         sub eax, edx
         mov edx, eax
-        mov eax, byte_165694
+        mov eax, textline5
         call DrawColorTextRight
 .8:
         mov dword [dword_11B238], 1770h
@@ -5395,9 +5395,9 @@ DrawGoalEventPanel:
         push edx
         push esi
         enter 50h, 0
-        cmp byte [byte_16561C], 0
+        cmp byte [textline3], 0
         je near .7
-        cmp byte [byte_165694], 0
+        cmp byte [textline5], 0
         jne short .1
         mov ebx, 9
         mov edx, 1
@@ -5420,7 +5420,7 @@ DrawGoalEventPanel:
         mov eax, 7Ah
         call SetTextColors
         push textline1
-        push byte_16561C
+        push textline3
         push str_SS2
         lea eax, [byte ebp-050h]
         push eax
@@ -5448,7 +5448,7 @@ DrawGoalEventPanel:
         mov edx, 6
         mov eax, 0ADh
         call SetTextColors
-        cmp byte [byte_165694], 0
+        cmp byte [textline5], 0
         jne short .5
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
@@ -5458,7 +5458,7 @@ DrawGoalEventPanel:
         sub eax, ebx
         mov edx, dword [dword_11B320]
         mov ebx, eax
-        mov eax, byte_1655E0
+        mov eax, textline2
         jmp short .6
 .5:
         mov ebx, 0Ch
@@ -5472,7 +5472,7 @@ DrawGoalEventPanel:
         sub eax, ebx
         mov edx, dword [dword_11B320]
         mov ebx, eax
-        mov eax, byte_1655E0
+        mov eax, textline2
         call DrawColorTextCentred
         mov ebx, 8
         mov eax, dword [byte esi+0Ch]
@@ -5482,7 +5482,7 @@ DrawGoalEventPanel:
         sub eax, ebx
         mov edx, dword [dword_11B320]
         mov ebx, eax
-        mov eax, byte_165694
+        mov eax, textline5
 .6:
         call DrawColorTextCentred
         mov ebx, 8
@@ -5497,7 +5497,7 @@ DrawGoalEventPanel:
         mov eax, dword [byte esi+04h]
         sub eax, edx
         mov edx, eax
-        mov eax, byte_165658
+        mov eax, textline4
         call DrawColorTextRight
         mov dword [dword_11B238], 1770h
         mov dword [dword_11B2E8], 0

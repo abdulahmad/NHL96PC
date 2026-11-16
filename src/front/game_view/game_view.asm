@@ -2610,7 +2610,7 @@ DrawRinkView:
         ret
 ;-----------------------------------------------------------------------------
 ; DrawGameFrame                                                   5A572  96 PC
-; (ticks): one frame of the game view from the camera (GameLoop_inputcheck,
+; (ticks): one frame of the game view from the camera (Gameloop_inputcheck,
 ; RunSimFrames, the menus): rink, players, puck, markers.
 ;
 ; overlays (DrawGameOverlays), line change boxes

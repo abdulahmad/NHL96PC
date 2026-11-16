@@ -44,11 +44,11 @@ StarsSlideY:                                    ; Three stars screen: slide y; u
         resb 4
 StarsSlideStep:                                 ; Three stars screen: slide step; used by AnimateStarsScreen
         resb 4
-fadeinpending:                                  ; used by BlankForFadeIn, GameLoop_hotkeyscall,
-                                                ; GameLoop_inputcheck ...
+fadeinpending:                                  ; used by BlankForFadeIn, Gameloop_hotkeyscall,
+                                                ; Gameloop_inputcheck ...
         resb 4
 GameFrameCount:                                 ; Game frames run (saved with the game state); used by
-                                                ; GameLoop_inputcheck, GameLoop_nextperiodcall, LoadGameState
+                                                ; Gameloop_inputcheck, Gameloop_nextperiodcall, LoadGameState
                                                 ; ...
         resb 3
 LinkRxPayload:                                  ; Link: payload bytes of LinkRxMsgs, indexed from 1; used by

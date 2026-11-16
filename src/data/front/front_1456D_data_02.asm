@@ -105,7 +105,7 @@ InputRecordTicks:                               ; ticks since last record, cappe
                                                 ; InputRecordTimer, PlayGame_initslotscall, RunDemoGame
         db 00h,00h,00h,00h
 GameLoopActive:                                 ; 1 while the in-game loop runs; used by EndGameCleanup,
-                                                ; Gameloop, GameLoop_gameovercall ...
+                                                ; Gameloop, Gameloop_gameovercall ...
         db 00h,00h,00h,00h
 InputRecordBusy:                                ; re-entry guard of the timer; used by InputRecordTimer
         db 00h,00h
@@ -115,7 +115,7 @@ PauseRequested:                                 ; Pause requested from the game 
                                                 ; PauseGame, PlayGame ...
         db 00h,00h
 GameLoopFrames:                                 ; Game loop frames (saved with the game state); used by
-                                                ; GameLoop_inputcheck, GameLoop_nextperiodcall,
+                                                ; Gameloop_inputcheck, Gameloop_nextperiodcall,
                                                 ; LineupLoopFrame ...
         db 00h,00h,00h,00h
 PauseReplayPending:                             ; bit0 pause, bit1 replay seen; used by HandleSlotButtons

@@ -7,11 +7,11 @@
 #define SYM_InitSlotTable           0x108BBu   /* front/controls/controls.asm */
 #define SYM_PollControllers         0x10AF1u   /* front/controls/controls.asm */
 #define SYM_InputRecordTimer        0x16C4Du   /* front/play_game/play_game.asm */
-#define SYM_GameLoop_inputcheck     0x170A5u   /* front/play_game/play_game.asm */
-#define SYM_GameLoop_hotkeyscall    0x17201u   /* front/play_game/play_game.asm */
-#define SYM_GameLoop_menucall       0x17255u   /* front/play_game/play_game.asm */
-#define SYM_GameLoop_nextperiodcall 0x1728Bu   /* front/play_game/play_game.asm */
-#define SYM_GameLoop_gameovercall   0x17324u   /* front/play_game/play_game.asm */
+#define SYM_Gameloop_inputcheck     0x170A5u   /* front/play_game/play_game.asm */
+#define SYM_Gameloop_hotkeyscall    0x17201u   /* front/play_game/play_game.asm */
+#define SYM_Gameloop_menucall       0x17255u   /* front/play_game/play_game.asm */
+#define SYM_Gameloop_nextperiodcall 0x1728Bu   /* front/play_game/play_game.asm */
+#define SYM_Gameloop_gameovercall   0x17324u   /* front/play_game/play_game.asm */
 #define SYM_PlayGame                0x17494u   /* front/play_game/play_game.asm */
 #define SYM_PlayGame_initslotscall  0x174FFu   /* front/play_game/play_game.asm */
 #define SYM_PlayGame_menucall       0x175C4u   /* front/play_game/play_game.asm */

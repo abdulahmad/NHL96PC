@@ -26,8 +26,8 @@ extern FindShape, SeasonUserRecords, PlayoffHeader, ModemGameOpts, SavedGameOpts
 extern bannermsg, bannertimer, PeriodEventCount, GameEventFlags
 global PlayGameModeJumpTable, PlayGameStatsLoadJumpTable, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, Gameloop
-global GameLoop_E, GameLoop_18, GameLoop_38, GameLoop_inputcheck, GameLoop_hotkeyscall, GameLoop_hotkeyscall_5, GameLoop_menucall, GameLoop_menucall_A
-global GameLoop_nextperiodcall, GameLoop_nextperiodcall_6C, GameLoop_gameovercall, RunDemoGame, PlayGame, PlayGame_initslotscall, PlayGame_menucall, PlayGame_menucall_42
+global Gameloop_E, Gameloop_18, Gameloop_38, Gameloop_inputcheck, Gameloop_hotkeyscall, Gameloop_hotkeyscall_5, Gameloop_menucall, Gameloop_menucall_A
+global Gameloop_nextperiodcall, Gameloop_nextperiodcall_6C, Gameloop_gameovercall, RunDemoGame, PlayGame, PlayGame_initslotscall, PlayGame_menucall, PlayGame_menucall_42
 PlayGameModeJumpTable:                          ; jump table for the switch cases of PlayMenuGame
         dd PlayMenuGame_75
         dd PlayMenuGame_85
@@ -591,19 +591,19 @@ Gameloop:
         push edi
         enter 4, 0
         call TicksSinceLast
-GameLoop_E:
+Gameloop_E:
         mov dword [GameLoopActive], 1
-GameLoop_18:
+Gameloop_18:
         cmp word [gameover], byte 0
-        jne near GameLoop_gameovercall
+        jne near Gameloop_gameovercall
         cmp dword [gameresult], byte 0
-        jne near GameLoop_gameovercall
+        jne near Gameloop_gameovercall
         call ResetGameOverlays
-GameLoop_38:
+Gameloop_38:
         cmp word [exitgame], byte 0
-        jne near GameLoop_menucall_A
+        jne near Gameloop_menucall_A
         cmp dword [gameresult], byte 0
-        jne near GameLoop_menucall_A
+        jne near Gameloop_menucall_A
         mov ebx, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
         call SoundIdle
@@ -615,7 +615,7 @@ GameLoop_38:
 .1:
         xor ebx, ebx
         xor esi, esi
-GameLoop_inputcheck:
+Gameloop_inputcheck:
         cmp dword [InputRecordCount], byte 0
         je near .1
         cmp dword [InGameMenuRequest], byte 0
@@ -650,13 +650,13 @@ GameLoop_inputcheck:
         mov eax, ebx
         sub eax, esi
         cmp eax, byte 3
-        jle near GameLoop_inputcheck
+        jle near Gameloop_inputcheck
         mov ecx, dword [GameLoopActive]
         mov esi, ebx
         mov dword [GameLoopActive], 0
         call SoundIdle
         mov dword [GameLoopActive], ecx
-        jmp near GameLoop_inputcheck
+        jmp near Gameloop_inputcheck
 .1:
         call CrowdReactToPlay
         mov eax, ebx
@@ -682,14 +682,14 @@ GameLoop_inputcheck:
         mov dword [GameLoopActive], ecx
 .3:
         cmp dword [InGameMenuRequest], byte 0
-        jne short GameLoop_hotkeyscall_5
+        jne short Gameloop_hotkeyscall_5
         mov eax, ebx
         call UpdateCamera
         mov eax, ebx
         call DrawGameFrame
-GameLoop_hotkeyscall:
+Gameloop_hotkeyscall:
         call ReadHotKeys
-GameLoop_hotkeyscall_5:
+Gameloop_hotkeyscall_5:
         cmp dword [fadeinpending], byte 0
         je short .1
         push TeamRosterPtrs+320h
@@ -700,29 +700,26 @@ GameLoop_hotkeyscall_5:
         add esp, byte 0Ch
 .1:
         cmp dword [InGameMenuRequest], byte 0
-        je near GameLoop_38
+        je near Gameloop_38
         cmp word [exitgame], byte 0
-        jne near GameLoop_38
+        jne near Gameloop_38
         cmp dword [DemoMode], byte 0
-        jne near GameLoop_38
-GameLoop_menucall:
+        jne near Gameloop_38
+Gameloop_menucall:
         call RunInGameMenu
-        jmp near GameLoop_38
-;-----------------------------------------------------------------------------
-; GameLoop_menucall_A                                             1725F  96 PC
-;-----------------------------------------------------------------------------
-GameLoop_menucall_A:
+        jmp near Gameloop_38
+Gameloop_menucall_A:
         mov dword [GameLoopActive], 0
         cmp dword [gameresult], byte 0
-        jne near GameLoop_nextperiodcall_6C
+        jne near Gameloop_nextperiodcall_6C
         mov eax, dword [optflags]
         and eax, byte 70h
         cmp eax, byte 40h
         setne al
         movzx eax, al
         test eax, eax
-        je short GameLoop_nextperiodcall_6C
-GameLoop_nextperiodcall:
+        je short Gameloop_nextperiodcall_6C
+Gameloop_nextperiodcall:
         call PeriodOver
         cmp word [gameover], byte 0
         jne short .1
@@ -739,23 +736,17 @@ GameLoop_nextperiodcall:
         mov word [exitgame], 0
         mov dword [GameLoopFrames], 0
         mov dword [GameFrameCount], 0
-        jmp near GameLoop_E
-;-----------------------------------------------------------------------------
-; GameLoop_nextperiodcall_6C                                      172F7  96 PC
-;-----------------------------------------------------------------------------
-GameLoop_nextperiodcall_6C:
+        jmp near Gameloop_E
+Gameloop_nextperiodcall_6C:
         mov eax, dword [optflags]
         and eax, byte 70h
         cmp eax, byte 40h
-        jne near GameLoop_18
+        jne near Gameloop_18
         cmp dword [gameresult], byte 2
-        je near GameLoop_18
+        je near Gameloop_18
         mov dword [gameresult], 1
-        jmp near GameLoop_18
-;-----------------------------------------------------------------------------
-; GameLoop_gameovercall                                           17324  96 PC
-;-----------------------------------------------------------------------------
-GameLoop_gameovercall:
+        jmp near Gameloop_18
+Gameloop_gameovercall:
         call FreeSpriteCache
         mov eax, 50h
         mov dword [GameLoopActive], 0

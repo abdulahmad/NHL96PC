@@ -28,7 +28,7 @@ lineslotgroupstart:                             ; same data as the like-named la
         db 040h,049h,052h,05Ah,05h,05h,062h,069h,072h,07Ah,062h,069h,072h,07Ah,082h,08Bh
         db 093h,082h,08Bh,093h
 DemoMode:                                       ; 1 during the attract demo; used by CamShotNetShake,
-                                                ; CrowdOnStoppage, GameLoop_gameovercall ...
+                                                ; CrowdOnStoppage, Gameloop_gameovercall ...
         db 00h,00h,00h,00h,0FFh,0FFh
 SortFrameCount:                                 ; Sprite sort frame counter; used by ResetPeriodState,
                                                 ; SortSpritesForDraw

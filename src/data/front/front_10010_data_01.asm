@@ -47,18 +47,18 @@ SimSlotButtons:                                 ; Slot buttons used while simula
                                                 ; RunSimFrames
         db 00h,00h,00h,00h
 SlotButtons:                                    ; the 4 slot button dwords of the current frame; used by
-                                                ; GameLoop_inputcheck, HandleSlotButtons, InitSlotTable ...
+                                                ; Gameloop_inputcheck, HandleSlotButtons, InitSlotTable ...
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
 InputRecordIndex:                               ; Input record ring index being replayed; used by
-                                                ; GameLoop_inputcheck, InitSlotTable, LineupLoopFrame ...
+                                                ; Gameloop_inputcheck, InitSlotTable, LineupLoopFrame ...
         db 00h,00h,00h,00h
 InputRecordHead:                                ; ring write index; used by InitSlotTable, InputRecordTimer,
                                                 ; LinkExchangeInput ...
         db 00h,00h,00h,00h
-InputRecordCount:                               ; records in ring (max 5); used by GameLoop_inputcheck,
+InputRecordCount:                               ; records in ring (max 5); used by Gameloop_inputcheck,
                                                 ; InitSlotTable, InputRecordTimer ...
         db 00h,00h,00h,00h
 KeyBindings:                                    ; Default keyboard binding set; used by InitSlotTable

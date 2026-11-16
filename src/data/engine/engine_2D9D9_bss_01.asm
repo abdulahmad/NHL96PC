@@ -45,11 +45,11 @@ textline5:                                      ; fifth event caption line; used
                                                 ; DrawGoalEventPanel, DrawPenaltyEventPanel ...
         resb 60
 LineChangeReq:                                  ; per team (2 words): line change requested; used by
-                                                ; GameLoop_nextperiodcall, HandleSlotButtons, LoadGameState
+                                                ; Gameloop_nextperiodcall, HandleSlotButtons, LoadGameState
                                                 ; ...
         resb 2
 PeriodEventCount:                               ; count cleared at the start of each period and kept in the
-                                                ; saved game; used by GameLoop_nextperiodcall,
+                                                ; saved game; used by Gameloop_nextperiodcall,
                                                 ; HandleSlotButtons, LoadGameState ...
         resb 2
 LineChangeLine:                                 ; per team (2 words): which line (0-3); used by

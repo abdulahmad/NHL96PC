@@ -48,7 +48,7 @@ KeyBindingSet:                                  ; Active keyboard binding set (K
                                                 ; alternate option, else KeyBindings); used by InitSlotTable,
                                                 ; TestKeyBinding
         resb 4
-InputRecordRing:                                ; ring of 5 records x 0x12 bytes; used by GameLoop_inputcheck,
+InputRecordRing:                                ; ring of 5 records x 0x12 bytes; used by Gameloop_inputcheck,
                                                 ; InitSlotTable, InputRecordTimer ...
         resb 4
         resb 4

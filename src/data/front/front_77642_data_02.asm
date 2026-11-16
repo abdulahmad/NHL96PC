@@ -15,8 +15,8 @@ DivisionTeamStarts:                             ; first team index of each divis
         db 022h,01h,00h,00h,023h,01h,00h,00h,024h,01h,00h,00h,025h,01h,00h,00h
         db 026h,01h,00h,00h,027h,01h,00h,00h,028h,01h,00h,00h
 InGameMenuRequest:                              ; 1 pause menu, 2 replay menu, 3 other; used by
-                                                ; GameLoop_gameovercall, GameLoop_hotkeyscall,
-                                                ; GameLoop_inputcheck ...
+                                                ; Gameloop_gameovercall, Gameloop_hotkeyscall,
+                                                ; Gameloop_inputcheck ...
         db 00h,00h,00h,00h
 InGameMenuItems:                                ; in-game menu item list; used by InGameMenu, PauseGame
         db 04h,00h,01Bh,00h,032h,00h,037h,00h,08h,01h,0Dh,01h,023h,01h,03Bh,01h

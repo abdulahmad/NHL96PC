@@ -7,7 +7,7 @@
  * its settings file, waiting for the other machine) is Overbar's overbar/netgame.h. This file is NHL 96's part:
  *
  *   - Input records. The timer callback InputRecordTimer pushes a record every 4 ticks into a ring of 5 (InputRecordRing, 0x12 bytes: the
- *     buttons of the 4 controller slots, then the ticks since the last record), and the game loop GameLoop takes them out
+ *     buttons of the 4 controller slots, then the ticks since the last record), and the game loop Gameloop takes them out
  *     (InputRecordCount is the count): each record runs the simulation (RunSimFrames) for that many ticks, then the loop draws a frame. In
  *     a session the callback does nothing, and the loop's "is there a record" (170A5) asks this file instead: once per pass of the
  *     loop it is one step of the session, with every machine's buttons (host: slot 0, guest: slot 1) and 4 ticks. That point is the
@@ -41,7 +41,7 @@
 
 /* ---- the game's code and data (original linear addresses, lst/HOCKEY.EXE.lst) ---- */
 #define O_PLAYGAME     SYM_PlayGame    /* PlayGame(eax): a game; eax < 0 a new one. push ebx, ecx, edx, esi; mov esi, eax (6 bytes) */
-#define O_AVAIL        SYM_GameLoop_inputcheck    /* GameLoop: cmp InputRecordCount, 0 (7 bytes), then jz the drawing */
+#define O_AVAIL        SYM_Gameloop_inputcheck    /* Gameloop: cmp InputRecordCount, 0 (7 bytes), then jz the drawing */
 #define O_AVAIL2       SYM_LineupLoopFrame    /* sub_2DE30, the same loop for a set time (lineuptime) before play: the line-up at a faceoff */
 #define O_SAMPLER      SYM_InputRecordTimer    /* InputRecordTimer, the record timer: push ebx, ecx, edx, esi, edi, ebp */
 #define O_READPADS     SYM_PollControllers    /* PollControllers: the controllers into the slot table */
@@ -49,13 +49,13 @@
 #define C_INITPADS     SYM_PlayGame_initslotscall    /*   its call in PlayGame */
 #define O_MENU         SYM_RunInGameMenu    /* RunInGameMenu: the menu InGameMenuRequest asks for */
 #define C_MENU1        SYM_PlayGame_menucall    /*   before the first faceoff */
-#define C_MENU2        SYM_GameLoop_menucall    /*   in the loop */
+#define C_MENU2        SYM_Gameloop_menucall    /*   in the loop */
 #define O_INTER        SYM_PeriodOver    /* PeriodOver: the next period (period count, ends, stats): game logic, runs online as offline */
-#define C_INTER        SYM_GameLoop_nextperiodcall
+#define C_INTER        SYM_Gameloop_nextperiodcall
 #define O_HOTKEYS      SYM_ReadHotKeys    /* ReadHotKeys: keys read straight from the keyboard */
-#define C_HOTKEYS      SYM_GameLoop_hotkeyscall
+#define C_HOTKEYS      SYM_Gameloop_hotkeyscall
 #define O_OVER         SYM_FreeSpriteCache    /* FreeSpriteCache: frees the sprite cache when the game is over */
-#define C_OVER         SYM_GameLoop_gameovercall    /*   the game is over */
+#define C_OVER         SYM_Gameloop_gameovercall    /*   the game is over */
 #define O_TICK_ISR     SYM_TimerISR_tick    /* TimerISR: mov edx, tickcount / inc edx / mov ebx, 5 / mov tickcount, edx (18 bytes) */
 #define O_CSEED_FN     SYM_GetRandState    /* mov eax, <the C library's rand state> / ret */
 #define D_EASEED       SYM_seed   /* EA's random number state (randomd0) */

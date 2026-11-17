@@ -29,7 +29,7 @@
    "start": 74406,
    "end": 83309,
    "module": "front_modem_game",
-   "file": "front/modem_game/modem_game.asm",
+   "file": "pc/modem_game/modem_game.asm",
    "desc": "Modem game session: open, connect and close a modem game, sync points, blocks, pad input exchange and the chat box (96 PC).",
    "conf": "subject split (cleanup phase 2)",
    "group": "front"
@@ -57,7 +57,7 @@
    "start": 95861,
    "end": 102016,
    "module": "front_link",
-   "file": "front/link/link.asm",
+   "file": "pc/link/link.asm",
    "desc": "Modem commands (AT) and the serial link protocol: packets, acks and resends, the link timer (96 PC).",
    "conf": "subject split (cleanup phase 2)",
    "group": "front"
@@ -117,7 +117,7 @@
    "start": 112647,
    "end": 116263,
    "module": "front_async",
-   "file": "front/async/async.asm",
+   "file": "pc/async/async.asm",
    "desc": "EA async file reader: request queue, read rate, timer (EA library, names from its debug messages).",
    "conf": "subject split (cleanup phase 2)",
    "group": "front"
@@ -127,7 +127,7 @@
    "start": 116263,
    "end": 120513,
    "module": "front_cdstream",
-   "file": "front/cdstream/cdstream.asm",
+   "file": "pc/cdstream/cdstream.asm",
    "desc": "EA CD stream: ring-buffered data streams off the CD (EA library, names from its debug messages).",
    "conf": "subject split (cleanup phase 2)",
    "group": "front"
@@ -147,7 +147,7 @@
    "start": 121957,
    "end": 123708,
    "module": "front_file_io",
-   "file": "front/file_io/file_io.asm",
+   "file": "pc/file_io/file_io.asm",
    "desc": "DOS file helpers: open, create, close, read / write at an offset, copy, delete (96 PC).",
    "conf": "subject split (cleanup phase 2)",
    "group": "front"
@@ -167,7 +167,7 @@
    "start": 123848,
    "end": 125460,
    "module": "front_data_files",
-   "file": "front/data_files/data_files.asm",
+   "file": "pc/data_files/data_files.asm",
    "desc": "Game data files: their paths by id and directory, loading them (96 PC).",
    "conf": "subject split (cleanup phase 2)",
    "group": "front"
@@ -215,7 +215,7 @@
    "start": 173014,
    "end": 186841,
    "module": "front_users",
-   "file": "front/users/users.asm",
+   "file": "pc/users/users.asm",
    "desc": "User records: LOCAL.NDX of user names, the user record files, picking users for the controllers, the user records screen (96 PC).",
    "conf": "subject split (cleanup phase 2)",
    "group": "front"
@@ -467,7 +467,7 @@
    "end": 483441,
    "module": "modem_setup",
    "obj": 1,
-   "file": "front/modem_setup/modem_setup.asm",
+   "file": "pc/modem_setup/modem_setup.asm",
    "note": "modem setup screens (Generic Hayes-Compatible, tone/pulse)"
   },
   {
@@ -629,7 +629,7 @@
    "start": 669777,
    "end": 675799,
    "module": "front_modem_teams",
-   "file": "front/modem_teams/modem_teams.asm",
+   "file": "pc/modem_teams/modem_teams.asm",
    "desc": "The modem / link game set-up from the main menu: team select and the steps to the game (96 PC).",
    "conf": "subject split (cleanup phase 2)",
    "group": "front"

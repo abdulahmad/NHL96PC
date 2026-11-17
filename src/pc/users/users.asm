@@ -2,40 +2,30 @@
 ; records screen.
 bits 32
 %include "hockey.inc"
-extern SideBarArt
 section s_2A3D6 progbits alloc exec nowrite align=1
-extern str_Punct_ExportUserRecords, str_ExportDashes, str_ExportSpacesWide, str_ExportSpaces, UserNameBuf
-
-extern TitleTextStyle, DeleteFiles
-extern UserRecordsTop, UserRecordsFirst, UserRecordsRow, UserRecordsBarColour, UserRecordsRowY, ViewScreenWidth, ViewScreenHeight, UserMenuBoxes
-extern UserRecordList
-extern UserStreakField, UserOpponentColumn, UserPowerPlayField, UserShutoutField, UserGoalsAgainstField, UserLongStreakField, UserGoalsForField, UserRatingColumn
-extern UserShutoutColumn, UserNameIndex, UserStreakColumn, UserNameField, UserLongStreakColumn, UserPowerPlayColumn, UserTeamField, UserPopupRecords
-
-
-
-
-
-extern FrontEndScreenBmp, TeamStatsBitmap
-extern EditText, fclose_, FileClose, FileCreate, FileOpenRead, FileOpenReadWrite, FileReadAt
-extern FileWriteAt, fopen_, fprintf_, TextStringWidth, gameopts, GetPressedDevice, HideMessage, LoadPackedFile
-extern MakeDirPath, MessageBox, MouseRead, NameIndexAdd, NameIndexFirstId, NameIndexFree, NameIndexId, NameIndexLoad
-extern NameIndexNew, NameIndexPath, NameIndexRemove, NameIndexSave, LogoNames, optflags, PutBlock, qsort_
-extern SetDrawBitmap, ShowMessage, sprintf_, str_00, str_08d, str_1000, str_20s, str_3d3d
-extern str_3d3d3d, str_Ball, str_BKGD2, str_BT002, str_BT012, str_BT022, str_BT10, str_BT11
-extern str_BT12, str_D4, str_dbgS, str_FL00, str_FL01, str_fmtTenths, str_LOCALNDX, str_Logbook
-extern str_Logname, str_Pal5, str_Shadtbl, str_Sld1, str_Sld2, str_Slid, str_Slu1, str_Slu2
-extern str_sp00, str_sp002, str_sp1000, str_sp10002, str_sp3d1d, str_sp3d1d2, str_sp3d3d2d2d2d, str_sp3d3d3d3d3d3d3d3d
-extern str_sp3s, str_sp3s2, str_spD, str_TB00, str_TB01, str_TB10, str_TB11, str_TXTD
-extern str_Uga, str_Ugf, str_Ulstreak, str_Ulxh, str_Ulxn, str_Ulyh, str_Ulyn, str_Uname
-extern str_Uopp, str_Upk, str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_Ustreak
-extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, OpenScreen, SlideInSideBar
-extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetTextColors, DrawColorText, FillBox
-extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, InitVScrollBar, ScrollBarUp, ScrollBarDown
-extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, DrawShapeCore, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock
-extern CreateBitmap, TintRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
-extern FindShape, RemapPolygonArgs, TextSetFont, WaitTicks, SlotUserNames, hmtmPwrGoals, hmtmPwrPlays
-extern hmscore, awtmPwrGoals, awtmPwrPlays, awscore
+extern AllocMemBlock, awscore, awtmPwrGoals, awtmPwrPlays, CheckExportName, CreateBitmap, DeleteFiles, DrawColorText
+extern DrawScrollBar, DrawShapeCore, DrawText, DrawTextCentred, EditText, FadeOut, FadePalette, fclose_
+extern FileClose, FileCreate, FileOpenRead, FileOpenReadWrite, FileReadAt, FileWriteAt, FillBox, FindShape
+extern fopen_, fprintf_, FreeBitmap, FreeMemBlock, FreeScrollBar, FrontEndScreenBmp, gameopts, GetLangText
+extern GetPressedDevice, HideMessage, hmscore, hmtmPwrGoals, hmtmPwrPlays, InitMenuItems, InitVScrollBar, LoadPackedFile
+extern LogoNames, MakeDirPath, MessageBox, MouseRead, NameIndexAdd, NameIndexFirstId, NameIndexFree, NameIndexId
+extern NameIndexLoad, NameIndexNew, NameIndexPath, NameIndexRemove, NameIndexSave, OpenScreen, optflags, PlaySfx
+extern PutBlock, PutBlockAtOwnPos, qsort_, RemapPolygonArgs, RunMenu, SaveTextState, ScrollBarDown, ScrollBarUp
+extern SetDrawBitmap, SetDrawTarget, SetRemapTable, SetScreenColors, SetScreenTarget, SetScrollBarPos, SetTextColors, ShowMessage
+extern SideBarArt, SlideInSideBar, SlotUserNames, SoundIdle, sprintf_, str_00, str_08d, str_1000
+extern str_20s, str_3d3d, str_3d3d3d, str_Ball, str_BKGD2, str_BT002, str_BT012, str_BT022
+extern str_BT10, str_BT11, str_BT12, str_D4, str_dbgS, str_ExportDashes, str_ExportSpaces, str_ExportSpacesWide
+extern str_FL00, str_FL01, str_fmtTenths, str_LOCALNDX, str_Logbook, str_Logname, str_Pal5, str_Punct_ExportUserRecords
+extern str_Shadtbl, str_Sld1, str_Sld2, str_Slid, str_Slu1, str_Slu2, str_sp00, str_sp002
+extern str_sp1000, str_sp10002, str_sp3d1d, str_sp3d1d2, str_sp3d3d2d2d2d, str_sp3d3d3d3d3d3d3d3d, str_sp3s, str_sp3s2
+extern str_spD, str_TB00, str_TB01, str_TB10, str_TB11, str_TXTD, str_Uga, str_Ugf
+extern str_Ulstreak, str_Ulxh, str_Ulxn, str_Ulyh, str_Ulyn, str_Uname, str_Uopp, str_Upk
+extern str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_Ustreak, str_Uteam, str_wt
+extern strcat_, strcmp_, strcpy_, strlen_, TeamStatsBitmap, TextSetColor, TextSetFont, TextStringWidth
+extern TintRect, TitleTextStyle, UserGoalsAgainstField, UserGoalsForField, UserLongStreakColumn, UserLongStreakField, UserMenuBoxes, UserNameBuf
+extern UserNameField, UserNameIndex, UserOpponentColumn, UserPopupRecords, UserPowerPlayColumn, UserPowerPlayField, UserRatingColumn, UserRecordList
+extern UserRecordsBarColour, UserRecordsFirst, UserRecordsRow, UserRecordsRowY, UserRecordsTop, UserShutoutColumn, UserShutoutField, UserStreakColumn
+extern UserStreakField, UserTeamField, ViewScreenHeight, ViewScreenWidth, WaitTicks
 global UserRatingScaleTwoToFour, UserRatingScaleOneToOneHalf, UserRatingScalePair, UserRatingScaleQuarterSteps, UserRecordsLeftButton, UserRecordsRightButton, UserRecordsHotspots, ClearSlotUser
 global ClearSlotUsers, UserRecordRating, CreateUserRecord, DeleteUser, NewUser, NewUser_159, DrawUserList, GetUserName
 global LoadUserIndex, ScrollUserList, PickUsersScreen, UpdateUserRecords, UpdateUserRecords_47F, UpdateUserRecords_ret, CompareUsersByName, CompareUsersByRating

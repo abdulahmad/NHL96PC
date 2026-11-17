@@ -1,0 +1,9 @@
+rename front/modem_game pc/modem_game
+rename front/link pc/link
+rename front/async pc/async
+rename front/cdstream pc/cdstream
+rename front/file_io pc/file_io
+rename front/data_files pc/data_files
+rename front/modem_setup pc/modem_setup
+rename front/modem_teams pc/modem_teams
+rename front/users pc/users

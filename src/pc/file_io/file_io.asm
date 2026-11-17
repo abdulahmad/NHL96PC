@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_1DC65 progbits alloc exec nowrite align=1
-extern _dos_close_, _dos_creat_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_, FatalError, lseek_
-extern rmdir_, str_backslash4, str_COPYBUFFER, str_dot2, str_ErrDiskFree2, strcat_, strcpy_, FillMusicStream
-extern SoundSecondsToBytes, AllocMemBlock, FreeMemBlock, DosFindFirst, DosFindNext, UnlinkJump, str_Punct_DeleteFiles
+extern _dos_close_, _dos_creat_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_, AllocMemBlock, DosFindFirst
+extern DosFindNext, FatalError, FillMusicStream, FreeMemBlock, lseek_, rmdir_, SoundSecondsToBytes, str_backslash4
+extern str_COPYBUFFER, str_dot2, str_ErrDiskFree2, str_Punct_DeleteFiles, strcat_, strcpy_, UnlinkJump
 global FileMissing, DeleteFiles, FileOpenRead, FileOpenRead_1A, FileOpenWrite, FileOpenReadWrite, FileCreate, FileClose
 global FileReadAt, FileReadAt_5B, FileReadAt_5D, FileWriteAt, FileWriteAt_6B, FileWriteAt_77, FileCopy, FileCopy_ret
 global WriteSeasonDbEntry, ReadSeasonHeader

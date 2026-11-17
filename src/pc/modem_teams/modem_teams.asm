@@ -1,22 +1,20 @@
 ; The modem / link game set-up from the main menu: team select and the steps to the game.
 bits 32
 %include "hockey.inc"
-extern BottomBarArt
 section s_A3851 progbits alloc exec nowrite align=1
-extern BlackPalette, ModemOptTeams, ComputeTeamRanks, CopyBitmap, DrawFrameAt, ModemAwayPanelX, ModemPanelXs
-extern ModemHomeBmp, ModemAwayBmp, ModemHomeLogo, ModemAwayLogo, ModemHomeName, ModemAwayName, ModemHomeText, ModemAwayText
-extern MatchupLayer, TeamStatsBitmap, MenuBoxStyle, ModemPanelArt, TreeLineShift, ModemPanelShapes
-extern FadeOut, FadePalette, FillMusicStream, gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LinkSetupScreen
-extern LoadModemStats, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey, MusicDone, OpenScreen
-extern PlayMusic, PutBlock, RunControllerScreen, RunMenu, RunModemSetup, SetDrawBitmap, SetMenuMouse, SetScreenColors
-extern SlideInBottomBar, SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_1GM, str_3GM
-extern str_5GM, str_7GM, str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1, str_Aar2
-extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, str_HaBck02
-extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
-extern str_Swt12, str_SwtD2, GameOptionsScreen, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
-extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, str_WesternConference2, ModemGameOpts, SlotsTwoPlayer
-extern ModemPanelY
+extern AllocMemBlock, BlackPalette, BottomBarArt, ClearScreenColour, ComputeTeamRanks, CopyBitmap, CreateBitmap, DrawFrameAt
+extern DrawShapeAtOwnPos, FadeOut, FadePalette, FillMusicStream, FindShape, FreeBitmap, FreeMemBlock, GameOptionsScreen
+extern gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LinkSetupScreen, LoadModemStats, LoadPackedFile, LoadTeamLogo
+extern MatchupLayer, MenuBoxStyle, ModemAwayBmp, ModemAwayLogo, ModemAwayName, ModemAwayPanelX, ModemAwayText, ModemChat
+extern ModemGameOpts, ModemHomeBmp, ModemHomeLogo, ModemHomeName, ModemHomeText, ModemOptTeams, ModemPanelArt, ModemPanelShapes
+extern ModemPanelXs, ModemPanelY, mousex, mousey, MusicDone, OpenScreen, PlayMusic, PutBlock
+extern PutBlockAtOwnPos, RunControllerScreen, RunMenu, RunModemSetup, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89
+extern RunPlayoffMenus_A6, RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, SetDrawBitmap, SetMenuMouse, SetScreenColors, SetScreenTarget
+extern SlideInBottomBar, SlideInSideBar, SlideInTitleBar, SlotsTwoPlayer, SoundIdle, SoundSecondsToBytes, sprintf_, str_1GM
+extern str_3GM, str_5GM, str_7GM, str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1
+extern str_Aar2, str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21
+extern str_HaBck02, str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33
+extern str_Swt0, str_Swt12, str_SwtD2, str_WesternConference2, TeamStatsBitmap, TextSetFont, TreeLineShift
 global str_B, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, ModemTeamSelectJumpTable, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
 global RunModemGameSetup, PlayoffSetupKeyTable, str_Z, PlayoffSeriesLabels, PlayoffSetupOptionRows, PlayoffSeedPairs, PlayoffMenuCommands, PlayoffMenuJumpTable

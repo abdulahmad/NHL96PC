@@ -2,21 +2,18 @@
 bits 32
 %include "hockey.inc"
 section s_17675 progbits alloc exec nowrite align=1
-extern LinkRxPayload
-extern addtimer, str_Punct2, LinkChannelTimers, LinkRxRing
-extern LinkResendPkt, LinkAckPkt
-extern LinkMissingList, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, LinkBaudSetting, LinkOpenFlags
-extern LinkRetryOn, LinkCarrierCheck, LinkPollOn, LinkIsOpen, LinkWindowSize, LinkAckOn, LinkResendOn, LinkOpenMode
-extern LinkErrorCount, LinkSpareHook, LinkMessageHandler, LinkTickHandler, LinkResendHandler, LinkTxSeq, LinkRxDeliverSeq, LinkAckedSeq
-extern LinkRxSeq, LinkPacketLen, LinkTxPending, LinkState, LinkCheckPeriod, LinkCopyHigh, LinkRxHead, LinkRxCount
-extern LinkPollState, LinkRxSlots
-extern LinkTxSlots, LinkAbortCheck, ModemResultTextTable, ModemResultCodeTable, str_0123456789abcdefghijklmn, LinkCopyLow
-extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01
-extern str_ATX3, str_ATX4, str_ATZS760S1155, LinkRetryLimit, str_feP, LinkCopyStep, str_T, strcat_
-extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, SerialConfigure, SerialOpen, SerialClose
-extern SerialSetBaud, SerialRaiseDtr, SerialDropDtr, SerialCarrier, SerialWrite, SerialTxFree, SerialFlushTx, SerialWaitTxEmpty
-extern SerialRead, SerialReadWait, SerialFlushRx, atoi_, LinkCrc16, str_Punct_ModemSendCommand, str_AT, LinkRxMsgs
-extern LinkTxTimers, LinkPortName, LinkModemString, LinkRxHeader, LinkRxBuffer, WaitTicks
+extern addtimer, atoi_, LinkAbortCheck, LinkAckedSeq, LinkAckOn, LinkAckPkt, LinkBaudSetting, LinkCarrierCheck
+extern LinkChannelTimers, LinkCheckPeriod, LinkCopyHigh, LinkCopyLow, LinkCopyStep, LinkCrc16, LinkErrorCount, LinkIsOpen
+extern LinkMessageHandler, LinkMissingList, LinkModemString, LinkOpenFlags, LinkOpenMode, LinkPacketLen, LinkPollOn, LinkPollState
+extern LinkPortHandle, LinkPortName, LinkResendHandler, LinkResendOn, LinkResendPkt, LinkRetryLimit, LinkRetryOn, LinkRxBuffer
+extern LinkRxCount, LinkRxDeliverSeq, LinkRxHead, LinkRxHeader, LinkRxMsgs, LinkRxPayload, LinkRxRing, LinkRxSeq
+extern LinkRxSlots, LinkSpareHook, LinkState, LinkTickCount, LinkTickHandler, LinkTxPending, LinkTxSeq, LinkTxSlots
+extern LinkTxTimers, LinkWindowSize, ModemLastResult, ModemResultCodeTable, ModemResultCount, ModemResultTextTable, RemoveTimerCallback, SerialCarrier
+extern SerialClose, SerialConfigure, SerialDropDtr, SerialFlushRx, SerialFlushTx, SerialOpen, SerialRaiseDtr, SerialRead
+extern SerialReadWait, SerialSetBaud, SerialTxFree, SerialWaitTxEmpty, SerialWrite, str_0123456789abcdefghijklmn, str_AT, str_ATA
+extern str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01, str_ATX3
+extern str_ATX4, str_ATZS760S1155, str_feP, str_Punct2, str_Punct_ModemSendCommand, str_T, strcat_, strcpy_
+extern strlen_, strncmp_, strstr_, WaitTicks
 global ModemInitDefault, ModemInit, ModemHangup, ModemHangup_30, ModemHangup_54, ModemDial, ModemAutoAnswer, ModemWaitConnect
 global ModemReadResult, ModemSendCommand, ModemAttention, LinkCopyBytes, LinkRxPut, LinkRxPeek_none, LinkRxCopy, LinkCheckPacket
 global LinkParsePacket, LinkFirstMissingRx, LinkRxAckSeq, LinkDefaults, SetLinkAbortCheck, SetLinkSpareHook, SetLinkMessageHandler, SetLinkCheckPeriod

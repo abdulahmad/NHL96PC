@@ -3,23 +3,23 @@
 bits 32
 %include "hockey.inc"
 section s_122A6 progbits alloc exec nowrite align=1
-extern addtimer, LinkFlags, TextCharH, ChatLine, LinkBlockHeader, LinkBlockAck, TitleTextStyle
-extern DebugPrintf, InputRecordIndex, LinkSyncInput, LinkCfgPort, LinkCfgMode, LinkCfgAnswer, LinkCfgDirect, LinkCfgBaud
-extern LinkCfgOption, LinkInputFrame, LinkSyncTarget, LinkSyncTimeout, LinkSyncCount, LinkInputDelay, LinkRxBlockCount, LinkRxBlockTicks
-extern LinkRxBlockOffset, LinkBlockPtr, ModemReplyBuf, LinkTickCount, FrontShapesFile, WaitBoxArt, ViewScreenWidth, ViewScreenHeight
-extern SlotInput, ChatActive, LinkSyncValue, LinkBlockLen, LinkBlockPos
-extern LinkInputHead, LinkInputTail, LinkMsgHead, LinkValueHead, LinkMsgTail, LinkRemoteHead, LinkValueTail, LinkRemoteTail
-extern LinkWaitBoxBmp, LinkAbortCheck, GsModemDial, FillRect, TextStringWidth
-extern GameLoopActive, GetTicks, InputRecordCount, InputRecordHead, InputRecordRing, LinkClose, LinkConnect, LinkCopyBytes
-extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClipWindow, SetDrawBitmap, SetLinkAbortCheck
-extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
-extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitmap, SetTextColors
-extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
-extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
-extern FreeMemBlock, CreateBitmap, TintRect, DrawRectOutline, FreeBitmap, SetScreenTarget, GetPaletteRange, FillRectColor
-extern KeyIsDown, KbdGetKey, FindShape, LinkConfig, LinkCfgInit, LinkCfgDial, LinkBlockBuffer, LinkMsgQueue
-extern LinkValueQueue, LinkInputQueue, LinkRemoteQueue, LinkAckReply, GsPhoneNumber, GsModemInit, ModemGameOpts, SlotsTwoPlayer
-extern ControllerScreenMode, LinkSyncWord, BaudRateTable, ChatLocalLen, ChatRemoteLen, GsComPort, GsDirectLink, GsWaitForCall
+extern addtimer, AllocMemBlock, BaudRateTable, ChatActive, ChatLine, ChatLocalLen, ChatRemoteLen, ControllerScreenMode
+extern CopyBitmap, CreateBitmap, DebugPrintf, DrawBox, DrawColorText, DrawColorTextCentred, DrawRectOutline, DrawShape
+extern DrawShapeAtOwnPos, FadeOutMusic, FillMusicStream, FillRect, FillRectColor, FindShape, FreeBitmap, FreeMemBlock
+extern FrontShapesFile, GameLoopActive, GetLangText, GetPaletteRange, GetTicks, GsComPort, GsDirectLink, GsModemDial
+extern GsModemInit, GsPhoneNumber, GsWaitForCall, HideMessage, InputRecordCount, InputRecordHead, InputRecordIndex, InputRecordRing
+extern KbdGetKey, KeyIsDown, LinkAbortCheck, LinkAckReply, LinkBlockAck, LinkBlockBuffer, LinkBlockHeader, LinkBlockLen
+extern LinkBlockPos, LinkBlockPtr, LinkCfgAnswer, LinkCfgBaud, LinkCfgDial, LinkCfgDirect, LinkCfgInit, LinkCfgMode
+extern LinkCfgOption, LinkCfgPort, LinkClose, LinkConfig, LinkConnect, LinkCopyBytes, LinkFlags, LinkInputDelay
+extern LinkInputFrame, LinkInputHead, LinkInputQueue, LinkInputTail, LinkMsgHead, LinkMsgQueue, LinkMsgTail, LinkOpen
+extern LinkRemoteHead, LinkRemoteQueue, LinkRemoteTail, LinkRxBlockCount, LinkRxBlockOffset, LinkRxBlockTicks, LinkSendMessage, LinkSyncCount
+extern LinkSyncInput, LinkSyncTarget, LinkSyncTimeout, LinkSyncValue, LinkSyncWord, LinkTickCount, LinkTimerTick, LinkValueHead
+extern LinkValueQueue, LinkValueTail, LinkWaitBoxBmp, MessageBox, ModemGameOpts, ModemReplyBuf, optblock_end, optflags
+extern PlayMusic, PutBlockAtOwnPos, QueueCurrentMusic, RemoveTimerCallback, SetClipWindow, SetDrawBitmap, SetLinkAbortCheck, SetLinkMessageHandler
+extern SetLinkSpareHook, SetScreenTarget, SetTextColors, ShowMessage, SlotButtons, SlotInput, SlotsTwoPlayer, SoundIdle
+extern SoundSecondsToBytes, StopMusic, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22, str_SHAD
+extern str_X3, strcpy_, TextCharH, TextStringWidth, TintRect, TitleTextStyle, ViewScreenHeight, ViewScreenWidth
+extern WaitBoxArt
 global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, LinkGameMessageJumpTable
 global LinkGameMessage_18, LinkExchangeValues, ModemGameConnect, ShowLinkWaitBox, HideLinkWaitBox, LinkSyncTimedOut, LinkSyncPoint, LinkSync
 global LinkSyncWithMessage, ModemGameClose, ModemGameQuit, LinkResyncInput, LinkExchangeInput, ModemChat, ThreeStarsRowY, ThreeStarsNameY

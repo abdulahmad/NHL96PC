@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_1C627 progbits alloc exec nowrite align=1
-extern addtimer, StreamBlockSize, StreamTimeout, CdStreamReadTime, CdStreamFilled, CdStreamTicks, StreamSpeed, StreamRate
-extern StreamWalk, StreamHandle, FatalError, str_CDSTREAM, str_DelstreamSTREAMNOTFOUND, str_SECCDSTREAM, str_SetstreamspeedSFILEISTOO, str_STREAM
-extern str_StreamreaderILLEGALCHUNK, strcmp_, strncpy_, RemoveTimerCallback, AllocMemBlock, FreeMemBlock, CdOpenStream, CdCloseFile
-extern CdRead, CdSeek, DriveLetterIndex, IsCdDrive, DetectMscdex, TicksSinceLast, bcopy
+extern addtimer, AllocMemBlock, bcopy, CdCloseFile, CdOpenStream, CdRead, CdSeek, CdStreamFilled
+extern CdStreamReadTime, CdStreamTicks, DetectMscdex, DriveLetterIndex, FatalError, FreeMemBlock, IsCdDrive, RemoveTimerCallback
+extern str_CDSTREAM, str_DelstreamSTREAMNOTFOUND, str_SECCDSTREAM, str_SetstreamspeedSFILEISTOO, str_STREAM, str_StreamreaderILLEGALCHUNK, strcmp_, StreamBlockSize
+extern StreamHandle, StreamRate, StreamSpeed, StreamTimeout, StreamWalk, strncpy_, TicksSinceLast
 global CdStreamInit, CdStreamOpen, CdStreamOpen_2B, CdStreamOpenDefault, setstreamspeed, delstream, CdStreamStart, CdStreamQueue
 global CdStreamSeek, CdStreamSyncTime, CdStreamInitSecondary, CdStreamOpenSecondary, CdStreamServiceJumpTable, CdStreamService, CdStreamService_18, CdStreamService_2E
 global CdStreamService_3C, CdStreamService_95, CdStreamService_EC, CdStreamService_129, CdStreamService_34E, CdStreamService_456, CdStreamService_5F4, CdStreamService_6BE

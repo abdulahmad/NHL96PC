@@ -2,14 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_1B807 progbits alloc exec nowrite align=1
-extern addtimer, AsyncTicks, AsyncQueueTail, AsyncRequests, AsyncCurFile, AsyncCurOffset, AsyncFreeList, AsyncCurRequest
-extern AsyncCdFile, AsyncOpenFile, AsyncMemFlags, AsyncState, AsyncFileHandle, AsyncBytesLeft, AsyncFileStart, AsyncFileSize
-extern AsyncDestBlock, AsyncReqUser, AsyncSkip, AsyncDestPos, AsyncBudget, AsyncStreamFile, AsyncWaitTimer
-extern AsyncTicksPerRead, AsyncReadResult, AsyncMeasuredSpeed, AsyncReadTime, AsyncBytesRead, AsyncBaseTicks, FatalError, openhandle
-extern SetTickDeadline, str_ASYNC, str_ASYNCFILE, str_AsyncreaderNOFILESPECIFI, str_AsyncreaderNOFILESPECIFI2, str_AsyncreaderNOFILESPECIFI3, str_GetasyncblockDNOASYNCBLO, str_SetasyncspeedSFILEISTOOS
-extern str_SetasyncspeedSFILEISTOOS2, strcmp_, strncpy_, RemoveTimerCallback, AllocMemBlockLockedChecked, AllocMemBlock, FreeMemBlock, PushMemDescriptorLocked
-extern CdOpenStream, CdHandleEntry, CdCloseFile, CdRead, CdSeek, TicksSinceLast, DosCloseFile, DosReadFile
-extern DosSeekFile, AsyncHeader, WaitTickDeadline
+extern addtimer, AllocMemBlock, AllocMemBlockLockedChecked, AsyncBaseTicks, AsyncBudget, AsyncBytesLeft, AsyncBytesRead, AsyncCdFile
+extern AsyncCurFile, AsyncCurOffset, AsyncCurRequest, AsyncDestBlock, AsyncDestPos, AsyncFileHandle, AsyncFileSize, AsyncFileStart
+extern AsyncFreeList, AsyncHeader, AsyncMeasuredSpeed, AsyncMemFlags, AsyncOpenFile, AsyncQueueTail, AsyncReadResult, AsyncReadTime
+extern AsyncRequests, AsyncReqUser, AsyncSkip, AsyncState, AsyncStreamFile, AsyncTicks, AsyncTicksPerRead, AsyncWaitTimer
+extern CdCloseFile, CdHandleEntry, CdOpenStream, CdRead, CdSeek, DosCloseFile, DosReadFile, DosSeekFile
+extern FatalError, FreeMemBlock, openhandle, PushMemDescriptorLocked, RemoveTimerCallback, SetTickDeadline, str_ASYNC, str_ASYNCFILE
+extern str_AsyncreaderNOFILESPECIFI, str_AsyncreaderNOFILESPECIFI2, str_AsyncreaderNOFILESPECIFI3, str_GetasyncblockDNOASYNCBLO, str_SetasyncspeedSFILEISTOOS, str_SetasyncspeedSFILEISTOOS2, strcmp_, strncpy_
+extern TicksSinceLast, WaitTickDeadline
 global setasyncspeed, setasyncspeed_ret, AsyncInit, AsyncClose, AsyncRequestOpen, AsyncRequestSection, AsyncCancelRequest, AsyncReaderStateJumpTable
 global asyncreader, asyncreader_B, asyncreader_34D, asyncreader_3EF, asyncreader_614, AsyncTimerTick, AsyncTimerTick_45, AsyncRequestDone
 global getasyncblock

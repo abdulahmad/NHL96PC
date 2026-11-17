@@ -24,26 +24,26 @@ address,name,auto_name,source,confidence,evidence,file
 11A88,ReadJoystickBits,sub_11A88,new,high,"the joystick bits of every pad in byte_151778: from GrIP (GripReadPadBits) when the GrIP library is up, else from the analog joysticks against their centre (+-7Ch dead zone)",src/front/controls/controls.asm
 1214A,GripShutdown,sub_1214A,new,high,"atexit handler: closes the GrIP library (84A2h), then GripUnlinkLibrary",src/front/controls/controls.asm
 1218A,InitGrip,sub_1218A,new,high,"joystick init: opens the GrIP library (84A1h) and scans its slots when present (registering GripShutdown with atexit), else reads the analog joysticks; returns the present mask (1/2/4/8)",src/front/controls/controls.asm
-122A6,ModemGameOpen,sub_122A6,new,high,"(answer, settings): copies the modem settings (port, speed, numbers, init string) and opens the link with LinkOpen, showing a message while the modem starts (unless word_17C9B0); clears the message queues; 1 when open (byte_114D96 bit 1), else shows the error",src/front/modem_game/modem_game.asm
-1253E,LinkBlockStart,sub_1253E,new,high,received message type 3: a block of the given length follows (into unk_15179C),src/front/modem_game/modem_game.asm
-12577,LinkBlockData,sub_12577,new,high,received message type 4: appends its bytes to the block being received; counts the block done when it is complete,src/front/modem_game/modem_game.asm
-125FF,LinkSendBlock,sub_125FF,new,high,"(data, length): sends a block to the other side as a type 3 header and type 4 messages of 4 bytes, idling while the link is busy",src/front/modem_game/modem_game.asm
-126E9,LinkReceiveBlock,sub_126E9,new,high,"(dest, length): waits (idling) for the next block from the other side and copies it out",src/front/modem_game/modem_game.asm
-1272E,LinkSyncMessage,sub_1272E,new,high,"received message type 5: the other side's sync point number (dword_114D9E); one from this side's own number means ""quit"" (word_114DBE)",src/front/modem_game/modem_game.asm
-1277B,LinkGameMessage,sub_1277B,new,high,"message handler of a modem game: by type 1 menu values, 2 pad input, 3/4 block, 5 sync point, 6 chat text, into their queues of 10",src/front/modem_game/modem_game.asm
-1290C,LinkExchangeValues,sub_1290C,new,medium,"(a, b, flag, &a2, &b2, &flag2): sends a type 1 message with three packed values and waits (wait box after 25 ticks) for the other side's; used by a front-end screen to keep both menus in step",src/front/modem_game/modem_game.asm
-12A24,ModemGameConnect,sub_12A24,new,high,"(abort check): connects (LinkConnect) with a message up; on success sets the side (word_114CE4: 1 dialler), syncs, and the answering side sends its game options (optblock, 0B9h bytes) and option bits to the dialler; 1 when connected (byte_114D96 bit 2, word_114CE0 bit 1)",src/front/modem_game/modem_game.asm
-12E50,ShowLinkWaitBox,sub_12E50,new,high,"puts up the ""waiting for the other player"" sprite (HGwt/HFwt in hi-res, LGwt in low-res) centred on the screen, once",src/front/modem_game/modem_game.asm
-12F33,HideLinkWaitBox,sub_12F33,new,high,takes the waiting sprite down again,src/front/modem_game/modem_game.asm
-12F77,LinkSyncTimedOut,sub_12F77,new,high,"abort check used while syncing: idles, 1 once the sync deadline (dword_114DA2) has passed",src/front/modem_game/modem_game.asm
-12FB3,LinkSyncPoint,sub_12FB3,new,high,"(number, abortable): sync point: sends a type 5 message with the number and side and waits for the other side's (the dialler sends first), idling; the abort check can stop the wait",src/front/modem_game/modem_game.asm
-13146,LinkSync,sub_13146,new,high,"(show wait box): syncs with the other side at the next sync point (100-second deadline per try, ""ABORT!"" to the debug log on a timeout, retried), with the wait box",src/front/modem_game/modem_game.asm
-131EC,LinkSyncWithMessage,sub_131EC,new,high,(message): LinkSync with a message box instead of the wait box,src/front/modem_game/modem_game.asm
-13288,ModemGameClose,sub_13288,new,high,"ends a modem game: puts the option bits back, clears the message handlers, stops the link timer and closes the link (LinkClose); clears the modem game flags",src/front/modem_game/modem_game.asm
-13304,ModemGameQuit,sub_13304,new,high,"on a modem game: wait box, ModemGameClose, box down",src/front/modem_game/modem_game.asm
-13338,LinkResyncInput,sub_13338,new,high,"on a modem game: syncs, empties the pad input queues, the input record ring and SlotButtons, syncs again",src/front/modem_game/modem_game.asm
-13407,LinkExchangeInput,sub_13407,new,high,"from InputRecordTimer on a modem game: sends this side's two pads as a type 2 message (packed) and, once both sides' pads for a frame are in, pushes the frame's input record into InputRecordRing",src/front/modem_game/modem_game.asm
-1377E,ModemChat,sub_1377E,new,medium,"the modem chat box over a front-end screen: typed characters (1Fh-7Eh), Enter sends the line as type 6 messages, lines from the other side show up; Esc leaves",src/front/modem_game/modem_game.asm
+122A6,ModemGameOpen,sub_122A6,new,high,"(answer, settings): copies the modem settings (port, speed, numbers, init string) and opens the link with LinkOpen, showing a message while the modem starts (unless word_17C9B0); clears the message queues; 1 when open (byte_114D96 bit 1), else shows the error",src/pc/modem_game/modem_game.asm
+1253E,LinkBlockStart,sub_1253E,new,high,received message type 3: a block of the given length follows (into unk_15179C),src/pc/modem_game/modem_game.asm
+12577,LinkBlockData,sub_12577,new,high,received message type 4: appends its bytes to the block being received; counts the block done when it is complete,src/pc/modem_game/modem_game.asm
+125FF,LinkSendBlock,sub_125FF,new,high,"(data, length): sends a block to the other side as a type 3 header and type 4 messages of 4 bytes, idling while the link is busy",src/pc/modem_game/modem_game.asm
+126E9,LinkReceiveBlock,sub_126E9,new,high,"(dest, length): waits (idling) for the next block from the other side and copies it out",src/pc/modem_game/modem_game.asm
+1272E,LinkSyncMessage,sub_1272E,new,high,"received message type 5: the other side's sync point number (dword_114D9E); one from this side's own number means ""quit"" (word_114DBE)",src/pc/modem_game/modem_game.asm
+1277B,LinkGameMessage,sub_1277B,new,high,"message handler of a modem game: by type 1 menu values, 2 pad input, 3/4 block, 5 sync point, 6 chat text, into their queues of 10",src/pc/modem_game/modem_game.asm
+1290C,LinkExchangeValues,sub_1290C,new,medium,"(a, b, flag, &a2, &b2, &flag2): sends a type 1 message with three packed values and waits (wait box after 25 ticks) for the other side's; used by a front-end screen to keep both menus in step",src/pc/modem_game/modem_game.asm
+12A24,ModemGameConnect,sub_12A24,new,high,"(abort check): connects (LinkConnect) with a message up; on success sets the side (word_114CE4: 1 dialler), syncs, and the answering side sends its game options (optblock, 0B9h bytes) and option bits to the dialler; 1 when connected (byte_114D96 bit 2, word_114CE0 bit 1)",src/pc/modem_game/modem_game.asm
+12E50,ShowLinkWaitBox,sub_12E50,new,high,"puts up the ""waiting for the other player"" sprite (HGwt/HFwt in hi-res, LGwt in low-res) centred on the screen, once",src/pc/modem_game/modem_game.asm
+12F33,HideLinkWaitBox,sub_12F33,new,high,takes the waiting sprite down again,src/pc/modem_game/modem_game.asm
+12F77,LinkSyncTimedOut,sub_12F77,new,high,"abort check used while syncing: idles, 1 once the sync deadline (dword_114DA2) has passed",src/pc/modem_game/modem_game.asm
+12FB3,LinkSyncPoint,sub_12FB3,new,high,"(number, abortable): sync point: sends a type 5 message with the number and side and waits for the other side's (the dialler sends first), idling; the abort check can stop the wait",src/pc/modem_game/modem_game.asm
+13146,LinkSync,sub_13146,new,high,"(show wait box): syncs with the other side at the next sync point (100-second deadline per try, ""ABORT!"" to the debug log on a timeout, retried), with the wait box",src/pc/modem_game/modem_game.asm
+131EC,LinkSyncWithMessage,sub_131EC,new,high,(message): LinkSync with a message box instead of the wait box,src/pc/modem_game/modem_game.asm
+13288,ModemGameClose,sub_13288,new,high,"ends a modem game: puts the option bits back, clears the message handlers, stops the link timer and closes the link (LinkClose); clears the modem game flags",src/pc/modem_game/modem_game.asm
+13304,ModemGameQuit,sub_13304,new,high,"on a modem game: wait box, ModemGameClose, box down",src/pc/modem_game/modem_game.asm
+13338,LinkResyncInput,sub_13338,new,high,"on a modem game: syncs, empties the pad input queues, the input record ring and SlotButtons, syncs again",src/pc/modem_game/modem_game.asm
+13407,LinkExchangeInput,sub_13407,new,high,"from InputRecordTimer on a modem game: sends this side's two pads as a type 2 message (packed) and, once both sides' pads for a frame are in, pushes the frame's input record into InputRecordRing",src/pc/modem_game/modem_game.asm
+1377E,ModemChat,sub_1377E,new,medium,"the modem chat box over a front-end screen: typed characters (1Fh-7Eh), Enter sends the line as type 6 messages, lines from the other side show up; Esc leaves",src/pc/modem_game/modem_game.asm
 1456D,DrawGameStats,sub_1456D,new,medium,"draws the team statistics page of the game stats screen: both teams' values from hmtmstruct / awtmstruct (counts, n/m, n/m (p%), time m:ss), labels from the text table (20Ch-215h)",src/front/postgame/postgame.asm
 15344,GameStatsScreen,sub_15344,new,medium,"the game statistics screen (BKGD, BANNER, SBACK, page arrows AR00-AR11, puck cursor BALL): pages of DrawGameStats, mouse and pad, the modem chat box and sync on a modem game",src/front/postgame/postgame.asm
 15A8E,AnimateStarsScreen,sub_15A8E,new,medium,"timed effects of the three stars screen: the scrolling sprite strip, camera flashes at random spots of the crowd (three areas), random sparkles; called each frame",src/front/postgame/postgame.asm
@@ -56,48 +56,48 @@ address,name,auto_name,source,confidence,evidence,file
 17025,Gameloop,sub_17025,94G,medium,the game's main loop (94G hockey94 Gameloop),src/front/play_game/play_game.asm
 1739F,RunDemoGame,sub_1739F,new,high,"attract-mode demo game: seeds rand from the time, InitSlotTable, loads the game, starts InputRecordTimer, SetupDemoGame, GameLoop, then stops the timer and restores the screen; same job as 95 PC RunDemoGame",src/front/play_game/play_game.asm
 17494,PlayGame,sub_17494,95PC,medium,"play a game (eax < 0: a new one); calls the slot table set-up and the game loop, as NHL95PC PlayGame",src/front/play_game/play_game.asm
-17675,ModemInitDefault,,new,medium,"was a wrong FLIRT match: ModemInit(port, ""ATZS7=60S11=55""); no caller (dead code)",src/front/link/link.asm
-1768A,ModemInit,sub_1768A,new,high,"(port, init string): ModemAttention, then ATE1, ATQ0, ATX4, ATF1 and the user's init string, split at '~' (one second pause per '~'), each answered OK; 4 when the modem does not answer",src/front/link/link.asm
-1779C,ModemHangup,sub_1779C,new,high,"(port): ModemAttention, then ATH0 and its answer; 4 when the modem does not answer",src/front/link/link.asm
-1780A,ModemDial,sub_1780A,new,high,"(port, number, prefix, tone): hangs up, then sends ATD + prefix + T (tone) or P (pulse) + number",src/front/link/link.asm
-17887,ModemAutoAnswer,sub_17887,new,high,"(port): hangs up, then ATS0=1 (answer on the first ring)",src/front/link/link.asm
-178C0,ModemWaitConnect,sub_178C0,new,high,"(port): reads one modem result: 0 for none / NO CARRIER-type results, 4 for an error, else the result code (1 / 5 / 10+ = CONNECT at some speed)",src/front/link/link.asm
-17906,ModemReadResult,sub_17906,new,high,"(port, timeout): reads a line from the modem (at most 41 characters) and matches it against the result string table off_114F1C; returns its code, -1 for none",src/front/link/link.asm
-17A32,ModemSendCommand,sub_17A32,new,high,"(port, command, flush): sends command + CR (at most 79 characters) and checks the modem echoes it; 1 when it does",src/front/link/link.asm
-17AC7,ModemAttention,sub_17AC7,new,high,"(port): flushes, waits, sends ""+++"" (escape to command mode), waits, sends AT and reads the answer; 1 when the modem answers",src/front/link/link.asm
-17B72,LinkCopyBytes,sub_17B72,new,high,"(dest, src, count): byte copy",src/front/link/link.asm
-17B9A,LinkRxPut,sub_17B9A,new,high,"(bytes, count): appends received bytes to the receive ring (10Ch bytes, byte_152810, head dword_11507C, length dword_115080)",src/front/link/link.asm
-17C02,LinkRxCopy,sub_17C02,new,high,"(offset, count, dest): copies count bytes from the receive ring at offset; 0 when not all have arrived",src/front/link/link.asm
-17C68,LinkCheckPacket,sub_17C68,new,high,"checks a received packet's sequence fields and its checksum (bytes 4-5, sub_B1830 over the packet); 1 when good",src/front/link/link.asm
-17CC8,LinkParsePacket,sub_17CC8,new,medium,"parses the packet at the head of the receive ring: sync byte 0BDh, then 'd' (64h, 12-byte data packet) or 'C' (43h, 6-byte control packet: ack / resend request); the result goes to dword_11505C (0 good, 4 bad); returns the bytes used",src/front/link/link.asm
-17E8C,LinkFirstMissingRx,sub_17E8C,new,medium,the first receive slot after the last acknowledged one that has not arrived (state != 1); -1 when none,src/front/link/link.asm
-17EE1,LinkRxAckSeq,sub_17EE1,new,medium,"advances the acknowledged receive sequence (dword_115058) over the slots that have arrived, marking them acknowledged (state 4); returns it (0FFh none) for the packet's ack byte",src/front/link/link.asm
-17F4E,LinkDefaults,sub_17F4E,new,high,"resets the link settings and state to their defaults (port 0, 9600-type speed code 9, modem, answer, timer on, ...) and empties the receive ring",src/front/link/link.asm
-1802B,SetLinkAbortCheck,sub_1802B,new,high,sets the callback (dword_15291C) the connect loop polls to give up (e.g. Esc); returns the old one,src/front/link/link.asm
-1803B,SetLinkSpareHook,sub_1803B,new,low,"swaps dword_11503C, a hook the library never calls; returns the old one",src/front/link/link.asm
-1804B,SetLinkMessageHandler,sub_1804B,new,high,"sets the callback (dword_115040) each received message is handed to, in order; returns the old one",src/front/link/link.asm
-1807B,SetLinkCheckPeriod,sub_1807B,new,medium,sets the countdown (ticks) between carrier checks / the periodic hook (dword_115068 and its reload); returns the old count,src/front/link/link.asm
-18090,LinkDeliverMessages,sub_18090,new,high,hands the received messages that are next in sequence (64-entry ring of 7 bytes) to the message handler and frees their slots,src/front/link/link.asm
-180DC,LinkStoreRxMessage,sub_180DC,new,high,stores a data packet's 6-byte payload in its receive slot (by sequence byte); 0 when the slot already holds one,src/front/link/link.asm
-1812E,LinkCarrierOK,sub_1812E,new,high,"1 on a direct (null-modem) link, else the modem's carrier detect (sub_B12AF)",src/front/link/link.asm
-18165,LinkTxRoom,sub_18165,new,high,(count): 1 when the serial transmit buffer has room for count bytes,src/front/link/link.asm
-18186,LinkCheckTimeouts,sub_18186,new,medium,"timer side of the protocol: resends data packets not acknowledged in time (str_22 ticks), asks again for receive slots still missing (dword_115074), sends an ack when one is due",src/front/link/link.asm
-18234,LinkTimerTick,sub_18234,new,high,"the link's timer callback (addtimer): when connected, runs LinkCheckTimeouts, LinkReceive and LinkDeliverMessages, and every check period the periodic hook and the carrier check (a lost carrier drops the link)",src/front/link/link.asm
-1830D,LinkClearTxSlot,sub_1830D,new,high,(slot): empties one transmit slot (24-byte entries at dword_152148),src/front/link/link.asm
-1832F,LinkClearRxSlot,sub_1832F,new,high,(slot): empties one receive slot (dword_151D48 state and the message ring entry),src/front/link/link.asm
-183CD,LinkOpen,sub_183CD,new,high,"(settings): LinkDefaults, copies the settings (port, speed, answer/dial, direct, timer, IRQ, tone, init string, number), clears all slots, opens the serial port; on a modem link ModemInit (fails -> port closed, 0); starts LinkTimerTick; 1 when open",src/front/link/link.asm
-18540,LinkConnect,sub_18540,new,high,"direct link: connected at once; modem: ModemAutoAnswer (answer) or ModemDial (dial), then waits for the connect result until the abort check says stop; 1 when connected",src/front/link/link.asm
-186DC,LinkClose,sub_186DC,new,high,"drops the link: ModemHangup on a modem link, closes the serial port, removes LinkTimerTick",src/front/link/link.asm
-18736,LinkBuildDataPacket,sub_18736,new,high,"(data, length, seq, packet): 12-byte data packet: 0BDh, 'd', seq, ack (LinkRxAckSeq), checksum, 6 bytes of data (zero padded)",src/front/link/link.asm
-187A8,LinkSetChecksum,sub_187A8,new,high,"(packet, length): writes the packet checksum (sub_B1830) into bytes 4-5",src/front/link/link.asm
-187CF,LinkRequestResend,sub_187CF,new,medium,"(slot, reason): asks the other side to send receive slot again with a 'C' control packet (unless asked recently), marks the slot requested (state 2) and calls the resend hook dword_115048",src/front/link/link.asm
-188AE,LinkSendAck,sub_188AE,new,high,sends a 6-byte 'C' control packet with no slot (0FFh) that only carries the ack sequence,src/front/link/link.asm
-1891A,LinkSendMessage,sub_1891A,new,high,"(data, length): puts a message in the next transmit slot (state 3, waiting for its ack) and sends it as a data packet; 0 when the transmit buffer or the window (31 slots) is full",src/front/link/link.asm
-189CD,LinkResendSlot,sub_189CD,new,high,(slot): sends transmit slot again (fresh ack byte and checksum) when it still waits for its ack and there is room,src/front/link/link.asm
-18A31,LinkAckThrough,sub_18A31,new,high,(seq): frees the transmit slots up to the acknowledged sequence,src/front/link/link.asm
-18A81,LinkReceive,sub_18A81,new,high,"reads what the serial port has (up to 256 bytes) into the receive ring, parses every complete packet: data packets are stored and acknowledged, bad ones ask for a resend, acks free transmit slots",src/front/link/link.asm
-18C75,LinkPoll,sub_18C75,new,medium,"without the timer: every third call LinkReceive, LinkDeliverMessages, and when the check period runs out the periodic hook and the carrier check; 1 while connected",src/front/link/link.asm
-18DB7,LinkRequestMissing,sub_18DB7,new,medium,(upto): asks again for every receive slot from the last acknowledged one up to upto that has not arrived or was asked for too long ago,src/front/link/link.asm
+17675,ModemInitDefault,,new,medium,"was a wrong FLIRT match: ModemInit(port, ""ATZS7=60S11=55""); no caller (dead code)",src/pc/link/link.asm
+1768A,ModemInit,sub_1768A,new,high,"(port, init string): ModemAttention, then ATE1, ATQ0, ATX4, ATF1 and the user's init string, split at '~' (one second pause per '~'), each answered OK; 4 when the modem does not answer",src/pc/link/link.asm
+1779C,ModemHangup,sub_1779C,new,high,"(port): ModemAttention, then ATH0 and its answer; 4 when the modem does not answer",src/pc/link/link.asm
+1780A,ModemDial,sub_1780A,new,high,"(port, number, prefix, tone): hangs up, then sends ATD + prefix + T (tone) or P (pulse) + number",src/pc/link/link.asm
+17887,ModemAutoAnswer,sub_17887,new,high,"(port): hangs up, then ATS0=1 (answer on the first ring)",src/pc/link/link.asm
+178C0,ModemWaitConnect,sub_178C0,new,high,"(port): reads one modem result: 0 for none / NO CARRIER-type results, 4 for an error, else the result code (1 / 5 / 10+ = CONNECT at some speed)",src/pc/link/link.asm
+17906,ModemReadResult,sub_17906,new,high,"(port, timeout): reads a line from the modem (at most 41 characters) and matches it against the result string table off_114F1C; returns its code, -1 for none",src/pc/link/link.asm
+17A32,ModemSendCommand,sub_17A32,new,high,"(port, command, flush): sends command + CR (at most 79 characters) and checks the modem echoes it; 1 when it does",src/pc/link/link.asm
+17AC7,ModemAttention,sub_17AC7,new,high,"(port): flushes, waits, sends ""+++"" (escape to command mode), waits, sends AT and reads the answer; 1 when the modem answers",src/pc/link/link.asm
+17B72,LinkCopyBytes,sub_17B72,new,high,"(dest, src, count): byte copy",src/pc/link/link.asm
+17B9A,LinkRxPut,sub_17B9A,new,high,"(bytes, count): appends received bytes to the receive ring (10Ch bytes, byte_152810, head dword_11507C, length dword_115080)",src/pc/link/link.asm
+17C02,LinkRxCopy,sub_17C02,new,high,"(offset, count, dest): copies count bytes from the receive ring at offset; 0 when not all have arrived",src/pc/link/link.asm
+17C68,LinkCheckPacket,sub_17C68,new,high,"checks a received packet's sequence fields and its checksum (bytes 4-5, sub_B1830 over the packet); 1 when good",src/pc/link/link.asm
+17CC8,LinkParsePacket,sub_17CC8,new,medium,"parses the packet at the head of the receive ring: sync byte 0BDh, then 'd' (64h, 12-byte data packet) or 'C' (43h, 6-byte control packet: ack / resend request); the result goes to dword_11505C (0 good, 4 bad); returns the bytes used",src/pc/link/link.asm
+17E8C,LinkFirstMissingRx,sub_17E8C,new,medium,the first receive slot after the last acknowledged one that has not arrived (state != 1); -1 when none,src/pc/link/link.asm
+17EE1,LinkRxAckSeq,sub_17EE1,new,medium,"advances the acknowledged receive sequence (dword_115058) over the slots that have arrived, marking them acknowledged (state 4); returns it (0FFh none) for the packet's ack byte",src/pc/link/link.asm
+17F4E,LinkDefaults,sub_17F4E,new,high,"resets the link settings and state to their defaults (port 0, 9600-type speed code 9, modem, answer, timer on, ...) and empties the receive ring",src/pc/link/link.asm
+1802B,SetLinkAbortCheck,sub_1802B,new,high,sets the callback (dword_15291C) the connect loop polls to give up (e.g. Esc); returns the old one,src/pc/link/link.asm
+1803B,SetLinkSpareHook,sub_1803B,new,low,"swaps dword_11503C, a hook the library never calls; returns the old one",src/pc/link/link.asm
+1804B,SetLinkMessageHandler,sub_1804B,new,high,"sets the callback (dword_115040) each received message is handed to, in order; returns the old one",src/pc/link/link.asm
+1807B,SetLinkCheckPeriod,sub_1807B,new,medium,sets the countdown (ticks) between carrier checks / the periodic hook (dword_115068 and its reload); returns the old count,src/pc/link/link.asm
+18090,LinkDeliverMessages,sub_18090,new,high,hands the received messages that are next in sequence (64-entry ring of 7 bytes) to the message handler and frees their slots,src/pc/link/link.asm
+180DC,LinkStoreRxMessage,sub_180DC,new,high,stores a data packet's 6-byte payload in its receive slot (by sequence byte); 0 when the slot already holds one,src/pc/link/link.asm
+1812E,LinkCarrierOK,sub_1812E,new,high,"1 on a direct (null-modem) link, else the modem's carrier detect (sub_B12AF)",src/pc/link/link.asm
+18165,LinkTxRoom,sub_18165,new,high,(count): 1 when the serial transmit buffer has room for count bytes,src/pc/link/link.asm
+18186,LinkCheckTimeouts,sub_18186,new,medium,"timer side of the protocol: resends data packets not acknowledged in time (str_22 ticks), asks again for receive slots still missing (dword_115074), sends an ack when one is due",src/pc/link/link.asm
+18234,LinkTimerTick,sub_18234,new,high,"the link's timer callback (addtimer): when connected, runs LinkCheckTimeouts, LinkReceive and LinkDeliverMessages, and every check period the periodic hook and the carrier check (a lost carrier drops the link)",src/pc/link/link.asm
+1830D,LinkClearTxSlot,sub_1830D,new,high,(slot): empties one transmit slot (24-byte entries at dword_152148),src/pc/link/link.asm
+1832F,LinkClearRxSlot,sub_1832F,new,high,(slot): empties one receive slot (dword_151D48 state and the message ring entry),src/pc/link/link.asm
+183CD,LinkOpen,sub_183CD,new,high,"(settings): LinkDefaults, copies the settings (port, speed, answer/dial, direct, timer, IRQ, tone, init string, number), clears all slots, opens the serial port; on a modem link ModemInit (fails -> port closed, 0); starts LinkTimerTick; 1 when open",src/pc/link/link.asm
+18540,LinkConnect,sub_18540,new,high,"direct link: connected at once; modem: ModemAutoAnswer (answer) or ModemDial (dial), then waits for the connect result until the abort check says stop; 1 when connected",src/pc/link/link.asm
+186DC,LinkClose,sub_186DC,new,high,"drops the link: ModemHangup on a modem link, closes the serial port, removes LinkTimerTick",src/pc/link/link.asm
+18736,LinkBuildDataPacket,sub_18736,new,high,"(data, length, seq, packet): 12-byte data packet: 0BDh, 'd', seq, ack (LinkRxAckSeq), checksum, 6 bytes of data (zero padded)",src/pc/link/link.asm
+187A8,LinkSetChecksum,sub_187A8,new,high,"(packet, length): writes the packet checksum (sub_B1830) into bytes 4-5",src/pc/link/link.asm
+187CF,LinkRequestResend,sub_187CF,new,medium,"(slot, reason): asks the other side to send receive slot again with a 'C' control packet (unless asked recently), marks the slot requested (state 2) and calls the resend hook dword_115048",src/pc/link/link.asm
+188AE,LinkSendAck,sub_188AE,new,high,sends a 6-byte 'C' control packet with no slot (0FFh) that only carries the ack sequence,src/pc/link/link.asm
+1891A,LinkSendMessage,sub_1891A,new,high,"(data, length): puts a message in the next transmit slot (state 3, waiting for its ack) and sends it as a data packet; 0 when the transmit buffer or the window (31 slots) is full",src/pc/link/link.asm
+189CD,LinkResendSlot,sub_189CD,new,high,(slot): sends transmit slot again (fresh ack byte and checksum) when it still waits for its ack and there is room,src/pc/link/link.asm
+18A31,LinkAckThrough,sub_18A31,new,high,(seq): frees the transmit slots up to the acknowledged sequence,src/pc/link/link.asm
+18A81,LinkReceive,sub_18A81,new,high,"reads what the serial port has (up to 256 bytes) into the receive ring, parses every complete packet: data packets are stored and acknowledged, bad ones ask for a resend, acks free transmit slots",src/pc/link/link.asm
+18C75,LinkPoll,sub_18C75,new,medium,"without the timer: every third call LinkReceive, LinkDeliverMessages, and when the check period runs out the periodic hook and the carrier check; 1 while connected",src/pc/link/link.asm
+18DB7,LinkRequestMissing,sub_18DB7,new,medium,(upto): asks again for every receive slot from the last acknowledged one up to upto that has not arrived or was asked for too long ago,src/pc/link/link.asm
 18E80,GetSpecialTeamsRanks,sub_18E80,new,medium,"(team, game mode, out): reads every team's record for the mode (exhibition / season / playoff stats file), works out power play % and penalty kill % (x1000), sorts the teams (qsort) and stores this team's rank in each",src/front/team_ranks/team_ranks.asm
 19336,ComparePowerPlayPct,sub_19336,new,medium,"qsort comparator for GetSpecialTeamsRanks: by power play % (dword_152AD4), then team number",src/front/team_ranks/team_ranks.asm
 1935C,ComparePenaltyKillPct,sub_1935C,new,medium,"qsort comparator for GetSpecialTeamsRanks: by penalty kill % (dword_152A6C), then team number",src/front/team_ranks/team_ranks.asm
@@ -127,63 +127,63 @@ address,name,auto_name,source,confidence,evidence,file
 1B4D2,StartUp,sub_1B4D2,new,high,"main_ first part: seeds rand, InitHardware, InitInputDevices, reads the SETUP settings (else ""You must first use the SETUP program...""), checks memory and directories, loads the front end",src/front/main/main.asm
 1B79D,ShutDown,,new,high,"main_ last part: frees the front end, sound and art, then the exit hook",src/front/main/main.asm
 1B7F8,main_,,WATCOM,high,IDA FLIRT library signature,
-1B807,setasyncspeed,sub_1B807,new,high,EA async reader: measures the read speed of two files (time to read up to 4A3E8h bytes) for the async read rate; name from its debug message,src/front/async/async.asm
-1BA4D,AsyncInit,sub_1BA4D,new,medium,"EA async reader: allocates the ASYNC FILE request blocks (0ABh bytes each, free list), sets the read rate, starts AsyncTimerTick",src/front/async/async.asm
-1BB20,AsyncClose,sub_1BB20,new,medium,"EA async reader: stops AsyncTimerTick, closes its files and frees the request blocks",src/front/async/async.asm
-1BC7A,AsyncRequestOpen,sub_1BC7A,new,low,EA async reader: queues a type 3 request (open a file by name),src/front/async/async.asm
-1BD67,AsyncRequestSection,sub_1BD67,new,medium,"EA async reader: queues a type 5 request (a section read, ""NO FILE SPECIFIED FOR SECTION READ"" when no file is open)",src/front/async/async.asm
-1BE50,AsyncCancelRequest,sub_1BE50,new,low,marks a request's destination -1 (dropped when it comes up),src/front/async/async.asm
-1BE72,asyncreader,sub_1BE72,new,high,"EA async reader: works through the request queue a piece at a time (open, chunk, section and handle reads); name from its debug messages",src/front/async/async.asm
-1C51E,AsyncTimerTick,sub_1C51E,new,medium,EA async reader timer callback: counts ticks and lets the read budget recover,src/front/async/async.asm
-1C56B,AsyncRequestDone,sub_1C56B,new,medium,(request): 1 when the request has finished (its block goes back to the free list),src/front/async/async.asm
-1C5F3,getasyncblock,sub_1C5F3,new,high,"EA async reader: takes a request block off the free list (""NO ASYNC BLOCKS LEFT"" when none); name from its debug message",src/front/async/async.asm
-1C627,CdStreamInit,sub_1C627,new,medium,"(stream, buffer size, ...): sets up a CD stream's ring buffer and state and starts its timer",src/front/cdstream/cdstream.asm
-1C6E0,CdStreamOpen,sub_1C6E0,new,medium,allocates a CDSTREAM buffer and CdStreamInit,src/front/cdstream/cdstream.asm
-1C711,CdStreamOpenDefault,sub_1C711,new,medium,CdStreamOpen with no options,src/front/cdstream/cdstream.asm
-1C729,setstreamspeed,sub_1C729,new,high,EA CD stream: measures the read speed of the stream files for the data stream rate; name from its debug message,src/front/cdstream/cdstream.asm
-1C957,delstream,sub_1C957,new,high,"EA CD stream: removes a stream (stops its timer, closes its file, frees it); name from its debug message (""STREAM NOT FOUND"")",src/front/cdstream/cdstream.asm
-1C9DC,CdStreamStart,sub_1C9DC,new,low,"(stream, file): sets the stream's file name and state 1 (open and start reading)",src/front/cdstream/cdstream.asm
-1CA02,CdStreamQueue,sub_1CA02,new,low,"(stream, file): sets the stream's file name and state 0Dh (open the next file)",src/front/cdstream/cdstream.asm
-1CA28,CdStreamSeek,sub_1CA28,new,low,"(stream, offset): state 2, read position = file start + offset",src/front/cdstream/cdstream.asm
-1CA52,CdStreamSyncTime,sub_1CA52,new,low,stores the current stream's play position (sub_B6964) in the stream,src/front/cdstream/cdstream.asm
-1CA78,CdStreamInitSecondary,sub_1CA78,new,low,sets up the secondary CD stream's ring buffer and state,src/front/cdstream/cdstream.asm
-1CAF0,CdStreamOpenSecondary,sub_1CAF0,new,low,allocates a SECCDSTREAM buffer and CdStreamInitSecondary,src/front/cdstream/cdstream.asm
-1CB54,CdStreamService,sub_1CB54,new,medium,"the current CD stream's state machine (open, read, refill, wrap, next file), driven by its read budget",src/front/cdstream/cdstream.asm
-1D53B,CdStreamTimerTick,sub_1D53B,new,medium,CD stream timer callback: adds to the current stream's read budget,src/front/cdstream/cdstream.asm
-1D54E,CdStreamSkipMarks,sub_1D54E,new,medium,moves a stream's read pointer over skip (-2) and wrap (-1) marks in its ring buffer,src/front/cdstream/cdstream.asm
-1D582,CdStreamContigData,sub_1D582,new,low,bytes readable in one piece from the stream's ring buffer,src/front/cdstream/cdstream.asm
-1D5A9,CdStreamSpaceLeft,sub_1D5A9,new,low,room left at the end of the stream's ring buffer,src/front/cdstream/cdstream.asm
-1D5D1,CdStreamNextPacket,sub_1D5D1,new,medium,services the stream and returns its next packet (-2 at the end of the stream),src/front/cdstream/cdstream.asm
-1D658,CdStreamFreePacket,sub_1D658,new,medium,"marks a packet as used (-2), so the ring buffer space comes back",src/front/cdstream/cdstream.asm
+1B807,setasyncspeed,sub_1B807,new,high,EA async reader: measures the read speed of two files (time to read up to 4A3E8h bytes) for the async read rate; name from its debug message,src/pc/async/async.asm
+1BA4D,AsyncInit,sub_1BA4D,new,medium,"EA async reader: allocates the ASYNC FILE request blocks (0ABh bytes each, free list), sets the read rate, starts AsyncTimerTick",src/pc/async/async.asm
+1BB20,AsyncClose,sub_1BB20,new,medium,"EA async reader: stops AsyncTimerTick, closes its files and frees the request blocks",src/pc/async/async.asm
+1BC7A,AsyncRequestOpen,sub_1BC7A,new,low,EA async reader: queues a type 3 request (open a file by name),src/pc/async/async.asm
+1BD67,AsyncRequestSection,sub_1BD67,new,medium,"EA async reader: queues a type 5 request (a section read, ""NO FILE SPECIFIED FOR SECTION READ"" when no file is open)",src/pc/async/async.asm
+1BE50,AsyncCancelRequest,sub_1BE50,new,low,marks a request's destination -1 (dropped when it comes up),src/pc/async/async.asm
+1BE72,asyncreader,sub_1BE72,new,high,"EA async reader: works through the request queue a piece at a time (open, chunk, section and handle reads); name from its debug messages",src/pc/async/async.asm
+1C51E,AsyncTimerTick,sub_1C51E,new,medium,EA async reader timer callback: counts ticks and lets the read budget recover,src/pc/async/async.asm
+1C56B,AsyncRequestDone,sub_1C56B,new,medium,(request): 1 when the request has finished (its block goes back to the free list),src/pc/async/async.asm
+1C5F3,getasyncblock,sub_1C5F3,new,high,"EA async reader: takes a request block off the free list (""NO ASYNC BLOCKS LEFT"" when none); name from its debug message",src/pc/async/async.asm
+1C627,CdStreamInit,sub_1C627,new,medium,"(stream, buffer size, ...): sets up a CD stream's ring buffer and state and starts its timer",src/pc/cdstream/cdstream.asm
+1C6E0,CdStreamOpen,sub_1C6E0,new,medium,allocates a CDSTREAM buffer and CdStreamInit,src/pc/cdstream/cdstream.asm
+1C711,CdStreamOpenDefault,sub_1C711,new,medium,CdStreamOpen with no options,src/pc/cdstream/cdstream.asm
+1C729,setstreamspeed,sub_1C729,new,high,EA CD stream: measures the read speed of the stream files for the data stream rate; name from its debug message,src/pc/cdstream/cdstream.asm
+1C957,delstream,sub_1C957,new,high,"EA CD stream: removes a stream (stops its timer, closes its file, frees it); name from its debug message (""STREAM NOT FOUND"")",src/pc/cdstream/cdstream.asm
+1C9DC,CdStreamStart,sub_1C9DC,new,low,"(stream, file): sets the stream's file name and state 1 (open and start reading)",src/pc/cdstream/cdstream.asm
+1CA02,CdStreamQueue,sub_1CA02,new,low,"(stream, file): sets the stream's file name and state 0Dh (open the next file)",src/pc/cdstream/cdstream.asm
+1CA28,CdStreamSeek,sub_1CA28,new,low,"(stream, offset): state 2, read position = file start + offset",src/pc/cdstream/cdstream.asm
+1CA52,CdStreamSyncTime,sub_1CA52,new,low,stores the current stream's play position (sub_B6964) in the stream,src/pc/cdstream/cdstream.asm
+1CA78,CdStreamInitSecondary,sub_1CA78,new,low,sets up the secondary CD stream's ring buffer and state,src/pc/cdstream/cdstream.asm
+1CAF0,CdStreamOpenSecondary,sub_1CAF0,new,low,allocates a SECCDSTREAM buffer and CdStreamInitSecondary,src/pc/cdstream/cdstream.asm
+1CB54,CdStreamService,sub_1CB54,new,medium,"the current CD stream's state machine (open, read, refill, wrap, next file), driven by its read budget",src/pc/cdstream/cdstream.asm
+1D53B,CdStreamTimerTick,sub_1D53B,new,medium,CD stream timer callback: adds to the current stream's read budget,src/pc/cdstream/cdstream.asm
+1D54E,CdStreamSkipMarks,sub_1D54E,new,medium,moves a stream's read pointer over skip (-2) and wrap (-1) marks in its ring buffer,src/pc/cdstream/cdstream.asm
+1D582,CdStreamContigData,sub_1D582,new,low,bytes readable in one piece from the stream's ring buffer,src/pc/cdstream/cdstream.asm
+1D5A9,CdStreamSpaceLeft,sub_1D5A9,new,low,room left at the end of the stream's ring buffer,src/pc/cdstream/cdstream.asm
+1D5D1,CdStreamNextPacket,sub_1D5D1,new,medium,services the stream and returns its next packet (-2 at the end of the stream),src/pc/cdstream/cdstream.asm
+1D658,CdStreamFreePacket,sub_1D658,new,medium,"marks a packet as used (-2), so the ring buffer space comes back",src/pc/cdstream/cdstream.asm
 1D6C1,BlankForFadeIn,sub_1D6C1,new,low,"waits for the vertical blank, clears the screen and sets fadeinpending",src/front/game_setup/game_setup.asm
 1D6F0,PlacePlayersAtStart,,95PC,medium,NHL95PC 13C79 (sem): C:613; D:16595C; D:117870; C:810,
 1D8A2,SetupGame,,95PC,medium,NHL95PC 13E8F (sem): C:159; D:11916D; D:17C9A0,
 1D955,SetupDemoGame,,95PC,medium,NHL95PC 13FA7 (sem): C:162; D:151B80; D:11916D,
 1DA02,ResetGameVars,,95PC,medium,NHL95PC 14056 (sem): D:1191A3; D:1178AA; D:11919B; D:11917B,
-1DC65,FileMissing,sub_1DC65,new,high,(path): 1 when the file cannot be opened,src/front/file_io/file_io.asm
-1DCDC,DeleteFiles,sub_1DCDC,new,high,"(dir, name, ext): deletes every dir\name.ext (find first / next, unlink)",src/front/file_io/file_io.asm
-1DED8,FileOpenRead,sub_1DED8,new,high,"(path, &handle): _dos_open_ read only",src/front/file_io/file_io.asm
-1DEFC,FileOpenWrite,sub_1DEFC,new,high,"(path, &handle): _dos_open_ write only",src/front/file_io/file_io.asm
-1DF18,FileOpenReadWrite,sub_1DF18,new,high,"(path, &handle): _dos_open_ read / write",src/front/file_io/file_io.asm
-1DF34,FileCreate,sub_1DF34,new,high,"(path, &handle): _dos_creat_",src/front/file_io/file_io.asm
-1DF55,FileClose,sub_1DF55,new,high,"(&handle): closes it when open, sets -1",src/front/file_io/file_io.asm
+1DC65,FileMissing,sub_1DC65,new,high,(path): 1 when the file cannot be opened,src/pc/file_io/file_io.asm
+1DCDC,DeleteFiles,sub_1DCDC,new,high,"(dir, name, ext): deletes every dir\name.ext (find first / next, unlink)",src/pc/file_io/file_io.asm
+1DED8,FileOpenRead,sub_1DED8,new,high,"(path, &handle): _dos_open_ read only",src/pc/file_io/file_io.asm
+1DEFC,FileOpenWrite,sub_1DEFC,new,high,"(path, &handle): _dos_open_ write only",src/pc/file_io/file_io.asm
+1DF18,FileOpenReadWrite,sub_1DF18,new,high,"(path, &handle): _dos_open_ read / write",src/pc/file_io/file_io.asm
+1DF34,FileCreate,sub_1DF34,new,high,"(path, &handle): _dos_creat_",src/pc/file_io/file_io.asm
+1DF55,FileClose,sub_1DF55,new,high,"(&handle): closes it when open, sets -1",src/pc/file_io/file_io.asm
 1DF7D,FileReadAt,,95PC,medium,NHL95PC 145A2 (sem): C:1414; C:1334; R:201; R:199,
-1DFEA,FileWriteAt,sub_1DFEA,new,high,"(handle, data, size, offset): seeks (offset >= 0) and writes; 0 ok, -1 seek error, 1 short write (the write side of FileReadAt)",src/front/file_io/file_io.asm
-1E08B,FileCopy,sub_1E08B,new,high,"(from, to): copies a file through a 200 KB COPYBUFFER",src/front/file_io/file_io.asm
-1E222,WriteSeasonDbEntry,sub_1E222,new,low,"(handle, data, index): writes a 6-byte season db entry",src/front/file_io/file_io.asm
-1E268,ReadSeasonHeader,sub_1E268,new,medium,"(handle, buf): reads the 50BEh-byte header at the start of a season file",src/front/file_io/file_io.asm
+1DFEA,FileWriteAt,sub_1DFEA,new,high,"(handle, data, size, offset): seeks (offset >= 0) and writes; 0 ok, -1 seek error, 1 short write (the write side of FileReadAt)",src/pc/file_io/file_io.asm
+1E08B,FileCopy,sub_1E08B,new,high,"(from, to): copies a file through a 200 KB COPYBUFFER",src/pc/file_io/file_io.asm
+1E222,WriteSeasonDbEntry,sub_1E222,new,low,"(handle, data, index): writes a 6-byte season db entry",src/pc/file_io/file_io.asm
+1E268,ReadSeasonHeader,sub_1E268,new,medium,"(handle, buf): reads the 50BEh-byte header at the start of a season file",src/pc/file_io/file_io.asm
 1E33C,IsCupClinched,sub_1E33C,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PickThreeStars,src/front/series/series.asm
 1E383,HomeClinchesSeries,sub_1E383,new,medium,1 when the home team is ahead and one win from taking the series (dword_17D263 bit 2),src/front/series/series.asm
 1E3A7,AwayClinchesSeries,sub_1E3A7,new,medium,1 when the away team is ahead and one win from taking the series (dword_17D263 bit 1),src/front/series/series.asm
-1E3E8,MakeDataPath,sub_1E3E8,new,high,"(out, file id): the path of a game data file: the language prefix (optflags & 3) where the file has one, its directory (table unk_115120) and name (table unk_115333, 16h-byte entries)",src/front/data_files/data_files.asm
-1E5FC,MakeDirPath,sub_1E5FC,new,high,"(out, dir, language): a game directory path (language prefix, directory from unk_115120, backslash)",src/front/data_files/data_files.asm
-1E643,SelectDataLibrary,sub_1E643,new,low,"(index): builds the library path of a 16h-byte entry at unk_1151A7 (subdir by the optflags bits, then its name) and opens it (sub_B7310) unless it is the current one",src/front/data_files/data_files.asm
-1E715,LoadDataFile,sub_1E715,new,medium,"(file id, flags): loads a game data file by id (MakeDataPath, then the loader)",src/front/data_files/data_files.asm
-1E73F,LoadArtArchiveFile,sub_1E73F,new,low,loads a data file through the art archive opener,src/front/data_files/data_files.asm
-1E779,LoadDataFileHandle,sub_1E779,new,low,"LoadDataFile returning the loader's handle (sub_B2140), for the sound banks (sub_C04C3)",src/front/data_files/data_files.asm
-1E7F6,LoadPackedFile,sub_1E7F6,new,medium,"(file id, flags): loads a game data file and unpacks it when packed",src/front/data_files/data_files.asm
-1E8E9,LoadDataFileLib,sub_1E8E9,new,low,"LoadDataFile through the other library loader (sub_B0494 -> sub_C4DE0, flag 1)",src/front/data_files/data_files.asm
-1E969,MakeDatabasePath,sub_1E969,new,medium,"(id, out, drive): path of a saved database file: the save directory (or drive X:\) + the id as %07d + "".DB""",src/front/data_files/data_files.asm
+1E3E8,MakeDataPath,sub_1E3E8,new,high,"(out, file id): the path of a game data file: the language prefix (optflags & 3) where the file has one, its directory (table unk_115120) and name (table unk_115333, 16h-byte entries)",src/pc/data_files/data_files.asm
+1E5FC,MakeDirPath,sub_1E5FC,new,high,"(out, dir, language): a game directory path (language prefix, directory from unk_115120, backslash)",src/pc/data_files/data_files.asm
+1E643,SelectDataLibrary,sub_1E643,new,low,"(index): builds the library path of a 16h-byte entry at unk_1151A7 (subdir by the optflags bits, then its name) and opens it (sub_B7310) unless it is the current one",src/pc/data_files/data_files.asm
+1E715,LoadDataFile,sub_1E715,new,medium,"(file id, flags): loads a game data file by id (MakeDataPath, then the loader)",src/pc/data_files/data_files.asm
+1E73F,LoadArtArchiveFile,sub_1E73F,new,low,loads a data file through the art archive opener,src/pc/data_files/data_files.asm
+1E779,LoadDataFileHandle,sub_1E779,new,low,"LoadDataFile returning the loader's handle (sub_B2140), for the sound banks (sub_C04C3)",src/pc/data_files/data_files.asm
+1E7F6,LoadPackedFile,sub_1E7F6,new,medium,"(file id, flags): loads a game data file and unpacks it when packed",src/pc/data_files/data_files.asm
+1E8E9,LoadDataFileLib,sub_1E8E9,new,low,"LoadDataFile through the other library loader (sub_B0494 -> sub_C4DE0, flag 1)",src/pc/data_files/data_files.asm
+1E969,MakeDatabasePath,sub_1E969,new,medium,"(id, out, drive): path of a saved database file: the save directory (or drive X:\) + the id as %07d + "".DB""",src/pc/data_files/data_files.asm
 1EA14,LoadSeasonStats,sub_1EA14,new,medium,"(season): frees the stats tables and loads the season's stats files (team, players, schedule, ...)",src/front/stats_tables/stats_tables.asm
 1EBBC,LoadPlayoffStats,sub_1EBBC,new,medium,(playoff): frees the stats tables and loads the playoff's stats files,src/front/stats_tables/stats_tables.asm
 1ECDB,LoadExhibitionStats,sub_1ECDB,new,medium,frees the stats tables and loads the exhibition stats files,src/front/stats_tables/stats_tables.asm
@@ -314,34 +314,34 @@ address,name,auto_name,source,confidence,evidence,file
 299CF,DrawShadowSpriteAt,sub_299CF,new,low,draws a sprite shadow at a position,src/front/rink_model/rink_model.asm
 29A14,DrawOptionButton,sub_29A14,new,low,builds the art name for an option button and draws it,src/front/rink_model/rink_model.asm
 29B9F,GameOptionsScreen,sub_29B9F,new,low,game options screen: ten option buttons over the menu background,src/front/rink_model/rink_model.asm
-2A482,UserRecordsHotspots,,new,low,user records screen click areas,src/front/users/users.asm
-2A502,ClearSlotUser,sub_2A502,new,high,"(slot): no user on that controller slot (word_160ACC entry 21h bytes: user id, name ""no user"" text)",src/front/users/users.asm
-2A52F,ClearSlotUsers,sub_2A52F,new,high,no user on any of the 4 controller slots,src/front/users/users.asm
-2A5B5,UserRecordRating,sub_2A5B5,new,low,"adds up a user record's counts (x3, 16.16) for its rating",src/front/users/users.asm
-2A645,CreateUserRecord,sub_2A645,new,high,(path): creates an empty user record file (11Ch bytes of zeros),src/front/users/users.asm
-2A692,DeleteUser,sub_2A692,new,high,"(&index, n): asks to confirm, deletes the user's files and takes the user out of LOCAL.NDX and off any controller slot",src/front/users/users.asm
-2A804,NewUser,sub_2A804,new,high,"(&index): asks for a name (EditText), creates the user's record file (id as %08d) and adds the user to LOCAL.NDX; a message when it cannot",src/front/users/users.asm
-2A963,DrawUserList,sub_2A963,new,high,"draws a page of user names (10 a page) with the selected one highlighted, shortening names that do not fit",src/front/users/users.asm
-2AA81,GetUserName,sub_2AA81,new,high,"(index, id, out): copies the user's name; 0 when the id is not in the index",src/front/users/users.asm
-2AABB,LoadUserIndex,sub_2AABB,new,high,"(&index): loads LOCAL.NDX, or makes a new one with the two default users",src/front/users/users.asm
-2AB63,ScrollUserList,sub_2AB63,new,low,keeps the selected line of the user list on its page (scroll up or down),src/front/users/users.asm
-2AB8F,PickUsersScreen,sub_2AB8F,new,medium,"the screen that puts users on the controller slots: user list with slider (ulxn/ulxh/ulyn/ulyh, slid, slu/sld arrows, ball cursor), new user, delete user",src/front/users/users.asm
-2B4B9,UpdateUserRecords,sub_2B4B9,new,medium,"after a game: for every controller slot with a user, reads the user's record, adds the game (result, goals, power play, ...) and writes it back",src/front/users/users.asm
-2B945,CompareUsersByName,sub_2B945,new,high,qsort comparator of the user records screen: by name,src/front/users/users.asm
-2B95D,CompareUsersByRating,sub_2B95D,new,medium,"qsort comparator: by rating (urate), then name",src/front/users/users.asm
-2B99B,CompareUsersByRecord,sub_2B99B,new,medium,"qsort comparator: by points from the won / lost / tied record (upts) of the shown game type, then name",src/front/users/users.asm
-2BAD2,CompareUsersByGoalsFor,sub_2BAD2,new,medium,"qsort comparator: by goals for (ugf), then name",src/front/users/users.asm
-2BB14,CompareUsersByGoalsAgainst,sub_2BB14,new,medium,"qsort comparator: by goals against (uga, fewest first), then name",src/front/users/users.asm
-2BB56,CompareUsersByPowerPlay,sub_2BB56,new,medium,"qsort comparator: by power play % (upp: goals / chances), then name",src/front/users/users.asm
-2BC05,CompareUsersByPenaltyKill,sub_2BC05,new,medium,"qsort comparator: by penalty kill % (upk), then name",src/front/users/users.asm
-2BCC8,CompareUsersByTeam,sub_2BCC8,new,medium,qsort comparator: by favourite team (uteam),src/front/users/users.asm
-2BCE3,CompareUsersByOpponent,sub_2BCE3,new,medium,qsort comparator: by favourite opponent (uopp),src/front/users/users.asm
-2BCED,CompareUsersByShutouts,sub_2BCED,new,medium,"qsort comparator: by shutouts (uso), then name",src/front/users/users.asm
-2BD2F,CompareUsersByStreak,sub_2BD2F,new,medium,"qsort comparator: by current streak (ustreak) or, on that column, longest streak (ulstreak), then name",src/front/users/users.asm
-2BDD2,DrawUserRecords,sub_2BDD2,new,medium,"draws the user records table (BKGD, column titles TXT%d) a page at a time: per column type a number, a record (w-l-t), a percentage (%3d.%1d), a team name",src/front/users/users.asm
-2C31A,LoadUserRecords,sub_2C31A,new,medium,reads every user's record file into the tables of the user records screen,src/front/users/users.asm
-2C65C,ExportUserRecords,sub_2C65C,new,medium,asks for a file name (EditText) and writes the user records table to it as text (fprintf),src/front/users/users.asm
-2CB9D,UserRecordsScreen,sub_2CB9D,new,medium,"the user records screen: allocates the column tables (uname, urate, upts, ugf, uga, upp, upk, uso, ustreak, ulstreak, uteam, uopp, usort), LoadUserRecords, sorts by the picked column (qsort), DrawUserRecords, export",src/front/users/users.asm
+2A482,UserRecordsHotspots,,new,low,user records screen click areas,src/pc/users/users.asm
+2A502,ClearSlotUser,sub_2A502,new,high,"(slot): no user on that controller slot (word_160ACC entry 21h bytes: user id, name ""no user"" text)",src/pc/users/users.asm
+2A52F,ClearSlotUsers,sub_2A52F,new,high,no user on any of the 4 controller slots,src/pc/users/users.asm
+2A5B5,UserRecordRating,sub_2A5B5,new,low,"adds up a user record's counts (x3, 16.16) for its rating",src/pc/users/users.asm
+2A645,CreateUserRecord,sub_2A645,new,high,(path): creates an empty user record file (11Ch bytes of zeros),src/pc/users/users.asm
+2A692,DeleteUser,sub_2A692,new,high,"(&index, n): asks to confirm, deletes the user's files and takes the user out of LOCAL.NDX and off any controller slot",src/pc/users/users.asm
+2A804,NewUser,sub_2A804,new,high,"(&index): asks for a name (EditText), creates the user's record file (id as %08d) and adds the user to LOCAL.NDX; a message when it cannot",src/pc/users/users.asm
+2A963,DrawUserList,sub_2A963,new,high,"draws a page of user names (10 a page) with the selected one highlighted, shortening names that do not fit",src/pc/users/users.asm
+2AA81,GetUserName,sub_2AA81,new,high,"(index, id, out): copies the user's name; 0 when the id is not in the index",src/pc/users/users.asm
+2AABB,LoadUserIndex,sub_2AABB,new,high,"(&index): loads LOCAL.NDX, or makes a new one with the two default users",src/pc/users/users.asm
+2AB63,ScrollUserList,sub_2AB63,new,low,keeps the selected line of the user list on its page (scroll up or down),src/pc/users/users.asm
+2AB8F,PickUsersScreen,sub_2AB8F,new,medium,"the screen that puts users on the controller slots: user list with slider (ulxn/ulxh/ulyn/ulyh, slid, slu/sld arrows, ball cursor), new user, delete user",src/pc/users/users.asm
+2B4B9,UpdateUserRecords,sub_2B4B9,new,medium,"after a game: for every controller slot with a user, reads the user's record, adds the game (result, goals, power play, ...) and writes it back",src/pc/users/users.asm
+2B945,CompareUsersByName,sub_2B945,new,high,qsort comparator of the user records screen: by name,src/pc/users/users.asm
+2B95D,CompareUsersByRating,sub_2B95D,new,medium,"qsort comparator: by rating (urate), then name",src/pc/users/users.asm
+2B99B,CompareUsersByRecord,sub_2B99B,new,medium,"qsort comparator: by points from the won / lost / tied record (upts) of the shown game type, then name",src/pc/users/users.asm
+2BAD2,CompareUsersByGoalsFor,sub_2BAD2,new,medium,"qsort comparator: by goals for (ugf), then name",src/pc/users/users.asm
+2BB14,CompareUsersByGoalsAgainst,sub_2BB14,new,medium,"qsort comparator: by goals against (uga, fewest first), then name",src/pc/users/users.asm
+2BB56,CompareUsersByPowerPlay,sub_2BB56,new,medium,"qsort comparator: by power play % (upp: goals / chances), then name",src/pc/users/users.asm
+2BC05,CompareUsersByPenaltyKill,sub_2BC05,new,medium,"qsort comparator: by penalty kill % (upk), then name",src/pc/users/users.asm
+2BCC8,CompareUsersByTeam,sub_2BCC8,new,medium,qsort comparator: by favourite team (uteam),src/pc/users/users.asm
+2BCE3,CompareUsersByOpponent,sub_2BCE3,new,medium,qsort comparator: by favourite opponent (uopp),src/pc/users/users.asm
+2BCED,CompareUsersByShutouts,sub_2BCED,new,medium,"qsort comparator: by shutouts (uso), then name",src/pc/users/users.asm
+2BD2F,CompareUsersByStreak,sub_2BD2F,new,medium,"qsort comparator: by current streak (ustreak) or, on that column, longest streak (ulstreak), then name",src/pc/users/users.asm
+2BDD2,DrawUserRecords,sub_2BDD2,new,medium,"draws the user records table (BKGD, column titles TXT%d) a page at a time: per column type a number, a record (w-l-t), a percentage (%3d.%1d), a team name",src/pc/users/users.asm
+2C31A,LoadUserRecords,sub_2C31A,new,medium,reads every user's record file into the tables of the user records screen,src/pc/users/users.asm
+2C65C,ExportUserRecords,sub_2C65C,new,medium,asks for a file name (EditText) and writes the user records table to it as text (fprintf),src/pc/users/users.asm
+2CB9D,UserRecordsScreen,sub_2CB9D,new,medium,"the user records screen: allocates the column tables (uname, urate, upts, ugf, uga, upp, upk, uso, ustreak, ulstreak, uteam, uopp, usort), LoadUserRecords, sorts by the picked column (qsort), DrawUserRecords, export",src/pc/users/users.asm
 2D9D9,RunPreGameSkate,sub_2D9D9,new,low,pre-game: sets up both teams and runs frames while the players skate out,src/engine/threestars/threestars.asm
 2DE30,RunLineupLoop,sub_2DE30,new,low,"the line-up loop: runs game frames for the line-up time before play, with the arena clip",src/engine/threestars/threestars.asm
 2DE99,LineupLoopFrame,,new,low,"one pass of the line-up loop: simulation frames, crowd, camera and drawing",src/engine/threestars/threestars.asm
@@ -978,17 +978,17 @@ address,name,auto_name,source,confidence,evidence,file
 6F056,ControllerScreen,sub_6F056,new,high,"the controller screen (M_CONTROL, ply%d, key1): moves each controller to home, away or neither; returns the screen to go to",src/front/controller_screen/controller_screen.asm
 70840,RunControllerScreen,sub_70840,new,medium,"(from): runs ControllerScreen until it leaves (3 again), then the next step (0Fh, 15h, sub_8733C)",src/front/controller_screen/controller_screen.asm
 70BD5,ControlSetupPoints,,new,low,control setup screen points,src/front/controller_screen/controller_screen.asm
-711ED,DrawOnOffSlider,sub_711ED,new,medium,"draws an on/off slider (Off0/Off1, Onn0/Onn1, sld%d)",src/front/modem_setup/modem_setup.asm
-71333,PollOptionKeys,sub_71333,new,low,"checks the 9 option keys (sub_DFE9C, held-tick timers dword_17D654), plays sound 33h and toggles the option bits (byte_17D650)",src/front/modem_setup/modem_setup.asm
-715E3,ControlPicksScreen,sub_715E3,new,low,"the PICKS screen, after the control setup",src/front/modem_setup/modem_setup.asm
-72140,ControlSetupScreen,sub_72140,new,medium,"the control setup screen: mouse, keyboard, joystick 1 and 2 pictures, detect and on/off sliders",src/front/modem_setup/modem_setup.asm
-73BA5,RunControlSetup,sub_73BA5,new,medium,"from the main menu: ControlSetupScreen, JoystickTestScreen (result 3E8h+) and ControlPicksScreen, looping while 4",src/front/modem_setup/modem_setup.asm
-741BD,ModemSettingsScreen,sub_741BD,new,medium,"the modem settings screen (PICKS): modem type (""Generic Hayes-Compatible"" ...), COM port and IRQ (01%d0, 02%d0, 0%d00), tone / pulse dialing",src/front/modem_setup/modem_setup.asm
-74F0C,ModemWaitIdle,sub_74F0C,new,low,SoundIdle and one tick of the timer (sub_DFE9C(1)) while the modem screens wait,src/front/modem_setup/modem_setup.asm
-74F22,DrawPhoneNumber,sub_74F22,new,medium,"draws the phone number with the digit art (NUM%d, NM%d0, NM%d1)",src/front/modem_setup/modem_setup.asm
-7513A,ModemDialScreen,sub_7513A,new,medium,"the modem connect screen: make the call (MAK), wait for a call (WFC), the number; above 3E8h asks for the settings",src/front/modem_setup/modem_setup.asm
-75E0C,RunModemSetup,sub_75E0C,new,medium,"the dial screen, and the settings screen whenever it asks for it, until a connection result",src/front/modem_setup/modem_setup.asm
-75E2C,LinkSetupScreen,sub_75E2C,new,low,"with a serial link (word_114CE0 bit 1): the link screen (bkgd, data 56h)",src/front/modem_setup/modem_setup.asm
+711ED,DrawOnOffSlider,sub_711ED,new,medium,"draws an on/off slider (Off0/Off1, Onn0/Onn1, sld%d)",src/pc/modem_setup/modem_setup.asm
+71333,PollOptionKeys,sub_71333,new,low,"checks the 9 option keys (sub_DFE9C, held-tick timers dword_17D654), plays sound 33h and toggles the option bits (byte_17D650)",src/pc/modem_setup/modem_setup.asm
+715E3,ControlPicksScreen,sub_715E3,new,low,"the PICKS screen, after the control setup",src/pc/modem_setup/modem_setup.asm
+72140,ControlSetupScreen,sub_72140,new,medium,"the control setup screen: mouse, keyboard, joystick 1 and 2 pictures, detect and on/off sliders",src/pc/modem_setup/modem_setup.asm
+73BA5,RunControlSetup,sub_73BA5,new,medium,"from the main menu: ControlSetupScreen, JoystickTestScreen (result 3E8h+) and ControlPicksScreen, looping while 4",src/pc/modem_setup/modem_setup.asm
+741BD,ModemSettingsScreen,sub_741BD,new,medium,"the modem settings screen (PICKS): modem type (""Generic Hayes-Compatible"" ...), COM port and IRQ (01%d0, 02%d0, 0%d00), tone / pulse dialing",src/pc/modem_setup/modem_setup.asm
+74F0C,ModemWaitIdle,sub_74F0C,new,low,SoundIdle and one tick of the timer (sub_DFE9C(1)) while the modem screens wait,src/pc/modem_setup/modem_setup.asm
+74F22,DrawPhoneNumber,sub_74F22,new,medium,"draws the phone number with the digit art (NUM%d, NM%d0, NM%d1)",src/pc/modem_setup/modem_setup.asm
+7513A,ModemDialScreen,sub_7513A,new,medium,"the modem connect screen: make the call (MAK), wait for a call (WFC), the number; above 3E8h asks for the settings",src/pc/modem_setup/modem_setup.asm
+75E0C,RunModemSetup,sub_75E0C,new,medium,"the dial screen, and the settings screen whenever it asks for it, until a connection result",src/pc/modem_setup/modem_setup.asm
+75E2C,LinkSetupScreen,sub_75E2C,new,low,"with a serial link (word_114CE0 bit 1): the link screen (bkgd, data 56h)",src/pc/modem_setup/modem_setup.asm
 76231,DrawHomeTeamPanel,sub_76231,new,medium,"the home team's panel on the team select screen: logo, name art, rank (rk%02d)",src/front/team_select/team_select.asm
 76394,DrawAwayTeamPanel,sub_76394,new,medium,the same for the away team,src/front/team_select/team_select.asm
 76518,TeamSelectScreen,sub_76518,new,high,"the exhibition team select screen (arrows ahl / ahr / aal / aar, logos, names, ranks); returns the next screen",src/front/team_select/team_select.asm
@@ -1149,10 +1149,10 @@ A1FEF,OpenFrontEndFromGame,sub_A1FEF,new,medium,"leaves the game view for a fron
 A20D1,ReturnToGameView,sub_A20D1,new,medium,"back from a front-end screen into the game view: fade, free the front-end art, restore the speech buffer and the controllers, screen mode (GloL / GloR, GhiL / GhiR)",src/front/ingame_menu/ingame_menu.asm
 A21FB,InGameReturnMenu,sub_A21FB,new,low,"the small return menu (ret0-2, gam0-1, ply0-1) in a link game, kept in step with the other side (LinkSync)",src/front/ingame_menu/ingame_menu.asm
 A25CD,InGameMenu,sub_A25CD,new,high,"the in-game menu RunInGameMenu opens: quit (qui0-2), return (ret0-2) and the other items (INTERREG), stops the crowd and speech, runs the front-end screens in a game (stats, edit lines, player cards)",src/front/ingame_menu/ingame_menu.asm
-A3A11,DrawModemHomePanel,sub_A3A11,new,medium,"the home team's panel on the modem team select screen (logo, name, rank rk%02d)",src/front/modem_teams/modem_teams.asm
-A3B74,DrawModemAwayPanel,sub_A3B74,new,medium,the same for the away team,src/front/modem_teams/modem_teams.asm
-A3CF8,ModemTeamSelectScreen,sub_A3CF8,new,medium,the team select screen of a modem or link game (ahl / ahr / aal arrows),src/front/modem_teams/modem_teams.asm
-A4961,RunModemGameSetup,sub_A4961,new,medium,"from the main menu: the modem set-up (or a serial link), the modem game stats and team ranks, team select, the controller screen, until a game starts",src/front/modem_teams/modem_teams.asm
+A3A11,DrawModemHomePanel,sub_A3A11,new,medium,"the home team's panel on the modem team select screen (logo, name, rank rk%02d)",src/pc/modem_teams/modem_teams.asm
+A3B74,DrawModemAwayPanel,sub_A3B74,new,medium,the same for the away team,src/pc/modem_teams/modem_teams.asm
+A3CF8,ModemTeamSelectScreen,sub_A3CF8,new,medium,the team select screen of a modem or link game (ahl / ahr / aal arrows),src/pc/modem_teams/modem_teams.asm
+A4961,RunModemGameSetup,sub_A4961,new,medium,"from the main menu: the modem set-up (or a serial link), the modem game stats and team ranks, team select, the controller screen, until a game starts",src/pc/modem_teams/modem_teams.asm
 A4FD7,RunPlayoffMenus,sub_A4FD7,new,medium,from the main menu: loads PLAYOFF.NDX and runs the play-off screens,src/front/playoff/playoff.asm
 A522F,SetPlayoffFormat,sub_A522F,new,low,sets the playoff format,src/front/playoff/playoff.asm
 A524B,PickPlayoffTeam,sub_A524B,new,low,picks a team for a play-off slot (both New York teams get their full names),src/front/playoff/playoff.asm

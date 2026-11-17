@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_1E3C8 progbits alloc exec nowrite align=1
-extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
-extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock, MemLargestFreeLocked, UnpackedSize
-extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, LoadFileData, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
-extern OpenResourceArchive, GetResourceArchiveName, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle
-extern LoadPackedHandleQuiet, DataDirPath, ArtArchivePaths, ArtSetTable, DataFilePath, unpack, DataLibIds
+extern AllocMemBlock, ArtArchivePaths, ArtSetTable, DataDirPath, DataFilePath, DataLibIds, DirPathTable, FreeMemBlock
+extern GetResourceArchiveName, LoadDataFileErr, LoadFileAllocQuiet, LoadFileData, LoadFileInto, LoadFileToBlockPlain, LoadFileToBlockShared, LoadPackedAlloc
+extern LoadPackedAllocQuiet, LoadPackedHandle, LoadPackedHandleQuiet, LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, MemLargestFreeLocked, OpenArtArchive
+extern OpenArtArchiveErr, OpenResourceArchive, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15
+extern str_DB2, str_dot3, strcat_, stricmp_, SyncMusicStream, unpack, UnpackedSize
 global MakeDataPathArtJumpTable, MakeDataPathCopyJumpTable, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, MakeDataPathArchiveJumpTable, MakeDirPath, SelectDataLibraryJumpTable, SelectDataLibrary, SelectDataLibrary_32
 global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadArtArchiveFile, LoadDataFileHandle, LoadPackedFile

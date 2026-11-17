@@ -4081,7 +4081,7 @@
 ;  119FC8  shotsets                                 data/engine/input_data_01.asm                1
 ;  119FCA  ShotTypeParams                           data/engine/input_data_01.asm                1
 ;  119FEC  playsuspended                            data/engine/input_data_01.asm                3
-;  119FF0  PositionAssignTab                        data/engine/input_data_01.asm                2
+;  119FF0  Setplass_alist                           data/engine/input_data_01.asm                2
 ;  119FF7  PeriodEnded                              data/engine/input_data_01.asm                1
 ;  119FF8  BenchSpriteAnims                         data/engine/input_data_01.asm                1
 ;  11A004  SeriesDecided                            data/engine/input_data_01.asm                1
@@ -4477,11 +4477,11 @@
 ;  11F700  SavedRealKbdSegment                      data/lib/input/input_remove_keyboard_handler_data_01.asm 2
 ;  11F702  KbdDataSelector                          data/lib/input/input_remove_keyboard_handler_data_01.asm 2
 ;  11F708  KeyboardHooked                           data/lib/input/input_remove_keyboard_handler_data_02.asm 1
-;  11F714  KeyAscii                                 data/lib/input/input_remove_keyboard_handler_data_02.asm 1
-;  11F76F  KeyAsciiShift                            data/lib/input/input_remove_keyboard_handler_data_02.asm 1
-;  11F7CA  KeyAsciiNum                              data/lib/input/input_remove_keyboard_handler_data_02.asm 1
-;  11F825  KeyAsciiCtrl                             data/lib/input/input_remove_keyboard_handler_data_02.asm 1
-;  11F880  KeyAsciiAlt                              data/lib/input/input_remove_keyboard_handler_data_02.asm 1
+;  11F714  KeyMapNormal                             data/lib/input/input_remove_keyboard_handler_data_02.asm 1
+;  11F76F  KeyMapShift                              data/lib/input/input_remove_keyboard_handler_data_02.asm 1
+;  11F7CA  KeyMapCaps                               data/lib/input/input_remove_keyboard_handler_data_02.asm 1
+;  11F825  KeyMapCtrl                               data/lib/input/input_remove_keyboard_handler_data_02.asm 1
+;  11F880  KeyMapAlt                                data/lib/input/input_remove_keyboard_handler_data_02.asm 1
 ;  11F8DC  tickdeadline                             data/lib/input/input_get_ticks_data_01.asm   1
 ;  11F8E0  LastTickCount                            data/lib/input/input_get_ticks_data_01.asm   1
 ;  11F8E4  KbdIdleHook                              data/lib/input/input_get_ticks_data_01.asm   1

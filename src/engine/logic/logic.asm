@@ -9,7 +9,7 @@ extern check4bench, check4check, checkob, chk4lc, chk4lcauto, chk4pass, chk4shot
 extern CompPass, defdtarget, defotarget, doplayeracc, EvadePC, ExtraAttackerOn, ExtraAttackerPending, ExtraAttackerSpots
 extern ExtraAttackerTeam, ExtraGoalieOut, gameopts, GetHot, GetPartner, gmode, gmode2, gsp
 extern hmslotcount, HomeControlSlot, HomeEbenPlayer, iflags, injurystop, onetimerflag, OneTimerPasser, passplayer
-extern PBflags, PBnum, penshotplayer, PlaySfx, PositionAssignTab, PtrPuckFlags, PtrRefObject, puckc
+extern PBflags, PBnum, penshotplayer, PlaySfx, Setplass_alist, PtrPuckFlags, PtrRefObject, puckc
 extern PuckCarrySpotX, PuckCarrySpotY, PuckChaserPlayer, PuckChasers, PuckObject, puckvx, puckvy, puckx
 extern pucky, randomd0, RefObject, regd0, regd1, regd2, regd3, regd4
 extern RemoveFromLines, ScoreCelebrateAnims, ScoreCelebrating, SetPenaltyBoxDoor, Setplass, setplayer, SetShotMode, SetSPA
@@ -2773,7 +2773,7 @@ assscore:
         test eax, eax
         jne short .1
         movsx eax, word [byte ebx+01Ah]
-        movsx ax, byte [dword eax+PositionAssignTab]
+        movsx ax, byte [dword eax+Setplass_alist]
         mov edx, eax
         movsx eax, word [byte ebx+01Ch]
         jmp short .3

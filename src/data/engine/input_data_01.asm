@@ -5,7 +5,7 @@
 bits 32
 %include "hockey.inc"
 section s_119F4A progbits alloc noexec write align=1
-global assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, PositionAssignTab, PeriodEnded, PlListPositions, GoalieDepthTab
+global assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, Setplass_alist, PeriodEnded, PlListPositions, GoalieDepthTab
 global FallDownsOff, nethit, playsuspended, SeriesDecided, BurstEnergyCost, MaxSpeed, doplayeracc_ftab, EventLineTextIds
 global PenaltyTypes, GoalieSaveAnims, blockspd, blockspd_y, CheckPowerTab, shotsets, ShotTypeParams, BenchSpriteAnims
 global RosterStatusPdst, PlListLineSlots, BenchIdleAnims, InProgressTextIds, PenaltyEventCodes, penbannertab
@@ -55,7 +55,7 @@ ShotTypeParams:                                 ; doshot: four words per shot ty
 playsuspended:                                  ; same data as the like-named label used by the same routines
                                                 ; in the earlier PC version
         db 00h,00h,00h,00h
-PositionAssignTab:                              ; Setplass / assscore: assignment per player position; used by
+Setplass_alist:                              ; Setplass / assscore: assignment per player position; used by
                                                 ; Setplass, assscore
         db 0Eh,02h,02h,03h,05h,03h,05h
 PeriodEnded:                                    ; Set by clockcont when the period clock runs out; used by

@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_DFC33 progbits alloc exec nowrite align=1
-extern bailout_vec, BiosKeyFunc, DebugKeysEnabled, DosSetVector, KbdCapsLock, KbdDataSelector, KeyAscii, KeyAsciiAlt
-extern KeyAsciiCtrl, KeyAsciiNum, KeyAsciiShift, KeyboardHooked, KeyBuffer, KeyBufferHead, KeyBufferMask, KeyBufferTail
+extern bailout_vec, BiosKeyFunc, DebugKeysEnabled, DosSetVector, KbdCapsLock, KbdDataSelector, KeyMapNormal, KeyMapAlt
+extern KeyMapCtrl, KeyMapCaps, KeyMapShift, KeyboardHooked, KeyBuffer, KeyBufferHead, KeyBufferMask, KeyBufferTail
 extern KeyStateTable, NearClipZ, PrintScreenInt, RestoreDS, SavedInt16Offset, SavedInt16Selector, SavedKbdVecOffset, SavedKbdVecSelector
 extern SavedRealKbdOffset, SavedRealKbdSegment
 global RemoveKeyboardHandler, RemoveKeyboardHandler_6F, IretStub, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall
@@ -82,7 +82,7 @@ RemoveKeyboardHandler_6F:
         jne short .8
         test byte [KbdCapsLock], 1
         jne near .12
-        mov al, byte [dword ebx+KeyAscii]
+        mov al, byte [dword ebx+KeyMapNormal]
 .3:
         cmp al, 80h
         jae short .7
@@ -115,7 +115,7 @@ RemoveKeyboardHandler_6F:
         and ah, 7Fh
         jmp short .4
 .8:
-        mov al, byte [dword ebx+KeyAsciiShift]
+        mov al, byte [dword ebx+KeyMapShift]
         cmp ebx, byte 37h
         jne short .3
         cmp dword [DebugKeysEnabled], byte 0
@@ -124,7 +124,7 @@ RemoveKeyboardHandler_6F:
         call PrintScreenInt
         jmp short .3
 .9:
-        mov al, byte [dword ebx+KeyAsciiCtrl]
+        mov al, byte [dword ebx+KeyMapCtrl]
         cmp ebx, byte 1
         jne short .3
         jmp short .14
@@ -132,10 +132,10 @@ RemoveKeyboardHandler_6F:
         test byte [KeyStateTable+1Dh], 1
         jne short .13
 .11:
-        mov al, byte [dword ebx+KeyAsciiAlt]
+        mov al, byte [dword ebx+KeyMapAlt]
         jmp near .3
 .12:
-        mov al, byte [dword ebx+KeyAsciiNum]
+        mov al, byte [dword ebx+KeyMapCaps]
         jmp near .3
 .13:
         test byte [KeyStateTable+53h], 1

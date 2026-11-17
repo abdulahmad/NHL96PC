@@ -1,0 +1,6 @@
+KeyAscii KeyMapNormal {source=95PC,confidence=high} scan code to ASCII map: same contents as 95 PC KeyMapNormal
+KeyAsciiShift KeyMapShift {source=95PC,confidence=high} shifted map: same contents as 95 PC KeyMapShift
+KeyAsciiCtrl KeyMapCtrl {source=95PC,confidence=high} control map: same contents as 95 PC KeyMapCtrl
+KeyAsciiNum KeyMapCaps {source=95PC,confidence=high} caps lock map: same contents as 95 PC KeyMapCaps
+KeyAsciiAlt KeyMapAlt {source=95PC,confidence=high} same contents as 95 PC KeyMapAlt
+PositionAssignTab Setplass_alist {source=95PC,confidence=high} initial assignment per position read by Setplass: same contents as 95 PC Setplass_alist

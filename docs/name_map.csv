@@ -4911,7 +4911,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 119FC8,shotsets,word_119FC8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
 119FCA,ShotTypeParams,word_119FCA,new,low,doshot: four words per shot type,src/data/engine/input_data_01.asm
 119FEC,playsuspended,dword_119FEC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
-119FF0,PositionAssignTab,byte_119FF0,new,low,Setplass / assscore: assignment per player position,src/data/engine/input_data_01.asm
+119FF0,Setplass_alist,byte_119FF0,95PC,high,initial assignment per position read by Setplass: same contents as 95 PC Setplass_alist,src/data/engine/input_data_01.asm
 119FF7,PeriodEnded,byte_119FF7,new,low,Set by clockcont when the period clock runs out,src/data/engine/input_data_01.asm
 119FF8,BenchSpriteAnims,word_119FF8,new,low,"InitBenchSprite / AnimateBenchSprite: bench animation ids, four bytes per entry",src/data/engine/input_data_01.asm
 11A004,SeriesDecided,dword_11A004,new,low,"When set, the end-of-game check treats the series as decided",src/data/engine/input_data_01.asm
@@ -5313,11 +5313,11 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11F700,SavedRealKbdSegment,word_11F700,new,medium,previous real mode keyboard handler segment,src/data/lib/input/input_remove_keyboard_handler_data_01.asm
 11F702,KbdDataSelector,word_11F702,new,medium,data selector used by the keyboard handler,src/data/lib/input/input_remove_keyboard_handler_data_01.asm
 11F708,KeyboardHooked,byte_11F708,new,low,keyboard handler is installed,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
-11F714,KeyAscii,byte_11F714,new,low,key to ASCII table,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
-11F76F,KeyAsciiShift,byte_11F76F,new,low,key to ASCII table with Shift,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
-11F7CA,KeyAsciiNum,byte_11F7CA,new,low,key to ASCII table with Num Lock,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
-11F825,KeyAsciiCtrl,byte_11F825,new,low,key to ASCII table with Ctrl,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
-11F880,KeyAsciiAlt,byte_11F880,new,low,key to ASCII table with Alt,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
+11F714,KeyMapNormal,byte_11F714,95PC,high,scan code to ASCII map: same contents as 95 PC KeyMapNormal,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
+11F76F,KeyMapShift,byte_11F76F,95PC,high,shifted map: same contents as 95 PC KeyMapShift,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
+11F7CA,KeyMapCaps,byte_11F7CA,95PC,high,caps lock map: same contents as 95 PC KeyMapCaps,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
+11F825,KeyMapCtrl,byte_11F825,95PC,high,control map: same contents as 95 PC KeyMapCtrl,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
+11F880,KeyMapAlt,byte_11F880,95PC,high,same contents as 95 PC KeyMapAlt,src/data/lib/input/input_remove_keyboard_handler_data_02.asm
 11F8DC,tickdeadline,,95PC,high,NHL95PC D4294 (position): same fixup of SetTickDeadline,
 11F8E0,LastTickCount,dword_11F8E0,new,medium,tick count at the last TicksSinceLast call,src/data/lib/input/input_get_ticks_data_01.asm
 11F8E4,KbdIdleHook,dword_11F8E4,new,low,routine called while waiting for a key (default PollHotkeys),src/data/lib/input/input_get_ticks_data_01.asm

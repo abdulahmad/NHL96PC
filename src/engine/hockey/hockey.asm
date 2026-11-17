@@ -10,7 +10,7 @@ section s_465BA progbits alloc exec nowrite align=1
 extern AddPenalty, ChkGoalies, ClearPenaltyBuffer, CwdExciteLvl, InGameMenuRequest, LineChangeReq, OOlist, OOlistpos
 extern PBnum, PenCntDwn, PlList, ReadJoy1, SortCords, assinsert, assreplace, awtmgoalie
 extern awtmstruct, sflags3, priolist, lldisp, HotList, HotList_y, HotStickList, HotStickList_y
-extern PositionAssignTab, PeriodEnded, PlListPositions, awroster
+extern Setplass_alist, PeriodEnded, PlListPositions, awroster
 extern hmtmpbox, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtmcoachmode, HmRosterMap, awtmpbox
 extern awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode, AwRosterMap, LinePlayersAway, PenBuf, PenBuf_pl
 extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, Crowdlevel, curperiod, hmslotcount
@@ -2366,16 +2366,16 @@ Setplass:
         mov edx, ecx
         call SwapPosition
         mov eax, ebx
-        movsx edx, byte [dword ecx+PositionAssignTab]
+        movsx edx, byte [dword ecx+Setplass_alist]
         call assreplace
         mov eax, ebx
-        movsx edx, byte [dword ecx+PositionAssignTab]
+        movsx edx, byte [dword ecx+Setplass_alist]
         call assinsert
         mov eax, ebx
-        movsx edx, byte [dword ecx+PositionAssignTab]
+        movsx edx, byte [dword ecx+Setplass_alist]
         call assinsert
         mov eax, ebx
-        movsx edx, byte [dword ecx+PositionAssignTab]
+        movsx edx, byte [dword ecx+Setplass_alist]
         call assinsert
 .2:
         pop esi

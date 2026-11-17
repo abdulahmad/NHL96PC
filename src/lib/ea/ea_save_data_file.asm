@@ -1,0 +1,739 @@
+; EA library: SaveDataFile, savefileblocka, TextPrint, TextPrintAt.
+bits 32
+%include "hockey.inc"
+section s_B22E0 progbits alloc exec nowrite align=1
+extern ArtBitDepth, BlitFontNibbles, CreateHandle, DosCloseFile, DosWriteFile, DrawBitsPerPixel, DrawClipBottom, DrawClipLeft
+extern DrawClipRight, DrawClipTop, DrawDestBuffer, DrawEllipseClipped, DrawVideoBase, FatalError, KeyedDraw, MemDescPtr
+extern MemDescSize, PixelToRgb, PutPixel, ScreenWidth, SetTextOrigin, str_SavefileblockaOPENFAILEDFOR, TextBottom, TextCharH
+extern TextCharW, TextColour, TextColumnTable, TextCursorX, TextCursorY, TextFirstChar, TextFont, TextFontTag
+extern TextLastChar, TextLeft, TextOriginX, TextOriginY, TextRight, TextShadowOn, TextSpacing, TextTop
+extern TextWidthTable
+global SaveDataFile, savefileblocka, TextPrint, TextPrintAt
+;-----------------------------------------------------------------------------
+; SaveDataFile                                    B22E0  96 PC, low confidence
+; Saves a memory block to a file
+;-----------------------------------------------------------------------------
+SaveDataFile:
+        sub esp, byte 28h
+        mov eax, dword [byte esp+030h]
+        xor edx, edx
+        mov dword [esp], eax
+        mov eax, dword [byte esp+034h]
+        push edx
+        mov dword [byte esp+018h], eax
+        lea eax, [byte esp+04h]
+        push eax
+        mov ebx, dword [byte esp+034h]
+        push ebx
+        mov dword [byte esp+024h], edx
+        call savefileblocka
+        add esp, byte 0Ch
+        add esp, byte 28h
+        ret
+        db 090h
+        sub esp, byte 28h
+        mov eax, dword [byte esp+030h]
+        mov ebx, dword [byte esp+038h]
+        mov dword [esp], eax
+        mov eax, dword [byte esp+034h]
+        push ebx
+        mov dword [byte esp+018h], eax
+        lea eax, [byte esp+04h]
+        push eax
+        mov ecx, dword [byte esp+034h]
+        xor edx, edx
+        push ecx
+        mov dword [byte esp+024h], edx
+        call savefileblocka
+        add esp, byte 0Ch
+        add esp, byte 28h
+        ret
+        db 090h
+        push byte 1
+        mov edx, dword [byte esp+0Ch]
+        push edx
+        mov ebx, dword [byte esp+0Ch]
+        push ebx
+        call savefileblocka
+        add esp, byte 0Ch
+        ret
+        db 08Dh,040h,00h
+        push byte 0
+        mov edx, dword [byte esp+0Ch]
+        push edx
+        mov ebx, dword [byte esp+0Ch]
+        push ebx
+        call savefileblocka
+        add esp, byte 0Ch
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; savefileblocka                               B2374  95 PC, medium confidence
+; EA library: writes a memory block to a file (size and pointer from its descriptor)
+;-----------------------------------------------------------------------------
+savefileblocka:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 0Ch
+        mov esi, dword [byte esp+020h]
+        push esi
+        call MemDescSize
+        add esp, byte 4
+        push esi
+        mov edi, eax
+        call MemDescPtr
+        add esp, byte 4
+        mov esi, eax
+        mov eax, esp
+        push eax
+        lea eax, [byte esp+08h]
+        push eax
+        lea eax, [byte esp+010h]
+        push eax
+        mov edx, dword [byte esp+028h]
+        push edx
+        call CreateHandle
+        add esp, byte 10h
+        mov ebx, dword [byte esp+08h]
+        test ebx, ebx
+        jne short .2
+        cmp dword [byte esp+024h], byte 0
+        je short .1
+        mov ebp, dword [byte esp+01Ch]
+        push ebp
+        push str_SavefileblockaOPENFAILEDFOR
+        call FatalError
+        add esp, byte 8
+.1:
+        xor eax, eax
+        jmp short .3
+.2:
+        push edi
+        push esi
+        push ebx
+        call DosWriteFile
+        add esp, byte 0Ch
+        mov esi, dword [byte esp+08h]
+        push esi
+        call DosCloseFile
+        mov eax, 1
+        add esp, byte 4
+.3:
+        add esp, byte 0Ch
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; TextPrint                                       B2400  96 PC, low confidence
+; Draws a string at the text origin in the current font and colours
+;-----------------------------------------------------------------------------
+TextPrint:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 68h
+        mov eax, dword [TextFont]
+        xor edx, edx
+        mov dword [byte esp+01Ch], eax
+        xor eax, eax
+        mov dl, byte [TextLastChar]
+        mov al, byte [TextFirstChar]
+        sub edx, eax
+        inc edx
+        mov ebp, dword [TextColour]
+        mov dword [byte esp+04h], edx
+        xor edx, edx
+        mov ebx, dword [TextFontTag]
+        mov dword [esp], edx
+        cmp ebx, 464E544Dh
+        je short .1
+        mov ecx, 4
+        mov eax, TextFontTag
+        mov eax, dword [eax]
+        bswap eax
+        neg ecx
+        lea ecx, [nosplit ecx*8+020h]
+        shr eax, cl
+        cmp eax, 464E5449h
+        je short .1
+        mov ecx, 4
+        mov eax, TextFontTag
+        mov eax, dword [eax]
+        bswap eax
+        neg ecx
+        lea ecx, [nosplit ecx*8+020h]
+        shr eax, cl
+        cmp eax, 464E544Dh
+        je short .1
+        mov ecx, 4
+        mov eax, TextFontTag
+        mov eax, dword [eax]
+        bswap eax
+        neg ecx
+        lea ecx, [nosplit ecx*8+020h]
+        shr eax, cl
+        cmp eax, 464E5450h
+        jne short .2
+.1:
+        mov dword [esp], 1
+.2:
+        mov edi, dword [esp]
+        mov esi, dword [TextRight]
+        test edi, edi
+        je short .3
+        push esi
+        call ArtBitDepth
+        mov edx, dword [byte esi+02h]
+        add esp, byte 4
+        sar edx, 10h
+        mov dword [byte esp+030h], eax
+        imul eax, edx
+        add eax, byte 7
+        sar eax, 3
+        mov dword [byte esp+08h], eax
+        jmp short .4
+.3:
+        mov edx, dword [byte esp+01Ch]
+        xor eax, eax
+        mov al, byte [byte edx+03h]
+        sub eax, byte 30h
+        mov dword [byte esp+08h], edi
+        mov dword [byte esp+030h], eax
+.4:
+        mov edx, dword [byte esp+030h]
+        cmp edx, byte 4
+        jb short .5
+        jbe short .7
+        cmp edx, byte 8
+        jmp short .6
+.5:
+        cmp edx, byte 1
+.6:
+        je short .7
+        mov dword [byte esp+030h], 1
+.7:
+        add esi, byte 10h
+        mov dword [byte esp+020h], esi
+.8:
+        mov eax, dword [byte esp+078h]
+        cmp byte [eax], 0
+        je near .48
+        lea edx, [byte eax+01h]
+        mov dword [byte esp+078h], edx
+        mov al, byte [eax]
+        sub al, byte [TextFirstChar]
+        mov ebx, dword [byte esp+04h]
+        movzx esi, al
+        cmp esi, ebx
+        jge short .8
+        mov ecx, dword [TextWidthTable]
+        test ecx, ecx
+        je short .9
+        mov edx, ecx
+        mov ah, byte [edx+esi]
+        jmp short .10
+.9:
+        mov ah, byte [TextCharW]
+.10:
+        xor edx, edx
+        mov dl, ah
+        mov esi, dword [TextCursorX]
+        mov dword [byte esp+0Ch], edx
+        test esi, esi
+        je short .11
+        xor edx, edx
+        mov dl, al
+        mov ah, byte [edx+esi]
+        jmp short .12
+.11:
+        mov ah, byte [TextCharH]
+.12:
+        mov edx, dword [TextCursorY]
+        movzx edi, ah
+        test edx, edx
+        je short .13
+        xor edx, edx
+        mov esi, dword [TextCursorY]
+        mov dl, al
+        movsx esi, byte [edx+esi]
+        jmp short .14
+.13:
+        mov ebx, dword [byte esp+0Ch]
+        movzx esi, byte [TextSpacing]
+        add esi, ebx
+.14:
+        mov ecx, dword [TextLeft]
+        mov dword [byte esp+024h], esi
+        test ecx, ecx
+        je short .15
+        xor edx, edx
+        mov esi, ecx
+        mov dl, al
+        movsx esi, byte [edx+esi]
+        jmp short .16
+.15:
+        xor esi, esi
+.16:
+        mov edx, dword [TextOriginX]
+        add edx, esi
+        mov esi, dword [TextTop]
+        mov dword [byte esp+044h], edx
+        test esi, esi
+        je short .17
+        xor edx, edx
+        mov dl, al
+        movsx esi, byte [edx+esi]
+.17:
+        add esi, dword [TextOriginY]
+        mov edx, dword [TextBottom]
+        and eax, 0FFh
+        mov ebx, dword [esp]
+        mov eax, dword [edx+eax*4]
+        test ebx, ebx
+        je short .18
+        mov edx, eax
+        mov ebx, dword [byte esp+030h]
+        and edx, 0FFFFh
+        imul edx, ebx
+        mov ebx, dword [byte esp+020h]
+        sar edx, 3
+        add ebx, edx
+        sar eax, 10h
+        mov dword [byte esp+040h], ebx
+        test eax, eax
+        je short .20
+        imul eax, dword [byte esp+08h]
+        lea edx, [ebx+eax]
+        jmp short .19
+.18:
+        mov edx, dword [byte esp+0Ch]
+        imul edx, dword [byte esp+030h]
+        add edx, byte 7
+        sar edx, 3
+        mov dword [byte esp+040h], ebx
+        mov dword [byte esp+08h], edx
+        test eax, eax
+        je short .20
+        mov edx, dword [byte esp+01Ch]
+        add edx, eax
+.19:
+        mov dword [byte esp+040h], edx
+.20:
+        mov ebx, dword [byte esp+030h]
+        mov dword [byte esp+010h], edi
+        cmp ebx, byte 4
+        jb short .21
+        jbe near .33
+        cmp ebx, byte 8
+        je near .44
+        jmp near .47
+.21:
+        cmp ebx, byte 1
+        jne near .47
+.22:
+        mov ecx, dword [byte esp+010h]
+        dec ecx
+        mov dword [byte esp+010h], ecx
+        cmp ecx, byte 0FFFFFFFFh
+        je near .47
+        cmp esi, dword [DrawClipTop]
+        jl near .32
+        cmp esi, dword [DrawClipBottom]
+        jge near .32
+        mov eax, dword [byte esp+044h]
+        mov dword [byte esp+064h], eax
+        mov eax, dword [byte esp+0Ch]
+        mov edi, dword [byte esp+040h]
+        mov dword [byte esp+014h], eax
+        test eax, eax
+        jle near .32
+        mov eax, dword [byte esp+044h]
+        inc eax
+        mov dword [byte esp+03Ch], eax
+        mov eax, dword [byte esp+044h]
+        add eax, byte 2
+        mov dword [byte esp+058h], eax
+        mov eax, dword [byte esp+044h]
+        add eax, byte 3
+        mov dword [byte esp+050h], eax
+        mov eax, dword [byte esp+044h]
+        add eax, byte 4
+        mov dword [byte esp+054h], eax
+        mov eax, dword [byte esp+044h]
+        add eax, byte 5
+        mov dword [byte esp+02Ch], eax
+        mov eax, dword [byte esp+044h]
+        add eax, byte 6
+        mov dword [byte esp+028h], eax
+        mov eax, dword [byte esp+044h]
+        add eax, byte 7
+        mov dword [byte esp+048h], eax
+.23:
+        mov al, byte [edi]
+        and al, 80h
+        and eax, 0FFh
+        je short .24
+        push ebp
+        push esi
+        mov edx, dword [byte esp+06Ch]
+        push edx
+        call PutPixel
+        add esp, byte 0Ch
+.24:
+        mov al, byte [edi]
+        and al, 40h
+        and eax, 0FFh
+        je short .25
+        push ebp
+        push esi
+        mov ebx, dword [byte esp+044h]
+        push ebx
+        call PutPixel
+        add esp, byte 0Ch
+.25:
+        mov al, byte [edi]
+        and al, 20h
+        and eax, 0FFh
+        je short .26
+        push ebp
+        push esi
+        mov ecx, dword [byte esp+060h]
+        push ecx
+        call PutPixel
+        add esp, byte 0Ch
+.26:
+        mov al, byte [edi]
+        and al, 10h
+        and eax, 0FFh
+        je short .27
+        push ebp
+        push esi
+        mov eax, dword [byte esp+058h]
+        push eax
+        call PutPixel
+        add esp, byte 0Ch
+.27:
+        mov al, byte [edi]
+        and al, 8
+        and eax, 0FFh
+        je short .28
+        push ebp
+        push esi
+        mov edx, dword [byte esp+05Ch]
+        push edx
+        call PutPixel
+        add esp, byte 0Ch
+.28:
+        mov al, byte [edi]
+        and al, 4
+        and eax, 0FFh
+        je short .29
+        push ebp
+        push esi
+        mov ebx, dword [byte esp+034h]
+        push ebx
+        call PutPixel
+        add esp, byte 0Ch
+.29:
+        mov al, byte [edi]
+        and al, 2
+        and eax, 0FFh
+        je short .30
+        push ebp
+        push esi
+        mov ecx, dword [byte esp+030h]
+        push ecx
+        call PutPixel
+        add esp, byte 0Ch
+.30:
+        mov al, byte [edi]
+        and al, 1
+        and eax, 0FFh
+        je short .31
+        push ebp
+        push esi
+        mov eax, dword [byte esp+050h]
+        push eax
+        call PutPixel
+        add esp, byte 0Ch
+.31:
+        mov ecx, dword [byte esp+03Ch]
+        mov eax, dword [byte esp+058h]
+        mov edx, dword [byte esp+050h]
+        mov ebx, dword [byte esp+054h]
+        inc edi
+        add ecx, byte 8
+        add eax, byte 8
+        add edx, byte 8
+        add ebx, byte 8
+        mov dword [byte esp+03Ch], ecx
+        mov dword [byte esp+058h], eax
+        mov dword [byte esp+050h], edx
+        mov dword [byte esp+054h], ebx
+        mov ecx, dword [byte esp+02Ch]
+        mov eax, dword [byte esp+028h]
+        mov edx, dword [byte esp+048h]
+        mov ebx, dword [byte esp+064h]
+        add ecx, byte 8
+        add eax, byte 8
+        add edx, byte 8
+        add ebx, byte 8
+        mov dword [byte esp+02Ch], ecx
+        mov dword [byte esp+028h], eax
+        mov ecx, dword [byte esp+014h]
+        mov dword [byte esp+048h], edx
+        sub ecx, byte 8
+        mov dword [byte esp+064h], ebx
+        mov dword [byte esp+014h], ecx
+        test ecx, ecx
+        jg near .23
+.32:
+        mov eax, dword [byte esp+08h]
+        mov edx, dword [byte esp+040h]
+        add edx, eax
+        inc esi
+        mov dword [byte esp+040h], edx
+        jmp near .22
+.33:
+        cmp dword [TextShadowOn], byte 0
+        je near .34
+        cmp dword [KeyedDraw], byte 0
+        jne near .34
+        cmp dword [DrawBitsPerPixel], byte 8
+        jne near .34
+        mov eax, dword [byte esp+044h]
+        cmp eax, dword [DrawClipLeft]
+        jl near .34
+        cmp eax, dword [DrawClipRight]
+        jge near .34
+        cmp esi, dword [DrawClipTop]
+        jl near .34
+        cmp esi, dword [DrawClipBottom]
+        jge near .34
+        mov edx, dword [byte esp+0Ch]
+        mov ebx, dword [DrawClipLeft]
+        add eax, edx
+        cmp eax, ebx
+        jl short .34
+        cmp eax, dword [DrawClipRight]
+        jge short .34
+        mov edx, dword [DrawClipTop]
+        lea eax, [esi+edi]
+        cmp eax, edx
+        jl short .34
+        cmp eax, dword [DrawClipBottom]
+        jge short .34
+        mov eax, dword [byte esp+0Ch]
+        inc eax
+        sar eax, 1
+        mov ebx, dword [ScreenWidth]
+        lea edx, [nosplit eax*2+00h]
+        sub ebx, edx
+        mov edx, dword [byte esp+08h]
+        push ebx
+        sub edx, eax
+        push edx
+        push edi
+        push eax
+        mov eax, dword [DrawDestBuffer]
+        mov edx, dword [DrawVideoBase]
+        mov ecx, dword [eax+esi*4]
+        mov esi, dword [byte esp+054h]
+        add edx, ecx
+        add edx, esi
+        push edx
+        mov edi, dword [byte esp+054h]
+        push edi
+        call BlitFontNibbles
+        add esp, byte 18h
+        mov eax, dword [byte esp+024h]
+        add dword [TextOriginX], eax
+        jmp near .8
+.34:
+        mov eax, dword [byte esp+010h]
+        dec eax
+        mov dword [byte esp+010h], eax
+        cmp eax, byte 0FFFFFFFFh
+        je near .47
+        cmp esi, dword [DrawClipTop]
+        jl near .42
+        cmp esi, dword [DrawClipBottom]
+        jge near .42
+        mov eax, dword [byte esp+044h]
+        mov dword [byte esp+038h], eax
+        mov eax, dword [byte esp+0Ch]
+        mov edi, dword [byte esp+040h]
+        mov dword [byte esp+018h], eax
+        mov eax, dword [byte esp+044h]
+        mov edx, dword [TextShadowOn]
+        inc eax
+        test edx, edx
+        je near .38
+        mov dword [byte esp+04Ch], eax
+.35:
+        cmp dword [byte esp+018h], byte 0
+        jle near .42
+        xor eax, eax
+        mov al, byte [edi]
+        sar eax, 4
+        test eax, eax
+        je short .36
+        mov ecx, dword [nosplit eax*4+TextColumnTable]
+        push ecx
+        call PixelToRgb
+        add esp, byte 4
+        push eax
+        push esi
+        mov eax, dword [byte esp+040h]
+        push eax
+        call DrawEllipseClipped
+        add esp, byte 0Ch
+.36:
+        mov al, byte [edi]
+        and al, 0Fh
+        and eax, 0FFh
+        je short .37
+        mov edx, dword [nosplit eax*4+TextColumnTable]
+        push edx
+        call PixelToRgb
+        add esp, byte 4
+        push eax
+        push esi
+        mov ebx, dword [byte esp+054h]
+        push ebx
+        call DrawEllipseClipped
+        add esp, byte 0Ch
+.37:
+        mov ecx, dword [byte esp+04Ch]
+        mov eax, dword [byte esp+038h]
+        mov edx, dword [byte esp+018h]
+        inc edi
+        add ecx, byte 2
+        add eax, byte 2
+        sub edx, byte 2
+        mov dword [byte esp+04Ch], ecx
+        mov dword [byte esp+038h], eax
+        mov dword [byte esp+018h], edx
+        jmp near .35
+.38:
+        mov dword [byte esp+05Ch], eax
+.39:
+        cmp dword [byte esp+018h], byte 0
+        jle short .42
+        xor eax, eax
+        mov al, byte [edi]
+        sar eax, 4
+        test eax, eax
+        je short .40
+        mov ecx, dword [nosplit eax*4+TextColumnTable]
+        push ecx
+        push esi
+        mov eax, dword [byte esp+040h]
+        push eax
+        call PutPixel
+        add esp, byte 0Ch
+.40:
+        mov al, byte [edi]
+        and al, 0Fh
+        and eax, 0FFh
+        je short .41
+        mov edx, dword [nosplit eax*4+TextColumnTable]
+        push edx
+        push esi
+        mov ebx, dword [byte esp+064h]
+        push ebx
+        call PutPixel
+        add esp, byte 0Ch
+.41:
+        mov ecx, dword [byte esp+05Ch]
+        mov eax, dword [byte esp+038h]
+        mov edx, dword [byte esp+018h]
+        inc edi
+        add ecx, byte 2
+        add eax, byte 2
+        sub edx, byte 2
+        mov dword [byte esp+05Ch], ecx
+        mov dword [byte esp+038h], eax
+        mov dword [byte esp+018h], edx
+        jmp short .39
+.42:
+        mov eax, dword [byte esp+08h]
+        mov ebx, dword [byte esp+040h]
+        add ebx, eax
+        inc esi
+        mov dword [byte esp+040h], ebx
+        jmp near .34
+.43:
+        mov eax, dword [byte esp+08h]
+        mov edi, dword [byte esp+040h]
+        add edi, eax
+        inc esi
+        mov dword [byte esp+040h], edi
+.44:
+        mov edx, dword [byte esp+010h]
+        dec edx
+        mov dword [byte esp+010h], edx
+        cmp edx, byte 0FFFFFFFFh
+        je short .47
+        cmp esi, dword [DrawClipTop]
+        jl short .43
+        cmp esi, dword [DrawClipBottom]
+        jge short .43
+        mov eax, dword [byte esp+044h]
+        mov dword [byte esp+060h], eax
+        mov eax, dword [byte esp+0Ch]
+        mov edi, dword [byte esp+040h]
+        mov dword [byte esp+034h], eax
+.45:
+        mov eax, dword [byte esp+034h]
+        dec eax
+        mov dword [byte esp+034h], eax
+        cmp eax, byte 0FFFFFFFFh
+        je short .43
+        mov bl, byte [edi]
+        test bl, bl
+        je short .46
+        xor eax, eax
+        mov al, bl
+        push eax
+        push esi
+        mov ebx, dword [byte esp+068h]
+        push ebx
+        call PutPixel
+        add esp, byte 0Ch
+.46:
+        mov ecx, dword [byte esp+060h]
+        inc ecx
+        inc edi
+        mov dword [byte esp+060h], ecx
+        jmp short .45
+.47:
+        mov eax, dword [byte esp+024h]
+        add dword [TextOriginX], eax
+        jmp near .8
+.48:
+        add esp, byte 68h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; TextPrintAt                                     B2B0C  96 PC, low confidence
+; Sets the text origin and draws a string there
+;-----------------------------------------------------------------------------
+TextPrintAt:
+        mov edx, dword [byte esp+0Ch]
+        push edx
+        mov ebx, dword [byte esp+0Ch]
+        push ebx
+        call SetTextOrigin
+        add esp, byte 8
+        mov ecx, dword [byte esp+04h]
+        push ecx
+        call TextPrint
+        add esp, byte 4
+        ret
+        db 00h,00h,00h,00h

@@ -1,0 +1,1137 @@
+; Watcom C runtime: strcpy_, strcat_, __open_flags_, __doopen_, _fsopen_ and 19 more.
+bits 32
+%include "hockey.inc"
+section s_A9CB3 progbits alloc exec nowrite align=1
+extern __allocfp_, __chktty_, __close_, __ClosedStreams, __ExpandDGROUP_, __fill_buffer_, __flush_, __freefp_
+extern __ioalloc_, __MemAllocator, __MemFree, __nheap_clean, __OpenStreams, __qread_, __set_errno_, _fmode
+extern bcopy, GetPsp, HeapLargestFree, HeapList, HeapRover, lseek_, McgaNoWindow, sopen_
+extern strncmp_, strncpy_, tell_, tolower_, UnlinkJump
+global strcpy_, strcat_, __open_flags_, __doopen_, _fsopen_, fopen_, close_file_, freopen_
+global __update_buffer_, fseek_, ftell_, fclose_, __shutdown_stream_, __hex_, __MkTmpFile_, __doclose_
+global _nmalloc_, fread_, _nfree_, EmptyRoutine, _os_handle, _os_handle_0, _os_handle_1, PathBaseName
+;-----------------------------------------------------------------------------
+; strcpy_                                                       A9CB3  library
+; Run-time library strcpy: copies a string
+;-----------------------------------------------------------------------------
+strcpy_:
+        push ecx
+        push eax
+.1:
+        mov cl, byte [edx]
+        mov byte [eax], cl
+        cmp cl, 0
+        je short .2
+        mov cl, byte [byte edx+01h]
+        add edx, byte 2
+        mov byte [byte eax+01h], cl
+        add eax, byte 2
+        cmp cl, 0
+        jne short .1
+.2:
+        pop eax
+        pop ecx
+        ret
+;-----------------------------------------------------------------------------
+; strcat_                                                       A9CD2  library
+; Run-time library strcat: appends a string
+;-----------------------------------------------------------------------------
+strcat_:
+        push ecx
+        push esi
+        push edi
+        mov edi, eax
+        mov esi, edx
+        push es
+        push ds
+        pop es
+        push edi
+        LD sub, ecx, ecx
+        dec ecx
+        mov al, 0
+        repne scasb
+        dec edi
+.1:
+        mov al, byte [esi]
+        mov byte [edi], al
+        cmp al, 0
+        je near .2
+        mov al, byte [byte esi+01h]
+        add esi, byte 2
+        mov byte [byte edi+01h], al
+        add edi, byte 2
+        cmp al, 0
+        jne short .1
+.2:
+        db 05Fh                                 ; insn: pop edi
+        db 07h                                  ; insn: pop es
+        mov eax, edi
+        pop edi
+        pop esi
+        pop ecx
+        ret
+;-----------------------------------------------------------------------------
+; __open_flags_                                                 A9D09  library
+; Run-time library: turns an fopen mode string into open flags
+;-----------------------------------------------------------------------------
+__open_flags_:
+        push ebx
+        push ecx
+        push edx
+        sub esp, byte 4
+        mov edx, eax
+        xor eax, eax
+        mov al, byte [edx]
+        xor ebx, ebx
+        call tolower_
+        mov byte [esp], al
+        cmp al, 72h
+        je short .1
+        cmp al, 77h
+        je short .1
+        cmp al, 61h
+        je short .1
+        mov eax, 9
+        call __set_errno_
+        xor eax, eax
+        jmp near .12
+.1:
+        mov eax, ebx
+        mov cl, byte [byte edx+01h]
+        or al, 3
+        cmp cl, 2Bh
+        jne short .4
+        mov ebx, eax
+        mov cl, byte [byte edx+02h]
+        or al, 40h
+        cmp cl, 62h
+        je short .3
+        cmp cl, 74h
+        je short .8
+        cmp dword [_fmode], 200h
+.2:
+        jne short .8
+.3:
+        mov ebx, eax
+        jmp short .8
+.4:
+        mov ecx, ebx
+        or cl, 40h
+        cmp byte [byte edx+01h], 62h
+        jne short .5
+        mov al, byte [byte edx+02h]
+        mov ebx, ecx
+        cmp al, 2Bh
+        jne short .8
+        or cl, 3
+        jmp short .7
+.5:
+        cmp byte [byte edx+01h], 74h
+        jne short .6
+        cmp byte [byte edx+02h], 2Bh
+        jmp short .2
+.6:
+        cmp dword [_fmode], 200h
+        jne short .8
+.7:
+        mov ebx, ecx
+.8:
+        mov al, byte [esp]
+        cmp al, 77h
+        jne short .9
+        or bl, 2
+        jmp short .11
+.9:
+        cmp al, 61h
+        jne short .10
+        or bl, 82h
+        jmp short .11
+.10:
+        or bl, 1
+.11:
+        mov eax, ebx
+.12:
+        add esp, byte 4
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; __doopen_                                                     A9DBD  library
+; Run-time library: opens a file for a stream
+;-----------------------------------------------------------------------------
+__doopen_:
+        push esi
+        push edi
+        mov esi, eax
+        and byte [byte ecx+0Ch], 0FCh
+        mov eax, edx
+        call __open_flags_
+        mov edi, dword [byte ecx+0Ch]
+        or edi, eax
+        xor eax, eax
+        mov dword [byte ecx+0Ch], edi
+        mov al, byte [edx]
+        call tolower_
+        mov dl, al
+        cmp al, 72h
+        jne short .4
+        mov dh, byte [byte ecx+0Ch]
+        xor eax, eax
+        test dh, 2
+        je short .1
+        mov eax, 2
+.1:
+        test byte [byte ecx+0Ch], 40h
+        je short .2
+        or ah, 2
+        jmp short .3
+.2:
+        or ah, 1
+.3:
+        push byte 0
+        jmp short .9
+.4:
+        test byte [byte ecx+0Ch], 1
+        setne al
+        and eax, 0FFh
+        add eax, byte 21h
+        cmp dl, 61h
+        jne short .5
+        or al, 10h
+        jmp short .6
+.5:
+        or al, 40h
+.6:
+        test byte [byte ecx+0Ch], 40h
+        je short .7
+        or ah, 2
+        jmp short .8
+.7:
+        or ah, 1
+.8:
+        push dword 180h
+.9:
+        push ebx
+        push eax
+        push esi
+        call sopen_
+        add esp, byte 10h
+        mov dword [byte ecx+010h], eax
+        cmp dword [byte ecx+010h], byte 0FFFFFFFFh
+        jne short .10
+        mov eax, ecx
+        call __freefp_
+        xor eax, eax
+        pop edi
+        pop esi
+        ret
+.10:
+        mov dword [byte ecx+04h], 0
+        mov dword [byte ecx+08h], 0
+        mov dword [byte ecx+014h], 0
+        cmp dl, 61h
+        jne short .11
+        mov ebx, 2
+        mov eax, ecx
+        xor edx, edx
+        call fseek_
+.11:
+        mov eax, ecx
+        call __chktty_
+        mov eax, ecx
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; _fsopen_                                                      A9E85  library
+; Run-time library _fsopen: opens a stream with a share mode
+;-----------------------------------------------------------------------------
+_fsopen_:
+        push ecx
+        push esi
+        mov esi, eax
+        xor eax, eax
+        call __allocfp_
+        mov ecx, eax
+        test eax, eax
+        je short .1
+        mov eax, esi
+        call __doopen_
+.1:
+        pop esi
+        pop ecx
+        ret
+;-----------------------------------------------------------------------------
+; fopen_                                                        A9EA0  library
+; Run-time library fopen: opens a stream
+;-----------------------------------------------------------------------------
+fopen_:
+        push ebx
+        xor ebx, ebx
+        call _fsopen_
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; close_file_                                                   A9EAA  library
+; Run-time library: closes the file of a stream
+;-----------------------------------------------------------------------------
+close_file_:
+        push ebx
+        push ecx
+        push edx
+        mov ebx, eax
+        mov eax, dword [__ClosedStreams]
+.1:
+        test eax, eax
+        je short .4
+        mov edx, dword [byte eax+04h]
+        cmp ebx, edx
+        jne short .3
+        test byte [byte edx+0Ch], 3
+        je short .2
+        mov eax, edx
+        mov edx, 1
+        call __doclose_
+.2:
+        mov eax, ebx
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+.3:
+        mov eax, dword [eax]
+        jmp short .1
+.4:
+        mov edx, __OpenStreams
+.5:
+        mov eax, dword [edx]
+        test eax, eax
+        je short .7
+        cmp ebx, dword [byte eax+04h]
+        jne short .6
+        mov ecx, dword [eax]
+        mov dword [edx], ecx
+        mov edx, dword [__ClosedStreams]
+        mov dword [__ClosedStreams], eax
+        mov dword [eax], edx
+        jmp short .2
+.6:
+        mov edx, eax
+        jmp short .5
+.7:
+        mov eax, 4
+        call __set_errno_
+        xor eax, eax
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; freopen_                                                      A9F12  library
+; Run-time library freopen: closes a stream and opens a file on it again
+;-----------------------------------------------------------------------------
+freopen_:
+        push ecx
+        push esi
+        mov esi, eax
+        mov eax, ebx
+        call close_file_
+        mov ecx, eax
+        test eax, eax
+        je short .1
+        and dword [byte eax+0Ch], 4000h
+        mov eax, esi
+        xor ebx, ebx
+        call __doopen_
+.1:
+        pop esi
+        pop ecx
+        ret
+;-----------------------------------------------------------------------------
+; __update_buffer_                                              A9F36  library
+; Run-time library: syncs a stream's buffer after a seek
+;-----------------------------------------------------------------------------
+__update_buffer_:
+        push ebx
+        push ecx
+        push esi
+        push edi
+        and byte [byte edx+0Ch], 0EFh
+        cmp eax, dword [byte edx+04h]
+        jg short .1
+        mov ebx, dword [byte edx+08h]
+        mov ecx, dword [edx]
+        sub ebx, ecx
+        cmp eax, ebx
+        jl short .1
+        mov edi, dword [byte edx+04h]
+        lea esi, [ecx+eax]
+        sub edi, eax
+        mov dword [edx], esi
+        xor eax, eax
+        mov dword [byte edx+04h], edi
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+.1:
+        mov eax, dword [byte edx+08h]
+        mov dword [byte edx+04h], 0
+        mov dword [edx], eax
+        mov eax, 1
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; fseek_                                                        A9F78  library
+; Run-time library fseek: moves a stream's file position
+;-----------------------------------------------------------------------------
+fseek_:
+        push ecx
+        push esi
+        push edi
+        mov ecx, eax
+        mov esi, edx
+        test byte [byte eax+0Ch], 6
+        je short .6
+        test byte [byte ecx+0Dh], 10h
+        je short .3
+        mov eax, ecx
+        call __flush_
+        test eax, eax
+        je short .5
+        test ebx, ebx
+        jne short .2
+        test esi, esi
+        jge short .2
+.1:
+        mov eax, 9
+        call __set_errno_
+.2:
+        mov eax, 0FFFFFFFFh
+        pop edi
+        pop esi
+        pop ecx
+        ret
+.3:
+        cmp ebx, byte 1
+        jne short .4
+        sub esi, dword [byte ecx+04h]
+.4:
+        mov eax, dword [byte ecx+08h]
+        mov dword [byte ecx+04h], 0
+        mov dword [ecx], eax
+.5:
+        and byte [byte ecx+0Ch], 0EBh
+        mov edx, esi
+        mov eax, dword [byte ecx+010h]
+        call lseek_
+        cmp eax, byte 0FFFFFFFFh
+        jne near .11
+        pop edi
+        pop esi
+        pop ecx
+        ret
+.6:
+        cmp ebx, byte 1
+        jb short .7
+        jbe short .8
+        cmp ebx, byte 2
+        je short .10
+        jmp short .1
+.7:
+        test ebx, ebx
+        je short .9
+        jmp short .1
+.8:
+        mov eax, edx
+        mov edx, ecx
+        mov edi, dword [byte ecx+04h]
+        call __update_buffer_
+        test eax, eax
+        je short .11
+        mov edx, esi
+        mov eax, dword [byte ecx+010h]
+        sub edx, edi
+        call lseek_
+        cmp eax, byte 0FFFFFFFFh
+        jne short .11
+        pop edi
+        pop esi
+        pop ecx
+        ret
+.9:
+        mov eax, dword [byte ecx+010h]
+        call tell_
+        mov edx, dword [byte ecx+04h]
+        mov edi, esi
+        sub eax, edx
+        sub edi, eax
+        mov edx, ecx
+        mov eax, edi
+        call __update_buffer_
+        test eax, eax
+        je short .11
+        mov edx, esi
+        mov eax, dword [byte ecx+010h]
+        call lseek_
+        cmp eax, byte 0FFFFFFFFh
+        jne short .11
+        pop edi
+        pop esi
+        pop ecx
+        ret
+.10:
+        mov eax, dword [byte ecx+08h]
+        mov dl, byte [byte ecx+0Ch]
+        mov dword [ecx], eax
+        and dl, 0EFh
+        mov eax, dword [byte ecx+010h]
+        mov byte [byte ecx+0Ch], dl
+        mov edx, esi
+        mov dword [byte ecx+04h], 0
+        call lseek_
+        cmp eax, byte 0FFFFFFFFh
+        je short .12
+.11:
+        xor eax, eax
+.12:
+        pop edi
+        pop esi
+        pop ecx
+        ret
+;-----------------------------------------------------------------------------
+; ftell_                                                        AA074  library
+; Run-time library ftell: a stream's file position
+;-----------------------------------------------------------------------------
+ftell_:
+        push ebx
+        push ecx
+        push edx
+        mov edx, eax
+        mov eax, dword [byte eax+010h]
+        call tell_
+        mov ebx, eax
+        cmp eax, byte 0FFFFFFFFh
+        je short .2
+        mov ecx, dword [byte edx+04h]
+        test ecx, ecx
+        je short .2
+        test byte [byte edx+0Dh], 10h
+        je short .1
+        lea eax, [ecx+ebx]
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+.1:
+        mov eax, ebx
+        sub eax, ecx
+.2:
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; fclose_                                                       AA0A4  library
+; Run-time library fclose: closes a stream
+;-----------------------------------------------------------------------------
+fclose_:
+        push ebx
+        push edx
+        mov edx, eax
+        mov eax, dword [__ClosedStreams]
+.1:
+        test eax, eax
+        jne short .2
+        mov eax, 0FFFFFFFFh
+        pop edx
+        pop ebx
+        ret
+.2:
+        mov ebx, dword [byte eax+04h]
+        cmp edx, ebx
+        je short .3
+        mov eax, dword [eax]
+        jmp short .1
+.3:
+        mov edx, 1
+        mov eax, ebx
+        call __shutdown_stream_
+        pop edx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; __shutdown_stream_                                            AA0D3  library
+; Run-time library: flushes and closes a stream
+;-----------------------------------------------------------------------------
+__shutdown_stream_:
+        push ebx
+        mov ebx, eax
+        call __doclose_
+        mov edx, eax
+        mov eax, ebx
+        call __freefp_
+        mov eax, edx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; __hex_                                                        AA0E8  library
+; Run-time library: a value 0-15 to its lower case hex digit
+;-----------------------------------------------------------------------------
+__hex_:
+        add eax, byte 30h
+        cmp eax, byte 39h
+        jle short .1
+        add eax, byte 27h
+.1:
+        ret
+;-----------------------------------------------------------------------------
+; __MkTmpFile_                                                  AA0F4  library
+; Run-time library: makes the name of a temporary file
+;-----------------------------------------------------------------------------
+__MkTmpFile_:
+        push ebx
+        push ecx
+        push esi
+        push edi
+        mov ecx, eax
+        mov edi, edx
+        call GetPsp
+        mov edx, 4
+        mov ebx, eax
+        mov esi, ecx
+        mov byte [ecx], 74h
+        add edx, ecx
+.1:
+        mov eax, ebx
+        and eax, byte 0Fh
+        call __hex_
+        mov byte [edx], al
+        dec edx
+        shr ebx, 4
+        cmp edx, esi
+        jne short .1
+        mov eax, edi
+        sar eax, 4
+        and eax, byte 0Fh
+        mov byte [byte ecx+05h], 5Fh
+        call __hex_
+        mov byte [byte ecx+06h], al
+        mov eax, edi
+        and eax, byte 0Fh
+        call __hex_
+        mov byte [byte ecx+08h], 2Eh
+        mov byte [byte ecx+09h], 74h
+        mov byte [byte ecx+0Ah], 6Dh
+        mov byte [byte ecx+0Bh], 70h
+        mov byte [byte ecx+0Ch], 0
+        mov byte [byte ecx+07h], al
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; __doclose_                                                    AA15D  library
+; Run-time library: closes a stream and frees its buffer
+;-----------------------------------------------------------------------------
+__doclose_:
+        push ebx
+        push ecx
+        push esi
+        push edi
+        sub esp, byte 10h
+        mov ecx, eax
+        mov edi, edx
+        cmp dword [byte eax+0Ch], byte 0
+        jne short .1
+        mov esi, 0FFFFFFFFh
+        jmp short .6
+.1:
+        mov ah, byte [byte eax+0Dh]
+        xor esi, esi
+        test ah, 10h
+        je short .2
+        mov eax, ecx
+        call __flush_
+        mov esi, eax
+.2:
+        mov eax, ecx
+        call ftell_
+        mov edx, eax
+        cmp eax, byte 0FFFFFFFFh
+        je short .3
+        mov eax, dword [byte ecx+010h]
+        xor ebx, ebx
+        call lseek_
+.3:
+        test edi, edi
+        je short .4
+        mov eax, dword [byte ecx+010h]
+        call __close_
+        or esi, eax
+.4:
+        test byte [byte ecx+0Ch], 8
+        je short .5
+        mov eax, dword [byte ecx+08h]
+        call _nfree_
+        mov dword [byte ecx+08h], 0
+.5:
+        test byte [byte ecx+0Dh], 8
+        je short .6
+        xor edx, edx
+        mov eax, esp
+        mov dl, byte [byte ecx+019h]
+        call __MkTmpFile_
+        mov eax, esp
+        call UnlinkJump
+.6:
+        mov eax, esi
+        add esp, byte 10h
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; _nmalloc_                                                     AA1E6  library
+; Run-time library: allocates from the near heap
+;-----------------------------------------------------------------------------
+_nmalloc_:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push es
+        push fs
+        push gs
+        push ebp
+        sub esp, byte 4
+        mov esi, eax
+        test eax, eax
+        je short .1
+        cmp eax, byte 0FFFFFFD4h
+        jbe short .2
+.1:
+        xor eax, eax
+        jmp near .13
+.2:
+        mov ebp, HeapList
+        lea edi, [byte esi+03h]
+        xor ah, ah
+        xor ebx, ebx
+        mov byte [esp], ah
+        and di, byte 0FFFCh
+.3:
+        mov eax, edi
+        cmp edi, byte 0Ch
+        jae short .4
+        mov eax, 0Ch
+.4:
+        cmp eax, dword [HeapLargestFree]
+        jbe short .6
+        mov ecx, dword [HeapRover]
+        test ecx, ecx
+        jne short .9
+.5:
+        mov dword [HeapLargestFree], ecx
+        mov ecx, dword [HeapList]
+        jmp short .9
+.6:
+        xor ecx, ecx
+        jmp short .5
+.7:
+        mov edx, ds
+        mov eax, ebp
+        mov dword [HeapRover], ecx
+        and edx, 0FFFFh
+        mov eax, esi
+        mov ebx, ecx
+        call __MemAllocator
+        mov ebx, eax
+        test eax, eax
+        jne short .12
+        mov eax, dword [HeapLargestFree]
+        mov edx, dword [byte ecx+014h]
+        cmp edx, eax
+        jbe short .8
+        mov dword [HeapLargestFree], edx
+.8:
+        mov ecx, dword [byte ecx+08h]
+.9:
+        test ecx, ecx
+        jne short .7
+        cmp byte [esp], 0
+        jne short .10
+        mov eax, esi
+        call __ExpandDGROUP_
+        test eax, eax
+        jne short .11
+.10:
+        mov eax, esi
+        call McgaNoWindow
+        test eax, eax
+        je short .12
+        xor cl, cl
+        mov byte [esp], cl
+        jmp near .3
+.11:
+        mov byte [esp], 1
+        jmp near .3
+.12:
+        xor ch, ch
+        mov eax, ebx
+        mov byte [__nheap_clean], ch
+.13:
+        add esp, byte 4
+        pop ebp
+        pop gs
+        pop fs
+        pop es
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; fread_                                                        AA2C9  library
+; Run-time library fread: reads from a stream
+;-----------------------------------------------------------------------------
+fread_:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 8
+        push eax
+        push edx
+        mov ebp, ecx
+        test byte [byte ecx+0Ch], 1
+        jne short .1
+        mov eax, 4
+        call __set_errno_
+        mov dh, byte [byte ecx+0Ch]
+        or dh, 20h
+        xor eax, eax
+        mov byte [byte ecx+0Ch], dh
+        jmp near .19
+.1:
+        imul ebx, edx
+        test ebx, ebx
+        jne short .2
+        mov eax, ebx
+        jmp near .19
+.2:
+        cmp dword [byte ecx+08h], byte 0
+        jne short .3
+        mov eax, ebp
+        call __ioalloc_
+.3:
+        xor esi, esi
+        mov dl, byte [byte ebp+0Ch]
+        mov dword [byte esp+0Ch], esi
+        test dl, 40h
+        je near .13
+        mov dword [byte esp+08h], ebx
+.4:
+        mov edx, dword [byte ebp+04h]
+        test edx, edx
+        je short .6
+        mov ebx, dword [byte esp+08h]
+        cmp edx, ebx
+        jbe short .5
+        mov edx, ebx
+.5:
+        mov edi, dword [byte esp+04h]
+        mov ecx, edx
+        mov esi, dword [byte ebp+00h]
+        mov ebx, dword [byte esp+0Ch]
+        push es
+        mov eax, ds
+        mov es, eax
+        push edi
+        mov eax, ecx
+        shr ecx, 2
+        repne movsd
+        LD mov, cl, al
+        and cl, 3
+        repne movsb
+        pop edi
+        pop es
+        mov eax, dword [byte esp+08h]
+        mov ecx, dword [byte ebp+00h]
+        lea esi, [edi+edx]
+        add ebx, edx
+        mov dword [byte esp+04h], esi
+        mov dword [byte esp+0Ch], ebx
+        mov edi, dword [byte ebp+04h]
+        add ecx, edx
+        sub eax, edx
+        sub edi, edx
+        mov dword [byte ebp+00h], ecx
+        mov dword [byte esp+08h], eax
+        mov dword [byte ebp+04h], edi
+.6:
+        mov ecx, dword [byte esp+08h]
+        test ecx, ecx
+        je near .18
+        cmp ecx, dword [byte ebp+014h]
+        jae short .7
+        test byte [byte ebp+0Dh], 4
+        je short .12
+.7:
+        mov cl, byte [byte ebp+0Dh]
+        mov ebx, dword [byte esp+08h]
+        test cl, 4
+        jne short .8
+        cmp ebx, 200h
+        jbe short .8
+        and bh, 0FEh
+        xor bl, bl
+.8:
+        mov edx, dword [byte esp+04h]
+        mov eax, dword [byte ebp+010h]
+        call __qread_
+        cmp eax, byte 0FFFFFFFFh
+        jne short .9
+        or byte [byte ebp+0Ch], 20h
+        jmp near .18
+.9:
+        test eax, eax
+        jne short .11
+.10:
+        or byte [byte ebp+0Ch], 10h
+        jmp near .18
+.11:
+        mov edx, dword [byte esp+04h]
+        mov ebx, dword [byte esp+08h]
+        mov ecx, dword [byte esp+0Ch]
+        add edx, eax
+        sub ebx, eax
+        add ecx, eax
+        mov dword [byte esp+04h], edx
+        mov dword [byte esp+08h], ebx
+        mov dword [byte esp+0Ch], ecx
+        jmp near .4
+.12:
+        mov eax, ebp
+        call __fill_buffer_
+        test eax, eax
+        je near .18
+        jmp near .4
+.13:
+        mov edx, dword [byte esp+04h]
+        add ebx, edx
+.14:
+        cmp dword [byte ebp+04h], byte 0
+        jne short .15
+        mov eax, ebp
+        call __fill_buffer_
+        test eax, eax
+        je short .18
+.15:
+        mov ecx, dword [byte ebp+04h]
+        mov eax, dword [byte ebp+00h]
+        dec ecx
+        lea esi, [byte eax+01h]
+        mov dword [byte ebp+04h], ecx
+        mov dword [byte ebp+00h], esi
+        mov al, byte [eax]
+        and eax, 0FFh
+        cmp eax, byte 0Dh
+        jne short .17
+        cmp dword [byte ebp+04h], byte 0
+        jne short .16
+        mov eax, ebp
+        call __fill_buffer_
+        test eax, eax
+        je short .18
+.16:
+        mov edi, dword [byte ebp+04h]
+        mov eax, dword [byte ebp+00h]
+        dec edi
+        lea esi, [byte eax+01h]
+        mov dword [byte ebp+04h], edi
+        mov dword [byte ebp+00h], esi
+        mov al, byte [eax]
+        and eax, 0FFh
+.17:
+        cmp eax, byte 1Ah
+        je near .10
+        mov byte [edx], al
+        mov eax, dword [byte esp+0Ch]
+        inc eax
+        inc edx
+        mov dword [byte esp+0Ch], eax
+        cmp edx, ebx
+        jne short .14
+.18:
+        mov eax, dword [byte esp+0Ch]
+        mov esi, dword [esp]
+        xor edx, edx
+        div esi
+.19:
+        add esp, byte 10h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; _nfree_                                                       AA493  library
+; Run-time library: frees near heap memory
+;-----------------------------------------------------------------------------
+_nfree_:
+        push ebx
+        push ecx
+        push edx
+        push ebp
+        mov ebx, eax
+        mov ecx, dword [HeapList]
+        jmp short .3
+.1:
+        cmp ecx, ebx
+        ja short .2
+        cmp ebx, edx
+        jb short .4
+.2:
+        mov ecx, dword [byte ecx+08h]
+.3:
+        mov edx, dword [byte ecx+08h]
+        test edx, edx
+        jne short .1
+.4:
+        mov eax, HeapList
+        mov edx, ds
+        and edx, 0FFFFh
+        mov eax, ebx
+        mov ebx, ecx
+        call __MemFree
+        cmp ecx, dword [HeapRover]
+        je short .5
+        mov ebp, dword [HeapLargestFree]
+        mov edx, dword [byte ecx+014h]
+        cmp edx, ebp
+        jbe short .5
+        mov dword [HeapLargestFree], edx
+.5:
+        xor ah, ah
+        mov byte [__nheap_clean], ah
+        pop ebp
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; EmptyRoutine                                 AA500  96 PC, medium confidence
+; Does nothing
+;-----------------------------------------------------------------------------
+EmptyRoutine:
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; _os_handle                                                    AA504  library
+; Run-time library: returns the operating system handle of a file handle
+;-----------------------------------------------------------------------------
+_os_handle:
+        mov eax, dword [byte esp+04h]
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; _os_handle_0                                                  AA50C  library
+;-----------------------------------------------------------------------------
+_os_handle_0:
+        mov eax, dword [byte esp+04h]
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; _os_handle_1                                                  AA514  library
+;-----------------------------------------------------------------------------
+_os_handle_1:
+        mov eax, dword [byte esp+04h]
+        ret
+        db 08Dh,040h,00h
+        mov eax, dword [byte esp+04h]
+        ret
+        db 08Dh,040h,00h
+        mov eax, dword [byte esp+04h]
+        mov edx, dword [byte esp+08h]
+        mov ebx, dword [byte esp+0Ch]
+        jmp near strncpy_
+        db 08Dh,040h,00h
+        mov eax, dword [byte esp+04h]
+        mov edx, dword [byte esp+08h]
+        mov ebx, dword [byte esp+0Ch]
+        jmp near strncmp_
+        db 08Dh,040h,00h
+        mov edx, dword [byte esp+0Ch]
+        push edx
+        mov ebx, dword [byte esp+08h]
+        push ebx
+        mov ecx, dword [byte esp+010h]
+        push ecx
+        call bcopy
+        add esp, byte 0Ch
+        ret
+;-----------------------------------------------------------------------------
+; PathBaseName                                 AA564  96 PC, medium confidence
+; Returns the file name part of a path
+;-----------------------------------------------------------------------------
+PathBaseName:
+        mov eax, dword [byte esp+04h]
+        mov dl, byte [eax]
+        mov ebx, eax
+        test dl, dl
+        je short .4
+.1:
+        mov cl, byte [eax]
+        cmp cl, 5Ch
+        je short .2
+        xor edx, edx
+        mov dl, cl
+        cmp edx, byte 3Ah
+        je short .2
+        cmp edx, byte 2Fh
+        jne short .3
+.2:
+        lea ebx, [byte eax+01h]
+.3:
+        mov dh, byte [byte eax+01h]
+        inc eax
+        test dh, dh
+        jne short .1
+.4:
+        mov eax, ebx
+        ret
+        db 090h
+        mov edx, dword [byte esp+04h]
+        mov eax, edx
+        mov cl, byte [edx]
+        mov ebx, edx
+        test cl, cl
+        je short .8
+.5:
+        cmp byte [eax], 5Ch
+        je short .6
+        xor edx, edx
+        mov dl, byte [eax]
+        cmp edx, byte 3Ah
+        je short .6
+        cmp edx, byte 2Fh
+        jne short .7
+.6:
+        lea ebx, [byte eax+01h]
+.7:
+        mov ch, byte [byte eax+01h]
+        inc eax
+        test ch, ch
+        jne short .5
+.8:
+        mov eax, ebx
+        ret
+        db 090h

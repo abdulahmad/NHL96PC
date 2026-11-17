@@ -1,0 +1,2858 @@
+; 3D library: OriFindGroup, OriFindPartition, OriGetPartition, ShadedPolyStepEdge and 19 more.
+bits 32
+%include "hockey.inc"
+section s_BC759 progbits alloc exec nowrite align=1
+extern ClipEdgeToPlane, DrawClipBottom, DrawClipLeft, DrawClipRight, DrawClipTop, DrawMappedTriangle, DrawVideoBase, FatalError
+extern FillPolygon, FillRectColor, FixedDivide, FovScaleX, FovScaleY, NearPlaneZ, PolyColour, PolyProjPoints
+extern PolyScreenPoints, ProjectFlags, ProjectPointWide, PutPixel, ReciprocalTable, ScreenWidth, ShadeEdgeList, ShadeLeftFrac
+extern ShadeLeftFracLimit, ShadeLeftFracStep, ShadeLeftRows, ShadeLeftShade, ShadeLeftShadeStep, ShadeLeftShadeV, ShadeLeftShadeVStep, ShadeLeftTopY
+extern ShadeLeftX, ShadeLeftXStep, ShadeRightFrac, ShadeRightFracLimit, ShadeRightFracStep, ShadeRightRows, ShadeRightShade, ShadeRightShadeStep
+extern ShadeRightShadeV, ShadeRightShadeVStep, ShadeRightX, ShadeRightXStep, ShadeRowPtr, ShadeTableWidth, ShadeTexture, str_OrigetpartitionDIsAnInva
+extern strnicmp_, TexSpanFill, ViewCentreX, ViewCentreY
+global OriFindGroup, OriFindPartition, OriGetPartition, ShadedPolyStepEdge, ShadedPolyStepEdge_19F, ShadedSpansLeftClipped, ShadedSpansLeft, ShadedSpansRightClipped
+global ShadedSpansRight, FillShadedTriRight, FillShadedTriRight_1C9, FillShadedTriRightClipped, FillShadedTriLeft, FillShadedTriLeftClipped, FillShadedPoly, InitReciprocalTable
+global ClipEdgeAtZ, ClipAndProjectEdge, PolySideTest, ClipPolyNearZ, ClipEdgeAtZTex, DrawTexturedPolyCore, SubdivideMappedTriangle, DrawMarkingPolys
+global SetPolyVertexArrays
+        db 00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; OriFindGroup                                    BC760  96 PC, low confidence
+; Finds a named group in a model and returns its value, or -1
+;-----------------------------------------------------------------------------
+OriFindGroup:
+        push esi
+        push edi
+        push ebp
+        mov edi, dword [byte esp+014h]
+        mov ebp, dword [byte esp+010h]
+        mov ebp, dword [byte ebp+00h]
+        xor esi, esi
+        mov edx, dword [byte ebp+054h]
+        mov ecx, dword [byte ebp+058h]
+        test edx, edx
+        jle short .3
+.1:
+        mov ebx, 8
+        mov edx, edi
+        mov eax, ecx
+        call strnicmp_
+        test eax, eax
+        jne short .2
+        mov eax, dword [byte ecx+08h]
+        pop ebp
+        pop edi
+        pop esi
+        ret
+.2:
+        inc esi
+        mov ebx, dword [byte ebp+054h]
+        add ecx, byte 0Ch
+        cmp esi, ebx
+        jl short .1
+.3:
+        mov eax, 0FFFFFFFFh
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 090h
+        push esi
+        push edi
+        push ebp
+        mov edi, dword [byte esp+014h]
+        mov ebp, dword [byte esp+010h]
+        mov ebp, dword [byte ebp+00h]
+        xor esi, esi
+        mov edx, dword [byte ebp+05Ch]
+        mov ecx, dword [byte ebp+060h]
+        test edx, edx
+        jle short .6
+.4:
+        mov ebx, 8
+        mov edx, edi
+        mov eax, ecx
+        call strnicmp_
+        test eax, eax
+        jne short .5
+        mov eax, dword [byte ecx+08h]
+        pop ebp
+        pop edi
+        pop esi
+        ret
+.5:
+        inc esi
+        mov ebx, dword [byte ebp+05Ch]
+        add ecx, byte 0Ch
+        cmp esi, ebx
+        jl short .4
+.6:
+        mov eax, 0FFFFFFFFh
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; OriFindPartition                                BC7F0  96 PC, low confidence
+; Finds a named partition in a model and returns its index, or -1
+;-----------------------------------------------------------------------------
+OriFindPartition:
+        push esi
+        push edi
+        push ebp
+        mov edi, dword [byte esp+014h]
+        mov ebp, dword [byte esp+010h]
+        mov ebp, dword [byte ebp+00h]
+        xor esi, esi
+        mov edx, dword [byte ebp+048h]
+        mov ecx, dword [byte ebp+04Ch]
+        test edx, edx
+        jle short .3
+.1:
+        mov ebx, 8
+        mov edx, edi
+        mov eax, ecx
+        call strnicmp_
+        test eax, eax
+        jne short .2
+        mov eax, esi
+        pop ebp
+        pop edi
+        pop esi
+        ret
+.2:
+        inc esi
+        mov ebx, dword [byte ebp+048h]
+        add ecx, byte 1Ch
+        cmp esi, ebx
+        jl short .1
+.3:
+        mov eax, 0FFFFFFFFh
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; OriGetPartition                              BC838  96 PC, medium confidence
+; Returns a model partition by id, stopping on an invalid id
+;-----------------------------------------------------------------------------
+OriGetPartition:
+        push esi
+        push edi
+        push ebp
+        mov ebp, dword [byte esp+014h]
+        mov edi, dword [byte esp+010h]
+        mov edi, dword [edi]
+        mov esi, dword [byte edi+04Ch]
+        test ebp, ebp
+        jl short .1
+        cmp ebp, dword [byte edi+048h]
+        jl short .2
+.1:
+        push ebp
+        push str_OrigetpartitionDIsAnInva
+        call FatalError
+        add esp, byte 8
+.2:
+        lea eax, [nosplit ebp*8+00h]
+        sub eax, ebp
+        shl eax, 2
+        add esi, eax
+        mov edx, dword [byte esp+018h]
+        mov eax, dword [byte esi+014h]
+        mov dword [edx], eax
+        mov edx, dword [byte esi+010h]
+        mov eax, dword [byte edi+050h]
+        shl edx, 2
+        add eax, edx
+        mov edx, dword [byte esp+01Ch]
+        mov dword [edx], eax
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; ShadedPolyStepEdge                              BC890  96 PC, low confidence
+; Sets up the step values of a shaded polygon edge
+;-----------------------------------------------------------------------------
+ShadedPolyStepEdge:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 8
+        mov esi, dword [byte esp+018h]
+        mov edi, dword [byte esp+024h]
+        mov ebp, dword [byte esp+028h]
+        mov edx, dword [byte esp+01Ch]
+        lea ebx, [nosplit edi*8+00h]
+        lea eax, [nosplit ebp*8+00h]
+        add ebx, edx
+        add edx, eax
+        mov eax, dword [byte ebx+04h]
+        cmp eax, dword [byte edx+04h]
+        jle short .1
+        xor edi, ebp
+        xor ebp, edi
+        xor edi, ebp
+.1:
+        mov ecx, dword [byte esp+01Ch]
+        lea eax, [nosplit edi*8+00h]
+        add eax, ecx
+        mov ebx, dword [DrawClipBottom]
+        mov edx, dword [byte eax+04h]
+        cmp edx, ebx
+        jge near ShadedPolyStepEdge_19F
+        mov dword [byte esi+014h], edx
+        lea edx, [nosplit ebp*8+00h]
+        add edx, ecx
+        mov ebx, dword [byte esi+014h]
+        mov ecx, dword [byte edx+04h]
+        sub ecx, ebx
+        mov dword [byte esi+018h], ecx
+        je near ShadedPolyStepEdge_19F
+        mov ecx, dword [edx]
+        sub ecx, dword [eax]
+        mov ebx, dword [byte eax+04h]
+        mov dword [byte esp+04h], ecx
+        mov ecx, dword [byte esi+014h]
+        mov eax, dword [byte esp+04h]
+        sub ecx, ebx
+        imul eax, ecx
+        dec eax
+        lea ecx, [byte esi+010h]
+        test eax, eax
+        jl short .2
+        mov ebx, dword [byte esi+018h]
+        cdq
+        idiv ebx
+        mov dword [ecx], edx
+        mov dword [esi], eax
+        jmp short .3
+.2:
+        neg eax
+        mov ebx, dword [byte esi+018h]
+        cdq
+        idiv ebx
+        mov dword [ecx], edx
+        mov ecx, eax
+        mov dword [esi], eax
+        neg ecx
+        mov eax, dword [byte esi+010h]
+        mov dword [esi], ecx
+        test eax, eax
+        je short .3
+        mov eax, dword [byte esi+018h]
+        mov ebx, dword [byte esi+010h]
+        lea edx, [byte ecx-01h]
+        sub eax, ebx
+        mov dword [esi], edx
+        mov dword [byte esi+010h], eax
+.3:
+        mov ecx, dword [byte esp+01Ch]
+        lea eax, [nosplit edi*8+00h]
+        add eax, ecx
+        mov eax, dword [eax]
+        mov edx, dword [esi]
+        inc eax
+        mov ebx, dword [byte esp+04h]
+        add edx, eax
+        lea ecx, [byte esi+08h]
+        mov dword [esi], edx
+        test ebx, ebx
+        jl short .4
+        mov eax, dword [byte esp+04h]
+        mov ebx, dword [byte esi+018h]
+        cdq
+        idiv ebx
+        mov dword [ecx], edx
+        mov dword [byte esi+04h], eax
+        jmp short .5
+.4:
+        mov eax, dword [byte esp+04h]
+        mov ebx, dword [byte esi+018h]
+        neg eax
+        cdq
+        idiv ebx
+        mov dword [ecx], edx
+        mov ecx, eax
+        mov dword [byte esi+04h], eax
+        neg ecx
+        mov eax, dword [byte esi+08h]
+        mov dword [byte esi+04h], ecx
+        test eax, eax
+        je short .5
+        mov eax, dword [byte esi+018h]
+        mov ebx, dword [byte esi+08h]
+        lea edx, [byte ecx-01h]
+        sub eax, ebx
+        mov dword [byte esi+04h], edx
+        mov dword [byte esi+08h], eax
+.5:
+        mov eax, dword [byte esi+018h]
+        mov dword [byte esi+0Ch], eax
+        mov eax, dword [byte esp+01Ch]
+        shl ebp, 3
+        mov edx, eax
+        shl edi, 3
+        mov eax, dword [byte eax+ebp+04h]
+        mov ecx, dword [byte edx+edi+04h]
+        sub eax, ecx
+        mov dword [esp], eax
+        mov eax, dword [byte esp+020h]
+        add ebp, eax
+        add eax, edi
+        mov ebx, dword [byte ebp+00h]
+        mov ecx, dword [byte ebp+04h]
+        mov edx, dword [eax]
+        mov edi, dword [byte eax+04h]
+        sub ebx, edx
+        sub ecx, edi
+        mov dword [byte esi+01Ch], edx
+        mov edi, ecx
+        mov eax, dword [byte eax+04h]
+        mov ecx, dword [esp]
+        mov dword [byte esi+020h], eax
+        mov eax, ebx
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov dword [byte esi+024h], eax
+        mov eax, edi
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov dword [byte esi+028h], eax
+ShadedPolyStepEdge_19F:
+        add esp, byte 8
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; ShadedSpansLeftClipped                          BCA38  96 PC, low confidence
+; Fills the spans of a left edged shaded triangle, clipped
+;-----------------------------------------------------------------------------
+ShadedSpansLeftClipped:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 10h
+        mov ecx, dword [ShadeLeftX]
+        mov ebx, dword [ShadeRightX]
+        sub ebx, ecx
+        inc ebx
+        test ebx, ebx
+        jle near .3
+        mov esi, dword [ShadeLeftShade]
+        mov edx, dword [ShadeRightShadeV]
+        mov eax, dword [ShadeRightShade]
+        mov dword [esp], edx
+        lea edx, [nosplit ebx*4+00h]
+        sub eax, esi
+        mov dword [byte esp+04h], edx
+        mov edx, dword [dword edx+ReciprocalTable]
+        mov edi, dword [ShadeLeftShadeV]
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edx, dword [byte esp+04h]
+        mov ebp, eax
+        mov dword [byte esp+08h], eax
+        mov eax, dword [esp]
+        mov edx, dword [dword edx+ReciprocalTable]
+        sub eax, edi
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edx, dword [ShadeTableWidth]
+        mov dword [byte esp+0Ch], eax
+        sar eax, 10h
+        imul edx, eax
+        mov eax, ebp
+        sar eax, 10h
+        mov ebp, dword [DrawClipRight]
+        add eax, edx
+        lea edx, [ecx+ebx]
+        cmp edx, ebp
+        jle short .1
+        mov ebx, ebp
+        sub ebx, ecx
+.1:
+        mov edx, dword [DrawClipLeft]
+        cmp ecx, edx
+        jge short .2
+        mov ebp, edx
+        mov edx, dword [byte esp+08h]
+        sub ebp, ecx
+        imul edx, ebp
+        add esi, edx
+        mov edx, dword [byte esp+0Ch]
+        imul edx, ebp
+        mov ecx, dword [DrawClipLeft]
+        sub ebx, ebp
+        add edi, edx
+.2:
+        mov edx, dword [ShadeTexture]
+        mov ebp, dword [byte edx+02h]
+        sar ebp, 10h
+        mov dword [byte esp+04h], ebp
+        mov ebp, edi
+        sar ebp, 10h
+        imul ebp, dword [byte esp+04h]
+        push ebx
+        mov ebx, dword [ShadeTableWidth]
+        add edx, byte 10h
+        push eax
+        add eax, ebx
+        add ebp, edx
+        mov edx, esi
+        push eax
+        sar edx, 10h
+        add edx, ebp
+        mov ebp, dword [byte esp+018h]
+        push ebp
+        push edi
+        mov eax, dword [byte esp+01Ch]
+        push eax
+        mov eax, dword [ShadeRowPtr]
+        push esi
+        add eax, ecx
+        push eax
+        push edx
+        call TexSpanFill
+        add esp, byte 24h
+.3:
+        add esp, byte 10h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; ShadedSpansLeft                                 BCB58  96 PC, low confidence
+; Fills the spans of a left edged shaded triangle
+;-----------------------------------------------------------------------------
+ShadedSpansLeft:
+        push esi
+        push edi
+        push ebp
+        mov eax, dword [ShadeRightX]
+        sub eax, dword [ShadeLeftX]
+        lea ecx, [byte eax+01h]
+        test ecx, ecx
+        jle near .1
+        mov eax, dword [ShadeRightShade]
+        mov ebx, dword [ShadeLeftShade]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
+        sub eax, ebx
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov esi, dword [ShadeLeftShadeV]
+        mov ebx, eax
+        mov eax, dword [ShadeRightShadeV]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
+        sub eax, esi
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edx, eax
+        mov edi, dword [ShadeTableWidth]
+        sar edx, 10h
+        imul edx, edi
+        mov esi, ebx
+        sar esi, 10h
+        add edx, esi
+        mov esi, dword [ShadeLeftShadeV]
+        sar esi, 10h
+        imul esi, edi
+        mov ebp, edi
+        push ecx
+        mov ecx, ebp
+        mov edi, dword [ShadeTexture]
+        push edx
+        add edi, byte 10h
+        add edx, ecx
+        add edi, esi
+        mov esi, dword [ShadeLeftShade]
+        push edx
+        sar esi, 10h
+        push eax
+        add esi, edi
+        mov edi, dword [ShadeLeftShadeV]
+        push edi
+        mov ebp, dword [ShadeLeftShade]
+        push ebx
+        mov edx, dword [ShadeLeftX]
+        mov eax, dword [ShadeRowPtr]
+        push ebp
+        add eax, edx
+        push eax
+        push esi
+        call TexSpanFill
+        add esp, byte 24h
+.1:
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; ShadedSpansRightClipped                         BCC24  96 PC, low confidence
+; Fills the spans of a right edged shaded triangle, clipped
+;-----------------------------------------------------------------------------
+ShadedSpansRightClipped:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 10h
+        mov ecx, dword [ShadeRightX]
+        mov ebx, dword [ShadeLeftX]
+        sub ebx, ecx
+        inc ebx
+        test ebx, ebx
+        jle near .3
+        mov esi, dword [ShadeRightShade]
+        mov edx, dword [ShadeLeftShadeV]
+        mov eax, dword [ShadeLeftShade]
+        mov dword [esp], edx
+        lea edx, [nosplit ebx*4+00h]
+        sub eax, esi
+        mov dword [byte esp+04h], edx
+        mov edx, dword [dword edx+ReciprocalTable]
+        mov edi, dword [ShadeRightShadeV]
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edx, dword [byte esp+04h]
+        mov ebp, eax
+        mov dword [byte esp+08h], eax
+        mov eax, dword [esp]
+        mov edx, dword [dword edx+ReciprocalTable]
+        sub eax, edi
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edx, dword [ShadeTableWidth]
+        mov dword [byte esp+0Ch], eax
+        sar eax, 10h
+        imul edx, eax
+        mov eax, ebp
+        sar eax, 10h
+        mov ebp, dword [DrawClipRight]
+        add eax, edx
+        lea edx, [ecx+ebx]
+        cmp edx, ebp
+        jle short .1
+        mov ebx, ebp
+        sub ebx, ecx
+.1:
+        mov edx, dword [DrawClipLeft]
+        cmp ecx, edx
+        jge short .2
+        mov ebp, edx
+        mov edx, dword [byte esp+08h]
+        sub ebp, ecx
+        imul edx, ebp
+        add esi, edx
+        mov edx, dword [byte esp+0Ch]
+        imul edx, ebp
+        mov ecx, dword [DrawClipLeft]
+        sub ebx, ebp
+        add edi, edx
+.2:
+        mov edx, dword [ShadeTexture]
+        mov ebp, dword [byte edx+02h]
+        sar ebp, 10h
+        mov dword [byte esp+04h], ebp
+        mov ebp, edi
+        sar ebp, 10h
+        imul ebp, dword [byte esp+04h]
+        push ebx
+        mov ebx, dword [ShadeTableWidth]
+        add edx, byte 10h
+        push eax
+        add eax, ebx
+        add ebp, edx
+        mov edx, esi
+        push eax
+        sar edx, 10h
+        add edx, ebp
+        mov ebp, dword [byte esp+018h]
+        push ebp
+        push edi
+        mov eax, dword [byte esp+01Ch]
+        push eax
+        mov eax, dword [ShadeRowPtr]
+        push esi
+        add eax, ecx
+        push eax
+        push edx
+        call TexSpanFill
+        add esp, byte 24h
+.3:
+        add esp, byte 10h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; ShadedSpansRight                                BCD44  96 PC, low confidence
+; Fills the spans of a right edged shaded triangle
+;-----------------------------------------------------------------------------
+ShadedSpansRight:
+        push esi
+        push edi
+        push ebp
+        mov eax, dword [ShadeLeftX]
+        sub eax, dword [ShadeRightX]
+        lea ecx, [byte eax+01h]
+        test ecx, ecx
+        jle near .1
+        mov eax, dword [ShadeLeftShade]
+        mov ebx, dword [ShadeRightShade]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
+        sub eax, ebx
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov esi, dword [ShadeRightShadeV]
+        mov ebx, eax
+        mov eax, dword [ShadeLeftShadeV]
+        mov edx, dword [nosplit ecx*4+ReciprocalTable]
+        sub eax, esi
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edx, eax
+        mov edi, dword [ShadeTableWidth]
+        sar edx, 10h
+        imul edx, edi
+        mov esi, ebx
+        sar esi, 10h
+        add edx, esi
+        mov esi, dword [ShadeRightShadeV]
+        sar esi, 10h
+        imul esi, edi
+        mov ebp, edi
+        push ecx
+        mov ecx, ebp
+        mov edi, dword [ShadeTexture]
+        push edx
+        add edi, byte 10h
+        add edx, ecx
+        add edi, esi
+        mov esi, dword [ShadeRightShade]
+        push edx
+        sar esi, 10h
+        push eax
+        add esi, edi
+        mov edi, dword [ShadeRightShadeV]
+        push edi
+        mov ebp, dword [ShadeRightShade]
+        push ebx
+        mov edx, dword [ShadeRightX]
+        mov eax, dword [ShadeRowPtr]
+        push ebp
+        add eax, edx
+        push eax
+        push esi
+        call TexSpanFill
+        add esp, byte 24h
+.1:
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; FillShadedTriRight                              BCE10  96 PC, low confidence
+; Fills a shaded triangle whose long edge is on the right
+;-----------------------------------------------------------------------------
+FillShadedTriRight:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 4
+        mov ebp, dword [byte esp+018h]
+        mov esi, dword [ShadeLeftTopY]
+        imul esi, dword [ScreenWidth]
+        mov eax, dword [DrawVideoBase]
+        add eax, byte 10h
+        add eax, esi
+        mov dword [ShadeRowPtr], eax
+        mov eax, dword [byte esp+01Ch]
+        dec eax
+        mov dword [esp], eax
+.1:
+        cmp dword [ShadeLeftRows], byte 0
+        jg short .3
+        mov ecx, dword [byte esp+014h]
+        dec ecx
+        mov dword [byte esp+014h], ecx
+        test ecx, ecx
+        jge short .2
+        mov eax, dword [esp]
+        mov dword [byte esp+014h], eax
+.2:
+        mov edi, dword [byte esp+014h]
+        cmp ebp, edi
+        je near FillShadedTriRight_1C9
+        imul esi, edi, byte 2Ch
+        mov ecx, 0Bh
+        mov edi, ShadeLeftX
+        lea esi, [dword esi+ShadeEdgeList]
+        rep movsd
+        jmp short .1
+.3:
+        mov edx, dword [ShadeRightRows]
+        test edx, edx
+        jg short .5
+        mov ecx, dword [byte esp+01Ch]
+        inc ebp
+        cmp ebp, ecx
+        jl short .4
+        xor ebp, ebp
+.4:
+        imul esi, ebp, byte 2Ch
+        mov ecx, 0Bh
+        mov edi, ShadeRightX
+        lea esi, [dword esi+ShadeEdgeList]
+        rep movsd
+        jmp short .3
+.5:
+        mov ebx, dword [ShadeLeftRows]
+        cmp edx, ebx
+        jge short .6
+        mov esi, edx
+        jmp short .7
+.6:
+        mov esi, ebx
+.7:
+        dec esi
+        cmp esi, byte 0FFFFFFFFh
+        je near .1
+        call ShadedSpansRight
+        mov eax, dword [ScreenWidth]
+        mov edi, dword [ShadeRowPtr]
+        mov edx, dword [ShadeLeftX]
+        mov ebx, dword [ShadeLeftShade]
+        mov ecx, dword [ShadeLeftShadeV]
+        add edi, eax
+        mov eax, dword [ShadeLeftXStep]
+        mov dword [ShadeRowPtr], edi
+        mov edi, dword [ShadeLeftRows]
+        add edx, eax
+        mov eax, dword [ShadeLeftShadeStep]
+        mov dword [ShadeLeftX], edx
+        dec edi
+        mov edx, dword [ShadeLeftFrac]
+        mov dword [ShadeLeftRows], edi
+        add ebx, eax
+        mov eax, dword [ShadeLeftShadeVStep]
+        mov dword [ShadeLeftShade], ebx
+        add ecx, eax
+        mov eax, dword [ShadeLeftFracStep]
+        mov ebx, dword [ShadeLeftFracLimit]
+        add edx, eax
+        mov dword [ShadeLeftShadeV], ecx
+        mov dword [ShadeLeftFrac], edx
+        cmp edx, ebx
+        jl short .8
+        mov ecx, dword [ShadeLeftX]
+        mov edi, edx
+        inc ecx
+        sub edi, ebx
+        mov dword [ShadeLeftX], ecx
+        mov dword [ShadeLeftFrac], edi
+.8:
+        mov eax, dword [ShadeRightXStep]
+        mov edx, dword [ShadeRightX]
+        mov ebx, dword [ShadeRightShade]
+        mov edi, dword [ShadeRightRows]
+        mov ecx, dword [ShadeRightShadeV]
+        dec edi
+        add edx, eax
+        mov eax, dword [ShadeRightShadeStep]
+        mov dword [ShadeRightX], edx
+        mov dword [ShadeRightRows], edi
+        mov edx, dword [ShadeRightFrac]
+        add ebx, eax
+        mov eax, dword [ShadeRightShadeVStep]
+        mov dword [ShadeRightShade], ebx
+        add ecx, eax
+        mov eax, dword [ShadeRightFracStep]
+        mov ebx, dword [ShadeRightFracLimit]
+        add edx, eax
+        mov dword [ShadeRightShadeV], ecx
+        mov dword [ShadeRightFrac], edx
+        cmp edx, ebx
+        jl near .7
+        mov ecx, dword [ShadeRightX]
+        mov edi, edx
+        inc ecx
+        sub edi, ebx
+        mov dword [ShadeRightX], ecx
+        mov dword [ShadeRightFrac], edi
+        jmp near .7
+FillShadedTriRight_1C9:
+        add esp, byte 4
+        pop ebp
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; FillShadedTriRightClipped                       BCFE0  96 PC, low confidence
+; Fills a shaded triangle whose long edge is on the right, clipped
+;-----------------------------------------------------------------------------
+FillShadedTriRightClipped:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 8
+        mov ebp, dword [byte esp+01Ch]
+        mov eax, dword [ShadeLeftTopY]
+        mov dword [byte esp+04h], eax
+        mov edx, dword [byte esp+04h]
+        mov eax, dword [ScreenWidth]
+        imul eax, edx
+        mov esi, dword [DrawVideoBase]
+        add esi, byte 10h
+        add esi, eax
+        mov eax, dword [byte esp+020h]
+        dec eax
+        mov dword [ShadeRowPtr], esi
+        mov dword [esp], eax
+.1:
+        cmp dword [ShadeLeftRows], byte 0
+        jg short .3
+        mov ecx, dword [byte esp+018h]
+        dec ecx
+        mov dword [byte esp+018h], ecx
+        test ecx, ecx
+        jge short .2
+        mov eax, dword [esp]
+        mov dword [byte esp+018h], eax
+.2:
+        mov edi, dword [byte esp+018h]
+        cmp ebp, edi
+        je near ShadedPolyStepEdge_19F
+        imul esi, edi, byte 2Ch
+        mov ecx, 0Bh
+        mov edi, ShadeLeftX
+        lea esi, [dword esi+ShadeEdgeList]
+        rep movsd
+        jmp short .1
+.3:
+        mov edx, dword [ShadeRightRows]
+        test edx, edx
+        jg short .5
+        mov ecx, dword [byte esp+020h]
+        inc ebp
+        cmp ebp, ecx
+        jl short .4
+        xor ebp, ebp
+.4:
+        imul esi, ebp, byte 2Ch
+        mov ecx, 0Bh
+        mov edi, ShadeRightX
+        lea esi, [dword esi+ShadeEdgeList]
+        rep movsd
+        jmp short .3
+.5:
+        mov ebx, dword [ShadeLeftRows]
+        cmp edx, ebx
+        jge short .6
+        mov esi, edx
+        jmp short .7
+.6:
+        mov esi, ebx
+.7:
+        dec esi
+        cmp esi, byte 0FFFFFFFFh
+        je near .1
+        mov eax, dword [byte esp+04h]
+        cmp eax, dword [DrawClipTop]
+        jl short .8
+        call ShadedSpansRightClipped
+.8:
+        mov eax, dword [byte esp+04h]
+        inc eax
+        mov edx, dword [DrawClipBottom]
+        mov dword [byte esp+04h], eax
+        cmp eax, edx
+        jge near ShadedPolyStepEdge_19F
+        mov eax, dword [ScreenWidth]
+        mov ebx, dword [ShadeRowPtr]
+        mov ecx, dword [ShadeLeftX]
+        mov edi, dword [ShadeLeftShade]
+        mov edx, dword [ShadeLeftShadeV]
+        add ebx, eax
+        mov eax, dword [ShadeLeftXStep]
+        mov dword [ShadeRowPtr], ebx
+        mov ebx, dword [ShadeLeftRows]
+        add ecx, eax
+        mov eax, dword [ShadeLeftShadeStep]
+        mov dword [ShadeLeftX], ecx
+        dec ebx
+        mov ecx, dword [ShadeLeftFrac]
+        mov dword [ShadeLeftRows], ebx
+        add edi, eax
+        mov eax, dword [ShadeLeftShadeVStep]
+        mov dword [ShadeLeftShade], edi
+        add edx, eax
+        mov eax, dword [ShadeLeftFracStep]
+        mov edi, dword [ShadeLeftFracLimit]
+        add ecx, eax
+        mov dword [ShadeLeftShadeV], edx
+        mov dword [ShadeLeftFrac], ecx
+        cmp ecx, edi
+        jl short .9
+        mov eax, dword [ShadeLeftX]
+        mov edx, ecx
+        inc eax
+        sub edx, edi
+        mov dword [ShadeLeftX], eax
+        mov dword [ShadeLeftFrac], edx
+.9:
+        mov eax, dword [ShadeRightXStep]
+        mov ebx, dword [ShadeRightX]
+        mov ecx, dword [ShadeRightShade]
+        add ebx, eax
+        mov eax, dword [ShadeRightShadeStep]
+        mov edi, dword [ShadeRightShadeV]
+        add ecx, eax
+        mov eax, dword [ShadeRightShadeVStep]
+        mov edx, dword [ShadeRightFrac]
+        add edi, eax
+        mov eax, dword [ShadeRightRows]
+        mov dword [ShadeRightX], ebx
+        dec eax
+        mov ebx, dword [ShadeRightFracLimit]
+        mov dword [ShadeRightRows], eax
+        mov eax, dword [ShadeRightFracStep]
+        mov dword [ShadeRightShade], ecx
+        add edx, eax
+        mov dword [ShadeRightShadeV], edi
+        mov dword [ShadeRightFrac], edx
+        cmp edx, ebx
+        jl near .7
+        mov ecx, dword [ShadeRightX]
+        mov edi, edx
+        inc ecx
+        sub edi, ebx
+        mov dword [ShadeRightX], ecx
+        mov dword [ShadeRightFrac], edi
+        jmp near .7
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; FillShadedTriLeft                               BD1D4  96 PC, low confidence
+; Fills a shaded triangle whose long edge is on the left
+;-----------------------------------------------------------------------------
+FillShadedTriLeft:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 4
+        mov ebp, dword [byte esp+018h]
+        mov esi, dword [ShadeLeftTopY]
+        imul esi, dword [ScreenWidth]
+        mov eax, dword [DrawVideoBase]
+        add eax, byte 10h
+        add eax, esi
+        mov dword [ShadeRowPtr], eax
+        mov eax, dword [byte esp+01Ch]
+        dec eax
+        mov dword [esp], eax
+.1:
+        cmp dword [ShadeLeftRows], byte 0
+        jg short .3
+        mov ecx, dword [byte esp+014h]
+        dec ecx
+        mov dword [byte esp+014h], ecx
+        test ecx, ecx
+        jge short .2
+        mov eax, dword [esp]
+        mov dword [byte esp+014h], eax
+.2:
+        mov edi, dword [byte esp+014h]
+        cmp ebp, edi
+        je near FillShadedTriRight_1C9
+        imul esi, edi, byte 2Ch
+        mov ecx, 0Bh
+        mov edi, ShadeLeftX
+        lea esi, [dword esi+ShadeEdgeList]
+        rep movsd
+        jmp short .1
+.3:
+        mov edx, dword [ShadeRightRows]
+        test edx, edx
+        jg short .5
+        mov ecx, dword [byte esp+01Ch]
+        inc ebp
+        cmp ebp, ecx
+        jl short .4
+        xor ebp, ebp
+.4:
+        imul esi, ebp, byte 2Ch
+        mov ecx, 0Bh
+        mov edi, ShadeRightX
+        lea esi, [dword esi+ShadeEdgeList]
+        rep movsd
+        jmp short .3
+.5:
+        mov ebx, dword [ShadeLeftRows]
+        cmp edx, ebx
+        jge short .6
+        mov esi, edx
+        jmp short .7
+.6:
+        mov esi, ebx
+.7:
+        dec esi
+        cmp esi, byte 0FFFFFFFFh
+        je near .1
+        call ShadedSpansLeft
+        mov eax, dword [ScreenWidth]
+        mov edi, dword [ShadeRowPtr]
+        mov edx, dword [ShadeLeftX]
+        mov ebx, dword [ShadeLeftShade]
+        mov ecx, dword [ShadeLeftShadeV]
+        add edi, eax
+        mov eax, dword [ShadeLeftXStep]
+        mov dword [ShadeRowPtr], edi
+        mov edi, dword [ShadeLeftRows]
+        add edx, eax
+        mov eax, dword [ShadeLeftShadeStep]
+        mov dword [ShadeLeftX], edx
+        dec edi
+        mov edx, dword [ShadeLeftFrac]
+        mov dword [ShadeLeftRows], edi
+        add ebx, eax
+        mov eax, dword [ShadeLeftShadeVStep]
+        mov dword [ShadeLeftShade], ebx
+        add ecx, eax
+        mov eax, dword [ShadeLeftFracStep]
+        mov ebx, dword [ShadeLeftFracLimit]
+        add edx, eax
+        mov dword [ShadeLeftShadeV], ecx
+        mov dword [ShadeLeftFrac], edx
+        cmp edx, ebx
+        jl short .8
+        mov ecx, dword [ShadeLeftX]
+        mov edi, edx
+        inc ecx
+        sub edi, ebx
+        mov dword [ShadeLeftX], ecx
+        mov dword [ShadeLeftFrac], edi
+.8:
+        mov eax, dword [ShadeRightXStep]
+        mov edx, dword [ShadeRightX]
+        mov ebx, dword [ShadeRightShade]
+        mov edi, dword [ShadeRightRows]
+        mov ecx, dword [ShadeRightShadeV]
+        dec edi
+        add edx, eax
+        mov eax, dword [ShadeRightShadeStep]
+        mov dword [ShadeRightX], edx
+        mov dword [ShadeRightRows], edi
+        mov edx, dword [ShadeRightFrac]
+        add ebx, eax
+        mov eax, dword [ShadeRightShadeVStep]
+        mov dword [ShadeRightShade], ebx
+        add ecx, eax
+        mov eax, dword [ShadeRightFracStep]
+        mov ebx, dword [ShadeRightFracLimit]
+        add edx, eax
+        mov dword [ShadeRightShadeV], ecx
+        mov dword [ShadeRightFrac], edx
+        cmp edx, ebx
+        jl near .7
+        mov ecx, dword [ShadeRightX]
+        mov edi, edx
+        inc ecx
+        sub edi, ebx
+        mov dword [ShadeRightX], ecx
+        mov dword [ShadeRightFrac], edi
+        jmp near .7
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; FillShadedTriLeftClipped                        BD3A0  96 PC, low confidence
+; Fills a shaded triangle whose long edge is on the left, clipped
+;-----------------------------------------------------------------------------
+FillShadedTriLeftClipped:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 8
+        mov ebp, dword [byte esp+01Ch]
+        mov eax, dword [ShadeLeftTopY]
+        mov dword [byte esp+04h], eax
+        mov edx, dword [byte esp+04h]
+        mov eax, dword [ScreenWidth]
+        imul eax, edx
+        mov esi, dword [DrawVideoBase]
+        add esi, byte 10h
+        add esi, eax
+        mov eax, dword [byte esp+020h]
+        dec eax
+        mov dword [ShadeRowPtr], esi
+        mov dword [esp], eax
+.1:
+        cmp dword [ShadeLeftRows], byte 0
+        jg short .3
+        mov ecx, dword [byte esp+018h]
+        dec ecx
+        mov dword [byte esp+018h], ecx
+        test ecx, ecx
+        jge short .2
+        mov eax, dword [esp]
+        mov dword [byte esp+018h], eax
+.2:
+        mov edi, dword [byte esp+018h]
+        cmp ebp, edi
+        je near ShadedPolyStepEdge_19F
+        imul esi, edi, byte 2Ch
+        mov ecx, 0Bh
+        mov edi, ShadeLeftX
+        lea esi, [dword esi+ShadeEdgeList]
+        rep movsd
+        jmp short .1
+.3:
+        mov edx, dword [ShadeRightRows]
+        test edx, edx
+        jg short .5
+        mov ecx, dword [byte esp+020h]
+        inc ebp
+        cmp ebp, ecx
+        jl short .4
+        xor ebp, ebp
+.4:
+        imul esi, ebp, byte 2Ch
+        mov ecx, 0Bh
+        mov edi, ShadeRightX
+        lea esi, [dword esi+ShadeEdgeList]
+        rep movsd
+        jmp short .3
+.5:
+        mov ebx, dword [ShadeLeftRows]
+        cmp edx, ebx
+        jge short .6
+        mov esi, edx
+        jmp short .7
+.6:
+        mov esi, ebx
+.7:
+        dec esi
+        cmp esi, byte 0FFFFFFFFh
+        je near .1
+        mov eax, dword [byte esp+04h]
+        cmp eax, dword [DrawClipTop]
+        jl short .8
+        call ShadedSpansLeftClipped
+.8:
+        mov eax, dword [byte esp+04h]
+        inc eax
+        mov edx, dword [DrawClipBottom]
+        mov dword [byte esp+04h], eax
+        cmp eax, edx
+        jge near ShadedPolyStepEdge_19F
+        mov eax, dword [ScreenWidth]
+        mov ebx, dword [ShadeRowPtr]
+        mov ecx, dword [ShadeLeftX]
+        mov edi, dword [ShadeLeftShade]
+        mov edx, dword [ShadeLeftShadeV]
+        add ebx, eax
+        mov eax, dword [ShadeLeftXStep]
+        mov dword [ShadeRowPtr], ebx
+        mov ebx, dword [ShadeLeftRows]
+        add ecx, eax
+        mov eax, dword [ShadeLeftShadeStep]
+        mov dword [ShadeLeftX], ecx
+        dec ebx
+        mov ecx, dword [ShadeLeftFrac]
+        mov dword [ShadeLeftRows], ebx
+        add edi, eax
+        mov eax, dword [ShadeLeftShadeVStep]
+        mov dword [ShadeLeftShade], edi
+        add edx, eax
+        mov eax, dword [ShadeLeftFracStep]
+        mov edi, dword [ShadeLeftFracLimit]
+        add ecx, eax
+        mov dword [ShadeLeftShadeV], edx
+        mov dword [ShadeLeftFrac], ecx
+        cmp ecx, edi
+        jl short .9
+        mov eax, dword [ShadeLeftX]
+        mov edx, ecx
+        inc eax
+        sub edx, edi
+        mov dword [ShadeLeftX], eax
+        mov dword [ShadeLeftFrac], edx
+.9:
+        mov eax, dword [ShadeRightXStep]
+        mov ebx, dword [ShadeRightX]
+        mov ecx, dword [ShadeRightShade]
+        add ebx, eax
+        mov eax, dword [ShadeRightShadeStep]
+        mov edi, dword [ShadeRightShadeV]
+        add ecx, eax
+        mov eax, dword [ShadeRightShadeVStep]
+        mov edx, dword [ShadeRightFrac]
+        add edi, eax
+        mov eax, dword [ShadeRightRows]
+        mov dword [ShadeRightX], ebx
+        dec eax
+        mov ebx, dword [ShadeRightFracLimit]
+        mov dword [ShadeRightRows], eax
+        mov eax, dword [ShadeRightFracStep]
+        mov dword [ShadeRightShade], ecx
+        add edx, eax
+        mov dword [ShadeRightShadeV], edi
+        mov dword [ShadeRightFrac], edx
+        cmp edx, ebx
+        jl near .7
+        mov ecx, dword [ShadeRightX]
+        mov edi, edx
+        inc ecx
+        sub edi, ebx
+        mov dword [ShadeRightX], ecx
+        mov dword [ShadeRightFrac], edi
+        jmp near .7
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; FillShadedPoly                                  BD594  96 PC, low confidence
+; Fills a shaded polygon, splitting it into triangles and clipping where
+; needed
+;-----------------------------------------------------------------------------
+FillShadedPoly:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 0Ch
+        mov ebp, dword [byte esp+020h]
+        mov edi, dword [byte esp+028h]
+        mov ebx, dword [byte esp+028h]
+        xor edx, edx
+        mov eax, dword [byte esp+028h]
+        mov dword [byte esp+04h], edx
+        add ebx, byte 8
+        mov edi, dword [edi]
+        mov eax, dword [byte eax+04h]
+        mov esi, dword [ebx]
+        mov dword [byte esp+08h], eax
+        mov ebx, dword [byte ebx+04h]
+        test ebp, ebp
+        jle short .6
+        mov eax, dword [byte esp+028h]
+.1:
+        mov ecx, dword [byte eax+04h]
+        cmp ecx, dword [byte esp+08h]
+        jge short .2
+        mov dword [byte esp+08h], ecx
+        mov dword [byte esp+04h], edx
+        jmp short .3
+.2:
+        cmp ebx, ecx
+        jge short .3
+        mov ebx, ecx
+.3:
+        mov ecx, dword [eax]
+        cmp edi, ecx
+        jle short .4
+        mov edi, ecx
+        jmp short .5
+.4:
+        cmp esi, ecx
+        jge short .5
+        mov esi, ecx
+.5:
+        inc edx
+        add eax, byte 8
+        cmp edx, ebp
+        jl short .1
+.6:
+        mov eax, dword [byte esp+08h]
+        cmp eax, dword [DrawClipBottom]
+        jge near .21
+        cmp ebx, dword [DrawClipTop]
+        jl near .21
+        mov edx, dword [DrawClipRight]
+        cmp edi, edx
+        jge near .21
+        mov ecx, dword [DrawClipLeft]
+        cmp esi, ecx
+        jl near .21
+        cmp edi, ecx
+        jl short .7
+        cmp esi, edx
+        jge short .7
+        mov eax, dword [byte esp+08h]
+        cmp eax, dword [DrawClipTop]
+        jl short .7
+        cmp ebx, dword [DrawClipBottom]
+        jl short .8
+.7:
+        mov eax, 1
+        jmp short .9
+.8:
+        xor eax, eax
+.9:
+        sub ebx, dword [byte esp+08h]
+        mov dword [esp], eax
+        cmp ebx, 7D0h
+        jg near .21
+        mov eax, esi
+        sub eax, edi
+        cmp eax, 7D0h
+        jg near .21
+        cmp edi, 0FFF0BDC0h
+        jl near .21
+        cmp esi, 0F4240h
+        jg near .21
+        cmp dword [byte esp+02Ch], byte 0
+        jne near .13
+        mov eax, dword [byte esp+04h]
+        inc eax
+        cmp eax, ebp
+        jl short .10
+        sub eax, ebp
+.10:
+        mov esi, dword [byte esp+04h]
+        dec esi
+        test esi, esi
+        jge short .11
+        lea esi, [byte ebp-01h]
+.11:
+        mov edx, dword [byte esp+028h]
+        mov ebx, dword [byte esp+04h]
+        mov ecx, dword [byte esp+028h]
+        shl eax, 3
+        shl ebx, 3
+        add edx, eax
+        add ebx, ecx
+        mov eax, dword [byte edx+04h]
+        sub eax, dword [byte ebx+04h]
+        inc eax
+        mov edi, dword [nosplit eax*4+ReciprocalTable]
+        mov eax, dword [edx]
+        sub eax, dword [ebx]
+        shl esi, 3
+        shl eax, 10h
+        mov edx, edi
+        add esi, ecx
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edi, eax
+        mov edx, dword [byte ebx+04h]
+        mov eax, dword [byte esi+04h]
+        sub eax, edx
+        inc eax
+        mov ecx, dword [ebx]
+        mov edx, dword [nosplit eax*4+ReciprocalTable]
+        mov eax, dword [esi]
+        sub eax, ecx
+        shl eax, 10h
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        cmp edi, eax
+        jl short .12
+        mov dword [byte esp+02Ch], 0FFFFFFFFh
+        jmp short .13
+.12:
+        mov dword [byte esp+02Ch], 1
+.13:
+        lea eax, [byte ebp-01h]
+        xor esi, esi
+        test ebp, ebp
+        jle short .15
+        mov edi, ShadeEdgeList
+.14:
+        push eax
+        push esi
+        mov eax, dword [byte esp+02Ch]
+        push eax
+        mov edx, dword [byte esp+034h]
+        push edx
+        push edi
+        call ShadedPolyStepEdge
+        add esp, byte 14h
+        mov eax, esi
+        inc esi
+        add edi, byte 2Ch
+        cmp esi, ebp
+        jl short .14
+.15:
+        mov ebx, dword [byte esp+04h]
+        lea edx, [byte ebx+01h]
+        cmp edx, ebp
+        jl short .16
+        xor edx, edx
+.16:
+        lea eax, [nosplit ebx*4+00h]
+        sub eax, ebx
+        shl eax, 2
+        sub eax, ebx
+        lea esi, [nosplit eax*4+ShadeEdgeList]
+        lea eax, [nosplit edx*4+00h]
+        mov ecx, 0Bh
+        sub eax, edx
+        mov edi, ShadeLeftX
+        shl eax, 2
+        rep movsd
+        sub eax, edx
+        mov ecx, 0Bh
+        mov edi, ShadeRightX
+        lea esi, [nosplit eax*4+ShadeEdgeList]
+        mov eax, dword [byte esp+01Ch]
+        rep movsd
+        mov dword [ShadeTexture], eax
+        mov eax, dword [byte eax+02h]
+        sar eax, 10h
+        mov ecx, dword [byte esp+02Ch]
+        mov dword [ShadeTableWidth], eax
+        test ecx, ecx
+        jge short .18
+        cmp dword [esp], byte 0
+        je short .17
+        push ebp
+        push edx
+        push ebx
+        call FillShadedTriLeftClipped
+        jmp short .20
+.17:
+        push ebp
+        push edx
+        push ebx
+        call FillShadedTriLeft
+        jmp short .20
+.18:
+        cmp dword [esp], byte 0
+        je short .19
+        push ebp
+        push edx
+        push ebx
+        call FillShadedTriRightClipped
+        add esp, byte 0Ch
+        add esp, byte 0Ch
+        pop ebp
+        pop edi
+        pop esi
+        ret
+.19:
+        push ebp
+        push edx
+        push ebx
+        call FillShadedTriRight
+.20:
+        add esp, byte 0Ch
+.21:
+        add esp, byte 0Ch
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Bh,0C0h
+        push ebp
+        sub esp, byte 20h
+        mov edx, dword [byte esp+028h]
+        xor ebx, ebx
+        mov dword [byte esp+018h], ebx
+        mov dword [byte esp+0Ch], ebx
+        mov dword [byte esp+04h], ebx
+        mov dword [esp], ebx
+        mov eax, dword [byte edx+02h]
+        sar eax, 10h
+        dec eax
+        shl eax, 10h
+        mov dword [byte esp+010h], eax
+        mov dword [byte esp+08h], eax
+        mov eax, dword [byte edx+04h]
+        sar eax, 10h
+        dec eax
+        mov ebp, dword [byte esp+030h]
+        shl eax, 10h
+        push ebp
+        mov dword [byte esp+020h], eax
+        mov dword [byte esp+018h], eax
+        mov eax, dword [byte esp+030h]
+        push eax
+        lea eax, [byte esp+08h]
+        push eax
+        push byte 4
+        push edx
+        call FillShadedPoly
+        add esp, byte 14h
+        add esp, byte 20h
+        pop ebp
+        ret
+;-----------------------------------------------------------------------------
+; InitReciprocalTable                          BD86C  96 PC, medium confidence
+; Fills the table of 10000h/n for n up to 2000
+;-----------------------------------------------------------------------------
+InitReciprocalTable:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        mov ebx, 1
+        xor edx, edx
+        mov ecx, 4
+        mov dword [ReciprocalTable], edx
+        mov esi, 10000h
+.1:
+        mov edx, esi
+        mov eax, esi
+        sar edx, 1Fh
+        idiv ebx
+        add ecx, byte 4
+        inc ebx
+        mov dword [dword ecx+ReciprocalTable-4], eax
+        cmp ebx, 7D0h
+        jl short .1
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; ClipEdgeAtZ                                     BD8B0  96 PC, low confidence
+; Finds the point where an edge crosses a Z plane
+;-----------------------------------------------------------------------------
+ClipEdgeAtZ:
+        push esi
+        push edi
+        push ebp
+        mov esi, dword [byte esp+010h]
+        mov ebp, dword [byte esp+014h]
+        mov edi, dword [byte esp+018h]
+        mov eax, dword [byte ebp+08h]
+        mov edx, dword [byte esi+08h]
+        sub eax, edx
+        push eax
+        mov eax, dword [byte esp+020h]
+        sub eax, edx
+        inc eax
+        push eax
+        call FixedDivide
+        mov ebx, eax
+        add esp, byte 8
+        mov ecx, dword [esi]
+        mov eax, dword [byte ebp+00h]
+        mov edx, ebx
+        sub eax, ecx
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edx, eax
+        mov eax, dword [esi]
+        add eax, edx
+        mov dword [edi], eax
+        mov eax, dword [byte ebp+04h]
+        mov ebp, dword [byte esi+04h]
+        mov edx, ebx
+        sub eax, ebp
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edx, eax
+        mov eax, dword [byte esi+04h]
+        add eax, edx
+        mov dword [byte edi+04h], eax
+        mov eax, dword [byte esp+01Ch]
+        inc eax
+        mov dword [byte edi+08h], eax
+        mov eax, ebx
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; ClipAndProjectEdge                              BD92C  96 PC, low confidence
+; Clips an edge at a Z plane and projects the new point
+;-----------------------------------------------------------------------------
+ClipAndProjectEdge:
+        push esi
+        push edi
+        push ebp
+        mov edx, dword [byte esp+020h]
+        push edx
+        mov ebx, dword [byte esp+01Ch]
+        push ebx
+        mov ecx, dword [byte esp+01Ch]
+        push ecx
+        mov esi, dword [byte esp+01Ch]
+        push esi
+        call ClipEdgeAtZ
+        add esp, byte 10h
+        mov edi, dword [byte esp+01Ch]
+        push edi
+        mov ebp, dword [byte esp+01Ch]
+        push ebp
+        call ProjectPointWide
+        add esp, byte 8
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; PolySideTest                                    BD964  96 PC, low confidence
+; Tells whether a polygon's points are all in front, all behind or across a
+; depth plane
+;-----------------------------------------------------------------------------
+PolySideTest:
+        push ecx
+        push esi
+        push edi
+        mov ecx, ebx
+        mov ebx, edx
+        mov esi, dword [byte ebx+08h]
+        add edx, byte 0Ch
+        cmp ecx, esi
+        setge bl
+        movzx esi, bl
+.1:
+        mov ebx, eax
+        dec eax
+        test ebx, ebx
+        jle short .2
+        mov ebx, edx
+        mov edi, dword [byte ebx+08h]
+        add edx, byte 0Ch
+        cmp ecx, edi
+        setge bl
+        and ebx, 0FFh
+        xor ebx, esi
+        je short .1
+        xor ebx, ebx
+        jmp short .3
+.2:
+        test esi, esi
+        sete al
+        xor ebx, ebx
+        mov bl, al
+        inc ebx
+.3:
+        mov eax, ebx
+        pop edi
+        pop esi
+        pop ecx
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; ClipPolyNearZ                                   BD9AC  96 PC, low confidence
+; Clips a polygon at the near plane and projects it
+;-----------------------------------------------------------------------------
+ClipPolyNearZ:
+        push esi
+        push edi
+        push ebp
+        sub esp, 1A0h
+        mov ebp, dword [dword esp+01B4h]
+        mov eax, dword [dword esp+01B0h]
+        mov ebx, dword [dword esp+01BCh]
+        mov edx, ebp
+        mov dword [dword esp+0190h], eax
+        call PolySideTest
+        cmp eax, byte 1
+        jne short .1
+        xor eax, eax
+        jmp near .8
+.1:
+        cmp eax, byte 2
+        jne short .2
+        mov eax, dword [dword esp+01B0h]
+        add esp, 1A0h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+.2:
+        mov edx, dword [dword esp+01B0h]
+        lea ecx, [nosplit edx*4+00h]
+        mov edi, esp
+        sub ecx, edx
+        mov esi, ebp
+        shl ecx, 2
+        rep movsb
+        shl edx, 3
+        mov esi, dword [dword esp+01B8h]
+        lea edi, [dword esp+0F0h]
+        mov ecx, edx
+        rep movsb
+        mov esi, dword [dword esp+01B0h]
+        lea eax, [nosplit esi*4+00h]
+        sub eax, esi
+        mov esi, esp
+        lea edi, [esp+eax*4]
+        movsd
+        movsd
+        movsd
+        mov eax, esp
+        lea edi, [dword esp+edx+0F0h]
+        lea edx, [byte eax+0Ch]
+        mov dword [dword esp+019Ch], edx
+        lea edx, [dword esp+0F0h]
+        lea esi, [dword esp+0F0h]
+        mov dword [dword esp+0194h], edx
+        xor edx, edx
+        movsd
+        movsd
+        mov dword [dword esp+0198h], edx
+.3:
+        mov ebx, dword [dword esp+0190h]
+        dec ebx
+        mov dword [dword esp+0190h], ebx
+        cmp ebx, byte 0FFFFFFFFh
+        je near .7
+        mov esi, dword [dword esp+01BCh]
+        cmp esi, dword [byte eax+08h]
+        jl short .4
+        mov edx, dword [dword esp+019Ch]
+        cmp esi, dword [byte edx+08h]
+        jge near .6
+        mov edx, dword [dword esp+01BCh]
+        push edx
+        push ebp
+        mov esi, dword [dword esp+01C0h]
+        push eax
+        mov ebx, dword [dword esp+01A8h]
+        lea ecx, [byte esi+08h]
+        push ebx
+        mov dword [dword esp+01C8h], ecx
+        call ClipEdgeAtZ
+        add esp, byte 10h
+        push esi
+        mov edi, ebp
+        push edi
+        call ProjectPointWide
+        add esp, byte 8
+        mov esi, dword [dword esp+0198h]
+        inc esi
+        add ebp, byte 0Ch
+        mov dword [dword esp+0198h], esi
+        jmp near .6
+.4:
+        mov edx, dword [dword esp+019Ch]
+        cmp esi, dword [byte edx+08h]
+        jl short .5
+        mov ebx, dword [dword esp+01B8h]
+        mov ecx, dword [dword esp+01BCh]
+        mov edx, dword [dword esp+019Ch]
+        mov edi, ebp
+        mov esi, eax
+        add ebp, byte 0Ch
+        add ebx, byte 8
+        movsd
+        movsd
+        movsd
+        push ecx
+        mov edi, dword [dword esp+01BCh]
+        mov esi, dword [dword esp+0198h]
+        push ebp
+        mov dword [dword esp+01C0h], ebx
+        movsd
+        movsd
+        push edx
+        mov esi, ebx
+        add ebx, byte 8
+        push eax
+        mov dword [dword esp+01C8h], ebx
+        call ClipEdgeAtZ
+        add esp, byte 10h
+        push esi
+        mov edi, ebp
+        push edi
+        call ProjectPointWide
+        add esp, byte 8
+        mov ecx, dword [dword esp+0198h]
+        add ecx, byte 2
+        add ebp, byte 0Ch
+        mov dword [dword esp+0198h], ecx
+        jmp short .6
+.5:
+        mov edx, dword [dword esp+0198h]
+        mov edi, ebp
+        mov esi, eax
+        mov eax, dword [dword esp+01B8h]
+        add ebp, byte 0Ch
+        movsd
+        movsd
+        movsd
+        inc edx
+        mov edi, dword [dword esp+01B8h]
+        mov esi, dword [dword esp+0194h]
+        add eax, byte 8
+        mov dword [dword esp+0198h], edx
+        mov dword [dword esp+01B8h], eax
+        movsd
+        movsd
+.6:
+        mov eax, dword [dword esp+019Ch]
+        mov edx, dword [dword esp+0194h]
+        lea edi, [byte eax+0Ch]
+        add edx, byte 8
+        mov dword [dword esp+019Ch], edi
+        mov dword [dword esp+0194h], edx
+        jmp near .3
+.7:
+        mov eax, dword [dword esp+0198h]
+.8:
+        add esp, 1A0h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; ClipEdgeAtZTex                                  BDBE8  96 PC, low confidence
+; Finds the point and texture point where an edge crosses a Z plane
+;-----------------------------------------------------------------------------
+ClipEdgeAtZTex:
+        push esi
+        push edi
+        push ebp
+        mov esi, dword [byte esp+020h]
+        mov edx, dword [byte esp+02Ch]
+        push edx
+        mov ebx, dword [byte esp+01Ch]
+        push ebx
+        mov ecx, dword [byte esp+01Ch]
+        push ecx
+        mov edi, dword [byte esp+01Ch]
+        push edi
+        call ClipEdgeAtZ
+        add esp, byte 10h
+        mov ebx, eax
+        mov eax, dword [byte esp+024h]
+        mov ebp, dword [esi]
+        mov eax, dword [eax]
+        mov edx, ebx
+        sub eax, ebp
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov edx, eax
+        mov eax, dword [esi]
+        add eax, edx
+        mov edx, dword [byte esp+028h]
+        mov dword [edx], eax
+        mov eax, dword [byte esp+024h]
+        mov edx, dword [byte esi+04h]
+        mov eax, dword [byte eax+04h]
+        sub eax, edx
+        mov edx, ebx
+        imul edx
+        add eax, 8000h
+        adc edx, byte 0
+        shrd eax, edx, 10h
+        mov ebx, dword [byte esi+04h]
+        add ebx, eax
+        mov eax, dword [byte esp+028h]
+        mov dword [byte eax+04h], ebx
+        mov ebx, dword [byte esp+01Ch]
+        push ebx
+        mov ecx, dword [byte esp+01Ch]
+        push ecx
+        call ProjectPointWide
+        add esp, byte 8
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; DrawTexturedPolyCore                            BDC74  96 PC, low confidence
+; Clips, projects and draws a textured polygon
+;-----------------------------------------------------------------------------
+DrawTexturedPolyCore:
+        push esi
+        push edi
+        push ebp
+        sub esp, 244h
+        mov ebp, dword [dword esp+0258h]
+        mov eax, dword [dword esp+0254h]
+        mov ebx, dword [dword esp+0264h]
+        mov edx, ebp
+        mov dword [dword esp+0230h], eax
+        call PolySideTest
+        cmp eax, byte 1
+        jne short .1
+        xor eax, eax
+        jmp near .8
+.1:
+        cmp eax, byte 2
+        jne short .2
+        mov eax, dword [dword esp+0254h]
+        add esp, 244h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+.2:
+        mov edx, dword [dword esp+0254h]
+        lea ecx, [nosplit edx*4+00h]
+        mov edi, esp
+        sub ecx, edx
+        mov esi, ebp
+        shl ecx, 2
+        rep movsb
+        shl edx, 3
+        mov esi, dword [dword esp+025Ch]
+        lea edi, [dword esp+0F0h]
+        mov ecx, edx
+        rep movsb
+        mov esi, dword [dword esp+0260h]
+        lea edi, [dword esp+0190h]
+        mov ecx, edx
+        rep movsb
+        mov edi, dword [dword esp+0254h]
+        lea eax, [nosplit edi*4+00h]
+        sub eax, edi
+        mov esi, esp
+        lea edi, [esp+eax*4]
+        movsd
+        movsd
+        movsd
+        lea esi, [dword esp+0F0h]
+        lea edi, [dword esp+edx+0F0h]
+        movsd
+        movsd
+        mov eax, esp
+        lea edi, [dword esp+edx+0190h]
+        lea edx, [byte eax+0Ch]
+        lea esi, [dword esp+0190h]
+        mov dword [dword esp+0240h], edx
+        lea edx, [dword esp+0F0h]
+        movsd
+        movsd
+        mov dword [dword esp+0234h], edx
+        lea edx, [dword esp+0190h]
+        xor ebx, ebx
+        lea edi, [byte edx+08h]
+        mov dword [dword esp+023Ch], ebx
+        mov dword [dword esp+0238h], edi
+.3:
+        mov ecx, dword [dword esp+0230h]
+        dec ecx
+        mov dword [dword esp+0230h], ecx
+        cmp ecx, byte 0FFFFFFFFh
+        je near .7
+        mov ebx, dword [dword esp+0264h]
+        cmp ebx, dword [byte eax+08h]
+        jl short .4
+        mov edi, dword [dword esp+0240h]
+        cmp ebx, dword [byte edi+08h]
+        jge near .6
+        push ebx
+        mov esi, dword [dword esp+0264h]
+        push esi
+        push edx
+        mov edi, dword [dword esp+0244h]
+        push edi
+        mov edx, dword [dword esp+026Ch]
+        push edx
+        push ebp
+        lea ecx, [byte esi+08h]
+        push eax
+        mov ebx, dword [dword esp+025Ch]
+        lea esi, [byte edx+08h]
+        push ebx
+        mov dword [dword esp+0280h], ecx
+        mov dword [dword esp+027Ch], esi
+        call ClipEdgeAtZTex
+        add esp, byte 20h
+        mov edi, dword [dword esp+023Ch]
+        inc edi
+        add ebp, byte 0Ch
+        mov dword [dword esp+023Ch], edi
+        jmp near .6
+.4:
+        mov edi, dword [dword esp+0240h]
+        cmp ebx, dword [byte edi+08h]
+        jl near .5
+        mov edi, ebp
+        mov esi, eax
+        movsd
+        movsd
+        movsd
+        mov edi, dword [dword esp+025Ch]
+        mov esi, dword [dword esp+0234h]
+        movsd
+        movsd
+        mov edi, dword [dword esp+0260h]
+        mov esi, edx
+        movsd
+        movsd
+        mov esi, dword [dword esp+0260h]
+        push ebx
+        add esi, byte 8
+        push esi
+        mov ebx, dword [dword esp+0240h]
+        push ebx
+        mov ecx, dword [dword esp+0268h]
+        push edx
+        add ecx, byte 8
+        push ecx
+        add ebp, byte 0Ch
+        mov dword [dword esp+0274h], esi
+        push ebp
+        mov edi, esi
+        mov esi, dword [dword esp+0258h]
+        push esi
+        mov dword [dword esp+0278h], ecx
+        add edi, byte 8
+        push eax
+        lea eax, [byte ecx+08h]
+        mov dword [dword esp+0280h], edi
+        mov dword [dword esp+027Ch], eax
+        call ClipEdgeAtZTex
+        add esp, byte 20h
+        mov edx, dword [dword esp+023Ch]
+        add edx, byte 2
+        add ebp, byte 0Ch
+        mov dword [dword esp+023Ch], edx
+        jmp short .6
+.5:
+        mov edi, ebp
+        mov esi, eax
+        movsd
+        movsd
+        movsd
+        mov edi, dword [dword esp+025Ch]
+        mov esi, dword [dword esp+0234h]
+        movsd
+        movsd
+        mov eax, dword [dword esp+023Ch]
+        mov edi, dword [dword esp+0260h]
+        mov esi, edx
+        add ebp, byte 0Ch
+        inc eax
+        movsd
+        movsd
+        mov dword [dword esp+023Ch], eax
+        mov esi, dword [dword esp+025Ch]
+        mov edi, dword [dword esp+0260h]
+        add esi, byte 8
+        add edi, byte 8
+        mov dword [dword esp+025Ch], esi
+        mov dword [dword esp+0260h], edi
+.6:
+        mov eax, dword [dword esp+0240h]
+        mov edx, dword [dword esp+0238h]
+        mov ecx, dword [dword esp+0234h]
+        lea ebx, [byte eax+0Ch]
+        add ecx, byte 8
+        lea esi, [byte edx+08h]
+        mov dword [dword esp+0240h], ebx
+        mov dword [dword esp+0234h], ecx
+        mov dword [dword esp+0238h], esi
+        jmp near .3
+.7:
+        mov eax, dword [dword esp+023Ch]
+.8:
+        add esp, 244h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Dh,040h,00h
+        push esi
+        push edi
+        push ebp
+        sub esp, 254h
+        mov dword [dword esp+0234h], eax
+        mov dword [dword esp+024Ch], edx
+        mov ebp, ebx
+        mov dword [dword esp+0250h], ecx
+        mov edx, eax
+        lea ecx, [nosplit eax*4+00h]
+        mov esi, dword [dword esp+024Ch]
+        sub ecx, eax
+        mov edi, esp
+        shl ecx, 2
+        shl edx, 3
+        rep movsb
+        lea edi, [dword esp+0F0h]
+        mov ecx, edx
+        mov esi, ebx
+        rep movsb
+        mov esi, dword [dword esp+0250h]
+        lea edi, [dword esp+0190h]
+        mov ecx, edx
+        rep movsb
+        mov edi, dword [dword esp+0234h]
+        lea eax, [nosplit edi*4+00h]
+        sub eax, edi
+        mov esi, esp
+        lea edi, [esp+eax*4]
+        movsd
+        movsd
+        movsd
+        mov eax, esp
+        lea esi, [dword esp+0F0h]
+        lea edi, [dword esp+edx+0F0h]
+        mov dword [dword esp+0240h], eax
+        movsd
+        movsd
+        add eax, byte 0Ch
+        lea esi, [dword esp+0190h]
+        mov dword [dword esp+0248h], eax
+        lea edi, [dword esp+edx+0190h]
+        lea eax, [dword esp+0F0h]
+        xor edx, edx
+        mov dword [dword esp+0230h], eax
+        lea eax, [dword esp+0190h]
+        movsd
+        movsd
+        mov dword [dword esp+0238h], eax
+        add eax, byte 8
+        mov dword [dword esp+0244h], edx
+        mov dword [dword esp+023Ch], eax
+.9:
+        mov ebx, dword [dword esp+0234h]
+        dec ebx
+        mov dword [dword esp+0234h], ebx
+        cmp ebx, byte 0FFFFFFFFh
+        je near .15
+        mov eax, dword [dword esp+0240h]
+        mov esi, dword [dword esp+0264h]
+        cmp esi, dword [byte eax+08h]
+        jle short .10
+        mov eax, dword [dword esp+0248h]
+        cmp esi, dword [byte eax+08h]
+        jg near .12
+        push esi
+        mov ecx, dword [dword esp+0254h]
+        push ecx
+        mov esi, dword [dword esp+0240h]
+        push esi
+        mov edi, dword [dword esp+0248h]
+        push edi
+        push ebp
+        mov eax, dword [dword esp+0260h]
+        push eax
+        mov edx, dword [dword esp+0258h]
+        mov ebx, dword [dword esp+0260h]
+        push edx
+        add ecx, byte 8
+        lea esi, [byte eax+0Ch]
+        push ebx
+        mov dword [dword esp+0270h], ecx
+        mov dword [dword esp+026Ch], esi
+        call ClipEdgeAtZTex
+        add esp, byte 20h
+        mov edi, dword [dword esp+0244h]
+        inc edi
+        add ebp, byte 8
+        mov dword [dword esp+0244h], edi
+        jmp near .12
+.10:
+        mov eax, dword [dword esp+0240h]
+        mov edi, dword [dword esp+0268h]
+        cmp edi, dword [byte eax+08h]
+        jge short .11
+        mov eax, dword [dword esp+0248h]
+        cmp edi, dword [byte eax+08h]
+        jl near .12
+        push edi
+        mov esi, dword [dword esp+0254h]
+        push esi
+        mov edi, dword [dword esp+0240h]
+        push edi
+        mov eax, dword [dword esp+0248h]
+        push eax
+        push ebp
+        mov edx, dword [dword esp+0260h]
+        push edx
+        mov ebx, dword [dword esp+0258h]
+        mov ecx, dword [dword esp+0260h]
+        push ebx
+        add esi, byte 8
+        lea edi, [byte edx+0Ch]
+        push ecx
+        mov dword [dword esp+0270h], esi
+        mov dword [dword esp+026Ch], edi
+        call ClipEdgeAtZTex
+        add esp, byte 20h
+        mov eax, dword [dword esp+0244h]
+        inc eax
+        add ebp, byte 8
+        mov dword [dword esp+0244h], eax
+        jmp short .12
+.11:
+        mov esi, dword [dword esp+0230h]
+        mov eax, dword [dword esp+0250h]
+        mov edx, dword [dword esp+0244h]
+        mov edi, ebp
+        add ebp, byte 8
+        add eax, byte 8
+        movsd
+        movsd
+        inc edx
+        mov edi, dword [dword esp+0250h]
+        mov esi, dword [dword esp+0238h]
+        mov dword [dword esp+0244h], edx
+        mov dword [dword esp+0250h], eax
+        movsd
+        movsd
+.12:
+        mov eax, dword [dword esp+0248h]
+        mov edx, dword [dword esp+0264h]
+        cmp edx, dword [byte eax+08h]
+        jle short .13
+        mov eax, dword [dword esp+0240h]
+        cmp edx, dword [byte eax+08h]
+        jge near .14
+        push edx
+        mov esi, dword [dword esp+0254h]
+        push esi
+        mov edi, dword [dword esp+0244h]
+        push edi
+        mov eax, dword [dword esp+0244h]
+        push eax
+        push ebp
+        mov edx, dword [dword esp+0260h]
+        push edx
+        mov ebx, dword [dword esp+0260h]
+        mov ecx, dword [dword esp+0258h]
+        push ebx
+        add esi, byte 8
+        lea edi, [byte edx+0Ch]
+        push ecx
+        mov dword [dword esp+0270h], esi
+        mov dword [dword esp+026Ch], edi
+        call ClipEdgeAtZTex
+        add esp, byte 20h
+        mov eax, dword [dword esp+0244h]
+        inc eax
+        add ebp, byte 8
+        mov dword [dword esp+0244h], eax
+        jmp near .14
+.13:
+        mov eax, dword [dword esp+0248h]
+        mov ebx, dword [dword esp+0268h]
+        cmp ebx, dword [byte eax+08h]
+        jge short .14
+        mov eax, dword [dword esp+0240h]
+        cmp ebx, dword [byte eax+08h]
+        jle short .14
+        push ebx
+        mov edi, dword [dword esp+0254h]
+        push edi
+        mov eax, dword [dword esp+0244h]
+        push eax
+        mov edx, dword [dword esp+0244h]
+        push edx
+        push ebp
+        mov ebx, dword [dword esp+0260h]
+        push ebx
+        mov ecx, dword [dword esp+0260h]
+        mov esi, dword [dword esp+0258h]
+        push ecx
+        add edi, byte 8
+        lea eax, [byte ebx+0Ch]
+        push esi
+        mov dword [dword esp+0270h], edi
+        mov dword [dword esp+026Ch], eax
+        call ClipEdgeAtZTex
+        add esp, byte 20h
+        mov edx, dword [dword esp+0244h]
+        inc edx
+        add ebp, byte 8
+        mov dword [dword esp+0244h], edx
+.14:
+        mov eax, dword [dword esp+0248h]
+        mov edx, dword [dword esp+0248h]
+        mov ebx, dword [dword esp+0230h]
+        mov dword [dword esp+0240h], eax
+        add edx, byte 0Ch
+        add ebx, byte 8
+        mov eax, dword [dword esp+023Ch]
+        mov dword [dword esp+0248h], edx
+        mov dword [dword esp+0238h], eax
+        lea ecx, [byte eax+08h]
+        mov dword [dword esp+0230h], ebx
+        mov dword [dword esp+023Ch], ecx
+        jmp near .9
+.15:
+        mov eax, dword [dword esp+0244h]
+        add esp, 254h
+        pop ebp
+        pop edi
+        pop esi
+        ret 8
+        db 00h,00h,00h,00h,00h
+        push ebx
+        push ecx
+        push edx
+        mov edx, dword [byte eax+04h]
+        push edx
+        mov ebx, dword [eax]
+        push ebx
+        call PutPixel
+        add esp, byte 0Ch
+        pop ecx
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+        push ebx
+        push ecx
+        push esi
+        push edi
+        mov esi, eax
+        mov edi, edx
+        push edx
+        mov edx, dword [byte eax+04h]
+        push edx
+        mov ebx, dword [eax]
+        push ebx
+        call PutPixel
+        add esp, byte 0Ch
+        push edi
+        mov ecx, dword [byte esi+04h]
+        mov eax, dword [esi]
+        push ecx
+        inc eax
+        push eax
+        call PutPixel
+        add esp, byte 0Ch
+        mov eax, dword [byte esi+04h]
+        push edi
+        inc eax
+        push eax
+        mov eax, dword [esi]
+        inc eax
+        push eax
+        call PutPixel
+        add esp, byte 0Ch
+        mov eax, dword [byte esi+04h]
+        push edi
+        inc eax
+        push eax
+        mov edi, dword [esi]
+        push edi
+        call PutPixel
+        add esp, byte 0Ch
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+        push ecx
+        push esi
+        push edi
+        push ebx
+        mov ebx, dword [byte edx+04h]
+        push ebx
+        mov ecx, dword [edx]
+        push ecx
+        mov esi, dword [byte eax+04h]
+        push esi
+        mov edi, dword [eax]
+        push edi
+        call FillRectColor
+        add esp, byte 14h
+        pop edi
+        pop esi
+        pop ecx
+        ret
+        db 08Bh,0C0h
+        push ebx
+        push ecx
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 18h
+        mov ebp, dword [PolyScreenPoints]
+        lea esi, [nosplit eax*8+00h]
+        lea edi, [esi+ebp]
+        lea esi, [nosplit edx*8+00h]
+        add ebp, esi
+        mov esi, eax
+        shl eax, 2
+        mov dword [byte esp+014h], edi
+        sub eax, esi
+        mov edi, dword [PolyProjPoints]
+        shl eax, 2
+        lea esi, [edi+eax]
+        lea eax, [nosplit edx*4+00h]
+        sub eax, edx
+        shl eax, 2
+        add eax, edi
+        mov ebx, dword [NearPlaneZ]
+        cmp ebx, dword [byte eax+08h]
+        jle short .16
+        cmp ebx, dword [byte esi+08h]
+        jg near .20
+        push ebx
+        lea edx, [byte esp+04h]
+        push edx
+        push eax
+        push esi
+        lea edi, [byte esp+01Ch]
+        call ClipEdgeToPlane
+        add esp, byte 10h
+        mov esi, esp
+        lea ebp, [byte esp+0Ch]
+        jmp short .17
+.16:
+        cmp ebx, dword [byte esi+08h]
+        jle short .19
+        cmp ebx, dword [byte eax+08h]
+        jg near .20
+        push ebx
+        lea edx, [byte esp+04h]
+        push edx
+        push esi
+        push eax
+        lea edi, [byte esp+01Ch]
+        call ClipEdgeToPlane
+        lea eax, [byte esp+01Ch]
+        add esp, byte 10h
+        mov esi, esp
+        mov dword [byte esp+014h], eax
+.17:
+        cmp dword [byte esi+08h], byte 0
+        jle short .18
+        mov eax, dword [esi]
+        imul dword [FovScaleX]
+        idiv dword [byte esi+08h]
+        add eax, dword [ViewCentreX]
+        mov dword [edi], eax
+        mov eax, dword [byte esi+04h]
+        imul dword [FovScaleY]
+        idiv dword [byte esi+08h]
+        add eax, dword [ViewCentreY]
+        mov dword [byte edi+04h], eax
+        jmp short .19
+.18:
+        mov dword [edi], 80000000h
+        mov dword [byte edi+04h], 80000000h
+        or dword [ProjectFlags], byte 1
+.19:
+        mov eax, dword [PolyColour]
+        push eax
+        mov esi, dword [byte ebp+04h]
+        push esi
+        mov edi, dword [byte ebp+00h]
+        mov eax, dword [byte esp+01Ch]
+        push edi
+        mov ebp, dword [byte eax+04h]
+        push ebp
+        mov edx, dword [eax]
+        push edx
+        call FillRectColor
+        add esp, byte 14h
+.20:
+        add esp, byte 18h
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; SubdivideMappedTriangle                         BE47C  96 PC, low confidence
+; Draws a mapped triangle, splitting it until the perspective error is small
+;-----------------------------------------------------------------------------
+SubdivideMappedTriangle:
+        push ebx
+        push ecx
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 34h
+        mov ebp, eax
+        mov dword [byte esp+030h], edx
+        xor edx, edx
+        mov dword [esp], edx
+        mov dword [byte esp+04h], edx
+        mov eax, dword [byte eax+02h]
+        sar eax, 10h
+        mov dword [byte esp+0Ch], edx
+        mov dword [byte esp+08h], eax
+        mov eax, dword [byte ebp+02h]
+        sar eax, 10h
+        mov dword [byte esp+010h], eax
+        mov eax, dword [byte ebp+04h]
+        lea edi, [byte esp+018h]
+        sar eax, 10h
+        mov esi, dword [byte esp+030h]
+        mov dword [byte esp+014h], eax
+        movsd
+        movsd
+        mov esi, dword [byte esp+030h]
+        lea eax, [byte esp+018h]
+        lea edi, [byte esp+020h]
+        lea esi, [byte esi+08h]
+        push eax
+        movsd
+        movsd
+        lea eax, [byte esp+04h]
+        mov esi, dword [byte esp+034h]
+        push eax
+        lea edi, [byte esp+030h]
+        lea esi, [byte esi+010h]
+        push ebp
+        movsd
+        movsd
+        call DrawMappedTriangle
+        add esp, byte 0Ch
+        xor esi, esi
+        mov dword [byte esp+08h], esi
+        mov eax, dword [byte ebp+04h]
+        sar eax, 10h
+        mov dword [byte esp+0Ch], eax
+        lea eax, [byte esp+018h]
+        push eax
+        lea eax, [byte esp+04h]
+        mov esi, dword [byte esp+034h]
+        push eax
+        lea edi, [byte esp+028h]
+        lea esi, [byte esi+018h]
+        push ebp
+        movsd
+        movsd
+        call DrawMappedTriangle
+        add esp, byte 0Ch
+        add esp, byte 34h
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+        push ecx
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 48h
+        mov dword [byte esp+030h], eax
+        mov dword [byte esp+02Ch], ebx
+        mov ebp, esp
+        mov eax, dword [edx]
+        xor ebx, ebx
+        mov dword [byte esp+03Ch], eax
+        lea eax, [byte edx+010h]
+        mov dword [byte esp+044h], ebx
+        sub edx, byte 4
+        mov dword [byte esp+040h], eax
+        mov dword [byte esp+034h], edx
+.1:
+        mov ecx, dword [byte esp+040h]
+        sub ecx, byte 4
+        mov esi, dword [byte esp+034h]
+        mov dword [byte esp+040h], ecx
+        cmp ecx, esi
+        je near .9
+        mov eax, dword [byte esp+03Ch]
+        imul edi, eax, byte 0Ch
+        mov edx, dword [ecx]
+        mov dword [byte esp+03Ch], edx
+        imul edx, byte 0Ch
+        mov esi, dword [PolyProjPoints]
+        add edi, esi
+        mov ecx, dword [NearPlaneZ]
+        add esi, edx
+        cmp ecx, dword [byte edi+08h]
+        jle short .4
+        cmp ecx, dword [byte esi+08h]
+        jg short .1
+        push ecx
+        lea eax, [byte esp+024h]
+        push eax
+        push edi
+        push esi
+        call ClipEdgeToPlane
+        add esp, byte 10h
+        mov edi, ebp
+        lea esi, [byte esp+020h]
+        cmp dword [byte esi+08h], byte 0
+        jle short .2
+        mov eax, dword [esi]
+        imul dword [FovScaleX]
+        idiv dword [byte esi+08h]
+        add eax, dword [ViewCentreX]
+        mov dword [edi], eax
+        mov eax, dword [byte esi+04h]
+        imul dword [FovScaleY]
+        idiv dword [byte esi+08h]
+        add eax, dword [ViewCentreY]
+        mov dword [byte edi+04h], eax
+        jmp short .3
+.2:
+        mov dword [edi], 80000000h
+        mov dword [byte edi+04h], 80000000h
+        or dword [ProjectFlags], byte 1
+.3:
+        jmp near .8
+.4:
+        shl eax, 3
+        mov dword [byte esp+038h], eax
+        cmp ecx, dword [byte esi+08h]
+        jle near .7
+        push ecx
+        lea eax, [byte esp+024h]
+        push eax
+        push esi
+        push edi
+        call ClipEdgeToPlane
+        add esp, byte 10h
+        mov esi, dword [PolyScreenPoints]
+        mov edi, dword [byte esp+038h]
+        mov eax, dword [byte esp+044h]
+        add esi, edi
+        mov edi, ebp
+        inc eax
+        movsd
+        movsd
+        add ebp, byte 8
+        lea esi, [byte esp+020h]
+        mov edi, ebp
+        mov dword [byte esp+044h], eax
+        cmp dword [byte esi+08h], byte 0
+        jle short .5
+        mov eax, dword [esi]
+        imul dword [FovScaleX]
+        idiv dword [byte esi+08h]
+        add eax, dword [ViewCentreX]
+        mov dword [edi], eax
+        mov eax, dword [byte esi+04h]
+        imul dword [FovScaleY]
+        idiv dword [byte esi+08h]
+        add eax, dword [ViewCentreY]
+        mov dword [byte edi+04h], eax
+        jmp short .6
+.5:
+        mov dword [edi], 80000000h
+        mov dword [byte edi+04h], 80000000h
+        or dword [ProjectFlags], byte 1
+.6:
+        mov ecx, dword [byte esp+044h]
+        inc ecx
+        add ebp, byte 8
+        mov dword [byte esp+044h], ecx
+        jmp near .1
+.7:
+        mov ebx, dword [byte esp+038h]
+        mov esi, dword [PolyScreenPoints]
+        mov edi, ebp
+        add esi, ebx
+        movsd
+        movsd
+.8:
+        mov ecx, dword [byte esp+044h]
+        inc ecx
+        add ebp, byte 8
+        mov dword [byte esp+044h], ecx
+        jmp near .1
+.9:
+        mov edi, dword [byte esp+044h]
+        cmp edi, byte 3
+        jl short .11
+        cmp edi, byte 4
+        jne short .10
+        mov edx, esp
+        mov eax, dword [byte esp+030h]
+        call SubdivideMappedTriangle
+        jmp short .11
+.10:
+        mov eax, esp
+        push eax
+        push edi
+        mov edx, dword [byte esp+034h]
+        push edx
+        call FillPolygon
+        add esp, byte 0Ch
+.11:
+        add esp, byte 48h
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; DrawMarkingPolys                                BE6E0  96 PC, low confidence
+; Clips, projects and fills a list of flat polygons (ice markings)
+;-----------------------------------------------------------------------------
+DrawMarkingPolys:
+        push ecx
+        push esi
+        push edi
+        push ebp
+        sub esp, 344h
+        mov dword [dword esp+0334h], eax
+        mov dword [dword esp+032Ch], ebx
+        mov eax, dword [edx]
+        mov ebp, esp
+        mov dword [dword esp+0338h], eax
+        mov eax, dword [dword esp+0334h]
+        xor ebx, ebx
+        shl eax, 2
+        mov dword [dword esp+0340h], ebx
+        add eax, edx
+        sub edx, byte 4
+        mov dword [dword esp+033Ch], eax
+        mov dword [dword esp+0330h], edx
+.1:
+        mov ecx, dword [dword esp+033Ch]
+        mov esi, dword [dword esp+0334h]
+        mov edi, dword [dword esp+0330h]
+        sub ecx, byte 4
+        dec esi
+        mov dword [dword esp+033Ch], ecx
+        mov dword [dword esp+0334h], esi
+        cmp ecx, edi
+        je near .5
+        mov edx, dword [dword esp+0338h]
+        imul esi, edx, byte 0Ch
+        mov eax, dword [ecx]
+        mov dword [dword esp+0338h], eax
+        imul edi, dword [dword esp+0338h], byte 0Ch
+        mov eax, dword [PolyProjPoints]
+        add esi, eax
+        mov ecx, dword [NearPlaneZ]
+        add eax, edi
+        cmp ecx, dword [byte esi+08h]
+        jle short .2
+        cmp ecx, dword [byte eax+08h]
+        jg short .1
+        push ecx
+        lea edx, [dword esp+0324h]
+        push edx
+        push esi
+        push eax
+        call ClipEdgeToPlane
+        add esp, byte 10h
+        push ebp
+        lea eax, [dword esp+0324h]
+        push eax
+        call ProjectPointWide
+        add esp, byte 8
+        jmp short .4
+.2:
+        lea edi, [nosplit edx*8+00h]
+        cmp ecx, dword [byte eax+08h]
+        jle short .3
+        push ecx
+        lea edx, [dword esp+0324h]
+        push edx
+        push eax
+        push esi
+        call ClipEdgeToPlane
+        mov esi, dword [PolyScreenPoints]
+        add esi, edi
+        mov edi, ebp
+        add esp, byte 10h
+        add ebp, byte 8
+        movsd
+        movsd
+        push ebp
+        lea eax, [dword esp+0324h]
+        mov esi, dword [dword esp+0344h]
+        push eax
+        inc esi
+        call ProjectPointWide
+        mov dword [dword esp+0348h], esi
+        add esp, byte 8
+        jmp short .4
+.3:
+        mov esi, dword [PolyScreenPoints]
+        add esi, edi
+        mov edi, ebp
+        movsd
+        movsd
+.4:
+        mov ebx, dword [dword esp+0340h]
+        inc ebx
+        add ebp, byte 8
+        mov dword [dword esp+0340h], ebx
+        jmp near .1
+.5:
+        mov ebp, dword [dword esp+0340h]
+        cmp ebp, byte 2
+        jle short .7
+        mov eax, esp
+        push eax
+        push ebp
+        mov edx, dword [dword esp+0334h]
+        push edx
+        call FillPolygon
+        mov ebx, dword [PolyColour]
+        add esp, byte 0Ch
+        test ebx, ebx
+        jle short .7
+        push ebx
+        mov esi, dword [byte esp+08h]
+        mov edi, dword [byte esp+04h]
+        push esi
+        shl ebp, 3
+        push edi
+        mov eax, dword [byte esp+ebp+08h]
+        push eax
+        mov edx, dword [byte esp+ebp+08h]
+        push edx
+.6:
+        call FillRectColor
+        add esp, byte 14h
+        mov ecx, dword [dword esp+0340h]
+        dec ecx
+        sub ebp, byte 8
+        mov dword [dword esp+0340h], ecx
+        test ebp, ebp
+        je short .7
+        mov esi, dword [PolyColour]
+        push esi
+        mov edi, dword [esp+ebp]
+        push edi
+        mov eax, dword [esp+ebp]
+        push eax
+        mov edx, dword [byte esp+ebp+010h]
+        push edx
+        mov ebx, dword [byte esp+ebp+010h]
+        push ebx
+        jmp short .6
+.7:
+        add esp, 344h
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; SetPolyVertexArrays                             BE8AC  96 PC, low confidence
+; Sets the point arrays and colour DrawMarkingPolys uses
+;-----------------------------------------------------------------------------
+SetPolyVertexArrays:
+        mov dword [PolyProjPoints], eax
+        mov dword [PolyScreenPoints], edx
+        mov dword [PolyColour], ebx
+        ret

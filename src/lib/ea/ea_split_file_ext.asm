@@ -1,0 +1,340 @@
+; EA library: SplitFileExt, ConvertShapeBank, ConvertShapeBankInPlace, DrawTextCentredBoxed.
+bits 32
+%include "hockey.inc"
+section s_D0360 progbits alloc exec nowrite align=1
+extern bcopy, DosFileInfo, DrawClipLeft, DrawClipRight, DrawTextBoxedAt, PutBytesLE, str_SHPI2, strncpy_
+extern TextStringWidth
+global SplitFileExt, ConvertShapeBank, ConvertShapeBankInPlace, DrawTextCentredBoxed
+;-----------------------------------------------------------------------------
+; SplitFileExt                                    D0360  96 PC, low confidence
+; Copies a file name and returns its extension
+;-----------------------------------------------------------------------------
+SplitFileExt:
+        push esi
+        push edi
+        push ebp
+        mov esi, dword [byte esp+010h]
+        mov ebp, dword [byte esp+014h]
+        mov edi, ebp
+        mov dl, 2Eh
+        push edi
+.1:
+        mov al, byte [esi]
+        mov byte [edi], al
+        cmp al, 0
+        je short .2
+        mov al, byte [byte esi+01h]
+        add esi, byte 2
+        mov byte [byte edi+01h], al
+        add edi, byte 2
+        cmp al, 0
+        jne short .1
+.2:
+        pop edi
+        mov esi, ebp
+.3:
+        mov al, byte [esi]
+        LD cmp, al, dl
+        je short .5
+        cmp al, 0
+        je short .4
+        inc esi
+        mov al, byte [esi]
+        LD cmp, al, dl
+        je short .5
+        inc esi
+        cmp al, 0
+        jne short .3
+.4:
+        LD sub, esi, esi
+.5:
+        mov edi, esi
+        test esi, esi
+        je short .9
+        mov dl, 5Ch
+.6:
+        mov al, byte [esi]
+        LD cmp, al, dl
+        je short .8
+        cmp al, 0
+        je short .7
+        inc esi
+        mov al, byte [esi]
+        LD cmp, al, dl
+        je short .8
+        inc esi
+        cmp al, 0
+        jne short .6
+.7:
+        LD sub, esi, esi
+.8:
+        db 085h,0F6h                            ; insn: test esi,esi
+        db 075h, .9-($+2)
+        db 089h,0F8h                            ; insn: mov eax,edi
+        db 05Dh                                 ; insn: pop ebp
+        pop edi
+        pop esi
+        ret
+.9:
+        mov edi, ebp
+        sub ecx, ecx
+        dec ecx
+        xor eax, eax
+        repne scasb
+        not ecx
+        dec ecx
+        lea edi, [ecx+ebp]
+        mov esi, dword [byte esp+018h]
+        mov byte [byte edi+04h], 0
+        cmp byte [esi], 0
+        je short .11
+        mov ecx, 4
+.10:
+        mov ebx, ecx
+        mov edx, esi
+        mov eax, edi
+        call strncpy_
+        mov dh, byte [byte esi+04h]
+        add esi, byte 4
+        test dh, dh
+        jne short .10
+.11:
+        mov esi, dword [byte esp+018h]
+        cmp byte [esi], 0
+        je short .14
+.12:
+        mov ebx, 4
+        mov edx, esi
+        mov eax, edi
+        call strncpy_
+        push ebp
+        call DosFileInfo
+        add esp, byte 4
+        test eax, eax
+        je short .13
+        mov eax, edi
+        pop ebp
+        pop edi
+        pop esi
+        ret
+.13:
+        mov bh, byte [byte esi+04h]
+        add esi, byte 4
+        test bh, bh
+        jne short .12
+.14:
+        mov eax, edi
+        mov byte [edi], 0
+        pop ebp
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; ConvertShapeBank                                D0440  96 PC, low confidence
+; Converts a shape bank from its file layout to the layout in memory
+;-----------------------------------------------------------------------------
+ConvertShapeBank:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 2Ch
+        mov ecx, 4
+        mov eax, dword [byte esp+03Ch]
+        mov eax, dword [byte ecx+eax-04h]
+        neg ecx
+        lea ecx, [nosplit ecx*8+020h]
+        shr eax, cl
+        mov ebp, eax
+        mov eax, dword [byte esp+03Ch]
+        mov ecx, 2
+        add eax, byte 4
+        mov eax, dword [byte ecx+eax-04h]
+        neg ecx
+        lea ecx, [nosplit ecx*8+020h]
+        shr eax, cl
+        mov esi, eax
+        mov dword [byte esp+010h], eax
+        mov eax, ebp
+        add eax, byte 0Ah
+        mov edx, dword [byte esp+040h]
+        mov dword [byte esp+020h], eax
+        test edx, edx
+        je near .2
+        push byte 10h
+        push edx
+        push str_SHPI2
+        call bcopy
+        add esp, byte 0Ch
+        push byte 4
+        mov ecx, dword [byte esp+024h]
+        mov eax, dword [byte esp+044h]
+        push ecx
+        add eax, byte 4
+        push eax
+        call PutBytesLE
+        add esp, byte 0Ch
+        push byte 4
+        mov eax, dword [byte esp+044h]
+        push esi
+        add eax, byte 8
+        push eax
+        call PutBytesLE
+        add esp, byte 0Ch
+        lea eax, [byte ebp-06h]
+        lea edi, [nosplit esi*8+00h]
+        mov ebp, dword [byte esp+040h]
+        sub eax, edi
+        add ebp, byte 10h
+        push eax
+        lea eax, [edi+ebp]
+        push eax
+        mov eax, dword [byte esp+044h]
+        add eax, byte 6
+        mov dword [byte esp+02Ch], eax
+        add eax, edi
+        push eax
+        call bcopy
+        add esp, byte 0Ch
+        xor eax, eax
+        mov dword [byte esp+018h], eax
+        test esi, esi
+        jle near .2
+        mov eax, dword [byte esp+040h]
+        mov dword [byte esp+014h], edi
+        mov dword [byte esp+028h], ebp
+        shl esi, 2
+        add eax, byte 14h
+        mov ebp, dword [byte esp+024h]
+        mov dword [byte esp+01Ch], eax
+        lea edi, [esi+ebp]
+.1:
+        mov ecx, 4
+        mov eax, edi
+        mov esi, dword [byte esp+014h]
+        mov eax, dword [byte ecx+eax-04h]
+        neg ecx
+        lea ecx, [nosplit ecx*8+020h]
+        shr eax, cl
+        push byte 4
+        add eax, byte 10h
+        mov ecx, 4
+        add esi, eax
+        mov eax, ebp
+        mov eax, dword [byte ecx+eax-04h]
+        neg ecx
+        lea ecx, [nosplit ecx*8+020h]
+        shr eax, cl
+        push eax
+        mov edx, dword [byte esp+030h]
+        push edx
+        call PutBytesLE
+        add esp, byte 0Ch
+        push byte 4
+        push esi
+        mov ebx, dword [byte esp+024h]
+        push ebx
+        call PutBytesLE
+        add esp, byte 0Ch
+        push byte 10h
+        lea eax, [byte esp+04h]
+        mov ecx, dword [byte esp+044h]
+        push eax
+        add esi, ecx
+        push esi
+        call bcopy
+        add esp, byte 0Ch
+        mov al, byte [byte esp+0Ch]
+        mov byte [esi], al
+        mov al, byte [byte esp+0Dh]
+        mov byte [byte esi+01h], al
+        mov al, byte [byte esp+0Eh]
+        mov byte [byte esi+02h], al
+        mov al, byte [byte esp+0Fh]
+        mov byte [byte esi+03h], al
+        mov al, byte [esp]
+        mov byte [byte esi+04h], al
+        mov al, byte [byte esp+01h]
+        mov byte [byte esi+05h], al
+        mov al, byte [byte esp+02h]
+        mov byte [byte esi+06h], al
+        mov al, byte [byte esp+03h]
+        mov byte [byte esi+07h], al
+        mov al, byte [byte esp+04h]
+        mov byte [byte esi+08h], al
+        mov al, byte [byte esp+05h]
+        mov byte [byte esi+09h], al
+        mov al, byte [byte esp+06h]
+        mov byte [byte esi+0Ah], al
+        mov al, byte [byte esp+07h]
+        mov byte [byte esi+0Bh], al
+        mov al, byte [byte esp+08h]
+        mov byte [byte esi+0Ch], al
+        add edi, byte 4
+        mov al, byte [byte esp+09h]
+        add ebp, byte 4
+        mov byte [byte esi+0Dh], al
+        mov edx, dword [byte esp+018h]
+        mov al, byte [byte esp+0Ah]
+        mov ebx, dword [byte esp+010h]
+        mov byte [byte esi+0Eh], al
+        inc edx
+        mov al, byte [byte esp+0Bh]
+        mov dword [byte esp+018h], edx
+        mov byte [byte esi+0Fh], al
+        mov esi, dword [byte esp+01Ch]
+        mov eax, dword [byte esp+028h]
+        add esi, byte 8
+        add eax, byte 8
+        mov dword [byte esp+01Ch], esi
+        mov dword [byte esp+028h], eax
+        cmp edx, ebx
+        jl near .1
+.2:
+        mov eax, dword [byte esp+020h]
+        add esp, byte 2Ch
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; ConvertShapeBankInPlace                         D0640  96 PC, low confidence
+; Converts a loaded shape bank in place
+;-----------------------------------------------------------------------------
+ConvertShapeBankInPlace:
+        push byte 0
+        mov edx, dword [byte esp+08h]
+        push edx
+        call ConvertShapeBank
+        add esp, byte 8
+        ret
+;-----------------------------------------------------------------------------
+; DrawTextCentredBoxed                            D0650  96 PC, low confidence
+; Draws a boxed string centred across the clip rectangle
+;-----------------------------------------------------------------------------
+DrawTextCentredBoxed:
+        push esi
+        push edi
+        mov ebx, dword [byte esp+0Ch]
+        mov esi, dword [DrawClipRight]
+        mov edx, dword [DrawClipLeft]
+        push ebx
+        sub esi, edx
+        call TextStringWidth
+        sub esi, eax
+        mov ecx, dword [DrawClipLeft]
+        mov eax, esi
+        add esp, byte 4
+        sar eax, 1
+        mov esi, dword [byte esp+010h]
+        add eax, ecx
+        push esi
+        inc eax
+        push eax
+        mov edi, dword [byte esp+014h]
+        push edi
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        pop edi
+        pop esi
+        ret

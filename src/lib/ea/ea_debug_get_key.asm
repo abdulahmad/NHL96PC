@@ -1,0 +1,3655 @@
+; EA library: DebugGetKey, MemViewer, MemViewerKeys, MemViewerOpenAlt, MemViewerListHead and 23 more.
+bits 32
+%include "hockey.inc"
+section s_D7DB0 progbits alloc exec nowrite align=1
+extern _dos_getdate_, _dos_gettime_, _os_handle, _os_handle_1, ClearClipRect, CompactDownLocked, CompactUpLocked, DebugClearScreen
+extern DebugPrintf, DebugRow, DebugSetAttr, DebugSetLine, DebugSetRow, DefaultFont, DrawArtAnyFormatAt, DrawArtAnyFormatOwnPos
+extern DrawRectOutline, DrawTextBoxedAt, DrawTextCentredBoxed, fclose_, FillRect, FillRectColor, FindFirstFile, FindShape
+extern FlushKeys, fopen_, fprintf_, GetPaletteRange, GraphicsReady, initgraphics, KbdGetKey, MarkBlockPurgeable
+extern MemBlockGuards, MemFreeBytes, MemFreeStart, memlist1, MemMapRulePtr, MemPoolBase, MemPoolSize, MemViewBlack
+extern MemViewCount, MemViewCursor, MemViewFlags, MemViewGreen, MemViewKey, MemViewLastMode, MemViewList, MemViewMode
+extern MemViewPrevSel, MemViewRed, MemViewRow, MemViewSavedRow, MemViewSavedTop, MemViewSel, MemViewShowDetail, MemViewStrings
+extern MemViewTitle, MemViewTop, MemViewWhite, MemViewYellow, min_, MonthNameTable, NearestColour, PaletteCursorColours
+extern PollHotkeys, PrintBoxedText, PushMemDescriptorLocked, PutBlock, PutBlockAtOwnPos, ResetClipWindow, RestoreDrawState, ReturnFalse
+extern SaveDrawState, SaveTextState, SelectBitmapHandle, SetClipWindow, SetDrawTarget, SetPaletteEntries, SetScreenTarget, SetTickDeadline
+extern ShapeBankCount, ShapeBankEntry, ShapeBankEntryId, ShowMessageBox, sprintf_, str_02d3s02d_FormatDateTime, str_02d_PaletteViewerLabel, str_02x
+extern str_033d022X, str_044X00000000, str_04x2, str_1212s10d8s8s, str_1212s10x8s8s, str_1_MemViewerBlockInfo, str_2d02d02d, str_33d1212s1010x88s88s44x
+extern str_33d1212s10d88s88s44x, str_3d3d3d3dS, str_44s05x, str_44s66ld, str_80s, str_ALIGNFlagIsSet, str_B022d, str_Bad
+extern str_BlockIsPURGABLE, str_Bytes3dRows3d, str_Bytes3dRows3d2, str_C, str_ConventionalMemory, str_CxCy3d3d, str_DATES2, str_ErrorDumpingMemoryMap
+extern str_ErrorDumpingShapesList, str_FF, str_FILES2, str_FourSpacesHex, str_G022d, str_HexmemdspOS, str_HIGHMemoryBlock, str_HW77xPool77xMax77xDOSHW77xDO
+extern str_HW7uPool7uMax7uDOSHW7uDOSPoo, str_IDXNAMESIZEADRFLAG, str_LOWMemoryBlock, str_MEMMANAGER, str_MEMSHPTXT, str_N_WriteMemMap, str_NAMESIZEADRFLAG, str_NonRelocatableBlock
+extern str_NotDrawn, str_NumberOfShapesD, str_NumDPackedD, str_Packed, str_PRIORITY1d, str_Punct_DumpShapesList, str_Punct_HexDumpRow, str_R022d
+extern str_RelocatableBlock, str_S9, str_S_MemViewerDrawList, str_SCREEN2, str_SequenceD, str_ShapeFileIsInvalid, str_ShapeFileName0, str_ShapeFileSizeLd
+extern str_ShapeIsInvalidDraw, str_SPACE1010x88s88s, str_SPACE10d88s88s, str_SPACE10d8s8s, str_SPACE10x8s8s, str_SPACE3, str_SpaceHex, str_Spacked
+extern str_SYSTEM, str_Tga, str_ThereAreNoShapes, str_TIMES3, str_Type02xNext05x, str_Un, str_Unpacked_ShapeInfo, str_Used77xFree77xLargst77x
+extern str_Used7uFree7u, str_W_DumpMemoryMap, str_X_DebugSprintf, str_XxMMAPTXT, str_XY3d3d, strncpy_, TextSetColor, TextSetFont
+extern ToUpperChar, ViewScreenHeight, ViewScreenWidth, WaitTickDeadline, WriteTgaScreen, XorRectOutline
+global DebugGetKey, MemViewer, MemViewerKeys, MemViewerOpenAlt, MemViewerListHead, MemViewerLoopNext, MemViewerLoop, MemViewerSelectRow
+global FormatBlockFlags, MemViewerDrawList, MemPoolTotals, MemViewerDrawTitle, DebugSprintf, MemViewerBlockInfo, MemViewerHexDump, HexDumpRow
+global WriteMemMap, DumpMemoryMap, ShapeViewer, ReadShapeFileHeader, ShapeInfo, DumpShapesList, PaletteViewer, PaletteViewerLabel
+global SaveScreenshot, MemViewerShowArt, FormatDateTime, NextFreeFileName
+;-----------------------------------------------------------------------------
+; DebugGetKey                                     D7DB0  96 PC, low confidence
+; Debug viewers: polls the hotkeys and returns the key pressed in upper case
+;-----------------------------------------------------------------------------
+DebugGetKey:
+        push ebx
+        push ecx
+        push edx
+        call PollHotkeys
+        push eax
+        call ToUpperChar
+        add esp, byte 4
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+        push ebx
+        push ecx
+        push edx
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; MemViewer                                       D7DE0  96 PC, low confidence
+; Debug memory viewer: saves the screen and text state and runs the viewer
+;-----------------------------------------------------------------------------
+MemViewer:
+        cmp dword [GraphicsReady], byte 9
+        jne short .1
+        push byte 0
+        push dword 0C8h
+        push dword 140h
+        call initgraphics
+        add esp, byte 0Ch
+.1:
+        mov eax, dword [MemViewLastMode]
+        LD mov, eax, eax
+.2:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        sub esp, 0CCh
+        mov esi, dword [MemViewCursor]
+        mov dword [dword esp+0B0h], eax
+        mov eax, esp
+        push eax
+        call SaveDrawState
+        add esp, byte 4
+        lea eax, [byte esp+060h]
+        push eax
+        call SaveTextState
+        add esp, byte 4
+        push DefaultFont
+        call TextSetFont
+        add esp, byte 4
+        mov al, byte [DebugRow]
+        push byte 0
+        mov byte [dword esp+0CCh], al
+        call DebugSetRow
+        mov edx, dword [GraphicsReady]
+        add esp, byte 4
+        test edx, edx
+        jne short .3
+        mov dword [dword esp+0B0h], 1
+.3:
+        push byte 0
+        call NearestColour
+        add esp, byte 4
+        push dword 0FFFFFFh
+        mov dword [MemViewBlack], eax
+        call NearestColour
+        add esp, byte 4
+        push dword 0FFFF54h
+        mov dword [MemViewWhite], eax
+        call NearestColour
+        add esp, byte 4
+        push dword 0D4A8h
+        mov dword [MemViewYellow], eax
+        call NearestColour
+        add esp, byte 4
+        push dword 0A80000h
+        mov dword [MemViewGreen], eax
+        call NearestColour
+        mov ebp, dword [MemViewSavedRow]
+        add esp, byte 4
+        mov dword [MemViewRed], eax
+        mov eax, dword [MemViewSavedTop]
+        mov ecx, dword [dword esp+0B0h]
+        mov dword [dword esp+0B4h], eax
+        test ecx, ecx
+        sete al
+        and eax, 0FFh
+        xor edi, edi
+        mov dword [dword esp+0BCh], eax
+        mov dword [dword esp+0B8h], edi
+;-----------------------------------------------------------------------------
+; MemViewerKeys                                   D7EF7  96 PC, low confidence
+; Debug memory viewer: reads a key and moves the cursor or runs a command
+;-----------------------------------------------------------------------------
+MemViewerKeys:
+        mov ebx, dword [dword esp+0B0h]
+        cmp ebx, dword [MemViewLastMode]
+        je short .4
+        mov eax, dword [dword esp+0B4h]
+        mov ecx, dword [dword esp+0BCh]
+        mov dword [MemViewSavedRow], ebp
+        mov dword [MemViewLastMode], ebx
+        mov dword [MemViewSavedTop], eax
+        test ecx, ecx
+        jne short .4
+        test ebx, ebx
+        sete al
+        and eax, 0FFh
+        mov dword [dword esp+0BCh], eax
+.4:
+        mov eax, 1
+        call MemViewerListHead
+        xor ebx, ebx
+        test eax, eax
+        je short .6
+.5:
+        mov eax, dword [byte eax+020h]
+        inc ebx
+        test eax, eax
+        jne short .5
+.6:
+        mov ecx, dword [dword esp+0B0h]
+        mov edx, dword [dword esp+0B4h]
+        inc ebx
+        mov eax, ebp
+        call MemViewerDrawList
+        mov edx, dword [dword esp+0B4h]
+        add edx, byte 14h
+        mov dword [dword esp+0C0h], eax
+        mov dword [dword esp+0C4h], edx
+        cmp eax, edx
+        jge short .7
+        mov dword [dword esp+0C4h], eax
+.7:
+        call PollHotkeys
+        push eax
+        call ToUpperChar
+        add esp, byte 4
+        mov edi, eax
+        test eax, eax
+        je short .7
+        mov esi, dword [MemViewCursor]
+        cmp eax, 4900h
+        jne short .9
+        mov ebx, dword [dword esp+0B4h]
+        cmp ebp, ebx
+        jne short .8
+        test ebx, ebx
+        jle short .8
+        lea ebp, [byte ebx-015h]
+        mov dword [dword esp+0B4h], ebp
+.8:
+        mov ebp, dword [dword esp+0B4h]
+.9:
+        cmp edi, 5100h
+        jne near MemViewerLoop
+        mov eax, dword [dword esp+0C4h]
+        cmp ebp, eax
+        je short MemViewerLoopNext
+        mov ebp, eax
+        jmp short MemViewerLoop
+        db 090h
+;-----------------------------------------------------------------------------
+; MemViewerOpenAlt                                D7FE8  96 PC, low confidence
+; Opens the debug memory viewer in its second display mode
+;-----------------------------------------------------------------------------
+MemViewerOpenAlt:
+        mov edx, 1
+        mov eax, edx
+        mov dword [MemViewLastMode], edx
+        jmp near MemViewer.2
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; MemViewerListHead                               D7FFC  96 PC, low confidence
+; Returns the head of the current memory list, or of its guard list
+;-----------------------------------------------------------------------------
+MemViewerListHead:
+        push ebx
+        push edx
+        mov ebx, eax
+        mov edx, dword [MemViewCursor]
+        lea eax, [nosplit edx*4+00h]
+        add eax, edx
+        shl eax, 2
+        cmp ebx, byte 1
+        jne short .1
+        mov eax, dword [dword eax+memlist1]
+        pop edx
+        pop ebx
+        ret
+.1:
+        mov eax, dword [dword eax+MemBlockGuards]
+        pop edx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; MemViewerLoopNext                               D8029  96 PC, low confidence
+; Debug memory viewer: pages the cursor down, then carries on in the command
+; loop
+;-----------------------------------------------------------------------------
+MemViewerLoopNext:
+        cmp eax, dword [dword esp+0C0h]
+        jge short MemViewerLoop
+        mov ebx, dword [dword esp+0B4h]
+        add ebx, byte 15h
+        lea ebp, [byte eax+015h]
+        mov dword [dword esp+0B4h], ebx
+;-----------------------------------------------------------------------------
+; MemViewerLoop                                   D8046  96 PC, low confidence
+; Debug memory viewer command loop: cursor keys, block info, hex dump,
+; shapes, palette, map dump and screenshots
+;-----------------------------------------------------------------------------
+MemViewerLoop:
+        cmp edi, 4800h
+        jne short .2
+        test ebp, ebp
+        jle short .2
+        mov ecx, dword [dword esp+0B4h]
+        dec ebp
+        cmp ebp, ecx
+        jge short .2
+        lea eax, [byte ecx-01h]
+        mov dword [dword esp+0B4h], eax
+.2:
+        cmp edi, 5000h
+        jne short .3
+        cmp ebp, dword [dword esp+0C0h]
+        jge short .3
+        mov ebx, dword [dword esp+0C4h]
+        inc ebp
+        cmp ebp, ebx
+        jle short .3
+        inc dword [dword esp+0B4h]
+.3:
+        cmp edi, 4700h
+        jne short .5
+        cmp ebp, dword [dword esp+0B4h]
+        jne short .4
+        xor edx, edx
+        mov dword [dword esp+0B4h], edx
+.4:
+        mov ebp, dword [dword esp+0B4h]
+.5:
+        cmp edi, 4F00h
+        jne short .7
+        mov ebx, dword [dword esp+0C0h]
+        cmp ebp, ebx
+        je short .7
+        mov ecx, dword [dword esp+0C4h]
+        cmp ebp, ecx
+        je short .6
+        mov ebp, ecx
+        jmp short .7
+.6:
+        lea eax, [byte ebx-014h]
+        mov dword [dword esp+0B4h], eax
+        mov ebp, ebx
+.7:
+        cmp edi, byte 1Bh
+        jne short .8
+        mov dword [dword esp+0B8h], 1
+.8:
+        mov dword [MemViewCursor], esi
+        cmp edi, byte 0Dh
+        jne short .9
+        mov ebx, dword [dword esp+0B0h]
+        mov edx, dword [MemViewPrevSel]
+        mov eax, dword [MemViewSel]
+        call MemViewerHexDump
+.9:
+        cmp edi, byte 43h
+        jne short .10
+        call SetScreenTarget
+        mov eax, dword [MemViewBlack]
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+.10:
+        mov esi, dword [MemViewCursor]
+        cmp edi, byte 46h
+        jne short .11
+        xor edx, edx
+        mov dword [MemFreeBytes], edx
+.11:
+        cmp edi, byte 44h
+        jne short .12
+        xor byte [MemViewShowDetail], 1
+.12:
+        mov dword [MemViewCursor], esi
+        cmp edi, byte 42h
+        jne short .13
+        mov ebx, dword [dword esp+0B0h]
+        mov edx, dword [MemViewKey]
+        mov eax, dword [MemViewFlags]
+        call MemViewerBlockInfo
+.13:
+        cmp edi, byte 3Eh
+        jne short .14
+        call CompactDownLocked
+.14:
+        cmp edi, byte 3Ch
+        jne short .15
+        call CompactUpLocked
+.15:
+        cmp edi, byte 4Dh
+        jne short .16
+        call DebugClearScreen
+.16:
+        cmp edi, byte 50h
+        je short .17
+        cmp edi, byte 20h
+        jne short .18
+.17:
+        call DumpMemoryMap
+.18:
+        cmp edi, byte 53h
+        je short .19
+        cmp edi, byte 5Bh
+        je short .19
+        cmp edi, byte 5Dh
+        je short .19
+        cmp edi, 4B00h
+        je short .19
+        cmp edi, 4D00h
+        jne short .22
+.19:
+        test byte [MemViewFlags+1], 80h
+        jne short .20
+        mov ebx, dword [dword esp+0B0h]
+        mov edx, dword [MemViewPrevSel]
+        mov eax, dword [MemViewSel]
+        mov ecx, edi
+        call ShapeViewer
+        jmp short .22
+.20:
+        mov esi, dword [MemViewCursor]
+.21:
+        inc esi
+        and esi, byte 7
+        imul eax, esi, byte 14h
+        cmp dword [dword eax+memlist1], byte 0
+        je short .21
+        mov dword [MemViewCursor], esi
+        xor ecx, ecx
+        xor ebp, ebp
+        mov dword [dword esp+0B4h], ecx
+.22:
+        cmp edi, byte 56h
+        jne short .23
+        call SaveScreenshot
+.23:
+        cmp edi, byte 54h
+        jne short .24
+        mov eax, dword [dword esp+0B0h]
+        call PaletteViewer
+.24:
+        cmp edi, byte 57h
+        jne short .25
+        mov edx, dword [dword esp+0B0h]
+        mov eax, dword [MemViewSel]
+        call MemViewerShowArt
+.25:
+        mov esi, dword [MemViewCursor]
+        cmp edi, byte 41h
+        jne short .26
+        xor byte [dword esp+0B0h], 1
+.26:
+        cmp edi, byte 9
+        jne short .27
+        xor byte [dword esp+0B0h], 1
+.27:
+        mov dword [MemViewCursor], esi
+        cmp edi, 5300h
+        jne short .28
+        test byte [MemViewFlags+1], 80h
+        jne short .28
+        mov eax, dword [MemViewMode]
+        push eax
+        call PushMemDescriptorLocked
+        add esp, byte 4
+.28:
+        cmp edi, 5200h
+        jne short .29
+        test byte [MemViewFlags+1], 80h
+        jne short .29
+        mov ebx, 0Ch
+        lea eax, [dword esp+0A0h]
+        mov edx, dword [MemViewCount]
+        call strncpy_
+        mov edx, dword [MemViewMode]
+        xor ch, ch
+        push edx
+        mov byte [dword esp+0B0h], ch
+        call MarkBlockPurgeable
+        add esp, byte 4
+.29:
+        mov eax, dword [dword esp+0B4h]
+        mov ebx, dword [dword esp+0C0h]
+        mov esi, dword [MemViewCursor]
+        cmp eax, ebx
+        jle short .30
+        sub eax, byte 15h
+        mov ebp, ebx
+        mov dword [dword esp+0B4h], eax
+        jmp short .31
+.30:
+        test eax, eax
+        jge short .31
+        xor edi, edi
+        xor ebp, ebp
+        mov dword [dword esp+0B4h], edi
+.31:
+        mov edx, dword [dword esp+0C0h]
+        cmp ebp, edx
+        jle short .32
+        mov ebp, edx
+.32:
+        mov eax, dword [dword esp+0B8h]
+        mov dword [MemViewCursor], esi
+        test eax, eax
+        je near MemViewerKeys
+        mov eax, dword [dword esp+0B4h]
+        mov dword [MemViewSavedRow], ebp
+        mov dword [MemViewSavedTop], eax
+        call FlushKeys
+        cmp dword [dword esp+0BCh], byte 0
+        je short .33
+        call SetScreenTarget
+        mov eax, dword [MemViewBlack]
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+.33:
+        xor eax, eax
+        mov al, byte [dword esp+0C8h]
+        push eax
+        call DebugSetRow
+        add esp, byte 4
+        lea eax, [byte esp+060h]
+        push eax
+        call SetDrawTarget
+        add esp, byte 4
+        mov eax, esp
+        push eax
+        call RestoreDrawState
+        mov esi, dword [MemViewCursor]
+        add esp, byte 4
+        add esp, 0CCh
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+        push ebx
+        push edx
+        mov ebx, dword [MemViewCursor]
+        lea eax, [nosplit ebx*4+00h]
+        add eax, ebx
+        mov ebx, dword [nosplit eax*4+memlist1]
+        xor edx, edx
+        mov eax, ebx
+        test ebx, ebx
+        je short .35
+.34:
+        mov eax, dword [byte eax+020h]
+        inc edx
+        test eax, eax
+        jne short .34
+.35:
+        lea eax, [byte edx+01h]
+        pop edx
+        pop ebx
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; MemViewerSelectRow                              D83B8  96 PC, low confidence
+; Debug memory viewer: records the block on the cursor row while drawing the
+; list
+;-----------------------------------------------------------------------------
+MemViewerSelectRow:
+        cmp edx, byte 2
+        je short .4
+        cmp eax, ebx
+        jl short .1
+        add ebx, byte 15h
+        cmp eax, ebx
+        jl short .2
+.1:
+        mov eax, 1
+        ret 10h
+.2:
+        cmp eax, ecx
+        jne short .3
+        mov eax, dword [MemViewWhite]
+        mov dword [MemViewRow], eax
+        mov eax, dword [byte esp+04h]
+        mov dword [MemViewSel], eax
+        mov eax, dword [byte esp+08h]
+        mov dword [MemViewPrevSel], eax
+        mov eax, dword [byte esp+0Ch]
+        mov ebx, 70h
+        mov dword [MemViewFlags], eax
+        mov eax, dword [byte esp+010h]
+        mov dword [MemViewTop], ebx
+        mov dword [MemViewKey], eax
+        xor eax, eax
+        ret 10h
+.3:
+        mov eax, dword [MemViewBlack]
+        mov edx, 7
+        mov dword [MemViewRow], eax
+        mov dword [MemViewTop], edx
+.4:
+        xor eax, eax
+        ret 10h
+;-----------------------------------------------------------------------------
+; FormatBlockFlags                                D842C  96 PC, low confidence
+; Writes a memory block's flag letters (h, r, p and others) into a string
+;-----------------------------------------------------------------------------
+FormatBlockFlags:
+        push ebx
+        test al, 20h
+        je short .1
+        mov ebx, 68h
+        jmp short .2
+.1:
+        mov ebx, 20h
+.2:
+        mov byte [edx], bl
+        test al, 10h
+        je short .3
+        mov ebx, 72h
+        jmp short .4
+.3:
+        mov ebx, 20h
+.4:
+        mov byte [byte edx+01h], bl
+        test al, 8
+        je short .5
+        mov ebx, 70h
+        jmp short .6
+.5:
+        mov ebx, 20h
+.6:
+        mov byte [byte edx+02h], bl
+        test al, 40h
+        je short .7
+        mov ebx, 61h
+        jmp short .8
+.7:
+        mov ebx, 20h
+.8:
+        mov byte [byte edx+03h], bl
+        test ah, 80h
+        je short .9
+        mov ebx, 73h
+        jmp short .10
+.9:
+        mov ebx, 20h
+.10:
+        mov byte [byte edx+07h], 0
+        mov byte [byte edx+04h], bl
+        mov bl, al
+        shr eax, 8
+        and bl, 7
+        and eax, byte 7
+        add bl, 30h
+        add eax, byte 30h
+        mov byte [byte edx+05h], bl
+        mov byte [byte edx+06h], al
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; MemViewerDrawList                               D84AC  96 PC, low confidence
+; Debug memory viewer: draws the memory totals and the list of blocks
+;-----------------------------------------------------------------------------
+MemViewerDrawList:
+        push esi
+        push edi
+        push ebp
+        mov ebp, esp
+        sub esp, 158h
+        sub ebp, 82h
+        mov dword [byte ebp+076h], eax
+        mov dword [byte ebp+07Ah], edx
+        mov dword [byte ebp+072h], ebx
+        mov dword [byte ebp+07Eh], ecx
+        lea ecx, [byte ebp+05Ah]
+        lea ebx, [byte ebp+062h]
+        lea edx, [byte ebp+066h]
+        lea eax, [byte ebp+05Eh]
+        call MemPoolTotals
+        mov edx, dword [MemPoolSize]
+        mov eax, dword [byte ebp+05Eh]
+        push edx
+        mov ebx, dword [MemFreeStart]
+        mov ecx, dword [MemFreeBytes]
+        push ebx
+        sub eax, ecx
+        push eax
+        mov esi, dword [byte ebp+05Eh]
+        push esi
+        mov eax, dword [MemViewShowDetail]
+        push ecx
+        test eax, eax
+        je short .1
+        mov eax, str_HW77xPool77xMax77xDOSHW77xDO
+        jmp short .2
+.1:
+        mov eax, str_HW7uPool7uMax7uDOSHW7uDOSPoo
+.2:
+        push eax
+        lea eax, [byte ebp-02Eh]
+        push eax
+        call sprintf_
+        add esp, byte 1Ch
+        mov edx, dword [byte ebp+05Ah]
+        push edx
+        mov ebx, dword [byte ebp+062h]
+        push ebx
+        mov ecx, dword [byte ebp+066h]
+        mov esi, dword [MemViewShowDetail]
+        push ecx
+        test esi, esi
+        je short .3
+        mov eax, str_Used77xFree77xLargst77x
+        jmp short .4
+.3:
+        mov eax, str_Used7uFree7u
+.4:
+        push eax
+        lea eax, [dword ebp-082h]
+        push eax
+        mov edi, dword [byte ebp+07Eh]
+        call sprintf_
+        add esp, byte 14h
+        test edi, edi
+        jne near .5
+        mov ecx, 0Ah
+        lea edi, [dword ebp-0D6h]
+        mov esi, str_NAMESIZEADRFLAG
+        rep movsd
+        movsb
+        call SetScreenTarget
+        mov edi, dword [MemViewBlack]
+        push edi
+        mov eax, dword [MemViewYellow]
+        push eax
+        call TextSetColor
+        add esp, byte 8
+        mov edx, dword [MemViewBlack]
+        push edx
+        push byte 0
+        mov ebx, dword [ViewScreenWidth]
+        push ebx
+        push byte 0
+        push byte 0
+        call FillRect
+        add esp, byte 14h
+        push byte 0
+        push byte 0
+        lea eax, [byte ebp-02Eh]
+        push eax
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        call ReturnFalse
+        mov ecx, dword [MemViewBlack]
+        push ecx
+        push byte 1
+        mov esi, dword [ViewScreenWidth]
+        push esi
+        push byte 8
+        push byte 0
+        call FillRect
+        add esp, byte 14h
+        push byte 9
+        push byte 0
+        lea eax, [dword ebp-082h]
+        push eax
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        call ReturnFalse
+        mov edi, dword [MemViewBlack]
+        push edi
+        push byte 1
+        mov eax, dword [ViewScreenWidth]
+        push eax
+        push byte 11h
+        push byte 0
+        call FillRect
+        add esp, byte 14h
+        push byte 12h
+        push byte 0
+        lea eax, [dword ebp-0D6h]
+        push eax
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        call ReturnFalse
+        mov edx, dword [MemViewBlack]
+        push edx
+        push byte 2
+        mov ebx, dword [ViewScreenWidth]
+        push ebx
+        push byte 1Ah
+        push byte 0
+        call FillRect
+        add esp, byte 14h
+        call ReturnFalse
+        jmp near .7
+.5:
+        mov ecx, 0Ah
+        lea edi, [dword ebp-0D6h]
+        mov esi, str_IDXNAMESIZEADRFLAG
+        mov eax, dword [byte ebp+07Eh]
+        rep movsd
+        movsw
+        movsb
+        cmp eax, byte 1
+        jne short .6
+        push byte 0Bh
+        push str_C
+        call DebugPrintf
+        add esp, byte 8
+        lea eax, [byte ebp-02Eh]
+        push eax
+        push str_80s
+        push byte 0
+        push byte 0
+        call DebugSetLine
+        add esp, byte 10h
+        lea eax, [dword ebp-082h]
+        push eax
+        push str_80s
+        push byte 1
+        push byte 0
+        call DebugSetLine
+        add esp, byte 10h
+        lea eax, [dword ebp-0D6h]
+        push eax
+        push str_80s
+        push byte 2
+        push byte 0
+        call DebugSetLine
+        add esp, byte 10h
+        push MemViewStrings
+        push str_80s
+        push byte 3
+        push byte 0
+        call DebugSetLine
+        add esp, byte 10h
+        jmp short .7
+.6:
+        cmp eax, byte 2
+        jne short .7
+        lea eax, [byte ebp-02Eh]
+        push eax
+        push str_S9
+        mov ebx, dword [MemViewList]
+        push ebx
+        call fprintf_
+        add esp, byte 0Ch
+        lea eax, [dword ebp-082h]
+        push eax
+        push str_S9
+        mov ecx, dword [MemViewList]
+        push ecx
+        call fprintf_
+        add esp, byte 0Ch
+        lea eax, [dword ebp-0D6h]
+        push eax
+        push str_S_MemViewerDrawList
+        mov esi, dword [MemViewList]
+        push esi
+        call fprintf_
+        add esp, byte 0Ch
+.7:
+        mov ecx, dword [byte ebp+072h]
+        xor esi, esi
+        xor edi, edi
+        test ecx, ecx
+        jle near .25
+.8:
+        lea eax, [byte ebp+056h]
+        push eax
+        lea eax, [byte ebp+042h]
+        push eax
+        lea eax, [byte ebp+046h]
+        lea ecx, [byte ebp+04Eh]
+        push eax
+        lea eax, [byte ebp+04Ah]
+        lea ebx, [byte ebp+03Eh]
+        push eax
+        lea edx, [byte ebp+052h]
+        mov eax, edi
+        call MemViewerDrawTitle
+        mov eax, dword [byte ebp+03Eh]
+        mov edx, dword [byte ebp+056h]
+        cmp eax, edx
+        je near .16
+        push byte 0
+        push dword 0A000h
+        sub eax, edx
+        push eax
+        mov ecx, dword [byte ebp+076h]
+        mov ebx, dword [byte ebp+07Ah]
+        push edx
+        mov eax, esi
+        mov edx, dword [byte ebp+07Eh]
+        call MemViewerSelectRow
+        test eax, eax
+        jne near .15
+        lea edx, [byte ebp+032h]
+        mov eax, dword [byte ebp+056h]
+        call DebugSprintf
+        lea edx, [byte ebp+026h]
+        mov eax, dword [byte ebp+046h]
+        call FormatBlockFlags
+        mov eax, dword [byte ebp+03Eh]
+        mov edx, dword [byte ebp+056h]
+        mov ebx, dword [byte ebp+07Eh]
+        sub eax, edx
+        test ebx, ebx
+        jne short .11
+        lea edx, [byte ebp+026h]
+        push edx
+        lea edx, [byte ebp+032h]
+        push edx
+        mov ebx, dword [MemViewShowDetail]
+        push eax
+        test ebx, ebx
+        je short .9
+        mov eax, str_SPACE10x8s8s
+        jmp short .10
+.9:
+        mov eax, str_SPACE10d8s8s
+.10:
+        push eax
+        lea eax, [byte ebp-02Eh]
+        push eax
+        call sprintf_
+        add esp, byte 14h
+        mov ecx, dword [MemViewRed]
+        push ecx
+        mov eax, dword [MemViewRow]
+        push eax
+        call TextSetColor
+        mov edx, dword [byte ebp+07Ah]
+        mov eax, esi
+        sub eax, edx
+        shl eax, 3
+        add esp, byte 8
+        add eax, byte 1Ch
+        push eax
+        push byte 0
+        lea eax, [byte ebp-02Eh]
+        push eax
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        call ReturnFalse
+        jmp near .15
+.11:
+        lea edx, [byte ebp+026h]
+        push edx
+        lea edx, [byte ebp+032h]
+        push edx
+        mov ecx, dword [MemViewShowDetail]
+        push eax
+        test ecx, ecx
+        je short .12
+        mov eax, str_SPACE1010x88s88s
+        jmp short .13
+.12:
+        mov eax, str_SPACE10d88s88s
+.13:
+        push eax
+        lea eax, [byte ebp-02Eh]
+        push eax
+        call sprintf_
+        mov eax, dword [byte ebp+07Eh]
+        add esp, byte 14h
+        cmp eax, byte 1
+        jne short .14
+        mov ecx, dword [MemViewTop]
+        push ecx
+        call DebugSetAttr
+        add esp, byte 4
+        lea eax, [byte ebp-02Eh]
+        mov edx, dword [byte ebp+07Ah]
+        push eax
+        mov eax, esi
+        sub eax, edx
+        push str_80s
+        add eax, byte 4
+        push eax
+        push byte 0
+        call DebugSetLine
+        add esp, byte 10h
+        jmp short .15
+.14:
+        cmp eax, byte 2
+        jne short .15
+        lea eax, [byte ebp-02Eh]
+        push eax
+        push str_S9
+        mov ebx, dword [MemViewList]
+        push ebx
+        call fprintf_
+        add esp, byte 0Ch
+.15:
+        inc esi
+.16:
+        mov ebx, dword [byte ebp+042h]
+        push ebx
+        mov ecx, dword [byte ebp+046h]
+        push ecx
+        mov eax, dword [byte ebp+04Ah]
+        mov edx, dword [byte ebp+03Eh]
+        push eax
+        mov ebx, dword [byte ebp+07Ah]
+        mov ecx, dword [byte ebp+076h]
+        push edx
+        mov eax, esi
+        mov edx, dword [byte ebp+07Eh]
+        call MemViewerSelectRow
+        test eax, eax
+        jne near .24
+        cmp esi, dword [byte ebp+076h]
+        jne short .17
+        mov eax, dword [MemViewTitle]
+        mov dword [MemViewMode], eax
+        add eax, byte 4
+        mov dword [MemViewCount], eax
+.17:
+        lea edx, [byte ebp+032h]
+        mov eax, dword [byte ebp+03Eh]
+        call DebugSprintf
+        lea edx, [byte ebp+026h]
+        mov eax, dword [byte ebp+046h]
+        mov ecx, dword [byte ebp+07Eh]
+        call FormatBlockFlags
+        test ecx, ecx
+        jne short .20
+        lea eax, [byte ebp+026h]
+        push eax
+        lea eax, [byte ebp+032h]
+        push eax
+        mov ebx, dword [byte ebp+04Ah]
+        push ebx
+        mov ecx, dword [byte ebp+052h]
+        mov eax, dword [MemViewShowDetail]
+        push ecx
+        test eax, eax
+        je short .18
+        mov eax, str_1212s10x8s8s
+        jmp short .19
+.18:
+        mov eax, str_1212s10d8s8s
+.19:
+        push eax
+        lea eax, [dword ebp-082h]
+        push eax
+        call sprintf_
+        add esp, byte 18h
+        mov edx, dword [MemViewRow]
+        push edx
+        mov ebx, dword [MemViewGreen]
+        push ebx
+        call TextSetColor
+        mov ecx, dword [byte ebp+07Ah]
+        mov eax, esi
+        sub eax, ecx
+        shl eax, 3
+        add esp, byte 8
+        add eax, byte 1Ch
+        push eax
+        push byte 0
+        lea eax, [dword ebp-082h]
+        push eax
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        call ReturnFalse
+        jmp near .24
+.20:
+        mov eax, dword [byte ebp+046h]
+        push eax
+        lea eax, [byte ebp+026h]
+        push eax
+        lea eax, [byte ebp+032h]
+        push eax
+        mov edx, dword [byte ebp+04Ah]
+        push edx
+        mov ebx, dword [byte ebp+052h]
+        push ebx
+        mov ecx, dword [MemViewShowDetail]
+        push edi
+        test ecx, ecx
+        je short .21
+        mov eax, str_33d1212s1010x88s88s44x
+        jmp short .22
+.21:
+        mov eax, str_33d1212s10d88s88s44x
+.22:
+        push eax
+        lea eax, [dword ebp-082h]
+        push eax
+        call sprintf_
+        mov eax, dword [byte ebp+07Eh]
+        add esp, byte 20h
+        cmp eax, byte 1
+        jne short .23
+        mov ecx, dword [MemViewTop]
+        push ecx
+        call DebugSetAttr
+        add esp, byte 4
+        lea eax, [dword ebp-082h]
+        mov edx, dword [byte ebp+07Ah]
+        push eax
+        mov eax, esi
+        sub eax, edx
+        push str_80s
+        add eax, byte 4
+        push eax
+        push byte 0
+        call DebugSetLine
+        add esp, byte 10h
+        push byte 7
+        call DebugSetAttr
+        add esp, byte 4
+        jmp short .24
+.23:
+        cmp eax, byte 2
+        jne short .24
+        lea eax, [dword ebp-082h]
+        push eax
+        push str_S9
+        mov ebx, dword [MemViewList]
+        push ebx
+        call fprintf_
+        add esp, byte 0Ch
+.24:
+        mov eax, dword [byte ebp+072h]
+        inc edi
+        inc esi
+        cmp edi, eax
+        jl near .8
+.25:
+        mov eax, dword [byte ebp+07Ah]
+        add eax, byte 15h
+        mov edx, dword [byte ebp+07Eh]
+        mov dword [byte ebp+06Ah], eax
+        test edx, edx
+        jne short .28
+        cmp esi, eax
+        jge short .26
+        mov ecx, dword [byte ebp+07Ah]
+        mov eax, esi
+        sub eax, ecx
+        mov ebx, dword [ViewScreenHeight]
+        shl eax, 3
+        push ebx
+        add eax, byte 1Ch
+        push eax
+        mov edi, dword [ViewScreenWidth]
+        push edi
+        push edx
+        jmp short .27
+.26:
+        mov eax, dword [ViewScreenHeight]
+        push eax
+        push dword 0C4h
+        mov edx, dword [ViewScreenWidth]
+        push edx
+        push byte 0
+.27:
+        call SetClipWindow
+        add esp, byte 10h
+        mov eax, dword [MemViewBlack]
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+        call ResetClipWindow
+        jmp short .30
+.28:
+        cmp edx, byte 1
+        jne short .30
+        push byte 7
+        call DebugSetAttr
+        mov ecx, dword [byte ebp+06Ah]
+        add esp, byte 4
+        cmp esi, ecx
+        jge short .30
+        mov eax, dword [byte ebp+07Ah]
+        lea edi, [byte esi+04h]
+        neg eax
+        lea edx, [byte ecx+04h]
+        add edi, eax
+        add eax, edx
+        mov dword [byte ebp+06Eh], eax
+.29:
+        push MemViewStrings
+        push str_80s
+        push edi
+        push byte 0
+        call DebugSetLine
+        inc edi
+        mov eax, dword [byte ebp+06Eh]
+        add esp, byte 10h
+        cmp edi, eax
+        jl short .29
+.30:
+        lea eax, [byte esi-01h]
+        lea esp, [dword ebp+082h]
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; MemPoolTotals                                   D8AC4  96 PC, low confidence
+; Adds up the used, free and largest free sizes of the current memory list
+;-----------------------------------------------------------------------------
+MemPoolTotals:
+        push esi
+        push edi
+        push ebp
+        mov ebp, eax
+        mov esi, edx
+        mov edi, ebx
+        mov edx, dword [MemViewCursor]
+        lea eax, [nosplit edx*4+00h]
+        add eax, edx
+        mov eax, dword [nosplit eax*4+memlist1]
+        mov ebx, eax
+        mov eax, dword [byte eax+020h]
+        mov dword [ecx], 0
+        mov edx, dword [ecx]
+        mov dword [edi], edx
+        mov dword [esi], edx
+        mov dword [byte ebp+00h], edx
+        test eax, eax
+        je short .4
+.1:
+        mov edx, dword [eax]
+        sub edx, dword [ebx]
+        sub edx, dword [byte ebx+010h]
+        test byte [byte eax+019h], 80h
+        jne short .2
+        mov ebx, dword [byte eax+010h]
+        add dword [esi], ebx
+.2:
+        add dword [edi], edx
+        cmp edx, dword [ecx]
+        jbe short .3
+        mov dword [ecx], edx
+.3:
+        mov ebx, eax
+        mov eax, dword [byte eax+020h]
+        test eax, eax
+        jne short .1
+.4:
+        mov eax, dword [esi]
+        mov ecx, dword [edi]
+        add eax, ecx
+        mov dword [byte ebp+00h], eax
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; MemViewerDrawTitle                              D8B2C  96 PC, low confidence
+; Debug memory viewer: draws the "MEM MANAGER" title bar
+;-----------------------------------------------------------------------------
+MemViewerDrawTitle:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 4
+        mov esi, dword [MemViewTitle]
+        mov edi, eax
+        mov eax, dword [MemViewCursor]
+        mov dword [esp], eax
+        mov ebp, dword [esp]
+        shl eax, 2
+        add eax, ebp
+        shl eax, 2
+        test edi, edi
+        jne short .1
+        mov dword [edx], str_MEMMANAGER
+        mov edx, dword [MemPoolBase]
+        mov dword [ebx], edx
+        mov eax, dword [dword eax+memlist1]
+        mov eax, dword [eax]
+        sub eax, edx
+        mov edx, dword [byte esp+014h]
+        mov dword [ecx], eax
+        mov dword [edx], eax
+        mov eax, dword [byte esp+018h]
+        mov dword [eax], 8000h
+        mov eax, dword [byte esp+01Ch]
+        xor esi, esi
+        mov dword [eax], esi
+        jmp short .4
+.1:
+        test esi, esi
+        je short .2
+        mov esi, dword [byte esi+020h]
+        jmp short .3
+.2:
+        mov esi, dword [dword eax+memlist1]
+.3:
+        mov eax, esi
+        lea ebp, [byte esi+04h]
+        mov dword [edx], ebp
+        mov edx, dword [esi]
+        mov dword [ebx], edx
+        mov edx, dword [byte esi+010h]
+        mov dword [ecx], edx
+        mov ecx, dword [byte esp+014h]
+        mov edx, dword [byte esi+014h]
+        mov dword [ecx], edx
+        mov ecx, dword [byte esp+018h]
+        mov edx, dword [byte esi+018h]
+        mov dword [ecx], edx
+        mov edx, dword [byte esp+01Ch]
+        mov dword [edx], 0
+        cmp edi, byte 1
+        jle short .4
+        mov edx, dword [byte esi+024h]
+        mov eax, dword [edx]
+        mov ebx, dword [byte edx+010h]
+        mov edx, dword [byte esp+020h]
+        add eax, ebx
+        jmp short .5
+.4:
+        mov edx, dword [byte esp+020h]
+        mov eax, dword [ebx]
+.5:
+        mov dword [edx], eax
+        mov dword [MemViewTitle], esi
+        add esp, byte 4
+        pop ebp
+        pop edi
+        pop esi
+        ret 10h
+;-----------------------------------------------------------------------------
+; DebugSprintf                                    D8BEC  96 PC, low confidence
+; Formats a string through sprintf for the debug viewers
+;-----------------------------------------------------------------------------
+DebugSprintf:
+        push eax
+        push str_X_DebugSprintf
+        push edx
+        call sprintf_
+        add esp, byte 0Ch
+        ret
+;-----------------------------------------------------------------------------
+; MemViewerBlockInfo                              D8BFC  96 PC, low confidence
+; Debug memory viewer: shows a popup describing a memory block's flags
+;-----------------------------------------------------------------------------
+MemViewerBlockInfo:
+        push ecx
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 0Ch
+        mov dword [byte esp+08h], eax
+        mov dword [byte esp+04h], edx
+        mov dword [esp], ebx
+        call SetScreenTarget
+        mov edx, dword [MemViewWhite]
+        push edx
+        push dword 0A4h
+        push dword 111h
+        push byte 37h
+        push byte 2Eh
+        call DrawRectOutline
+        add esp, byte 14h
+        mov ebx, dword [MemViewRed]
+        push ebx
+        push dword 0A3h
+        push dword 110h
+        push byte 38h
+        push byte 2Fh
+        call DrawRectOutline
+        add esp, byte 14h
+        mov ecx, dword [MemViewBlack]
+        push ecx
+        push byte 6Ah
+        push dword 0E0h
+        push byte 39h
+        push byte 30h
+        call FillRect
+        add esp, byte 14h
+        mov esi, dword [MemViewBlack]
+        push esi
+        mov edi, dword [MemViewYellow]
+        push edi
+        call TextSetColor
+        add esp, byte 8
+        mov ebp, dword [byte esp+08h]
+        push ebp
+        push str_044X00000000
+        push byte 3Dh
+        push byte 38h
+        call PrintBoxedText
+        add esp, byte 10h
+        xor esi, esi
+        mov edi, 0F8h
+        call ReturnFalse
+.1:
+        test ebp, 1
+        je short .2
+        push byte 3Dh
+        push edi
+        push str_1_MemViewerBlockInfo
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        call ReturnFalse
+.2:
+        mov ebx, 4
+        mov edx, esi
+        mov eax, esi
+        sar edx, 1Fh
+        idiv ebx
+        sar ebp, 1
+        sub edi, byte 8
+        cmp edx, byte 3
+        jne short .3
+        sub edi, byte 8
+.3:
+        inc esi
+        cmp esi, byte 10h
+        jl short .1
+        mov eax, dword [MemViewRed]
+        push eax
+        mov edx, dword [MemViewBlack]
+        push edx
+        call TextSetColor
+        add esp, byte 8
+        mov edi, 50h
+        mov ah, byte [byte esp+09h]
+        mov esi, 4Dh
+        test ah, 80h
+        je short .4
+        mov ebx, dword [MemViewRed]
+        push ebx
+        push byte 4Ch
+        push dword 8Fh
+        push byte 4Ch
+        push edi
+        call FillRectColor
+        add esp, byte 14h
+        push esi
+        push edi
+        push str_SYSTEM
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        mov esi, 55h
+        call ReturnFalse
+.4:
+        test byte [byte esp+09h], 20h
+        je short .5
+        mov ecx, dword [MemViewRed]
+        push ecx
+        lea eax, [byte esi-01h]
+        push eax
+        lea edx, [byte edi+037h]
+        push edx
+        push eax
+        push edi
+        call FillRectColor
+        add esp, byte 14h
+        push esi
+        push edi
+        push str_SPACE3
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        add esi, byte 8
+        call ReturnFalse
+.5:
+        test byte [byte esp+09h], 0A0h
+        je short .6
+        add esi, byte 8
+.6:
+        mov ebp, dword [MemViewBlack]
+        push ebp
+        mov eax, dword [MemViewWhite]
+        push eax
+        call TextSetColor
+        add esp, byte 8
+        mov bl, byte [byte esp+08h]
+        lea ebp, [byte esi+0Ah]
+        test bl, 20h
+        je short .7
+        push esi
+        push edi
+        push str_HIGHMemoryBlock
+        jmp short .8
+.7:
+        push esi
+        push edi
+        push str_LOWMemoryBlock
+.8:
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        mov esi, ebp
+        call ReturnFalse
+        push esi
+        push edi
+        push str_ConventionalMemory
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        lea ebp, [byte esi+014h]
+        call ReturnFalse
+        mov bh, byte [byte esp+08h]
+        add esi, byte 0Ah
+        test bh, 10h
+        je short .9
+        push esi
+        push edi
+        push str_RelocatableBlock
+        jmp short .10
+.9:
+        push esi
+        push edi
+        push str_NonRelocatableBlock
+.10:
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        mov esi, ebp
+        call ReturnFalse
+        test byte [byte esp+08h], 40h
+        je short .11
+        push esi
+        push edi
+        push str_ALIGNFlagIsSet
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        add esi, byte 0Ah
+        call ReturnFalse
+.11:
+        test byte [byte esp+08h], 0Fh
+        je short .12
+        mov eax, dword [byte esp+08h]
+        and eax, byte 7
+        push eax
+        push str_PRIORITY1d
+        push esi
+        push edi
+        call PrintBoxedText
+        add esp, byte 10h
+        add esi, byte 0Ah
+        call ReturnFalse
+.12:
+        mov edx, dword [byte esp+04h]
+        push edx
+        push str_SequenceD
+        push esi
+        push edi
+        call PrintBoxedText
+        add esp, byte 10h
+        call ReturnFalse
+        mov al, byte [byte esp+08h]
+        add esi, byte 0Ah
+        test al, 8
+        je short .13
+        push esi
+        push edi
+        push str_BlockIsPURGABLE
+        call DrawTextBoxedAt
+        add esp, byte 0Ch
+        call ReturnFalse
+.13:
+        cmp dword [esp], byte 0
+        jne short .15
+        call ReturnFalse
+        call FlushKeys
+.14:
+        call DebugGetKey
+        test eax, eax
+        je short .14
+.15:
+        add esp, byte 0Ch
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; MemViewerHexDump                                D8E98  96 PC, low confidence
+; Debug memory viewer: hex dump of a memory block with paging keys
+;-----------------------------------------------------------------------------
+MemViewerHexDump:
+        push ecx
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 34h
+        mov dword [byte esp+08h], eax
+        test edx, edx
+        jne short .1
+        call DebugClearScreen
+        jmp near .37
+.1:
+        mov eax, edx
+        shr eax, 4
+        mov dword [byte esp+024h], eax
+        test dl, 0Fh
+        je short .2
+        lea edx, [byte eax+01h]
+        mov dword [byte esp+024h], edx
+.2:
+        mov edx, dword [byte esp+024h]
+        mov eax, 19h
+        call min_
+        xor esi, esi
+        xor ebp, ebp
+        xor edi, edi
+        mov eax, dword [byte esp+024h]
+        mov dword [byte esp+028h], esi
+        mov dword [byte esp+020h], esi
+        sub eax, byte 19h
+        mov dword [byte esp+018h], esi
+        mov dword [byte esp+04h], eax
+.3:
+        mov eax, dword [byte esp+024h]
+        sub eax, esi
+        mov dword [byte esp+02Ch], eax
+        cmp eax, byte 19h
+        jle short .4
+        mov dword [byte esp+02Ch], 19h
+.4:
+        mov ecx, dword [byte esp+02Ch]
+        cmp edi, ecx
+        jl short .5
+        lea edi, [byte ecx-01h]
+.5:
+        mov eax, esi
+        mov edx, dword [byte esp+08h]
+        shl eax, 4
+        add eax, edx
+        push eax
+        call _os_handle_1
+        add esp, byte 4
+        mov ecx, ebp
+        mov edx, esi
+        mov ebx, dword [byte esp+028h]
+        mov dword [byte esp+01Ch], eax
+        push ebx
+        mov dword [byte esp+018h], ebp
+        mov dword [byte esp+014h], edi
+        push edi
+        mov ebx, eax
+        mov eax, dword [byte esp+034h]
+        mov dword [byte esp+014h], esi
+        call HexDumpRow
+        call ReturnFalse
+.6:
+        call KbdGetKey
+        push eax
+        mov dword [byte esp+034h], eax
+        call ToUpperChar
+        add esp, byte 4
+        mov edx, eax
+        test eax, eax
+        je short .6
+        xor ebx, ebx
+        mov dword [esp], ebx
+        cmp eax, byte 1Bh
+        jne short .8
+        cmp dword [byte esp+028h], byte 0
+        je short .7
+        mov dword [byte esp+028h], ebx
+        jmp short .8
+.7:
+        mov dword [byte esp+018h], 1
+.8:
+        cmp edx, 4900h
+        jne short .11
+        test edi, edi
+        je short .9
+        xor edi, edi
+        jmp short .11
+.9:
+        test esi, esi
+        jbe short .11
+        cmp esi, byte 19h
+        jbe short .10
+        sub esi, byte 19h
+        jmp short .11
+.10:
+        xor esi, esi
+.11:
+        cmp edx, 5100h
+        jne short .13
+        mov eax, dword [byte esp+02Ch]
+        dec eax
+        cmp edi, eax
+        je short .12
+        mov edi, 18h
+        jmp short .13
+.12:
+        mov ecx, dword [byte esp+024h]
+        lea eax, [byte esi+019h]
+        cmp eax, ecx
+        jae short .13
+        add esi, byte 19h
+.13:
+        cmp edx, 4800h
+        je short .14
+        cmp edx, 5000h
+        jne short .15
+.14:
+        mov ebx, edx
+.15:
+        cmp edx, byte 8
+        jne short .16
+        mov ebx, 4B00h
+.16:
+        cmp edx, 4700h
+        jne short .19
+        test ebp, ebp
+        je short .17
+        xor ebp, ebp
+        jmp short .19
+.17:
+        test edi, edi
+        je short .18
+        xor edi, edi
+        jmp short .19
+.18:
+        test esi, esi
+        je short .19
+        xor esi, esi
+.19:
+        cmp edx, 4F00h
+        jne short .22
+        cmp ebp, byte 0Fh
+        je short .20
+        mov ebp, 0Fh
+        jmp short .22
+.20:
+        mov eax, dword [byte esp+02Ch]
+        dec eax
+        cmp edi, eax
+        je short .21
+        mov edi, 18h
+        jmp short .22
+.21:
+        mov ecx, dword [byte esp+024h]
+        lea eax, [byte esi+018h]
+        cmp eax, ecx
+        jae short .22
+        mov esi, dword [byte esp+04h]
+.22:
+        cmp dword [byte esp+028h], byte 1
+        jne short .23
+        mov eax, edi
+        mov ebx, dword [byte esp+01Ch]
+        shl eax, 4
+        add ebx, ebp
+        add eax, ebx
+        mov bl, byte [byte esp+030h]
+        mov byte [eax], bl
+        mov ebx, 4D00h
+.23:
+        cmp edx, byte 4Dh
+        jne short .24
+        mov dword [byte esp+028h], 1
+.24:
+        cmp edx, byte 30h
+        jl short .25
+        cmp edx, byte 39h
+        jg short .25
+        lea eax, [byte edx-030h]
+        mov dword [byte esp+030h], eax
+        mov dword [esp], 1
+.25:
+        cmp edx, byte 41h
+        jl short .26
+        cmp edx, byte 46h
+        jg short .26
+        sub edx, byte 37h
+        mov dword [byte esp+030h], edx
+        mov dword [esp], 1
+.26:
+        cmp dword [esp], byte 0
+        je short .28
+        mov edx, edi
+        mov eax, dword [byte esp+01Ch]
+        shl edx, 4
+        add eax, ebp
+        add eax, edx
+        mov edx, dword [byte esp+020h]
+        test edx, edx
+        jne short .27
+        mov dh, byte [eax]
+        and dh, 0Fh
+        mov dl, byte [byte esp+030h]
+        shl dl, 4
+        add dh, dl
+        mov byte [eax], dh
+        mov dword [byte esp+020h], 1
+        jmp short .28
+.27:
+        cmp edx, byte 1
+        jne short .28
+        mov dl, byte [eax]
+        and dl, 0F0h
+        mov dh, byte [byte esp+030h]
+        add dh, dl
+        mov ebx, 4D00h
+        mov byte [eax], dh
+.28:
+        cmp ebx, 4B00h
+        jne short .29
+        dec ebp
+        test ebp, ebp
+        jge short .30
+        mov ebp, 0Fh
+        mov ebx, 4800h
+        jmp short .30
+.29:
+        cmp ebx, 4D00h
+        jne short .30
+        inc ebp
+        cmp ebp, byte 0Fh
+        jle short .30
+        mov ebx, 5000h
+        xor ebp, ebp
+.30:
+        cmp ebx, 4800h
+        jne short .32
+        test edi, edi
+        jle short .31
+        dec edi
+        jmp short .34
+.31:
+        test esi, esi
+        jbe short .34
+        dec esi
+        jmp short .34
+.32:
+        cmp ebx, 5000h
+        jne short .34
+        cmp edi, byte 18h
+        jge short .33
+        inc edi
+        jmp short .34
+.33:
+        mov edx, dword [byte esp+024h]
+        lea eax, [byte esi+019h]
+        cmp eax, edx
+        jae short .34
+        inc esi
+.34:
+        cmp ebp, dword [byte esp+014h]
+        jne short .35
+        cmp edi, dword [byte esp+010h]
+        jne short .35
+        cmp esi, dword [byte esp+0Ch]
+        je short .36
+.35:
+        xor edx, edx
+        mov dword [byte esp+020h], edx
+.36:
+        cmp dword [byte esp+018h], byte 0
+        je near .3
+.37:
+        add esp, byte 34h
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; HexDumpRow                                      D9170  96 PC, low confidence
+; Prints one row of a hex dump: offset, bytes and characters
+;-----------------------------------------------------------------------------
+HexDumpRow:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 10h
+        mov dword [byte esp+08h], eax
+        mov edi, edx
+        mov esi, ebx
+        mov dword [esp], ecx
+        push byte 0Bh
+        push str_C
+        shl edi, 4
+        call DebugPrintf
+        add esp, byte 8
+        xor ebp, ebp
+        mov edx, dword [byte esp+08h]
+        mov dword [byte esp+04h], edi
+        test edx, edx
+        jle near .10
+.1:
+        mov edi, dword [byte esp+04h]
+        push edi
+        push str_04x2
+        call DebugPrintf
+        xor edi, edi
+        add esp, byte 8
+.2:
+        cmp edi, dword [esp]
+        jne short .3
+        cmp ebp, dword [byte esp+020h]
+        jne short .3
+        push byte 70h
+        call DebugSetAttr
+        add esp, byte 4
+.3:
+        xor eax, eax
+        mov al, byte [esi]
+        push eax
+        push str_02x
+        call DebugPrintf
+        add esp, byte 8
+        cmp edi, dword [esp]
+        jne short .4
+        cmp ebp, dword [byte esp+020h]
+        jne short .4
+        cmp dword [byte esp+024h], byte 0
+        je short .4
+        push str_Punct_HexDumpRow
+        call DebugPrintf
+        add esp, byte 4
+        push byte 7
+        call DebugSetAttr
+        jmp short .5
+.4:
+        push byte 7
+        call DebugSetAttr
+        add esp, byte 4
+        push str_SpaceHex
+        call DebugPrintf
+.5:
+        add esp, byte 4
+        mov eax, edi
+        and eax, byte 3
+        cmp eax, byte 3
+        jne short .6
+        push str_SpaceHex
+        call DebugPrintf
+        add esp, byte 4
+.6:
+        inc edi
+        inc esi
+        cmp edi, byte 10h
+        jl near .2
+        push str_SpaceHex
+        call DebugPrintf
+        sub esi, byte 10h
+        xor edi, edi
+        add esp, byte 4
+.7:
+        mov al, byte [esi]
+        and al, 7Fh
+        mov byte [byte esp+0Ch], al
+        xor eax, eax
+        mov edx, 7
+        mov al, byte [byte esp+0Ch]
+        mov dword [MemViewTop], edx
+        cmp eax, byte 20h
+        jge short .8
+        mov byte [byte esp+0Ch], 2Eh
+.8:
+        mov al, byte [esi]
+        and al, 80h
+        and eax, 0FFh
+        je short .9
+        mov dword [MemViewTop], 70h
+.9:
+        mov ecx, dword [MemViewTop]
+        push ecx
+        call DebugSetAttr
+        add esp, byte 4
+        xor eax, eax
+        mov al, byte [byte esp+0Ch]
+        push eax
+        push str_C
+        inc esi
+        inc edi
+        call DebugPrintf
+        add esp, byte 8
+        cmp edi, byte 10h
+        jl short .7
+        push byte 7
+        call DebugSetAttr
+        add esp, byte 4
+        push str_FourSpacesHex
+        call DebugPrintf
+        add esp, byte 4
+        mov ebx, dword [byte esp+04h]
+        inc ebp
+        add ebx, byte 10h
+        mov ecx, dword [byte esp+08h]
+        mov dword [byte esp+04h], ebx
+        cmp ebp, ecx
+        jl near .1
+.10:
+        mov edi, ebp
+        cmp ebp, byte 19h
+        jge short .12
+.11:
+        push MemViewStrings
+        push str_80s
+        inc edi
+        call DebugPrintf
+        add esp, byte 8
+        cmp edi, byte 19h
+        jl short .11
+.12:
+        add esp, byte 10h
+        pop ebp
+        pop edi
+        pop esi
+        ret 8
+;-----------------------------------------------------------------------------
+; WriteMemMap                                     D930C  96 PC, low confidence
+; Writes the memory map to an open text file with a file, date and time
+; header
+;-----------------------------------------------------------------------------
+WriteMemMap:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 28h
+        mov edx, dword [byte esp+038h]
+        xor eax, eax
+        test edx, edx
+        je near .5
+        mov eax, esp
+        mov dword [MemViewList], edx
+        lea edx, [byte esp+014h]
+        call FormatDateTime
+        mov edx, dword [MemMapRulePtr]
+        push edx
+        push str_S9
+        mov ebx, dword [MemViewList]
+        push ebx
+        call fprintf_
+        add esp, byte 0Ch
+        mov ecx, dword [byte esp+03Ch]
+        push ecx
+        push str_FILES2
+        mov esi, dword [MemViewList]
+        push esi
+        call fprintf_
+        add esp, byte 0Ch
+        mov eax, esp
+        push eax
+        push str_DATES2
+        mov edi, dword [MemViewList]
+        push edi
+        call fprintf_
+        add esp, byte 0Ch
+        lea eax, [byte esp+014h]
+        push eax
+        push str_TIMES3
+        mov ebp, dword [MemViewList]
+        push ebp
+        call fprintf_
+        add esp, byte 0Ch
+        mov eax, dword [MemMapRulePtr]
+        push eax
+        push str_S9
+        mov edx, dword [MemViewList]
+        push edx
+        call fprintf_
+        mov ebx, dword [MemViewShowDetail]
+        add esp, byte 0Ch
+        test ebx, ebx
+        je short .1
+        mov eax, str_N_WriteMemMap
+        jmp short .2
+.1:
+        mov eax, str_FF
+.2:
+        push eax
+        push str_HexmemdspOS
+        mov ecx, dword [MemViewList]
+        push ecx
+        call fprintf_
+        add esp, byte 0Ch
+        mov eax, 1
+        xor ebx, ebx
+        call MemViewerListHead
+        test eax, eax
+        je short .4
+.3:
+        mov eax, dword [byte eax+020h]
+        inc ebx
+        test eax, eax
+        jne short .3
+.4:
+        mov ecx, 2
+        inc ebx
+        xor edx, edx
+        xor eax, eax
+        call MemViewerDrawList
+        mov eax, 1
+.5:
+        add esp, byte 28h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; DumpMemoryMap                                   D9410  96 PC, low confidence
+; Writes the memory map to the next free "xxMMAP??.TXT" file
+;-----------------------------------------------------------------------------
+DumpMemoryMap:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        sub esp, byte 40h
+        mov edi, esp
+        mov esi, str_XxMMAPTXT
+        mov ah, 4Dh
+        movsd
+        movsd
+        movsd
+        movsb
+        mov dl, 45h
+        mov byte [esp], ah
+        mov eax, esp
+        mov byte [byte esp+01h], dl
+        call NextFreeFileName
+        mov edx, dword [GraphicsReady]
+        mov esi, dword [MemFreeBytes]
+        test edx, edx
+        je short .1
+        push byte 14h
+        lea eax, [byte esp+04h]
+        push eax
+        call ShowMessageBox
+        add esp, byte 8
+.1:
+        mov edx, str_W_DumpMemoryMap
+        mov eax, esp
+        call fopen_
+        mov dword [MemViewList], eax
+        test eax, eax
+        jne short .3
+        cmp dword [GraphicsReady], byte 0
+        je short .2
+        push byte 14h
+        push str_ErrorDumpingMemoryMap
+        call ShowMessageBox
+        add esp, byte 8
+.2:
+        mov dword [MemFreeBytes], esi
+        jmp short .4
+.3:
+        mov dword [MemFreeBytes], esi
+        mov esi, esp
+        push esi
+        push eax
+        call WriteMemMap
+        add esp, byte 8
+        mov eax, dword [MemViewList]
+        call fclose_
+.4:
+        add esp, byte 40h
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 08Bh,0C0h
+        push ebx
+        push ecx
+        push edx
+        push eax
+        call FindShape
+        add esp, byte 8
+        pop ecx
+        pop ebx
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; ShapeViewer                                     D94C0  96 PC, low confidence
+; Debug shape viewer: steps through the shapes of a shape file and draws them
+;-----------------------------------------------------------------------------
+ShapeViewer:
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 48h
+        mov dword [byte esp+02Ch], eax
+        mov ebp, ecx
+        lea eax, [byte esp+010h]
+        push eax
+        lea eax, [byte esp+018h]
+        lea ecx, [byte esp+020h]
+        push eax
+        lea eax, [byte esp+020h]
+        lea ebx, [byte esp+028h]
+        push eax
+        lea edx, [byte esp+030h]
+        mov eax, dword [byte esp+038h]
+        call ReadShapeFileHeader
+        mov edx, dword [byte esp+024h]
+        push edx
+        call ShapeBankCount
+        add esp, byte 4
+        mov dword [byte esp+03Ch], eax
+        xor ah, ah
+        mov byte [byte esp+04h], ah
+        mov eax, dword [byte esp+020h]
+        cmp dword [eax], byte 0
+        jl short .1
+        mov eax, dword [byte esp+01Ch]
+        cmp dword [eax], byte 0
+        jge short .3
+.1:
+        call SetScreenTarget
+        mov eax, dword [MemViewBlack]
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+        mov esi, dword [MemViewBlack]
+        push esi
+        mov edi, dword [MemViewYellow]
+        push edi
+        call TextSetColor
+        add esp, byte 8
+        call ReturnFalse
+        push byte 60h
+        push str_ShapeFileIsInvalid
+        call DrawTextCentredBoxed
+        add esp, byte 8
+        call ReturnFalse
+        call ReturnFalse
+        call FlushKeys
+.2:
+        call DebugGetKey
+        test eax, eax
+        je short .2
+        cmp eax, byte 59h
+        jne near .35
+.3:
+        mov ebx, dword [byte esp+03Ch]
+        xor edi, edi
+        xor esi, esi
+        mov dword [byte esp+038h], edi
+        mov dword [byte esp+034h], edi
+        test ebx, ebx
+        jle short .8
+.4:
+        mov eax, esp
+        push eax
+        push esi
+        mov ecx, dword [byte esp+02Ch]
+        push ecx
+        call ShapeBankEntryId
+        add esp, byte 0Ch
+        xor eax, eax
+        mov al, byte [esp]
+        cmp eax, byte 21h
+        jne short .5
+        inc edi
+.5:
+        mov eax, esp
+        push eax
+        mov eax, dword [byte esp+028h]
+        push eax
+        call FindShape
+        mov eax, dword [eax]
+        and eax, 0FFh
+        add esp, byte 8
+        test al, 80h
+        je short .6
+        inc dword [byte esp+038h]
+        jmp short .7
+.6:
+        inc dword [byte esp+034h]
+.7:
+        mov ecx, dword [byte esp+03Ch]
+        inc esi
+        cmp esi, ecx
+        jl short .4
+.8:
+        call DebugClearScreen
+        push edi
+        mov esi, dword [byte esp+038h]
+        push esi
+        mov eax, dword [byte esp+040h]
+        push eax
+        mov edx, dword [byte esp+048h]
+        push edx
+        push str_NumDPackedD
+        call DebugPrintf
+        add esp, byte 14h
+        cmp edi, dword [byte esp+03Ch]
+        jne short .9
+        push str_ThereAreNoShapes
+        call DebugPrintf
+        add esp, byte 4
+        jmp near .35
+.9:
+        cmp ebp, byte 5Bh
+        je short .10
+        cmp ebp, 4B00h
+        jne short .11
+.10:
+        mov esi, dword [byte esp+03Ch]
+        dec esi
+        jmp short .12
+.11:
+        mov ebp, 5Dh
+        xor esi, esi
+.12:
+        mov eax, dword [byte esp+03Ch]
+        dec eax
+        mov edx, dword [byte esp+02Ch]
+        mov dword [byte esp+0Ch], eax
+        mov eax, edx
+        shl eax, 4
+        xor ecx, ecx
+        add eax, edx
+        mov dword [byte esp+030h], ecx
+        mov dword [byte esp+08h], eax
+.13:
+        mov eax, esp
+        push eax
+        push esi
+        mov edi, dword [byte esp+02Ch]
+        push edi
+        call ShapeBankEntryId
+        add esp, byte 0Ch
+        push esi
+        mov eax, dword [byte esp+028h]
+        push eax
+        call ShapeBankEntry
+        add esp, byte 8
+        mov edx, dword [byte esp+08h]
+        mov edi, eax
+        sub eax, edx
+        push eax
+        mov dword [byte esp+02Ch], eax
+        lea eax, [byte esp+04h]
+        push eax
+        push str_44s05x
+        call DebugPrintf
+        add esp, byte 0Ch
+        mov ecx, dword [MemViewBlack]
+        push ecx
+        mov eax, dword [MemViewYellow]
+        push eax
+        call TextSetColor
+        add esp, byte 8
+        mov edx, dword [byte esp+028h]
+        push edx
+        lea eax, [byte esp+04h]
+        push eax
+        push str_44s05x
+        push dword 0C0h
+        push byte 0
+        call PrintBoxedText
+        add esp, byte 14h
+        call ReturnFalse
+        xor eax, eax
+        mov al, byte [esp]
+        cmp eax, byte 21h
+        je near .20
+        mov eax, edi
+        call ShapeInfo
+        mov dword [byte esp+040h], eax
+        test eax, eax
+        je short .19
+        mov eax, dword [edi]
+        and eax, 80h
+        mov dword [byte esp+044h], eax
+        call SetScreenTarget
+        cmp dword [byte esp+040h], byte 2
+        jne short .15
+        mov ebx, dword [byte esp+044h]
+        test ebx, ebx
+        je short .14
+        push byte 0
+        push byte 0
+        push edi
+        call DrawArtAnyFormatAt
+        add esp, byte 0Ch
+        jmp short .18
+.14:
+        push ebx
+        push ebx
+        push edi
+        call PutBlock
+        add esp, byte 0Ch
+        jmp short .18
+.15:
+        cmp dword [byte esp+044h], byte 0
+        je short .16
+        push edi
+        call DrawArtAnyFormatOwnPos
+        jmp short .17
+.16:
+        push edi
+        call PutBlockAtOwnPos
+.17:
+        add esp, byte 4
+.18:
+        call ReturnFalse
+        jmp near .24
+.19:
+        push str_Bad
+        call DebugPrintf
+        add esp, byte 4
+        mov eax, dword [MemViewBlack]
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+        jmp short .24
+.20:
+        mov eax, dword [byte edi+08h]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte edi+06h]
+        sar eax, 10h
+        push eax
+        push str_CxCy3d3d
+        call DebugPrintf
+        add esp, byte 0Ch
+        push str_NotDrawn
+        call DebugPrintf
+        add esp, byte 4
+        cmp ebp, byte 5Bh
+        je short .21
+        cmp ebp, 4B00h
+        jne short .22
+.21:
+        dec esi
+        test esi, esi
+        jge short .24
+        mov esi, dword [byte esp+0Ch]
+        jmp short .24
+.22:
+        cmp ebp, byte 5Dh
+        je short .23
+        cmp ebp, byte 53h
+        je short .23
+        cmp ebp, 4D00h
+        jne short .24
+.23:
+        mov ebx, dword [byte esp+03Ch]
+        inc esi
+        cmp esi, ebx
+        jl short .24
+        xor esi, esi
+.24:
+        xor eax, eax
+        mov al, byte [esp]
+        cmp eax, byte 21h
+        je near .13
+        call ReturnFalse
+.25:
+        call PollHotkeys
+        push eax
+        call ToUpperChar
+        add esp, byte 4
+        mov ebp, eax
+        test eax, eax
+        je short .25
+        cmp eax, byte 1Bh
+        jne short .26
+        mov dword [byte esp+030h], 1
+.26:
+        cmp ebp, byte 5Bh
+        je short .27
+        cmp ebp, 4B00h
+        jne short .28
+.27:
+        dec esi
+        test esi, esi
+        jge short .28
+        mov esi, dword [byte esp+0Ch]
+.28:
+        cmp ebp, byte 5Dh
+        je short .29
+        cmp ebp, byte 53h
+        je short .29
+        cmp ebp, 4D00h
+        jne short .30
+.29:
+        mov edi, dword [byte esp+03Ch]
+        inc esi
+        cmp esi, edi
+        jl short .30
+        xor esi, esi
+.30:
+        cmp ebp, byte 43h
+        jne short .31
+        call SetScreenTarget
+        mov eax, dword [MemViewBlack]
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+.31:
+        cmp ebp, byte 4Dh
+        jne short .32
+        call DebugClearScreen
+.32:
+        cmp ebp, byte 50h
+        jne short .33
+        mov eax, dword [byte esp+02Ch]
+        call DumpShapesList
+.33:
+        cmp ebp, byte 56h
+        jne short .34
+        call SaveScreenshot
+.34:
+        cmp dword [byte esp+030h], byte 0
+        je near .13
+.35:
+        add esp, byte 48h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; ReadShapeFileHeader                             D9874  96 PC, low confidence
+; Reads a shape file's name, size, count and directory
+;-----------------------------------------------------------------------------
+ReadShapeFileHeader:
+        push esi
+        push edi
+        push ebp
+        mov edi, edx
+        mov ebp, ebx
+        mov esi, ecx
+        push eax
+        call _os_handle_1
+        add esp, byte 4
+        push eax
+        mov dword [edi], eax
+        call _os_handle
+        add esp, byte 4
+        mov dword [byte ebp+00h], eax
+        add eax, byte 4
+        push eax
+        call _os_handle
+        add esp, byte 4
+        mov dword [esi], eax
+        add eax, byte 4
+        push eax
+        call _os_handle
+        add esp, byte 4
+        mov edi, dword [byte esp+010h]
+        mov dword [edi], eax
+        mov eax, dword [esi]
+        mov edi, dword [eax]
+        mov eax, dword [byte esp+010h]
+        shl edi, 2
+        mov eax, dword [eax]
+        add eax, edi
+        push eax
+        call _os_handle
+        add esp, byte 4
+        mov edi, dword [byte esp+014h]
+        mov dword [edi], eax
+        mov eax, dword [esi]
+        mov eax, dword [eax]
+        mov esi, dword [edi]
+        shl eax, 2
+        add eax, esi
+        push eax
+        call _os_handle
+        add esp, byte 4
+        mov esi, dword [byte esp+018h]
+        mov dword [esi], eax
+        pop ebp
+        pop edi
+        pop esi
+        ret 0Ch
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; ShapeInfo                                       D98F4  96 PC, low confidence
+; Debug shape viewer: shows a shape's size, position and packing
+;-----------------------------------------------------------------------------
+ShapeInfo:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        mov esi, eax
+        mov eax, dword [byte eax+08h]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte esi+06h]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte esi+0Ch]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte esi+0Ah]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte esi+04h]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte esi+02h]
+        sar eax, 10h
+        push eax
+        push str_Bytes3dRows3d
+        call DebugPrintf
+        mov eax, dword [esi]
+        and eax, 0FFh
+        add esp, byte 1Ch
+        test al, 80h
+        je short .1
+        mov eax, MemViewStrings
+        jmp short .2
+.1:
+        mov eax, str_Un
+.2:
+        push eax
+        push str_Spacked
+        call DebugPrintf
+        mov eax, dword [esi]
+        and eax, 0FFh
+        add esp, byte 8
+        test al, 80h
+        je short .3
+        mov eax, str_Packed
+        jmp short .4
+.3:
+        mov eax, str_Unpacked_ShapeInfo
+.4:
+        push eax
+        mov eax, dword [byte esi+0Ch]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte esi+0Ah]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte esi+04h]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte esi+02h]
+        sar eax, 10h
+        push eax
+        push str_3d3d3d3dS
+        push dword 0C0h
+        push byte 70h
+        call PrintBoxedText
+        add esp, byte 20h
+        call ReturnFalse
+        mov eax, dword [esi]
+        mov edx, eax
+        sar edx, 8
+        push edx
+        and eax, 0FFh
+        push eax
+        push str_Type02xNext05x
+        push dword 0C8h
+        push byte 40h
+        call PrintBoxedText
+        add esp, byte 14h
+        call ReturnFalse
+        cmp word [byte esi+04h], byte 0
+        jl near .5
+        mov ebx, dword [byte esi+02h]
+        mov edx, dword [ViewScreenWidth]
+        sar ebx, 10h
+        cmp ebx, edx
+        jg short .5
+        cmp word [byte esi+06h], byte 0
+        jl short .5
+        mov eax, dword [byte esi+04h]
+        mov ecx, dword [ViewScreenHeight]
+        sar eax, 10h
+        cmp eax, ecx
+        jg short .5
+        cmp word [byte esi+0Ch], byte 0
+        jl short .5
+        mov edx, dword [byte esi+0Ah]
+        mov edi, dword [ViewScreenWidth]
+        sar edx, 10h
+        cmp edx, edi
+        jg short .5
+        cmp word [byte esi+0Eh], byte 0
+        jl short .5
+        mov esi, dword [byte esi+0Ch]
+        mov ebp, dword [ViewScreenHeight]
+        sar esi, 10h
+        cmp esi, ebp
+        jg short .5
+        add edx, ebx
+        cmp edx, edi
+        jg short .5
+        add eax, esi
+        cmp eax, ebp
+        jle short .8
+.5:
+        call SetScreenTarget
+        mov eax, dword [MemViewBlack]
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+        mov esi, dword [MemViewBlack]
+        push esi
+        mov edi, dword [MemViewWhite]
+        push edi
+        call TextSetColor
+        add esp, byte 8
+        push byte 60h
+        push str_ShapeIsInvalidDraw
+        call DrawTextCentredBoxed
+        add esp, byte 8
+        call ReturnFalse
+        call ReturnFalse
+        call FlushKeys
+.6:
+        call DebugGetKey
+        test eax, eax
+        je short .6
+        cmp eax, byte 59h
+        je short .7
+        xor eax, eax
+        jmp short .9
+.7:
+        mov eax, 2
+        jmp short .9
+.8:
+        mov eax, 1
+.9:
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; DumpShapesList                                  D9AAC  96 PC, low confidence
+; Writes a shape file's list of shapes to the next free "MEMSHP??.TXT" file
+;-----------------------------------------------------------------------------
+DumpShapesList:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        sub esp, 8Ch
+        lea edx, [byte esp+070h]
+        push edx
+        lea edx, [byte esp+078h]
+        push edx
+        lea edx, [dword esp+080h]
+        lea ecx, [dword esp+084h]
+        push edx
+        lea ebx, [dword esp+08Ch]
+        lea edx, [dword esp+090h]
+        call ReadShapeFileHeader
+        mov eax, dword [byte esp+07Ch]
+        mov eax, dword [eax]
+        mov edi, esp
+        mov dword [dword esp+088h], eax
+        xor ah, ah
+        mov esi, str_MEMSHPTXT
+        mov byte [byte esp+06Ch], ah
+        mov eax, esp
+        movsd
+        movsd
+        movsd
+        movsb
+        call NextFreeFileName
+        push byte 14h
+        lea eax, [byte esp+04h]
+        push eax
+        mov esi, dword [MemFreeBytes]
+        call ShowMessageBox
+        add esp, byte 8
+        call ReturnFalse
+        mov edx, str_W_DumpMemoryMap
+        mov eax, esp
+        call fopen_
+        mov dword [MemViewList], eax
+        test eax, eax
+        jne short .1
+        push byte 14h
+        push str_ErrorDumpingShapesList
+        call ShowMessageBox
+        add esp, byte 8
+        call ReturnFalse
+        mov dword [MemFreeBytes], esi
+        jmp near .7
+.1:
+        lea edx, [byte esp+054h]
+        lea eax, [byte esp+040h]
+        mov dword [MemFreeBytes], esi
+        call FormatDateTime
+        mov edx, dword [MemMapRulePtr]
+        push edx
+        push str_S9
+        mov ebx, dword [MemViewList]
+        push ebx
+        call fprintf_
+        add esp, byte 0Ch
+        mov eax, esp
+        push eax
+        push str_FILES2
+        mov ecx, dword [MemViewList]
+        push ecx
+        call fprintf_
+        add esp, byte 0Ch
+        lea eax, [byte esp+040h]
+        push eax
+        push str_DATES2
+        mov esi, dword [MemViewList]
+        push esi
+        call fprintf_
+        add esp, byte 0Ch
+        lea eax, [byte esp+054h]
+        push eax
+        push str_TIMES3
+        mov edi, dword [MemViewList]
+        push edi
+        call fprintf_
+        add esp, byte 0Ch
+        mov ebp, dword [MemMapRulePtr]
+        push ebp
+        push str_S9
+        mov eax, dword [MemViewList]
+        push eax
+        call fprintf_
+        add esp, byte 0Ch
+        mov edx, dword [MemViewCount]
+        push edx
+        push str_ShapeFileName0
+        mov ebx, dword [MemViewList]
+        push ebx
+        call fprintf_
+        add esp, byte 0Ch
+        mov eax, dword [dword esp+080h]
+        mov ecx, dword [eax]
+        push ecx
+        push str_ShapeFileSizeLd
+        mov esi, dword [MemViewList]
+        push esi
+        call fprintf_
+        add esp, byte 0Ch
+        mov edi, dword [dword esp+088h]
+        push edi
+        push str_NumberOfShapesD
+        mov ebp, dword [MemViewList]
+        push ebp
+        xor esi, esi
+        call fprintf_
+        add esp, byte 0Ch
+        test edi, edi
+        jle near .5
+        xor edi, edi
+.2:
+        lea eax, [byte esp+068h]
+        push eax
+        push esi
+        mov ebp, dword [dword esp+08Ch]
+        push ebp
+        call ShapeBankEntryId
+        add esp, byte 0Ch
+        mov eax, dword [byte esp+074h]
+        push esi
+        mov ebp, dword [edi+eax]
+        mov eax, dword [dword esp+088h]
+        push eax
+        call ShapeBankEntry
+        add esp, byte 8
+        push ebp
+        mov edx, eax
+        lea eax, [byte esp+06Ch]
+        push eax
+        push str_44s66ld
+        mov ebx, dword [MemViewList]
+        push ebx
+        call fprintf_
+        mov eax, dword [byte edx+04h]
+        add esp, byte 10h
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte edx+02h]
+        sar eax, 10h
+        push eax
+        push str_Bytes3dRows3d2
+        mov ecx, dword [MemViewList]
+        push ecx
+        call fprintf_
+        mov eax, dword [byte edx+08h]
+        add esp, byte 10h
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte edx+06h]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte edx+0Ch]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte edx+0Ah]
+        sar eax, 10h
+        push eax
+        push str_XY3d3d
+        mov ebp, dword [MemViewList]
+        push ebp
+        call fprintf_
+        mov eax, dword [edx]
+        and eax, 0FFh
+        add esp, byte 18h
+        test al, 80h
+        je short .3
+        mov eax, MemViewStrings
+        jmp short .4
+.3:
+        mov eax, str_Un
+.4:
+        push eax
+        push str_Spacked
+        mov edx, dword [MemViewList]
+        push edx
+        call fprintf_
+        add esp, byte 0Ch
+        inc esi
+        mov ebx, dword [dword esp+088h]
+        add edi, byte 4
+        cmp esi, ebx
+        jl near .2
+.5:
+        cmp dword [dword esp+088h], byte 0
+        je short .6
+        push str_Punct_DumpShapesList
+        mov esi, dword [MemViewList]
+        push esi
+        call fprintf_
+        add esp, byte 8
+.6:
+        mov eax, dword [MemViewList]
+        call fclose_
+.7:
+        add esp, 8Ch
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; PaletteViewer                                   D9D5C  96 PC, low confidence
+; Debug palette viewer: shows the palette and lets each colour's RGB be
+; edited
+;-----------------------------------------------------------------------------
+PaletteViewer:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        sub esp, 330h
+        mov eax, esp
+        push eax
+        push dword 100h
+        push byte 0
+        call GetPaletteRange
+        add esp, byte 0Ch
+        call SetScreenTarget
+        mov eax, dword [MemViewBlack]
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+        xor eax, eax
+        call PaletteViewerLabel
+        push dword 0FFh
+        push dword 0A3h
+        push dword 120h
+        push byte 16h
+        push byte 18h
+        call FillRect
+        add esp, byte 14h
+        call ReturnFalse
+        mov edx, 19h
+        xor ebx, ebx
+        mov dword [dword esp+0308h], edx
+        mov dword [dword esp+0310h], ebx
+.1:
+        mov ebp, dword [dword esp+0308h]
+        mov esi, 1Dh
+        mov edi, dword [dword esp+0310h]
+.2:
+        push edi
+        push byte 7
+        push byte 8
+        push ebp
+        push esi
+        inc edi
+        call FillRect
+        add esi, byte 12h
+        add esp, byte 14h
+        cmp esi, 13Dh
+        jne short .2
+        mov esi, dword [dword esp+0308h]
+        mov edi, dword [dword esp+0310h]
+        add esi, byte 0Ah
+        add edi, byte 10h
+        mov dword [dword esp+0308h], esi
+        mov dword [dword esp+0310h], edi
+        cmp edi, 100h
+        jne short .1
+        call ReturnFalse
+        mov ecx, dword [PaletteCursorColours]
+        push ecx
+        push byte 21h
+        push byte 26h
+        mov ebx, 17h
+        xor esi, esi
+        push ebx
+        mov edx, 1Bh
+        mov dword [dword esp+032Ch], esi
+        push edx
+        mov dword [dword esp+0328h], edx
+        mov dword [dword esp+0320h], ebx
+        call XorRectOutline
+        add esp, byte 14h
+        call ReturnFalse
+        xor eax, eax
+        mov al, byte [esp]
+        mov dword [dword esp+032Ch], eax
+        xor eax, eax
+        mov al, byte [byte esp+01h]
+        mov dword [dword esp+0328h], eax
+        xor eax, eax
+        xor edi, edi
+        mov al, byte [byte esp+02h]
+        mov dword [dword esp+0318h], esi
+        mov dword [dword esp+0324h], eax
+.3:
+        push byte 0Ah
+        call SetTickDeadline
+        add esp, byte 4
+        mov eax, dword [dword esp+0314h]
+        mov dword [dword esp+0300h], eax
+        mov eax, dword [dword esp+030Ch]
+        mov dword [dword esp+0304h], eax
+        xor eax, eax
+        mov dword [dword esp+0320h], eax
+        call KbdGetKey
+        mov ebp, eax
+        cmp eax, byte 30h
+        jne short .4
+        xor eax, eax
+        call PaletteViewerLabel
+.4:
+        cmp ebp, byte 31h
+        jne short .5
+        mov eax, 1
+        call PaletteViewerLabel
+.5:
+        cmp ebp, byte 52h
+        jne short .8
+        mov edx, dword [dword esp+032Ch]
+        inc edx
+        mov dword [dword esp+032Ch], edx
+        cmp edx, byte 3Fh
+        jle short .6
+        mov eax, 3Fh
+        jmp short .7
+.6:
+        mov eax, edx
+.7:
+        mov ecx, 1
+        mov dword [dword esp+032Ch], eax
+        mov dword [dword esp+0320h], ecx
+.8:
+        cmp ebp, byte 47h
+        jne short .10
+        mov eax, dword [dword esp+0328h]
+        inc eax
+        mov dword [dword esp+0328h], eax
+        cmp eax, byte 3Fh
+        jle short .9
+        mov eax, 3Fh
+.9:
+        mov ebx, 1
+        mov dword [dword esp+0328h], eax
+        mov dword [dword esp+0320h], ebx
+.10:
+        cmp ebp, byte 42h
+        jne short .13
+        mov ecx, dword [dword esp+0324h]
+        inc ecx
+        mov dword [dword esp+0324h], ecx
+        cmp ecx, byte 3Fh
+        jle short .11
+        mov eax, 3Fh
+        jmp short .12
+.11:
+        mov eax, ecx
+.12:
+        mov edx, 1
+        mov dword [dword esp+0324h], eax
+        mov dword [dword esp+0320h], edx
+.13:
+        cmp ebp, byte 72h
+        jne short .16
+        mov ebx, dword [dword esp+032Ch]
+        dec ebx
+        mov dword [dword esp+032Ch], ebx
+        test ebx, ebx
+        jge short .14
+        xor eax, eax
+        jmp short .15
+.14:
+        mov eax, ebx
+.15:
+        mov dword [dword esp+032Ch], eax
+        mov dword [dword esp+0320h], 1
+.16:
+        cmp ebp, byte 67h
+        jne short .19
+        mov edx, dword [dword esp+0328h]
+        dec edx
+        mov dword [dword esp+0328h], edx
+        test edx, edx
+        jge short .17
+        xor eax, eax
+        jmp short .18
+.17:
+        mov eax, edx
+.18:
+        mov ecx, 1
+        mov dword [dword esp+0328h], eax
+        mov dword [dword esp+0320h], ecx
+.19:
+        cmp ebp, byte 62h
+        jne short .21
+        mov eax, dword [dword esp+0324h]
+        dec eax
+        mov dword [dword esp+0324h], eax
+        test eax, eax
+        jge short .20
+        xor eax, eax
+.20:
+        mov ebx, 1
+        mov dword [dword esp+0324h], eax
+        mov dword [dword esp+0320h], ebx
+.21:
+        cmp ebp, byte 56h
+        je short .22
+        cmp ebp, byte 76h
+        jne short .23
+.22:
+        call SaveScreenshot
+.23:
+        cmp ebp, 4700h
+        jne short .25
+        test esi, esi
+        je short .24
+        xor esi, esi
+        jmp short .25
+.24:
+        xor edi, edi
+.25:
+        cmp ebp, 4F00h
+        jne short .27
+        cmp esi, byte 0Fh
+        je short .26
+        mov esi, 0Fh
+        jmp short .27
+.26:
+        mov edi, esi
+.27:
+        cmp ebp, 4800h
+        jne short .28
+        dec edi
+        test edi, edi
+        jge short .28
+        mov edi, 0Fh
+        dec esi
+.28:
+        cmp ebp, 5000h
+        jne short .29
+        inc edi
+        cmp edi, byte 10h
+        jl short .29
+        inc esi
+        xor edi, edi
+.29:
+        cmp ebp, 4B00h
+        jne short .30
+        dec esi
+        test esi, esi
+        jge short .30
+        mov esi, 0Fh
+        dec edi
+.30:
+        cmp ebp, 4D00h
+        jne short .31
+        inc esi
+        cmp esi, byte 10h
+        jl short .31
+        inc edi
+        xor esi, esi
+.31:
+        test esi, esi
+        jge short .32
+        mov esi, 0Fh
+        jmp short .33
+.32:
+        cmp esi, byte 10h
+        jl short .33
+        xor esi, esi
+.33:
+        test edi, edi
+        jge short .34
+        mov edi, 0Fh
+        jmp short .35
+.34:
+        cmp edi, byte 10h
+        jl short .35
+        xor edi, edi
+.35:
+        cmp dword [dword esp+0320h], byte 0
+        je short .36
+        mov eax, dword [dword esp+0318h]
+        lea eax, [eax+eax*2]
+        mov dl, byte [dword esp+032Ch]
+        mov byte [esp+eax], dl
+        mov dl, byte [dword esp+0328h]
+        mov byte [byte esp+eax+01h], dl
+        mov dl, byte [dword esp+0324h]
+        mov byte [byte esp+eax+02h], dl
+        mov eax, esp
+        push eax
+        push dword 100h
+        push byte 0
+        call SetPaletteEntries
+        add esp, byte 0Ch
+.36:
+        imul eax, esi, byte 12h
+        add eax, byte 1Bh
+        mov dword [dword esp+0314h], eax
+        imul eax, edi, byte 0Ah
+        add eax, byte 17h
+        mov dword [dword esp+030Ch], eax
+        mov eax, dword [dword esp+031Ch]
+        mov edx, dword [nosplit eax*4+PaletteCursorColours]
+        mov eax, dword [dword esp+0304h]
+        push edx
+        add eax, byte 0Ah
+        push eax
+        mov eax, dword [dword esp+0308h]
+        add eax, byte 0Bh
+        push eax
+        mov ebx, dword [dword esp+0310h]
+        push ebx
+        mov ecx, dword [dword esp+0310h]
+        push ecx
+        call XorRectOutline
+        add esp, byte 14h
+        mov eax, dword [dword esp+031Ch]
+        inc eax
+        mov dword [dword esp+031Ch], eax
+        cmp eax, byte 3
+        jb short .37
+        xor eax, eax
+.37:
+        mov dword [dword esp+031Ch], eax
+        mov ebx, dword [nosplit eax*4+PaletteCursorColours]
+        mov eax, dword [dword esp+030Ch]
+        push ebx
+        add eax, byte 0Ah
+        push eax
+        mov eax, dword [dword esp+031Ch]
+        add eax, byte 0Bh
+        push eax
+        mov ecx, dword [dword esp+0318h]
+        push ecx
+        mov eax, dword [dword esp+0324h]
+        push eax
+        call XorRectOutline
+        add esp, byte 14h
+        call ReturnFalse
+        mov eax, edi
+        shl eax, 4
+        add eax, esi
+        mov dword [dword esp+0318h], eax
+        lea eax, [eax+eax*2]
+        xor edx, edx
+        mov dl, byte [esp+eax]
+        mov dword [dword esp+032Ch], edx
+        xor edx, edx
+        mov dl, byte [byte esp+eax+01h]
+        mov dword [dword esp+0328h], edx
+        mov al, byte [byte esp+eax+02h]
+        mov edx, dword [MemViewBlack]
+        push edx
+        mov ebx, dword [MemViewYellow]
+        and eax, 0FFh
+        push ebx
+        mov dword [dword esp+032Ch], eax
+        call TextSetColor
+        add esp, byte 8
+        mov ecx, dword [dword esp+0318h]
+        push ecx
+        push ecx
+        push str_033d022X
+        push dword 0C0h
+        push byte 44h
+        call PrintBoxedText
+        add esp, byte 14h
+        call ReturnFalse
+        mov edx, dword [MemViewBlack]
+        push edx
+        push byte 4
+        call TextSetColor
+        add esp, byte 8
+        mov ebx, dword [dword esp+032Ch]
+        push ebx
+        push str_R022d
+        push dword 0C0h
+        push dword 8Ch
+        call PrintBoxedText
+        add esp, byte 10h
+        call ReturnFalse
+        mov ecx, dword [MemViewBlack]
+        push ecx
+        push byte 2
+        call TextSetColor
+        add esp, byte 8
+        mov eax, dword [dword esp+0328h]
+        push eax
+        push str_G022d
+        push dword 0C0h
+        push dword 0B4h
+        call PrintBoxedText
+        add esp, byte 10h
+        call ReturnFalse
+        mov edx, dword [MemViewBlack]
+        push edx
+        push byte 1
+        call TextSetColor
+        add esp, byte 8
+        mov ebx, dword [dword esp+0324h]
+        push ebx
+        push str_B022d
+        push dword 0C0h
+        push dword 0DCh
+        call PrintBoxedText
+        add esp, byte 10h
+        call ReturnFalse
+        call WaitTickDeadline
+        cmp ebp, byte 1Bh
+        jne near .3
+        add esp, 330h
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; PaletteViewerLabel                              DA2D4  96 PC, low confidence
+; Debug palette viewer: prints a colour number label
+;-----------------------------------------------------------------------------
+PaletteViewerLabel:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        mov edi, eax
+        mov edx, dword [MemViewBlack]
+        push edx
+        mov ebx, dword [MemViewYellow]
+        mov ebp, 19h
+        push ebx
+        mov esi, ebp
+        call TextSetColor
+        add esp, byte 8
+.1:
+        push edi
+        push str_02d_PaletteViewerLabel
+        push byte 0Dh
+        push esi
+        call PrintBoxedText
+        add esp, byte 10h
+        push edi
+        push str_02d_PaletteViewerLabel
+        push ebp
+        push byte 7
+        add esi, byte 12h
+        call PrintBoxedText
+        add esp, byte 10h
+        inc edi
+        add ebp, byte 0Ah
+        call ReturnFalse
+        cmp esi, 139h
+        jne short .1
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; SaveScreenshot                                  DA338  96 PC, low confidence
+; Saves the screen to the next free "SCREEN??.tga" file
+;-----------------------------------------------------------------------------
+SaveScreenshot:
+        push esi
+        push edi
+        push ebp
+        sub esp, 0A0h
+        lea edi, [byte esp+060h]
+        mov esi, str_SCREEN2
+        lea eax, [byte esp+060h]
+        mov ebp, dword [MemFreeBytes]
+        movsd
+        movsd
+        movsw
+        movsb
+        call NextFreeFileName
+        lea edi, [byte esp+068h]
+        push byte 14h
+        lea eax, [byte esp+064h]
+        mov esi, str_Tga
+        push eax
+        movsd
+        movsb
+        call ShowMessageBox
+        add esp, byte 8
+        call ReturnFalse
+        mov eax, esp
+        push eax
+        call SaveDrawState
+        add esp, byte 4
+        call SetScreenTarget
+        mov edx, dword [ViewScreenHeight]
+        push edx
+        push byte 0
+        mov ebx, dword [ViewScreenWidth]
+        push ebx
+        push byte 0
+        call SetClipWindow
+        add esp, byte 10h
+        lea eax, [byte esp+060h]
+        push eax
+        call WriteTgaScreen
+        add esp, byte 4
+        mov eax, esp
+        push eax
+        call RestoreDrawState
+        add esp, byte 4
+        mov dword [MemFreeBytes], ebp
+        add esp, 0A0h
+        pop ebp
+        pop edi
+        pop esi
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; MemViewerShowArt                                DA3D0  96 PC, low confidence
+; Debug memory viewer: draws the art in a memory block
+;-----------------------------------------------------------------------------
+MemViewerShowArt:
+        push ebx
+        push ecx
+        push esi
+        call DebugClearScreen
+        call SetScreenTarget
+        mov eax, dword [MemViewBlack]
+        push eax
+        call ClearClipRect
+        add esp, byte 4
+        call ReturnFalse
+        mov edx, dword [MemViewMode]
+        push edx
+        call SelectBitmapHandle
+        add esp, byte 4
+        mov esi, dword [byte eax+02Ch]
+        call SetScreenTarget
+        mov eax, esi
+        call ShapeInfo
+        test eax, eax
+        je near .9
+        mov edx, dword [esi]
+        and edx, 80h
+        cmp eax, byte 2
+        jne short .2
+        test edx, edx
+        je short .1
+        push byte 0
+        push byte 0
+        push esi
+        call DrawArtAnyFormatAt
+        add esp, byte 0Ch
+        jmp short .5
+.1:
+        push edx
+        push edx
+        push esi
+        call PutBlock
+        add esp, byte 0Ch
+        jmp short .5
+.2:
+        test edx, edx
+        je short .3
+        push esi
+        call DrawArtAnyFormatOwnPos
+        jmp short .4
+.3:
+        push esi
+        call PutBlockAtOwnPos
+.4:
+        add esp, byte 4
+.5:
+        call ReturnFalse
+        xor esi, esi
+.6:
+        call ReturnFalse
+        call FlushKeys
+.7:
+        call DebugGetKey
+        test eax, eax
+        je short .7
+        mov edx, 1
+        cmp eax, byte 56h
+        jne short .8
+        call SaveScreenshot
+        mov edx, esi
+.8:
+        test edx, edx
+        je short .6
+.9:
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; FormatDateTime                                  DA48C  96 PC, low confidence
+; Formats the current DOS date and time as strings
+;-----------------------------------------------------------------------------
+FormatDateTime:
+        push ebx
+        push ecx
+        push esi
+        sub esp, byte 0Ch
+        mov ebx, eax
+        mov ecx, edx
+        mov eax, esp
+        call _dos_getdate_
+        lea eax, [byte esp+08h]
+        xor edx, edx
+        call _dos_gettime_
+        mov dx, word [byte esp+02h]
+        mov esi, 64h
+        mov eax, edx
+        sar edx, 1Fh
+        idiv esi
+        xor eax, eax
+        mov al, byte [byte esp+01h]
+        push edx
+        mov edx, dword [nosplit eax*4+MonthNameTable]
+        xor eax, eax
+        push edx
+        mov al, byte [byte esp+08h]
+        push eax
+        push str_02d3s02d_FormatDateTime
+        push ebx
+        call sprintf_
+        add esp, byte 14h
+        xor eax, eax
+        mov al, byte [byte esp+0Ah]
+        push eax
+        xor eax, eax
+        mov al, byte [byte esp+0Dh]
+        push eax
+        xor eax, eax
+        mov al, byte [byte esp+010h]
+        push eax
+        push str_2d02d02d
+        push ecx
+        call sprintf_
+        add esp, byte 14h
+        add esp, byte 0Ch
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; NextFreeFileName                                DA508  96 PC, low confidence
+; Fills in the ?? of a file name pattern with the first number not in use
+;-----------------------------------------------------------------------------
+NextFreeFileName:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 4
+        mov dword [esp], eax
+        xor edi, edi
+.1:
+        xor edx, edx
+        mov dl, byte [eax]
+        cmp edx, byte 3Fh
+        je short .2
+        inc eax
+        inc edi
+        jmp short .1
+.2:
+        mov ebp, eax
+        xor esi, esi
+.3:
+        mov ebx, 0Ah
+        mov edx, esi
+        mov eax, esi
+        sar edx, 1Fh
+        idiv ebx
+        and eax, 0FFh
+        mov edx, esi
+        add eax, byte 30h
+        sar edx, 1Fh
+        mov byte [byte ebp+00h], al
+        mov eax, esi
+        idiv ebx
+        xor eax, eax
+        mov al, dl
+        mov edx, dword [esp]
+        add eax, byte 30h
+        push edx
+        mov byte [byte ebp+01h], al
+        call FindFirstFile
+        add esp, byte 4
+        test eax, eax
+        je short .4
+        inc esi
+        cmp esi, byte 64h
+        jl short .3
+.4:
+        cmp esi, byte 64h
+        jl short .5
+        add edi, dword [esp]
+        mov byte [byte edi+01h], 78h
+        mov al, byte [byte edi+01h]
+        mov byte [edi], al
+.5:
+        mov eax, 1
+        add esp, byte 4
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 08Dh,040h,00h
+        push ebx
+        push ecx
+        push edx
+        call ReturnFalse
+        call FlushKeys
+.6:
+        call PollHotkeys
+        push eax
+        call ToUpperChar
+        add esp, byte 4
+        test eax, eax
+        je short .6
+        pop edx
+        pop ecx
+        pop ebx
+        ret

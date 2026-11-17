@@ -50,7 +50,7 @@ def parse(path):
     hdr, ext, glb = [], [], []
     k = 0
     while k < len(L) and L[k].startswith(';'): hdr.append(L[k]); k += 1
-    while k < len(L) and (L[k] in ('bits 32', '%include "hockey.inc"') or L[k].startswith(('section ', 'extern ', 'global '))):
+    while k < len(L) and (L[k] in ('', 'bits 32', '%include "hockey.inc"') or L[k].startswith(('section ', 'extern ', 'global '))):
         if L[k].startswith('extern '): ext += [x.strip() for x in L[k][7:].split(',')]
         if L[k].startswith('global '): glb += [x.strip() for x in L[k][7:].split(',')]
         k += 1
@@ -75,7 +75,11 @@ def module_of(rel):
 
 
 def path_of(m, PATH):
-    return PATH.get(m) or '%s/%s.asm' % (m, os.path.basename(m))
+    """src/ path of module m: its own folder (engine/goalie/goalie.asm), except a library slice lib/<library>/<name>,
+    which is one file in its library's folder (lib/watcom/stdio.asm)"""
+    if m in PATH: return PATH[m]
+    if m.startswith('lib/') and m.count('/') >= 2: return m + '.asm'
+    return '%s/%s.asm' % (m, os.path.basename(m))
 
 
 def wrap(kw, names):

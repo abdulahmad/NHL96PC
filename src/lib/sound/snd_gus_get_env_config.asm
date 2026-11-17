@@ -1,0 +1,2219 @@
+; Sound: GusGetEnvConfig, GusProbePort, GusStopDmaAndTimers, GusUnhookIrqs, GusHookIrqs and 18 more.
+bits 32
+%include "hockey.inc"
+section s_D6120 progbits alloc exec nowrite align=1
+extern getenv_, GusActiveVoices, GusBasePort, GusClearCallbacks, GusClearIrqState, GusDataHighPort, GusDataLowPort, GusDelay
+extern GusDmaLatchBits, GusDmaLatchPort, GusDownload, GusDramPort, GusDramSize, GusDramSized, GusEnterCritical, GusEnvConfig
+extern GusEnvVarName, GusHookIrq, GusIrqFlags, GusIrqLatch, GusIrqLatchBits, GusIrqLatchPort, GusIrqStatusPort, GusLeaveCritical
+extern GusMidiIrq, GusMidiIrqHandler, GusOpenCount, GusPeek, GusPlayDmaChannel, GusPoke, GusRecordDmaChannel, GusRefillDest
+extern GusRefillLength, GusRefillSrc, GusRegSelectPort, GusRunInitTable, GusSetBasePort, GusSetVoiceCallbacks, GusStreamActive, GusStreamBufSize
+extern GusStreamBusyLeft, GusStreamBusyRight, GusStreamCardEnd, GusStreamCardLeft, GusStreamCardRight, GusStreamEndHi, GusStreamEndLo, GusStreamHalfLeft
+extern GusStreamHalfRight, GusStreamHalfSize, GusStreamLoopHi, GusStreamLoopLo, GusStreamQuarterSize, GusStreamRefillLeft, GusStreamRefillRight, GusStreamSrcLeft
+extern GusStreamSrcRight, GusStreamStartHi, GusStreamStartLo, GusStreamVoiceLeft, GusStreamVoiceRight, GusStreamVoiceStereo, GusTestDramBank, GusUnhookIrq
+extern GusVoiceSelectPort, GusWaveIrq, GusWaveIrqHandler, inp_, inpw_, outp_, outpw_, strtoul_
+global GusGetEnvConfig, GusProbePort, GusStopDmaAndTimers, GusUnhookIrqs, GusHookIrqs, GusOpenCard, GusStopAllVoices, GusOpen
+global GusClose, GusSetIrqDmaLatches, GusResetVoices, GusPokeBlock, GusPeekBlock, GusSizeDram, GusMemAlloc, GusStopStream
+global GusStreamBusy, GusRefillStreamChannel, GusStreamVoiceIrq, GusServiceStream, GusStartStream, GusStopStreamVoices, SbIsrPicPort, SbIsrAckPort
+global SbIsrWritePort, SbIsrSingle
+;-----------------------------------------------------------------------------
+; GusGetEnvConfig                                 D6120  96 PC, low confidence
+; Reads the ULTRASND environment variable and parses base port, DMA channels
+; and IRQs into the card config
+;-----------------------------------------------------------------------------
+GusGetEnvConfig:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        mov ecx, eax
+        mov eax, dword [GusEnvVarName]
+        call getenv_
+        mov edx, eax
+        mov dword [GusEnvConfig], eax
+        test eax, eax
+        je near .6
+        mov edx, GusEnvConfig
+        mov ebx, 10h
+        call strtoul_
+        mov word [byte ecx+02h], ax
+        mov eax, dword [GusEnvConfig]
+        cmp byte [eax], 2Ch
+        jne short .1
+        inc eax
+        mov dword [GusEnvConfig], eax
+.1:
+        mov edx, GusEnvConfig
+        mov ebx, 0Ah
+        mov eax, dword [GusEnvConfig]
+        call strtoul_
+        mov byte [byte ecx+07h], al
+        mov eax, dword [GusEnvConfig]
+        cmp byte [eax], 2Ch
+        jne short .2
+        inc eax
+        mov dword [GusEnvConfig], eax
+.2:
+        mov edx, GusEnvConfig
+        mov ebx, 0Ah
+        mov eax, dword [GusEnvConfig]
+        call strtoul_
+        mov byte [byte ecx+06h], al
+        mov eax, dword [GusEnvConfig]
+        cmp byte [eax], 2Ch
+        jne short .3
+        inc eax
+        mov dword [GusEnvConfig], eax
+.3:
+        mov edx, GusEnvConfig
+        mov ebx, 0Ah
+        mov eax, dword [GusEnvConfig]
+        call strtoul_
+        mov byte [byte ecx+04h], al
+        mov eax, dword [GusEnvConfig]
+        cmp byte [eax], 2Ch
+        jne short .4
+        inc eax
+        mov dword [GusEnvConfig], eax
+.4:
+        mov edx, GusEnvConfig
+        mov ebx, 0Ah
+        mov eax, dword [GusEnvConfig]
+        call strtoul_
+        mov dx, word [byte ecx+02h]
+        mov byte [byte ecx+05h], al
+        test dx, dx
+        je short .5
+        cmp byte [byte ecx+06h], 0
+        je short .5
+        cmp byte [byte ecx+07h], 0
+        je short .5
+        cmp byte [byte ecx+04h], 0
+        je short .5
+        cmp byte [byte ecx+05h], 0
+        je short .5
+        mov eax, 1
+        jmp short .6
+.5:
+        xor eax, eax
+.6:
+        lea esp, [byte ebp-0Ch]
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; GusProbePort                                    D6230  96 PC, low confidence
+; Writes test bytes to a card port and reads them back; returns whether a
+; card answers at that base
+;-----------------------------------------------------------------------------
+GusProbePort:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        mov ebx, eax
+        mov ecx, eax
+        add ebx, byte 8
+        add ecx, byte 0Ah
+        and ebx, 0FFFFh
+        mov edx, 0AAh
+        mov eax, ebx
+        call outp_
+        and ecx, 0FFFFh
+        mov eax, ecx
+        call inp_
+        cmp eax, 0AAh
+        jne short .1
+        mov edx, 55h
+        mov eax, ebx
+        call outp_
+        mov eax, ecx
+        call inp_
+        cmp eax, byte 55h
+        jne short .1
+        mov eax, 1
+        jmp short .2
+.1:
+        xor eax, eax
+.2:
+        lea esp, [byte ebp-0Ch]
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 00h
+;-----------------------------------------------------------------------------
+; GusStopDmaAndTimers                             D6290  96 PC, low confidence
+; Clears the card's DMA control, timer control and sampling control registers
+;-----------------------------------------------------------------------------
+GusStopDmaAndTimers:
+        push ebp
+        mov ebp, esp
+        push edx
+        xor eax, eax
+        mov edx, 41h
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 45h
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 49h
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov ax, word [GusIrqStatusPort]
+        call inp_
+        xor eax, eax
+        mov edx, 41h
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov ax, word [GusDataHighPort]
+        call inp_
+        xor eax, eax
+        mov edx, 49h
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov ax, word [GusDataHighPort]
+        call inp_
+        xor eax, eax
+        mov edx, 8Fh
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor edx, edx
+.1:
+        xor eax, eax
+        mov ax, word [GusDataHighPort]
+        inc edx
+        call inp_
+        cmp edx, byte 20h
+        jl short .1
+        lea esp, [byte ebp-04h]
+        pop edx
+        pop ebp
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; GusUnhookIrqs                                   D6370  96 PC, low confidence
+; Restores the original interrupt vectors and masks for the card's one or two
+; IRQ lines
+;-----------------------------------------------------------------------------
+GusUnhookIrqs:
+        push ebp
+        mov ebp, esp
+        push ebx
+        mov ebx, eax
+        mov eax, edx
+        cmp ebx, edx
+        je short .1
+        call GusUnhookIrq
+.1:
+        mov eax, ebx
+        call GusUnhookIrq
+        lea esp, [byte ebp-04h]
+        pop ebx
+        pop ebp
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; GusHookIrqs                                     D6390  96 PC, low confidence
+; Installs the card's wave IRQ handler and, when it uses a second line, the
+; MIDI IRQ handler
+;-----------------------------------------------------------------------------
+GusHookIrqs:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push esi
+        mov esi, eax
+        mov ebx, GusWaveIrqHandler
+        mov ecx, cs
+        call GusHookIrq
+        cmp esi, edx
+        je short .1
+        mov ebx, GusMidiIrqHandler
+        mov eax, edx
+        mov ecx, cs
+        call GusHookIrq
+.1:
+        lea esp, [byte ebp-0Ch]
+        pop esi
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; GusOpenCard                                     D63C0  96 PC, low confidence
+; Sets the base port, clears callbacks and IRQ state, resets the voices and
+; hooks the IRQs
+;-----------------------------------------------------------------------------
+GusOpenCard:
+        push ebp
+        mov ebp, esp
+        push esi
+        sub esp, byte 4
+        mov esi, eax
+        mov byte [byte ebp-08h], dl
+        mov bh, cl
+        mov ecx, dword [byte ebp+0Ch]
+        pushfw
+        cli
+        mov eax, esi
+        call GusSetBasePort
+        mov edx, eax
+        test eax, eax
+        je short .1
+        popfw
+        mov eax, edx
+        jmp near .4
+.1:
+        call GusClearIrqState
+        call GusClearCallbacks
+        xor eax, eax
+        mov al, byte [byte ebp-08h]
+        cmp byte [dword eax+GusIrqLatchBits], 0
+        jne short .2
+        popfw
+        mov eax, 2
+        lea esp, [byte ebp-04h]
+        pop esi
+        pop ebp
+        ret 8
+.2:
+        mov byte [GusWaveIrq], al
+        xor eax, eax
+        mov al, bl
+        cmp byte [dword eax+GusIrqLatchBits], 0
+        jne short .3
+        popfw
+        mov eax, 2
+        lea esp, [byte ebp-04h]
+        pop esi
+        pop ebp
+        ret 8
+.3:
+        mov byte [GusMidiIrq], bl
+        mov al, byte [byte ebp+08h]
+        mov byte [GusPlayDmaChannel], bh
+        mov byte [GusRecordDmaChannel], al
+        mov eax, ecx
+        xor edx, edx
+        call GusResetVoices
+        mov dl, byte [GusMidiIrq]
+        xor eax, eax
+        mov al, byte [GusWaveIrq]
+        call GusHookIrqs
+        popfw
+        xor eax, eax
+.4:
+        lea esp, [byte ebp-04h]
+        pop esi
+        pop ebp
+        ret 8
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; GusStopAllVoices                                D6470  96 PC, low confidence
+; Stops every active voice and ramps its volume down to silence
+;-----------------------------------------------------------------------------
+GusStopAllVoices:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push edx
+        pushfw
+        cli
+        call GusEnterCritical
+        xor ebx, ebx
+        cmp bx, word [GusActiveVoices]
+        jb short .1
+        xor ebx, ebx
+        jmp near .5
+.1:
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusVoiceSelectPort]
+        mov dx, bx
+        call outp_
+        xor eax, eax
+        mov edx, 0Dh
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 3
+        mov ax, word [GusDataHighPort]
+        call outp_
+        call GusDelay
+        xor eax, eax
+        mov edx, 3
+        mov ax, word [GusDataHighPort]
+        call outp_
+        call GusDelay
+        xor eax, eax
+        mov edx, 89h
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov ax, word [GusDataLowPort]
+        call inpw_
+        shr eax, 8
+        cmp eax, byte 5
+        jbe short .2
+        xor eax, eax
+        mov edx, 7
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 5
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 6
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 1
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 0Dh
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 40h
+        mov ax, word [GusDataHighPort]
+        call outp_
+.2:
+        inc ebx
+        cmp bx, word [GusActiveVoices]
+        jb near .1
+        xor ebx, ebx
+        jmp short .5
+.3:
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusVoiceSelectPort]
+        mov dx, bx
+        call outp_
+.4:
+        xor eax, eax
+        mov edx, 8Dh
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov ax, word [GusDataHighPort]
+        call inp_
+        test al, 3
+        je short .4
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 3
+        mov ax, word [GusDataHighPort]
+        call outp_
+        call GusDelay
+        xor eax, eax
+        mov edx, 3
+        mov ax, word [GusDataHighPort]
+        inc ebx
+        call outp_
+.5:
+        cmp bx, word [GusActiveVoices]
+        jb short .3
+        call GusLeaveCritical
+        popfw
+        lea esp, [byte ebp-08h]
+        pop edx
+        pop ebx
+        pop ebp
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; GusOpen                                         D660C  96 PC, low confidence
+; Reference-counted card open: probes the port, opens the card, sets the
+; IRQ/DMA latches and runs the init table
+;-----------------------------------------------------------------------------
+GusOpen:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        push esi
+        mov esi, eax
+        mov edx, dword [GusOpenCount]
+        test edx, edx
+        je short .1
+        lea ebx, [byte edx+01h]
+        xor eax, eax
+        mov dword [GusOpenCount], ebx
+        jmp near .4
+.1:
+        xor edx, edx
+        mov word [GusIrqFlags], dx
+        pushfw
+        cli
+        xor eax, eax
+        mov ax, word [byte esi+02h]
+        call GusProbePort
+        test eax, eax
+        jne short .2
+        popfw
+        mov eax, 0Ah
+        lea esp, [byte ebp-010h]
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+.2:
+        mov byte [GusIrqLatch], 3
+        xor edx, edx
+        mov dl, byte [GusIrqLatch]
+        xor eax, eax
+        mov ax, word [byte esi+02h]
+        xor ecx, ecx
+        call outp_
+        xor eax, eax
+        xor ebx, ebx
+        mov ax, word [esi]
+        mov cl, byte [byte esi+07h]
+        push eax
+        xor eax, eax
+        mov bl, byte [byte esi+05h]
+        mov al, byte [byte esi+06h]
+        xor edx, edx
+        push eax
+        xor eax, eax
+        mov dl, byte [byte esi+04h]
+        mov ax, word [byte esi+02h]
+        call GusOpenCard
+        mov edx, eax
+        test eax, eax
+        je short .3
+        popfw
+        mov eax, edx
+        lea esp, [byte ebp-010h]
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+.3:
+        call GusSetIrqDmaLatches
+        mov bx, word [GusIrqFlags]
+        or bl, 1
+        mov word [GusIrqFlags], bx
+        inc dword [GusOpenCount]
+        popfw
+        call GusRunInitTable
+        test eax, eax
+        jne short .4
+        and byte [GusIrqLatch], 0FDh
+        xor edx, edx
+        mov dl, byte [GusIrqLatch]
+        mov ax, word [byte esi+02h]
+        call outp_
+        xor eax, eax
+.4:
+        lea esp, [byte ebp-010h]
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; GusClose                                        D66F8  96 PC, low confidence
+; Drops the open count and, on the last close, stops voices, clears DMA and
+; timers and unhooks the IRQs
+;-----------------------------------------------------------------------------
+GusClose:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push edx
+        mov dx, word [GusIrqFlags]
+        test dl, 1
+        jne short .1
+        mov eax, 5
+        jmp short .3
+.1:
+        mov edx, dword [GusOpenCount]
+        dec edx
+        mov dword [GusOpenCount], edx
+        jne short .2
+        pushfw
+        cli
+        call GusStopAllVoices
+        call GusStopDmaAndTimers
+        mov dl, byte [GusMidiIrq]
+        xor eax, eax
+        mov al, byte [GusWaveIrq]
+        call GusUnhookIrqs
+        popfw
+        mov bx, word [GusIrqFlags]
+        and bl, 0FEh
+        mov word [GusIrqFlags], bx
+.2:
+        xor eax, eax
+.3:
+        lea esp, [byte ebp-08h]
+        pop edx
+        pop ebx
+        pop ebp
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; GusSetIrqDmaLatches                             D675C  96 PC, low confidence
+; Programs the card's IRQ and DMA latch registers from the configured
+; channels
+;-----------------------------------------------------------------------------
+GusSetIrqDmaLatches:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        xor eax, eax
+        mov al, byte [GusWaveIrq]
+        mov bl, byte [dword eax+GusIrqLatchBits]
+        mov al, byte [GusWaveIrq]
+        cmp al, byte [GusMidiIrq]
+        jne short .1
+        or bl, 40h
+        jmp short .2
+.1:
+        xor eax, eax
+        mov al, byte [GusMidiIrq]
+        mov al, byte [dword eax+GusIrqLatchBits]
+        shl al, 3
+        or bl, al
+.2:
+        xor eax, eax
+        mov al, byte [GusPlayDmaChannel]
+        mov dl, byte [GusRecordDmaChannel]
+        mov cl, byte [dword eax+GusDmaLatchBits]
+        cmp al, dl
+        jne short .3
+        or cl, 40h
+        jmp short .4
+.3:
+        xor eax, eax
+        mov al, dl
+        mov al, byte [dword eax+GusDmaLatchBits]
+        shl al, 3
+        or cl, al
+.4:
+        pushfw
+        cli
+        xor eax, eax
+        mov edx, 5
+        mov ax, word [GusDmaLatchPort]
+        call outp_
+        xor edx, edx
+        mov dl, byte [GusIrqLatch]
+        xor eax, eax
+        mov ax, word [GusBasePort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusIrqLatchPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDmaLatchPort]
+        call outp_
+        xor edx, edx
+        mov dl, byte [GusIrqLatch]
+        xor eax, eax
+        mov ax, word [GusBasePort]
+        call outp_
+        mov al, cl
+        xor edx, edx
+        or al, 80h
+        mov dl, al
+        xor eax, eax
+        mov ax, word [GusIrqLatchPort]
+        call outp_
+        mov al, byte [GusIrqLatch]
+        or al, 40h
+        xor edx, edx
+        mov dl, al
+        xor eax, eax
+        mov ax, word [GusBasePort]
+        call outp_
+        xor eax, eax
+        and ebx, 0FFh
+        mov ax, word [GusIrqLatchPort]
+        mov edx, ebx
+        call outp_
+        xor edx, edx
+        mov dl, byte [GusIrqLatch]
+        xor eax, eax
+        mov ax, word [GusBasePort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusIrqLatchPort]
+        mov dl, cl
+        call outp_
+        mov al, byte [GusIrqLatch]
+        or al, 40h
+        xor edx, edx
+        mov dl, al
+        xor eax, eax
+        mov ax, word [GusBasePort]
+        call outp_
+        xor eax, eax
+        mov edx, ebx
+        mov ax, word [GusIrqLatchPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDmaLatchPort]
+        call outp_
+        or byte [GusIrqLatch], 8
+        xor edx, edx
+        mov dl, byte [GusIrqLatch]
+        xor eax, eax
+        mov ax, word [GusBasePort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDmaLatchPort]
+        call outp_
+        popfw
+        lea esp, [byte ebp-0Ch]
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; GusResetVoices                                  D68F0  96 PC, low confidence
+; Resets the synthesizer with the given number of active voices (clamped to
+; 14..32) and silences each one
+;-----------------------------------------------------------------------------
+GusResetVoices:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        mov ebx, eax
+        cmp eax, byte 0Eh
+        jge short .1
+        mov ebx, 0Eh
+.1:
+        cmp ebx, byte 20h
+        jle short .2
+        mov ebx, 20h
+.2:
+        mov edx, 20h
+        pushfw
+        cli
+        mov word [GusActiveVoices], dx
+        xor eax, eax
+        mov edx, 4Ch
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDataHighPort]
+        call outp_
+        call GusDelay
+        call GusDelay
+        xor eax, eax
+        mov edx, 4Ch
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 1
+        mov ax, word [GusDataHighPort]
+        call outp_
+        call GusDelay
+        call GusDelay
+        xor eax, eax
+        mov edx, 0Eh
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        mov al, byte [GusActiveVoices]
+        dec al
+        xor edx, edx
+        or al, 0C0h
+        mov dl, al
+        xor eax, eax
+        mov ax, word [GusDataHighPort]
+        xor ecx, ecx
+        call outp_
+        call GusStopDmaAndTimers
+        jmp near .4
+.3:
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusVoiceSelectPort]
+        mov dx, cx
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 3
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 0Dh
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 3
+        mov ax, word [GusDataHighPort]
+        call outp_
+        call GusDelay
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 3
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 0Dh
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 3
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 2
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDataLowPort]
+        call outpw_
+        xor eax, eax
+        mov edx, 3
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDataLowPort]
+        call outpw_
+        xor eax, eax
+        mov edx, 4
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDataLowPort]
+        call outpw_
+        xor eax, eax
+        mov edx, 5
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDataLowPort]
+        call outpw_
+        xor eax, eax
+        mov edx, 6
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 3Fh
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 7
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 5
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 8
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 0FBh
+        mov ax, word [GusDataHighPort]
+        call outp_
+        xor eax, eax
+        mov edx, 9
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 500h
+        mov ax, word [GusDataLowPort]
+        call outpw_
+        xor eax, eax
+        mov edx, 0Ah
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        xor edx, edx
+        mov ax, word [GusDataLowPort]
+        call outpw_
+        xor eax, eax
+        mov edx, 0Bh
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 6000h
+        mov ax, word [GusDataLowPort]
+        inc ecx
+        call outpw_
+.4:
+        cmp cx, word [GusActiveVoices]
+        jb near .3
+        call GusStopDmaAndTimers
+        mov word [GusActiveVoices], bx
+        xor eax, eax
+        mov edx, 0Eh
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        mov al, byte [GusActiveVoices]
+        dec al
+        xor edx, edx
+        or al, 0C0h
+        mov dl, al
+        xor eax, eax
+        mov ax, word [GusDataHighPort]
+        call outp_
+        call GusStopDmaAndTimers
+        xor eax, eax
+        mov edx, 4Ch
+        mov ax, word [GusRegSelectPort]
+        call outp_
+        xor eax, eax
+        mov edx, 7
+        mov ax, word [GusDataHighPort]
+        call outp_
+        call GusDelay
+        call GusDelay
+        popfw
+        lea esp, [byte ebp-0Ch]
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; GusPokeBlock                                    D6C30  96 PC, low confidence
+; Writes a 16-byte block into card memory one byte at a time
+;-----------------------------------------------------------------------------
+GusPokeBlock:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push esi
+        mov ebx, eax
+        pushfw
+        cli
+        call GusEnterCritical
+        mov esi, edx
+        xor ecx, ecx
+        jmp short .2
+.1:
+        mov eax, ebx
+        inc esi
+        xor edx, edx
+        inc ecx
+        mov dl, byte [byte esi-01h]
+        inc ebx
+        call GusPoke
+.2:
+        cmp ecx, byte 0Fh
+        jb short .1
+        call GusLeaveCritical
+        popfw
+        lea esp, [byte ebp-0Ch]
+        pop esi
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; GusPeekBlock                                    D6C6C  96 PC, low confidence
+; Reads a 16-byte block from card memory one byte at a time
+;-----------------------------------------------------------------------------
+GusPeekBlock:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        mov ebx, eax
+        pushfw
+        cli
+        call GusEnterCritical
+        mov ecx, edx
+        xor edx, edx
+        jmp short .2
+.1:
+        mov eax, ebx
+        call GusPeek
+        inc ecx
+        inc edx
+        inc ebx
+        mov byte [byte ecx-01h], al
+.2:
+        cmp edx, byte 0Fh
+        jb short .1
+        call GusLeaveCritical
+        popfw
+        lea esp, [byte ebp-08h]
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; GusSizeDram                                     D6CA4  96 PC, low confidence
+; Tests each 256K bank of card memory and records how much memory the card
+; has
+;-----------------------------------------------------------------------------
+GusSizeDram:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        push esi
+        sub esp, byte 10h
+        mov byte [GusDramSized], 1
+        xor edx, edx
+        xor ebx, ebx
+        mov word [GusDramSize], dx
+.1:
+        mov edx, ebx
+        shl edx, 12h
+        mov eax, edx
+        call GusTestDramBank
+        test al, al
+        je short .2
+        mov eax, 1
+        mov esi, 0FFFFFFFFh
+        mov cl, bl
+        mov dword [byte ebp-01Ch], esi
+        mov dword [byte ebp-018h], esi
+        shl eax, cl
+        mov cx, word [GusDramSize]
+        xor esi, esi
+        or ecx, eax
+        mov word [byte ebp-014h], si
+        mov word [GusDramSize], cx
+        mov ecx, 40000h
+        mov eax, edx
+        mov dword [byte ebp-020h], ecx
+        xor cl, cl
+        lea edx, [byte ebp-020h]
+        mov byte [byte ebp-012h], cl
+        call GusPokeBlock
+.2:
+        inc ebx
+        cmp ebx, byte 4
+        jl short .1
+        cmp word [GusDramSize], byte 0
+        jne short .3
+        mov eax, 6
+        jmp short .4
+.3:
+        mov eax, 1Eh
+        xor edx, edx
+        call GusPoke
+        mov eax, 1Fh
+        xor edx, edx
+        call GusPoke
+        xor eax, eax
+.4:
+        lea esp, [byte ebp-010h]
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 090h
+;-----------------------------------------------------------------------------
+; GusMemAlloc                                     D6D4C  96 PC, low confidence
+; Allocates a 32-byte aligned block of card memory from the free list kept in
+; card memory
+;-----------------------------------------------------------------------------
+GusMemAlloc:
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        sub esp, byte 24h
+        mov esi, eax
+        lea esi, [byte eax+01Fh]
+        pushfw
+        cli
+        call GusEnterCritical
+        xor edx, edx
+        and esi, 0FFFFE0h
+        mov dword [byte ebp-018h], edx
+        add esi, byte 20h
+.1:
+        mov cl, byte [byte ebp-018h]
+        xor edx, edx
+        mov eax, 1
+        mov dx, word [GusDramSize]
+        shl eax, cl
+        test edx, eax
+        je near .6
+        mov ebx, dword [byte ebp-018h]
+        shl ebx, 12h
+.2:
+        cmp ebx, byte 0FFFFFFFFh
+        je near .6
+        lea edx, [byte ebp-038h]
+        mov eax, ebx
+        call GusPeekBlock
+        mov ah, byte [byte ebp-02Ah]
+        test ah, 1
+        jne near .5
+        mov ecx, dword [byte ebp-038h]
+        cmp esi, ecx
+        ja near .5
+        mov dl, ah
+        or dl, 1
+        mov byte [byte ebp-02Ah], dl
+        mov edx, ecx
+        sub edx, esi
+        cmp edx, byte 40h
+        jae short .3
+        lea edx, [byte ebp-038h]
+        mov eax, ebx
+        call GusPokeBlock
+        call GusLeaveCritical
+        popfw
+        lea eax, [byte ebx+020h]
+        jmp near .7
+.3:
+        mov eax, dword [byte ebp-034h]
+        mov dword [byte ebp-020h], ebx
+        mov dword [byte ebp-028h], edx
+        xor edx, edx
+        mov dword [byte ebp-024h], eax
+        mov word [byte ebp-01Ch], dx
+        lea eax, [ebx+esi]
+        xor dh, dh
+        mov dword [byte ebp-034h], eax
+        mov byte [byte ebp-01Ah], dh
+        mov eax, ebx
+        lea edx, [byte ebp-038h]
+        mov dword [byte ebp-038h], esi
+        call GusPokeBlock
+        mov eax, dword [byte ebp-034h]
+        lea edx, [byte ebp-028h]
+        call GusPokeBlock
+        mov esi, dword [byte ebp-024h]
+        cmp esi, byte 0FFFFFFFFh
+        je short .4
+        lea edx, [byte ebp-028h]
+        mov eax, esi
+        call GusPeekBlock
+        mov eax, dword [byte ebp-034h]
+        lea edx, [byte ebp-028h]
+        mov dword [byte ebp-020h], eax
+        mov eax, esi
+        call GusPokeBlock
+.4:
+        call GusLeaveCritical
+        popfw
+        lea eax, [byte ebx+020h]
+        lea esp, [byte ebp-014h]
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+.5:
+        mov ebx, dword [byte ebp-034h]
+        jmp near .2
+.6:
+        mov edi, dword [byte ebp-018h]
+        inc edi
+        mov dword [byte ebp-018h], edi
+        cmp edi, byte 4
+        jl near .1
+        call GusLeaveCritical
+        popfw
+        xor eax, eax
+.7:
+        lea esp, [byte ebp-014h]
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 08Dh,040h,00h
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        push edi
+        sub esp, byte 30h
+        mov ebx, eax
+        lea edx, [byte ebp-020h]
+        lea ebx, [byte eax-020h]
+        pushfw
+        cli
+        call GusEnterCritical
+        mov eax, ebx
+        call GusPeekBlock
+        mov edx, dword [byte ebp-018h]
+        cmp edx, byte 0FFFFFFFFh
+        je short .9
+        mov eax, edx
+        lea edx, [byte ebp-040h]
+        call GusPeekBlock
+        test byte [byte ebp-032h], 1
+        jne short .9
+        mov eax, dword [byte ebp-020h]
+        mov ecx, dword [byte ebp-040h]
+        mov ebx, dword [byte ebp-018h]
+        add ecx, eax
+        mov eax, dword [byte ebp-01Ch]
+        mov dword [byte ebp-040h], ecx
+        mov dword [byte ebp-03Ch], eax
+        cmp eax, byte 0FFFFFFFFh
+        je short .8
+        lea edx, [byte ebp-030h]
+        call GusPeekBlock
+        mov eax, dword [byte ebp-03Ch]
+        lea edx, [byte ebp-030h]
+        mov dword [byte ebp-028h], ebx
+        call GusPokeBlock
+.8:
+        lea edx, [byte ebp-040h]
+        mov eax, ebx
+        call GusPokeBlock
+        lea edx, [byte ebp-020h]
+        mov eax, ebx
+        call GusPeekBlock
+.9:
+        mov edi, dword [byte ebp-01Ch]
+        cmp edi, byte 0FFFFFFFFh
+        je short .10
+        lea edx, [byte ebp-030h]
+        mov eax, edi
+        call GusPeekBlock
+        test byte [byte ebp-022h], 1
+        jne short .10
+        mov eax, dword [byte ebp-030h]
+        mov edx, dword [byte ebp-020h]
+        add edx, eax
+        mov eax, dword [byte ebp-02Ch]
+        mov dword [byte ebp-020h], edx
+        mov dword [byte ebp-01Ch], eax
+        cmp eax, byte 0FFFFFFFFh
+        je short .10
+        lea edx, [byte ebp-030h]
+        call GusPeekBlock
+        mov eax, dword [byte ebp-01Ch]
+        lea edx, [byte ebp-030h]
+        mov dword [byte ebp-028h], ebx
+        call GusPokeBlock
+.10:
+        mov dh, byte [byte ebp-012h]
+        and dh, 0FEh
+        mov eax, ebx
+        mov byte [byte ebp-012h], dh
+        lea edx, [byte ebp-020h]
+        call GusPokeBlock
+        call GusLeaveCritical
+        popfw
+        lea esp, [byte ebp-010h]
+        pop edi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        db 090h
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        push esi
+        sub esp, byte 10h
+        pushfw
+        cli
+        call GusEnterCritical
+        xor esi, esi
+        xor ebx, ebx
+.11:
+        mov eax, 1
+        xor edx, edx
+        mov cl, bl
+        mov dx, word [GusDramSize]
+        shl eax, cl
+        test edx, eax
+        je short .14
+        mov eax, ebx
+        shl eax, 12h
+.12:
+        cmp eax, byte 0FFFFFFFFh
+        je short .14
+        lea edx, [byte ebp-020h]
+        call GusPeekBlock
+        test byte [byte ebp-012h], 1
+        jne short .13
+        add esi, dword [byte ebp-020h]
+.13:
+        mov eax, dword [byte ebp-01Ch]
+        jmp short .12
+.14:
+        inc ebx
+        cmp ebx, byte 4
+        jl short .11
+        call GusLeaveCritical
+        popfw
+        mov eax, esi
+        lea esp, [byte ebp-010h]
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+        push ebp
+        mov ebp, esp
+        push ebx
+        push ecx
+        push edx
+        push esi
+        sub esp, byte 10h
+        pushfw
+        cli
+        call GusEnterCritical
+        xor esi, esi
+        xor ebx, ebx
+.15:
+        mov eax, 1
+        xor edx, edx
+        mov cl, bl
+        mov dx, word [GusDramSize]
+        shl eax, cl
+        test edx, eax
+        je short .18
+        mov eax, ebx
+        shl eax, 12h
+.16:
+        cmp eax, byte 0FFFFFFFFh
+        je short .18
+        lea edx, [byte ebp-020h]
+        call GusPeekBlock
+        test byte [byte ebp-012h], 1
+        jne short .17
+        mov edx, dword [byte ebp-020h]
+        cmp esi, edx
+        jae short .17
+        mov esi, edx
+.17:
+        mov eax, dword [byte ebp-01Ch]
+        jmp short .16
+.18:
+        inc ebx
+        cmp ebx, byte 4
+        jl short .15
+        call GusLeaveCritical
+        popfw
+        cmp esi, byte 20h
+        jbe short .19
+        lea eax, [byte esi-020h]
+        jmp short .20
+.19:
+        xor eax, eax
+.20:
+        lea esp, [byte ebp-010h]
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+;-----------------------------------------------------------------------------
+; GusStopStream                                   D703C  96 PC, low confidence
+; Stops the GUS stream voices
+;-----------------------------------------------------------------------------
+GusStopStream:
+        call GusStopStreamVoices
+        ret
+;-----------------------------------------------------------------------------
+; GusStreamBusy                                D7042  96 PC, medium confidence
+; Returns non-zero while either streaming channel is still playing
+;-----------------------------------------------------------------------------
+GusStreamBusy:
+        mov eax, dword [GusStreamBusyLeft]
+        or eax, dword [GusStreamBusyRight]
+        ret
+;-----------------------------------------------------------------------------
+; GusRefillStreamChannel                          D704E  96 PC, low confidence
+; Copies the next half buffer of a streaming channel into card memory
+;-----------------------------------------------------------------------------
+GusRefillStreamChannel:
+        push esi
+        push edi
+        push ebx
+        LD or, eax, eax
+        jne short .1
+        mov eax, dword [GusStreamSrcLeft]
+        mov dword [GusRefillSrc], eax
+        mov dword [GusStreamHalfLeft], 2
+        jmp short .2
+.1:
+        mov eax, dword [GusStreamSrcRight]
+        mov dword [GusRefillSrc], eax
+        mov dword [GusStreamHalfRight], 2
+        jmp short .2
+.2:
+        mov eax, dword [GusRefillSrc]
+        mov dword [GusRefillDest], eax
+        mov dword [GusRefillLength], eax
+        cmp eax, dword [GusStreamSrcLeft]
+        jne short .3
+        LD mov, esi, eax
+        movzx edx, byte [esi]
+        mov eax, dword [GusStreamCardEnd]
+        call GusPoke
+        movzx edx, byte [byte esi+01h]
+        mov eax, dword [GusStreamCardEnd]
+        inc eax
+        call GusPoke
+        movzx edx, byte [byte esi+02h]
+        mov eax, dword [GusStreamCardEnd]
+        inc eax
+        inc eax
+        call GusPoke
+        movzx edx, byte [byte esi+03h]
+        mov eax, dword [GusStreamCardEnd]
+        inc eax
+        inc eax
+        inc eax
+        call GusPoke
+        mov ebx, dword [GusStreamCardLeft]
+        jmp short .4
+.3:
+        mov ebx, dword [GusStreamCardRight]
+.4:
+        mov eax, 1
+        push eax
+        mov eax, GusRefillDest
+        mov edx, dword [GusStreamHalfSize]
+        mov ecx, 41h
+        call GusDownload
+        pop ebx
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; GusStreamVoiceIrq                               D7104  96 PC, low confidence
+; Voice interrupt callback for the streaming voices: flips the loop point and
+; flags the half that needs refilling
+;-----------------------------------------------------------------------------
+GusStreamVoiceIrq:
+        cmp dword [GusStreamActive], byte 0
+        je near .5
+        cmp eax, dword [GusStreamVoiceLeft]
+        je short .2
+        cmp eax, dword [GusStreamVoiceRight]
+        jne near .5
+        pushf
+        cli
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceRight]
+        out dx, al
+        mov al, 0
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 3
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        push ebp
+        LD mov, ebp, esp
+        test byte [byte ebp+05h], 2
+        cli
+        je short .1
+        sti
+.1:
+        pop ebp
+        popf
+        mov dword [GusStreamBusyLeft], 1
+        mov dword [GusStreamRefillLeft], 1
+        jmp near .4
+.2:
+        pushf
+        cli
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceRight]
+        out dx, al
+        mov al, 0Bh
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 0Ah
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 0
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 24h
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        push ebp
+        LD mov, ebp, esp
+        test byte [byte ebp+05h], 2
+        cli
+        je short .3
+        sti
+.3:
+        pop ebp
+        popf
+        mov dword [GusStreamBusyRight], 1
+        mov dword [GusStreamRefillRight], 1
+.4:
+        mov eax, 1
+        ret
+.5:
+        LD xor, eax, eax
+        ret
+;-----------------------------------------------------------------------------
+; GusServiceStream                                D721B  96 PC, low confidence
+; Refills every streaming channel that its voice interrupt flagged
+;-----------------------------------------------------------------------------
+GusServiceStream:
+        cmp dword [GusStreamBusyLeft], byte 0
+        je short .1
+        LD xor, eax, eax
+        call GusRefillStreamChannel
+        mov dword [GusStreamBusyLeft], 0
+        mov dword [GusStreamRefillLeft], 0
+.1:
+        cmp dword [GusStreamBusyRight], byte 0
+        je short .2
+        mov eax, 1
+        call GusRefillStreamChannel
+        mov dword [GusStreamBusyRight], 0
+        mov dword [GusStreamRefillRight], 0
+.2:
+        ret
+;-----------------------------------------------------------------------------
+; GusStartStream                                  D7267  96 PC, low confidence
+; Sets up the double-buffered stream in card memory, loads both halves and
+; starts the looping voices
+;-----------------------------------------------------------------------------
+GusStartStream:
+        push ebp
+        LD mov, ebp, esp
+        push ebx
+        push esi
+        push edi
+        pushf
+        cli
+        mov eax, dword [byte ebp+010h]
+        mov dword [GusStreamBufSize], eax
+        shr eax, 1
+        mov dword [GusStreamHalfSize], eax
+        shr eax, 1
+        mov dword [GusStreamQuarterSize], eax
+        mov eax, dword [byte ebp+08h]
+        mov dword [GusStreamSrcLeft], eax
+        add eax, dword [GusStreamHalfSize]
+        mov dword [GusStreamSrcRight], eax
+        push es
+        push ds
+        pop es
+        mov edi, dword [byte ebp+08h]
+        mov ecx, dword [GusStreamQuarterSize]
+        cld
+        rep stosd
+        pop es
+        mov eax, dword [byte ebp+0Ch]
+        mov dword [GusStreamCardLeft], eax
+        push ebx
+        LD mov, ebx, eax
+        and ebx, 0FFFC000h
+        and eax, 3FFFh
+        shr eax, 1
+        LD or, eax, ebx
+        shl eax, 9
+        pop ebx
+        mov dword [GusStreamLoopLo], eax
+        mov eax, dword [byte ebp+0Ch]
+        add eax, dword [GusStreamHalfSize]
+        mov dword [GusStreamCardRight], eax
+        push ebx
+        LD mov, ebx, eax
+        and ebx, 0FFFC000h
+        and eax, 3FFFh
+        shr eax, 1
+        LD or, eax, ebx
+        shl eax, 9
+        pop ebx
+        mov dword [GusStreamStartLo], eax
+        mov eax, dword [byte ebp+0Ch]
+        add eax, dword [GusStreamBufSize]
+        mov dword [GusStreamCardEnd], eax
+        push ebx
+        LD mov, ebx, eax
+        and ebx, 0FFFC000h
+        and eax, 3FFFh
+        shr eax, 1
+        LD or, eax, ebx
+        shl eax, 9
+        pop ebx
+        mov dword [GusStreamEndLo], eax
+        mov dword [GusStreamHalfLeft], 1
+        mov dword [GusStreamHalfRight], 1
+        mov esi, dword [GusStreamCardLeft]
+.1:
+        LD xor, edx, edx
+        LD mov, eax, esi
+        call GusPoke
+        inc esi
+        cmp esi, dword [GusStreamCardEnd]
+        jbe short .1
+        LD xor, edx, edx
+        LD mov, eax, esi
+        call GusPoke
+        mov eax, GusStreamVoiceIrq
+        call GusSetVoiceCallbacks
+        mov dword [GusStreamVoiceLeft], 0
+        mov dword [GusStreamVoiceStereo], 1
+        mov dword [GusStreamVoiceRight], 2
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceLeft]
+        out dx, al
+        mov al, 1
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, 800h
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 3
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 2
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 0Bh
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 0Ah
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 5
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamEndLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 4
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamEndHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 9
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, 8FF0h
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov dx, word [GusRegSelectPort]
+        mov al, 0Ch
+        out dx, al
+        mov dx, word [GusDataHighPort]
+        mov al, 0
+        out dx, al
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceStereo]
+        out dx, al
+        mov al, 1
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, 800h
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov eax, dword [GusStreamCardLeft]
+        add eax, byte 2
+        push ebx
+        LD mov, ebx, eax
+        and ebx, 0FFFC000h
+        and eax, 3FFFh
+        shr eax, 1
+        LD or, eax, ebx
+        shl eax, 9
+        pop ebx
+        mov dword [GusStreamLoopLo], eax
+        mov eax, dword [GusStreamCardEnd]
+        add eax, byte 2
+        push ebx
+        LD mov, ebx, eax
+        and ebx, 0FFFC000h
+        and eax, 3FFFh
+        shr eax, 1
+        LD or, eax, ebx
+        shl eax, 9
+        pop ebx
+        mov dword [GusStreamEndLo], eax
+        mov al, 3
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 2
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 0Bh
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 0Ah
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 5
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamEndLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 4
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamEndHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 9
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, 8FF0h
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov dx, word [GusRegSelectPort]
+        mov al, 0Ch
+        out dx, al
+        mov dx, word [GusDataHighPort]
+        mov al, 0Fh
+        out dx, al
+        mov eax, dword [GusStreamCardLeft]
+        push ebx
+        LD mov, ebx, eax
+        and ebx, 0FFFC000h
+        and eax, 3FFFh
+        shr eax, 1
+        LD or, eax, ebx
+        shl eax, 9
+        pop ebx
+        mov dword [GusStreamLoopLo], eax
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceLeft]
+        out dx, al
+        mov al, 0
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 2Ch
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceStereo]
+        out dx, al
+        mov al, 0
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 0Ch
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceRight]
+        out dx, al
+        mov al, 1
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, 800h
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 9
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, 0
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 3
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 2
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 5
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamStartLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 4
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamStartHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        pushf
+        cli
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceRight]
+        out dx, al
+        mov al, 0Bh
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopLo]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 0Ah
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov ax, word [GusStreamLoopHi]
+        mov dx, word [GusDataLowPort]
+        out dx, ax
+        mov al, 0
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 24h
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        push ebp
+        LD mov, ebp, esp
+        test byte [byte ebp+05h], 2
+        cli
+        je short .2
+        sti
+.2:
+        pop ebp
+        popf
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceLeft]
+        out dx, al
+        mov al, 0Dh
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 3
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        mov dx, word [GusRegSelectPort]
+        mov al, 6
+        out dx, al
+        mov dx, word [GusDataHighPort]
+        mov al, 3Fh
+        out dx, al
+        mov dx, word [GusRegSelectPort]
+        mov al, 7
+        out dx, al
+        mov dx, word [GusDataHighPort]
+        mov al, 8Fh
+        out dx, al
+        mov dx, word [GusRegSelectPort]
+        mov al, 8
+        out dx, al
+        mov dx, word [GusDataHighPort]
+        mov al, 0FBh
+        out dx, al
+        mov al, 0Dh
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 0
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceStereo]
+        out dx, al
+        mov al, 0Dh
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 3
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        mov dx, word [GusRegSelectPort]
+        mov al, 6
+        out dx, al
+        mov dx, word [GusDataHighPort]
+        mov al, 3Fh
+        out dx, al
+        mov dx, word [GusRegSelectPort]
+        mov al, 7
+        out dx, al
+        mov dx, word [GusDataHighPort]
+        mov al, 8Fh
+        out dx, al
+        mov dx, word [GusRegSelectPort]
+        mov al, 8
+        out dx, al
+        mov dx, word [GusDataHighPort]
+        mov al, 0FBh
+        out dx, al
+        mov al, 0Dh
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 0
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        mov dword [GusStreamActive], 1
+        push ebp
+        LD mov, ebp, esp
+        test byte [byte ebp+05h], 2
+        cli
+        je short .3
+        sti
+.3:
+        pop ebp
+        popf
+        pop edi
+        pop esi
+        pop ebx
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; GusStopStreamVoices                             D788C  96 PC, low confidence
+; Stops both streaming voices and clears the stream state
+;-----------------------------------------------------------------------------
+GusStopStreamVoices:
+        pushf
+        cli
+        cmp dword [GusStreamActive], byte 0
+        je near .2
+        pushf
+        cli
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceRight]
+        out dx, al
+        mov al, 0
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 3
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        push ebp
+        LD mov, ebp, esp
+        test byte [byte ebp+05h], 2
+        cli
+        je short .1
+        sti
+.1:
+        pop ebp
+        popf
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceLeft]
+        out dx, al
+        mov al, 0
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 3
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        mov dx, word [GusVoiceSelectPort]
+        mov al, byte [GusStreamVoiceStereo]
+        out dx, al
+        mov al, 0
+        mov dx, word [GusRegSelectPort]
+        out dx, al
+        mov al, 3
+        mov dx, word [GusDataHighPort]
+        out dx, al
+        push ax
+        push dx
+        mov dx, word [GusDramPort]
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        in al, dx
+        pop dx
+        pop ax
+        out dx, al
+        mov dword [GusStreamActive], 0
+.2:
+        push ebp
+        LD mov, ebp, esp
+        test byte [byte ebp+05h], 2
+        cli
+        je short .3
+        sti
+.3:
+        pop ebp
+        popf
+        ret
+SbIsrPicPort:                                   ; used by SbIsrAutoInit, SbIsrSingle, SbOpen
+        db 00h,00h
+SbIsrAckPort:                                   ; used by SbIsrAutoInit, SbIsrSingle, SbOpen
+        db 00h,00h
+SbIsrWritePort:                                 ; used by SbIsrSingle, SbOpen
+        db 00h,00h
+;-----------------------------------------------------------------------------
+; SbIsrSingle                                  D7970  96 PC, medium confidence
+; Sound Blaster interrupt handler for single-cycle DMA
+;-----------------------------------------------------------------------------
+SbIsrSingle:
+        pusha
+        push ds
+        db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:SbIsrPicPort]
+        dd SbIsrPicPort
+        out 20h, al
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbIsrAckPort]
+        dd SbIsrAckPort
+        in al, dx
+        mov ah, 14h
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbIsrWritePort]
+        dd SbIsrWritePort
+        mov ecx, 2710h
+.1:
+        in al, dx
+        and al, 80h
+        loopne .1
+        LD mov, al, ah
+        out dx, al
+        mov ah, 0FFh
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbIsrWritePort]
+        dd SbIsrWritePort
+        mov ecx, 2710h
+.2:
+        in al, dx
+        and al, 80h
+        loopne .2
+        LD mov, al, ah
+        out dx, al
+        mov ah, 0FFh
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbIsrWritePort]
+        dd SbIsrWritePort
+        mov ecx, 2710h
+.3:
+        in al, dx
+        and al, 80h
+        loopne .3
+        LD mov, al, ah
+        out dx, al
+        pop ds
+        popa
+        iret

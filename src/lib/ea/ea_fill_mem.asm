@@ -1,0 +1,111 @@
+; EA library: FillMem, ZeroMem.
+bits 32
+%include "hockey.inc"
+section s_E1824 progbits alloc exec nowrite align=1
+extern DispatchHotkey, GetTicks, JoyDebounceCount, JoyDirScanCodes, JoyPendingKey, JoyRepeatDelay, JoyRepeatKey, JoyRepeatStart
+extern KbdGetKey, mousepollfn, ReadJoystickPorts, TicksSince
+global FillMem, ZeroMem, ZeroMem_6, ZeroMem_29
+;-----------------------------------------------------------------------------
+; FillMem                                      E1824  96 PC, medium confidence
+; Fills memory (dst, count, byte value)
+;-----------------------------------------------------------------------------
+FillMem:
+        push ebp
+        LD mov, ebp, esp
+        push edi
+        mov edx, dword [byte ebp+010h]
+        LD mov, dh, dl
+        shrd eax, edx, 10h
+        LD mov, ax, dx
+        jmp short ZeroMem_6
+;-----------------------------------------------------------------------------
+; ZeroMem                                      E1836  96 PC, medium confidence
+; Clears memory (dst, count) to zero
+;-----------------------------------------------------------------------------
+ZeroMem:
+        push ebp
+        LD mov, ebp, esp
+        push edi
+        LD xor, eax, eax
+ZeroMem_6:
+        cld
+        mov edi, dword [byte ebp+08h]
+        mov ecx, dword [byte ebp+0Ch]
+        shr ecx, 2
+        rep stosd
+        mov ecx, dword [byte ebp+0Ch]
+        and ecx, byte 3
+        rep stosb
+        pop edi
+        leave
+        ret
+        db 00h
+        call KbdGetKey
+        LD or, ax, ax
+        je short ZeroMem_29.2
+        ret
+ZeroMem_29:
+        call KbdGetKey
+        LD or, ax, ax
+        je short .2
+        push eax
+        call DispatchHotkey
+        add esp, byte 4
+        ret
+        call KbdGetKey
+        LD or, ax, ax
+        je short .1
+        push eax
+        call DispatchHotkey
+        add esp, byte 4
+        ret
+.1:
+        call dword [mousepollfn]
+        shl ax, 4
+        jne short .3
+.2:
+        call ReadJoystickPorts
+.3:
+        LD mov, bx, ax
+        test ax, 30h
+        je short .4
+        mov ax, 0Dh
+        jmp short .5
+.4:
+        and ebx, byte 0Fh
+        mov eax, dword [nosplit ebx*2+JoyDirScanCodes]
+.5:
+        db 066h,03Bh,05h                        ; insn: cmp ax,[JoyRepeatKey]
+        dd JoyRepeatKey
+        db 075h, .8-($+2)
+        LD or, ax, ax
+        jne short .7
+.6:
+        LD xor, ax, ax
+        ret
+.7:
+        push dword [JoyRepeatStart]
+        call TicksSince
+        add esp, byte 4
+        cmp ax, word [JoyRepeatDelay]
+        jl short .6
+        mov ax, 0Fh
+        mov word [JoyRepeatDelay], ax
+        jmp short .9
+.8:
+        cmp ax, word [JoyPendingKey]
+        jne short .10
+        dec byte [JoyDebounceCount]
+        jg short .6
+        mov word [JoyRepeatKey], ax
+        mov ax, 46h
+        mov word [JoyRepeatDelay], ax
+.9:
+        call GetTicks
+        mov dword [JoyRepeatStart], eax
+        mov ax, word [JoyRepeatKey]
+        ret
+.10:
+        mov byte [JoyDebounceCount], 3
+        mov word [JoyPendingKey], ax
+        jmp short .6

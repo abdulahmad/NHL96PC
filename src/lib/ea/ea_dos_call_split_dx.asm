@@ -1,0 +1,236 @@
+; EA library: DosCallSplitDx, DosOpenFile, DosOpenReadOnly, CreateHandle, openhandle and 5 more.
+bits 32
+%include "hockey.inc"
+section s_E0658 progbits alloc exec nowrite align=1
+extern ArchiveCount, ArchiveHandle, ArchiveOpenFn, FatalError, ResourceArchive, ResourceArchiveName, str_OpenhandleSFILEERROR
+global DosCallSplitDx, DosOpenFile, DosOpenReadOnly, CreateHandle, openhandle, openhandle_14, DosCloseFile, DosWriteFile
+global DosReadFile, DosFileTransfer, DosSeekFile
+;-----------------------------------------------------------------------------
+; DosCallSplitDx                                  E0658  96 PC, low confidence
+; Calls DOS with a 32-bit value split into CX:DX and joins DX:AX back into
+; EAX
+;-----------------------------------------------------------------------------
+DosCallSplitDx:
+        push ecx
+        push edx
+        LD mov, ecx, edx
+        shr ecx, 10h
+        movzx edx, dx
+        int 21h
+        pushf
+        shl edx, 10h
+        LD mov, dx, ax
+        LD mov, eax, edx
+        popf
+        pop edx
+        pop ecx
+        ret
+;-----------------------------------------------------------------------------
+; DosOpenFile                                  E0671  96 PC, medium confidence
+; Opens a file through DOS with the given mode
+;-----------------------------------------------------------------------------
+DosOpenFile:
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        mov eax, dword [byte ebp+018h]
+        mov dword [byte ebp-04h], eax
+        mov dword [byte ebp-08h], 3D00h
+        jmp short openhandle_14
+;-----------------------------------------------------------------------------
+; DosOpenReadOnly                              E0686  96 PC, medium confidence
+; Opens a file read-only through DOS
+;-----------------------------------------------------------------------------
+DosOpenReadOnly:
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        mov dword [byte ebp-04h], 0
+        mov dword [byte ebp-08h], 3D00h
+        jmp short openhandle_14
+;-----------------------------------------------------------------------------
+; CreateHandle                                    E069C  96 PC, low confidence
+; Creates a file and returns its handle through openhandle
+;-----------------------------------------------------------------------------
+CreateHandle:
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        mov dword [byte ebp-04h], 0
+        mov dword [byte ebp-08h], 3C00h
+        jmp short openhandle_14
+;-----------------------------------------------------------------------------
+; openhandle                                                      E06B2  95 PC
+; EA library: opens a file with the DOS create or open call and returns its handle
+;-----------------------------------------------------------------------------
+openhandle:
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        mov dword [byte ebp-04h], 1
+        mov dword [byte ebp-08h], 3D00h
+openhandle_14:
+        mov ebx, dword [byte ebp+0Ch]
+        mov dword [ebx], 0
+        mov edx, dword [byte ebp+08h]
+        mov eax, dword [byte ebp-08h]
+        LD xor, ecx, ecx
+        int 21h
+        jb short .1
+        mov ebx, dword [byte ebp+0Ch]
+        mov dword [ebx], eax
+        LD mov, ebx, eax
+        mov eax, 4202h
+        LD xor, edx, edx
+        call DosCallSplitDx
+        db 072h, .1-($+2)
+        db 08Bh,05Dh,014h                       ; insn: mov ebx,[ebp+14h]
+        mov dword [ebx], eax
+        mov ebx, dword [byte ebp+0Ch]
+        mov ebx, dword [ebx]
+        db 0B8h,00h,042h,00h,00h                ; insn: mov eax,4200h
+        LD xor, edx, edx
+        call DosCallSplitDx
+        jb short .1
+        mov ebx, dword [byte ebp+010h]
+        LD xor, eax, eax
+        mov dword [ebx], eax
+        leave
+        ret
+.1:
+        cmp byte [ResourceArchiveName], 0
+        je short .3
+        mov edx, ResourceArchiveName
+        mov eax, dword [byte ebp-08h]
+        LD xor, ecx, ecx
+        int 21h
+        jb short .3
+        mov ebx, dword [byte ebp+0Ch]
+        mov dword [ebx], eax
+        LD mov, ebx, eax
+        mov edx, dword [ArchiveHandle]
+        cmp byte [edx], 0
+        jne short .2
+        mov ecx, dword [ResourceArchive]
+        mov ah, 3Fh
+        int 21h
+        jb short .3
+.2:
+        push dword [byte ebp+08h]
+        push dword [ArchiveHandle]
+        call dword [ArchiveOpenFn]
+        add esp, byte 8
+        LD or, eax, eax
+        je short .3
+        mov ebx, dword [byte ebp+010h]
+        mov dword [ebx], eax
+        mov ebx, dword [ArchiveCount]
+        mov ecx, dword [ebx]
+        mov ebx, dword [byte ebp+014h]
+        mov dword [ebx], ecx
+        LD mov, edx, eax
+        mov eax, 4200h
+        mov ebx, dword [byte ebp+0Ch]
+        mov ebx, dword [ebx]
+        call DosCallSplitDx
+        jb short .3
+        leave
+        ret
+.3:
+        mov ebx, dword [byte ebp+0Ch]
+        mov eax, dword [ebx]
+        mov dword [ebx], 0
+        push eax
+        call DosCloseFile
+        add esp, byte 4
+        cmp dword [byte ebp-04h], byte 0
+        jne short .4
+        mov ebx, dword [byte ebp+014h]
+        LD xor, eax, eax
+        mov dword [ebx], eax
+        mov ebx, dword [byte ebp+010h]
+        mov dword [ebx], eax
+        leave
+        ret
+.4:
+        push dword [byte ebp+08h]
+        push str_OpenhandleSFILEERROR
+        call FatalError
+;-----------------------------------------------------------------------------
+; DosCloseFile                                    E07B8  96 PC, low confidence
+; Closes a DOS file handle when it is open
+;-----------------------------------------------------------------------------
+DosCloseFile:
+        push ebp
+        LD mov, ebp, esp
+        mov ebx, dword [byte ebp+08h]
+        LD or, ebx, ebx
+        je short .1
+        mov ah, 3Eh
+        int 21h
+.1:
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; DosWriteFile                                    E07C8  96 PC, low confidence
+; Writes a buffer to a DOS file
+;-----------------------------------------------------------------------------
+DosWriteFile:
+        mov ah, 40h
+        jmp short DosFileTransfer
+;-----------------------------------------------------------------------------
+; DosReadFile                                  E07CC  96 PC, medium confidence
+; Reads from a file handle (DOS 3Fh) in 16K pieces
+;-----------------------------------------------------------------------------
+DosReadFile:
+        mov ah, 3Fh
+;-----------------------------------------------------------------------------
+; DosFileTransfer                                 E07CE  96 PC, low confidence
+; Reads or writes a file handle with the DOS function passed in AH, in 16K
+; pieces
+;-----------------------------------------------------------------------------
+DosFileTransfer:
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF4h
+        mov dword [byte ebp-0Ch], 0
+        mov dword [byte ebp-08h], eax
+        mov eax, dword [byte ebp+0Ch]
+        mov dword [byte ebp-04h], eax
+.1:
+        mov eax, 1
+        mov edx, dword [byte ebp-04h]
+        mov ecx, 4000h
+        sub dword [byte ebp+010h], ecx
+        jge short .2
+        add ecx, dword [byte ebp+010h]
+        jle short .4
+.2:
+        mov ebx, dword [byte ebp+08h]
+        mov eax, dword [byte ebp-08h]
+        int 21h
+        jb short .3
+        movzx eax, ax
+        add dword [byte ebp-0Ch], eax
+        add dword [byte ebp-04h], eax
+        jmp short .1
+.3:
+        mov dword [byte ebp-0Ch], 0
+.4:
+        mov eax, dword [byte ebp-0Ch]
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; DosSeekFile                                  E081C  96 PC, medium confidence
+; Moves a DOS file pointer to an absolute position
+;-----------------------------------------------------------------------------
+DosSeekFile:
+        push ebp
+        LD mov, ebp, esp
+        mov ebx, dword [byte ebp+08h]
+        mov eax, 4200h
+        mov edx, dword [byte ebp+0Ch]
+        call DosCallSplitDx
+        leave
+        ret
+        db 00h,00h,00h

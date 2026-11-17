@@ -1,0 +1,1648 @@
+; 3D library: FillPolygonBlend, FillPolygon, FillPolygonArgs, FillPolygonCore, FillBandEdges and 15 more.
+bits 32
+%include "hockey.inc"
+section s_E0948 progbits alloc exec nowrite align=1
+extern AngleFromDelta, CosLookup, DrawClipBottom, DrawClipLeft, DrawClipRight, DrawClipTop, FillRectColor, FillRectSpans
+extern FillSpanList, FovScaleX, FovScaleY, NearClipZ, ProjectFlags, RemapSpanList, SetupRectFill, SetupRectFillBlend
+extern ShadowFillFunc, SinLookup, TitleBandFunc, ViewCentreX, ViewCentreY, ViewFovX, ViewFovY, ViewHalfHeight
+extern ViewHalfWidth, ViewOriginX, ViewOriginY
+global FillPolygon, FillPolygon_F, FillPolygonArgs, FillPolygonArgs_F, FillPolygonCore, FillBandEdges, FillBandRows, FillBandRowsJumpTable
+global FillBandRowsCases, FillBandRowsBlend, FillBandRowsBlendJumpTable, FillBandRowsBlendCases, FillBandRowsPlainJumpTable, FillBandsFinish, vecdist, RemapPolygonCore
+global RemapPolygon, RemapPolygonArgs, ClipEdgeToPlane, ClipEdgeToPlane_B, SetNearClipZ, SetViewScreenOrigin, SetViewFov, SetViewFov_2D
+global TransposeMatrix
+;-----------------------------------------------------------------------------
+; FillPolygonBlend                                E0948  96 PC, low confidence
+; FillPolygon with the blended band fill
+;-----------------------------------------------------------------------------
+FillPolygonBlend:
+        push ebp
+        LD mov, ebp, esp
+        add esp, 0FFFFD6F4h
+        push esi
+        push edi
+        mov byte [byte ebp-011h], 1
+        jmp short FillPolygon_F
+;-----------------------------------------------------------------------------
+; FillPolygon                                     E0959  96 PC, low confidence
+; Fills a polygon from a point list with a colour
+;-----------------------------------------------------------------------------
+FillPolygon:
+        push ebp
+        LD mov, ebp, esp
+        add esp, 0FFFFD6F4h
+        push esi
+        push edi
+        mov byte [byte ebp-011h], 0
+FillPolygon_F:
+        mov eax, FillSpanList
+        mov dword [ShadowFillFunc], eax
+        mov eax, FillRectColor
+        mov dword [TitleBandFunc], eax
+        mov esi, dword [byte ebp+010h]
+        jmp short FillPolygonCore
+        push ebp
+        LD mov, ebp, esp
+        add esp, 0FFFFD6F4h
+        push esi
+        push edi
+        mov byte [byte ebp-011h], 1
+        jmp short FillPolygonArgs_F
+;-----------------------------------------------------------------------------
+; FillPolygonArgs                                 E0992  96 PC, low confidence
+; Fills a polygon whose points are passed as arguments
+;-----------------------------------------------------------------------------
+FillPolygonArgs:
+        push ebp
+        LD mov, ebp, esp
+        add esp, 0FFFFD6F4h
+        push esi
+        push edi
+        mov byte [byte ebp-011h], 0
+FillPolygonArgs_F:
+        mov eax, FillSpanList
+        mov dword [ShadowFillFunc], eax
+        mov eax, FillRectColor
+        mov dword [TitleBandFunc], eax
+        lea esi, [byte ebp+010h]
+;-----------------------------------------------------------------------------
+; FillPolygonCore                                 E09B8  96 PC, low confidence
+; Fills a polygon through the span and band fill routines set by the caller
+;-----------------------------------------------------------------------------
+FillPolygonCore:
+        mov dword [byte ebp-0Ch], esi
+        mov ecx, dword [byte ebp+0Ch]
+        LD mov, eax, ecx
+        dec eax
+        lea eax, [esi+eax*8]
+        mov dword [byte ebp-010h], eax
+        cld
+        lea eax, [dword ebp-0282Ch]
+        mov dword [byte ebp-02Ch], eax
+        mov eax, dword [DrawClipLeft]
+        mov dword [byte ebp-04h], eax
+        mov eax, dword [DrawClipRight]
+        dec eax
+        mov dword [byte ebp-08h], eax
+        mov eax, dword [byte esi+04h]
+        mov dword [byte ebp-018h], eax
+        mov dword [byte ebp-020h], eax
+        mov ebx, dword [esi]
+        LD mov, edx, ebx
+        mov dword [byte ebp-01Ch], esi
+        mov dword [byte ebp-024h], esi
+        add esi, byte 8
+        dec ecx
+        jne short .1
+        push dword [byte ebp+08h]
+        mov esi, dword [byte ebp-0Ch]
+        push dword [byte esi+04h]
+        push dword [esi]
+        push dword [byte esi+04h]
+        push dword [esi]
+        call dword [TitleBandFunc]
+        add esp, byte 14h
+        pop edi
+        pop esi
+        leave
+        ret
+.1:
+        mov eax, dword [byte esi+04h]
+        cmp eax, dword [byte ebp-018h]
+        jg short .2
+        mov dword [byte ebp-018h], eax
+        mov dword [byte ebp-01Ch], esi
+.2:
+        cmp eax, dword [byte ebp-020h]
+        jle short .3
+        mov dword [byte ebp-020h], eax
+        mov dword [byte ebp-024h], esi
+.3:
+        mov eax, dword [esi]
+        LD cmp, eax, ebx
+        jge short .4
+        LD mov, ebx, eax
+.4:
+        LD cmp, eax, edx
+        jle short .5
+        LD mov, edx, eax
+.5:
+        add esi, byte 8
+        dec ecx
+        jne short .1
+        mov eax, dword [byte ebp-020h]
+        sub eax, dword [byte ebp-018h]
+        cmp eax, byte 0
+        jle short .9
+        cmp edx, dword [byte ebp-04h]
+        jl short .9
+        cmp ebx, dword [byte ebp-08h]
+        jge short .9
+        mov eax, dword [byte ebp-020h]
+        cmp eax, dword [DrawClipTop]
+        jl short .9
+        mov ecx, dword [byte ebp-018h]
+        cmp ecx, dword [DrawClipBottom]
+        jge short .9
+        mov byte [byte ebp-012h], 0
+        cmp edx, dword [byte ebp-08h]
+        jg short .6
+        cmp ebx, dword [byte ebp-04h]
+        jl short .6
+        cmp eax, dword [DrawClipBottom]
+        jge short .6
+        cmp ecx, dword [DrawClipTop]
+        jge short .7
+.6:
+        mov byte [byte ebp-012h], 1
+.7:
+        LD cmp, eax, ecx
+        je short .8
+        LD cmp, edx, ebx
+        jne short .10
+.8:
+        push dword [byte ebp+08h]
+        mov esi, dword [byte ebp-0Ch]
+        push eax
+        push edx
+        push ecx
+        push ebx
+        call dword [TitleBandFunc]
+        add esp, byte 14h
+.9:
+        pop edi
+        pop esi
+        leave
+        ret
+.10:
+        lea esi, [dword ebp-0290Ch]
+        mov edi, dword [byte ebp-01Ch]
+.11:
+        mov eax, dword [byte edi+04h]
+        mov ecx, dword [edi]
+        add edi, byte 8
+        cmp edi, dword [byte ebp-010h]
+        jbe short .12
+        mov edi, dword [byte ebp-0Ch]
+.12:
+        mov edx, dword [byte edi+04h]
+        LD cmp, edx, eax
+        jle short .15
+        push esi
+        push edx
+        push dword [edi]
+        push eax
+        push ecx
+        cmp byte [byte ebp-012h], 0
+        je short .13
+        call SetupRectFill
+        mov dword [byte ebp-028h], edi
+        call FillBandEdges
+        jmp short .14
+.13:
+        call SetupRectFillBlend
+        mov dword [byte ebp-028h], edi
+        call FillBandRows
+.14:
+        mov edi, dword [byte ebp-028h]
+        add esp, byte 14h
+.15:
+        cmp edi, dword [byte ebp-024h]
+        jne short .11
+        mov edi, dword [byte ebp-01Ch]
+.16:
+        mov eax, dword [byte edi+04h]
+        mov ecx, dword [edi]
+        sub edi, byte 8
+        cmp edi, dword [byte ebp-0Ch]
+        jae short .17
+        mov edi, dword [byte ebp-010h]
+.17:
+        mov edx, dword [byte edi+04h]
+        LD cmp, edx, eax
+        jle short .20
+        push esi
+        push edx
+        push dword [edi]
+        push eax
+        push ecx
+        cmp byte [byte ebp-012h], 0
+        je short .18
+        call SetupRectFill
+        jmp short .19
+.18:
+        call SetupRectFillBlend
+.19:
+        mov dword [byte ebp-028h], edi
+        call FillBandRowsBlend
+        mov edi, dword [byte ebp-028h]
+        add esp, byte 14h
+.20:
+        cmp edi, dword [byte ebp-024h]
+        jne short .16
+        mov eax, dword [byte ebp-020h]
+        cmp eax, dword [DrawClipBottom]
+        jl short .21
+        mov eax, dword [DrawClipBottom]
+        dec eax
+.21:
+        mov ebx, dword [byte ebp-018h]
+        cmp ebx, dword [DrawClipTop]
+        jge short .22
+        mov ebx, dword [DrawClipTop]
+.22:
+        LD sub, eax, ebx
+        jle short .23
+        inc eax
+        push dword [byte ebp+08h]
+        push eax
+        push ebx
+        lea ebx, [nosplit ebx*4+00h]
+        lea eax, [dword ebp-0142Ch]
+        LD add, eax, ebx
+        push eax
+        lea eax, [dword ebp-0282Ch]
+        LD add, eax, ebx
+        push eax
+        call dword [ShadowFillFunc]
+        add esp, byte 14h
+.23:
+        pop edi
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; FillBandEdges                                   E0B9B  96 PC, low confidence
+; Fills the soft edge columns of a shaded band
+;-----------------------------------------------------------------------------
+FillBandEdges:
+        mov ecx, dword [byte esi+020h]
+        LD or, ecx, ecx
+        jle short .1
+        mov edi, dword [byte esi+0Ch]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        adc edi, byte 0
+        LD sub, edi, ecx
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        mov eax, dword [DrawClipLeft]
+        push ecx
+        push edi
+        rep stosd
+        pop edi
+        pop ecx
+        add edi, 1400h
+        dec eax
+        rep stosd
+.1:
+        mov ecx, dword [byte esi+028h]
+        LD or, ecx, ecx
+        jle short .2
+        mov edi, dword [byte esi+0Ch]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        adc edi, byte 0
+        LD sub, edi, ecx
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        mov eax, dword [DrawClipRight]
+        push ecx
+        push edi
+        rep stosd
+        pop edi
+        pop ecx
+        add edi, 1400h
+        dec eax
+        rep stosd
+.2:
+        mov ecx, dword [byte esi+024h]
+        LD or, ecx, ecx
+        jle short .3
+        mov edi, dword [byte esi+014h]
+        inc edi
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        mov eax, dword [DrawClipLeft]
+        push ecx
+        push edi
+        rep stosd
+        pop edi
+        pop ecx
+        add edi, 1400h
+        dec eax
+        rep stosd
+.3:
+        mov ecx, dword [byte esi+02Ch]
+        LD or, ecx, ecx
+        jle short FillBandRows
+        mov edi, dword [byte esi+014h]
+        inc edi
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        mov eax, dword [DrawClipRight]
+        push ecx
+        push edi
+        rep stosd
+        pop edi
+        pop ecx
+        add edi, 1400h
+        dec eax
+        rep stosd
+;-----------------------------------------------------------------------------
+; FillBandRows                                    E0C59  96 PC, low confidence
+; Fills the rows of a shaded band with its colour
+;-----------------------------------------------------------------------------
+FillBandRows:
+        mov ecx, dword [byte esi+018h]
+        LD or, ecx, ecx
+        jle short FillBandRowsCases
+        mov edi, dword [byte esi+0Ch]
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        LD xor, ebx, ebx
+        mov bl, byte [byte esi+034h]
+        jmp dword [nosplit cs:ebx*4+FillBandRowsJumpTable]
+FillBandRowsJumpTable:                          ; jump table for the switch cases of FillBandRows
+        dd FillBandRowsCases
+        dd FillBandRowsCases
+        dd .1
+        dd FillBandRowsCases.3
+        dd FillBandRowsCases.5
+        dd FillBandRowsCases.7
+        dd FillBandRowsCases.9
+        dd FillBandRowsCases.11
+        dd FillBandRowsCases.15
+        dd FillBandRowsCases
+.1:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+.2:
+        mov dword [dword edi+01400h], eax
+        stosd
+        dec ecx
+        jne short .2
+;-----------------------------------------------------------------------------
+; FillBandRowsCases                               E0CB2  96 PC, low confidence
+; Band row fill cases and early exit
+;-----------------------------------------------------------------------------
+FillBandRowsCases:
+        ret
+.3:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+.4:
+        mov dword [dword edi+01400h], eax
+        stosd
+        dec eax
+        dec ecx
+        jne short .4
+        ret
+.5:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+.6:
+        mov dword [dword edi+01400h], eax
+        stosd
+        inc eax
+        dec ecx
+        jne short .6
+        ret
+.7:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov edx, dword [esi]
+        add edx, 80000000h
+        adc eax, byte 0
+        mov ebx, dword [byte esi+030h]
+.8:
+        mov dword [dword edi+01400h], eax
+        stosd
+        LD sub, edx, ebx
+        sbb eax, byte 0
+        dec ecx
+        jne short .8
+        ret
+.9:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov edx, dword [esi]
+        add edx, 80000000h
+        adc eax, byte 0
+        mov ebx, dword [byte esi+030h]
+.10:
+        mov dword [dword edi+01400h], eax
+        stosd
+        LD add, edx, ebx
+        adc eax, byte 0
+        dec ecx
+        jne short .10
+        ret
+.11:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov ebx, dword [byte esi+030h]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        jae short .12
+        add edi, byte 4
+.12:
+        mov dword [dword edi+01400h], eax
+.13:
+        LD add, edx, ebx
+        jae short .14
+        stosd
+        dec eax
+        dec ecx
+        jne short .12
+        sub edi, byte 4
+        ret
+.14:
+        dec eax
+        dec ecx
+        jne short .13
+        inc eax
+        mov dword [edi], eax
+        ret
+.15:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov ebx, dword [byte esi+030h]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        jae short .16
+        add edi, byte 4
+.16:
+        mov dword [edi], eax
+.17:
+        LD add, edx, ebx
+        jae short .18
+        mov dword [dword edi+01400h], eax
+        add edi, byte 4
+        inc eax
+        dec ecx
+        jne short .16
+        sub edi, byte 4
+        ret
+.18:
+        inc eax
+        dec ecx
+        jne short .17
+        dec eax
+        mov dword [dword edi+01400h], eax
+        ret
+;-----------------------------------------------------------------------------
+; FillBandRowsBlend                               E0D8B  96 PC, low confidence
+; Fills the rows of a shaded band, blending with what is under it
+;-----------------------------------------------------------------------------
+FillBandRowsBlend:
+        mov ecx, dword [byte esi+018h]
+        LD or, ecx, ecx
+        jle short FillBandRowsBlendCases
+        mov edi, dword [byte esi+0Ch]
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        LD xor, ebx, ebx
+        mov bl, byte [byte esi+034h]
+        cmp byte [byte ebp-011h], 0
+        jne short .1
+        jmp dword [nosplit cs:ebx*4+FillBandRowsPlainJumpTable]
+.1:
+        jmp dword [nosplit cs:ebx*4+FillBandRowsBlendJumpTable]
+FillBandRowsBlendJumpTable:                     ; jump table for the switch cases of FillBandRowsBlend,
+                                                ; FillBandRowsBlendCases
+        dd FillBandRowsCases
+        dd FillBandRowsCases
+        dd .1
+        dd FillBandRowsBlendCases.5
+        dd FillBandRowsBlendCases.9
+        dd FillBandRowsBlendCases.13
+        dd FillBandRowsBlendCases.17
+        dd FillBandRowsBlendCases.21
+        dd FillBandRowsBlendCases.27
+        dd FillBandRowsCases
+.1:
+        mov eax, dword [byte esi+04h]
+.2:
+        cmp dword [dword edi+01400h], eax
+        jl short FillBandRowsBlendCases.3
+        cmp dword [edi], eax
+        jle short FillBandRowsBlendCases.4
+        stosd
+        dec ecx
+        jne short .2
+;-----------------------------------------------------------------------------
+; FillBandRowsBlendCases                          E0DF5  96 PC, low confidence
+; Blended band row fill cases and early exit
+;-----------------------------------------------------------------------------
+FillBandRowsBlendCases:
+        jmp near FillBandsFinish
+.3:
+        mov dword [dword edi+01400h], eax
+.4:
+        add edi, byte 4
+        dec ecx
+        jne short FillBandRowsBlendJumpTable.2
+        jmp near FillBandsFinish
+.5:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+.6:
+        cmp dword [dword edi+01400h], eax
+        jl short .7
+        cmp dword [edi], eax
+        jle short .8
+        stosd
+        dec eax
+        dec ecx
+        jne short .6
+        jmp near FillBandsFinish
+.7:
+        mov dword [dword edi+01400h], eax
+.8:
+        add edi, byte 4
+        dec eax
+        dec ecx
+        jne short .6
+        jmp near FillBandsFinish
+.9:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+.10:
+        cmp dword [dword edi+01400h], eax
+        jl short .11
+        cmp dword [edi], eax
+        jle short .12
+        stosd
+        inc eax
+        dec ecx
+        jne short .10
+        jmp near FillBandsFinish
+.11:
+        mov dword [dword edi+01400h], eax
+.12:
+        add edi, byte 4
+        inc eax
+        dec ecx
+        jne short .10
+        jmp near FillBandsFinish
+.13:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov edx, dword [esi]
+        add edx, 80000000h
+        adc eax, byte 0
+        mov ebx, dword [byte esi+030h]
+.14:
+        cmp dword [dword edi+01400h], eax
+        jl short .15
+        cmp dword [edi], eax
+        jle short .16
+        stosd
+        LD sub, edx, ebx
+        sbb eax, byte 0
+        dec ecx
+        jne short .14
+        jmp near FillBandsFinish
+.15:
+        mov dword [dword edi+01400h], eax
+.16:
+        add edi, byte 4
+        LD sub, edx, ebx
+        sbb eax, byte 0
+        dec ecx
+        jne short .14
+        jmp near FillBandsFinish
+.17:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov edx, dword [esi]
+        add edx, 80000000h
+        adc eax, byte 0
+        mov ebx, dword [byte esi+030h]
+.18:
+        cmp dword [dword edi+01400h], eax
+        jl short .19
+        cmp dword [edi], eax
+        jle short .20
+        stosd
+        LD add, edx, ebx
+        adc eax, byte 0
+        dec ecx
+        jne short .18
+        jmp near FillBandsFinish
+.19:
+        mov dword [dword edi+01400h], eax
+.20:
+        add edi, byte 4
+        LD add, edx, ebx
+        adc eax, byte 0
+        dec ecx
+        jne short .18
+        jmp near FillBandsFinish
+.21:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov ebx, dword [byte esi+030h]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        jae short .22
+        add edi, byte 4
+.22:
+        cmp dword [dword edi+01400h], eax
+        jge short .23
+        mov dword [dword edi+01400h], eax
+.23:
+        LD add, edx, ebx
+        jae short .25
+        cmp dword [edi], eax
+        jle short .24
+        mov dword [edi], eax
+.24:
+        add edi, byte 4
+        dec eax
+        dec ecx
+        jne short .22
+        sub edi, byte 4
+        jmp near FillBandsFinish
+.25:
+        dec eax
+        dec ecx
+        jne short .23
+        inc eax
+        cmp dword [edi], eax
+        jle short .26
+        mov dword [edi], eax
+.26:
+        jmp near FillBandsFinish
+.27:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov ebx, dword [byte esi+030h]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        jae short .28
+        add edi, byte 4
+.28:
+        cmp dword [edi], eax
+        jle short .29
+        mov dword [edi], eax
+.29:
+        LD add, edx, ebx
+        jae short .31
+        cmp dword [dword edi+01400h], eax
+        jge short .30
+        mov dword [dword edi+01400h], eax
+.30:
+        add edi, byte 4
+        inc eax
+        dec ecx
+        jne short .28
+        sub edi, byte 4
+        jmp near FillBandsFinish
+.31:
+        inc eax
+        dec ecx
+        jne short .29
+        dec eax
+        cmp dword [dword edi+01400h], eax
+        jge short .26
+        mov dword [dword edi+01400h], eax
+        jmp near FillBandsFinish
+FillBandRowsPlainJumpTable:                     ; jump table for the switch cases of FillBandRowsBlend
+        dd FillBandRowsCases
+        dd FillBandRowsCases
+        dd .1
+        dd .5
+        dd .10
+        dd .15
+        dd .20
+        dd .25
+        dd .36
+        dd FillBandRowsCases
+.1:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+.2:
+        cmp dword [edi], eax
+        jg short .3
+        cmp dword [dword edi+01400h], eax
+        jl short .4
+        add edi, byte 4
+        dec ecx
+        jne short .2
+        jmp near FillBandsFinish
+.3:
+        rep stosd
+        jmp near FillBandsFinish
+.4:
+        add edi, 1400h
+        rep stosd
+        jmp near FillBandsFinish
+.5:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+.6:
+        cmp dword [edi], eax
+        jg short .7
+        cmp dword [dword edi+01400h], eax
+        jl short .8
+        add edi, byte 4
+        dec eax
+        dec ecx
+        jne short .6
+        jmp near FillBandsFinish
+.7:
+        stosd
+        dec eax
+        dec ecx
+        jne short .7
+        jmp near FillBandsFinish
+.8:
+        add edi, 1400h
+.9:
+        stosd
+        dec eax
+        dec ecx
+        jne short .9
+        jmp near FillBandsFinish
+.10:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+.11:
+        cmp dword [edi], eax
+        jg short .12
+        cmp dword [dword edi+01400h], eax
+        jl short .13
+        add edi, byte 4
+        inc eax
+        dec ecx
+        jne short .11
+        jmp near FillBandsFinish
+.12:
+        stosd
+        inc eax
+        dec ecx
+        jne short .12
+        jmp near FillBandsFinish
+.13:
+        add edi, 1400h
+.14:
+        stosd
+        inc eax
+        dec ecx
+        jne short .14
+        jmp near FillBandsFinish
+.15:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov edx, dword [esi]
+        add edx, 80000000h
+        adc eax, byte 0
+        mov ebx, dword [byte esi+030h]
+.16:
+        cmp dword [edi], eax
+        jg short .17
+        cmp dword [dword edi+01400h], eax
+        jl short .18
+        add edi, byte 4
+        LD sub, edx, ebx
+        sbb eax, byte 0
+        dec ecx
+        jne short .16
+        jmp near FillBandsFinish
+.17:
+        stosd
+        LD sub, edx, ebx
+        sbb eax, byte 0
+        dec ecx
+        jne short .17
+        jmp near FillBandsFinish
+.18:
+        add edi, 1400h
+.19:
+        stosd
+        LD sub, edx, ebx
+        sbb eax, byte 0
+        dec ecx
+        jne short .19
+        jmp near FillBandsFinish
+.20:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov edx, dword [esi]
+        add edx, 80000000h
+        adc eax, byte 0
+        mov ebx, dword [byte esi+030h]
+.21:
+        cmp dword [edi], eax
+        jg short .22
+        cmp dword [dword edi+01400h], eax
+        jl short .23
+        add edi, byte 4
+        LD add, edx, ebx
+        adc eax, byte 0
+        dec ecx
+        jne short .21
+        jmp near FillBandsFinish
+.22:
+        stosd
+        LD add, edx, ebx
+        adc eax, byte 0
+        dec ecx
+        jne short .22
+        jmp near FillBandsFinish
+.23:
+        add edi, 1400h
+.24:
+        stosd
+        LD add, edx, ebx
+        adc eax, byte 0
+        dec ecx
+        jne short .24
+        jmp near FillBandsFinish
+.25:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov ebx, dword [byte esi+030h]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        jae short .26
+        add edi, byte 4
+.26:
+        cmp dword [dword edi+01400h], eax
+        jl short .29
+        LD add, edx, ebx
+        jae short .27
+        cmp dword [edi], eax
+        jg short .34
+        add edi, byte 4
+.27:
+        dec eax
+        dec ecx
+        jne short .26
+        inc eax
+        cmp dword [edi], eax
+        jle short .28
+        mov dword [edi], eax
+.28:
+        jmp near FillBandsFinish
+.29:
+        add edi, 1400h
+.30:
+        stosd
+.31:
+        dec eax
+        LD add, edx, ebx
+        jae short .32
+        dec ecx
+        jne short .30
+        jmp short FillBandsFinish
+.32:
+        dec ecx
+        jne short .31
+        jmp short FillBandsFinish
+.33:
+        LD add, edx, ebx
+        jae short .35
+.34:
+        stosd
+        dec eax
+        dec ecx
+        jne short .33
+        jmp short FillBandsFinish
+.35:
+        dec eax
+        dec ecx
+        jne short .33
+        inc eax
+        mov dword [edi], eax
+        jmp short FillBandsFinish
+.36:
+        mov ecx, dword [byte esi+018h]
+        mov eax, dword [byte esi+04h]
+        mov ebx, dword [byte esi+030h]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        jae short .37
+        add edi, byte 4
+.37:
+        cmp dword [edi], eax
+        jg short .44
+        LD add, edx, ebx
+        jae short .38
+        cmp dword [dword edi+01400h], eax
+        jl short .39
+        add edi, byte 4
+.38:
+        inc eax
+        dec ecx
+        jne short .37
+        jmp short FillBandsFinish
+.39:
+        add edi, 1400h
+.40:
+        mov dword [edi], eax
+.41:
+        inc eax
+        LD add, edx, ebx
+        jae short .42
+        add edi, byte 4
+        dec ecx
+        jne short .40
+        dec eax
+        mov dword [edi], eax
+        jmp short FillBandsFinish
+.42:
+        dec ecx
+        jne short .41
+        add edi, byte 4
+        dec eax
+        mov dword [edi], eax
+        jmp short FillBandsFinish
+.43:
+        LD add, edx, ebx
+        jae short .45
+.44:
+        stosd
+.45:
+        inc eax
+        dec ecx
+        jne short .43
+        jmp short FillBandsFinish
+;-----------------------------------------------------------------------------
+; FillBandsFinish                                 E11C2  96 PC, low confidence
+; Finishes a band fill
+;-----------------------------------------------------------------------------
+FillBandsFinish:
+        cmp byte [byte ebp-012h], 0
+        jne short .46
+        ret
+.46:
+        mov ecx, dword [byte esi+020h]
+        LD or, ecx, ecx
+        jle short .47
+        mov edi, dword [byte esi+0Ch]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        adc edi, byte 0
+        LD sub, edi, ecx
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        mov eax, dword [DrawClipLeft]
+        rep stosd
+.47:
+        mov ecx, dword [byte esi+028h]
+        LD or, ecx, ecx
+        jle short .48
+        mov edi, dword [byte esi+0Ch]
+        mov edx, dword [byte esi+08h]
+        add edx, 80000000h
+        adc edi, byte 0
+        LD sub, edi, ecx
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        add edi, 1400h
+        mov eax, dword [DrawClipRight]
+        dec eax
+        rep stosd
+.48:
+        mov ecx, dword [byte esi+024h]
+        LD or, ecx, ecx
+        jle short .49
+        mov edi, dword [byte esi+014h]
+        inc edi
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        mov eax, dword [DrawClipLeft]
+        rep stosd
+.49:
+        mov ecx, dword [byte esi+02Ch]
+        LD or, ecx, ecx
+        jle short .50
+        mov edi, dword [byte esi+014h]
+        inc edi
+        lea edi, [nosplit edi*4+00h]
+        add edi, dword [byte ebp-02Ch]
+        add edi, 1400h
+        mov eax, dword [DrawClipRight]
+        dec eax
+        rep stosd
+.50:
+        ret
+        push ebp
+        LD mov, ebp, esp
+        add esp, 0FFFFD6F4h
+        push esi
+        push edi
+        mov byte [byte ebp-011h], 1
+        mov eax, FillSpanList
+        mov dword [ShadowFillFunc], eax
+        mov eax, FillRectSpans
+        mov dword [TitleBandFunc], eax
+        jmp short .51
+        push ebp
+        LD mov, ebp, esp
+        add esp, 0FFFFD6F4h
+        push esi
+        push edi
+        mov byte [byte ebp-011h], 0
+        mov eax, FillSpanList
+        mov dword [ShadowFillFunc], eax
+        mov eax, FillRectSpans
+        mov dword [TitleBandFunc], eax
+.51:
+        lea esi, [byte ebp+010h]
+        mov dword [byte ebp-0Ch], esi
+        mov ecx, dword [byte ebp+0Ch]
+        LD mov, eax, ecx
+        dec eax
+        lea eax, [nosplit eax*4+00h]
+        LD add, eax, esi
+        mov dword [byte ebp-010h], eax
+        cld
+        lea eax, [dword ebp-0282Ch]
+        mov dword [byte ebp-02Ch], eax
+        mov eax, dword [DrawClipLeft]
+        mov dword [byte ebp-04h], eax
+        mov eax, dword [DrawClipRight]
+        dec eax
+        mov dword [byte ebp-08h], eax
+        mov edi, dword [esi]
+        mov eax, dword [byte edi+0Ch]
+        sub eax, dword [byte edi+020h]
+        sub eax, dword [byte edi+028h]
+        mov dword [byte ebp-018h], eax
+        mov eax, dword [byte edi+014h]
+        add eax, dword [byte edi+024h]
+        add eax, dword [byte edi+02Ch]
+        mov dword [byte ebp-020h], eax
+        mov dword [dword ebp-0290Ch], 3
+        mov ebx, dword [byte edi+04h]
+        mov edx, dword [byte edi+010h]
+        LD cmp, ebx, edx
+        jle short .52
+        xchg ebx, edx
+.52:
+        mov dword [byte ebp-01Ch], esi
+        mov dword [byte ebp-024h], esi
+        add esi, byte 4
+        dec ecx
+        jne short .53
+        mov eax, dword [byte ebp+08h]
+        mov dword [byte ebp+edi+08h], eax
+        push edi
+        call dword [TitleBandFunc]
+        add esp, byte 4
+        pop edi
+        pop esi
+        leave
+        ret
+.53:
+        mov edi, dword [esi]
+        mov eax, dword [byte edi+0Ch]
+        sub eax, dword [byte edi+020h]
+        sub eax, dword [byte edi+028h]
+        cmp eax, dword [byte ebp-018h]
+        jg short .55
+        jne short .54
+        test dword [dword ebp-0290Ch], 1
+        je short .56
+.54:
+        mov dword [byte ebp-018h], eax
+        mov dword [byte ebp-01Ch], esi
+        or dword [dword ebp-0290Ch], byte 1
+        jmp short .56
+.55:
+        and dword [dword ebp-0290Ch], byte 2
+.56:
+        mov eax, dword [byte edi+014h]
+        add eax, dword [byte edi+024h]
+        add eax, dword [byte edi+02Ch]
+        cmp eax, dword [byte ebp-020h]
+        jl short .58
+        jne short .57
+        test dword [dword ebp-0290Ch], 2
+        jne short .59
+.57:
+        mov dword [byte ebp-020h], eax
+        mov dword [byte ebp-024h], esi
+        or dword [dword ebp-0290Ch], byte 2
+        jmp short .59
+.58:
+        and dword [dword ebp-0290Ch], byte 1
+.59:
+        mov eax, dword [byte edi+04h]
+        LD cmp, eax, ebx
+        jge short .60
+        LD mov, ebx, eax
+.60:
+        LD cmp, eax, edx
+        jle short .61
+        LD mov, edx, eax
+.61:
+        mov eax, dword [byte edi+010h]
+        LD cmp, eax, ebx
+        jge short .62
+        LD mov, ebx, eax
+.62:
+        LD cmp, eax, edx
+        jle short .63
+        LD mov, edx, eax
+.63:
+        add esi, byte 4
+        dec ecx
+        jg near .53
+        cmp edx, dword [byte ebp-04h]
+        jl short .67
+        cmp ebx, dword [byte ebp-08h]
+        jge short .67
+        mov eax, dword [byte ebp-020h]
+        cmp eax, dword [DrawClipTop]
+        jl short .67
+        mov ecx, dword [byte ebp-018h]
+        cmp ecx, dword [DrawClipBottom]
+        jge short .67
+        mov byte [byte ebp-012h], 0
+        cmp edx, dword [byte ebp-08h]
+        jg short .64
+        cmp ebx, dword [byte ebp-04h]
+        jl short .64
+        cmp eax, dword [DrawClipBottom]
+        jge short .64
+        cmp ecx, dword [DrawClipTop]
+        jge short .65
+.64:
+        mov byte [byte ebp-012h], 1
+.65:
+        LD cmp, eax, ecx
+        je short .66
+        LD cmp, edx, ebx
+        jne short .68
+.66:
+        mov esi, dword [byte ebp-0Ch]
+        mov edi, dword [esi]
+        push edi
+        call dword [TitleBandFunc]
+        add esp, byte 4
+.67:
+        pop edi
+        pop esi
+        leave
+        ret
+.68:
+        mov edi, dword [byte ebp-01Ch]
+.69:
+        mov esi, dword [edi]
+        cmp byte [byte esi+034h], 2
+        jl short .72
+        mov dword [byte ebp-028h], edi
+        cmp byte [byte ebp-012h], 0
+        je short .70
+        call FillBandEdges
+        jmp short .71
+.70:
+        call FillBandRows
+.71:
+        mov edi, dword [byte ebp-028h]
+.72:
+        cmp edi, dword [byte ebp-024h]
+        je short .73
+        add edi, byte 4
+        cmp edi, dword [byte ebp-010h]
+        jbe short .69
+        mov edi, dword [byte ebp-0Ch]
+        jmp short .69
+.73:
+        mov edi, dword [byte ebp-01Ch]
+.74:
+        sub edi, byte 4
+        cmp edi, dword [byte ebp-0Ch]
+        jae short .75
+        mov edi, dword [byte ebp-010h]
+.75:
+        cmp edi, dword [byte ebp-024h]
+        je short .76
+        mov esi, dword [edi]
+        cmp byte [byte esi+034h], 2
+        jl short .74
+        mov dword [byte ebp-028h], edi
+        call FillBandRowsBlend
+        mov edi, dword [byte ebp-028h]
+        jmp short .74
+.76:
+        mov eax, dword [byte ebp-020h]
+        cmp eax, dword [DrawClipBottom]
+        jl short .77
+        mov eax, dword [DrawClipBottom]
+        dec eax
+.77:
+        mov ebx, dword [byte ebp-018h]
+        cmp ebx, dword [DrawClipTop]
+        jge short .78
+        mov ebx, dword [DrawClipTop]
+.78:
+        LD sub, eax, ebx
+        jle short .79
+        inc eax
+        push dword [byte ebp+08h]
+        push eax
+        push ebx
+        lea ebx, [nosplit ebx*4+00h]
+        lea eax, [dword ebp-0142Ch]
+        LD add, eax, ebx
+        push eax
+        lea eax, [dword ebp-0282Ch]
+        LD add, eax, ebx
+        push eax
+        call dword [ShadowFillFunc]
+        add esp, byte 14h
+.79:
+        pop edi
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; vecdist                                                         E14C8  95 PC
+; (dx, dy): approximate length of a vector from its angle
+;-----------------------------------------------------------------------------
+vecdist:
+        push ebp
+        LD mov, ebp, esp
+        push dword [byte ebp+08h]
+        push dword [byte ebp+0Ch]
+        call AngleFromDelta
+        add esp, byte 8
+        LD or, eax, eax
+        jge short .1
+        neg eax
+.1:
+        cmp eax, 100h
+        jle short .2
+        neg eax
+        add eax, 200h
+.2:
+        cmp eax, 80h
+        jg short .4
+        push eax
+        call CosLookup
+        add esp, byte 4
+        LD mov, ebx, eax
+        mov eax, dword [byte ebp+08h]
+        LD or, eax, eax
+        jge short .3
+        neg eax
+.3:
+        LD xor, edx, edx
+        shl eax, 10h
+        div ebx
+        leave
+        ret
+.4:
+        push eax
+        call SinLookup
+        add esp, byte 4
+        LD mov, ebx, eax
+        mov eax, dword [byte ebp+0Ch]
+        LD or, eax, eax
+        jge short .5
+        neg eax
+.5:
+        LD xor, edx, edx
+        shl eax, 10h
+        div ebx
+        leave
+        ret
+        db 00h,00h
+;-----------------------------------------------------------------------------
+; RemapPolygonCore                                E1530  96 PC, low confidence
+; Darkens a polygon through the remap table
+;-----------------------------------------------------------------------------
+RemapPolygonCore:
+        push ebp
+        LD mov, ebp, esp
+        add esp, 0FFFFD6F4h
+        push esi
+        push edi
+        mov esi, dword [byte ebp+010h]
+        mov byte [byte ebp-011h], al
+        mov eax, RemapSpanList
+        mov dword [ShadowFillFunc], eax
+        mov eax, FillRectColor
+        mov dword [TitleBandFunc], eax
+        jmp near FillPolygonCore
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        push dword [byte ebp+0Ch]
+        push dword [byte ebp+08h]
+        push byte 0
+        mov al, 1
+        call RemapPolygonCore
+        add esp, byte 0Ch
+        pop edi
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; RemapPolygon                                    E1575  96 PC, low confidence
+; Darkens a polygon from a point list through the remap table
+;-----------------------------------------------------------------------------
+RemapPolygon:
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        push dword [byte ebp+0Ch]
+        push dword [byte ebp+08h]
+        push byte 0
+        mov al, 0
+        call RemapPolygonCore
+        add esp, byte 0Ch
+        pop edi
+        pop esi
+        leave
+        ret
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        lea eax, [byte ebp+0Ch]
+        push eax
+        push dword [byte ebp+08h]
+        push byte 0
+        mov al, 1
+        call RemapPolygonCore
+        add esp, byte 0Ch
+        pop edi
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; RemapPolygonArgs                                E15AC  96 PC, low confidence
+; Darkens a polygon whose points are passed as arguments
+;-----------------------------------------------------------------------------
+RemapPolygonArgs:
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        lea eax, [byte ebp+0Ch]
+        push eax
+        push dword [byte ebp+08h]
+        push byte 0
+        mov al, 0
+        call RemapPolygonCore
+        add esp, byte 0Ch
+        pop edi
+        pop esi
+        leave
+        ret
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        push esi
+        push edi
+        mov eax, dword [NearClipZ]
+        jmp short ClipEdgeToPlane_B
+;-----------------------------------------------------------------------------
+; ClipEdgeToPlane                                 E15D7  96 PC, low confidence
+; Finds where an edge crosses a Z plane
+;-----------------------------------------------------------------------------
+ClipEdgeToPlane:
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        push esi
+        push edi
+        mov eax, dword [byte ebp+014h]
+ClipEdgeToPlane_B:
+        mov esi, dword [byte ebp+08h]
+        mov ebx, dword [byte ebp+0Ch]
+        mov edi, dword [byte ebp+010h]
+        mov dword [byte edi+08h], eax
+        sub eax, dword [byte ebx+08h]
+        mov dword [byte ebp-08h], eax
+        mov eax, dword [byte esi+08h]
+        sub eax, dword [byte ebx+08h]
+        LD or, eax, eax
+        jge short .1
+        shr dword [byte ebp-08h], 1
+        shr eax, 1
+.1:
+        mov dword [byte ebp-04h], eax
+        mov eax, dword [esi]
+        sub eax, dword [ebx]
+        imul dword [byte ebp-08h]
+        idiv dword [byte ebp-04h]
+        add eax, dword [ebx]
+        mov dword [edi], eax
+        mov eax, dword [byte esi+04h]
+        sub eax, dword [byte ebx+04h]
+        imul dword [byte ebp-08h]
+        idiv dword [byte ebp-04h]
+        add eax, dword [byte ebx+04h]
+        mov dword [byte edi+04h], eax
+        pop edi
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; SetNearClipZ                                    E162A  96 PC, low confidence
+; Sets the near clip plane distance
+;-----------------------------------------------------------------------------
+SetNearClipZ:
+        push ebp
+        LD mov, ebp, esp
+        mov eax, dword [byte ebp+08h]
+        mov dword [NearClipZ], eax
+        leave
+        ret
+        db 00h
+;-----------------------------------------------------------------------------
+; SetViewScreenOrigin                             E1638  96 PC, low confidence
+; Sets the view's screen origin and works out its far corner from the view
+; size
+;-----------------------------------------------------------------------------
+SetViewScreenOrigin:
+        push ebp
+        LD mov, ebp, esp
+        mov eax, dword [byte ebp+08h]
+        mov dword [ViewOriginX], eax
+        add eax, dword [ViewHalfWidth]
+        mov dword [ViewCentreX], eax
+        mov eax, dword [byte ebp+0Ch]
+        mov dword [ViewOriginY], eax
+        add eax, dword [ViewHalfHeight]
+        mov dword [ViewCentreY], eax
+        leave
+        ret
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        mov eax, dword [byte ebp+08h]
+        mov dword [ViewFovX], eax
+        mov eax, dword [byte ebp+0Ch]
+        mov dword [ViewFovY], eax
+        jmp short SetViewFov_2D
+;-----------------------------------------------------------------------------
+; SetViewFov                                 E167A  96 PC, low confidence
+; Converts the camera angles from degrees to 1024ths of a turn and builds the
+; camera rotation
+;-----------------------------------------------------------------------------
+SetViewFov:
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        mov eax, dword [byte ebp+08h]
+        shl eax, 0Ah
+        LD xor, edx, edx
+        mov ecx, 168h
+        div ecx
+        mov dword [ViewFovX], eax
+        mov eax, dword [byte ebp+0Ch]
+        shl eax, 0Ah
+        LD xor, edx, edx
+        mov ecx, 168h
+        div ecx
+        mov dword [ViewFovY], eax
+;-----------------------------------------------------------------------------
+; SetViewFov_2D                                E16A7  96 PC, medium confidence
+; SetViewFov after the angle conversion: sets up the view's size and
+; projection
+;-----------------------------------------------------------------------------
+SetViewFov_2D:
+        mov eax, dword [byte ebp+010h]
+        shr eax, 1
+        mov dword [ViewHalfWidth], eax
+        add eax, dword [ViewOriginX]
+        mov dword [ViewCentreX], eax
+        mov eax, dword [byte ebp+014h]
+        shr eax, 1
+        mov dword [ViewHalfHeight], eax
+        add eax, dword [ViewOriginY]
+        mov dword [ViewCentreY], eax
+        push dword [ViewFovX]
+        call CosLookup
+        add esp, byte 4
+        mul dword [ViewHalfWidth]
+        LD mov, esi, eax
+        push dword [ViewFovX]
+        call SinLookup
+        add esp, byte 4
+        LD mov, ecx, eax
+        LD mov, eax, esi
+        div ecx
+        mov dword [FovScaleX], eax
+        mov ebx, dword [ViewFovY]
+        LD or, ebx, ebx
+        je short .1
+        push dword [ViewFovY]
+        call CosLookup
+        add esp, byte 4
+        mul dword [ViewHalfHeight]
+        LD mov, esi, eax
+        push dword [ViewFovY]
+        call SinLookup
+        add esp, byte 4
+        LD mov, ecx, eax
+        LD mov, eax, esi
+        div ecx
+        neg eax
+        mov dword [FovScaleY], eax
+        pop edi
+        pop esi
+        leave
+        ret
+.1:
+        LD mov, ebx, eax
+        shr ebx, 3
+        LD sub, eax, ebx
+        shr ebx, 1
+        LD sub, eax, ebx
+        neg eax
+        mov dword [FovScaleY], eax
+        neg eax
+        push dword [ViewHalfHeight]
+        push eax
+        call AngleFromDelta
+        add esp, byte 8
+        mov dword [ViewFovY], eax
+        pop edi
+        pop esi
+        leave
+        ret
+        mov ebx, dword [byte esp+04h]
+        mov ecx, dword [byte esp+08h]
+        cmp dword [byte ebx+08h], byte 0
+        jle short .2
+        mov eax, dword [ebx]
+        imul dword [FovScaleX]
+        idiv dword [byte ebx+08h]
+        add eax, dword [ViewCentreX]
+        mov dword [ecx], eax
+        mov eax, dword [byte ebx+04h]
+        imul dword [FovScaleY]
+        idiv dword [byte ebx+08h]
+        add eax, dword [ViewCentreY]
+        mov dword [byte ecx+04h], eax
+        ret
+.2:
+        mov dword [ecx], 80000000h
+        mov dword [byte ecx+04h], 80000000h
+        or dword [ProjectFlags], byte 1
+        ret
+        db 00h
+;-----------------------------------------------------------------------------
+; TransposeMatrix                                 E17B8  96 PC, low confidence
+; Transposes a 3x3 matrix, in place or into another matrix
+;-----------------------------------------------------------------------------
+TransposeMatrix:
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        mov esi, dword [byte ebp+08h]
+        mov edi, dword [byte ebp+0Ch]
+        mov ecx, 9
+        LD cmp, esi, edi
+        jne short .1
+        mov eax, dword [byte esi+04h]
+        xchg eax, dword [byte esi+0Ch]
+        mov dword [byte esi+04h], eax
+        mov eax, dword [byte esi+08h]
+        xchg eax, dword [byte esi+018h]
+        mov dword [byte esi+08h], eax
+        mov eax, dword [byte esi+014h]
+        xchg eax, dword [byte esi+01Ch]
+        mov dword [byte esi+014h], eax
+        pop edi
+        pop esi
+        leave
+        ret
+.1:
+        mov eax, dword [esi]
+        mov dword [edi], eax
+        mov eax, dword [byte esi+04h]
+        mov dword [byte edi+0Ch], eax
+        mov eax, dword [byte esi+08h]
+        mov dword [byte edi+018h], eax
+        mov eax, dword [byte esi+0Ch]
+        mov dword [byte edi+04h], eax
+        mov eax, dword [byte esi+010h]
+        mov dword [byte edi+010h], eax
+        mov eax, dword [byte esi+014h]
+        mov dword [byte edi+01Ch], eax
+        mov eax, dword [byte esi+018h]
+        mov dword [byte edi+08h], eax
+        mov eax, dword [byte esi+01Ch]
+        mov dword [byte edi+014h], eax
+        mov eax, dword [byte esi+020h]
+        mov dword [byte edi+020h], eax
+        pop edi
+        pop esi
+        leave
+        ret
+        db 00h

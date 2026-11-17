@@ -1,0 +1,265 @@
+; Input: RemoveKeyboardHandler, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall.
+bits 32
+%include "hockey.inc"
+section s_DFC33 progbits alloc exec nowrite align=1
+extern bailout_vec, BiosKeyFunc, DebugKeysEnabled, DosSetVector, KbdCapsLock, KbdDataSelector, KeyAscii, KeyAsciiAlt
+extern KeyAsciiCtrl, KeyAsciiNum, KeyAsciiShift, KeyboardHooked, KeyBuffer, KeyBufferHead, KeyBufferMask, KeyBufferTail
+extern KeyStateTable, NearClipZ, PrintScreenInt, RestoreDS, SavedInt16Offset, SavedInt16Selector, SavedKbdVecOffset, SavedKbdVecSelector
+extern SavedRealKbdOffset, SavedRealKbdSegment
+global RemoveKeyboardHandler, RemoveKeyboardHandler_6F, IretStub, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall
+;-----------------------------------------------------------------------------
+; RemoveKeyboardHandler                           DFC33  96 PC, low confidence
+; Keyboard: restores the original keyboard interrupt
+;-----------------------------------------------------------------------------
+RemoveKeyboardHandler:
+        cmp word [KbdDataSelector], byte 0
+        je short .1
+        mov word [KbdDataSelector], 0
+        pusha
+        in al, 21h
+        push eax
+        or al, 3
+        out 21h, al
+        mov ebx, 9
+        mov eax, dword [SavedKbdVecOffset]
+        mov dx, word [SavedKbdVecSelector]
+        call DosSetVector
+        mov ebx, 16h
+        mov eax, dword [SavedInt16Offset]
+        mov dx, word [SavedInt16Selector]
+        mov ebx, 23h
+        mov eax, dword [SavedRealKbdOffset]
+        mov dx, word [SavedRealKbdSegment]
+        call DosSetVector
+        and byte [0417h], 0F0h
+        pop eax
+        out 21h, al
+        mov ebx, BiosKeyCall
+        mov dword [BiosKeyFunc], ebx
+        popa
+.1:
+        ret
+RemoveKeyboardHandler_6F:
+        push eax
+        push ebx
+        push ds
+        in al, 61h
+        LD mov, ah, al
+        or al, 80h
+        out 61h, al
+        LD mov, al, ah
+        out 61h, al
+        LD xor, eax, eax
+        in al, 60h
+        LD mov, ebx, eax
+        db 066h,02Eh,08Eh,01Dh                  ; insn: o16 mov ds,[cs:KbdDataSelector]
+        dd KbdDataSelector
+        mov byte [KeyboardHooked], al
+        LD or, bl, bl
+        jns short .2
+        mov byte [dword ebx+NearClipZ], 0
+        mov al, 20h
+        out 20h, al
+        pop ds
+        pop ebx
+        pop eax
+        iret
+.2:
+        mov byte [dword ebx+KeyStateTable], 1
+        mov al, 20h
+        db 0E6h,020h                            ; insn: out 20h,al
+        db 083h,0FBh,03Ah                       ; insn: cmp ebx,3Ah
+        db 074h, .6-($+2)
+        db 0F6h,05h                             ; insn: test byte [KeyStateTable+38h],1
+        dd KeyStateTable+38h
+        db 01h
+        jne near .10
+        test byte [KeyStateTable+1Dh], 1
+        jne near .9
+        test byte [KeyStateTable+2Ah], 1
+        jne short .8
+        test byte [KeyStateTable+36h], 1
+        jne short .8
+        test byte [KbdCapsLock], 1
+        jne near .12
+        mov al, byte [dword ebx+KeyAscii]
+.3:
+        cmp al, 80h
+        jae short .7
+.4:
+        LD or, eax, eax
+        je short .5
+        mov ebx, dword [KeyBufferHead]
+        mov dword [nosplit ebx*4+KeyBuffer], eax
+        add ebx, byte 1
+        and ebx, dword [KeyBufferMask]
+        mov dword [KeyBufferHead], ebx
+.5:
+        pop ds
+        pop ebx
+        pop eax
+        iret
+.6:
+        xor dword [KbdCapsLock], byte 1
+        mov al, 0EDh
+        out 60h, al
+        mov al, byte [KbdCapsLock]
+        shl al, 2
+        out 60h, al
+        jmp short .5
+.7:
+        LD mov, ah, al
+        LD xor, al, al
+        cmp ah, 90h
+        jb short .4
+        and ah, 7Fh
+        jmp short .4
+.8:
+        mov al, byte [dword ebx+KeyAsciiShift]
+        cmp ebx, byte 37h
+        jne short .3
+        cmp dword [DebugKeysEnabled], byte 0
+        je short .3
+        mov byte [dword ebx+KeyStateTable], 0
+        call PrintScreenInt
+        jmp short .3
+.9:
+        mov al, byte [dword ebx+KeyAsciiCtrl]
+        cmp ebx, byte 1
+        jne short .3
+        jmp short .14
+.10:
+        test byte [KeyStateTable+1Dh], 1
+        jne short .13
+.11:
+        mov al, byte [dword ebx+KeyAsciiAlt]
+        jmp near .3
+.12:
+        mov al, byte [dword ebx+KeyAsciiNum]
+        jmp near .3
+.13:
+        test byte [KeyStateTable+53h], 1
+        je short .11
+.14:
+        cmp dword [DebugKeysEnabled], byte 0
+        je near .3
+        call dword [bailout_vec]
+IretStub:                                       ; used by InstallKeyboardHandler
+        db 0CFh
+;-----------------------------------------------------------------------------
+; Int16Handler                                    DFDDE  96 PC, low confidence
+; Keyboard: BIOS keyboard service replacement that reads from the game's key
+; buffer
+;-----------------------------------------------------------------------------
+Int16Handler:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        push ds
+        push es
+        push fs
+        push gs
+        LD mov, ebp, esp
+        sub esp, byte 8
+        cld
+        call RestoreDS
+        sti
+        call Int16Service
+        pushf
+        pop ebx
+        and ebx, 4000h
+        jne short .1
+        LD mov, esp, ebp
+        pop gs
+        pop fs
+        pop es
+        pop ds
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        LD or, eax, eax
+        retfw 4
+.1:
+        LD mov, esp, ebp
+        pop gs
+        pop fs
+        pop es
+        pop ds
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        iret
+;-----------------------------------------------------------------------------
+; Int16Service                                    DFE28  96 PC, low confidence
+; Keyboard: handles the BIOS keyboard read and status calls
+;-----------------------------------------------------------------------------
+Int16Service:
+        cmp ah, 0
+        je short .3
+        cmp ah, 10h
+        je short .3
+        cmp ah, 1
+        je short .2
+        cmp ah, 11h
+        je short .2
+        cmp ah, 2
+        je short .4
+        cmp ah, 12h
+        je short .4
+.1:
+        LD xor, eax, eax
+        LD or, eax, eax
+        ret
+.2:
+        mov ebx, dword [KeyBufferTail]
+        cmp ebx, dword [KeyBufferHead]
+        je short .1
+        mov eax, dword [nosplit ebx*4+KeyBuffer]
+        LD or, eax, eax
+        ret
+.3:
+        mov ebx, dword [KeyBufferTail]
+        cmp ebx, dword [KeyBufferHead]
+        je short .3
+        mov eax, dword [nosplit ebx*4+KeyBuffer]
+        add ebx, byte 1
+        and ebx, dword [KeyBufferMask]
+        mov dword [KeyBufferTail], ebx
+        LD or, eax, eax
+        ret
+.4:
+        LD xor, eax, eax
+        mov al, byte [KeyStateTable+2Ah]
+        or al, byte [KeyStateTable+36h]
+        and al, 1
+        LD or, eax, eax
+        ret
+;-----------------------------------------------------------------------------
+; KeyIsDown                                    DFE9C  96 PC, medium confidence
+; Returns whether a key is held down, from the key state table
+;-----------------------------------------------------------------------------
+KeyIsDown:
+        push ebp
+        LD mov, ebp, esp
+        mov ebx, dword [byte ebp+08h]
+        movzx eax, byte [dword ebx+KeyStateTable]
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; BiosKeyCall                                  DFEAB  96 PC, medium confidence
+; Keyboard: calls the BIOS keyboard service
+;-----------------------------------------------------------------------------
+BiosKeyCall:
+        movzx eax, ax
+        int 16h
+        movzx eax, ax
+        ret

@@ -1,0 +1,703 @@
+; Watcom C runtime: ErrnoPtr, __get_doserrno_ptr_, access_, getenv_, __set_EDOM_ and 16 more.
+bits 32
+%include "hockey.inc"
+section s_C2CB0 progbits alloc exec nowrite align=1
+extern __ClosedStreams, __iob, __NFiles, __OpenStreams, __qwrite_, __SetIOMode_, _doserrno, _dosret0_
+extern _environ, _nfree_, _nmalloc_, _psp, errno, FpuInitHook, HeapList, HeapRover
+extern isatty_, lseek_, memset_, strnicmp_
+global ErrnoPtr, __get_doserrno_ptr_, access_, getenv_, __set_EDOM_, __set_errno_, __set_ERANGE_, __set_EINVAL_
+global __set_doserrno_, __FPE_exception_, tolower_, __allocfp_, __freefp_, __freefp__39, __chktty_, __flush_
+global tell_, GetPsp, __close_, __MemAllocator, __MemAllocator_A3, __MemFree, __MemFree_106, __unlink_
+;-----------------------------------------------------------------------------
+; ErrnoPtr                                        C2CB0  96 PC, low confidence
+; Returns the address of errno
+;-----------------------------------------------------------------------------
+ErrnoPtr:
+        mov eax, errno
+        ret
+;-----------------------------------------------------------------------------
+; __get_doserrno_ptr_                          C2CB6  96 PC, medium confidence
+; Returns the address of the DOS error number
+;-----------------------------------------------------------------------------
+__get_doserrno_ptr_:
+        mov eax, _doserrno
+        ret
+;-----------------------------------------------------------------------------
+; access_                                                       C2CBC  library
+; Run-time library access: whether a file exists or can be opened
+;-----------------------------------------------------------------------------
+access_:
+        push ebx
+        push ecx
+        mov ebx, edx
+        mov edx, eax
+        xor eax, eax
+        mov ah, 43h
+        int 21h
+        jb short .1
+        test bl, 2
+        je short .1
+        test cl, 1
+        je short .1
+        mov al, 0
+        mov ah, 6
+        stc
+.1:
+        sbb ecx, ecx
+        mov cx, ax
+        mov eax, ecx
+        mov ebx, eax
+        mov edx, eax
+        and ebx, 0FFFFh
+        shr edx, 10h
+        mov eax, ebx
+        call _dosret0_
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; getenv_                                                       C2CF7  library
+; Run-time library getenv: an environment variable's value
+;-----------------------------------------------------------------------------
+getenv_:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        mov ebp, eax
+        mov esi, dword [_environ]
+        test esi, esi
+        je short .4
+        test eax, eax
+        je short .4
+        mov edi, eax
+        push es
+        mov eax, ds
+        mov es, eax
+        sub ecx, ecx
+        dec ecx
+        xor eax, eax
+        repne scasb
+        not ecx
+        dec ecx
+        pop es
+        mov edi, ecx
+        jmp short .3
+.1:
+        mov eax, ecx
+        mov edx, ebp
+        mov ebx, edi
+        call strnicmp_
+        test eax, eax
+        jne short .2
+        cmp byte [ecx+edi], 3Dh
+        jne short .2
+        lea eax, [byte edi+01h]
+        add eax, ecx
+        jmp short .5
+.2:
+        add esi, byte 4
+.3:
+        mov ecx, dword [esi]
+        test ecx, ecx
+        jne short .1
+.4:
+        xor eax, eax
+.5:
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; __set_EDOM_                                                   C2D51  library
+; Run-time library: sets errno to EDOM
+;-----------------------------------------------------------------------------
+__set_EDOM_:
+        mov eax, 0Dh
+;-----------------------------------------------------------------------------
+; __set_errno_                                                  C2D56  library
+;-----------------------------------------------------------------------------
+__set_errno_:
+        push edx
+        mov edx, eax
+        call ErrnoPtr
+        mov dword [eax], edx
+        pop edx
+        ret
+;-----------------------------------------------------------------------------
+; __set_ERANGE_                                                 C2D62  library
+; Run-time library: sets errno to ERANGE
+;-----------------------------------------------------------------------------
+__set_ERANGE_:
+        mov eax, 0Eh
+        jmp short __set_errno_
+;-----------------------------------------------------------------------------
+; __set_EINVAL_                                                 C2D69  library
+; Run-time library: sets errno to EINVAL
+;-----------------------------------------------------------------------------
+__set_EINVAL_:
+        mov eax, 9
+        call __set_errno_
+        mov eax, 0FFFFFFFFh
+        ret
+;-----------------------------------------------------------------------------
+; __set_doserrno_                                               C2D79  library
+; Run-time library: sets the DOS error code
+;-----------------------------------------------------------------------------
+__set_doserrno_:
+        push edx
+        mov edx, eax
+        call __get_doserrno_ptr_
+        mov dword [eax], edx
+        pop edx
+        ret
+;-----------------------------------------------------------------------------
+; __FPE_exception_                                              C2D85  library
+; Run-time library: calls the floating point exception hook
+;-----------------------------------------------------------------------------
+__FPE_exception_:
+        call dword [FpuInitHook]
+        ret
+;-----------------------------------------------------------------------------
+; tolower_                                                      C2D8C  library
+; Run-time library tolower: a character to lower case
+;-----------------------------------------------------------------------------
+tolower_:
+        cmp eax, byte 41h
+        jl short .1
+        cmp eax, byte 5Ah
+        jg short .1
+        add eax, byte 20h
+.1:
+        ret
+;-----------------------------------------------------------------------------
+; __allocfp_                                                    C2D9A  library
+; Run-time library: allocates a stream record
+;-----------------------------------------------------------------------------
+__allocfp_:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        mov esi, dword [__OpenStreams]
+        test esi, esi
+        je short .1
+        mov ecx, dword [byte esi+04h]
+        mov edi, dword [byte ecx+0Ch]
+        mov eax, dword [esi]
+        and edi, 4003h
+        mov dword [__OpenStreams], eax
+        or di, byte 3
+        jmp short .5
+.1:
+        mov ecx, __iob
+        jmp short .4
+.2:
+        test byte [byte ecx+0Ch], 3
+        jne short .3
+        mov eax, 8
+        call _nmalloc_
+        mov esi, eax
+        test eax, eax
+        je short .6
+        mov edi, 3
+        jmp short .5
+.3:
+        add ecx, byte 1Ah
+.4:
+        cmp ecx, __NFiles
+        jb short .2
+        mov eax, 22h
+        mov edi, 4003h
+        call _nmalloc_
+        mov ecx, eax
+        mov esi, eax
+        test eax, eax
+        je short .6
+        lea ecx, [byte eax+08h]
+.5:
+        mov ebx, 1Ah
+        mov eax, ecx
+        xor edx, edx
+        call memset_
+        mov dword [byte ecx+0Ch], edi
+        mov eax, dword [__ClosedStreams]
+        mov dword [byte esi+04h], ecx
+        mov dword [__ClosedStreams], esi
+        mov dword [esi], eax
+        mov eax, ecx
+        jmp short .7
+.6:
+        mov eax, 5
+        call __set_errno_
+        xor eax, eax
+.7:
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; __freefp_                                                     C2E42  library
+; Run-time library: frees a stream record
+;-----------------------------------------------------------------------------
+__freefp_:
+        push ebx
+        push ecx
+        push edx
+        mov ebx, eax
+        mov edx, __ClosedStreams
+.1:
+        mov eax, dword [edx]
+        test eax, eax
+        je short .3
+        mov ecx, dword [byte eax+04h]
+        cmp ebx, ecx
+        je short .2
+        mov edx, eax
+        jmp short .1
+.2:
+        mov cl, byte [byte ecx+0Ch]
+        or cl, 3
+        mov byte [byte ebx+0Ch], cl
+        mov ebx, dword [eax]
+        mov dword [edx], ebx
+        mov edx, dword [__OpenStreams]
+        mov dword [__OpenStreams], eax
+        mov dword [eax], edx
+.3:
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+__freefp__39:
+        push edx
+.4:
+        mov edx, dword [__OpenStreams]
+        test edx, edx
+        je short .5
+        mov eax, edx
+        mov edx, dword [edx]
+        call _nfree_
+        mov dword [__OpenStreams], edx
+        jmp short .4
+.5:
+        pop edx
+        ret
+;-----------------------------------------------------------------------------
+; __chktty_                                                     C2E99  library
+; Run-time library: marks a stream that is a terminal
+;-----------------------------------------------------------------------------
+__chktty_:
+        push ebx
+        push ecx
+        push edx
+        mov edx, eax
+        test byte [byte eax+0Dh], 20h
+        jne short .1
+        mov eax, dword [byte edx+010h]
+        call isatty_
+        test eax, eax
+        je short .1
+        mov bl, byte [byte edx+0Dh]
+        or bl, 20h
+        mov byte [byte edx+0Dh], bl
+        test bl, 7
+        jne short .1
+        mov cl, bl
+        or cl, 2
+        mov byte [byte edx+0Dh], cl
+.1:
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; __flush_                                                      C2ECA  library
+; Run-time library: writes out a stream's buffer
+;-----------------------------------------------------------------------------
+__flush_:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        mov ecx, eax
+        mov ah, byte [byte eax+0Dh]
+        xor esi, esi
+        test ah, 10h
+        je short .2
+        mov bh, byte [byte ecx+0Dh]
+        and bh, 0EFh
+        mov al, byte [byte ecx+0Ch]
+        mov byte [byte ecx+0Dh], bh
+        test al, 2
+        je near .4
+        cmp dword [byte ecx+08h], byte 0
+        je near .4
+        mov ebx, dword [byte ecx+04h]
+        mov edx, dword [byte ecx+08h]
+        mov eax, dword [byte ecx+010h]
+        call __qwrite_
+        cmp eax, byte 0FFFFFFFFh
+        jne short .1
+        mov dl, byte [byte ecx+0Ch]
+        or dl, 20h
+        mov esi, eax
+        mov byte [byte ecx+0Ch], dl
+        jmp short .4
+.1:
+        cmp eax, dword [byte ecx+04h]
+        je short .4
+        mov eax, 0Ch
+        call __set_errno_
+        mov ah, byte [byte ecx+0Ch]
+        or ah, 20h
+        mov esi, 0FFFFFFFFh
+        mov byte [byte ecx+0Ch], ah
+        jmp short .4
+.2:
+        cmp dword [byte ecx+08h], byte 0
+        je short .4
+        mov dl, byte [byte ecx+0Ch]
+        and dl, 0EFh
+        mov dh, byte [byte ecx+0Dh]
+        mov byte [byte ecx+0Ch], dl
+        test dh, 20h
+        jne short .4
+        mov eax, dword [byte ecx+04h]
+        test eax, eax
+        je short .3
+        mov edx, eax
+        mov ebx, 1
+        neg edx
+        mov eax, dword [byte ecx+010h]
+        call lseek_
+.3:
+        cmp eax, byte 0FFFFFFFFh
+        jne short .4
+        mov bl, byte [byte ecx+0Ch]
+        or bl, 20h
+        mov esi, eax
+        mov byte [byte ecx+0Ch], bl
+.4:
+        mov eax, dword [byte ecx+08h]
+        mov dword [byte ecx+04h], 0
+        mov dword [ecx], eax
+        mov eax, esi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; tell_                                                         C2F89  library
+; Run-time library tell: a file handle's position
+;-----------------------------------------------------------------------------
+tell_:
+        push ebx
+        push edx
+        mov ebx, 1
+        xor edx, edx
+        call lseek_
+        pop edx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; GetPsp                                          C2F9A  96 PC, low confidence
+; Returns the program segment prefix
+;-----------------------------------------------------------------------------
+GetPsp:
+        mov eax, dword [_psp]
+        ret
+;-----------------------------------------------------------------------------
+; __close_                                                      C2FA0  library
+; Run-time library: closes a file handle
+;-----------------------------------------------------------------------------
+__close_:
+        push ebx
+        push edx
+        mov edx, eax
+        mov ebx, eax
+        mov ah, 3Eh
+        int 21h
+        rcl eax, 1
+        ror eax, 1
+        test eax, eax
+        jl short .1
+        mov eax, edx
+        xor edx, edx
+        call __SetIOMode_
+        xor eax, eax
+        pop edx
+        pop ebx
+        ret
+.1:
+        mov eax, 4
+        call __set_errno_
+        mov eax, 0FFFFFFFFh
+        pop edx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; __MemAllocator                                                C2FD2  library
+; Run-time heap: allocates from a heap segment
+;-----------------------------------------------------------------------------
+__MemAllocator:
+        push esi
+        push edi
+        push ecx
+        push ds
+        mov ds, edx
+        or eax, eax
+        je short .2
+        add eax, byte 7
+        jb short .2
+        and al, 0FCh
+        mov edx, 0Ch
+        sub eax, edx
+        cmc
+        sbb ecx, ecx
+        and eax, ecx
+        add eax, edx
+        cmp eax, dword [byte ebx+014h]
+        ja short .2
+        mov esi, dword [byte ebx+0Ch]
+        mov edi, dword [byte ebx+010h]
+        cmp eax, edi
+        ja short .1
+        mov esi, dword [byte ebx+028h]
+        sub edi, edi
+.1:
+        mov edx, dword [esi]
+        cmp eax, edx
+        jbe short .3
+        sub edi, edx
+        cmc
+        sbb ecx, ecx
+        and edi, ecx
+        add edi, edx
+        lea edx, [byte ebx+020h]
+        mov esi, dword [byte esi+08h]
+        cmp esi, edx
+        jne short .1
+        mov dword [byte ebx+014h], edi
+.2:
+        sub eax, eax
+        jmp short .6
+.3:
+        sub edx, eax
+        mov dword [byte ebx+010h], edi
+        inc dword [byte ebx+018h]
+        mov ecx, dword [byte esi+08h]
+        cmp edx, byte 0Ch
+        jb short .4
+        mov edi, esi
+        add edi, eax
+        mov dword [byte ebx+0Ch], edi
+        mov dword [edi], edx
+        mov dword [esi], eax
+        mov ebx, dword [byte esi+04h]
+        mov dword [byte edi+04h], ebx
+        mov dword [byte edi+08h], ecx
+        mov dword [byte ebx+08h], edi
+        mov ebx, ecx
+        mov dword [byte ebx+04h], edi
+        jmp short .5
+.4:
+        dec dword [byte ebx+01Ch]
+        mov eax, esi
+        mov edi, ecx
+        mov esi, dword [byte esi+04h]
+        mov dword [byte esi+08h], edi
+        mov dword [byte edi+04h], esi
+        mov dword [byte ebx+0Ch], esi
+        mov esi, eax
+.5:
+        or dword [esi], byte 1
+        mov eax, esi
+        add eax, byte 4
+.6:
+        pop ds
+        pop ecx
+        pop edi
+        pop esi
+        ret
+__MemAllocator_A3:
+        jmp near __MemFree_106
+;-----------------------------------------------------------------------------
+; __MemFree                                                     C307A  library
+; Run-time heap: frees into a heap segment
+;-----------------------------------------------------------------------------
+__MemFree:
+        push esi
+        push edi
+        push ecx
+        push ds
+        mov ds, edx
+        or eax, eax
+        je short __MemAllocator_A3
+        mov esi, eax
+        sub esi, byte 4
+        mov eax, dword [esi]
+        test al, 1
+        je short __MemAllocator_A3
+        and al, 0FEh
+        mov edi, esi
+        add edi, eax
+        test dword [edi], 1
+        jne short .2
+        cmp edi, dword [byte ebx+0Ch]
+        jne short .1
+        mov dword [byte ebx+0Ch], esi
+.1:
+        add eax, dword [edi]
+        mov dword [esi], eax
+        push ebx
+        mov ebx, dword [byte edi+04h]
+        mov edi, dword [byte edi+08h]
+        mov dword [byte ebx+08h], edi
+        mov dword [byte edi+04h], ebx
+        pop ebx
+        dec dword [byte ebx+01Ch]
+        jmp short .9
+.2:
+        mov dword [esi], eax
+        mov edi, dword [byte ebx+0Ch]
+        cmp esi, edi
+        jae short .3
+        cmp esi, dword [byte edi+04h]
+        ja short .9
+        mov edi, dword [byte ebx+028h]
+        cmp esi, edi
+        jb short .9
+        jmp short .4
+.3:
+        mov edi, dword [byte edi+08h]
+        cmp esi, edi
+        jb short .9
+        lea edi, [byte ebx+020h]
+        cmp esi, dword [byte ebx+024h]
+        ja short .9
+.4:
+        sub edx, edx
+        mov eax, dword [byte ebx+018h]
+        mov ecx, dword [byte ebx+01Ch]
+        inc ecx
+        div ecx
+        dec ecx
+        cmp eax, ecx
+        jae short .7
+        mov edx, dword [byte ebx+018h]
+        sub edx, ecx
+        add eax, eax
+        cmp edx, ecx
+        ja short .5
+        sub eax, eax
+.5:
+        mov edi, esi
+        add edi, dword [esi]
+.6:
+        mov edx, dword [edi]
+        test dl, 1
+        je short .9
+        cmp edx, byte 0FFFFFFFFh
+        je short .7
+        and dl, 0FEh
+        add edi, edx
+        dec eax
+        jne short .6
+.7:
+        mov edi, dword [byte ebx+0Ch]
+        cmp esi, edi
+        jae short .8
+        mov edi, dword [byte ebx+028h]
+.8:
+        cmp esi, edi
+        jb short .9
+        mov edi, dword [byte edi+08h]
+        cmp esi, edi
+        jb short .9
+        mov edi, dword [byte edi+08h]
+        cmp esi, edi
+        jb short .9
+        mov edi, dword [byte edi+08h]
+        jmp short .8
+.9:
+        mov edx, dword [byte edi+04h]
+        mov ecx, dword [esi]
+        xchg edi, edx
+        mov eax, edi
+        add eax, dword [edi]
+        cmp eax, esi
+        jne short .11
+        add ecx, dword [edi]
+        mov dword [edi], ecx
+        cmp esi, dword [byte ebx+0Ch]
+        jne short .10
+        mov dword [byte ebx+0Ch], edi
+.10:
+        mov esi, edi
+        jmp short .12
+.11:
+        inc dword [byte ebx+01Ch]
+        mov dword [byte esi+08h], edx
+        mov dword [byte esi+04h], edi
+        mov dword [byte edi+08h], esi
+        mov edi, edx
+        mov dword [byte edi+04h], esi
+.12:
+        dec dword [byte ebx+018h]
+        cmp esi, dword [byte ebx+0Ch]
+        jae short .13
+        cmp ecx, dword [byte ebx+010h]
+        jbe short .13
+        mov dword [byte ebx+010h], ecx
+.13:
+        cmp ecx, dword [byte ebx+014h]
+        jbe short __MemFree_106
+        mov dword [byte ebx+014h], ecx
+__MemFree_106:
+        pop ds
+        pop ecx
+        pop edi
+        pop esi
+        ret
+;-----------------------------------------------------------------------------
+; __unlink_                                                     C3185  library
+; Run-time library: deletes a file
+;-----------------------------------------------------------------------------
+__unlink_:
+        push ebx
+        push edx
+        mov edx, dword [HeapRover]
+        cmp eax, edx
+        jne short .1
+        mov edx, dword [byte edx+08h]
+        mov dword [HeapRover], edx
+.1:
+        mov ebx, dword [HeapList]
+        cmp eax, ebx
+        jne short .2
+        mov edx, dword [byte ebx+08h]
+        mov dword [HeapList], edx
+.2:
+        mov edx, dword [byte eax+04h]
+        mov eax, dword [byte eax+08h]
+        test edx, edx
+        je short .3
+        mov dword [byte edx+08h], eax
+.3:
+        test eax, eax
+        je short .4
+        mov dword [byte eax+04h], edx
+.4:
+        pop edx
+        pop ebx
+        ret

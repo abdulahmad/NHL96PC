@@ -1,0 +1,163 @@
+rename lib/dos4gw/dos4gw_dpmi_glue_01 lib/dos4gw/dos4gw_free_dpmiblocks DOS/4GW: __FreeDPMIBlocks_, __ReAllocDPMIBlock_, __LinkUpNewMHeap_, __LastFree_, RationalAlloc_ and 3 more.
+rename lib/dos4gw/dos4gw_dpmi_glue_02 lib/dos4gw/dos4gw_dos_setvect DOS/4GW: _dos_setvect_, _dos_getvect_.
+cut DrawShapeOpaqueHot lib/ea/ea_draw_shape_opaque EA library: DrawShapeOpaqueHot, DrawShapeOpaque, ResetMemLock.
+rename lib/dos4gw/dos4gw_dpmi_glue_03 lib/dos4gw/dos4gw_sbrk DOS/4GW: sbrk_, __brk_.
+cut flushall_ lib/watcom/watcom_flushall Watcom C runtime: flushall_.
+rename lib/dos4gw/dos4gw_dpmi_glue_04 lib/dos4gw/dos4gw_do_intr DOS/4GW: _DoINTR_, IntrLoadRegs.
+cut BuildEdgeTableMin lib/ori3d/ori_build_edge_table_min 3D library: BuildEdgeTableMin, BuildEdgeTableMax, BuildFixedTableMin, BuildFixedTableMax, MapPolySpans and 3 more.
+cut __int7_pl3 lib/dos4gw/dos4gw_int7_pl3 DOS/4GW: __int7_pl3, __int7_X32VM, __int7.
+rename lib/ea/ea_debug_01 lib/ea/ea_debug_log EA library: DebugLog, FindWildcardDigits, FormatDateStamp, CreateBitmapEx, CreateBitmapDepth and 4 more.
+rename lib/ea/ea_debug_02 lib/ea/ea_debug_get_key EA library: DebugGetKey, MemViewer, MemViewerKeys, MemViewerOpenAlt, MemViewerListHead and 23 more.
+rename lib/ea/ea_fileblock_01 lib/ea/ea_debug_printf EA library: DebugPrintf, DebugSetLine, DebugShowLines, DebugScrollUp, DebugClearScreen and 2 more.
+rename lib/ea/ea_fileblock_02 lib/ea/ea_save_data_file EA library: SaveDataFile, savefileblocka, TextPrint, TextPrintAt.
+rename lib/ea/ea_fileblock_03 lib/watcom/watcom_fini387_emulator Watcom C runtime: Fini387Emulator.
+cut FixedInverse lib/ori3d/ori_fixed_inverse 3D library: FixedInverse.
+cut fprintf_ lib/watcom/watcom_fprintf Watcom C runtime: fprintf_.
+cut IntSqrt lib/ori3d/ori_int_sqrt 3D library: IntSqrt.
+cut SortIndices lib/ea/ea_sort_indices EA library: SortIndices.
+cut BuildPerspTable lib/ori3d/ori_build_persp_table 3D library: BuildPerspTable, ProjectPointWide.
+cut ScaleArtRemapRows lib/ea/ea_scale_art_remap_rows EA library: ScaleArtRemapRows, DrawArtScaledRemap, FlipArtHorizontal.
+rename lib/ea/ea_fileio_01 lib/ea/ea_dos_call_split_dx EA library: DosCallSplitDx, DosOpenFile, DosOpenReadOnly, CreateHandle, openhandle and 5 more.
+rename lib/ea/ea_fileio_02 lib/ea/ea_find_first_file EA library: FindFirstFile.
+rename lib/ea/ea_gfx_01 lib/ea/ea_draw_shape_at_own_pos EA library: DrawShapeAtOwnPos, BlitToScreenWindow, DrawArt, DrawShape, DrawArtHotspot and 15 more.
+rename lib/ea/ea_gfx_02 lib/ea/ea_fill_rect EA library: FillRect, FillRectClipped, XorRect, XorRectClipped, ClearScreenColour and 4 more.
+cut mem_putc_ lib/watcom/watcom_mem_putc Watcom C runtime: mem_putc_.
+rename lib/ea/ea_gfx_03 lib/ea/ea_draw_art_opaque EA library: DrawArtOpaque, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot.
+rename lib/ea/ea_gfx_04 lib/ea/ea_read_file_cached_into EA library: ReadFileCachedInto, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain.
+rename lib/ea/ea_gfx_05 lib/ori3d/ori_project_point_list 3D library: ProjectPointList, AngleOfVector, SinInterp, CosInterp, FillPolyIndexed and 5 more.
+cut BlitArtScaled lib/ea/ea_blit_art_scaled EA library: BlitArtScaled, DrawArtScaled, DrawArtScaledHotspot.
+cut TransformVector lib/ori3d/ori_transform_vector 3D library: TransformVector, MultiplyMatrix, ProjectPointsPersp, DrawPolyList, SetRinkMatrix and 19 more.
+rename lib/ea/ea_shapes_01 lib/ea/ea_fill_row_table EA library: FillRowTable, removewindow.
+rename lib/ea/ea_shapes_02 lib/ea/ea_load_file_cached EA library: LoadFileCached.
+rename lib/ea/ea_shpi_01 lib/ea/ea_read_file_range EA library: ReadFileRange, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle, LoadPackedHandleQuiet and 2 more.
+cut SetRinkView lib/ori3d/ori_set_rink_view 3D library: SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject, FillTexturePoly and 43 more.
+rename lib/ea/ea_shpi_02 lib/ea/ea_split_file_ext EA library: SplitFileExt, ConvertShapeBank, ConvertShapeBankInPlace, DrawTextCentredBoxed.
+rename lib/input/input_joystick_misc_01 lib/input/input_get_ticks Input: GetTicks, TicksSince, TicksSinceLast, SetTickDeadline, WaitTickDeadline and 12 more.
+cut AddExitHandler lib/ea/ea_add_exit_handler EA library: AddExitHandler, ExitProgram, FindShape, FindShapeQuiet.
+cut bcopy lib/watcom/watcom_bcopy Watcom C runtime: bcopy.
+cut ClearClipRect lib/ea/ea_clear_clip_rect EA library: ClearClipRect.
+cut InstallBreakHandler lib/input/input_install_break_handler Input: InstallBreakHandler, RemoveBreakHandler.
+rename lib/input/input_joystick_misc_02 lib/watcom/watcom_random32 Watcom C runtime: Random32.
+cut FillPolygonBlend lib/ori3d/ori_fill_polygon 3D library: FillPolygonBlend, FillPolygon, FillPolygonArgs, FillPolygonCore, FillBandEdges and 15 more.
+rename lib/input/input_joystick_misc_03 lib/ea/ea_save_draw_state EA library: SaveDrawState, RestoreDrawState.
+rename lib/input/input_keyboard_01 lib/input/input_remove_keyboard_handler Input: RemoveKeyboardHandler, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall.
+rename lib/input/input_keyboard_02 lib/ea/ea_fatal_error EA library: FatalError.
+rename lib/sound/snd_gus_sdk_01 lib/sound/snd_gus_get_env_config Sound: GusGetEnvConfig, GusProbePort, GusStopDmaAndTimers, GusUnhookIrqs, GusHookIrqs and 18 more.
+rename lib/sound/snd_gus_sdk_02 lib/sound/snd_gus_setup_dma_channel Sound: GusSetupDmaChannel, GusProgramDma, GusMaskDma, GusSetVect, GusGetVect and 18 more.
+cut inpw_ lib/watcom/watcom_inpw Watcom C runtime: inpw_.
+cut GusRunInitTable lib/sound/snd_gus_run_init_table Sound: GusRunInitTable.
+cut outpw_ lib/watcom/watcom_outpw Watcom C runtime: outpw_.
+cut GusPeek lib/sound/snd_gus_peek Sound: GusPeek, GusPoke, GusPokeFill, GusTestDramBank, GusInitPlayDma and 5 more.
+cut _SetMaxPrec_ lib/watcom/watcom_set_max_prec Watcom C runtime: _SetMaxPrec_.
+rename lib/sound/snd_gus_sdk_03 lib/sound/snd_gus_convert_addr16 Sound: GusConvertAddr16.
+rename lib/video/vesa_banked_blit_01 lib/sound/snd_sb_isr_auto_init Sound: SbIsrAutoInit, SbProIsr, Sb16Isr.
+cut BlitBlockRemapKeyed lib/ea/ea_blit_block_remap_keyed EA library: BlitBlockRemapKeyed.
+cut _EFG_Format_ lib/watcom/watcom_efg_format Watcom C runtime: _EFG_Format_.
+rename lib/video/vesa_banked_blit_02 lib/ea/ea_set_clip_rect EA library: SetClipRect, PlotPixel, PutPixel, PlotPixelClipped, BlitShapeClipped.
+cut VesaSetBank lib/video/video_vesa_set_bank Video: VesaSetBank, VesaSetBankBody, VesaSetMode, VgaSetModeTwice.
+cut BlitBlockHot lib/ea/ea_blit_block EA library: BlitBlockHot, BlitBlock, BlitBlockXor, BlitBlockAnd, AndPixel and 15 more.
+cut SaveVideoState lib/video/video_save_video_state Video: SaveVideoState, RestoreVideoState.
+cut UnpackArtRle lib/ea/ea_unpack_art_rle EA library: UnpackArtRle, BlitBlockShadow, CopyRowShadowFast.
+rename lib/video/video_bios_vga_01 lib/ea/ea_set_screen_target EA library: SetScreenTarget.
+cut GetPaletteRange lib/video/video_get_palette_range Video: GetPaletteRange.
+cut SetDrawBitmap lib/ea/ea_set_draw_bitmap EA library: SetDrawBitmap, FillRectColor, SetClipWindow.
+cut SetPaletteEntries lib/video/video_set_palette_entries Video: SetPaletteEntries, SetTextMode, SetPaletteEntries8, ReadPaletteEntries8.
+cut SetRemapTable lib/ea/ea_set_remap_table EA library: SetRemapTable, GetRemapTable, SetColourRemap, GetColourRemap, SetBlitSource and 7 more.
+cut ReadPortStable lib/video/video_read_port_stable Video: ReadPortStable, WaitRetrace, WaitRetraceEdges, WaitDisplayRetrace, SetCrtcStart and 3 more.
+rename lib/video/video_bios_vga_02 lib/ea/ea_fill_mem EA library: FillMem, ZeroMem.
+cut PollHotkeys lib/input/input_poll_hotkeys Input: PollHotkeys.
+rename lib/video/video_bios_vga_03 lib/ea/ea_setup_rect_fill_blend EA library: SetupRectFillBlend, SetupRectFill, RectFillClipTopCase, RectFillClipBottom, RectFillClipRight and 7 more.
+cut DispatchHotkey lib/input/input_dispatch_hotkey Input: DispatchHotkey, SetHotkey.
+cut PrintfSaveRegs lib/watcom/watcom_printf_save_regs Watcom C runtime: PrintfSaveRegs.
+cut SaveTextMode lib/video/video_save_text_mode Video: SaveTextMode, RestoreTextMode.
+cut AngleFromDelta lib/ea/ea_angle_from_delta EA library: AngleFromDelta, SinLookup, CosLookup, DebugLineCount.
+cut ReadKeyPadBits lib/input/input_read_key_pad_bits Input: ReadKeyPadBits.
+cut SinCosLookup lib/ea/ea_sin_cos_lookup EA library: SinCosLookup.
+rename lib/watcom/watcom_clib_01 lib/watcom/watcom_strcpy Watcom C runtime: strcpy_, strcat_, __open_flags_, __doopen_, _fsopen_ and 19 more.
+rename lib/watcom/watcom_clib_02 lib/watcom/watcom_sprintf Watcom C runtime: sprintf_.
+cut UnpackHuffman lib/ea/ea_unpack_huffman EA library: UnpackHuffman.
+rename lib/watcom/watcom_clib_03 lib/watcom/watcom_get_rand_state Watcom C runtime: GetRandState, rand_, srand_.
+cut DosFileInfo lib/ea/ea_dos_file_info EA library: DosFileInfo, LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, LoadFileData and 10 more.
+cut _dos_getdate_ lib/watcom/watcom_dos_getdate Watcom C runtime: _dos_getdate_, _dos_gettime_.
+cut SerialConfigure lib/serial/serial_configure Serial port: SerialConfigure, SerialOpen, SerialClose, SerialCloseAll, SerialSetBaud and 16 more.
+cut strstr_ lib/watcom/watcom_strstr Watcom C runtime: strstr_, atoi_, strlen_, strncmp_.
+cut LinkCrc16 lib/serial/serial_link_crc16 Serial port: LinkCrc16.
+cut open_ lib/watcom/watcom_open Watcom C runtime: open_, sopen_, __set_binary_, lseek_, read_ and 4 more.
+cut OpenArtArchiveErr lib/ea/ea_open_art_archive_err EA library: OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet.
+rename lib/watcom/watcom_clib_04 lib/watcom/watcom_strcmp Watcom C runtime: strcmp_.
+cut SaveFileBlock lib/ea/ea_save_file_block EA library: SaveFileBlock.
+rename lib/watcom/watcom_clib_05 lib/watcom/watcom_printf Watcom C runtime: printf_, chdir_.
+cut GrabLargestBlock lib/ea/ea_grab_largest_block EA library: GrabLargestBlock, InitMemoryPool, InitMemoryPoolDefault, SetupMemoryPool.
+cut NumLockOff lib/input/input_num_lock_off Input: NumLockOff, InstallHotkeys.
+cut NearestColour lib/ea/ea_nearest_colour EA library: NearestColour.
+cut DetectCPU lib/watcom/watcom_detect_cpu Watcom C runtime: DetectCPU.
+cut BuildAaPalLut lib/ea/ea_build_aa_pal_lut EA library: BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable, AaSetFull, AaSetHalf and 13 more.
+cut start lib/watcom/watcom_start Watcom C runtime: start, WriteConsoleMessage, RestoreDS.
+cut CdOpenFile lib/cd/cd_open_file CD-ROM: CdOpenFile, CdOpenStream, CdHandleEntry, CdCloseFile, CdReadSectors and 3 more.
+cut strncpy_ lib/watcom/watcom_strncpy Watcom C runtime: strncpy_.
+cut CdFindFile lib/cd/cd_find_file CD-ROM: CdFindFile, DriveLetterIndex, IsCdDrive, AllocCdBuffer, DetectMscdex and 4 more.
+cut _dos_close_ lib/watcom/watcom_dos_close Watcom C runtime: _dos_close_, _dos_commit_, _dos_open_, DosFindFirst, DosFindNext and 9 more.
+cut OpenResourceArchive lib/ea/ea_open_resource_archive EA library: OpenResourceArchive, GetResourceArchiveName.
+cut stricmp_ lib/watcom/watcom_stricmp Watcom C runtime: stricmp_.
+rename lib/watcom/watcom_clib_06 lib/watcom/watcom_chp Watcom C runtime: __CHP.
+cut OriFindGroup lib/ori3d/ori_find_group 3D library: OriFindGroup, OriFindPartition, OriGetPartition, ShadedPolyStepEdge, ShadedSpansLeftClipped and 18 more.
+cut Init387Emulator lib/watcom/watcom_init387_emulator Watcom C runtime: Init387Emulator.
+rename lib/watcom/watcom_clib_07 lib/watcom/watcom_stosb Watcom C runtime: __STOSB, __STOSD.
+cut DrawArtFast lib/ea/ea_draw_art_fast EA library: DrawArtFast, FindShapeListQuiet, FindShapeList.
+cut VesaGetInfo lib/video/video_vesa_get_info Video: VesaGetInfo, VesaGetModeInfo.
+rename lib/watcom/watcom_clib_08 lib/watcom/watcom_abs Watcom C runtime: abs_.
+cut SpeechQueueService lib/sound/snd_speech_queue_service Sound: SpeechQueueService, ClearSpeechSlot, ResetSpeechQueue, OpenSpeechQueue, SetSpeechQueueVolume and 58 more.
+cut BuildHuffTable lib/ea/ea_tgv_build_huff_table TGV movie decoder: BuildHuffTable, DecodeHuffRuns, TgvDecodeDeltaFrame, TgvDecodeKeyFrame, TgvAllocDecoder and 6 more.
+cut DisableInterrupts lib/ea/ea_disable_interrupts EA library: DisableInterrupts, EnableInterrupts.
+cut getcwd_ lib/watcom/watcom_getcwd Watcom C runtime: getcwd_.
+cut CopyRowKeyed lib/ea/ea_copy_row_keyed EA library: CopyRowKeyed, DrawArtKeyed, DrawArtKeyedAtOrigin, PutBlockKeyed.
+cut utoa_ lib/watcom/watcom_utoa Watcom C runtime: utoa_, itoa_, memcmp_.
+cut PrintScreenInt lib/ea/ea_print_screen_int EA library: PrintScreenInt.
+rename lib/watcom/watcom_clib_09 lib/watcom/watcom_errno_ptr Watcom C runtime: ErrnoPtr, __get_doserrno_ptr_, access_, getenv_, __set_EDOM_ and 16 more.
+rename lib/watcom/watcom_clib_10 lib/watcom/watcom_ioalloc Watcom C runtime: __ioalloc_, __qread_, fgetc_, __filbuf_, __fill_buffer_ and 5 more.
+rename lib/watcom/watcom_clib_11 lib/ea/ea_mem_lock EA library: MemLock, MemUnlock, mem_putc__0.
+cut vsprintf_ lib/watcom/watcom_vsprintf Watcom C runtime: vsprintf_, VfprintfThunk, fputs_.
+rename lib/watcom/watcom_clib_12 lib/watcom/watcom_prtf Watcom C runtime: __prtf_, getprintspecs_, evalflags_, far_strlen_, far_other_strlen_ and 6 more.
+cut RefPackSize lib/ea/ea_ref_pack_size EA library: RefPackSize, GetPalette, ArtBitDepth, PixelToRgb.
+rename lib/watcom/watcom_clib_13 lib/watcom/watcom_isatty Watcom C runtime: isatty_, _dosret0_, __set_errno_dos_, __IOMode_, __SetIOMode_.
+cut DrawEllipse lib/ea/ea_draw_ellipse EA library: DrawEllipse, DrawEllipseClipped.
+cut file_putc_ lib/watcom/watcom_file_putc Watcom C runtime: file_putc_, __fprtf_, _nexpand_, __HeapManager_expand_, _nmsize_.
+cut int386_ lib/dos4gw/dos4gw_int386 DOS/4GW: int386_.
+cut JoystickCalibrateScreen lib/input/input_joystick_calibrate_screen Input: JoystickCalibrateScreen.
+cut ShowKeyboardOn lib/ea/ea_show_keyboard_on EA library: ShowKeyboardOn.
+cut __CMain lib/watcom/watcom_cmain Watcom C runtime: __CMain, __InitRtns, __FiniRtns, FpuHookStub.
+cut ShutdownSystem lib/ea/ea_shutdown_system EA library: ShutdownSystem, InitSystem, PrintBoxedText.
+cut CdDirSearch lib/cd/cd_dir_search CD-ROM: CdDirSearch.
+cut ToUpperChar lib/ea/ea_to_upper_char EA library: ToUpperChar.
+cut segread_ lib/dos4gw/dos4gw_segread DOS/4GW: segread_, int386x_.
+cut __doserror_ lib/watcom/watcom_doserror Watcom C runtime: __doserror_, unlink_.
+cut BigFileType lib/ea/ea_big_file_type EA library: BigFileType, LocateBigEntry, LocateBigData, LocateBigs, WalkBigFile.
+cut PolyCrossProduct lib/ori3d/ori_poly_cross_product 3D library: PolyCrossProduct, RasterMappedTriangle, DrawMappedTriangle, RasterMappedTriangleShadow, DrawMappedTriangleShadow and 10 more.
+cut strnicmp_ lib/watcom/watcom_strnicmp Watcom C runtime: strnicmp_.
+cut VecLength3 lib/ori3d/ori_vec_length3 3D library: VecLength3, NormalizeVec3.
+cut Mul32To64 lib/watcom/watcom_mul32_to64 Watcom C runtime: Mul32To64, Div64By32, Sar64, Shl64, min_.
+cut FillSpanList lib/ori3d/ori_fill_span_list 3D library: FillSpanList, BuildSpanOffsets, RemapSpanList, OriApplyMorph, OriRotateY and 1 more.
+cut __sys_init_387_emulator lib/watcom/watcom_sys_init_387_emulator Watcom C runtime: __sys_init_387_emulator.
+rename lib/watcom/watcom_clib_14 lib/watcom/watcom_sys_fini_387_emulator Watcom C runtime: __sys_fini_387_emulator, EmuRestoreFpuVector, EmuRestoreRealVector, __save_8087_, __rest_8087_ and 3 more.
+cut PlaySampleOnChannel lib/sound/snd_play_sample_on_channel Sound: PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel, SetMixerMode and 26 more.
+rename lib/watcom/watcom_clib_15 lib/watcom/watcom_set_efgfmt Watcom C runtime: __setEFGfmt_, ReturnFalse.
+cut PrintCentredBoxed lib/ea/ea_print_centred_boxed EA library: PrintCentredBoxed, ResetClipRect, ResetClipWindow.
+cut memset_ lib/watcom/watcom_memset Watcom C runtime: memset_, __InitFiles_, __full_io_exit_, fcloseall_, docloseall_ and 1 more.
+rename lib/watcom/watcom_clib_16 lib/watcom/watcom_flushall_getche Watcom C runtime: __flushall_, getche_, fputc_, NoFloatSupport, ultoa_ and 2 more.
+rename lib/watcom/watcom_clib_17 lib/watcom/watcom_common_init Watcom C runtime: __CommonInit_.
+cut IsTextModeWidth lib/video/video_is_text_mode_width Video: IsTextModeWidth, SaveTextScreen, RestoreTextScreen.
+cut PointerOnTarget lib/input/input_pointer_on_target Input: PointerOnTarget, DrawPointer, UpdatePointerPos, HidePointerKeep, HidePointer and 7 more.
+cut DrawTextBoxedAt lib/ea/ea_draw_text_boxed_at EA library: DrawTextBoxedAt.
+cut SaveStackSegment lib/watcom/watcom_save_stack_segment Watcom C runtime: SaveStackSegment, __CHK, __GRO, __STK.
+cut __int386x_ lib/dos4gw/dos4gw_int386x DOS/4GW: __int386x_, IntrLoadSegRegs.
+rename lib/watcom/watcom_clib_18 lib/watcom/watcom_forcedecpt Watcom C runtime: forcedecpt_, __cnvs2d_, __setenvp_, __exit_with_msg_, __fatal_runtime_error_.
+cut PutBytesLE lib/ea/ea_put_bytes_le EA library: PutBytesLE.
+rename lib/watcom/watcom_clib_19 lib/watcom/watcom_outp Watcom C runtime: outp_, inp_.
+rename lib/watcom/watcom_clib_20 lib/watcom/watcom_do_eformat Watcom C runtime: DoEFormat_, DoFFormat_, AdjField_, _FtoS_, strtod_.
+cut __EnterWVIDEO_ lib/dos4gw/dos4gw_enter_wvideo DOS/4GW: __EnterWVIDEO_.
+rename lib/watcom/watcom_clib_21 lib/watcom/watcom_nan_inf Watcom C runtime: __Nan_Inf_, floor_, _Scale_, _Scale10V_, __cvt_ and 3 more.
+cut DrawArtShadow lib/ea/ea_draw_art_shadow EA library: DrawArtShadow, FlipArtVertical, TranslateArtPixels.
+cut modf_ lib/watcom/watcom_modf Watcom C runtime: modf_, __CmpBigInt, __Rnd2Int, __Bin2String, BigIntCallHook and 2 more.
+cut CopyRowShadow lib/ea/ea_copy_row_shadow EA library: CopyRowShadow.
+rename lib/lib_A8B9B front/playoff
+cut _searchenv_ lib/watcom/watcom_searchenv Watcom C runtime: _searchenv, the environment path search.

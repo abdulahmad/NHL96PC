@@ -1,0 +1,71 @@
+; EA library: FindFirstFile.
+bits 32
+%include "hockey.inc"
+section s_E1970 progbits alloc exec nowrite align=1
+extern FindFileDta, FindFileName, FindFilePattern, FindFilePtr
+global FindFirstFile
+;-----------------------------------------------------------------------------
+; FindFirstFile                                   E1970  96 PC, low confidence
+; Finds the first file matching a pattern and keeps its name for the next
+; search
+;-----------------------------------------------------------------------------
+FindFirstFile:
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        mov edx, FindFileName
+        mov ah, 1Ah
+        int 21h
+        mov edx, dword [byte ebp+08h]
+        mov cl, 6
+        mov ah, 4Eh
+        int 21h
+        jb short .6
+        mov edi, FindFileDta
+        mov dword [FindFilePtr], edi
+        mov esi, dword [byte ebp+08h]
+        mov ecx, 57h
+.1:
+        mov al, byte [esi]
+        inc esi
+        mov byte [edi], al
+        inc edi
+        cmp al, 0
+        je short .4
+        cmp al, 3Ah
+        je short .2
+        cmp al, 5Ch
+        jne short .3
+.2:
+        mov dword [FindFilePtr], edi
+.3:
+        dec ecx
+        jne short .1
+.4:
+        mov esi, FindFilePattern
+        mov edi, dword [FindFilePtr]
+        mov ecx, 0Dh
+        cld
+        rep movsb
+        mov eax, FindFileDta
+.5:
+        pop edi
+        pop esi
+        leave
+        ret
+.6:
+        LD xor, eax, eax
+        jmp short .5
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        mov edx, FindFileName
+        mov ah, 1Ah
+        int 21h
+        mov ah, 4Fh
+        int 21h
+        jb short .6
+        jmp short .4
+        db 00h,00h,00h

@@ -1,0 +1,2697 @@
+; Sound: PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel, SetMixerMode and 26 more.
+bits 32
+%include "hockey.inc"
+section s_CAA80 progbits alloc exec nowrite align=1
+extern AdpcmDecodeMono, AdpcmDecodeStereo, AudioStreamCallback, FreeMemBlock, MixBuffer, MixDecodeBuffer, MixerBufferSamples, MixerChannelTable
+extern MixerChunkCount, MixerChunkLeft, MixerChunkPos, MixerChunkSamples, MixerLoopLength, MixerLoopLimit, MixerLoopStart, MixerMode
+extern MixerOutBuffer, MixerOutputFunc, MixerOutputRate, MixerReady, MixerVolumeLookup, MixStepFrac, MixStepWhole, PanVolumes
+extern PushMemDescriptorLocked, RestoreDS, SbBasePort, SbDelay, SbMixerAddrPort, SbMixerDataPort, SbMixerIndexPort, SbReadPort
+extern SbResetPort, SbWaitRead, SbWritePort, SndChannels, snddriver, SndMasterVolume, StartChannelSample
+global PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel, MixerStepTable, SetMixerMode, MixerInit, MixerFillBuffer
+global MixerStartChannel, MixerStopChannel, MixerSetChannelVolumes, MixerSetChannelRate, MixerSamplesLeft, MixerPickRoutines, MixerChunkLength, MixerChunkLength_4A
+global MixerChunkLength_8F, MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, MixerCalcStep, MixerBuildVolumeTables, MixMono8, MixMono16
+global MixStereo8, MixStereo16, MixMono16Lookup, MixStereo16Lookup, MixOutputStereo16, MixOutputStereo8, MixOutputMono8, MixOutputSkipBothStereo
+global MixOutputSkipBothMono, MixOutputSkipMono16, MixOutputSkipStereo, MixOutputSkip, ClearMixBuffer
+;-----------------------------------------------------------------------------
+; PlaySampleOnChannel                          CAA80  96 PC, medium confidence
+; Plays a sample on a given channel with a volume and pan
+;-----------------------------------------------------------------------------
+PlaySampleOnChannel:
+        push esi
+        enter 4, 0
+        mov esi, eax
+        mov dword [byte ebp-04h], edx
+        cmp dword [eax], 53434145h
+        je short .1
+        mov eax, 0FFFFFFF6h
+        leave
+        pop esi
+        ret
+.1:
+        test edx, edx
+        jl short .2
+        cmp edx, byte 10h
+        jl short .3
+.2:
+        mov eax, 0FFFFFFF5h
+        leave
+        pop esi
+        ret
+.3:
+        cmp dword [snddriver], byte 0
+        jle short .4
+        cmp dword [snddriver], byte 5
+        jle short .5
+.4:
+        mov eax, 0FFFFFFFCh
+        leave
+        pop esi
+        ret
+.5:
+        imul edx, byte 28h
+        add edx, SndChannels
+        mov dword [edx], 0
+        mov byte [byte edx+017h], 0FFh
+        mov dword [byte edx+04h], 0FFFFFFFFh
+        mov byte [byte edx+010h], 40h
+        mov byte [byte edx+011h], 0
+        mov dword [byte edx+0Ch], 0
+        mov byte [byte edx+016h], 1
+        mov byte [byte edx+013h], 65h
+        mov dword [byte edx+018h], 0
+        mov byte [byte edx+025h], 7Fh
+        mov al, byte [byte ebp-04h]
+        mov byte [byte edx+0Bh], 3
+        mov byte [byte edx+012h], al
+        mov byte [byte edx+024h], cl
+        mov eax, dword [byte ebp-04h]
+        mov byte [byte edx+027h], bl
+        call UpdateChannelGain
+        mov al, byte [byte edx+08h]
+        mov byte [byte esi+01Dh], al
+        mov al, byte [byte edx+09h]
+        mov byte [byte esi+01Eh], al
+        mov al, byte [byte ebp-04h]
+        mov byte [byte esi+01Ch], al
+        mov eax, esi
+        call StartChannelSample
+        mov eax, dword [byte ebp-04h]
+        leave
+        pop esi
+        ret
+        push ebx
+        push ecx
+        push edx
+        push esi
+        mov esi, eax
+        cmp dword [eax], byte 0
+        je short .6
+        push dword [eax]
+        call FreeMemBlock
+        add esp, byte 4
+        mov dword [esi], 0
+.6:
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; FreeBankMemory                                  CAB58  96 PC, low confidence
+; Frees a sound bank's memory and clears its pointer
+;-----------------------------------------------------------------------------
+FreeBankMemory:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        mov esi, eax
+        cmp dword [eax], byte 0
+        je short .1
+        push dword [eax]
+        call PushMemDescriptorLocked
+        add esp, byte 4
+        mov dword [esi], 0
+.1:
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; UpdateChannelGain                            CAB78  96 PC, medium confidence
+; Works out a channel's output gain from its volume, its fade and the master
+; volume
+;-----------------------------------------------------------------------------
+UpdateChannelGain:
+        push ebx
+        push ecx
+        push edx
+        imul eax, byte 28h
+        mov ebx, SndChannels
+        add ebx, eax
+        movsx ecx, byte [byte ebx+025h]
+        movsx eax, byte [byte ebx+024h]
+        imul ecx, eax
+        movsx eax, byte [SndMasterVolume]
+        imul eax, ecx
+        mov ecx, 3F01h
+        cdq
+        idiv ecx
+        mov byte [byte ebx+026h], al
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; ResetMixChannel                              CABA9  96 PC, medium confidence
+; Mixer callback: marks a channel free and resets its settings
+;-----------------------------------------------------------------------------
+ResetMixChannel:
+        push ds
+        call RestoreDS
+        push ebp
+        mov ebp, esp
+        imul eax, dword [byte ebp+0Ch], byte 28h
+        add eax, SndChannels
+        mov byte [byte eax+016h], 0
+        mov dword [byte eax+04h], 0FFFFFFFFh
+        mov dword [eax], 0
+        mov byte [byte eax+017h], 0FFh
+        mov dword [byte eax+018h], 0
+        mov byte [byte eax+027h], 40h
+        mov byte [byte eax+025h], 7Fh
+        mov byte [byte eax+024h], 7Fh
+        pop ebp
+        pop ds
+        ret
+        db 00h,00h
+MixerStepTable:                                 ; used by BendSampleRate, MixerCalcStep
+        db 00h,00h,01h,00h,025h,00h,01h,00h,04Bh,00h,01h,00h,071h,00h,01h,00h
+        db 097h,00h,01h,00h,0BDh,00h,01h,00h,0E3h,00h,01h,00h,09h,01h,01h,00h
+        db 02Fh,01h,01h,00h,055h,01h,01h,00h,07Bh,01h,01h,00h,0A1h,01h,01h,00h
+        db 0C7h,01h,01h,00h,0EDh,01h,01h,00h,014h,02h,01h,00h,03Ah,02h,01h,00h
+        db 060h,02h,01h,00h,086h,02h,01h,00h,0ACh,02h,01h,00h,0D3h,02h,01h,00h
+        db 0F9h,02h,01h,00h,01Fh,03h,01h,00h,046h,03h,01h,00h,06Ch,03h,01h,00h
+        db 092h,03h,01h,00h,0B9h,03h,01h,00h,0DFh,03h,01h,00h,06h,04h,01h,00h
+        db 02Ch,04h,01h,00h,053h,04h,01h,00h,079h,04h,01h,00h,0A0h,04h,01h,00h
+        db 0C6h,04h,01h,00h,0EDh,04h,01h,00h,013h,05h,01h,00h,03Ah,05h,01h,00h
+        db 061h,05h,01h,00h,087h,05h,01h,00h,0AEh,05h,01h,00h,0D5h,05h,01h,00h
+        db 0FBh,05h,01h,00h,022h,06h,01h,00h,049h,06h,01h,00h,070h,06h,01h,00h
+        db 096h,06h,01h,00h,0BDh,06h,01h,00h,0E4h,06h,01h,00h,0Bh,07h,01h,00h
+        db 032h,07h,01h,00h,059h,07h,01h,00h,080h,07h,01h,00h,0A7h,07h,01h,00h
+        db 0CEh,07h,01h,00h,0F5h,07h,01h,00h,01Ch,08h,01h,00h,043h,08h,01h,00h
+        db 06Ah,08h,01h,00h,091h,08h,01h,00h,0B8h,08h,01h,00h,0DFh,08h,01h,00h
+        db 07h,09h,01h,00h,02Eh,09h,01h,00h,055h,09h,01h,00h,07Ch,09h,01h,00h
+        db 0A4h,09h,01h,00h,0CBh,09h,01h,00h,0F2h,09h,01h,00h,01Ah,0Ah,01h,00h
+        db 041h,0Ah,01h,00h,068h,0Ah,01h,00h,090h,0Ah,01h,00h,0B7h,0Ah,01h,00h
+        db 0DFh,0Ah,01h,00h,06h,0Bh,01h,00h,02Eh,0Bh,01h,00h,055h,0Bh,01h,00h
+        db 07Dh,0Bh,01h,00h,0A4h,0Bh,01h,00h,0CCh,0Bh,01h,00h,0F3h,0Bh,01h,00h
+        db 01Bh,0Ch,01h,00h,043h,0Ch,01h,00h,06Ah,0Ch,01h,00h,092h,0Ch,01h,00h
+        db 0BAh,0Ch,01h,00h,0E1h,0Ch,01h,00h,09h,0Dh,01h,00h,031h,0Dh,01h,00h
+        db 059h,0Dh,01h,00h,081h,0Dh,01h,00h,0A9h,0Dh,01h,00h,0D0h,0Dh,01h,00h
+        db 0F8h,0Dh,01h,00h,020h,0Eh,01h,00h,048h,0Eh,01h,00h,070h,0Eh,01h,00h
+        db 098h,0Eh,01h,00h,0C0h,0Eh,01h,00h,0E8h,0Eh,01h,00h,010h,0Fh,01h,00h
+        db 038h,0Fh,01h,00h,061h,0Fh,01h,00h,089h,0Fh,01h,00h,0B1h,0Fh,01h,00h
+        db 0D9h,0Fh,01h,00h,01h,010h,01h,00h,02Ah,010h,01h,00h,052h,010h,01h,00h
+        db 07Ah,010h,01h,00h,0A2h,010h,01h,00h,0CBh,010h,01h,00h,0F3h,010h,01h,00h
+        db 01Bh,011h,01h,00h,044h,011h,01h,00h,06Ch,011h,01h,00h,095h,011h,01h,00h
+        db 0BDh,011h,01h,00h,0E6h,011h,01h,00h,0Eh,012h,01h,00h,037h,012h,01h,00h
+        db 05Fh,012h,01h,00h,088h,012h,01h,00h,0B0h,012h,01h,00h,0D9h,012h,01h,00h
+        db 02h,013h,01h,00h,02Ah,013h,01h,00h,053h,013h,01h,00h,07Ch,013h,01h,00h
+        db 0A5h,013h,01h,00h,0CDh,013h,01h,00h,0F6h,013h,01h,00h,01Fh,014h,01h,00h
+        db 048h,014h,01h,00h,071h,014h,01h,00h,09Ah,014h,01h,00h,0C3h,014h,01h,00h
+        db 0EBh,014h,01h,00h,014h,015h,01h,00h,03Dh,015h,01h,00h,066h,015h,01h,00h
+        db 08Fh,015h,01h,00h,0B8h,015h,01h,00h,0E2h,015h,01h,00h,0Bh,016h,01h,00h
+        db 034h,016h,01h,00h,05Dh,016h,01h,00h,086h,016h,01h,00h,0AFh,016h,01h,00h
+        db 0D9h,016h,01h,00h,02h,017h,01h,00h,02Bh,017h,01h,00h,054h,017h,01h,00h
+        db 07Eh,017h,01h,00h,0A7h,017h,01h,00h,0D0h,017h,01h,00h,0FAh,017h,01h,00h
+        db 023h,018h,01h,00h,04Dh,018h,01h,00h,076h,018h,01h,00h,0A0h,018h,01h,00h
+        db 0C9h,018h,01h,00h,0F3h,018h,01h,00h,01Ch,019h,01h,00h,046h,019h,01h,00h
+        db 06Fh,019h,01h,00h,099h,019h,01h,00h,0C3h,019h,01h,00h,0ECh,019h,01h,00h
+        db 016h,01Ah,01h,00h,040h,01Ah,01h,00h,069h,01Ah,01h,00h,093h,01Ah,01h,00h
+        db 0BDh,01Ah,01h,00h,0E7h,01Ah,01h,00h,011h,01Bh,01h,00h,03Bh,01Bh,01h,00h
+        db 064h,01Bh,01h,00h,08Eh,01Bh,01h,00h,0B8h,01Bh,01h,00h,0E2h,01Bh,01h,00h
+        db 0Ch,01Ch,01h,00h,036h,01Ch,01h,00h,060h,01Ch,01h,00h,08Ah,01Ch,01h,00h
+        db 0B4h,01Ch,01h,00h,0DFh,01Ch,01h,00h,09h,01Dh,01h,00h,033h,01Dh,01h,00h
+        db 05Dh,01Dh,01h,00h,087h,01Dh,01h,00h,0B2h,01Dh,01h,00h,0DCh,01Dh,01h,00h
+        db 06h,01Eh,01h,00h,030h,01Eh,01h,00h,05Bh,01Eh,01h,00h,085h,01Eh,01h,00h
+        db 0AFh,01Eh,01h,00h,0DAh,01Eh,01h,00h,04h,01Fh,01h,00h,02Fh,01Fh,01h,00h
+        db 059h,01Fh,01h,00h,084h,01Fh,01h,00h,0AEh,01Fh,01h,00h,0D9h,01Fh,01h,00h
+        db 03h,020h,01h,00h,02Eh,020h,01h,00h,059h,020h,01h,00h,083h,020h,01h,00h
+        db 0AEh,020h,01h,00h,0D9h,020h,01h,00h,03h,021h,01h,00h,02Eh,021h,01h,00h
+        db 059h,021h,01h,00h,084h,021h,01h,00h,0AEh,021h,01h,00h,0D9h,021h,01h,00h
+        db 04h,022h,01h,00h,02Fh,022h,01h,00h,05Ah,022h,01h,00h,085h,022h,01h,00h
+        db 0B0h,022h,01h,00h,0DBh,022h,01h,00h,06h,023h,01h,00h,031h,023h,01h,00h
+        db 05Ch,023h,01h,00h,087h,023h,01h,00h,0B2h,023h,01h,00h,0DDh,023h,01h,00h
+        db 09h,024h,01h,00h,034h,024h,01h,00h,05Fh,024h,01h,00h,08Ah,024h,01h,00h
+        db 0B6h,024h,01h,00h,0E1h,024h,01h,00h,0Ch,025h,01h,00h,038h,025h,01h,00h
+        db 063h,025h,01h,00h,08Eh,025h,01h,00h,0BAh,025h,01h,00h,0E5h,025h,01h,00h
+        db 011h,026h,01h,00h,03Ch,026h,01h,00h,068h,026h,01h,00h,093h,026h,01h,00h
+        db 0BFh,026h,01h,00h,0EAh,026h,01h,00h,016h,027h,01h,00h,042h,027h,01h,00h
+        db 06Dh,027h,01h,00h,099h,027h,01h,00h,0C5h,027h,01h,00h,0F0h,027h,01h,00h
+        db 01Ch,028h,01h,00h,048h,028h,01h,00h,074h,028h,01h,00h,0A0h,028h,01h,00h
+        db 0CCh,028h,01h,00h,0F8h,028h,01h,00h,023h,029h,01h,00h,04Fh,029h,01h,00h
+        db 07Bh,029h,01h,00h,0A7h,029h,01h,00h,0D3h,029h,01h,00h,0FFh,029h,01h,00h
+        db 02Ch,02Ah,01h,00h,058h,02Ah,01h,00h,084h,02Ah,01h,00h,0B0h,02Ah,01h,00h
+        db 0DCh,02Ah,01h,00h,08h,02Bh,01h,00h,035h,02Bh,01h,00h,061h,02Bh,01h,00h
+        db 08Dh,02Bh,01h,00h,0B9h,02Bh,01h,00h,0E6h,02Bh,01h,00h,012h,02Ch,01h,00h
+        db 03Eh,02Ch,01h,00h,06Bh,02Ch,01h,00h,097h,02Ch,01h,00h,0C4h,02Ch,01h,00h
+        db 0F0h,02Ch,01h,00h,01Dh,02Dh,01h,00h,049h,02Dh,01h,00h,076h,02Dh,01h,00h
+        db 0A2h,02Dh,01h,00h,0CFh,02Dh,01h,00h,0FCh,02Dh,01h,00h,028h,02Eh,01h,00h
+        db 055h,02Eh,01h,00h,082h,02Eh,01h,00h,0AFh,02Eh,01h,00h,0DBh,02Eh,01h,00h
+        db 08h,02Fh,01h,00h,035h,02Fh,01h,00h,062h,02Fh,01h,00h,08Fh,02Fh,01h,00h
+        db 0BCh,02Fh,01h,00h,0E9h,02Fh,01h,00h,015h,030h,01h,00h,042h,030h,01h,00h
+        db 06Fh,030h,01h,00h,09Ch,030h,01h,00h,0CAh,030h,01h,00h,0F7h,030h,01h,00h
+        db 024h,031h,01h,00h,051h,031h,01h,00h,07Eh,031h,01h,00h,0ABh,031h,01h,00h
+        db 0D8h,031h,01h,00h,06h,032h,01h,00h,033h,032h,01h,00h,060h,032h,01h,00h
+        db 08Eh,032h,01h,00h,0BBh,032h,01h,00h,0E8h,032h,01h,00h,016h,033h,01h,00h
+        db 043h,033h,01h,00h,071h,033h,01h,00h,09Eh,033h,01h,00h,0CBh,033h,01h,00h
+        db 0F9h,033h,01h,00h,027h,034h,01h,00h,054h,034h,01h,00h,082h,034h,01h,00h
+        db 0AFh,034h,01h,00h,0DDh,034h,01h,00h,0Bh,035h,01h,00h,038h,035h,01h,00h
+        db 066h,035h,01h,00h,094h,035h,01h,00h,0C2h,035h,01h,00h,0F0h,035h,01h,00h
+        db 01Dh,036h,01h,00h,04Bh,036h,01h,00h,079h,036h,01h,00h,0A7h,036h,01h,00h
+        db 0D5h,036h,01h,00h,03h,037h,01h,00h,031h,037h,01h,00h,05Fh,037h,01h,00h
+        db 08Dh,037h,01h,00h,0BBh,037h,01h,00h,0E9h,037h,01h,00h,017h,038h,01h,00h
+        db 046h,038h,01h,00h,074h,038h,01h,00h,0A2h,038h,01h,00h,0D0h,038h,01h,00h
+        db 0FFh,038h,01h,00h,02Dh,039h,01h,00h,05Bh,039h,01h,00h,089h,039h,01h,00h
+        db 0B8h,039h,01h,00h,0E6h,039h,01h,00h,015h,03Ah,01h,00h,043h,03Ah,01h,00h
+        db 072h,03Ah,01h,00h,0A0h,03Ah,01h,00h,0CFh,03Ah,01h,00h,0FDh,03Ah,01h,00h
+        db 02Ch,03Bh,01h,00h,05Ah,03Bh,01h,00h,089h,03Bh,01h,00h,0B8h,03Bh,01h,00h
+        db 0E6h,03Bh,01h,00h,015h,03Ch,01h,00h,044h,03Ch,01h,00h,073h,03Ch,01h,00h
+        db 0A2h,03Ch,01h,00h,0D0h,03Ch,01h,00h,0FFh,03Ch,01h,00h,02Eh,03Dh,01h,00h
+        db 05Dh,03Dh,01h,00h,08Ch,03Dh,01h,00h,0BBh,03Dh,01h,00h,0EAh,03Dh,01h,00h
+        db 019h,03Eh,01h,00h,048h,03Eh,01h,00h,077h,03Eh,01h,00h,0A6h,03Eh,01h,00h
+        db 0D5h,03Eh,01h,00h,05h,03Fh,01h,00h,034h,03Fh,01h,00h,063h,03Fh,01h,00h
+        db 092h,03Fh,01h,00h,0C1h,03Fh,01h,00h,0F1h,03Fh,01h,00h,020h,040h,01h,00h
+        db 04Fh,040h,01h,00h,07Fh,040h,01h,00h,0AEh,040h,01h,00h,0DEh,040h,01h,00h
+        db 0Dh,041h,01h,00h,03Dh,041h,01h,00h,06Ch,041h,01h,00h,09Ch,041h,01h,00h
+        db 0CBh,041h,01h,00h,0FBh,041h,01h,00h,02Ah,042h,01h,00h,05Ah,042h,01h,00h
+        db 08Ah,042h,01h,00h,0B9h,042h,01h,00h,0E9h,042h,01h,00h,019h,043h,01h,00h
+        db 049h,043h,01h,00h,079h,043h,01h,00h,0A8h,043h,01h,00h,0D8h,043h,01h,00h
+        db 08h,044h,01h,00h,038h,044h,01h,00h,068h,044h,01h,00h,098h,044h,01h,00h
+        db 0C8h,044h,01h,00h,0F8h,044h,01h,00h,028h,045h,01h,00h,058h,045h,01h,00h
+        db 088h,045h,01h,00h,0B9h,045h,01h,00h,0E9h,045h,01h,00h,019h,046h,01h,00h
+        db 049h,046h,01h,00h,079h,046h,01h,00h,0AAh,046h,01h,00h,0DAh,046h,01h,00h
+        db 0Ah,047h,01h,00h,03Bh,047h,01h,00h,06Bh,047h,01h,00h,09Ch,047h,01h,00h
+        db 0CCh,047h,01h,00h,0FDh,047h,01h,00h,02Dh,048h,01h,00h,05Eh,048h,01h,00h
+        db 08Eh,048h,01h,00h,0BFh,048h,01h,00h,0EFh,048h,01h,00h,020h,049h,01h,00h
+        db 051h,049h,01h,00h,081h,049h,01h,00h,0B2h,049h,01h,00h,0E3h,049h,01h,00h
+        db 014h,04Ah,01h,00h,045h,04Ah,01h,00h,075h,04Ah,01h,00h,0A6h,04Ah,01h,00h
+        db 0D7h,04Ah,01h,00h,08h,04Bh,01h,00h,039h,04Bh,01h,00h,06Ah,04Bh,01h,00h
+        db 09Bh,04Bh,01h,00h,0CCh,04Bh,01h,00h,0FDh,04Bh,01h,00h,02Eh,04Ch,01h,00h
+        db 05Fh,04Ch,01h,00h,091h,04Ch,01h,00h,0C2h,04Ch,01h,00h,0F3h,04Ch,01h,00h
+        db 024h,04Dh,01h,00h,056h,04Dh,01h,00h,087h,04Dh,01h,00h,0B8h,04Dh,01h,00h
+        db 0EAh,04Dh,01h,00h,01Bh,04Eh,01h,00h,04Ch,04Eh,01h,00h,07Eh,04Eh,01h,00h
+        db 0AFh,04Eh,01h,00h,0E1h,04Eh,01h,00h,012h,04Fh,01h,00h,044h,04Fh,01h,00h
+        db 076h,04Fh,01h,00h,0A7h,04Fh,01h,00h,0D9h,04Fh,01h,00h,0Ah,050h,01h,00h
+        db 03Ch,050h,01h,00h,06Eh,050h,01h,00h,0A0h,050h,01h,00h,0D1h,050h,01h,00h
+        db 03h,051h,01h,00h,035h,051h,01h,00h,067h,051h,01h,00h,099h,051h,01h,00h
+        db 0CBh,051h,01h,00h,0FDh,051h,01h,00h,02Fh,052h,01h,00h,061h,052h,01h,00h
+        db 093h,052h,01h,00h,0C5h,052h,01h,00h,0F7h,052h,01h,00h,029h,053h,01h,00h
+        db 05Bh,053h,01h,00h,08Eh,053h,01h,00h,0C0h,053h,01h,00h,0F2h,053h,01h,00h
+        db 024h,054h,01h,00h,057h,054h,01h,00h,089h,054h,01h,00h,0BBh,054h,01h,00h
+        db 0EEh,054h,01h,00h,020h,055h,01h,00h,053h,055h,01h,00h,085h,055h,01h,00h
+        db 0B8h,055h,01h,00h,0EAh,055h,01h,00h,01Dh,056h,01h,00h,04Fh,056h,01h,00h
+        db 082h,056h,01h,00h,0B5h,056h,01h,00h,0E7h,056h,01h,00h,01Ah,057h,01h,00h
+        db 04Dh,057h,01h,00h,080h,057h,01h,00h,0B2h,057h,01h,00h,0E5h,057h,01h,00h
+        db 018h,058h,01h,00h,04Bh,058h,01h,00h,07Eh,058h,01h,00h,0B1h,058h,01h,00h
+        db 0E4h,058h,01h,00h,017h,059h,01h,00h,04Ah,059h,01h,00h,07Dh,059h,01h,00h
+        db 0B0h,059h,01h,00h,0E3h,059h,01h,00h,016h,05Ah,01h,00h,04Ah,05Ah,01h,00h
+        db 07Dh,05Ah,01h,00h,0B0h,05Ah,01h,00h,0E3h,05Ah,01h,00h,017h,05Bh,01h,00h
+        db 04Ah,05Bh,01h,00h,07Dh,05Bh,01h,00h,0B1h,05Bh,01h,00h,0E4h,05Bh,01h,00h
+        db 018h,05Ch,01h,00h,04Bh,05Ch,01h,00h,07Fh,05Ch,01h,00h,0B2h,05Ch,01h,00h
+        db 0E6h,05Ch,01h,00h,019h,05Dh,01h,00h,04Dh,05Dh,01h,00h,081h,05Dh,01h,00h
+        db 0B4h,05Dh,01h,00h,0E8h,05Dh,01h,00h,01Ch,05Eh,01h,00h,050h,05Eh,01h,00h
+        db 083h,05Eh,01h,00h,0B7h,05Eh,01h,00h,0EBh,05Eh,01h,00h,01Fh,05Fh,01h,00h
+        db 053h,05Fh,01h,00h,087h,05Fh,01h,00h,0BBh,05Fh,01h,00h,0EFh,05Fh,01h,00h
+        db 023h,060h,01h,00h,057h,060h,01h,00h,08Bh,060h,01h,00h,0BFh,060h,01h,00h
+        db 0F4h,060h,01h,00h,028h,061h,01h,00h,05Ch,061h,01h,00h,090h,061h,01h,00h
+        db 0C5h,061h,01h,00h,0F9h,061h,01h,00h,02Dh,062h,01h,00h,062h,062h,01h,00h
+        db 096h,062h,01h,00h,0CBh,062h,01h,00h,0FFh,062h,01h,00h,034h,063h,01h,00h
+        db 068h,063h,01h,00h,09Dh,063h,01h,00h,0D1h,063h,01h,00h,06h,064h,01h,00h
+        db 03Bh,064h,01h,00h,06Fh,064h,01h,00h,0A4h,064h,01h,00h,0D9h,064h,01h,00h
+        db 0Eh,065h,01h,00h,042h,065h,01h,00h,077h,065h,01h,00h,0ACh,065h,01h,00h
+        db 0E1h,065h,01h,00h,016h,066h,01h,00h,04Bh,066h,01h,00h,080h,066h,01h,00h
+        db 0B5h,066h,01h,00h,0EAh,066h,01h,00h,01Fh,067h,01h,00h,054h,067h,01h,00h
+        db 089h,067h,01h,00h,0BEh,067h,01h,00h,0F4h,067h,01h,00h,029h,068h,01h,00h
+        db 05Eh,068h,01h,00h,094h,068h,01h,00h,0C9h,068h,01h,00h,0FEh,068h,01h,00h
+        db 034h,069h,01h,00h,069h,069h,01h,00h,09Eh,069h,01h,00h,0D4h,069h,01h,00h
+        db 0Ah,06Ah,01h,00h,03Fh,06Ah,01h,00h,075h,06Ah,01h,00h,0AAh,06Ah,01h,00h
+        db 0E0h,06Ah,01h,00h,016h,06Bh,01h,00h,04Bh,06Bh,01h,00h,081h,06Bh,01h,00h
+        db 0B7h,06Bh,01h,00h,0EDh,06Bh,01h,00h,022h,06Ch,01h,00h,058h,06Ch,01h,00h
+        db 08Eh,06Ch,01h,00h,0C4h,06Ch,01h,00h,0FAh,06Ch,01h,00h,030h,06Dh,01h,00h
+        db 066h,06Dh,01h,00h,09Ch,06Dh,01h,00h,0D2h,06Dh,01h,00h,08h,06Eh,01h,00h
+        db 03Eh,06Eh,01h,00h,075h,06Eh,01h,00h,0ABh,06Eh,01h,00h,0E1h,06Eh,01h,00h
+        db 017h,06Fh,01h,00h,04Eh,06Fh,01h,00h,084h,06Fh,01h,00h,0BAh,06Fh,01h,00h
+        db 0F1h,06Fh,01h,00h,027h,070h,01h,00h,05Eh,070h,01h,00h,094h,070h,01h,00h
+        db 0CBh,070h,01h,00h,01h,071h,01h,00h,038h,071h,01h,00h,06Eh,071h,01h,00h
+        db 0A5h,071h,01h,00h,0DCh,071h,01h,00h,012h,072h,01h,00h,049h,072h,01h,00h
+        db 080h,072h,01h,00h,0B7h,072h,01h,00h,0EDh,072h,01h,00h,024h,073h,01h,00h
+        db 05Bh,073h,01h,00h,092h,073h,01h,00h,0C9h,073h,01h,00h,00h,074h,01h,00h
+        db 037h,074h,01h,00h,06Eh,074h,01h,00h,0A5h,074h,01h,00h,0DCh,074h,01h,00h
+        db 014h,075h,01h,00h,04Bh,075h,01h,00h,082h,075h,01h,00h,0B9h,075h,01h,00h
+        db 0F0h,075h,01h,00h,028h,076h,01h,00h,05Fh,076h,01h,00h,096h,076h,01h,00h
+        db 0CEh,076h,01h,00h,05h,077h,01h,00h,03Dh,077h,01h,00h,074h,077h,01h,00h
+        db 0ACh,077h,01h,00h,0E3h,077h,01h,00h,01Bh,078h,01h,00h,053h,078h,01h,00h
+        db 08Ah,078h,01h,00h,0C2h,078h,01h,00h,0FAh,078h,01h,00h,031h,079h,01h,00h
+        db 069h,079h,01h,00h,0A1h,079h,01h,00h,0D9h,079h,01h,00h,011h,07Ah,01h,00h
+        db 049h,07Ah,01h,00h,081h,07Ah,01h,00h,0B9h,07Ah,01h,00h,0F1h,07Ah,01h,00h
+        db 029h,07Bh,01h,00h,061h,07Bh,01h,00h,099h,07Bh,01h,00h,0D1h,07Bh,01h,00h
+        db 09h,07Ch,01h,00h,042h,07Ch,01h,00h,07Ah,07Ch,01h,00h,0B2h,07Ch,01h,00h
+        db 0EAh,07Ch,01h,00h,023h,07Dh,01h,00h,05Bh,07Dh,01h,00h,093h,07Dh,01h,00h
+        db 0CCh,07Dh,01h,00h,04h,07Eh,01h,00h,03Dh,07Eh,01h,00h,075h,07Eh,01h,00h
+        db 0AEh,07Eh,01h,00h,0E7h,07Eh,01h,00h,01Fh,07Fh,01h,00h,058h,07Fh,01h,00h
+        db 091h,07Fh,01h,00h,0C9h,07Fh,01h,00h,02h,080h,01h,00h,03Bh,080h,01h,00h
+        db 074h,080h,01h,00h,0ADh,080h,01h,00h,0E6h,080h,01h,00h,01Eh,081h,01h,00h
+        db 057h,081h,01h,00h,090h,081h,01h,00h,0C9h,081h,01h,00h,03h,082h,01h,00h
+        db 03Ch,082h,01h,00h,075h,082h,01h,00h,0AEh,082h,01h,00h,0E7h,082h,01h,00h
+        db 020h,083h,01h,00h,05Ah,083h,01h,00h,093h,083h,01h,00h,0CCh,083h,01h,00h
+        db 06h,084h,01h,00h,03Fh,084h,01h,00h,078h,084h,01h,00h,0B2h,084h,01h,00h
+        db 0EBh,084h,01h,00h,025h,085h,01h,00h,05Eh,085h,01h,00h,098h,085h,01h,00h
+        db 0D2h,085h,01h,00h,0Bh,086h,01h,00h,045h,086h,01h,00h,07Fh,086h,01h,00h
+        db 0B8h,086h,01h,00h,0F2h,086h,01h,00h,02Ch,087h,01h,00h,066h,087h,01h,00h
+        db 0A0h,087h,01h,00h,0DAh,087h,01h,00h,014h,088h,01h,00h,04Eh,088h,01h,00h
+        db 088h,088h,01h,00h,0C2h,088h,01h,00h,0FCh,088h,01h,00h,036h,089h,01h,00h
+        db 070h,089h,01h,00h,0AAh,089h,01h,00h,0E5h,089h,01h,00h,01Fh,08Ah,01h,00h
+        db 059h,08Ah,01h,00h,094h,08Ah,01h,00h,0CEh,08Ah,01h,00h,08h,08Bh,01h,00h
+        db 043h,08Bh,01h,00h,07Dh,08Bh,01h,00h,0B8h,08Bh,01h,00h,0F2h,08Bh,01h,00h
+        db 02Dh,08Ch,01h,00h,067h,08Ch,01h,00h,0A2h,08Ch,01h,00h,0DDh,08Ch,01h,00h
+        db 017h,08Dh,01h,00h,052h,08Dh,01h,00h,08Dh,08Dh,01h,00h,0C8h,08Dh,01h,00h
+        db 03h,08Eh,01h,00h,03Dh,08Eh,01h,00h,078h,08Eh,01h,00h,0B3h,08Eh,01h,00h
+        db 0EEh,08Eh,01h,00h,029h,08Fh,01h,00h,064h,08Fh,01h,00h,09Fh,08Fh,01h,00h
+        db 0DAh,08Fh,01h,00h,016h,090h,01h,00h,051h,090h,01h,00h,08Ch,090h,01h,00h
+        db 0C7h,090h,01h,00h,03h,091h,01h,00h,03Eh,091h,01h,00h,079h,091h,01h,00h
+        db 0B5h,091h,01h,00h,0F0h,091h,01h,00h,02Bh,092h,01h,00h,067h,092h,01h,00h
+        db 0A2h,092h,01h,00h,0DEh,092h,01h,00h,01Ah,093h,01h,00h,055h,093h,01h,00h
+        db 091h,093h,01h,00h,0CDh,093h,01h,00h,08h,094h,01h,00h,044h,094h,01h,00h
+        db 080h,094h,01h,00h,0BCh,094h,01h,00h,0F8h,094h,01h,00h,033h,095h,01h,00h
+        db 06Fh,095h,01h,00h,0ABh,095h,01h,00h,0E7h,095h,01h,00h,023h,096h,01h,00h
+        db 05Fh,096h,01h,00h,09Ch,096h,01h,00h,0D8h,096h,01h,00h,014h,097h,01h,00h
+        db 050h,097h,01h,00h,08Ch,097h,01h,00h,0C9h,097h,01h,00h,05h,098h,01h,00h
+        db 041h,098h,01h,00h,07Eh,098h,01h,00h,0BAh,098h,01h,00h,0F7h,098h,01h,00h
+        db 033h,099h,01h,00h,070h,099h,01h,00h,0ACh,099h,01h,00h,0E9h,099h,01h,00h
+        db 025h,09Ah,01h,00h,062h,09Ah,01h,00h,09Fh,09Ah,01h,00h,0DCh,09Ah,01h,00h
+        db 018h,09Bh,01h,00h,055h,09Bh,01h,00h,092h,09Bh,01h,00h,0CFh,09Bh,01h,00h
+        db 0Ch,09Ch,01h,00h,049h,09Ch,01h,00h,086h,09Ch,01h,00h,0C3h,09Ch,01h,00h
+        db 00h,09Dh,01h,00h,03Dh,09Dh,01h,00h,07Ah,09Dh,01h,00h,0B7h,09Dh,01h,00h
+        db 0F4h,09Dh,01h,00h,032h,09Eh,01h,00h,06Fh,09Eh,01h,00h,0ACh,09Eh,01h,00h
+        db 0E9h,09Eh,01h,00h,027h,09Fh,01h,00h,064h,09Fh,01h,00h,0A2h,09Fh,01h,00h
+        db 0DFh,09Fh,01h,00h,01Dh,0A0h,01h,00h,05Ah,0A0h,01h,00h,098h,0A0h,01h,00h
+        db 0D5h,0A0h,01h,00h,013h,0A1h,01h,00h,051h,0A1h,01h,00h,08Eh,0A1h,01h,00h
+        db 0CCh,0A1h,01h,00h,0Ah,0A2h,01h,00h,048h,0A2h,01h,00h,086h,0A2h,01h,00h
+        db 0C4h,0A2h,01h,00h,02h,0A3h,01h,00h,040h,0A3h,01h,00h,07Eh,0A3h,01h,00h
+        db 0BCh,0A3h,01h,00h,0FAh,0A3h,01h,00h,038h,0A4h,01h,00h,076h,0A4h,01h,00h
+        db 0B4h,0A4h,01h,00h,0F2h,0A4h,01h,00h,031h,0A5h,01h,00h,06Fh,0A5h,01h,00h
+        db 0ADh,0A5h,01h,00h,0ECh,0A5h,01h,00h,02Ah,0A6h,01h,00h,069h,0A6h,01h,00h
+        db 0A7h,0A6h,01h,00h,0E6h,0A6h,01h,00h,024h,0A7h,01h,00h,063h,0A7h,01h,00h
+        db 0A1h,0A7h,01h,00h,0E0h,0A7h,01h,00h,01Fh,0A8h,01h,00h,05Dh,0A8h,01h,00h
+        db 09Ch,0A8h,01h,00h,0DBh,0A8h,01h,00h,01Ah,0A9h,01h,00h,059h,0A9h,01h,00h
+        db 098h,0A9h,01h,00h,0D7h,0A9h,01h,00h,016h,0AAh,01h,00h,055h,0AAh,01h,00h
+        db 094h,0AAh,01h,00h,0D3h,0AAh,01h,00h,012h,0ABh,01h,00h,051h,0ABh,01h,00h
+        db 090h,0ABh,01h,00h,0CFh,0ABh,01h,00h,0Fh,0ACh,01h,00h,04Eh,0ACh,01h,00h
+        db 08Dh,0ACh,01h,00h,0CDh,0ACh,01h,00h,0Ch,0ADh,01h,00h,04Ch,0ADh,01h,00h
+        db 08Bh,0ADh,01h,00h,0CBh,0ADh,01h,00h,0Ah,0AEh,01h,00h,04Ah,0AEh,01h,00h
+        db 08Ah,0AEh,01h,00h,0C9h,0AEh,01h,00h,09h,0AFh,01h,00h,049h,0AFh,01h,00h
+        db 089h,0AFh,01h,00h,0C8h,0AFh,01h,00h,08h,0B0h,01h,00h,048h,0B0h,01h,00h
+        db 088h,0B0h,01h,00h,0C8h,0B0h,01h,00h,08h,0B1h,01h,00h,048h,0B1h,01h,00h
+        db 088h,0B1h,01h,00h,0C8h,0B1h,01h,00h,08h,0B2h,01h,00h,049h,0B2h,01h,00h
+        db 089h,0B2h,01h,00h,0C9h,0B2h,01h,00h,09h,0B3h,01h,00h,04Ah,0B3h,01h,00h
+        db 08Ah,0B3h,01h,00h,0CBh,0B3h,01h,00h,0Bh,0B4h,01h,00h,04Ch,0B4h,01h,00h
+        db 08Ch,0B4h,01h,00h,0CDh,0B4h,01h,00h,0Dh,0B5h,01h,00h,04Eh,0B5h,01h,00h
+        db 08Fh,0B5h,01h,00h,0CFh,0B5h,01h,00h,010h,0B6h,01h,00h,051h,0B6h,01h,00h
+        db 092h,0B6h,01h,00h,0D3h,0B6h,01h,00h,014h,0B7h,01h,00h,054h,0B7h,01h,00h
+        db 095h,0B7h,01h,00h,0D6h,0B7h,01h,00h,018h,0B8h,01h,00h,059h,0B8h,01h,00h
+        db 09Ah,0B8h,01h,00h,0DBh,0B8h,01h,00h,01Ch,0B9h,01h,00h,05Dh,0B9h,01h,00h
+        db 09Fh,0B9h,01h,00h,0E0h,0B9h,01h,00h,021h,0BAh,01h,00h,063h,0BAh,01h,00h
+        db 0A4h,0BAh,01h,00h,0E6h,0BAh,01h,00h,027h,0BBh,01h,00h,069h,0BBh,01h,00h
+        db 0AAh,0BBh,01h,00h,0ECh,0BBh,01h,00h,02Eh,0BCh,01h,00h,06Fh,0BCh,01h,00h
+        db 0B1h,0BCh,01h,00h,0F3h,0BCh,01h,00h,035h,0BDh,01h,00h,076h,0BDh,01h,00h
+        db 0B8h,0BDh,01h,00h,0FAh,0BDh,01h,00h,03Ch,0BEh,01h,00h,07Eh,0BEh,01h,00h
+        db 0C0h,0BEh,01h,00h,02h,0BFh,01h,00h,045h,0BFh,01h,00h,087h,0BFh,01h,00h
+        db 0C9h,0BFh,01h,00h,0Bh,0C0h,01h,00h,04Dh,0C0h,01h,00h,090h,0C0h,01h,00h
+        db 0D2h,0C0h,01h,00h,014h,0C1h,01h,00h,057h,0C1h,01h,00h,099h,0C1h,01h,00h
+        db 0DCh,0C1h,01h,00h,01Eh,0C2h,01h,00h,061h,0C2h,01h,00h,0A4h,0C2h,01h,00h
+        db 0E6h,0C2h,01h,00h,029h,0C3h,01h,00h,06Ch,0C3h,01h,00h,0AEh,0C3h,01h,00h
+        db 0F1h,0C3h,01h,00h,034h,0C4h,01h,00h,077h,0C4h,01h,00h,0BAh,0C4h,01h,00h
+        db 0FDh,0C4h,01h,00h,040h,0C5h,01h,00h,083h,0C5h,01h,00h,0C6h,0C5h,01h,00h
+        db 09h,0C6h,01h,00h,04Ch,0C6h,01h,00h,08Fh,0C6h,01h,00h,0D3h,0C6h,01h,00h
+        db 016h,0C7h,01h,00h,059h,0C7h,01h,00h,09Dh,0C7h,01h,00h,0E0h,0C7h,01h,00h
+        db 023h,0C8h,01h,00h,067h,0C8h,01h,00h,0AAh,0C8h,01h,00h,0EEh,0C8h,01h,00h
+        db 032h,0C9h,01h,00h,075h,0C9h,01h,00h,0B9h,0C9h,01h,00h,0FDh,0C9h,01h,00h
+        db 040h,0CAh,01h,00h,084h,0CAh,01h,00h,0C8h,0CAh,01h,00h,0Ch,0CBh,01h,00h
+        db 050h,0CBh,01h,00h,094h,0CBh,01h,00h,0D8h,0CBh,01h,00h,01Ch,0CCh,01h,00h
+        db 060h,0CCh,01h,00h,0A4h,0CCh,01h,00h,0E8h,0CCh,01h,00h,02Ch,0CDh,01h,00h
+        db 070h,0CDh,01h,00h,0B5h,0CDh,01h,00h,0F9h,0CDh,01h,00h,03Dh,0CEh,01h,00h
+        db 082h,0CEh,01h,00h,0C6h,0CEh,01h,00h,0Ah,0CFh,01h,00h,04Fh,0CFh,01h,00h
+        db 093h,0CFh,01h,00h,0D8h,0CFh,01h,00h,01Dh,0D0h,01h,00h,061h,0D0h,01h,00h
+        db 0A6h,0D0h,01h,00h,0EBh,0D0h,01h,00h,02Fh,0D1h,01h,00h,074h,0D1h,01h,00h
+        db 0B9h,0D1h,01h,00h,0FEh,0D1h,01h,00h,043h,0D2h,01h,00h,088h,0D2h,01h,00h
+        db 0CDh,0D2h,01h,00h,012h,0D3h,01h,00h,057h,0D3h,01h,00h,09Ch,0D3h,01h,00h
+        db 0E1h,0D3h,01h,00h,026h,0D4h,01h,00h,06Ch,0D4h,01h,00h,0B1h,0D4h,01h,00h
+        db 0F6h,0D4h,01h,00h,03Ch,0D5h,01h,00h,081h,0D5h,01h,00h,0C7h,0D5h,01h,00h
+        db 0Ch,0D6h,01h,00h,052h,0D6h,01h,00h,097h,0D6h,01h,00h,0DDh,0D6h,01h,00h
+        db 022h,0D7h,01h,00h,068h,0D7h,01h,00h,0AEh,0D7h,01h,00h,0F4h,0D7h,01h,00h
+        db 039h,0D8h,01h,00h,07Fh,0D8h,01h,00h,0C5h,0D8h,01h,00h,0Bh,0D9h,01h,00h
+        db 051h,0D9h,01h,00h,097h,0D9h,01h,00h,0DDh,0D9h,01h,00h,023h,0DAh,01h,00h
+        db 069h,0DAh,01h,00h,0AFh,0DAh,01h,00h,0F6h,0DAh,01h,00h,03Ch,0DBh,01h,00h
+        db 082h,0DBh,01h,00h,0C9h,0DBh,01h,00h,0Fh,0DCh,01h,00h,055h,0DCh,01h,00h
+        db 09Ch,0DCh,01h,00h,0E2h,0DCh,01h,00h,029h,0DDh,01h,00h,06Fh,0DDh,01h,00h
+        db 0B6h,0DDh,01h,00h,0FDh,0DDh,01h,00h,043h,0DEh,01h,00h,08Ah,0DEh,01h,00h
+        db 0D1h,0DEh,01h,00h,018h,0DFh,01h,00h,05Fh,0DFh,01h,00h,0A6h,0DFh,01h,00h
+        db 0ECh,0DFh,01h,00h,033h,0E0h,01h,00h,07Bh,0E0h,01h,00h,0C2h,0E0h,01h,00h
+        db 09h,0E1h,01h,00h,050h,0E1h,01h,00h,097h,0E1h,01h,00h,0DEh,0E1h,01h,00h
+        db 026h,0E2h,01h,00h,06Dh,0E2h,01h,00h,0B4h,0E2h,01h,00h,0FCh,0E2h,01h,00h
+        db 043h,0E3h,01h,00h,08Bh,0E3h,01h,00h,0D2h,0E3h,01h,00h,01Ah,0E4h,01h,00h
+        db 061h,0E4h,01h,00h,0A9h,0E4h,01h,00h,0F1h,0E4h,01h,00h,038h,0E5h,01h,00h
+        db 080h,0E5h,01h,00h,0C8h,0E5h,01h,00h,010h,0E6h,01h,00h,058h,0E6h,01h,00h
+        db 0A0h,0E6h,01h,00h,0E8h,0E6h,01h,00h,030h,0E7h,01h,00h,078h,0E7h,01h,00h
+        db 0C0h,0E7h,01h,00h,08h,0E8h,01h,00h,050h,0E8h,01h,00h,098h,0E8h,01h,00h
+        db 0E1h,0E8h,01h,00h,029h,0E9h,01h,00h,071h,0E9h,01h,00h,0BAh,0E9h,01h,00h
+        db 02h,0EAh,01h,00h,04Bh,0EAh,01h,00h,093h,0EAh,01h,00h,0DCh,0EAh,01h,00h
+        db 024h,0EBh,01h,00h,06Dh,0EBh,01h,00h,0B6h,0EBh,01h,00h,0FEh,0EBh,01h,00h
+        db 047h,0ECh,01h,00h,090h,0ECh,01h,00h,0D9h,0ECh,01h,00h,022h,0EDh,01h,00h
+        db 06Bh,0EDh,01h,00h,0B4h,0EDh,01h,00h,0FDh,0EDh,01h,00h,046h,0EEh,01h,00h
+        db 08Fh,0EEh,01h,00h,0D8h,0EEh,01h,00h,021h,0EFh,01h,00h,06Ah,0EFh,01h,00h
+        db 0B4h,0EFh,01h,00h,0FDh,0EFh,01h,00h,046h,0F0h,01h,00h,090h,0F0h,01h,00h
+        db 0D9h,0F0h,01h,00h,023h,0F1h,01h,00h,06Ch,0F1h,01h,00h,0B6h,0F1h,01h,00h
+        db 0FFh,0F1h,01h,00h,049h,0F2h,01h,00h,093h,0F2h,01h,00h,0DDh,0F2h,01h,00h
+        db 026h,0F3h,01h,00h,070h,0F3h,01h,00h,0BAh,0F3h,01h,00h,04h,0F4h,01h,00h
+        db 04Eh,0F4h,01h,00h,098h,0F4h,01h,00h,0E2h,0F4h,01h,00h,02Ch,0F5h,01h,00h
+        db 076h,0F5h,01h,00h,0C0h,0F5h,01h,00h,0Bh,0F6h,01h,00h,055h,0F6h,01h,00h
+        db 09Fh,0F6h,01h,00h,0E9h,0F6h,01h,00h,034h,0F7h,01h,00h,07Eh,0F7h,01h,00h
+        db 0C9h,0F7h,01h,00h,013h,0F8h,01h,00h,05Eh,0F8h,01h,00h,0A8h,0F8h,01h,00h
+        db 0F3h,0F8h,01h,00h,03Eh,0F9h,01h,00h,089h,0F9h,01h,00h,0D3h,0F9h,01h,00h
+        db 01Eh,0FAh,01h,00h,069h,0FAh,01h,00h,0B4h,0FAh,01h,00h,0FFh,0FAh,01h,00h
+        db 04Ah,0FBh,01h,00h,095h,0FBh,01h,00h,0E0h,0FBh,01h,00h,02Bh,0FCh,01h,00h
+        db 076h,0FCh,01h,00h,0C1h,0FCh,01h,00h,0Dh,0FDh,01h,00h,058h,0FDh,01h,00h
+        db 0A3h,0FDh,01h,00h,0EFh,0FDh,01h,00h,03Ah,0FEh,01h,00h,086h,0FEh,01h,00h
+        db 0D1h,0FEh,01h,00h,01Dh,0FFh,01h,00h,068h,0FFh,01h,00h,0B4h,0FFh,01h,00h
+;-----------------------------------------------------------------------------
+; SetMixerMode                                    CBEA8  96 PC, low confidence
+; Sets the mixer mode: 1 mixes 16-bit samples through the volume lookup
+;-----------------------------------------------------------------------------
+SetMixerMode:
+        push ebp
+        LD mov, ebp, esp
+        push eax
+        mov eax, dword [byte ebp+08h]
+        mov dword [MixerMode], eax
+        pop eax
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; MixerInit                                    CBEB7  96 PC, medium confidence
+; Sets up the mixer for an output rate, buffer size and format and picks the
+; output routine
+;-----------------------------------------------------------------------------
+MixerInit:
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        call MixerBuildVolumeTables
+        cmp dword [byte ebp+010h], 400h
+        jle short .1
+        mov eax, 0FFFFFFFFh
+        pop esi
+        leave
+        ret
+.1:
+        cmp dword [MixerReady], byte 0
+        jne short .3
+        mov dword [MixerReady], 1
+        mov eax, 10h
+.2:
+        dec eax
+        mov esi, dword [nosplit eax*4+MixerChannelTable]
+        mov byte [esi], 0
+        cmp eax, byte 0
+        jne short .2
+.3:
+        mov eax, dword [byte ebp+0Ch]
+        mov dword [MixerOutputRate], eax
+        mov eax, dword [byte ebp+010h]
+        mov dword [MixerBufferSamples], eax
+        mov eax, dword [byte ebp+08h]
+        and eax, byte 1Ch
+        cmp eax, byte 1Ch
+        je short .4
+        cmp eax, byte 14h
+        je short .5
+        cmp eax, byte 18h
+        je short .6
+        cmp eax, byte 10h
+        je short .7
+        cmp eax, byte 0Ch
+        je short .8
+        cmp eax, byte 4
+        je short .9
+        cmp eax, byte 8
+        je short .10
+        mov eax, MixOutputSkip
+        mov dword [MixerOutputFunc], eax
+        mov eax, 10h
+        pop esi
+        leave
+        ret
+.4:
+        mov eax, MixOutputSkipBothStereo
+        mov dword [MixerOutputFunc], eax
+        mov eax, 10h
+        pop esi
+        leave
+        ret
+.5:
+        mov eax, MixOutputStereo8
+        mov dword [MixerOutputFunc], eax
+        mov eax, 10h
+        pop esi
+        leave
+        ret
+.6:
+        mov eax, MixOutputSkipBothMono
+        mov dword [MixerOutputFunc], eax
+        mov eax, 10h
+        pop esi
+        leave
+        ret
+.7:
+        mov eax, MixOutputMono8
+        mov dword [MixerOutputFunc], eax
+        mov eax, 10h
+        pop esi
+        leave
+        ret
+.8:
+        mov eax, MixOutputStereo16
+        mov dword [MixerOutputFunc], eax
+        mov eax, 10h
+        pop esi
+        leave
+        ret
+.9:
+        mov eax, MixOutputSkipStereo
+        mov dword [MixerOutputFunc], eax
+        mov eax, 10h
+        pop esi
+        leave
+        ret
+.10:
+        mov eax, MixOutputSkipMono16
+        mov dword [MixerOutputFunc], eax
+        mov eax, 10h
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; MixerFillBuffer                              CBFC2  96 PC, medium confidence
+; Mixes all channels into an output buffer, 512 samples at a time
+;-----------------------------------------------------------------------------
+MixerFillBuffer:
+        push ebp
+        LD mov, ebp, esp
+        pusha
+        call ClearMixBuffer
+        mov eax, dword [byte ebp+08h]
+        mov dword [MixerOutBuffer], eax
+        mov dword [MixerChunkSamples], 0FFFFFFFFh
+.1:
+        inc dword [MixerChunkSamples]
+        mov esi, dword [MixerChunkSamples]
+        cmp esi, byte 10h
+        je short .3
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        cmp byte [esi], 1
+        jne short .1
+        mov eax, dword [MixerBufferSamples]
+        mov dword [MixerChunkLeft], eax
+        mov dword [MixerChunkPos], 0
+.2:
+        call dword [byte esi+060h]
+        mov dword [MixerChunkCount], eax
+        cmp eax, byte 0
+        jle short .1
+        mov eax, dword [MixerChunkCount]
+        sub dword [MixerChunkLeft], eax
+        call dword [byte esi+05Ch]
+        mov eax, dword [MixerChunkCount]
+        add dword [MixerChunkPos], eax
+        cmp dword [MixerChunkLeft], byte 0
+        jg short .2
+        jmp short .1
+.3:
+        call dword [MixerOutputFunc]
+        popa
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; MixerStartChannel                            CC048  96 PC, medium confidence
+; Sets up a mixer channel for a sample: format, loop, rate and volumes
+;-----------------------------------------------------------------------------
+MixerStartChannel:
+        push ebp
+        LD mov, ebp, esp
+        push eax
+        push ebx
+        push edx
+        push esi
+        mov esi, dword [byte ebp+08h]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        mov byte [esi], 0
+        mov dword [byte esi+08h], 0
+        mov eax, dword [byte ebp+028h]
+        mov dword [byte esi+04h], eax
+        mov byte [byte esi+01h], 0
+        cmp dword [byte ebp+018h], byte 0
+        je short .1
+        mov byte [byte esi+01h], 1
+.1:
+        mov byte [byte esi+03h], 0
+        test dword [byte ebp+028h], 10h
+        je short .2
+        mov byte [byte esi+03h], 1
+.2:
+        mov edx, dword [byte ebp+0Ch]
+        test dword [byte ebp+028h], 8
+        je short .3
+        shr edx, 1
+        inc dword [byte esi+08h]
+.3:
+        test dword [byte ebp+028h], 4
+        je short .4
+        shr edx, 1
+        inc dword [byte esi+08h]
+.4:
+        mov dword [byte esi+014h], edx
+        mov dword [byte esi+018h], 0
+        mov eax, dword [byte ebp+010h]
+        LD add, eax, edx
+        sub eax, byte 1
+        mov dword [byte esi+010h], eax
+        add edx, dword [byte ebp+014h]
+        mov dword [byte esi+01Ch], edx
+        add edx, dword [byte ebp+018h]
+        mov dword [byte esi+020h], edx
+        mov byte [byte esi+02h], 0
+        test dword [byte ebp+028h], 2
+        je short .5
+        mov dword [byte esi+030h], 0
+        mov dword [byte esi+034h], 0
+        mov dword [byte esi+038h], 0
+        mov dword [byte esi+03Ch], 0
+        mov eax, dword [byte ebp+014h]
+        mov dword [byte esi+044h], eax
+        add eax, dword [byte ebp+018h]
+        mov dword [byte esi+048h], eax
+        mov eax, dword [byte ebp+010h]
+        mov dword [byte esi+04Ch], eax
+        mov byte [byte esi+02h], 2
+        mov eax, dword [byte ebp+0Ch]
+        mov dword [byte esi+040h], eax
+        test byte [byte esi+03h], 0FFh
+        je short .5
+        push edi
+        mov edi, dword [byte ebp+0Ch]
+        mov eax, dword [edi]
+        sub eax, byte 1
+        mov dword [byte esi+04Ch], eax
+        add edi, byte 14h
+        mov dword [byte esi+040h], edi
+        pop edi
+.5:
+        mov eax, dword [byte ebp+01Ch]
+        mov dword [byte esi+0Ch], eax
+        mov ebx, dword [byte ebp+02Ch]
+        call MixerCalcStep
+        push dword [byte ebp+08h]
+        call MixerPickRoutines
+        add esp, byte 4
+        mov eax, dword [byte ebp+020h]
+        shl eax, 0Ah
+        mov dword [byte esi+064h], eax
+        mov eax, dword [byte ebp+024h]
+        shl eax, 0Ah
+        mov dword [byte esi+068h], eax
+        mov byte [esi], 1
+        pop esi
+        pop edx
+        pop ebx
+        pop eax
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; MixerStopChannel                                CC15A  96 PC, low confidence
+; Marks a channel stopped and calls the end-of-sample callback
+;-----------------------------------------------------------------------------
+MixerStopChannel:
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push ebx
+        push eax
+        mov eax, dword [byte ebp+08h]
+        mov esi, dword [nosplit eax*4+MixerChannelTable]
+        mov byte [esi], 0
+        push eax
+        call ResetMixChannel
+        add esp, byte 4
+        pop eax
+        pop ebx
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; MixerSetChannelVolumes                       CC17B  96 PC, medium confidence
+; Sets a mixer channel's left and right volumes from a pan and volume
+;-----------------------------------------------------------------------------
+MixerSetChannelVolumes:
+        push ebp
+        LD mov, ebp, esp
+        push eax
+        push ebx
+        push esi
+        mov esi, dword [byte ebp+08h]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        cmp byte [esi], 0
+        je short .1
+        push dword [byte ebp+010h]
+        push dword [byte ebp+0Ch]
+        call PanVolumes
+        add esp, byte 8
+        movzx ebx, ax
+        shr eax, 10h
+        shl ebx, 0Ah
+        shl eax, 0Ah
+        mov dword [byte esi+064h], ebx
+        mov dword [byte esi+068h], eax
+.1:
+        pop esi
+        pop ebx
+        pop eax
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; MixerSetChannelRate                          CC1B5  96 PC, medium confidence
+; Sets a mixer channel's step for a new rate
+;-----------------------------------------------------------------------------
+MixerSetChannelRate:
+        push ebp
+        LD mov, ebp, esp
+        push eax
+        push ebx
+        push ecx
+        push edx
+        push edi
+        push esi
+        mov esi, dword [byte ebp+08h]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        mov eax, dword [byte esi+0Ch]
+        mov ebx, dword [byte ebp+0Ch]
+        call MixerCalcStep
+        pop esi
+        pop edi
+        pop edx
+        pop ecx
+        pop ebx
+        pop eax
+        leave
+        ret
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        cmp dword [MixerReady], byte 0
+        je short .1
+        mov esi, dword [byte ebp+08h]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        movzx eax, byte [esi]
+        pop esi
+        leave
+        ret
+.1:
+        mov eax, 0FFFFFFFFh
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; MixerSamplesLeft                                CC200  96 PC, low confidence
+; Returns how many samples a playing channel has left, or -1 for looping or
+; streamed channels
+;-----------------------------------------------------------------------------
+MixerSamplesLeft:
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        cmp dword [MixerReady], byte 0
+        je short .3
+        mov esi, dword [byte ebp+08h]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        cmp byte [esi], 1
+        je short .1
+        mov eax, 0
+        pop esi
+        leave
+        ret
+.1:
+        cmp byte [byte esi+01h], 0
+        jne short .3
+        cmp byte [byte esi+03h], 0
+        jne short .3
+        cmp byte [byte esi+02h], 0
+        jne short .2
+        mov eax, dword [byte esi+010h]
+        sub eax, dword [byte esi+014h]
+        pop esi
+        leave
+        ret
+.2:
+        mov eax, dword [byte esi+04Ch]
+        sub eax, dword [byte esi+038h]
+        pop esi
+        leave
+        ret
+.3:
+        mov eax, 0FFFFFFFFh
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; MixerPickRoutines                            CC250  96 PC, medium confidence
+; Picks a mixer channel's mixing, decoding and length routines from its
+; format
+;-----------------------------------------------------------------------------
+MixerPickRoutines:
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push eax
+        mov esi, dword [byte ebp+08h]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        mov eax, dword [byte esi+04h]
+        and eax, byte 0Ch
+        cmp eax, byte 0Ch
+        je short .1
+        cmp eax, byte 4
+        je short .4
+        cmp eax, byte 8
+        je short .5
+        mov eax, MixMono8
+        mov dword [byte esi+05Ch], eax
+        jmp short .8
+.1:
+        cmp dword [MixerMode], byte 1
+        je short .2
+        mov eax, MixStereo16
+        jmp short .3
+.2:
+        mov eax, MixStereo16Lookup
+.3:
+        mov dword [byte esi+05Ch], eax
+        jmp short .8
+.4:
+        mov eax, MixStereo8
+        mov dword [byte esi+05Ch], eax
+        jmp short .8
+.5:
+        cmp dword [MixerMode], byte 1
+        je short .6
+        mov eax, MixMono16
+        jmp short .7
+.6:
+        mov eax, MixMono16Lookup
+.7:
+        mov dword [byte esi+05Ch], eax
+.8:
+        cmp byte [byte esi+02h], 0
+        je short .10
+        test dword [byte esi+04h], 4
+        je short .9
+        mov eax, AdpcmDecodeStereo
+        mov dword [byte esi+058h], eax
+        jmp short .10
+.9:
+        mov eax, AdpcmDecodeMono
+        mov dword [byte esi+058h], eax
+.10:
+        mov eax, dword [byte esi+04h]
+        and eax, byte 12h
+        cmp byte [byte esi+01h], 0
+        je short .11
+        cmp eax, byte 2
+        je short .12
+        mov eax, MixerChunkLength_4A
+        mov dword [byte esi+060h], eax
+        pop eax
+        pop esi
+        leave
+        ret
+.11:
+        cmp eax, byte 12h
+        je short .13
+        cmp eax, byte 2
+        je short .14
+        cmp eax, byte 10h
+        je short .15
+        mov eax, MixerChunkLength
+        mov dword [byte esi+060h], eax
+        pop eax
+        pop esi
+        leave
+        ret
+.12:
+        mov eax, MixerChunkLength_10E
+        mov dword [byte esi+060h], eax
+        pop eax
+        pop esi
+        leave
+        ret
+.13:
+        mov eax, MixerChunkLength_21B
+        mov dword [byte esi+060h], eax
+        pop eax
+        pop esi
+        leave
+        ret
+.14:
+        mov eax, MixerChunkLength_32D
+        mov dword [byte esi+060h], eax
+        pop eax
+        pop esi
+        leave
+        ret
+.15:
+        mov eax, MixerChunkLength_8F
+        mov dword [byte esi+060h], eax
+        pop eax
+        pop esi
+        leave
+        ret
+;-----------------------------------------------------------------------------
+; MixerChunkLength                                CC343  96 PC, low confidence
+; Returns how many output samples a channel can mix before its end or loop
+; point; followed by the loop and stream variants
+;-----------------------------------------------------------------------------
+MixerChunkLength:
+        mov edx, dword [byte esi+010h]
+        sub edx, dword [byte esi+014h]
+        test edx, 0FFFFFFFFh
+        jns short .1
+        mov edx, 0
+.1:
+        mov eax, 0
+        shrd eax, edx, 8
+        shr edx, 8
+        div dword [byte esi+02Ch]
+        cmp eax, byte 0
+        jne short .2
+        push dword [MixerChunkSamples]
+        call MixerStopChannel
+        add esp, byte 4
+        mov eax, 0
+        ret
+.2:
+        cmp eax, dword [MixerChunkLeft]
+        jge short .3
+        ret
+.3:
+        mov eax, dword [MixerChunkLeft]
+        ret
+MixerChunkLength_4A:
+        mov edx, dword [byte esi+020h]
+        sub edx, dword [byte esi+014h]
+        test edx, 0FFFFFFFFh
+        jns short .4
+        mov edx, 0
+.4:
+        mov eax, 0
+        shrd eax, edx, 8
+        shr edx, 8
+        div dword [byte esi+02Ch]
+        cmp eax, byte 0
+        jne short .5
+        mov eax, dword [byte esi+01Ch]
+        mov dword [byte esi+014h], eax
+        mov dword [byte esi+018h], 0
+        jmp short MixerChunkLength_4A
+.5:
+        cmp eax, dword [MixerChunkLeft]
+        jge short .6
+        ret
+.6:
+        mov eax, dword [MixerChunkLeft]
+        ret
+MixerChunkLength_8F:
+        mov edx, dword [byte esi+010h]
+        sub edx, dword [byte esi+014h]
+        test edx, 0FFFFFFFFh
+        jns short .7
+        mov edx, 0
+.7:
+        mov eax, 0
+        shrd eax, edx, 8
+        shr edx, 8
+        div dword [byte esi+02Ch]
+        mov dword [MixerLoopLength], eax
+        cmp eax, byte 0
+        jne short .8
+        lea eax, [byte esi+010h]
+        push eax
+        lea eax, [byte esi+014h]
+        push eax
+        call AudioStreamCallback
+        add esp, byte 8
+        cmp dword [byte esi+014h], byte 0
+        je short .8
+        mov ecx, dword [byte esi+08h]
+        shr dword [byte esi+014h], cl
+        mov eax, dword [byte esi+014h]
+        sub eax, byte 1
+        add dword [byte esi+010h], eax
+        jmp short MixerChunkLength_8F
+.8:
+        cmp dword [MixerLoopLength], byte 0
+        jne short .9
+        push dword [MixerChunkSamples]
+        call MixerStopChannel
+        add esp, byte 4
+        mov eax, 0
+        ret
+.9:
+        cmp eax, dword [MixerChunkLeft]
+        jge short .10
+        ret
+.10:
+        mov eax, dword [MixerChunkLeft]
+        ret
+MixerChunkLength_10E:
+        mov dword [MixerLoopLimit], 0FFFFh
+        mov edx, dword [byte esi+044h]
+        sub edx, dword [byte esi+038h]
+        test edx, 0FFFFFFFFh
+        js short .12
+        mov eax, 0
+        shrd eax, edx, 8
+        shr edx, 8
+        div dword [byte esi+02Ch]
+        cmp eax, byte 0
+        jne short .11
+        mov edx, dword [byte esi+034h]
+        mov dword [byte esi+050h], edx
+        mov edx, dword [byte esi+030h]
+        mov dword [byte esi+054h], edx
+        jmp short .12
+.11:
+        mov dword [MixerLoopLimit], eax
+.12:
+        mov edx, dword [byte esi+048h]
+        sub edx, dword [byte esi+038h]
+        test edx, 0FFFFFFFFh
+        jns short .13
+        mov edx, 0
+.13:
+        mov eax, 0
+        shrd eax, edx, 8
+        shr edx, 8
+        div dword [byte esi+02Ch]
+        cmp eax, byte 0
+        jne short .14
+        mov eax, dword [byte esi+044h]
+        mov dword [byte esi+038h], eax
+        mov dword [byte esi+03Ch], 0
+        mov dword [byte esi+018h], 0
+        mov eax, dword [byte esi+050h]
+        mov dword [byte esi+034h], eax
+        mov eax, dword [byte esi+054h]
+        mov dword [byte esi+030h], eax
+        jmp short .12
+.14:
+        cmp eax, dword [MixerChunkLeft]
+        jl short .15
+        mov eax, dword [MixerChunkLeft]
+.15:
+        cmp eax, dword [MixerLoopLimit]
+        jl short .16
+        mov eax, dword [MixerLoopLimit]
+.16:
+        push eax
+        lea ebx, [byte esi+030h]
+        push ebx
+        lea ebx, [byte esi+034h]
+        push ebx
+        mov edx, dword [byte esi+02Ch]
+        mul edx
+        shld edx, eax, 8
+        shl eax, 8
+        add dword [byte esi+03Ch], eax
+        adc edx, byte 0
+        cmp dword [byte esi+03Ch], byte 0
+        je short .17
+        add edx, byte 1
+.17:
+        mov dword [MixerLoopStart], edx
+        push dword [MixerLoopStart]
+        mov ebx, MixDecodeBuffer
+        push ebx
+        mov ebx, dword [byte esi+038h]
+        test dword [byte esi+04h], 4
+        jne short .18
+        LD mov, edx, ebx
+        and edx, byte 1
+        shr ebx, 1
+.18:
+        add ebx, dword [byte esi+040h]
+        push ebx
+        push edx
+        call dword [byte esi+058h]
+        add esp, byte 18h
+        mov eax, dword [MixerLoopStart]
+        add dword [byte esi+038h], eax
+        mov ebx, MixDecodeBuffer
+        mov ecx, dword [byte esi+08h]
+        shr ebx, cl
+        mov dword [byte esi+014h], ebx
+        pop eax
+        ret
+MixerChunkLength_21B:
+        mov edx, dword [byte esi+04Ch]
+        sub edx, dword [byte esi+038h]
+        test edx, 0FFFFFFFFh
+        jns short .19
+        mov edx, 0
+.19:
+        mov eax, 0
+        shrd eax, edx, 8
+        shr edx, 8
+        div dword [byte esi+02Ch]
+        mov dword [MixerLoopLength], eax
+        cmp eax, byte 0
+        jne short .22
+.20:
+        lea eax, [byte esi+04Ch]
+        push eax
+        lea eax, [byte esi+038h]
+        push eax
+        call AudioStreamCallback
+        add esp, byte 8
+        cmp dword [byte esi+038h], byte 0
+        je short .21
+        cmp dword [byte esi+04Ch], byte 0
+        je short .20
+        push edi
+        push ebx
+        mov edi, dword [byte esi+038h]
+        mov dword [byte esi+040h], edi
+        add dword [byte esi+040h], byte 14h
+        mov eax, dword [edi]
+        mov dword [byte esi+04Ch], eax
+        mov dword [byte esi+038h], 0
+        mov ebx, dword [byte edi+04h]
+        shl ebx, 6
+        mov eax, dword [byte edi+08h]
+        shl eax, 16h
+        LD or, ebx, eax
+        mov dword [byte esi+030h], ebx
+        mov ebx, dword [byte edi+0Ch]
+        mov eax, dword [byte edi+010h]
+        shl eax, 10h
+        and ebx, 0FFFFh
+        LD or, ebx, eax
+        mov dword [byte esi+034h], ebx
+        pop ebx
+        pop edi
+        jmp near MixerChunkLength_21B
+.21:
+        cmp dword [MixerLoopLength], byte 0
+        jne short .22
+.22:
+        mov eax, dword [MixerLoopLength]
+        cmp eax, dword [MixerChunkLeft]
+        jl short .23
+        mov eax, dword [MixerChunkLeft]
+.23:
+        push eax
+        lea ebx, [byte esi+030h]
+        push ebx
+        lea ebx, [byte esi+034h]
+        push ebx
+        mov edx, dword [byte esi+02Ch]
+        mul edx
+        shld edx, eax, 8
+        shl eax, 8
+        add dword [byte esi+03Ch], eax
+        adc edx, byte 0
+        cmp dword [byte esi+03Ch], byte 0
+        je short .24
+        add edx, byte 1
+.24:
+        mov dword [MixerLoopStart], edx
+        push dword [MixerLoopStart]
+        mov ebx, MixDecodeBuffer
+        push ebx
+        mov ebx, dword [byte esi+038h]
+        test dword [byte esi+04h], 4
+        jne short .25
+        LD mov, edx, ebx
+        and edx, byte 1
+        shr ebx, 1
+.25:
+        add ebx, dword [byte esi+040h]
+        push ebx
+        push edx
+        call dword [byte esi+058h]
+        add esp, byte 18h
+        mov eax, dword [MixerLoopStart]
+        add dword [byte esi+038h], eax
+        mov ebx, MixDecodeBuffer
+        mov ecx, dword [byte esi+08h]
+        shr ebx, cl
+        mov dword [byte esi+014h], ebx
+        pop eax
+        ret
+MixerChunkLength_32D:
+        mov edx, dword [byte esi+04Ch]
+        sub edx, dword [byte esi+038h]
+        test edx, 0FFFFFFFFh
+        jns short .26
+        mov edx, 0
+.26:
+        mov eax, 0
+        shrd eax, edx, 8
+        shr edx, 8
+        div dword [byte esi+02Ch]
+        mov dword [MixerLoopLength], eax
+        cmp eax, byte 0
+        jne short .27
+        push dword [MixerChunkSamples]
+        call MixerStopChannel
+        add esp, byte 4
+        mov eax, 0
+        ret
+.27:
+        cmp eax, dword [MixerChunkLeft]
+        jl short .28
+        mov eax, dword [MixerChunkLeft]
+.28:
+        push eax
+        lea ebx, [byte esi+030h]
+        push ebx
+        lea ebx, [byte esi+034h]
+        push ebx
+        mov edx, dword [byte esi+02Ch]
+        mul edx
+        shld edx, eax, 8
+        shl eax, 8
+        add dword [byte esi+03Ch], eax
+        adc edx, byte 0
+        cmp dword [byte esi+03Ch], byte 0
+        je short .29
+        add edx, byte 1
+.29:
+        mov dword [MixerLoopStart], edx
+        push dword [MixerLoopStart]
+        mov ebx, MixDecodeBuffer
+        push ebx
+        mov ebx, dword [byte esi+038h]
+        test dword [byte esi+04h], 4
+        jne short .30
+        LD mov, edx, ebx
+        and edx, byte 1
+        shr ebx, 1
+.30:
+        add ebx, dword [byte esi+040h]
+        push ebx
+        push edx
+        call dword [byte esi+058h]
+        add esp, byte 18h
+        mov eax, dword [MixerLoopStart]
+        add dword [byte esi+038h], eax
+        mov ebx, MixDecodeBuffer
+        mov ecx, dword [byte esi+08h]
+        shr ebx, cl
+        mov dword [byte esi+014h], ebx
+        pop eax
+        ret
+;-----------------------------------------------------------------------------
+; MixerCalcStep                                   CC728  96 PC, low confidence
+; Converts a pitch to the channel's fixed-point step through the sample
+;-----------------------------------------------------------------------------
+MixerCalcStep:
+        pusha
+        add ebx, 2000h
+        mov edx, 40D0h
+        mov cl, 9
+.1:
+        LD cmp, ebx, edx
+        jge short .2
+        sub edx, 4B0h
+        inc cl
+        jmp short .1
+.2:
+        LD sub, ebx, edx
+        mov edx, dword [nosplit ebx*4+MixerStepTable]
+        mul edx
+        shrd eax, edx, cl
+        LD mov, edi, eax
+        mov edx, 0
+        div dword [MixerOutputRate]
+        and eax, 0FFh
+        mov dword [byte esi+024h], eax
+        mov dword [byte esi+028h], 0
+        mov eax, dword [byte esi+024h]
+        mul dword [MixerOutputRate]
+        LD sub, edi, eax
+        LD mov, eax, edi
+        mov edx, 1000000h
+        mul edx
+        div dword [MixerOutputRate]
+        shl eax, 8
+        mov dword [byte esi+028h], eax
+        mov eax, dword [byte esi+024h]
+        shl eax, 18h
+        mov edx, dword [byte esi+028h]
+        shr edx, 8
+        LD or, eax, edx
+        mov dword [byte esi+02Ch], eax
+        popa
+        ret
+;-----------------------------------------------------------------------------
+; MixerBuildVolumeTables                          CC7A1  96 PC, low confidence
+; Builds the 128 volume tables that scale each 8-bit sample value
+;-----------------------------------------------------------------------------
+MixerBuildVolumeTables:
+        push eax
+        push ecx
+        push edx
+        push esi
+        push edi
+        mov ecx, 0
+.1:
+        LD mov, esi, ecx
+        shl esi, 0Ah
+        add esi, MixerVolumeLookup
+        mov edx, 0
+.2:
+        LD mov, eax, edx
+        lea eax, [nosplit eax*2+00h]
+        imul eax, ecx
+        mov dword [esi+edx*4], eax
+        inc edx
+        cmp edx, 80h
+        jl short .2
+        mov edi, 0FFFFFF80h
+.3:
+        LD mov, eax, edi
+        shl eax, 1
+        imul eax, ecx
+        mov dword [esi+edx*4], eax
+        inc edx
+        inc edi
+        cmp edx, 100h
+        jl short .3
+        add ecx, byte 1
+        cmp ecx, 80h
+        jl short .1
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop eax
+        ret
+;-----------------------------------------------------------------------------
+; MixMono8                                     CC7FD  96 PC, medium confidence
+; Mixes an 8-bit mono channel into the mixing buffer
+;-----------------------------------------------------------------------------
+MixMono8:
+        mov ebp, dword [MixerChunkPos]
+        lea ebp, [nosplit ebp*8+00h]
+        mov ecx, dword [MixerChunkCount]
+        mov edi, dword [byte esi+014h]
+        mov ebx, dword [byte esi+018h]
+        mov edx, dword [byte esi+024h]
+        mov dword [MixStepWhole], edx
+        mov eax, dword [byte esi+028h]
+        mov dword [MixStepFrac], eax
+        mov edx, dword [byte esi+064h]
+        mov esi, dword [byte esi+068h]
+        cmp ecx, byte 10h
+        jl near .2
+.1:
+        push ecx
+        LD xor, ecx, ecx
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+8], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+10h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+18h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+20h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+28h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+30h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+38h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+40h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+48h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+50h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+58h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+60h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+68h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+70h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [edi]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+78h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        pop ecx
+        add ebp, 80h
+        sub ecx, byte 10h
+        cmp ecx, byte 10h
+        jge near .1
+        cmp ecx, byte 0
+        je short .3
+.2:
+        LD xor, eax, eax
+        mov al, byte [edi]
+        mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer], eax
+        LD xor, eax, eax
+        mov al, byte [edi]
+        mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        add ebp, byte 8
+        dec ecx
+        test ecx, 0FFFFFFFFh
+        jne short .2
+.3:
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        mov dword [byte esi+014h], edi
+        mov dword [byte esi+018h], ebx
+        ret
+;-----------------------------------------------------------------------------
+; MixMono16                                    CCB41  96 PC, medium confidence
+; Mixes a 16-bit mono channel into the mixing buffer
+;-----------------------------------------------------------------------------
+MixMono16:
+        mov ebp, dword [MixerChunkPos]
+        lea ebp, [nosplit ebp*8+00h]
+        mov ecx, dword [MixerChunkCount]
+        mov edi, dword [byte esi+014h]
+        mov ebx, dword [byte esi+018h]
+        mov edx, dword [byte esi+024h]
+        mov dword [MixStepWhole], edx
+        mov eax, dword [byte esi+028h]
+        mov dword [MixStepFrac], eax
+        mov edx, dword [byte esi+064h]
+        shr edx, 0Ah
+        mov esi, dword [byte esi+068h]
+        shr esi, 0Ah
+        cmp ecx, byte 10h
+        jl near .2
+.1:
+        push ecx
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+4], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+8], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+0Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+10h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+14h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+18h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+1Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+20h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+24h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+28h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+2Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+30h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+34h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+38h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+3Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+40h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+44h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+48h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+4Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+50h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+54h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+58h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+5Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+60h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+64h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+68h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+6Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+70h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+74h], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx ecx, word [nosplit edi*2+00h]
+        LD mov, eax, ecx
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+78h], eax
+        imul ecx, esi
+        sar ecx, 7
+        add dword [dword ds:ebp+MixBuffer+7Ch], ecx
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        pop ecx
+        add ebp, 80h
+        sub ecx, byte 10h
+        cmp ecx, byte 10h
+        jge near .1
+        cmp ecx, byte 0
+        je short .3
+.2:
+        movsx eax, word [nosplit edi*2+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer], eax
+        movsx eax, word [nosplit edi*2+00h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        add ebp, byte 8
+        dec ecx
+        test ecx, 0FFFFFFFFh
+        jne short .2
+.3:
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        mov dword [byte esi+014h], edi
+        mov dword [byte esi+018h], ebx
+        ret
+;-----------------------------------------------------------------------------
+; MixStereo8                                   CCEEF  96 PC, medium confidence
+; Mixes an 8-bit stereo channel into the mixing buffer
+;-----------------------------------------------------------------------------
+MixStereo8:
+        mov ebp, dword [MixerChunkPos]
+        lea ebp, [nosplit ebp*8+00h]
+        mov ecx, dword [MixerChunkCount]
+        mov edi, dword [byte esi+014h]
+        mov ebx, dword [byte esi+018h]
+        mov edx, dword [byte esi+024h]
+        mov dword [MixStepWhole], edx
+        mov eax, dword [byte esi+028h]
+        mov dword [MixStepFrac], eax
+        mov edx, dword [byte esi+064h]
+        mov esi, dword [byte esi+068h]
+        cmp ecx, byte 10h
+        jl near .5
+.4:
+        push ecx
+        LD xor, ecx, ecx
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+8], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+10h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+18h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+20h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+28h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+30h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+38h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+40h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+48h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+50h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+58h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+60h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+68h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+70h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+78h], eax
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        pop ecx
+        add ebp, 80h
+        sub ecx, byte 10h
+        cmp ecx, byte 10h
+        jge near .4
+        cmp ecx, byte 0
+        je short .6
+.5:
+        LD xor, eax, eax
+        mov al, byte [nosplit edi*2+00h]
+        mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer], eax
+        LD xor, eax, eax
+        mov al, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        add ebp, byte 8
+        dec ecx
+        test ecx, 0FFFFFFFFh
+        jne short .5
+.6:
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        mov dword [byte esi+014h], edi
+        mov dword [byte esi+018h], ebx
+        ret
+;-----------------------------------------------------------------------------
+; MixStereo16                                  CD2FD  96 PC, medium confidence
+; Mixes a 16-bit stereo channel into the mixing buffer
+;-----------------------------------------------------------------------------
+MixStereo16:
+        mov ebp, dword [MixerChunkPos]
+        lea ebp, [nosplit ebp*8+00h]
+        mov ecx, dword [MixerChunkCount]
+        mov edi, dword [byte esi+014h]
+        mov ebx, dword [byte esi+018h]
+        mov eax, dword [byte esi+028h]
+        mov dword [MixStepFrac], eax
+        mov eax, dword [byte esi+024h]
+        mov dword [MixStepWhole], eax
+        mov edx, dword [byte esi+064h]
+        shr edx, 0Ah
+        mov esi, dword [byte esi+068h]
+        shr esi, 0Ah
+        cmp ecx, byte 10h
+        jl near .8
+.7:
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+8], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+10h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+18h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+20h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+28h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+30h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+38h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+40h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+48h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+50h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+58h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+60h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+68h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+70h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+78h], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        add ebp, 80h
+        sub ecx, byte 10h
+        cmp ecx, byte 10h
+        jge near .7
+        cmp ecx, byte 0
+        je short .9
+.8:
+        movsx eax, word [nosplit edi*4+00h]
+        imul eax, edx
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer], eax
+        movsx eax, word [nosplit edi*4+02h]
+        imul eax, esi
+        sar eax, 7
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        add ebp, byte 8
+        dec ecx
+        test ecx, 0FFFFFFFFh
+        jne short .8
+.9:
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        mov dword [byte esi+014h], edi
+        mov dword [byte esi+018h], ebx
+        ret
+;-----------------------------------------------------------------------------
+; MixMono16Lookup                              CD708  96 PC, medium confidence
+; Mixes a 16-bit mono channel through the volume lookup
+;-----------------------------------------------------------------------------
+MixMono16Lookup:
+        mov ebp, dword [MixerChunkPos]
+        lea ebp, [nosplit ebp*8+00h]
+        mov ecx, dword [MixerChunkCount]
+        mov edi, dword [byte esi+014h]
+        mov ebx, dword [byte esi+018h]
+        mov edx, dword [byte esi+024h]
+        mov dword [MixStepWhole], edx
+        mov eax, dword [byte esi+028h]
+        mov dword [MixStepFrac], eax
+        mov edx, dword [byte esi+064h]
+        mov esi, dword [byte esi+068h]
+        cmp ecx, byte 10h
+        jl near .11
+.10:
+        push ecx
+        LD xor, ecx, ecx
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+8], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+10h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+18h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+20h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+28h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+30h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+38h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+40h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+48h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+50h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+58h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+60h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+68h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+70h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+78h], eax
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        pop ecx
+        add ebp, 80h
+        sub ecx, byte 10h
+        cmp ecx, byte 10h
+        jge near .10
+        cmp ecx, byte 0
+        je short .12
+.11:
+        LD xor, eax, eax
+        mov al, byte [nosplit edi*2+01h]
+        mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer], eax
+        LD xor, eax, eax
+        mov al, byte [nosplit edi*2+01h]
+        mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        add ebp, byte 8
+        dec ecx
+        test ecx, 0FFFFFFFFh
+        jne short .11
+.12:
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        mov dword [byte esi+014h], edi
+        mov dword [byte esi+018h], ebx
+        ret
+;-----------------------------------------------------------------------------
+; MixStereo16Lookup                            CDAA6  96 PC, medium confidence
+; Mixes a 16-bit stereo channel through the volume lookup
+;-----------------------------------------------------------------------------
+MixStereo16Lookup:
+        mov ebp, dword [MixerChunkPos]
+        lea ebp, [nosplit ebp*8+00h]
+        mov ecx, dword [MixerChunkCount]
+        mov edi, dword [byte esi+014h]
+        mov ebx, dword [byte esi+018h]
+        mov eax, dword [byte esi+028h]
+        mov dword [MixStepFrac], eax
+        mov eax, dword [byte esi+024h]
+        mov dword [MixStepWhole], eax
+        mov edx, dword [byte esi+064h]
+        mov esi, dword [byte esi+068h]
+        cmp ecx, byte 10h
+        jl near .14
+.13:
+        push ecx
+        LD xor, ecx, ecx
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+8], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+0Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+10h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+14h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+18h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+1Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+20h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+24h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+28h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+2Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+30h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+34h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+38h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+3Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+40h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+44h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+48h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+50h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+54h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+58h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+5Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+60h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+64h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+68h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+6Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+70h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+74h], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        mov cl, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+78h], eax
+        mov cl, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+7Ch], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        pop ecx
+        add ebp, 80h
+        sub ecx, byte 10h
+        cmp ecx, byte 10h
+        jge near .13
+        cmp ecx, byte 0
+        je short .15
+.14:
+        LD xor, eax, eax
+        mov al, byte [nosplit edi*4+01h]
+        mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer], eax
+        LD xor, eax, eax
+        mov al, byte [nosplit edi*4+03h]
+        mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
+        add dword [dword ds:ebp+MixBuffer+4], eax
+        add ebx, dword [MixStepFrac]
+        adc edi, dword [MixStepWhole]
+        add ebp, byte 8
+        dec ecx
+        test ecx, 0FFFFFFFFh
+        jne short .14
+.15:
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
+        mov dword [byte esi+014h], edi
+        mov dword [byte esi+018h], ebx
+        ret
+;-----------------------------------------------------------------------------
+; MixOutputStereo16                            CDEB3  96 PC, medium confidence
+; Writes the mixing buffer out as clipped 16-bit stereo
+;-----------------------------------------------------------------------------
+MixOutputStereo16:
+        mov edi, dword [MixerOutBuffer]
+        mov ecx, dword [MixerBufferSamples]
+        LD add, ecx, ecx
+        dec ecx
+        mov ebx, 7FFFh
+        mov edx, 0FFFF8000h
+.16:
+        mov eax, dword [nosplit ecx*4+MixBuffer]
+        LD cmp, eax, ebx
+        jg short .17
+        LD cmp, eax, edx
+        jl short .18
+        mov word [edi+ecx*2], ax
+        loop .16
+        jmp short .19
+.17:
+        mov word [edi+ecx*2], 7FFFh
+        loop .16
+        jmp short .19
+.18:
+        mov word [edi+ecx*2], 8000h
+        loop .16
+.19:
+        mov eax, dword [MixBuffer]
+        LD cmp, eax, ebx
+        jg short .20
+        LD cmp, eax, edx
+        jl short .21
+        mov word [edi], ax
+        ret
+.20:
+        mov word [edi+ecx*2], 7FFFh
+        ret
+.21:
+        mov word [edi+ecx*2], 8000h
+        ret
+;-----------------------------------------------------------------------------
+; MixOutputStereo8                             CDF14  96 PC, medium confidence
+; Writes the mixing buffer out as clipped 8-bit stereo
+;-----------------------------------------------------------------------------
+MixOutputStereo8:
+        mov edi, dword [MixerOutBuffer]
+        mov ecx, dword [MixerBufferSamples]
+        LD add, ecx, ecx
+        dec ecx
+        mov ebx, 7FFFh
+        mov edx, 0FFFF8000h
+.22:
+        mov eax, dword [nosplit ecx*4+MixBuffer]
+        LD cmp, eax, ebx
+        jg short .23
+        LD cmp, eax, edx
+        jl short .24
+        xor ah, 80h
+        mov byte [ecx+edi], ah
+        loop .22
+        jmp short .25
+.23:
+        mov byte [ecx+edi], 0FFh
+        loop .22
+        jmp short .25
+.24:
+        mov byte [ecx+edi], 0
+        loop .22
+.25:
+        mov eax, dword [MixBuffer]
+        LD cmp, eax, ebx
+        jg short .26
+        LD cmp, eax, edx
+        jl short .27
+        xor ah, 80h
+        mov byte [edi], ah
+        ret
+.26:
+        mov byte [ecx+edi], 0FFh
+        ret
+.27:
+        mov byte [ecx+edi], 0
+        ret
+;-----------------------------------------------------------------------------
+; MixOutputMono8                               CDF71  96 PC, medium confidence
+; Writes the mixing buffer out as clipped 8-bit mono
+;-----------------------------------------------------------------------------
+MixOutputMono8:
+        mov edi, dword [MixerOutBuffer]
+        mov ecx, dword [MixerBufferSamples]
+        dec ecx
+        mov ebx, 7FFFh
+        mov edx, 0FFFF8000h
+.28:
+        mov eax, dword [nosplit ecx*8+MixBuffer]
+        add eax, dword [nosplit ecx*8+MixBuffer+4]
+        sar eax, 1
+        LD cmp, eax, ebx
+        jg short .29
+        LD cmp, eax, edx
+        jl short .30
+        xor ah, 80h
+        mov byte [ecx+edi], ah
+        loop .28
+        jmp short .31
+.29:
+        mov byte [ecx+edi], 0FFh
+        loop .28
+        jmp short .31
+.30:
+        mov byte [ecx+edi], 0
+        loop .28
+.31:
+        mov eax, dword [MixBuffer]
+        add eax, dword [MixBuffer+4]
+        sar eax, 1
+        LD cmp, eax, ebx
+        jg short .32
+        LD cmp, eax, edx
+        jl short .33
+        xor ah, 80h
+        mov byte [edi], ah
+        ret
+.32:
+        mov byte [ecx+edi], 0FFh
+        ret
+.33:
+        mov byte [ecx+edi], 0
+        ret
+;-----------------------------------------------------------------------------
+; MixOutputSkipBothStereo                      CDFDD  96 PC, medium confidence
+; Output routine for an unsupported format: does nothing
+;-----------------------------------------------------------------------------
+MixOutputSkipBothStereo:
+        ret
+;-----------------------------------------------------------------------------
+; MixOutputSkipBothMono                        CDFDE  96 PC, medium confidence
+; Output routine for an unsupported format: does nothing
+;-----------------------------------------------------------------------------
+MixOutputSkipBothMono:
+        ret
+;-----------------------------------------------------------------------------
+; MixOutputSkipMono16                          CDFDF  96 PC, medium confidence
+; Output routine for 16-bit mono, not supported: does nothing
+;-----------------------------------------------------------------------------
+MixOutputSkipMono16:
+        ret
+;-----------------------------------------------------------------------------
+; MixOutputSkipStereo                          CDFE0  96 PC, medium confidence
+; Output routine for an unsupported format: does nothing
+;-----------------------------------------------------------------------------
+MixOutputSkipStereo:
+        ret
+;-----------------------------------------------------------------------------
+; MixOutputSkip                                CDFE1  96 PC, medium confidence
+; Output routine for any other format: does nothing
+;-----------------------------------------------------------------------------
+MixOutputSkip:
+        ret
+;-----------------------------------------------------------------------------
+; ClearMixBuffer                               CDFE2  96 PC, medium confidence
+; Clears the mixing buffer
+;-----------------------------------------------------------------------------
+ClearMixBuffer:
+        push es
+        mov ax, ds
+        mov es, ax
+        mov ecx, dword [MixerBufferSamples]
+        LD add, ecx, ecx
+        LD xor, eax, eax
+        mov edi, MixBuffer
+        cld
+        rep stosd
+        pop es
+        ret
+        push edx
+        mov edx, eax
+        add edx, byte 4
+        mov word [SbMixerIndexPort], dx
+        mov edx, eax
+        add edx, byte 5
+        mov word [SbMixerDataPort], dx
+        mov edx, eax
+        add edx, byte 6
+        mov word [SbResetPort], dx
+        mov edx, eax
+        add edx, byte 0Ah
+        mov word [SbBasePort], dx
+        mov edx, eax
+        mov word [SbMixerAddrPort], ax
+        add edx, byte 0Ch
+        add eax, 0Eh
+        mov word [SbReadPort], dx
+        mov word [SbWritePort], ax
+        mov al, 1
+        movzx edx, word [SbResetPort]
+        out dx, al
+        call SbDelay
+        movzx edx, word [SbResetPort]
+        xor al, al
+        out dx, al
+        call SbWaitRead
+        pop edx
+        ret

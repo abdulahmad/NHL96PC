@@ -1,0 +1,16 @@
+rename engine/collide engine/checking Checking decisions: blocking shots, choosing to check, aggression and checking the puck carrier.
+cut checkob engine/pass Passing: pass lanes, choosing a receiver, pass modes and the pass itself; puck and body bumps.
+cut PickShotTarget engine/shoot Shooting: picking the target, shooting or aiming, shot stats, two-line pass marks and injury types.
+cut FallFrameByDir engine/bodycheck Body checks: fall frames, net collisions, falling down and the check itself.
+cut puckbody engine/puckphys Puck physics: puck against bodies, shadow, glue, goalie and stick contact, rebounds and shots.
+cut checkcoll engine/collide Collisions: player, wall and goal collisions, and the fight check on a hard hit.
+cut CPgoalie engine/goaliepull Goalie pull: pulling the goalie late and returning goalies.
+cut SetSPA engine/chgplayer Player switching: the controlled player.
+cut assfaceoff engine/puckcarrier Faceoff assignments: the faceoff and faceoff player assignments.
+cut pucknorm engine/puck Puck states: normal puck and no puck.
+cut RequestLineChange engine/linechange Line changes: requests, modes and the faceoff line change.
+cut a2offsides engine/offsides Offsides: offside and two-line pass checks, touch-up and puck flip.
+cut assrefatdot engine/referee Referee: moving to the dot, following play, whistle, signals and the drop.
+cut NextPathPoint engine/shootoutpath Shootout path: path points, starting the path and the penalty shooter.
+cut chkhit engine/fight Fights: the hit check, fighting and watching the fight.
+cut assextra6 engine/assignment_ring Assignment ring: replacing and pushing a player's assignment, and the extra attacker zone check.

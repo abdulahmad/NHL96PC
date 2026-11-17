@@ -395,38 +395,38 @@ address,name,auto_name,source,confidence,evidence,file
 33C84,assdopen,sub_33C84,95PC,high,"asstab entry 13, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 33D20,assepen,sub_33D20,95PC,high,"asstab entry 10, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 33EBF,assbench,sub_33EBF,95PC,high,"asstab entry 11, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
-34300,assfaceoff,sub_34300,95PC,high,"asstab entry 22, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
-34335,assfaceoffpl,sub_34335,95PC,high,"asstab entry 23, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+34300,assfaceoff,sub_34300,95PC,high,"asstab entry 22, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/puckcarrier/puckcarrier.asm
+34335,assfaceoffpl,sub_34335,95PC,high,"asstab entry 23, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/puckcarrier/puckcarrier.asm
 345B1,pucknorm_body,,95PC,medium,NHL95PC 4D6B4 (sem): C:518; C:519; C:499; D:1191A7,
 348C9,pucknorm,,95PC,medium,NHL95PC 4D8C7 (sem): C:397,
-348F8,pucknothing,sub_348F8,95PC,high,"asstab entry 26, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+348F8,pucknothing,sub_348F8,95PC,high,"asstab entry 26, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/puck/puck.asm
 3492A,RequestLineChange,,95PC,medium,NHL95PC 4D938 (sem): D:118EA1; D:118EB5; D:16580E; D:1656D8,
-349D1,SetLCmode,sub_349D1,95PC,medium,"follows RequestLineChange as in NHL95PC, same size and the same single call",src/engine/logic/logic.asm
-34A0C,StartFaceoffLineChange,sub_34A0C,95PC,medium,its calls line up with the NHL95PC calls 2 time(s) in: puckfaceoff,src/engine/logic/logic.asm
+349D1,SetLCmode,sub_349D1,95PC,medium,"follows RequestLineChange as in NHL95PC, same size and the same single call",src/engine/linechange/linechange.asm
+34A0C,StartFaceoffLineChange,sub_34A0C,95PC,medium,its calls line up with the NHL95PC calls 2 time(s) in: puckfaceoff,src/engine/linechange/linechange.asm
 34A8B,Endfaceoff,,95PC,medium,NHL95PC 4DA7B (sem): K:FFFFFB00; K:500; C:809; K:800,
 34D49,a2offsides,,95PC,medium,NHL95PC 4DCDD (sem): D:11919B; D:1191A7; D:117878; D:17C9A0,
 34DD3,ChkTwoLinePass,,95PC,medium,NHL95PC 4DD51 (sem): D:176B86; D:117878; D:17C9A0; D:1178C3,
 34EA6,a2touchpuck,,95PC,medium,NHL95PC 4DE14 (sem): C:405; C:404; C:647; D:176B86,
-3509F,assexitjump,sub_3509F,new,medium,jumps to assexit,src/engine/logic/logic.asm
-350A5,ResetFaceoffSkater,sub_350A5,new,low,resets a skater's animation and flags before a faceoff,src/engine/logic/logic.asm
-350D3,puckflip,sub_350D3,95PC,medium,called from wallcoll as NHL95PC puckflip; before assrefatdot,src/engine/logic/logic.asm
-35149,assrefatdot,sub_35149,95PC,high,"asstab entry 30, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
-35232,assreffollow,sub_35232,95PC,high,"asstab entry 31, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
-354D0,SkateToSpot,sub_354D0,95PC,high,"the routine after assreffollow, as in NHL95PC logic.asm; the referee assignments call it; called from assintroline, assboxenter, assrefsignal, assrefwhistle as in NHL95PC",src/engine/logic/logic.asm
-35951,CrowdOnStoppage,sub_35951,95PC,high,"the routine between SkateToSpot and assrefwhistle, as in NHL95PC logic.asm; called from assrefwhistle as in NHL95PC",src/engine/logic/logic.asm
-35A8D,assrefwhistle,sub_35A8D,95PC,high,"asstab entry 36, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
-35CBC,assrefsignal,sub_35CBC,95PC,high,"asstab entry 32, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+3509F,assexitjump,sub_3509F,new,medium,jumps to assexit,src/engine/offsides/offsides.asm
+350A5,ResetFaceoffSkater,sub_350A5,new,low,resets a skater's animation and flags before a faceoff,src/engine/offsides/offsides.asm
+350D3,puckflip,sub_350D3,95PC,medium,called from wallcoll as NHL95PC puckflip; before assrefatdot,src/engine/offsides/offsides.asm
+35149,assrefatdot,sub_35149,95PC,high,"asstab entry 30, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/referee/referee.asm
+35232,assreffollow,sub_35232,95PC,high,"asstab entry 31, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/referee/referee.asm
+354D0,SkateToSpot,sub_354D0,95PC,high,"the routine after assreffollow, as in NHL95PC logic.asm; the referee assignments call it; called from assintroline, assboxenter, assrefsignal, assrefwhistle as in NHL95PC",src/engine/referee/referee.asm
+35951,CrowdOnStoppage,sub_35951,95PC,high,"the routine between SkateToSpot and assrefwhistle, as in NHL95PC logic.asm; called from assrefwhistle as in NHL95PC",src/engine/referee/referee.asm
+35A8D,assrefwhistle,sub_35A8D,95PC,high,"asstab entry 36, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/referee/referee.asm
+35CBC,assrefsignal,sub_35CBC,95PC,high,"asstab entry 32, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/referee/referee.asm
 35E4D,assrefgoalpa,,95PC,medium,NHL95PC 4ED7C (sem): C:461; D:117884; D:117880; D:117874,
 36692,assrefdrop,,95PC,medium,NHL95PC 4F5BF (sem): D:117884; D:117880; D:119197; D:117874,
-36924,rtss,sub_36924,95PC,high,"asstab entry 0, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
-36925,assrefgoalline,sub_36925,95PC,high,"asstab entry 35, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
-36BF8,NextPathPoint,sub_36BF8,95PC,high,"the routine between assrefgoalline and StartShootoutPath, as in NHL95PC logic.asm; called only from asspenshooter as in NHL95PC",src/engine/logic/logic.asm
+36924,rtss,sub_36924,95PC,high,"asstab entry 0, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/referee/referee.asm
+36925,assrefgoalline,sub_36925,95PC,high,"asstab entry 35, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/referee/referee.asm
+36BF8,NextPathPoint,sub_36BF8,95PC,high,"the routine between assrefgoalline and StartShootoutPath, as in NHL95PC logic.asm; called only from asspenshooter as in NHL95PC",src/engine/shootoutpath/shootoutpath.asm
 36C3A,StartShootoutPath,,95PC,medium,NHL95PC 4F9EF (similar): mnemonic similarity 0.87 over 65 instructions,
-36D37,asspenshooter,sub_36D37,95PC,high,"asstab entry 46, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
-36F55,chkhit,sub_36F55,93G,medium,"called only from assfight: acts when the animation frame changes, crowd and sfx on a hit, as NHLPA93Genesis chkhit",src/engine/logic/logic.asm
-37410,assfight,sub_37410,93G,high,"asstab entry 31h, the assignment checkfight_sf inserts; Pencntdwn < 0 ends it; calls chkhit as NHLPA93Genesis assfight",src/engine/logic/logic.asm
-37AA5,assfwatch,sub_37AA5,93G,high,"asstab entry 32h, the assignment checkfight gives every other player, as NHLPA93Genesis assfwatch",src/engine/logic/logic.asm
-37ED0,assextra6,sub_37ED0,new,low,"placeholder (Abdul 2026-11-15): called from updateplayers and assextra2; zone analysis into dword_165248.., not read yet",src/engine/logic/logic.asm
+36D37,asspenshooter,sub_36D37,95PC,high,"asstab entry 46, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/shootoutpath/shootoutpath.asm
+36F55,chkhit,sub_36F55,93G,medium,"called only from assfight: acts when the animation frame changes, crowd and sfx on a hit, as NHLPA93Genesis chkhit",src/engine/fight/fight.asm
+37410,assfight,sub_37410,93G,high,"asstab entry 31h, the assignment checkfight_sf inserts; Pencntdwn < 0 ends it; calls chkhit as NHLPA93Genesis assfight",src/engine/fight/fight.asm
+37AA5,assfwatch,sub_37AA5,93G,high,"asstab entry 32h, the assignment checkfight gives every other player, as NHLPA93Genesis assfwatch",src/engine/fight/fight.asm
+37ED0,assextra6,sub_37ED0,new,low,"placeholder (Abdul 2026-11-15): called from updateplayers and assextra2; zone analysis into dword_165248.., not read yet",src/engine/assignment_ring/assignment_ring.asm
 3804E,assreplace,,95PC,medium,NHL95PC 11FF4 (sem): R:517; R:668; R:470; R:539,
 3805F,assinsert,,95PC,medium,NHL95PC 12011 (sem): R:577; R:461; R:159; R:510,
 38070,lineinput,,95PC,medium,NHL95PC 4FD8E (sem): D:118EB5; D:16595C,
@@ -487,59 +487,59 @@ address,name,auto_name,source,confidence,evidence,file
 3DEBB,assgoalie,sub_3DEBB,95PC,high,"asstab entry 14, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
 3E665,AutoSwitchPlayer,sub_3E665,new,low,switches control to the team's best placed player when auto-switch is on,src/engine/faceoff/faceoff.asm
 3E6D4,SetCarryAnim,sub_3E6D4,new,low,sets the puck carrying animation,src/engine/faceoff/faceoff.asm
-3E6EC,BlockShotDive,sub_3E6EC,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: TryBlockShot,src/engine/collide/collide.asm
-3E819,TryBlockShot,sub_3E819,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: check4check,src/engine/collide/collide.asm
-3E885,check4check,sub_3E885,95PC,medium,"its call lines up with the NHL95PC call in assdefd, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
+3E6EC,BlockShotDive,sub_3E6EC,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: TryBlockShot,src/engine/checking/checking.asm
+3E819,TryBlockShot,sub_3E819,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: check4check,src/engine/checking/checking.asm
+3E885,check4check,sub_3E885,95PC,medium,"its call lines up with the NHL95PC call in assdefd, and its address keeps the NHL95PC module order",src/engine/checking/checking.asm
 3EA92,checkagr,,95PC,medium,NHL95PC 5369F (sem): D:117870; C:809; D:117878; D:1178C3,
 3EB84,FacingBoards,,95PC,medium,NHL95PC 5378D (similar): mnemonic similarity 0.88 over 54 instructions,
-3EC30,checkcheck,sub_3EC30,95PC,medium,"its call lines up with the NHL95PC call in checkcx, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
-3F212,checkgoalp,sub_3F212,95PC,medium,"named references of NHL95PC checkgoalp (6 of 8), between checkcheck and checkint in both",src/engine/collide/collide.asm
-3F44A,checkint,sub_3F44A,95PC,medium,"its call lines up with the NHL95PC call in checkcx, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
-3F5E4,checkob,sub_3F5E4,95PC,medium,"sits between checkint and SkillForAnim as in the NHL95PC module, with the same count of routines between them and a like size (n95=122 n96=121) and call count",src/engine/collide/collide.asm
+3EC30,checkcheck,sub_3EC30,95PC,medium,"its call lines up with the NHL95PC call in checkcx, and its address keeps the NHL95PC module order",src/engine/checking/checking.asm
+3F212,checkgoalp,sub_3F212,95PC,medium,"named references of NHL95PC checkgoalp (6 of 8), between checkcheck and checkint in both",src/engine/checking/checking.asm
+3F44A,checkint,sub_3F44A,95PC,medium,"its call lines up with the NHL95PC call in checkcx, and its address keeps the NHL95PC module order",src/engine/checking/checking.asm
+3F5E4,checkob,sub_3F5E4,95PC,medium,"sits between checkint and SkillForAnim as in the NHL95PC module, with the same count of routines between them and a like size (n95=122 n96=121) and call count",src/engine/pass/pass.asm
 3F7AC,SkillForAnim,,95PC,medium,"NHL95PC 54134 (neighbour): between checkgoalp and CheckBump, mnemonic similarity 0.83",
-3F825,ChkDelayedOffside,sub_3F825,95PC,medium,"sits between SkillForAnim and CheckBump as in the NHL95PC module, with the same count of routines between them and a like size (n95=57 n96=60) and call count",src/engine/collide/collide.asm
-3F8F4,checkpuckcoll_ccx,sub_3F8F4,95PC,high,called at the same position as in NHL95PC in 2 routine(s) named in both: checkpuckcoll,src/engine/collide/collide.asm
-3FF26,checkpuckcoll,sub_3FF26,95PC,medium,"sits between SkillForAnim and CheckBump as in the NHL95PC module, with the same count of routines between them and a like size (n95=69 n96=58) and call count",src/engine/collide/collide.asm
+3F825,ChkDelayedOffside,sub_3F825,95PC,medium,"sits between SkillForAnim and CheckBump as in the NHL95PC module, with the same count of routines between them and a like size (n95=57 n96=60) and call count",src/engine/pass/pass.asm
+3F8F4,checkpuckcoll_ccx,sub_3F8F4,95PC,high,called at the same position as in NHL95PC in 2 routine(s) named in both: checkpuckcoll,src/engine/pass/pass.asm
+3FF26,checkpuckcoll,sub_3FF26,95PC,medium,"sits between SkillForAnim and CheckBump as in the NHL95PC module, with the same count of routines between them and a like size (n95=69 n96=58) and call count",src/engine/pass/pass.asm
 3FFF3,CheckBump,,95PC,medium,NHL95PC 54990 (similar): mnemonic similarity 0.93 over 64 instructions,
-400B1,GetLowestPen,sub_400B1,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/collide/collide.asm
+400B1,GetLowestPen,sub_400B1,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/pass/pass.asm
 40189,chk4lc,,95PC,medium,"NHL95PC 54AF9 (neighbour): between CheckBump and passtoa0, mnemonic similarity 0.83",
-402AD,chk4lcauto,sub_402AD,new,low,"called from assnearest when the line option (gameopts +1 bits 4-5) is 20h: one time in four compares the lines (GetLowestPen, AvgCline, CompLine) and calls setpersonel",src/engine/collide/collide.asm
+402AD,chk4lcauto,sub_402AD,new,low,"called from assnearest when the line option (gameopts +1 bits 4-5) is 20h: one time in four compares the lines (GetLowestPen, AvgCline, CompLine) and calls setpersonel",src/engine/pass/pass.asm
 403CE,PassLaneChk,,95PC,medium,"NHL95PC 54C09 (neighbour): between CheckBump and passtoa0, mnemonic similarity 0.82",
-40524,ScatterPass,sub_40524,95PC,medium,"named references of NHL95PC ScatterPass (8 of 11), between PassLaneChk and passtoa0 in both",src/engine/collide/collide.asm
-406A0,dopass,sub_406A0,95PC,medium,"first after ScatterPass as in NHL95PC; same named references (PassLaneChk, ScatterPass, passtoa0, lastplayer), 230/255 lines",src/engine/collide/collide.asm
-409D5,CompPass,sub_409D5,new,medium,"called from asspuckc: the computer's pass to player edx: releases the puck, PassLaneChk, ScatterPass or passtoa0",src/engine/collide/collide.asm
-40B2A,passmode,sub_40B2A,95PC,medium,"called from doinput, between dopass and setpassmode as NHL95PC passmode",src/engine/collide/collide.asm
-40C14,setpassmode,sub_40C14,95PC,medium,"6 lines on sflags as NHL95PC setpassmode, last before passtoa0",src/engine/collide/collide.asm
+40524,ScatterPass,sub_40524,95PC,medium,"named references of NHL95PC ScatterPass (8 of 11), between PassLaneChk and passtoa0 in both",src/engine/pass/pass.asm
+406A0,dopass,sub_406A0,95PC,medium,"first after ScatterPass as in NHL95PC; same named references (PassLaneChk, ScatterPass, passtoa0, lastplayer), 230/255 lines",src/engine/pass/pass.asm
+409D5,CompPass,sub_409D5,new,medium,"called from asspuckc: the computer's pass to player edx: releases the puck, PassLaneChk, ScatterPass or passtoa0",src/engine/pass/pass.asm
+40B2A,passmode,sub_40B2A,95PC,medium,"called from doinput, between dopass and setpassmode as NHL95PC passmode",src/engine/pass/pass.asm
+40C14,setpassmode,sub_40C14,95PC,medium,"6 lines on sflags as NHL95PC setpassmode, last before passtoa0",src/engine/pass/pass.asm
 40C2A,passtoa0,,95PC,medium,NHL95PC 551CF (sem): C:1544; C:809,
 40E82,chk4pass,,95PC,medium,NHL95PC 55493 (sem): C:504; C:506; D:16595C; D:117870,
-4137F,SetPassDirection,sub_4137F,new,low,stores the pass direction from the player's facing,src/engine/collide/collide.asm
-41393,PickShotTarget,sub_41393,new,low,picks where a shot is aimed,src/engine/collide/collide.asm
-41432,ShootPuck,sub_41432,new,low,"shoots the puck: speed, height, aim and sound",src/engine/collide/collide.asm
-415FF,ShootOrAim,sub_415FF,new,low,"shoots when the shot button is released, else stores the aim direction",src/engine/collide/collide.asm
-41642,chk4shot,sub_41642,95PC,medium,"last before CompShoot as in NHL95PC; shares penshotlive, threat, gameclock",src/engine/collide/collide.asm
-418E7,CompShoot,sub_418E7,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/collide/collide.asm
+4137F,SetPassDirection,sub_4137F,new,low,stores the pass direction from the player's facing,src/engine/pass/pass.asm
+41393,PickShotTarget,sub_41393,new,low,picks where a shot is aimed,src/engine/shoot/shoot.asm
+41432,ShootPuck,sub_41432,new,low,"shoots the puck: speed, height, aim and sound",src/engine/shoot/shoot.asm
+415FF,ShootOrAim,sub_415FF,new,low,"shoots when the shot button is released, else stores the aim direction",src/engine/shoot/shoot.asm
+41642,chk4shot,sub_41642,95PC,medium,"last before CompShoot as in NHL95PC; shares penshotlive, threat, gameclock",src/engine/shoot/shoot.asm
+418E7,CompShoot,sub_418E7,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/shoot/shoot.asm
 41942,ChkOffsides,,95PC,medium,NHL95PC 55A9F (sem): C:666,
 41B41,MarkTwoLinePlayers,,95PC,medium,"NHL95PC 55C6F (neighbour): between ChkOffsides and setInjuryType, mnemonic similarity 0.85",
-41BFC,ChkShotStat,sub_41BFC,95PC,medium,"between MarkTwoLinePlayers and setInjuryType as in NHL95PC; shares CwdExciteLvl, crowdlevel",src/engine/collide/collide.asm
+41BFC,ChkShotStat,sub_41BFC,95PC,medium,"between MarkTwoLinePlayers and setInjuryType as in NHL95PC; shares CwdExciteLvl, crowdlevel",src/engine/shoot/shoot.asm
 41E46,setInjuryType,,95PC,medium,NHL95PC 55E72 (sem): K:FFFD; K:FFFC; C:809; K:3E8,
-41FDA,FallFrameByDir,sub_41FDA,new,low,called from FallDown and NetCollide: picks one of four fall frames from the hit direction relative to facing,src/engine/collide/collide.asm
-4203B,FallFrameByFacing,sub_4203B,new,low,called from FallDown: picks one of two fall frames from the facing direction,src/engine/collide/collide.asm
-42072,NetCollide,sub_42072,95PC,medium,"last before FallDown as in NHL95PC; vecdist, 233/222 lines",src/engine/collide/collide.asm
-42342,FallDown,sub_42342,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: Bcheck,src/engine/collide/collide.asm
+41FDA,FallFrameByDir,sub_41FDA,new,low,called from FallDown and NetCollide: picks one of four fall frames from the hit direction relative to facing,src/engine/bodycheck/bodycheck.asm
+4203B,FallFrameByFacing,sub_4203B,new,low,called from FallDown: picks one of two fall frames from the facing direction,src/engine/bodycheck/bodycheck.asm
+42072,NetCollide,sub_42072,95PC,medium,"last before FallDown as in NHL95PC; vecdist, 233/222 lines",src/engine/bodycheck/bodycheck.asm
+42342,FallDown,sub_42342,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: Bcheck,src/engine/bodycheck/bodycheck.asm
 42DC4,Bcheck,,95PC,medium,NHL95PC 56A54 (sem): C:810; C:809; D:17C9A0; R:492,
 42EC3,holdcheck,,95PC,medium,"NHL95PC 56B79 (neighbour): between Bcheck and doshot, mnemonic similarity 0.79",
-43026,puckbody,sub_43026,95PC,medium,"between holdcheck and PuckIChk as in NHL95PC; calls FallDown, GetHot, a2touchpuck",src/engine/collide/collide.asm
+43026,puckbody,sub_43026,95PC,medium,"between holdcheck and PuckIChk as in NHL95PC; calls FallDown, GetHot, a2touchpuck",src/engine/puckphys/puckphys.asm
 43294,PuckIChk,,95PC,medium,"NHL95PC 56E52 (neighbour): between Bcheck and doshot, mnemonic similarity 0.78",
-4331A,puckshadow,sub_4331A,95PC,high,"asstab entry 25, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/collide/collide.asm
-4334D,puckglue,sub_4334D,95PC,medium,"first after puckshadow as in NHL95PC; shares shotongoal, PassCompleted, EndPenaltyShot",src/engine/collide/collide.asm
-43605,PickPuckRebound,sub_43605,new,low,works out where the puck goes off a goalie or a stick,src/engine/collide/collide.asm
-437EB,puckgoalie,sub_437EB,95PC,medium,"order after puckglue as in NHL95PC; 313/305 lines, same named references",src/engine/collide/collide.asm
-43C7E,puckstick,sub_43C7E,95PC,medium,"order after puckgoalie as in NHL95PC; shares passplayer, LD",src/engine/collide/collide.asm
-441EF,SetShotMode,sub_441EF,95PC,medium,"order after puckstick as in NHL95PC; SetSPA, sflags",src/engine/collide/collide.asm
-442B3,ShotMode,sub_442B3,95PC,medium,"last before Findhittype as in NHL95PC; calls doshot, 97/103 lines",src/engine/collide/collide.asm
-44418,Findhittype,sub_44418,95PC,medium,"its call lines up with the NHL95PC call in asspenshooter, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
-444A7,shotdiradj,sub_444A7,95PC,medium,"called from doshot as NHL95PC shotdiradj; vecdist, puckx, pucky",src/engine/collide/collide.asm
-44609,doshot,sub_44609,95PC,medium,"its call lines up with the NHL95PC call in asspenshooter, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
+4331A,puckshadow,sub_4331A,95PC,high,"asstab entry 25, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/puckphys/puckphys.asm
+4334D,puckglue,sub_4334D,95PC,medium,"first after puckshadow as in NHL95PC; shares shotongoal, PassCompleted, EndPenaltyShot",src/engine/puckphys/puckphys.asm
+43605,PickPuckRebound,sub_43605,new,low,works out where the puck goes off a goalie or a stick,src/engine/puckphys/puckphys.asm
+437EB,puckgoalie,sub_437EB,95PC,medium,"order after puckglue as in NHL95PC; 313/305 lines, same named references",src/engine/puckphys/puckphys.asm
+43C7E,puckstick,sub_43C7E,95PC,medium,"order after puckgoalie as in NHL95PC; shares passplayer, LD",src/engine/puckphys/puckphys.asm
+441EF,SetShotMode,sub_441EF,95PC,medium,"order after puckstick as in NHL95PC; SetSPA, sflags",src/engine/puckphys/puckphys.asm
+442B3,ShotMode,sub_442B3,95PC,medium,"last before Findhittype as in NHL95PC; calls doshot, 97/103 lines",src/engine/puckphys/puckphys.asm
+44418,Findhittype,sub_44418,95PC,medium,"its call lines up with the NHL95PC call in asspenshooter, and its address keeps the NHL95PC module order",src/engine/puckphys/puckphys.asm
+444A7,shotdiradj,sub_444A7,95PC,medium,"called from doshot as NHL95PC shotdiradj; vecdist, puckx, pucky",src/engine/puckphys/puckphys.asm
+44609,doshot,sub_44609,95PC,medium,"its call lines up with the NHL95PC call in asspenshooter, and its address keeps the NHL95PC module order",src/engine/puckphys/puckphys.asm
 44B99,checkcoll,sub_44B99,95PC,medium,"before checkwallcoll as in NHL95PC; OOlist, collflag, nethit, wcradiusx",src/engine/collide/collide.asm
 44D62,checkwallcoll,sub_44D62,95PC,medium,"named references of NHL95PC checkwallcoll (7 of 7), between doshot and checkgoal in both",src/engine/collide/collide.asm
 44EF5,checkgoal,,95PC,medium,NHL95PC 584AA (sem): C:493; D:176B74; D:11916D; C:809,
@@ -552,10 +552,10 @@ address,name,auto_name,source,confidence,evidence,file
 45E3D,checkcx,,95PC,medium,NHL95PC 58DC7 (sem): C:494; C:492; D:176BD4; C:810,
 4629D,CPgoalie,,95PC,medium,NHL95PC 591C7 (sem): D:119197; C:589; D:117900,
 462F8,ChkGoalies,,95PC,medium,NHL95PC 59265 (sem): C:589; D:16580E; D:1656D8; D:117878,
-463AE,ReturnGoalies,sub_463AE,95PC,medium,"sits between ChkGoalies and ChkPullGoalieLate as in the NHL95PC module, with the same count of routines between them and a like size (n95=49 n96=33) and call count",src/engine/collide/collide.asm
+463AE,ReturnGoalies,sub_463AE,95PC,medium,"sits between ChkGoalies and ChkPullGoalieLate as in the NHL95PC module, with the same count of routines between them and a like size (n95=49 n96=33) and call count",src/engine/goaliepull/goaliepull.asm
 4640D,ChkPullGoalieLate,,95PC,medium,NHL95PC 593F5 (sem): D:117900; D:1656D8,
-464A6,SetSPA,sub_464A6,95PC,high,"called at the same position as in NHL95PC in 15 routine(s) named in both: Acheck,SkateToSpot,assintroline,assintrostand,assleavebox",src/engine/collide/collide.asm
-46593,SetControlledPlayer,sub_46593,new,low,gives a control slot a new player,src/engine/collide/collide.asm
+464A6,SetSPA,sub_464A6,95PC,high,"called at the same position as in NHL95PC in 15 routine(s) named in both: Acheck,SkateToSpot,assintroline,assintrostand,assleavebox",src/engine/chgplayer/chgplayer.asm
+46593,SetControlledPlayer,sub_46593,new,low,gives a control slot a new player,src/engine/chgplayer/chgplayer.asm
 465BA,SprSort,sub_465BA,95PC,medium,"called from assepen, defaultsprites_0, puckfaceoff2 as NHL95PC SprSort",src/engine/hockey/hockey.asm
 4666C,changeplayer,sub_4666C,95PC,medium,"its calls line up with the NHL95PC calls 2 time(s) in: assleaveice,puckfaceoff2",src/engine/hockey/hockey.asm
 46988,restorepl,sub_46988,95PC,medium,between changeplayer and AvgCline as in NHL95PC; same named references,src/engine/hockey/hockey.asm

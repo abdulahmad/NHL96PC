@@ -240,11 +240,91 @@
   },
   {
    "start": 201682,
-   "end": 229488,
+   "end": 213760,
    "module": "logic",
    "obj": 1,
    "file": "engine/logic/logic.asm",
    "note": "NHL95PC module (matched functions)"
+  },
+  {
+   "obj": 1,
+   "start": 213760,
+   "end": 215241,
+   "module": "engine_puckcarrier",
+   "file": "engine/puckcarrier/puckcarrier.asm",
+   "desc": "Faceoff assignments: the faceoff and faceoff player assignments.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 215241,
+   "end": 215338,
+   "module": "engine_puck",
+   "file": "engine/puck/puck.asm",
+   "desc": "Puck states: normal puck and no puck.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 215338,
+   "end": 216393,
+   "module": "engine_linechange",
+   "file": "engine/linechange/linechange.asm",
+   "desc": "Line changes: requests, modes and the faceoff line change.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 216393,
+   "end": 217417,
+   "module": "engine_offsides",
+   "file": "engine/offsides/offsides.asm",
+   "desc": "Offsides: offside and two-line pass checks, touch-up and puck flip.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 217417,
+   "end": 224248,
+   "module": "engine_referee",
+   "file": "engine/referee/referee.asm",
+   "desc": "Referee: moving to the dot, following play, whistle, signals and the drop.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 224248,
+   "end": 225109,
+   "module": "engine_shootoutpath",
+   "file": "engine/shootoutpath/shootoutpath.asm",
+   "desc": "Shootout path: path points, starting the path and the penalty shooter.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 225109,
+   "end": 229072,
+   "module": "engine_fight",
+   "file": "engine/fight/fight.asm",
+   "desc": "Fights: the hit check, fighting and watching the fight.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 229072,
+   "end": 229488,
+   "module": "engine_assignment_ring",
+   "file": "engine/assignment_ring/assignment_ring.asm",
+   "desc": "Assignment ring: replacing and pushing a player's assignment, and the extra attacker zone check.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
   },
   {
    "start": 229488,
@@ -264,11 +344,81 @@
   },
   {
    "start": 255724,
-   "end": 288186,
+   "end": 259556,
    "module": "collide",
    "obj": 1,
-   "file": "engine/collide/collide.asm",
+   "file": "engine/checking/checking.asm",
    "note": "NHL95PC module (matched functions)"
+  },
+  {
+   "obj": 1,
+   "start": 259556,
+   "end": 267155,
+   "module": "engine_pass",
+   "file": "engine/pass/pass.asm",
+   "desc": "Passing: pass lanes, choosing a receiver, pass modes and the pass itself; puck and body bumps.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 267155,
+   "end": 270298,
+   "module": "engine_shoot",
+   "file": "engine/shoot/shoot.asm",
+   "desc": "Shooting: picking the target, shooting or aiming, shot stats, two-line pass marks and injury types.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 270298,
+   "end": 274470,
+   "module": "engine_bodycheck",
+   "file": "engine/bodycheck/bodycheck.asm",
+   "desc": "Body checks: fall frames, net collisions, falling down and the check itself.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 274470,
+   "end": 281497,
+   "module": "engine_puckphys",
+   "file": "engine/puckphys/puckphys.asm",
+   "desc": "Puck physics: puck against bodies, shadow, glue, goalie and stick contact, rebounds and shots.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 281497,
+   "end": 287389,
+   "module": "engine_collide",
+   "file": "engine/collide/collide.asm",
+   "desc": "Collisions: player, wall and goal collisions, and the fight check on a hard hit.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 287389,
+   "end": 287910,
+   "module": "engine_goaliepull",
+   "file": "engine/goaliepull/goaliepull.asm",
+   "desc": "Goalie pull: pulling the goalie late and returning goalies.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
+  },
+  {
+   "obj": 1,
+   "start": 287910,
+   "end": 288186,
+   "module": "engine_chgplayer",
+   "file": "engine/chgplayer/chgplayer.asm",
+   "desc": "Player switching: the controlled player.",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
   },
   {
    "start": 288186,

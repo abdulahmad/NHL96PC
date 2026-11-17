@@ -28,7 +28,7 @@ HAND = {
  0x4F453: ('engine/gamelog/gamelog', 'goal and penalty log lines; holds a matched NHL95PC gamelog function'),
  0x54519: ('front/replay_controls/replay_controls', 'replay control buttons (rew, play, fwd, camera); 95PC module name'),
  0x6A891: ('front/pause_menu/pause_menu', 'pause menu buttons (PAUSREG, quit, return, replay, controls, stats)'),
- 0x711ED: ('front/modem_setup/modem_setup', 'modem setup screens (Generic Hayes-Compatible, tone/pulse)'),
+ 0x711ED: ('pc/modem_setup/modem_setup', 'modem setup screens (Generic Hayes-Compatible, tone/pulse)'),
  0x7D580: ('front/calendar/calendar', 'Month Choice / Calendar Choices; 95PC module name'),
  0xA4FD7: ('front/playoff/playoff', 'PLAYOFF.NDX, series length buttons; 95PC module name'),
 }

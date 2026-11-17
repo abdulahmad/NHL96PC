@@ -162,7 +162,7 @@
 1 C3BE0 C3C22 66 watcom_clib_11 lib/ea/ea_mem_lock.asm
 1 C3C22 C3CC0 158 lib_watcom_watcom_vsprintf lib/watcom/watcom_vsprintf.asm
 1 C3CC0 C3E38 376 ea_shapes_01 lib/ea/ea_fill_row_table.asm
-1 C3E38 C40B4 636 ea_misc lib/ea/ea_misc.asm
+1 C3E38 C40B4 636 ea_misc lib/ea/ea_fill_rect_spans.asm
 1 C40B4 C4AFA 2630 watcom_clib_12 lib/watcom/watcom_prtf.asm
 1 C4AFA C4DE0 742 lib_ea_ea_ref_pack_size lib/ea/ea_ref_pack_size.asm
 1 C4DE0 C4EA1 193 ea_shapes_02 lib/ea/ea_load_file_cached.asm

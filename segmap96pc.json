@@ -1503,7 +1503,7 @@
    "end": 802996,
    "module": "ea_misc",
    "obj": 1,
-   "file": "lib/ea/ea_misc.asm",
+   "file": "lib/ea/ea_fill_rect_spans.asm",
    "note": "NHL95PC module (matched functions)"
   },
   {

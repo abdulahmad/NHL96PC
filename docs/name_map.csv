@@ -1733,7 +1733,7 @@ C3C37,VfprintfThunk,sub_C3C37,new,low,jumps to __fprtf_,src/lib/watcom/watcom_vs
 C3C3C,fputs_,,WATCOM,high,IDA FLIRT library signature,
 C3CC0,FillRowTable,sub_C3CC0,new,low,fills the screen row address table for a range of rows of the current screen,src/lib/ea/ea_fill_row_table.asm
 C3D80,removewindow,,95PC,medium,NHL95PC 98DD8 (similar): mnemonic similarity 0.93 over 53 instructions,
-C3E38,FillRectSpans,sub_C3E38,new,medium,fills the rows of a set-up rectangle,src/lib/ea/ea_misc.asm
+C3E38,FillRectSpans,sub_C3E38,new,medium,fills the rows of a set-up rectangle,src/lib/ea/ea_fill_rect_spans.asm
 C40B4,__prtf_,,WATCOM,high,IDA FLIRT library signature,
 C4335,getprintspecs_,,WATCOM,high,IDA FLIRT library signature,
 C4468,evalflags_,,WATCOM,high,IDA FLIRT library signature,

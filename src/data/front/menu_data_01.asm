@@ -157,94 +157,85 @@ str_ASW2:                                       ; string 'ASW'
         db 041h,053h,057h,00h
 str_ASE2:                                       ; string 'ASE'
         db 041h,053h,045h,00h
-str_Anaheim:                                    ; string 'Anaheim'
-        db 041h,06Eh,061h,068h,065h,069h,06Dh,00h
-str_Boston:                                     ; string 'Boston'
-        db 042h,06Fh,073h,074h,06Fh,06Eh,00h
-str_Buffalo:                                    ; string 'Buffalo'
-        db 042h,075h,066h,066h,061h,06Ch,06Fh,00h
-str_Calgary:                                    ; string 'Calgary'
-        db 043h,061h,06Ch,067h,061h,072h,079h,00h
-str_Chicago:                                    ; string 'Chicago'
-        db 043h,068h,069h,063h,061h,067h,06Fh,00h
-str_Dallas:                                     ; string 'Dallas'
-        db 044h,061h,06Ch,06Ch,061h,073h,00h
-str_Detroit:                                    ; string 'Detroit'
-        db 044h,065h,074h,072h,06Fh,069h,074h,00h
-str_Edmonton:                                   ; string 'Edmonton'
-        db 045h,064h,06Dh,06Fh,06Eh,074h,06Fh,06Eh,00h
-str_Florida:                                    ; string 'Florida'
-        db 046h,06Ch,06Fh,072h,069h,064h,061h,00h
-str_Hartford:                                   ; string 'Hartford'
-        db 048h,061h,072h,074h,066h,06Fh,072h,064h,00h
-str_LosAngeles:                                 ; string 'Los Angeles'
-        db 04Ch,06Fh,073h,020h,041h,06Eh,067h,065h,06Ch,065h,073h,00h
-str_Montreal:                                   ; string 'Montreal'
-        db 04Dh,06Fh,06Eh,074h,072h,065h,061h,06Ch,00h
-str_NewJersey:                                  ; string 'New Jersey'
-        db 04Eh,065h,077h,020h,04Ah,065h,072h,073h,065h,079h,00h
+str_Anaheim:                                    ; team name string 1
+        incbin "build/teamstrings.bin", 0, 8
+str_Boston:                                     ; team name string 2
+        incbin "build/teamstrings.bin", 8, 7
+str_Buffalo:                                    ; team name string 3
+        incbin "build/teamstrings.bin", 15, 8
+str_Calgary:                                    ; team name string 4
+        incbin "build/teamstrings.bin", 23, 8
+str_Chicago:                                    ; team name string 5
+        incbin "build/teamstrings.bin", 31, 8
+str_Dallas:                                     ; team name string 6
+        incbin "build/teamstrings.bin", 39, 7
+str_Detroit:                                    ; team name string 7
+        incbin "build/teamstrings.bin", 46, 8
+str_Edmonton:                                   ; team name string 8
+        incbin "build/teamstrings.bin", 54, 9
+str_Florida:                                    ; team name string 9
+        incbin "build/teamstrings.bin", 63, 8
+str_Hartford:                                   ; team name string 10
+        incbin "build/teamstrings.bin", 71, 9
+str_LosAngeles:                                 ; team name string 11
+        incbin "build/teamstrings.bin", 80, 12
+str_Montreal:                                   ; team name string 12
+        incbin "build/teamstrings.bin", 92, 9
+str_NewJersey:                                  ; team name string 13
+        incbin "build/teamstrings.bin", 101, 11
 str_NewYork:                                    ; string 'New York'
         db 04Eh,065h,077h,020h,059h,06Fh,072h,06Bh,00h
-str_Ottawa:                                     ; string 'Ottawa'
-        db 04Fh,074h,074h,061h,077h,061h,00h
-str_Philadelphia:                               ; string 'Philadelphia'
-        db 050h,068h,069h,06Ch,061h,064h,065h,06Ch,070h,068h,069h,061h,00h
-str_Pittsburgh:                                 ; string 'Pittsburgh'
-        db 050h,069h,074h,074h,073h,062h,075h,072h,067h,068h,00h
-str_Quebec:                                     ; string 'Quebec'
-        db 051h,075h,065h,062h,065h,063h,00h
+str_Ottawa:                                     ; team name string 14
+        incbin "build/teamstrings.bin", 112, 7
+str_Philadelphia:                               ; team name string 15
+        incbin "build/teamstrings.bin", 119, 13
+str_Pittsburgh:                                 ; team name string 16
+        incbin "build/teamstrings.bin", 132, 11
+str_Quebec:                                     ; team name string 17
+        incbin "build/teamstrings.bin", 143, 7
 str_StLouis:                                    ; string 'St Louis'
         db 053h,074h,020h,04Ch,06Fh,075h,069h,073h,00h
-str_SanJose:                                    ; string 'San Jose'
-        db 053h,061h,06Eh,020h,04Ah,06Fh,073h,065h,00h
-str_TampaBay:                                   ; string 'Tampa Bay'
-        db 054h,061h,06Dh,070h,061h,020h,042h,061h,079h,00h
-str_Toronto:                                    ; string 'Toronto'
-        db 054h,06Fh,072h,06Fh,06Eh,074h,06Fh,00h
-str_Vancouver:                                  ; string 'Vancouver'
-        db 056h,061h,06Eh,063h,06Fh,075h,076h,065h,072h,00h
-str_Washington:                                 ; string 'Washington'
-        db 057h,061h,073h,068h,069h,06Eh,067h,074h,06Fh,06Eh,00h
-str_Winnipeg:                                   ; string 'Winnipeg'
-        db 057h,069h,06Eh,06Eh,069h,070h,065h,067h,00h
+str_SanJose:                                    ; team name string 18
+        incbin "build/teamstrings.bin", 150, 9
+str_TampaBay:                                   ; team name string 19
+        incbin "build/teamstrings.bin", 159, 10
+str_Toronto:                                    ; team name string 20
+        incbin "build/teamstrings.bin", 169, 8
+str_Vancouver:                                  ; team name string 21
+        incbin "build/teamstrings.bin", 177, 10
+str_Washington:                                 ; team name string 22
+        incbin "build/teamstrings.bin", 187, 11
+str_Winnipeg:                                   ; team name string 23
+        incbin "build/teamstrings.bin", 198, 9
 str_Western:                                    ; string 'Western'
         db 057h,065h,073h,074h,065h,072h,06Eh,00h
 str_Eastern:                                    ; string 'Eastern'
         db 045h,061h,073h,074h,065h,072h,06Eh,00h
-str_AnaheimCalifornia:                          ; string 'Anaheim, California'
-        db 041h,06Eh,061h,068h,065h,069h,06Dh,02Ch,020h,043h,061h,06Ch,069h,066h,06Fh,072h
-        db 06Eh,069h,061h,00h
-str_BostonMassachusetts:                        ; string 'Boston, Massachusetts'
-        db 042h,06Fh,073h,074h,06Fh,06Eh,02Ch,020h,04Dh,061h,073h,073h,061h,063h,068h,075h
-        db 073h,065h,074h,074h,073h,00h
-str_BuffaloNewYork:                             ; string 'Buffalo, New York'
-        db 042h,075h,066h,066h,061h,06Ch,06Fh,02Ch,020h,04Eh,065h,077h,020h,059h,06Fh,072h
-        db 06Bh,00h
-str_CalgaryAlberta:                             ; string 'Calgary, Alberta'
-        db 043h,061h,06Ch,067h,061h,072h,079h,02Ch,020h,041h,06Ch,062h,065h,072h,074h,061h
-        db 00h
-str_ChicagoIllinois:                            ; string 'Chicago, Illinois'
-        db 043h,068h,069h,063h,061h,067h,06Fh,02Ch,020h,049h,06Ch,06Ch,069h,06Eh,06Fh,069h
-        db 073h,00h
-str_DallasTexas:                                ; string 'Dallas, Texas'
-        db 044h,061h,06Ch,06Ch,061h,073h,02Ch,020h,054h,065h,078h,061h,073h,00h
-str_DetroitMichigan:                            ; string 'Detroit, Michigan'
-        db 044h,065h,074h,072h,06Fh,069h,074h,02Ch,020h,04Dh,069h,063h,068h,069h,067h,061h
-        db 06Eh,00h
-str_EdmontonAlberta:                            ; string 'Edmonton, Alberta'
-        db 045h,064h,06Dh,06Fh,06Eh,074h,06Fh,06Eh,02Ch,020h,041h,06Ch,062h,065h,072h,074h
-        db 061h,00h
-str_MiamiFlorida:                               ; string 'Miami, Florida'
-        db 04Dh,069h,061h,06Dh,069h,02Ch,020h,046h,06Ch,06Fh,072h,069h,064h,061h,00h
-str_HartfordConnecticut:                        ; string 'Hartford, Connecticut'
-        db 048h,061h,072h,074h,066h,06Fh,072h,064h,02Ch,020h,043h,06Fh,06Eh,06Eh,065h,063h
-        db 074h,069h,063h,075h,074h,00h
+str_AnaheimCalifornia:                          ; team name string 24
+        incbin "build/teamstrings.bin", 207, 20
+str_BostonMassachusetts:                        ; team name string 25
+        incbin "build/teamstrings.bin", 227, 22
+str_BuffaloNewYork:                             ; team name string 26
+        incbin "build/teamstrings.bin", 249, 18
+str_CalgaryAlberta:                             ; team name string 27
+        incbin "build/teamstrings.bin", 267, 17
+str_ChicagoIllinois:                            ; team name string 28
+        incbin "build/teamstrings.bin", 284, 18
+str_DallasTexas:                                ; team name string 29
+        incbin "build/teamstrings.bin", 302, 14
+str_DetroitMichigan:                            ; team name string 30
+        incbin "build/teamstrings.bin", 316, 18
+str_EdmontonAlberta:                            ; team name string 31
+        incbin "build/teamstrings.bin", 334, 18
+str_MiamiFlorida:                               ; team name string 32
+        incbin "build/teamstrings.bin", 352, 15
+str_HartfordConnecticut:                        ; team name string 33
+        incbin "build/teamstrings.bin", 367, 22
 str_InglewoodCalifornia:                        ; string 'Inglewood, California'
         db 049h,06Eh,067h,06Ch,065h,077h,06Fh,06Fh,064h,02Ch,020h,043h,061h,06Ch,069h,066h
         db 06Fh,072h,06Eh,069h,061h,00h
-str_MontrealQuebec:                             ; string 'Montreal, Quebec'
-        db 04Dh,06Fh,06Eh,074h,072h,065h,061h,06Ch,02Ch,020h,051h,075h,065h,062h,065h,063h
-        db 00h
+str_MontrealQuebec:                             ; team name string 34
+        incbin "build/teamstrings.bin", 389, 17
 str_EastRutherfordNJ:                           ; string 'East Rutherford, N.J.'
         db 045h,061h,073h,074h,020h,052h,075h,074h,068h,065h,072h,066h,06Fh,072h,064h,02Ch
         db 020h,04Eh,02Eh,04Ah,02Eh,00h
@@ -254,86 +245,80 @@ str_UniondaleNewYork:                           ; string 'Uniondale, New York'
 str_NewYorkNewYork:                             ; string 'New York, New York'
         db 04Eh,065h,077h,020h,059h,06Fh,072h,06Bh,02Ch,020h,04Eh,065h,077h,020h,059h,06Fh
         db 072h,06Bh,00h
-str_OttawaOntario:                              ; string 'Ottawa, Ontario'
-        db 04Fh,074h,074h,061h,077h,061h,02Ch,020h,04Fh,06Eh,074h,061h,072h,069h,06Fh,00h
-str_PhiladelphiaPA:                             ; string 'Philadelphia, PA'
-        db 050h,068h,069h,06Ch,061h,064h,065h,06Ch,070h,068h,069h,061h,02Ch,020h,050h,041h
-        db 00h
-str_PittsburghPA:                               ; string 'Pittsburgh, PA'
-        db 050h,069h,074h,074h,073h,062h,075h,072h,067h,068h,02Ch,020h,050h,041h,00h
-str_QuebecCityQuebec:                           ; string 'Quebec City, Quebec'
-        db 051h,075h,065h,062h,065h,063h,020h,043h,069h,074h,079h,02Ch,020h,051h,075h,065h
-        db 062h,065h,063h,00h
-str_StLouisMissouri:                            ; string 'St. Louis, Missouri'
-        db 053h,074h,02Eh,020h,04Ch,06Fh,075h,069h,073h,02Ch,020h,04Dh,069h,073h,073h,06Fh
-        db 075h,072h,069h,00h
-str_SanJoseCalifornia:                          ; string 'San Jose, California'
-        db 053h,061h,06Eh,020h,04Ah,06Fh,073h,065h,02Ch,020h,043h,061h,06Ch,069h,066h,06Fh
-        db 072h,06Eh,069h,061h,00h
-str_TampaFlorida:                               ; string 'Tampa, Florida'
-        db 054h,061h,06Dh,070h,061h,02Ch,020h,046h,06Ch,06Fh,072h,069h,064h,061h,00h
-str_TorontoOntario:                             ; string 'Toronto, Ontario'
-        db 054h,06Fh,072h,06Fh,06Eh,074h,06Fh,02Ch,020h,04Fh,06Eh,074h,061h,072h,069h,06Fh
-        db 00h
-str_VancouverBC:                                ; string 'Vancouver, B.C.'
-        db 056h,061h,06Eh,063h,06Fh,075h,076h,065h,072h,02Ch,020h,042h,02Eh,043h,02Eh,00h
+str_OttawaOntario:                              ; team name string 35
+        incbin "build/teamstrings.bin", 406, 16
+str_PhiladelphiaPA:                             ; team name string 36
+        incbin "build/teamstrings.bin", 422, 17
+str_PittsburghPA:                               ; team name string 37
+        incbin "build/teamstrings.bin", 439, 15
+str_QuebecCityQuebec:                           ; team name string 38
+        incbin "build/teamstrings.bin", 454, 20
+str_StLouisMissouri:                            ; team name string 39
+        incbin "build/teamstrings.bin", 474, 20
+str_SanJoseCalifornia:                          ; team name string 40
+        incbin "build/teamstrings.bin", 494, 21
+str_TampaFlorida:                               ; team name string 41
+        incbin "build/teamstrings.bin", 515, 15
+str_TorontoOntario:                             ; team name string 42
+        incbin "build/teamstrings.bin", 530, 17
+str_VancouverBC:                                ; team name string 43
+        incbin "build/teamstrings.bin", 547, 16
 str_LandoverMaryland:                           ; string 'Landover, Maryland'
         db 04Ch,061h,06Eh,064h,06Fh,076h,065h,072h,02Ch,020h,04Dh,061h,072h,079h,06Ch,061h
         db 06Eh,064h,00h
-str_WinnipegManitoba:                           ; string 'Winnipeg, Manitoba'
-        db 057h,069h,06Eh,06Eh,069h,070h,065h,067h,02Ch,020h,04Dh,061h,06Eh,069h,074h,06Fh
-        db 062h,061h,00h
-str_MightyDucks2:                               ; string 'Mighty Ducks'
-        db 04Dh,069h,067h,068h,074h,079h,020h,044h,075h,063h,06Bh,073h,00h
-str_Bruins:                                     ; string 'Bruins'
-        db 042h,072h,075h,069h,06Eh,073h,00h
-str_Sabres:                                     ; string 'Sabres'
-        db 053h,061h,062h,072h,065h,073h,00h
-str_Flames:                                     ; string 'Flames'
-        db 046h,06Ch,061h,06Dh,065h,073h,00h
-str_Blackhawks:                                 ; string 'Blackhawks'
-        db 042h,06Ch,061h,063h,06Bh,068h,061h,077h,06Bh,073h,00h
-str_Stars:                                      ; string 'Stars'
-        db 053h,074h,061h,072h,073h,00h
-str_RedWings:                                   ; string 'Red Wings'
-        db 052h,065h,064h,020h,057h,069h,06Eh,067h,073h,00h
-str_Oilers:                                     ; string 'Oilers'
-        db 04Fh,069h,06Ch,065h,072h,073h,00h
-str_Panthers:                                   ; string 'Panthers'
-        db 050h,061h,06Eh,074h,068h,065h,072h,073h,00h
-str_Whalers:                                    ; string 'Whalers'
-        db 057h,068h,061h,06Ch,065h,072h,073h,00h
-str_Kings:                                      ; string 'Kings'
-        db 04Bh,069h,06Eh,067h,073h,00h
-str_Canadiens:                                  ; string 'Canadiens'
-        db 043h,061h,06Eh,061h,064h,069h,065h,06Eh,073h,00h
-str_Devils:                                     ; string 'Devils'
-        db 044h,065h,076h,069h,06Ch,073h,00h
-str_Islanders:                                  ; string 'Islanders'
-        db 049h,073h,06Ch,061h,06Eh,064h,065h,072h,073h,00h
-str_Rangers:                                    ; string 'Rangers'
-        db 052h,061h,06Eh,067h,065h,072h,073h,00h
-str_Senators:                                   ; string 'Senators'
-        db 053h,065h,06Eh,061h,074h,06Fh,072h,073h,00h
-str_Flyers:                                     ; string 'Flyers'
-        db 046h,06Ch,079h,065h,072h,073h,00h
-str_Penguins:                                   ; string 'Penguins'
-        db 050h,065h,06Eh,067h,075h,069h,06Eh,073h,00h
-str_Nordiques:                                  ; string 'Nordiques'
-        db 04Eh,06Fh,072h,064h,069h,071h,075h,065h,073h,00h
-str_Blues:                                      ; string 'Blues'
-        db 042h,06Ch,075h,065h,073h,00h
-str_Sharks:                                     ; string 'Sharks'
-        db 053h,068h,061h,072h,06Bh,073h,00h
-str_Lightning:                                  ; string 'Lightning'
-        db 04Ch,069h,067h,068h,074h,06Eh,069h,06Eh,067h,00h
-str_MapleLeafs:                                 ; string 'Maple Leafs'
-        db 04Dh,061h,070h,06Ch,065h,020h,04Ch,065h,061h,066h,073h,00h
-str_Canucks:                                    ; string 'Canucks'
-        db 043h,061h,06Eh,075h,063h,06Bh,073h,00h
-str_Capitals:                                   ; string 'Capitals'
-        db 043h,061h,070h,069h,074h,061h,06Ch,073h,00h
-str_Jets:                                       ; string 'Jets'
-        db 04Ah,065h,074h,073h,00h
-str_AllStars:                                   ; string 'All Stars'
-        db 041h,06Ch,06Ch,020h,053h,074h,061h,072h,073h,00h,00h,00h
+str_WinnipegManitoba:                           ; team name string 44
+        incbin "build/teamstrings.bin", 563, 19
+str_MightyDucks2:                               ; team name string 45
+        incbin "build/teamstrings.bin", 582, 13
+str_Bruins:                                     ; team name string 46
+        incbin "build/teamstrings.bin", 595, 7
+str_Sabres:                                     ; team name string 47
+        incbin "build/teamstrings.bin", 602, 7
+str_Flames:                                     ; team name string 48
+        incbin "build/teamstrings.bin", 609, 7
+str_Blackhawks:                                 ; team name string 49
+        incbin "build/teamstrings.bin", 616, 11
+str_Stars:                                      ; team name string 50
+        incbin "build/teamstrings.bin", 627, 6
+str_RedWings:                                   ; team name string 51
+        incbin "build/teamstrings.bin", 633, 10
+str_Oilers:                                     ; team name string 52
+        incbin "build/teamstrings.bin", 643, 7
+str_Panthers:                                   ; team name string 53
+        incbin "build/teamstrings.bin", 650, 9
+str_Whalers:                                    ; team name string 54
+        incbin "build/teamstrings.bin", 659, 8
+str_Kings:                                      ; team name string 55
+        incbin "build/teamstrings.bin", 667, 6
+str_Canadiens:                                  ; team name string 56
+        incbin "build/teamstrings.bin", 673, 10
+str_Devils:                                     ; team name string 57
+        incbin "build/teamstrings.bin", 683, 7
+str_Islanders:                                  ; team name string 58
+        incbin "build/teamstrings.bin", 690, 10
+str_Rangers:                                    ; team name string 59
+        incbin "build/teamstrings.bin", 700, 8
+str_Senators:                                   ; team name string 60
+        incbin "build/teamstrings.bin", 708, 9
+str_Flyers:                                     ; team name string 61
+        incbin "build/teamstrings.bin", 717, 7
+str_Penguins:                                   ; team name string 62
+        incbin "build/teamstrings.bin", 724, 9
+str_Nordiques:                                  ; team name string 63
+        incbin "build/teamstrings.bin", 733, 10
+str_Blues:                                      ; team name string 64
+        incbin "build/teamstrings.bin", 743, 6
+str_Sharks:                                     ; team name string 65
+        incbin "build/teamstrings.bin", 749, 7
+str_Lightning:                                  ; team name string 66
+        incbin "build/teamstrings.bin", 756, 10
+str_MapleLeafs:                                 ; team name string 67
+        incbin "build/teamstrings.bin", 766, 12
+str_Canucks:                                    ; team name string 68
+        incbin "build/teamstrings.bin", 778, 8
+str_Capitals:                                   ; team name string 69
+        incbin "build/teamstrings.bin", 786, 9
+str_Jets:                                       ; team name string 70
+        incbin "build/teamstrings.bin", 795, 5
+str_AllStars:                                   ; team name string 71
+        incbin "build/teamstrings.bin", 800, 12

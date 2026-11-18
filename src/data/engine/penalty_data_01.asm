@@ -91,9 +91,9 @@ asstab:                                         ; used by updateplayers
         dd asscupfollow
         dd asscuptake
         dd asscupleave
-SPAlist:                                        ; the SPA table: every sprite animation sequence (flags, pair count, frame/time
-                                                ; pairs); a sequence number is its word offset from here; used by HotSpotFrame,
-                                                ; AnimateBenchSprite, BenchSpriteFrame ...
+SPAlist:                                        ; the SPA table: every sprite animation sequence (flags,
+                                                ; pair count, frame/time pairs); a sequence number is its
+                                                ; word offset from here; used by HotSpotFrame, BenchSprite
         db 00h,00h,00h,00h,01h,00h
 CheckHitAnims:                                  ; chkhit: hit animation per check type; used by chkhit
         db 00h,00h,0F6h,0FFh,00h,00h,01h,00h,08h,00h,0F6h,0FFh,00h,00h,08h,00h

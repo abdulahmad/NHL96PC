@@ -1445,9 +1445,9 @@ LoadGameState:
         mov dword [dword eax+098h], ecx
         movsx ecx, word [byte eax+038h]
         mov dword [dword eax+09Ch], 0
-        cmp ecx, 425h
+        cmp ecx, SPAboxsit
         je short .29
-        cmp ecx, 441h
+        cmp ecx, SPAboxsitep
         jne short .30
 .29:
         movsx ecx, word [byte eax+02h]
@@ -1475,9 +1475,9 @@ LoadGameState:
         jge short .35
 .34:
         movsx ecx, word [byte eax+038h]
-        cmp ecx, 199h
+        cmp ecx, SPAboardbackglass
         jl short .36
-        cmp ecx, 1ABh
+        cmp ecx, SPAboardfrontglass
         jg short .36
         movsx ecx, word [byte eax+03Ah]
         cmp ecx, byte 4

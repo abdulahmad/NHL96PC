@@ -130,7 +130,7 @@ assboxenter:
         test eax, eax
         je short .1
         movsx eax, word [byte ebx+038h]
-        cmp eax, 991h
+        cmp eax, SPAgetcup
         jne near .11
         movsx eax, word [byte ebx+03Ah]
         cmp eax, byte 8
@@ -166,10 +166,10 @@ assboxenter:
         jne short .3
         mov eax, dword [PtrRefObject]
         or byte [byte eax+044h], 20h
-        mov edx, 8F1h
+        mov edx, SPAgvcup
         mov eax, dword [PtrRefObject]
         call SetSPA
-        mov edx, 991h
+        mov edx, SPAgetcup
         mov eax, ebx
         or byte [byte ebx+044h], 20h
         call SetSPA
@@ -206,11 +206,11 @@ assboxenter:
         mov byte [byte eax+046h], 0
         mov eax, dword [PtrRefObject]
         or byte [byte eax+044h], 20h
-        mov edx, 8D7h
+        mov edx, SPAboxdooropen
         mov eax, dword [PtrRefObject]
         call SetSPA
         mov byte [byte ebx+046h], 0
-        mov edx, 9A5h
+        mov edx, SPAboxenter
         and byte [byte ebx+055h], 0F7h
         mov eax, ebx
         or byte [byte ebx+044h], 20h
@@ -249,7 +249,7 @@ assboxenter:
         mov word [byte ebx+0Eh], 0
         mov word [byte ebx+06h], ax
         mov ax, word [byte ebx+02Ah]
-        mov edx, 3D5h
+        mov edx, SPAstandrest
         mov word [byte ebx+02h], ax
         mov eax, ebx
         mov word [byte ebx+0Ch], 0
@@ -275,7 +275,7 @@ assboxenter:
         movsx eax, word [byte ebx+036h]
         cmp eax, byte 6
         jne short .11
-        mov edx, 925h
+        mov edx, SPAcupwaitl
         mov eax, ebx
         mov word [byte ebx+026h], 64h
         call SetSPA
@@ -328,7 +328,7 @@ assbenchside:
         mov byte [byte ebx+046h], 0
         and byte [byte ebx+044h], 0FDh
         mov ax, word [byte ebx+0Eh]
-        mov edx, 8C1h
+        mov edx, SPAbrcup
         mov word [byte ebx+0Ch], ax
         mov eax, ebx
         mov word [byte ebx+026h], 0
@@ -354,7 +354,7 @@ assbenchside:
         mov word [byte ebx+026h], 64h
         jmp short .4
 .3:
-        mov edx, 8C5h
+        mov edx, SPAclap
         mov eax, ebx
 .4:
         call SetSPA
@@ -406,7 +406,7 @@ assbenchside:
 .9:
         cmp eax, 0C8h
         jl short .10
-        mov edx, 905h
+        mov edx, SPAbenchstand
         mov eax, ebx
         call SetSPA
         movsx eax, word [byte ebx+026h]
@@ -524,7 +524,7 @@ assstanley:
         movsx eax, byte [byte esi+047h]
         mov edx, dword [dword esi+088h]
         mov word [byte edx+eax*2+048h], 300h
-        mov edx, 987h
+        mov edx, SPAcupstand
         mov eax, esi
         call SetSPA
         mov eax, 100h
@@ -586,7 +586,7 @@ assstanley:
 .21:
         cmp eax, byte 40h
         jge short .23
-        mov edx, 91Bh
+        mov edx, SPAstanley
 .22:
         mov eax, esi
         call SetSPA
@@ -667,7 +667,7 @@ asscupfollow:
         and byte [byte esi+044h], 0FDh
         cmp word [byte esi+01Ah], byte 0
         jle short .1
-        mov edx, 983h
+        mov edx, SPAcupidle
         mov eax, esi
         call SetSPA
 .1:
@@ -748,10 +748,10 @@ asscupfollow:
         add esp, byte 8
         cmp eax, 1F4h
         jle short .9
-        mov edx, 9D9h
+        mov edx, SPAcupfollow2
         jmp short .10
 .9:
-        mov edx, 9EBh
+        mov edx, SPAcupfollowhold
 .10:
         mov eax, esi
         call SetSPA
@@ -790,7 +790,7 @@ asscupfollow:
         jne near RunPreGameSkate_451
         cmp eax, 0C8h
         jle short .12
-        mov edx, 93Fh
+        mov edx, SPAcupturn
         mov eax, esi
         or byte [byte esi+045h], 2
         call SetSPA
@@ -824,7 +824,7 @@ asscupfollow:
         jne near RunPreGameSkate_451
         cmp eax, 0C8h
         jle short .18
-        mov edx, 95Dh
+        mov edx, SPAcuptake
         mov eax, esi
         or byte [byte esi+045h], 2
         call SetSPA
@@ -840,10 +840,10 @@ asscupfollow:
 .19:
         cmp edx, 1F4h
         jle short .20
-        mov edx, 971h
+        mov edx, SPAcupfollow
         jmp short .13
 .20:
-        mov edx, 959h
+        mov edx, SPAcupturnhold
         mov eax, esi
 .21:
         call SetSPA
@@ -884,14 +884,14 @@ asscuptake:
         and byte [byte esi+044h], 0FDh
         cmp eax, byte 1
         jne short .1
-        mov edx, 95Dh
+        mov edx, SPAcuptake
         mov eax, esi
         or byte [byte esi+044h], 20h
         call SetSPA
         mov word [byte esi+02Eh], 0
         jmp short .2
 .1:
-        mov edx, 983h
+        mov edx, SPAcupidle
         mov eax, esi
         call SetSPA
 .2:
@@ -912,7 +912,7 @@ asscuptake:
 .4:
         or byte [byte esi+055h], 8
 .5:
-        mov edx, 987h
+        mov edx, SPAcupstand
         mov eax, esi
         or byte [byte esi+044h], 20h
         call SetSPA
@@ -922,7 +922,7 @@ asscuptake:
         mov eax, dword [PtrRefObject]
         mov dx, word [dword esi+086h]
         mov word [byte eax+02Eh], dx
-        mov edx, 95Dh
+        mov edx, SPAcuptake
         mov eax, edi
         or byte [byte edi+044h], 20h
         call SetSPA
@@ -965,7 +965,7 @@ asscuptake:
         and eax, byte 7
         cmp edx, eax
         jne near RunPreGameSkate_450
-        mov edx, 9B7h
+        mov edx, SPAcuptakeend
         mov eax, esi
         or byte [byte esi+044h], 20h
         call SetSPA
@@ -1052,7 +1052,7 @@ asscupleave:
         mov eax, SPAgready2
         jmp short .8
 .7:
-        mov eax, 3D5h
+        mov eax, SPAstandrest
 .8:
         mov word [regd1], ax
         movsx edx, ax

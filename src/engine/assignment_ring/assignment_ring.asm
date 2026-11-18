@@ -91,7 +91,7 @@ assextra6:
         test ecx, ecx
         jne short .14
         movsx eax, word [byte eax+038h]
-        cmp eax, 131h
+        cmp eax, SPAboardback
         jl short .10
         cmp eax, SPAinjury1
         jle short .14

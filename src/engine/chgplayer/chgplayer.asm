@@ -17,9 +17,9 @@ SetSPA:
         cmp dx, word [byte ebx+038h]
         je near .10
         movsx ecx, dx
-        cmp ecx, byte 9
+        cmp ecx, byte SPAskate
         je short .1
-        cmp ecx, byte 1Bh
+        cmp ecx, byte SPAskatewp
         je short .1
         cmp ecx, SPAburst
         je short .1
@@ -27,15 +27,15 @@ SetSPA:
         je short .1
         cmp ecx, 375h
         je short .1
-        cmp ecx, 99h
+        cmp ecx, SPAskatefast
         jne near .8
 .1:
         movsx ecx, dx
-        cmp ecx, 99h
+        cmp ecx, SPAskatefast
         jne short .4
-        cmp eax, byte 9
+        cmp eax, byte SPAskate
         je short .2
-        cmp eax, byte 1Bh
+        cmp eax, byte SPAskatewp
         je short .2
         cmp eax, SPAburst
         je short .2
@@ -55,9 +55,9 @@ SetSPA:
         pop ebx
         ret
 .4:
-        cmp eax, byte 9
+        cmp eax, byte SPAskate
         je short .5
-        cmp eax, byte 1Bh
+        cmp eax, byte SPAskatewp
         je short .5
         cmp eax, SPAburst
         je short .5
@@ -71,7 +71,7 @@ SetSPA:
         je short .10
         jmp short .9
 .6:
-        cmp eax, 99h
+        cmp eax, SPAskatefast
         jne short .8
         mov word [byte ebx+038h], dx
         test dx, dx

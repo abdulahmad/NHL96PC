@@ -4784,7 +4784,230 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1179A5,PenShotDelay,byte_1179A5,new,low,Penalty shot delay,src/data/engine/penalty_data_01.asm
 1179C4,asstab,off_1179C4,95PC,high,"the assignment routine table: the routines already named sit at the same 14 indices as in NHL95PC asstab (assshoot 18, asspassrec 19, pucknorm 24, puckfaceoff 27 ...)",src/data/engine/penalty_data_01.asm
 117A9C,SPAlist,unk_117A9C,new,high,"the SPA table: sprite animation sequences indexed by word offset (flags, count, frame/time pairs); sub_4B38C and sub_4A047 read it, nhl96genesis SPAlist",src/data/engine/penalty_data_01.asm
+117A9E,SPAstand,,new,low,"standing still, facing the player direction (assfwatch, resetplstuff, asspenshooter) (SPA 0x1 of the SPA table)",src/data/engine/penalty_data_01.asm
 117AA2,CheckHitAnims,word_117AA2,new,low,chkhit: hit animation per check type,src/data/engine/penalty_data_01.asm
+117AA6,SPAcoast,,new,low,"coasting pose, first frame of the skate cycle held (RunPreGameSkate) (SPA 0x5 of the SPA table)",src/data/engine/penalty_data_01.asm
+117AAE,SPAskate,,new,medium,"skating, no puck (noturn0 picks it when the player is not the puck carrier) (SPA 0x9 of the SPA table)",src/data/engine/penalty_data_01.asm
+117AD2,SPAskatewp,,new,medium,skating with the puck (noturn0 when the player is the puck carrier) (SPA 0x1B of the SPA table),src/data/engine/penalty_data_01.asm
+117AF6,SPAskatewp2,,new,medium,"skating with the puck, second pose set; the second sequence of the SPAskatewp pair (SPA 0x2D of the SPA table)",src/data/engine/penalty_data_01.asm
+117B1A,SPAstop,,new,medium,"stop (dostop, not the puck carrier) (SPA 0x3F of the SPA table)",src/data/engine/penalty_data_01.asm
+117B26,SPAstophold,,new,medium,"stop, held end frame (dostop switches to it when SPAstop ends) (SPA 0x45 of the SPA table)",src/data/engine/penalty_data_01.asm
+117B2E,SPAstopwp,,new,medium,stop with the puck (dostop when the player is the puck carrier) (SPA 0x49 of the SPA table),src/data/engine/penalty_data_01.asm
+117B3A,SPAstopwphold,,new,medium,"stop with the puck, held end frame (SPA 0x4F of the SPA table)",src/data/engine/penalty_data_01.asm
+117B42,SPAstopfast,,95PC,low,stop without the puck when dostop does not pick SPAstop (dostop) (SPA 0x53 of the SPA table),src/data/engine/penalty_data_01.asm
+117B4E,SPAstopfasthold,,new,low,"stop, held end frame of SPAstopfast (dostop) (SPA 0x59 of the SPA table)",src/data/engine/penalty_data_01.asm
+117B56,SPAturnlwp,,95PC,medium,"turning left with the puck, single frame (doplayeracc) (SPA 0x5D of the SPA table)",src/data/engine/penalty_data_01.asm
+117B5E,SPAturnl,,94G,medium,"turning left without the puck, single frame (doplayeracc) (SPA 0x61 of the SPA table)",src/data/engine/penalty_data_01.asm
+117B66,SPAturnlwpin,,new,medium,"turning left with the puck, start of the turn (two frames; doplayeracc) (SPA 0x65 of the SPA table)",src/data/engine/penalty_data_01.asm
+117B72,SPAturnlin,,new,medium,"turning left without the puck, start of the turn (two frames; doplayeracc) (SPA 0x6B of the SPA table)",src/data/engine/penalty_data_01.asm
+117B7E,SPAturnrwp,,95PC,medium,"turning right with the puck, single frame (doplayeracc) (SPA 0x71 of the SPA table)",src/data/engine/penalty_data_01.asm
+117B86,SPAturnr,,94G,medium,"turning right without the puck, single frame (doplayeracc) (SPA 0x75 of the SPA table)",src/data/engine/penalty_data_01.asm
+117B8E,SPAturnrwpin,,new,medium,"turning right with the puck, start of the turn (two frames; doplayeracc) (SPA 0x79 of the SPA table)",src/data/engine/penalty_data_01.asm
+117B9A,SPAturnrin,,new,medium,"turning right without the puck, start of the turn (two frames; doplayeracc) (SPA 0x7F of the SPA table)",src/data/engine/penalty_data_01.asm
+117BA6,SPAcheckswingl,,new,low,"check swing to the left, not flagged as a check animation (DoCheckInput) (SPA 0x85 of the SPA table)",src/data/engine/penalty_data_01.asm
+117BBA,SPAcheckswingr,,new,low,"check swing to the right, not flagged as a check animation (DoCheckInput) (SPA 0x8F of the SPA table)",src/data/engine/penalty_data_01.asm
+117BCE,SPAskatefast,,new,medium,skating fast without the puck (PickSkateAnim when speed is 0FA0h or more) (SPA 0x99 of the SPA table),src/data/engine/penalty_data_01.asm
+117BE2,SPAcoastl,,new,low,"coasting stride, left (FallDown tests it; two frames held) (SPA 0xA3 of the SPA table)",src/data/engine/penalty_data_01.asm
+117BEE,SPAcoastr,,new,low,"coasting stride, right (CrowdOnStoppage picks it at random) (SPA 0xA9 of the SPA table)",src/data/engine/penalty_data_01.asm
+117BFA,SPApassf,,95PC,medium,"pass, forward side (dopass) (SPA 0xAF of the SPA table)",src/data/engine/penalty_data_01.asm
+117C06,SPApassb,,95PC,medium,"pass, backward side (dopass) (SPA 0xB5 of the SPA table)",src/data/engine/penalty_data_01.asm
+117C16,SPAshotf,,95PC,medium,"shot, forward side (SetShotMode) (SPA 0xBD of the SPA table)",src/data/engine/penalty_data_01.asm
+117C36,SPAshotfquick,,new,low,"forward shot with the quick-release ending (ShotMode replaces SPAshotf by it, regd2 bit 5) (SPA 0xCD of the SPA table)",src/data/engine/penalty_data_01.asm
+117C56,SPAshotb,,95PC,medium,"shot, backward side (ShotMode) (SPA 0xDD of the SPA table)",src/data/engine/penalty_data_01.asm
+117C76,SPAfakeshotf,,95PC,medium,"faked shot, forward side (ShotMode) (SPA 0xED of the SPA table)",src/data/engine/penalty_data_01.asm
+117C96,SPAfakeshotb,,95PC,medium,"faked shot, backward side (ShotMode) (SPA 0xFD of the SPA table)",src/data/engine/penalty_data_01.asm
+117CB6,SPAonetimef,,95PC,medium,"one-timer, forward side (assonetimer) (SPA 0x10D of the SPA table)",src/data/engine/penalty_data_01.asm
+117CCA,SPAonetimeb,,95PC,medium,"one-timer, backward side (assonetimer) (SPA 0x117 of the SPA table)",src/data/engine/penalty_data_01.asm
+117CDE,SPAfakeonetimef,,95PC,medium,"faked one-timer, forward side (assonetimer, ShotMode) (SPA 0x121 of the SPA table)",src/data/engine/penalty_data_01.asm
+117CEE,SPAfakeonetimeb,,95PC,medium,"faked one-timer, backward side (assonetimer, ShotMode) (SPA 0x129 of the SPA table)",src/data/engine/penalty_data_01.asm
+117CFE,SPAboardback,,94G,medium,falling against the boards with the back to them (FallFrameByDir) (SPA 0x131 of the SPA table),src/data/engine/penalty_data_01.asm
+117D32,SPAboardfront,,94G,medium,falling against the boards facing them (FallFrameByDir) (SPA 0x14B of the SPA table),src/data/engine/penalty_data_01.asm
+117D66,SPAboardleft,,94G,low,"falling against the boards, side-on, mirrored (FallFrameByDir) (SPA 0x165 of the SPA table)",src/data/engine/penalty_data_01.asm
+117D9A,SPAboardright,,94G,low,"falling against the boards, side-on (FallFrameByDir) (SPA 0x17F of the SPA table)",src/data/engine/penalty_data_01.asm
+117DCE,SPAboardbackglass,,new,low,"falling back into the glass hard enough to break it (FallDown, FallFrameByFacing) (SPA 0x199 of the SPA table)",src/data/engine/penalty_data_01.asm
+117DF2,SPAboardfrontglass,,new,low,"falling forward into the glass hard enough to break it (FallDown, FallFrameByFacing) (SPA 0x1AB of the SPA table)",src/data/engine/penalty_data_01.asm
+117E16,SPAfallback,,94G,medium,falling backward after a check from the front (FallDown) (SPA 0x1BD of the SPA table),src/data/engine/penalty_data_01.asm
+117E46,SPAfallfwd,,94G,medium,falling forward after a check from behind or the side (FallDown) (SPA 0x1D5 of the SPA table),src/data/engine/penalty_data_01.asm
+117E7A,SPAflip,,94G,medium,flipped over by a hard check (FallDown) (SPA 0x1EF of the SPA table),src/data/engine/penalty_data_01.asm
+117EB6,SPAflipfwd,,new,low,flipped over forward by a hard check from behind (FallDown) (SPA 0x20D of the SPA table),src/data/engine/penalty_data_01.asm
+117EF2,SPAinjury1,,95PC,medium,"injured player lying on the ice, held (FallDown) (SPA 0x22B of the SPA table)",src/data/engine/penalty_data_01.asm
+117FCE,SPAstumble,,94G,medium,strong player stumbles instead of falling (FallDown) (SPA 0x299 of the SPA table),src/data/engine/penalty_data_01.asm
+117FE2,SPAblockleft,,95PC,medium,"skater dives to block a shot, left (BlockShotDive) (SPA 0x2A3 of the SPA table)",src/data/engine/penalty_data_01.asm
+117FFA,SPAblockright,,95PC,medium,"skater dives to block a shot, right (BlockShotDive) (SPA 0x2AF of the SPA table)",src/data/engine/penalty_data_01.asm
+118012,SPAblockfront,,95PC,medium,skater stands to block a high shot (BlockShotDive) (SPA 0x2BB of the SPA table),src/data/engine/penalty_data_01.asm
+11801A,SPAblockknee,,95PC,medium,skater drops to block a low shot (BlockShotDive) (SPA 0x2BF of the SPA table),src/data/engine/penalty_data_01.asm
+118022,SPAburst,,95PC,high,burst of speed; the burst routine sets it (SPA 0x2C3 of the SPA table),src/data/engine/penalty_data_01.asm
+118046,SPAcrosscheck,,95PC,high,cross check; checkcheck penalty test (SPA 0x2D5 of the SPA table),src/data/engine/penalty_data_01.asm
+118052,SPAsweepchk,,94G,high,sweep check; checkcheck sends it to Bcheck (SPA 0x2DB of the SPA table),src/data/engine/penalty_data_01.asm
+118062,SPAhook,,95PC,high,hook check; Holdplayer (SPA 0x2E3 of the SPA table),src/data/engine/penalty_data_01.asm
+118072,SPAhook2,,94G,high,player held by a hook check (holdcheck) (SPA 0x2EB of the SPA table),src/data/engine/penalty_data_01.asm
+11808E,SPAHold,,94G,high,"hold check, stick out; input sets it, checkcheck sends it to holdcheck (SPA 0x2F9 of the SPA table)",src/data/engine/penalty_data_01.asm
+118096,SPAHold2,,94G,high,player held by a hold check (holdcheck) (SPA 0x2FD of the SPA table),src/data/engine/penalty_data_01.asm
+11809E,SPAshoulderchkr,,94G,low,"shoulder check right, windup and hit (not set by an immediate) (SPA 0x301 of the SPA table)",src/data/engine/penalty_data_01.asm
+1180AA,SPAshoulderchkl,,94G,low,"shoulder check left, windup and hit (not set by an immediate) (SPA 0x307 of the SPA table)",src/data/engine/penalty_data_01.asm
+1180B6,SPAhipchkr,,94G,low,"hip check right, windup and hit (not set by an immediate) (SPA 0x30D of the SPA table)",src/data/engine/penalty_data_01.asm
+1180C2,SPAhipchkl,,94G,low,"hip check left, windup and hit (not set by an immediate) (SPA 0x313 of the SPA table)",src/data/engine/penalty_data_01.asm
+1180CE,SPAchecktarget,,94G,medium,"check on a target ahead, shoulder side (DoCheckInput, checkcheck) (SPA 0x319 of the SPA table)",src/data/engine/penalty_data_01.asm
+1180DA,SPAchecktargetl,,94G,medium,"check on a target at the left hip (DoCheckInput, checkcheck; left hip) (SPA 0x31F of the SPA table)",src/data/engine/penalty_data_01.asm
+1180E6,SPAchecktargetr,,94G,medium,"check on a target at the right hip (DoCheckInput, checkcheck; right hip) (SPA 0x325 of the SPA table)",src/data/engine/penalty_data_01.asm
+1180F2,SPAcheckslidel,,new,low,"fast check slide, left (DoCheckInput plays sfx 21h first) (SPA 0x32B of the SPA table)",src/data/engine/penalty_data_01.asm
+11810A,SPAcheckslider,,new,low,"fast check slide, right (DoCheckInput plays sfx 21h first) (SPA 0x337 of the SPA table)",src/data/engine/penalty_data_01.asm
+118122,SPAcheckskate,,new,medium,"skating with a check pending, no target, no puck (DoCheckInput; 343-36Fh is the check range) (SPA 0x343 of the SPA table)",src/data/engine/penalty_data_01.asm
+118146,SPAcheckmissl,,new,low,"check swing with no target, left (DoCheckInput) (SPA 0x355 of the SPA table)",src/data/engine/penalty_data_01.asm
+11815A,SPAcheckmissr,,new,low,"check swing with no target, right (DoCheckInput) (SPA 0x35F of the SPA table)",src/data/engine/penalty_data_01.asm
+11816E,SPAcheckburstl,,new,low,"check while burst is held, left (DoCheckInput) (SPA 0x369 of the SPA table)",src/data/engine/penalty_data_01.asm
+11817A,SPAcheckburstr,,new,low,"check while burst is held, right (DoCheckInput) (SPA 0x36F of the SPA table)",src/data/engine/penalty_data_01.asm
+118186,SPAcheckskatewp,,new,medium,"skating with a check pending, puck carrier (DoCheckInput) (SPA 0x375 of the SPA table)",src/data/engine/penalty_data_01.asm
+1181AA,SPAfaceoff,,94G,medium,faceoff stance (puckcarrier) (SPA 0x387 of the SPA table),src/data/engine/penalty_data_01.asm
+1181B2,SPAfaceoffr,,94G,medium,"alternate faceoff stance after the wait runs out, one in 8 (faceoffinput) (SPA 0x38B of the SPA table)",src/data/engine/penalty_data_01.asm
+1181BA,SPAfaceoffpokel,,95PC,medium,"faceoff stick swing, left side (faceoffinput) (SPA 0x38F of the SPA table)",src/data/engine/penalty_data_01.asm
+1181C6,SPAfaceoffpokelhold,,new,low,"faceoff stick swing, left side, late press (faceoffinput) (SPA 0x395 of the SPA table)",src/data/engine/penalty_data_01.asm
+1181CE,SPAfaceoffpoker,,95PC,medium,"faceoff stick swing, right side (faceoffinput) (SPA 0x399 of the SPA table)",src/data/engine/penalty_data_01.asm
+1181DA,SPAfaceoffpokerhold,,new,low,"faceoff stick swing, right side, late press (faceoffinput) (SPA 0x39F of the SPA table)",src/data/engine/penalty_data_01.asm
+1181E2,SPAfaceoffpokeend,,new,low,"faceoff stick swing, end pose (not set by an immediate) (SPA 0x3A3 of the SPA table)",src/data/engine/penalty_data_01.asm
+1181EA,SPApuckhit,,new,low,skater reacts to being hit by a fast puck (puckbody) (SPA 0x3A7 of the SPA table),src/data/engine/penalty_data_01.asm
+1181F6,SPAwallleft,,95PC,medium,"skater against the wall left (TakePlayerFromBox, assepen family) (SPA 0x3AD of the SPA table)",src/data/engine/penalty_data_01.asm
+11821A,SPAwallright,,95PC,medium,skater against the wall right (asseben) (SPA 0x3BF of the SPA table),src/data/engine/penalty_data_01.asm
+11823E,SPAglide,,new,medium,"glide; dostop, doplayeracc and noturn0 fall back to it (SPA 0x3D1 of the SPA table)",src/data/engine/penalty_data_01.asm
+118246,SPAstandrest,,new,medium,"standing at rest off the play: penalty box, bench, leaving the ice (assleavebox, assboxenter, assbench) (SPA 0x3D5 of the SPA table)",src/data/engine/penalty_data_01.asm
+11824E,SPAcelebrate,,94G,medium,"scorer celebrates, first of the four picks (ScoreCelebrateAnims) (SPA 0x3D9 of the SPA table)",src/data/engine/penalty_data_01.asm
+118262,SPAcelebrate2,,new,medium,"scorer celebrates, second pick (ScoreCelebrateAnims) (SPA 0x3E3 of the SPA table)",src/data/engine/penalty_data_01.asm
+11827E,SPApump,,94G,medium,"scorer pumps the arm, first (ScoreCelebrateAnims) (SPA 0x3F1 of the SPA table)",src/data/engine/penalty_data_01.asm
+11828E,SPApump2,,new,medium,"scorer pumps the arm, second (ScoreCelebrateAnims) (SPA 0x3F9 of the SPA table)",src/data/engine/penalty_data_01.asm
+1182A6,SPAcelebratevis,,new,low,"celebration picked for the visiting team, first (assscore) (SPA 0x405 of the SPA table)",src/data/engine/penalty_data_01.asm
+1182C2,SPAcelebratevis2,,new,low,"celebration picked for the visiting team, second (assscore) (SPA 0x413 of the SPA table)",src/data/engine/penalty_data_01.asm
+1182E6,SPAboxsit,,new,medium,"penalized player sitting in the box (asspenalty, assdopen) (SPA 0x425 of the SPA table)",src/data/engine/penalty_data_01.asm
+11831E,SPAboxsitep,,new,medium,sitting in the box for a second penalty (assepen) (SPA 0x441 of the SPA table),src/data/engine/penalty_data_01.asm
+118346,SPAskateback,,95PC,medium,"skating backward (doplayeracc, dostop, noturn0) (SPA 0x455 of the SPA table)",src/data/engine/penalty_data_01.asm
+11836A,SPAglideback,,95PC,medium,"gliding backward (doplayeracc, noturn0) (SPA 0x467 of the SPA table)",src/data/engine/penalty_data_01.asm
+118372,SPAfightdrop,,new,low,gloves drop and the fighters take their stance; chkhit tests its last frame (checkfight) (SPA 0x46B of the SPA table),src/data/engine/penalty_data_01.asm
+11839A,SPAfight,,93G,medium,"fight stance, set when the fight starts (assfight) (SPA 0x47F of the SPA table)",src/data/engine/penalty_data_01.asm
+1183A2,SPAfightstance,,new,low,"fight stance, circling (assfight, chkhit) (SPA 0x483 of the SPA table)",src/data/engine/penalty_data_01.asm
+1183C6,SPAfightweavel,,new,low,"fight footwork, left (assfight) (SPA 0x495 of the SPA table)",src/data/engine/penalty_data_01.asm
+1183E2,SPAfightweaver,,new,low,"fight footwork, right (assfight) (SPA 0x4A3 of the SPA table)",src/data/engine/penalty_data_01.asm
+1183FE,SPAfhigh,,93G,medium,"high punch (fightinput, FightAnimTab) (SPA 0x4B1 of the SPA table)",src/data/engine/penalty_data_01.asm
+11841A,SPAfhith,,93G,medium,hit by a high punch (chkhit) (SPA 0x4BF of the SPA table),src/data/engine/penalty_data_01.asm
+118432,SPAflow,,93G,medium,"low punch (fightinput, FightAnimTab) (SPA 0x4CB of the SPA table)",src/data/engine/penalty_data_01.asm
+118442,SPAfhitl,,93G,medium,hit by a low punch (chkhit) (SPA 0x4D3 of the SPA table),src/data/engine/penalty_data_01.asm
+11844E,SPAffall,,93G,medium,loser falls after the fight is decided (chkhit) (SPA 0x4D9 of the SPA table),src/data/engine/penalty_data_01.asm
+11848A,SPAffall2,,new,medium,"loser falls, the other side (chkhit) (SPA 0x4F7 of the SPA table)",src/data/engine/penalty_data_01.asm
+1184CA,SPAfinjury,,93G,low,"injured loser, copy of SPAffall (not set by an immediate) (SPA 0x517 of the SPA table)",src/data/engine/penalty_data_01.asm
+118506,SPAfinjury2,,new,low,"injured loser, copy of SPAffall2 (not set by an immediate) (SPA 0x535 of the SPA table)",src/data/engine/penalty_data_01.asm
+118546,SPAfwin,,new,low,winner stands over the loser (chkhit) (SPA 0x555 of the SPA table),src/data/engine/penalty_data_01.asm
+118552,SPAfswing,,new,low,"big swing punch (FightAnimTab, chkhit) (SPA 0x55B of the SPA table)",src/data/engine/penalty_data_01.asm
+118576,SPAfswinghit,,new,low,hit by the big swing punch (chkhit) (SPA 0x56D of the SPA table),src/data/engine/penalty_data_01.asm
+11859A,SPAfgrab,,93G,medium,"grab (FightAnimTab, chkhit) (SPA 0x57F of the SPA table)",src/data/engine/penalty_data_01.asm
+1185AE,SPAfgrabend,,new,low,grab ends without a hold (chkhit) (SPA 0x589 of the SPA table),src/data/engine/penalty_data_01.asm
+1185C6,SPAfheld,,93G,medium,held by a grab (chkhit) (SPA 0x595 of the SPA table),src/data/engine/penalty_data_01.asm
+1185D2,SPAfhighwaitl,,new,low,left fighter waits with the high punch ready (assfight) (SPA 0x59B of the SPA table),src/data/engine/penalty_data_01.asm
+1185DA,SPAfhighwaitr,,new,low,right fighter waits with the high punch ready (assfight) (SPA 0x59F of the SPA table),src/data/engine/penalty_data_01.asm
+1185E2,SPAfhighl,,new,low,"left fighter high punch for the computer (assfight, chkhit) (SPA 0x5A3 of the SPA table)",src/data/engine/penalty_data_01.asm
+1185F6,SPAfhighr,,new,low,right fighter high punch for the computer (assfight) (SPA 0x5AD of the SPA table),src/data/engine/penalty_data_01.asm
+11860A,SPAfgrab2,,new,medium,"grab, the other side (FightAnimTab, chkhit) (SPA 0x5B7 of the SPA table)",src/data/engine/penalty_data_01.asm
+11861A,SPAfheld2,,new,medium,"held by a grab, the other side (chkhit) (SPA 0x5BF of the SPA table)",src/data/engine/penalty_data_01.asm
+118622,SPAflowwaitl,,new,low,left fighter waits with the low punch ready (assfight) (SPA 0x5C3 of the SPA table),src/data/engine/penalty_data_01.asm
+11862A,SPAflowwaitr,,new,low,right fighter waits with the low punch ready (assfight) (SPA 0x5C7 of the SPA table),src/data/engine/penalty_data_01.asm
+118632,SPAflowl,,new,low,"left fighter low punch for the computer (assfight, chkhit) (SPA 0x5CB of the SPA table)",src/data/engine/penalty_data_01.asm
+11864A,SPAflowr,,new,low,right fighter low punch for the computer (assfight) (SPA 0x5D7 of the SPA table),src/data/engine/penalty_data_01.asm
+118662,SPAgready2,,94G,medium,"goalie ready, held frame; -30 end time (SPA 0x5E3 of the SPA table)",src/data/engine/penalty_data_01.asm
+11866A,SPAgglover,,95PC,medium,"goalie glove save, right (GoalieSaveAnims slot 0) (SPA 0x5E7 of the SPA table)",src/data/engine/penalty_data_01.asm
+118676,SPAgglovel,,95PC,medium,"goalie glove save, left (GoalieSaveAnims slot 1) (SPA 0x5ED of the SPA table)",src/data/engine/penalty_data_01.asm
+118682,SPAgstickr,,new,low,"goalie stick save right (SkillForAnim, by position in its table) (SPA 0x5F3 of the SPA table)",src/data/engine/penalty_data_01.asm
+11868E,SPAgstickl,,new,low,"goalie stick save left (SkillForAnim, by position in its table) (SPA 0x5F9 of the SPA table)",src/data/engine/penalty_data_01.asm
+11869A,SPAgstackr,,95PC,medium,"goalie pad stack, right (GoalieSaveAnims slot 2) (SPA 0x5FF of the SPA table)",src/data/engine/penalty_data_01.asm
+1186BE,SPAgstackl,,95PC,medium,"goalie pad stack, left (GoalieSaveAnims slot 3) (SPA 0x611 of the SPA table)",src/data/engine/penalty_data_01.asm
+1186E2,SPAgdive,,95PC,medium,goalie dives for the puck (assgoalie) (SPA 0x623 of the SPA table),src/data/engine/penalty_data_01.asm
+118706,SPAgoalieknee,,95PC,low,goalie drops to his knees (SPA 0x635 of the SPA table),src/data/engine/penalty_data_01.asm
+11871E,SPAgokneehold,,95PC,medium,goalie stays on his knees (assgoalie) (SPA 0x641 of the SPA table),src/data/engine/penalty_data_01.asm
+118736,SPAgofallglove,,new,low,"goalie falls on the glove side (SkillForAnim, by position) (SPA 0x64D of the SPA table)",src/data/engine/penalty_data_01.asm
+11875A,SPAgofallstick,,new,low,"goalie falls on the stick side (SkillForAnim, by position) (SPA 0x65F of the SPA table)",src/data/engine/penalty_data_01.asm
+11877E,SPAgoaliepoke,,95PC,medium,"goalie pokes the puck away (assgoalie, puckglue) (SPA 0x671 of the SPA table)",src/data/engine/penalty_data_01.asm
+11878E,SPAgskate,,95PC,medium,"goalie skating (goalieskateto, SkateToSpot) (SPA 0x679 of the SPA table)",src/data/engine/penalty_data_01.asm
+1187B2,SPAgshufflel,,new,low,"goalie side shuffle, left (goalieskateto) (SPA 0x68B of the SPA table)",src/data/engine/penalty_data_01.asm
+1187BE,SPAgshuffler,,new,low,"goalie side shuffle, right (goalieskateto) (SPA 0x691 of the SPA table)",src/data/engine/penalty_data_01.asm
+1187CA,SPAgsavetoe,,new,low,goalie save slot 10: low toe save (GoalieSaveAnims) (SPA 0x697 of the SPA table),src/data/engine/penalty_data_01.asm
+1187DE,SPAgswing,,95PC,medium,"goalie swings at the puck to clear or pass it (ShootPuck, dopass) (SPA 0x6A1 of the SPA table)",src/data/engine/penalty_data_01.asm
+1187EA,SPAgsavekick,,new,low,goalie save slot 11 (GoalieSaveAnims; goaliesave plays sfx 10h for it) (SPA 0x6A7 of the SPA table),src/data/engine/penalty_data_01.asm
+1187F2,SPAgofallback,,95PC,medium,goalie falls backward (GoalieSaveAnims slot 9) (SPA 0x6AB of the SPA table),src/data/engine/penalty_data_01.asm
+118806,SPAgwallleft,,95PC,medium,"goalie against the wall left (position 0 case of asspsclear, assbench) (SPA 0x6B5 of the SPA table)",src/data/engine/penalty_data_01.asm
+11882A,SPAgwallright,,95PC,medium,goalie against the wall right (asseben) (SPA 0x6C7 of the SPA table),src/data/engine/penalty_data_01.asm
+11884E,SPAgreadybob,,new,low,"goalie ready stance, small bob (start of SPAgready) (SPA 0x6D9 of the SPA table)",src/data/engine/penalty_data_01.asm
+11885A,SPAgready,,94G,medium,goalie ready: blinks between the held frame and the ready frames (SPA 0x6DF of the SPA table),src/data/engine/penalty_data_01.asm
+11888A,SPAgidle,,new,low,"goalie idle, looks around (goalieacc, fight; random alternative to SPAgready) (SPA 0x6F7 of the SPA table)",src/data/engine/penalty_data_01.asm
+1188BA,SPAstandwait,,new,low,"standing wait of 68 ticks, then skates off (assleavebox) (SPA 0x70F of the SPA table)",src/data/engine/penalty_data_01.asm
+1188C2,SPAstandwait2,,new,low,standing wait of 47 ticks (not set by an immediate) (SPA 0x713 of the SPA table),src/data/engine/penalty_data_01.asm
+1188CA,SPAfaceoffwait,,new,low,faceoff stance wait of 53 ticks (assleavebox) (SPA 0x717 of the SPA table),src/data/engine/penalty_data_01.asm
+1188D2,SPAbenchidle1,,new,medium,bench sprite idle pose 1 (BenchSpriteAnims) (SPA 0x71B of the SPA table),src/data/engine/penalty_data_01.asm
+1188DA,SPAbenchidle2,,new,medium,bench sprite idle pose 2 (BenchSpriteAnims) (SPA 0x71F of the SPA table),src/data/engine/penalty_data_01.asm
+1188E2,SPAbenchidle3,,new,medium,bench sprite idle pose 3 (BenchSpriteAnims) (SPA 0x723 of the SPA table),src/data/engine/penalty_data_01.asm
+1188EA,SPAbenchreact,,new,low,bench sprite reacts (two frames; not in BenchSpriteAnims) (SPA 0x727 of the SPA table),src/data/engine/penalty_data_01.asm
+1188F6,SPAbenchwatch1,,new,low,"bench sprite watches the play, long hold (AnimateBenchSprite adds a random wait) (SPA 0x72D of the SPA table)",src/data/engine/penalty_data_01.asm
+1188FE,SPAbenchwatch2,,new,low,"bench sprite watches the play, other pose (AnimateBenchSprite) (SPA 0x731 of the SPA table)",src/data/engine/penalty_data_01.asm
+118906,SPAbenchlook,,new,low,"bench sprite looks around, random wait after the second frame (AnimateBenchSprite) (SPA 0x735 of the SPA table)",src/data/engine/penalty_data_01.asm
+118916,SPAbenchcheer,,new,low,"bench sprite cheers, the frame times grow (not set by an immediate) (SPA 0x73D of the SPA table)",src/data/engine/penalty_data_01.asm
+11893E,SPArefskate,,95PC,medium,referee skating (noturn0) (SPA 0x751 of the SPA table),src/data/engine/penalty_data_01.asm
+118962,SPArefglide,,95PC,high,"referee glide (dostop, noturn0, every ref assignment) (SPA 0x763 of the SPA table)",src/data/engine/penalty_data_01.asm
+11896A,SPArefstop,,95PC,high,referee stop (dostop) (SPA 0x767 of the SPA table),src/data/engine/penalty_data_01.asm
+118976,SPArefstophold,,new,medium,"referee stop, held end frame (dostop switches to it when SPArefstop ends) (SPA 0x76D of the SPA table)",src/data/engine/penalty_data_01.asm
+11897E,SPAarmupskate,,95PC,medium,"referee skating, arm up (noturn0) (SPA 0x771 of the SPA table)",src/data/engine/penalty_data_01.asm
+1189A2,SPAarmupglide,,95PC,medium,"referee glide, arm up (dostop, noturn0) (SPA 0x783 of the SPA table)",src/data/engine/penalty_data_01.asm
+1189AA,SPAarmupstop,,95PC,medium,"referee stop, arm up (dostop when the ref signals) (SPA 0x787 of the SPA table)",src/data/engine/penalty_data_01.asm
+1189B6,SPAarmupstophold,,new,medium,"referee stop, arm up, held end frame (SPA 0x78D of the SPA table)",src/data/engine/penalty_data_01.asm
+1189BE,SPArefpickup,,95PC,high,"referee picks up the puck (assrefpenshot, assrefgoalpa) (SPA 0x791 of the SPA table)",src/data/engine/penalty_data_01.asm
+1189D6,SPArefdrop,,95PC,medium,referee drops the puck (puckfaceoff2) (SPA 0x79D of the SPA table),src/data/engine/penalty_data_01.asm
+1189EA,SPAreffowait,,95PC,medium,"referee waits at the faceoff dot (assrefatdot, puckfaceoff2) (SPA 0x7A7 of the SPA table)",src/data/engine/penalty_data_01.asm
+1189F2,SPArefturnl,,95PC,medium,"referee turning left, single frame (doplayeracc) (SPA 0x7AB of the SPA table)",src/data/engine/penalty_data_01.asm
+1189FA,SPAarmupturnl,,95PC,medium,"warm-up referee turning left, single frame (doplayeracc) (SPA 0x7AF of the SPA table)",src/data/engine/penalty_data_01.asm
+118A02,SPArefturnlin,,new,medium,"referee turning left, start of the turn (doplayeracc) (SPA 0x7B3 of the SPA table)",src/data/engine/penalty_data_01.asm
+118A0E,SPAarmupturnlin,,new,medium,"warm-up referee turning left, start of the turn (doplayeracc) (SPA 0x7B9 of the SPA table)",src/data/engine/penalty_data_01.asm
+118A1A,SPArefturnr,,95PC,medium,"referee turning right, single frame (doplayeracc) (SPA 0x7BF of the SPA table)",src/data/engine/penalty_data_01.asm
+118A22,SPAarmupturnr,,95PC,medium,"warm-up referee turning right, single frame (doplayeracc) (SPA 0x7C3 of the SPA table)",src/data/engine/penalty_data_01.asm
+118A2A,SPArefturnrin,,new,medium,"referee turning right, start of the turn (doplayeracc) (SPA 0x7C7 of the SPA table)",src/data/engine/penalty_data_01.asm
+118A36,SPAarmupturnrin,,new,medium,"warm-up referee turning right, start of the turn (doplayeracc) (SPA 0x7CD of the SPA table)",src/data/engine/penalty_data_01.asm
+118A42,SPAreffallback,,95PC,medium,referee falls back (FallDown) (SPA 0x7D3 of the SPA table),src/data/engine/penalty_data_01.asm
+118A66,SPApuckdrop,,new,medium,"puck sprite dropped by the referee (faceoff, penalty shot start) (SPA 0x7E5 of the SPA table)",src/data/engine/penalty_data_01.asm
+118A76,SPArefpointgoa,,95PC,medium,referee points to the goal (assrefwhistle) (SPA 0x7ED of the SPA table),src/data/engine/penalty_data_01.asm
+118A8E,SPArefpointgoallong,,new,medium,referee points at the goal and holds the pose 485 ticks (assrefgoalline) (SPA 0x7F9 of the SPA table),src/data/engine/penalty_data_01.asm
+118AA6,SPArefpointgoalshort,,new,medium,referee points at the goal and holds the pose 285 ticks (assrefgoalline) (SPA 0x805 of the SPA table),src/data/engine/penalty_data_01.asm
+118ABE,SPArefrough,,95PC,medium,referee signals roughing (assrefsignal RefPen call) (SPA 0x811 of the SPA table),src/data/engine/penalty_data_01.asm
+118AD2,SPArefcharge,,95PC,medium,referee signals charging (assrefsignal) (SPA 0x81B of the SPA table),src/data/engine/penalty_data_01.asm
+118AFE,SPArefslash,,95PC,medium,referee signals slashing (assrefsignal) (SPA 0x831 of the SPA table),src/data/engine/penalty_data_01.asm
+118B1A,SPArefxcheck,,95PC,medium,referee signals cross checking (assrefsignal) (SPA 0x83F of the SPA table),src/data/engine/penalty_data_01.asm
+118B32,SPArefhook,,95PC,medium,referee signals hooking (assrefsignal) (SPA 0x84B of the SPA table),src/data/engine/penalty_data_01.asm
+118B4A,SPAreftrip,,95PC,medium,referee signals tripping (assrefsignal) (SPA 0x857 of the SPA table),src/data/engine/penalty_data_01.asm
+118B66,SPArefhold,,95PC,medium,referee signals holding (assrefsignal) (SPA 0x865 of the SPA table),src/data/engine/penalty_data_01.asm
+118B82,SPArefbehind,,95PC,medium,referee signals a call from behind (assrefsignal) (SPA 0x873 of the SPA table),src/data/engine/penalty_data_01.asm
+118B9A,SPArefpenshot,,95PC,medium,referee signals a penalty shot (assrefsignal) (SPA 0x87F of the SPA table),src/data/engine/penalty_data_01.asm
+118BB6,SPArefelbow,,95PC,medium,referee signals elbowing (assrefsignal) (SPA 0x88D of the SPA table),src/data/engine/penalty_data_01.asm
+118BD2,SPArefelbow2,,new,medium,"referee signals elbowing, second signal (assrefsignal) (SPA 0x89B of the SPA table)",src/data/engine/penalty_data_01.asm
+118BEE,SPArefinterfer,,95PC,medium,referee signals interference (assrefsignal) (SPA 0x8A9 of the SPA table),src/data/engine/penalty_data_01.asm
+118C06,SPArefsignalend,,new,low,"referee signal at the end of the table, slot 31 (assrefsignal) (SPA 0x8B5 of the SPA table)",src/data/engine/penalty_data_01.asm
+118C1E,SPAbrcup,,95PC,medium,"bench-side close-up player, first pose (assbenchside) (SPA 0x8C1 of the SPA table)",src/data/engine/penalty_data_01.asm
+118C26,SPAclap,,95PC,medium,bench-side close-up player claps (assbenchside) (SPA 0x8C5 of the SPA table),src/data/engine/penalty_data_01.asm
+118C4A,SPAboxdooropen,,new,medium,penalty box door opens (assboxenter) (SPA 0x8D7 of the SPA table),src/data/engine/penalty_data_01.asm
+118C7E,SPAgvcup,,95PC,medium,penalty box door closes behind the player (assboxenter) (SPA 0x8F1 of the SPA table),src/data/engine/penalty_data_01.asm
+118CA6,SPAbenchstand,,new,low,bench-side player stands at the end of the scene (assbenchside) (SPA 0x905 of the SPA table),src/data/engine/penalty_data_01.asm
+118CAE,SPAstansk,,95PC,medium,skating with the Stanley cup (assstanley) (SPA 0x909 of the SPA table),src/data/engine/penalty_data_01.asm
+118CD2,SPAstanley,,95PC,medium,lifting the Stanley cup (assstanley) (SPA 0x91B of the SPA table),src/data/engine/penalty_data_01.asm
+118CE6,SPAcupwaitl,,new,low,"cup ceremony wait, left (assboxenter, asscupfollow) (SPA 0x925 of the SPA table)",src/data/engine/penalty_data_01.asm
+118CEE,SPAcupwaitr,,new,low,"cup ceremony wait, right (asscupfollow) (SPA 0x929 of the SPA table)",src/data/engine/penalty_data_01.asm
+118CF6,SPAcupskate,,new,low,skating with the cup behind the carrier (asscupfollow) (SPA 0x92D of the SPA table),src/data/engine/penalty_data_01.asm
+118D1A,SPAcupturn,,new,low,turning with the cup (asscupfollow) (SPA 0x93F of the SPA table),src/data/engine/penalty_data_01.asm
+118D42,SPAcupturnend,,new,low,end of the turn with the cup (asscupfollow) (SPA 0x953 of the SPA table),src/data/engine/penalty_data_01.asm
+118D4E,SPAcupturnhold,,new,low,held pose after the turn with the cup (asscupfollow) (SPA 0x959 of the SPA table),src/data/engine/penalty_data_01.asm
+118D56,SPAcuptake,,new,medium,"taking the cup (asscuptake, asscupfollow) (SPA 0x95D of the SPA table)",src/data/engine/penalty_data_01.asm
+118D7E,SPAcupfollow,,new,low,skating after the cup carrier (asscupfollow) (SPA 0x971 of the SPA table),src/data/engine/penalty_data_01.asm
+118DA2,SPAcupidle,,new,low,"standing, waiting for the cup (asscupfollow, asscuptake) (SPA 0x983 of the SPA table)",src/data/engine/penalty_data_01.asm
+118DAA,SPAcupstand,,new,low,"standing with the cup (assstanley, asscuptake) (SPA 0x987 of the SPA table)",src/data/engine/penalty_data_01.asm
+118DB2,SPAcupraise,,new,low,raising the cup (assstanley) (SPA 0x98B of the SPA table),src/data/engine/penalty_data_01.asm
+118DBE,SPAgetcup,,95PC,medium,player gets into the penalty box (assboxenter) (SPA 0x991 of the SPA table),src/data/engine/penalty_data_01.asm
+118DE6,SPAboxenter,,new,low,player steps into the penalty box (assboxenter) (SPA 0x9A5 of the SPA table),src/data/engine/penalty_data_01.asm
+118E0A,SPAcuptakeend,,new,low,end of taking the cup (asscuptake) (SPA 0x9B7 of the SPA table),src/data/engine/penalty_data_01.asm
+118E32,SPAcupheld,,new,low,"holding the cup, two frames (not set by an immediate) (SPA 0x9CB of the SPA table)",src/data/engine/penalty_data_01.asm
+118E3E,SPAcupheld2,,new,low,"holding the cup, three frames (not set by an immediate) (SPA 0x9D1 of the SPA table)",src/data/engine/penalty_data_01.asm
+118E4E,SPAcupfollow2,,new,low,"skating after the cup carrier, other direction (asscupfollow) (SPA 0x9D9 of the SPA table)",src/data/engine/penalty_data_01.asm
+118E72,SPAcupfollowhold,,new,low,held pose at the end of the cup follow skate (asscupfollow) (SPA 0x9EB of the SPA table),src/data/engine/penalty_data_01.asm
+118E7A,SPApflip,,95PC,high,puck flip (puckflip) (SPA 0x9EF of the SPA table),src/data/engine/penalty_data_01.asm
 118E81,LinePickOrderFrom1,byte_118E81,new,medium,same code as in the next game,src/data/engine/penalty_data_01.asm
 118E82,priolist,byte_118E82,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 118E89,PreGameSkateOn,dword_118E89,new,low,Set while the pre-game skate runs; cleared by the three stars setup and saved with the game state,src/data/engine/hockey_data_01.asm

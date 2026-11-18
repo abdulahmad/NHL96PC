@@ -185,7 +185,7 @@ faceoffinput:
         dec word [byte ebx+02Eh]
         cmp word [byte ebx+02Eh], byte 0
         jge near .8
-        mov edx, 38Bh
+        mov edx, SPAfaceoffr
         mov eax, ebx
         call SetSPA
         pop edx
@@ -238,10 +238,10 @@ faceoffinput:
         movzx eax, al
         xor eax, edx
         je short .6
-        mov edx, 39Fh
+        mov edx, SPAfaceoffpokerhold
         jmp short .7
 .6:
-        mov edx, 395h
+        mov edx, SPAfaceoffpokelhold
 .7:
         mov eax, ebx
         call SetSPA
@@ -274,7 +274,7 @@ fightinput:
         cmp word [PenCntDwn], byte 0
         jl near fightinput_287
         movsx eax, word [byte ebx+038h]
-        cmp eax, 46Bh
+        cmp eax, SPAfightdrop
         je near fightinput_287
         movsx eax, word [regd1]
         mov dword [byte ebp-04h], eax
@@ -404,7 +404,7 @@ fightinput:
         mov eax, 5A3h
         jmp short .19
 .18:
-        mov eax, 5CBh
+        mov eax, SPAflowl
 .19:
         movsx edx, ax
         mov eax, ebx
@@ -426,7 +426,7 @@ fightinput:
         mov eax, 5ADh
         jmp short .23
 .22:
-        mov eax, 5D7h
+        mov eax, SPAflowr
 .23:
         movsx edx, ax
         mov eax, ecx
@@ -447,17 +447,17 @@ fightinput:
         call randomd0
         test ax, ax
         je short .25
-        mov edx, 57Fh
+        mov edx, SPAfgrab
         jmp short .26
 .25:
-        mov edx, 5B7h
+        mov edx, SPAfgrab2
 .26:
         mov eax, ebx
         call SetSPA
         mov dword [byte ebx+076h], 0
         jmp short fightinput_287
 .27:
-        mov edx, 4B1h
+        mov edx, SPAfhigh
 .28:
         mov eax, ebx
         call SetSPA
@@ -511,7 +511,7 @@ Acheck:
 .3:
         test dx, dx
         jl short .1
-        mov edx, 2F9h
+        mov edx, SPAHold
 .4:
         call SetSPA
         pop ebx
@@ -628,7 +628,7 @@ CanBlockShot:
         imul eax, dword 0A0h
         add eax, SortCords
         movsx eax, word [byte eax+038h]
-        cmp eax, 0BDh
+        cmp eax, SPAshotf
         jl near CanBlockShot_31D
         cmp eax, SPAfakeonetimeb
         jg near CanBlockShot_31D
@@ -1398,7 +1398,7 @@ DoCheckInput:
         mov eax, 369h
         jmp short .33
 .32:
-        mov eax, 36Fh
+        mov eax, SPAcheckburstr
 .33:
         movsx edx, ax
         mov eax, esi
@@ -3008,7 +3008,7 @@ asspassrec:
         movzx eax, al
         test eax, eax
         jne short .14
-        mov edx, 99h
+        mov edx, SPAskatefast
         mov eax, esi
         call SetSPA
 .14:

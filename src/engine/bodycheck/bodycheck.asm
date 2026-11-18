@@ -405,9 +405,9 @@ FallDown:
         je near BlockShotDive_127
         mov bx, word [byte ecx+038h]
         movsx eax, bx
-        cmp eax, 1BDh
+        cmp eax, SPAfallback
         jl short .2
-        cmp eax, 2AFh
+        cmp eax, SPAblockright
         jle near BlockShotDive_127
 .2:
         movsx eax, word [dword ecx+086h]
@@ -494,7 +494,7 @@ FallDown:
         cmp edx, eax
         je short .8
         movsx eax, word [byte esi+038h]
-        cmp eax, 2DBh
+        cmp eax, SPAsweepchk
         jne short .9
 .8:
         mov bx, word [byte ecx+038h]
@@ -1038,7 +1038,7 @@ FallDown:
         cmp dword [FallDownsOff], byte 0
         jne short .75
         movsx eax, word [byte ecx+038h]
-        cmp eax, 1BDh
+        cmp eax, SPAfallback
         jne near .83
         movsx edx, word [byte ecx+018h]
         cmp edx, byte 32h
@@ -1328,19 +1328,19 @@ holdcheck:
         add eax, edx
         sar eax, 1
         mov word [byte ebx+0Eh], ax
-        mov edx, 1
+        mov edx, SPAstand
         mov word [byte ecx+0Eh], ax
         mov eax, ebx
         or byte [byte ebx+044h], 20h
         call SetSPA
         movsx eax, word [byte ecx+038h]
         or byte [byte ecx+044h], 20h
-        cmp eax, 2F9h
+        cmp eax, SPAHold
         jne short .2
-        mov eax, 2FDh
+        mov eax, SPAHold2
         jmp short .3
 .2:
-        mov eax, 2EBh
+        mov eax, SPAhook2
 .3:
         movsx edx, ax
         mov eax, ecx
@@ -1369,7 +1369,7 @@ holdcheck:
         cmp eax, byte 6
         jg short .7
         movsx eax, word [byte ecx+038h]
-        cmp eax, 2FDh
+        cmp eax, SPAHold2
         jne short .5
         mov eax, 12h
         jmp short .6

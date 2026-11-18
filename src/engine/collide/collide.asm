@@ -70,9 +70,9 @@ checkcoll:
         cmp byte [collflag], 0
         je short .4
         movsx edx, word [byte ecx+038h]
-        cmp edx, 131h
+        cmp edx, SPAboardback
         jl short .3
-        cmp edx, 1ABh
+        cmp edx, SPAboardfrontglass
         jle near .9
 .3:
         mov ax, word [dword ecx+092h]
@@ -690,9 +690,9 @@ wallcoll:
         cmp eax, byte 0Ah
         jge short .18
         movsx eax, word [byte edx+038h]
-        cmp eax, 343h
+        cmp eax, SPAcheckskate
         jl short .17
-        cmp eax, 36Fh
+        cmp eax, SPAcheckburstr
         jle short .18
 .17:
         movsx eax, word [byte edx+038h]
@@ -1166,7 +1166,7 @@ checkfight_sf:
         imul eax, ecx, byte 64h
         add word [byte ebx+0Ch], ax
 .6:
-        mov edx, 46Bh
+        mov edx, SPAfightdrop
         or byte [byte ebx+045h], 26h
         mov eax, ebx
         and byte [byte ebx+044h], 0DFh

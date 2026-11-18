@@ -1,6 +1,7 @@
 ; Referee: moving to the dot, following play, whistle, signals and the drop.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_35149 progbits alloc exec nowrite align=1
 extern AssRefGoalData, AssRefGoalTeam, awscore, awtmstruct, clockticks, DemoMode, dirtab, dirtab_y
 extern doplayeracc, EvadePlayers, fox, foy, gameclock, GameLoopActive, gameopts, gmode
@@ -33,7 +34,7 @@ assrefatdot:
         movsx eax, word [byte ebx+012h]
         cmp eax, byte 0FFFFFFFFh
         jne short .1
-        mov edx, 7A7h
+        mov edx, SPAreffowait
         mov eax, ebx
         call SetSPA
 .1:
@@ -57,7 +58,7 @@ assrefatdot:
 .3:
         mov eax, 6
 .4:
-        mov edx, 7A7h
+        mov edx, SPAreffowait
         mov word [byte ebx+036h], ax
         mov eax, ebx
         call SetSPA
@@ -129,7 +130,7 @@ assreffollow:
         movzx eax, al
         test eax, eax
         je short .2
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, ebx
         and byte [byte ebx+044h], 0FDh
         call SetSPA
@@ -592,13 +593,13 @@ SkateToSpot:
         movsx eax, word [dword ebx+086h]
         cmp eax, byte 10h
         jne short .39
-        mov edi, 763h
-        mov dword [byte ebp-08h], 751h
+        mov edi, SPArefglide
+        mov dword [byte ebp-08h], SPArefskate
         jmp short .42
 .39:
         cmp word [byte ebx+01Ah], byte 0
         jne short .40
-        mov edi, 5E3h
+        mov edi, SPAgready2
         mov dword [byte ebp-08h], 679h
         jmp short .42
 .40:
@@ -909,7 +910,7 @@ assrefwhistle:
         mov word [byte ebx+02Ah], 0AAh
         mov word [byte ebx+026h], 0
         mov word [byte ebx+030h], 0
-        mov edx, 763h
+        mov edx, SPArefglide
         mov word [byte ebx+032h], 0
         mov eax, ebx
         or byte [byte ebx+045h], 20h
@@ -941,7 +942,7 @@ assrefwhistle:
         dec word [byte ebx+026h]
         cmp word [byte ebx+026h], byte 0
         jge near .15
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, ebx
         add word [byte ebx+026h], byte 8
         call SetSPA
@@ -971,7 +972,7 @@ assrefwhistle:
         mov ax, word [regd2]
         cmp ax, word [byte ebx+036h]
         jne short .15
-        mov edx, 7EDh
+        mov edx, SPArefpointgoa
         mov eax, ebx
         or byte [byte ebx+044h], 20h
         call SetSPA
@@ -1069,7 +1070,7 @@ assrefsignal:
         dec word [byte ebx+026h]
         cmp word [byte ebx+026h], byte 0
         jge near .11
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, ebx
         add word [byte ebx+026h], byte 8
         call SetSPA
@@ -1140,7 +1141,7 @@ assrefgoalpa:
         test eax, eax
         je near .7
         movsx eax, word [byte ebx+038h]
-        cmp eax, 791h
+        cmp eax, SPArefpickup
         jne near assrefgoalpa_83E
         mov ax, word [byte ebx+03Ch]
         xor ah, ah
@@ -1205,7 +1206,7 @@ assrefgoalpa:
         movsx eax, word [ovltimer]
         cmp eax, 100h
         jge near .8
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, ebx
         call SetSPA
         movsx eax, word [ovltimer]
@@ -1238,7 +1239,7 @@ assrefgoalpa:
         movsx eax, al
         test eax, eax
         jne short .9
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, ebx
         call SetSPA
         mov word [RefStep], 0FFFFh
@@ -1324,7 +1325,7 @@ assrefgoalpa:
         mov word [byte ebx+026h], 0
         mov word [byte ebx+02Eh], 0
         mov word [byte ebx+030h], 0
-        mov edx, 763h
+        mov edx, SPArefglide
         mov word [byte ebx+032h], 0
         mov eax, ebx
         or byte [byte ebx+045h], 20h
@@ -1672,7 +1673,7 @@ assrefgoalpa:
         dec word [byte ebx+026h]
         cmp word [byte ebx+026h], byte 0
         jge near assrefgoalpa_83E
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, ebx
         add word [byte ebx+026h], byte 8
         call SetSPA
@@ -1716,7 +1717,7 @@ assrefgoalpa:
         mov ax, word [regd2]
         mov word [byte ebx+036h], ax
 .63:
-        mov edx, 791h
+        mov edx, SPArefpickup
         mov eax, ebx
         or byte [byte ebx+044h], 20h
         call SetSPA
@@ -1814,7 +1815,7 @@ assrefdrop:
         mov eax, dword [puckvz]
         mov word [eax], 0
         mov eax, dword [puckz]
-        mov edx, 763h
+        mov edx, SPArefglide
         mov word [eax], 0FF9Ch
         mov eax, ebx
         call SetSPA
@@ -1858,7 +1859,7 @@ assrefdrop:
         mov word [byte ebx+06h], ax
         cmp word [byte ebx+026h], byte 0
         jge near .19
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, ebx
         add word [byte ebx+026h], byte 8
         call SetSPA
@@ -2127,7 +2128,7 @@ assrefgoalline:
         dec word [byte esi+026h]
         cmp word [byte esi+026h], byte 0
         jge near assrefgoalpa_83E
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, esi
         add word [byte esi+026h], byte 8
         call SetSPA

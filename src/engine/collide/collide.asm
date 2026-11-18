@@ -1,6 +1,7 @@
 ; Collisions: player, wall and goal collisions, and the fight check on a hard hit.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_44B99 progbits alloc exec nowrite align=1
 extern AddPenalty, AddPenalty2, assinsert, AwFightFlags, BreakGlass, CanRemovePlayer, checkcheck, checkgoalp
 extern checkint, CloseTextOverlay, collflag, Crowdlevel, CrowdReaction, CwdExciteLvl, doplayeracc, EndPenaltyShot
@@ -695,7 +696,7 @@ wallcoll:
         jle short .18
 .17:
         movsx eax, word [byte edx+038h]
-        cmp eax, 2C3h
+        cmp eax, SPAburst
         jne short .19
 .18:
         cmp dword [nethit], byte 0

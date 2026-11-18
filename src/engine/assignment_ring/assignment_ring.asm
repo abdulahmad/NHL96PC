@@ -1,6 +1,7 @@
 ; Assignment ring: replacing and pushing a player's assignment, and the extra attacker zone check.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_37ED0 progbits alloc exec nowrite align=1
 extern assrefgoalpa_83E, ExtraAttackerOn, ExtraAttackerPending, ExtraAttackerPlayer, ExtraAttackerTeam, ExtraGoalieOut, gmode, OOlist
 extern puckc, pucky, SortCords
@@ -92,7 +93,7 @@ assextra6:
         movsx eax, word [byte eax+038h]
         cmp eax, 131h
         jl short .10
-        cmp eax, 22Bh
+        cmp eax, SPAinjury1
         jle short .14
 .10:
         movzx ecx, byte [byte ebp-04h]

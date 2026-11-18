@@ -1,6 +1,7 @@
 ; Pre-game intro skate and the three stars.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 extern hmglstats
 extern TeamRosterPtrs
 extern GsOptions
@@ -132,7 +133,7 @@ RunPreGameSkate:
 .9:
         mov eax, 4
 .10:
-        mov edx, 5E3h
+        mov edx, SPAgready2
         mov word [byte ebx+036h], ax
         mov eax, ebx
         call SetSPA
@@ -255,7 +256,7 @@ RunPreGameSkate:
         mov eax, dword [PtrPuckObject]
         mov edx, dword [byte ebp-04h]
         mov word [byte eax+02Eh], dx
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, dword [PtrPuckObject]
         xor edi, edi
         call SetSPA
@@ -1396,7 +1397,7 @@ assintroline:
         mov eax, 2
         call randomd0
         test ax, ax
-        mov eax, 763h
+        mov eax, SPArefglide
         movsx edx, ax
         mov eax, ebx
         call SetSPA
@@ -1417,7 +1418,7 @@ assintroline:
         mov word [byte ebx+02Ch], 0
         mov word [byte ebx+030h], 0
         mov word [byte ebx+032h], 0
-        mov edx, 763h
+        mov edx, SPArefglide
         and byte [byte ebx+044h], 0FDh
         mov eax, ebx
         or byte [byte ebx+045h], 20h
@@ -1466,7 +1467,7 @@ assintroline:
         mov word [byte ebx+06h], ax
         cmp word [byte ebx+026h], byte 0
         jge near .16
-        mov edx, 763h
+        mov edx, SPArefglide
         mov eax, ebx
         add word [byte ebx+026h], byte 8
         call SetSPA
@@ -1505,7 +1506,7 @@ assintroline:
 .13:
         mov word [byte ebx+0Eh], 0
         mov ax, word [byte ebx+0Eh]
-        mov edx, 7A7h
+        mov edx, SPAreffowait
         mov word [byte ebx+0Ch], ax
         mov eax, ebx
         mov word [byte ebx+02Eh], 0FF9Ch

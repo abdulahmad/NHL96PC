@@ -1,6 +1,7 @@
 ; Puck physics: puck against bodies, shadow, glue, goalie and stick contact, rebounds and shots.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_43026 progbits alloc exec nowrite align=1
 extern a2touchpuck, assextra2, assreplace, BlockShotDive_122, BlockShotDive_127, chk4pass_2F, chk4pass_4F1, chk4pass_4F6
 extern ChkShotStat, Crowdlevel, CwdExciteLvl, EndPenaltyShot, FallDown, GetHot, GiveControl, gmode
@@ -381,9 +382,9 @@ puckglue:
         cmp word [byte ebx+01Ah], byte 0
         jne near .14
         movsx edx, word [byte ebx+038h]
-        cmp edx, 5F9h
+        cmp edx, SPAgstickl
         je short .7
-        cmp edx, 5F3h
+        cmp edx, SPAgstickr
         jne short .8
 .7:
         mov ecx, dword [puckz]
@@ -399,19 +400,19 @@ puckglue:
 .8:
         cmp edx, 671h
         je short .10
-        cmp edx, 65Fh
+        cmp edx, SPAgofallstick
         je short .10
-        cmp edx, 6DFh
+        cmp edx, SPAgready
         je short .9
-        cmp edx, 5E3h
+        cmp edx, SPAgready2
         je short .9
         cmp edx, 68Bh
         je short .9
         cmp edx, 691h
         je short .9
-        cmp edx, 5F9h
+        cmp edx, SPAgstickl
         je short .9
-        cmp edx, 5F3h
+        cmp edx, SPAgstickr
         jne short .11
 .9:
         mov ecx, dword [puckz]
@@ -422,7 +423,7 @@ puckglue:
         mov eax, 14h
         jmp short .15
 .11:
-        cmp edx, 5EDh
+        cmp edx, SPAgglover
         jne short .12
         mov eax, 11h
         jmp short .15
@@ -852,7 +853,7 @@ puckgoalie:
         movsx eax, word [byte esi+038h]
         cmp eax, 623h
         jl short .13
-        cmp eax, 65Fh
+        cmp eax, SPAgofallstick
         jg short .13
 .12:
         mov dword [byte ebp-04h], 1
@@ -905,17 +906,17 @@ puckgoalie:
         movsx eax, word [byte esi+038h]
         cmp eax, 671h
         je short .20
-        cmp eax, 65Fh
+        cmp eax, SPAgofallstick
         je short .20
-        cmp eax, 6DFh
+        cmp eax, SPAgready
         je short .19
         cmp eax, 68Bh
         je short .19
         cmp eax, 691h
         je short .19
-        cmp eax, 5F9h
+        cmp eax, SPAgstickl
         je short .19
-        cmp eax, 5F3h
+        cmp eax, SPAgstickr
         jne short .21
 .19:
         mov edx, dword [puckz]
@@ -926,7 +927,7 @@ puckgoalie:
         mov eax, 14h
         jmp short .24
 .21:
-        cmp eax, 5EDh
+        cmp eax, SPAgglover
         jne short .22
         mov eax, 11h
         jmp short .24
@@ -1161,7 +1162,7 @@ puckstick:
         movsx eax, word [byte ebx+038h]
         cmp eax, 623h
         jl short .8
-        cmp eax, 65Fh
+        cmp eax, SPAgofallstick
         jg short .8
 .7:
         mov ecx, 1
@@ -1404,17 +1405,17 @@ puckstick:
         call ChkShotStat
         cmp ecx, 671h
         je short .31
-        cmp ecx, 65Fh
+        cmp ecx, SPAgofallstick
         je short .31
-        cmp ecx, 6DFh
+        cmp ecx, SPAgready
         je short .30
         cmp ecx, 68Bh
         je short .30
         cmp ecx, 691h
         je short .30
-        cmp ecx, 5F9h
+        cmp ecx, SPAgstickl
         je short .30
-        cmp ecx, 5F3h
+        cmp ecx, SPAgstickr
         jne short .32
 .30:
         mov eax, dword [puckz]
@@ -1425,7 +1426,7 @@ puckstick:
         mov eax, 14h
         jmp short .35
 .32:
-        cmp ecx, 5EDh
+        cmp ecx, SPAgglover
         jne short .33
         mov eax, 11h
         jmp short .35
@@ -1596,10 +1597,10 @@ ShotMode:
         cmp dx, 0DDh
         jb short .5
         jbe short .6
-        cmp dx, 10Dh
+        cmp dx, SPAonetimef
         jb short .9
         jbe short .7
-        cmp dx, 117h
+        cmp dx, SPAonetimeb
         je short .8
         jmp short .9
 .5:
@@ -1611,10 +1612,10 @@ ShotMode:
         mov word [byte eax+038h], 0FDh
         jmp short .9
 .7:
-        mov word [byte eax+038h], 121h
+        mov word [byte eax+038h], SPAfakeonetimef
         jmp short .9
 .8:
-        mov word [byte eax+038h], 129h
+        mov word [byte eax+038h], SPAfakeonetimeb
 .9:
         test ebx, ebx
         jl near .16
@@ -1870,9 +1871,9 @@ doshot:
         cmp ax, word [dword esi+086h]
         je short .1
         movsx eax, word [byte esi+038h]
-        cmp eax, 10Dh
+        cmp eax, SPAonetimef
         je short .1
-        cmp eax, 117h
+        cmp eax, SPAonetimeb
         je short .1
         mov eax, 0Bh
         call PlaySfx
@@ -1893,7 +1894,7 @@ doshot:
         movsx eax, word [byte esi+038h]
         cmp eax, 0DDh
         je short .2
-        cmp eax, 117h
+        cmp eax, SPAonetimeb
         jne short .3
 .2:
         movsx eax, word [passspeed]
@@ -2022,9 +2023,9 @@ doshot:
         mov dword [byte ebp-0Ch], 0Bh
 .20:
         movsx eax, word [byte esi+038h]
-        cmp eax, 10Dh
+        cmp eax, SPAonetimef
         je short .21
-        cmp eax, 117h
+        cmp eax, SPAonetimeb
         jne short .22
 .21:
         mov dword [byte ebp-0Ch], 0Ah

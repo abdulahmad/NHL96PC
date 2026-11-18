@@ -1,6 +1,7 @@
 ; Fights: the hit check, fighting and watching the fight.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_36F55 progbits alloc exec nowrite align=1
 extern assrefgoalpa_83F, CheckHitAnims, Crowdlevel, CrowdReaction, CwdExciteLvl, donothing, FightAnimTab, PenBuf
 extern PenBuf_pl, PenCntDwn, PlaySfx, puckc, randomd0, regd0, regd1, SetSPA
@@ -1118,7 +1119,7 @@ assfwatch:
         mov word [byte ebx+0Ch], ax
         cmp word [byte ebx+01Ah], byte 0
         jne short .22
-        mov eax, 5E3h
+        mov eax, SPAgready2
         jmp short .23
 .22:
         mov eax, 1
@@ -1160,7 +1161,7 @@ assfwatch:
         mov word [byte ebx+026h], 64h
         cmp word [byte ebx+01Ah], byte 0
         jne short .27
-        mov eax, 5E3h
+        mov eax, SPAgready2
         jmp short .28
 .27:
         mov eax, 1
@@ -1292,7 +1293,7 @@ assfwatch:
         call randomd0
         test ax, ax
         je short .48
-        mov eax, 6DFh
+        mov eax, SPAgready
         jmp short .49
 .48:
         mov eax, 6F7h

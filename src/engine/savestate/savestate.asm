@@ -1,6 +1,7 @@
 ; Saved game state: save and load the game in progress.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 extern JoyButtonsTable
 extern InputRepeatState
 extern SeasonUsers
@@ -1454,9 +1455,9 @@ LoadGameState:
         jge short .35
 .30:
         movsx ecx, word [byte eax+038h]
-        cmp ecx, 3BFh
+        cmp ecx, SPAwallright
         je short .31
-        cmp ecx, 6C7h
+        cmp ecx, SPAgwallright
         jne short .32
 .31:
         movsx ecx, word [byte eax+03Ah]
@@ -1464,9 +1465,9 @@ LoadGameState:
         jl short .35
 .32:
         movsx ecx, word [byte eax+038h]
-        cmp ecx, 3ADh
+        cmp ecx, SPAwallleft
         je short .33
-        cmp ecx, 6B5h
+        cmp ecx, SPAgwallleft
         jne short .34
 .33:
         movsx ecx, word [byte eax+03Ah]

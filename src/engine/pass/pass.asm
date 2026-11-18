@@ -1,6 +1,7 @@
 ; Passing: pass lanes, choosing a receiver, pass modes and the pass itself; puck and body bumps.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_3F5E4 progbits alloc exec nowrite align=1
 extern AddPenalty2, assexitjump, assinsert, AvgCline, awtmap, awtmstruct, bannermsg, bannertimer
 extern BlockShotDive_127, changeplayer, CompLine, CompShoot, dirtab, dirtab_y, gameclock, gameopts
@@ -165,24 +166,24 @@ checkob:
 SkillForAnim:
         push edx
         mov dx, word [byte eax+038h]
-        cmp dx, 5F3h
+        cmp dx, SPAgstickr
         jb short .2
         jbe near .11
-        cmp dx, 64Dh
+        cmp dx, SPAgofallglove
         jb short .1
         jbe short .3
-        cmp dx, 65Fh
+        cmp dx, SPAgofallstick
         je short .11
         jmp near .12
 .1:
-        cmp dx, 5F9h
+        cmp dx, SPAgstickl
         je short .7
         jmp short .12
 .2:
-        cmp dx, 5E7h
+        cmp dx, SPAgglovel
         jb short .12
         jbe short .6
-        cmp dx, 5EDh
+        cmp dx, SPAgglover
         jne short .12
 .3:
         cmp byte [byte eax+065h], 0

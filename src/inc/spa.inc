@@ -1,0 +1,37 @@
+; NHL 96 PC: SPA numbers (sequence numbers of the SPA table, word offsets from SPAlist) by name, for the code files.
+; The labels with the same names are the sequences in src/data/engine/penalty_data_01.asm; this include is NOT used there.
+SPAonetimef      equ 010Dh
+SPAonetimeb      equ 0117h
+SPAfakeonetimef  equ 0121h
+SPAfakeonetimeb  equ 0129h
+SPAinjury1       equ 022Bh
+SPAburst         equ 02C3h
+SPAcrosscheck    equ 02D5h
+SPAhook          equ 02E3h
+SPAwallleft      equ 03ADh
+SPAwallright     equ 03BFh
+SPAglide         equ 03D1h
+SPAgready2       equ 05E3h
+SPAgglovel       equ 05E7h
+SPAgglover       equ 05EDh
+SPAgstickr       equ 05F3h
+SPAgstickl       equ 05F9h
+SPAgofallglove   equ 064Dh
+SPAgofallstick   equ 065Fh
+SPAgwallleft     equ 06B5h
+SPAgwallright    equ 06C7h
+SPAgready        equ 06DFh
+SPArefskate      equ 0751h
+SPArefglide      equ 0763h
+SPArefstop       equ 0767h
+SPArefstophold   equ 076Dh
+SPAarmupskate    equ 0771h
+SPAarmupglide    equ 0783h
+SPAarmupstop     equ 0787h
+SPAarmupstophold equ 078Dh
+SPArefpickup     equ 0791h
+SPArefdrop       equ 079Dh
+SPAreffowait     equ 07A7h
+SPAreffallback   equ 07D3h
+SPArefpointgoa   equ 07EDh
+SPApflip         equ 09EFh

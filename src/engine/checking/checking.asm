@@ -1,6 +1,7 @@
 ; Checking decisions: blocking shots, choosing to check, aggression and checking the puck carrier.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_3E6EC progbits alloc exec nowrite align=1
 extern Acheck, AddPenalty, awtmap, Bcheck, blockspd, blockspd_y, burst, CanBlockShot
 extern CheckBump, CheckPowerTab, FallDown, gameopts, gmode, gmode2, gsp, hmtmap
@@ -585,7 +586,7 @@ checkcheck:
         movsx eax, word [byte ecx+038h]
         cmp eax, 2F9h
         je short .2
-        cmp eax, 2E3h
+        cmp eax, SPAhook
         jne short .3
 .2:
         mov edx, ecx
@@ -601,7 +602,7 @@ checkcheck:
         jmp near .56
 .4:
         movsx eax, word [byte esi+038h]
-        cmp eax, 2C3h
+        cmp eax, SPAburst
         je short .8
         cmp eax, 343h
         jl short .5
@@ -812,7 +813,7 @@ checkcheck:
         test al, 3
         je short .36
 .35:
-        mov edx, 2D5h
+        mov edx, SPAcrosscheck
         jmp short .37
 .36:
         movsx eax, bx
@@ -957,7 +958,7 @@ checkcheck:
         cmp eax, byte 3
         jg near .52
         movsx eax, word [byte esi+038h]
-        cmp eax, 2D5h
+        cmp eax, SPAcrosscheck
         jne short .49
         mov eax, 0Ah
         call randomd0
@@ -1038,7 +1039,7 @@ checkcheck:
         movsx eax, word [byte ecx+038h]
         cmp eax, 299h
         je short .58
-        cmp eax, 22Bh
+        cmp eax, SPAinjury1
         je short .58
         mov eax, 47h
         call PlaySfx
@@ -1268,7 +1269,7 @@ checkint:
         mov ebx, eax
         mov ecx, edx
         movsx eax, word [byte eax+038h]
-        cmp eax, 2C3h
+        cmp eax, SPAburst
         je short .1
         cmp eax, 343h
         jne short .2

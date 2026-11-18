@@ -1,6 +1,7 @@
 ; Skater assignments: box, bench, Stanley Cup skate, defence and wings.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_2F3DF progbits alloc exec nowrite align=1
 extern assextra4, assextra6, assinsert, assreplace, PBflags, check4bench, check4check, donothing
 extern ExtraAttackerOn, ExtraAttackerTeam, ExtraAttackerPlayer, ExtraAttackerPending, EvadePC, gmode, gmode2, puckvy
@@ -1048,7 +1049,7 @@ asscupleave:
         jg near .14
         cmp word [byte ebx+01Ah], byte 0
         jne short .7
-        mov eax, 5E3h
+        mov eax, SPAgready2
         jmp short .8
 .7:
         mov eax, 3D5h
@@ -1088,10 +1089,10 @@ asscupleave:
         mov word [byte ebx+02h], 0FF56h
         cmp word [byte ebx+01Ah], byte 0
         jne short .12
-        mov eax, 6B5h
+        mov eax, SPAgwallleft
         jmp short .13
 .12:
-        mov eax, 3ADh
+        mov eax, SPAwallleft
 .13:
         movsx edx, ax
         mov eax, ebx
@@ -1162,7 +1163,7 @@ asscupleave:
         mov word [byte ebx+036h], 2
         mov dword [dword ebx+09Ch], 1
         and byte [byte ebx+044h], 0CFh
-        mov edx, 3BFh
+        mov edx, SPAwallright
         mov word [byte ebx+06h], ax
         mov eax, ebx
         or byte [byte ebx+044h], 20h

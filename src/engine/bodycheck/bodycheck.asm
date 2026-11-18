@@ -1,6 +1,7 @@
 ; Body checks: fall frames, net collisions, falling down and the check itself.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_41FDA progbits alloc exec nowrite align=1
 extern AddPenalty, AddPenalty2, assexitjump, BlockShotDive_127, BreakGlass, CanRemovePlayer, checkagr, collflag
 extern Crowdlevel, CwdExciteLvl, FallDownsOff, GameEventStub, GameHitCount, gameopts, GlassOn, gmode
@@ -413,9 +414,9 @@ FallDown:
         cmp eax, byte 10h
         jne short .4
         movsx eax, bx
-        cmp eax, 7D3h
+        cmp eax, SPAreffallback
         je near BlockShotDive_127
-        mov edx, 7D3h
+        mov edx, SPAreffallback
         or byte [byte ecx+044h], 20h
         mov eax, ecx
         or byte [byte ecx+045h], 2
@@ -884,7 +885,7 @@ FallDown:
         jle short .55
         mov word [Crowdlevel], 3E8h
 .55:
-        mov edx, 22Bh
+        mov edx, SPAinjury1
         add word [CwdExciteLvl], byte 0Fh
         mov eax, ecx
         or byte [byte ecx+044h], 20h
@@ -1077,7 +1078,7 @@ FallDown:
         call CanRemovePlayer
         test eax, eax
         je near .83
-        mov edx, 22Bh
+        mov edx, SPAinjury1
         mov eax, ecx
         or byte [byte ecx+044h], 20h
         call SetSPA

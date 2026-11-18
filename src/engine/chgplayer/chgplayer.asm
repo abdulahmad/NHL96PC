@@ -1,6 +1,7 @@
 ; Player switching: the controlled player.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_464A6 progbits alloc exec nowrite align=1
 extern HomeControlSlot, restorepl
 global SetSPA, SetControlledPlayer
@@ -20,7 +21,7 @@ SetSPA:
         je short .1
         cmp ecx, byte 1Bh
         je short .1
-        cmp ecx, 2C3h
+        cmp ecx, SPAburst
         je short .1
         cmp ecx, 343h
         je short .1
@@ -36,7 +37,7 @@ SetSPA:
         je short .2
         cmp eax, byte 1Bh
         je short .2
-        cmp eax, 2C3h
+        cmp eax, SPAburst
         je short .2
         cmp eax, 343h
         je short .2
@@ -58,7 +59,7 @@ SetSPA:
         je short .5
         cmp eax, byte 1Bh
         je short .5
-        cmp eax, 2C3h
+        cmp eax, SPAburst
         je short .5
         cmp eax, 343h
         je short .5

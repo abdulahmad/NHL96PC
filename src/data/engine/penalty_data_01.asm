@@ -96,323 +96,391 @@ SPAlist:                                        ; the SPA table: every sprite an
                                                 ; word offset from here; used by HotSpotFrame, BenchSprite
         db 00h,00h,00h,00h,01h,00h
 CheckHitAnims:                                  ; chkhit: hit animation per check type; used by chkhit
-        db 00h,00h,0F6h,0FFh,00h,00h,01h,00h,08h,00h,0F6h,0FFh,00h,00h,08h,00h
-        db 010h,00h,04h,00h,018h,00h,04h,00h,020h,00h,04h,00h,028h,00h,04h,00h
-        db 030h,00h,04h,00h,038h,00h,04h,00h,040h,00h,04h,00h,048h,00h,0FCh,0FFh
-        db 00h,00h,08h,00h,050h,00h,04h,00h,058h,00h,04h,00h,060h,00h,04h,00h
-        db 068h,00h,04h,00h,070h,00h,04h,00h,078h,00h,04h,00h,080h,00h,04h,00h
-        db 088h,00h,0FCh,0FFh,00h,00h,08h,00h,090h,00h,04h,00h,098h,00h,04h,00h
+        db 00h,00h,0F6h,0FFh,00h,00h,01h,00h,08h,00h,0F6h,0FFh
+SPAskate:                                       ; SPA 0x9: skating, no puck (noturn0 picks it when the player is not the puck carrier) (confidence medium)
+        db 00h,00h,08h,00h,10h,00h,04h,00h,18h,00h,04h,00h,20h,00h,04h,00h
+        db 28h,00h,04h,00h,30h,00h,04h,00h,38h,00h,04h,00h,40h,00h,04h,00h
+        db 48h,00h,0FCh,0FFh
+SPAskatewp:                                     ; SPA 0x1B: skating with the puck (noturn0 when the player is the puck carrier) (confidence medium)
+        db 00h,00h,08h,00h,50h,00h,04h,00h,58h,00h,04h,00h,60h,00h,04h,00h
+        db 68h,00h,04h,00h,70h,00h,04h,00h,78h,00h,04h,00h,80h,00h,04h,00h
+        db 88h,00h,0FCh,0FFh,00h,00h,08h,00h,90h,00h,04h,00h,98h,00h,04h,00h
         db 0A0h,00h,04h,00h,0A8h,00h,04h,00h,0B0h,00h,04h,00h,0B8h,00h,04h,00h
-        db 0C0h,00h,04h,00h,0C8h,00h,0FCh,0FFh,00h,00h,02h,00h,0B0h,04h,08h,00h
-        db 0B8h,04h,0E4h,0FFh,01h,00h,01h,00h,0B8h,04h,0F0h,0FFh,00h,00h,02h,00h
-        db 0D0h,00h,08h,00h,0D8h,00h,0E4h,0FFh,01h,00h,01h,00h,0D8h,00h,0F0h,0FFh
-        db 00h,00h,02h,00h,0C0h,03h,08h,00h,0C8h,03h,0E4h,0FFh,01h,00h,01h,00h
-        db 0C8h,03h,0F0h,0FFh,00h,00h,01h,00h,0F8h,00h,0F8h,0FFh,00h,00h,01h,00h
-        db 0E8h,03h,0F8h,0FFh,00h,00h,02h,00h,0F0h,00h,08h,00h,0F8h,00h,0F8h,0FFh
-        db 00h,00h,02h,00h,0E0h,03h,08h,00h,0E8h,03h,0F8h,0FFh,00h,00h,01h,00h
-        db 0E8h,00h,0F8h,0FFh,00h,00h,01h,00h,0D8h,03h,0F8h,0FFh,00h,00h,02h,00h
-        db 0E0h,00h,08h,00h,0E8h,00h,0F8h,0FFh,00h,00h,02h,00h,0D0h,03h,08h,00h
-        db 0D8h,03h,0F8h,0FFh,00h,00h,04h,00h,010h,02h,08h,00h,018h,02h,08h,00h
-        db 020h,02h,08h,00h,028h,02h,0F8h,0FFh,00h,00h,04h,00h,0F0h,01h,08h,00h
-        db 0F8h,01h,08h,00h,00h,02h,08h,00h,08h,02h,0F8h,0FFh,00h,00h,04h,00h
-        db 070h,01h,0Ah,00h,058h,01h,0Ah,00h,060h,01h,0Ah,00h,068h,01h,0F6h,0FFh
-        db 00h,00h,02h,00h,058h,01h,01Ch,00h,060h,01h,0E4h,0FFh,00h,00h,02h,00h
-        db 068h,01h,01Ch,00h,070h,01h,0E4h,0FFh,00h,00h,02h,00h,010h,01h,06h,00h
-        db 040h,01h,0ECh,0FFh,00h,00h,03h,00h,0C8h,04h,04h,00h,0D8h,04h,08h,00h
-        db 0E0h,04h,0F8h,0FFh,00h,00h,07h,00h,010h,01h,04h,00h,018h,01h,04h,00h
-        db 020h,01h,04h,00h,028h,01h,04h,00h,030h,01h,04h,00h,048h,01h,04h,00h
-        db 050h,01h,0ECh,0FFh,00h,00h,07h,00h,010h,01h,04h,00h,018h,01h,04h,00h
-        db 020h,01h,04h,00h,028h,01h,04h,00h,030h,01h,04h,00h,038h,01h,04h,00h
-        db 040h,01h,0ECh,0FFh,00h,00h,07h,00h,0C0h,04h,02h,00h,0C8h,04h,02h,00h
-        db 0C8h,04h,02h,00h,0D0h,04h,02h,00h,0D0h,04h,02h,00h,0D8h,04h,08h,00h
-        db 0E0h,04h,0F8h,0FFh,00h,00h,07h,00h,010h,01h,04h,00h,018h,01h,04h,00h
-        db 020h,01h,04h,00h,028h,01h,04h,00h,030h,01h,04h,00h,020h,01h,04h,00h
-        db 010h,01h,0FCh,0FFh,00h,00h,07h,00h,0C0h,04h,02h,00h,0C8h,04h,02h,00h
-        db 0C8h,04h,02h,00h,0D0h,04h,02h,00h,0D0h,04h,02h,00h,0C8h,04h,04h,00h
-        db 0C0h,04h,0FCh,0FFh,00h,00h,04h,00h,028h,01h,018h,00h,038h,01h,02h,00h
-        db 038h,01h,02h,00h,040h,01h,0ECh,0FFh,00h,00h,04h,00h,0D0h,04h,018h,00h
-        db 0D8h,04h,02h,00h,0D8h,04h,02h,00h,0E0h,04h,0F8h,0FFh,00h,00h,03h,00h
-        db 028h,01h,018h,00h,018h,01h,04h,00h,010h,01h,0FCh,0FFh,00h,00h,03h,00h
-        db 0D0h,04h,018h,00h,0C8h,04h,04h,00h,0C0h,04h,0FCh,0FFh,020h,00h,0Ch,00h
-        db 0F0h,05h,06h,00h,0F8h,05h,06h,00h,00h,06h,06h,00h,08h,06h,06h,00h
-        db 010h,06h,06h,00h,018h,06h,06h,00h,0C0h,05h,014h,00h,0F0h,06h,08h,00h
-        db 0F8h,06h,08h,00h,00h,07h,08h,00h,08h,07h,08h,00h,010h,07h,0F8h,0FFh
-        db 020h,00h,0Ch,00h,020h,06h,06h,00h,028h,06h,06h,00h,030h,06h,06h,00h
-        db 038h,06h,06h,00h,040h,06h,06h,00h,048h,06h,06h,00h,088h,05h,014h,00h
-        db 018h,07h,08h,00h,020h,07h,08h,00h,028h,07h,08h,00h,030h,07h,08h,00h
-        db 038h,07h,0F8h,0FFh,028h,00h,0Ch,00h,080h,06h,06h,00h,088h,06h,06h,00h
-        db 090h,06h,06h,00h,098h,06h,06h,00h,0A0h,06h,06h,00h,0A8h,06h,06h,00h
-        db 0C0h,05h,014h,00h,0F0h,06h,08h,00h,0F8h,06h,08h,00h,00h,07h,08h,00h
-        db 08h,07h,08h,00h,010h,07h,0F8h,0FFh,028h,00h,0Ch,00h,050h,06h,06h,00h
-        db 058h,06h,06h,00h,060h,06h,06h,00h,068h,06h,06h,00h,070h,06h,06h,00h
-        db 078h,06h,06h,00h,088h,05h,014h,00h,018h,07h,08h,00h,020h,07h,08h,00h
-        db 028h,07h,08h,00h,030h,07h,08h,00h,038h,07h,0F8h,0FFh,018h,00h,08h,00h
-        db 0B0h,06h,06h,00h,0B8h,06h,06h,00h,0C0h,06h,06h,00h,0C8h,06h,06h,00h
-        db 0F8h,06h,01Ch,00h,00h,07h,08h,00h,08h,07h,08h,00h,010h,07h,0F8h,0FFh
-        db 018h,00h,08h,00h,0D0h,06h,06h,00h,0D8h,06h,06h,00h,0E0h,06h,06h,00h
-        db 0E8h,06h,06h,00h,0F8h,06h,01Ch,00h,00h,07h,08h,00h,08h,07h,08h,00h
-        db 010h,07h,0F8h,0FFh,020h,00h,0Bh,00h,060h,05h,06h,00h,068h,05h,06h,00h
-        db 070h,05h,06h,00h,078h,05h,06h,00h,080h,05h,06h,00h,088h,05h,014h,00h
-        db 018h,07h,08h,00h,020h,07h,08h,00h,028h,07h,08h,00h,030h,07h,08h,00h
-        db 038h,07h,0F8h,0FFh,020h,00h,0Ch,00h,090h,05h,06h,00h,098h,05h,06h,00h
-        db 0A0h,05h,06h,00h,0A8h,05h,06h,00h,0B0h,05h,06h,00h,0B8h,05h,06h,00h
-        db 0C0h,05h,014h,00h,0F0h,06h,08h,00h,0F8h,06h,08h,00h,00h,07h,08h,00h
-        db 08h,07h,08h,00h,010h,07h,0F8h,0FFh,020h,00h,0Eh,00h,058h,07h,06h,00h
-        db 060h,07h,06h,00h,068h,07h,06h,00h,070h,07h,06h,00h,078h,07h,06h,00h
-        db 080h,07h,06h,00h,088h,07h,06h,00h,090h,07h,06h,00h,088h,05h,014h,00h
-        db 018h,07h,08h,00h,020h,07h,08h,00h,028h,07h,08h,00h,030h,07h,08h,00h
-        db 038h,07h,0F8h,0FFh,020h,00h,0Eh,00h,098h,07h,06h,00h,0A0h,07h,06h,00h
-        db 0A8h,07h,06h,00h,0B0h,07h,06h,00h,0B8h,07h,06h,00h,0C0h,07h,06h,00h
-        db 0C8h,07h,06h,00h,0D0h,07h,06h,00h,0C0h,05h,014h,00h,0F0h,06h,08h,00h
-        db 0F8h,06h,08h,00h,00h,07h,08h,00h,08h,07h,08h,00h,010h,07h,0F8h,0FFh
-        db 020h,00h,036h,00h,060h,05h,06h,00h,068h,05h,06h,00h,070h,05h,06h,00h
-        db 078h,05h,06h,00h,080h,05h,06h,00h,088h,05h,06h,00h,0C8h,05h,08h,00h
+        db 0C0h,00h,04h,00h,0C8h,00h,0FCh,0FFh
+SPAstop:                                        ; SPA 0x3F: stop (dostop, not the puck carrier) (confidence medium)
+        db 00h,00h,02h,00h,0B0h,04h,08h,00h,0B8h,04h,0E4h,0FFh
+SPAstophold:                                    ; SPA 0x45: stop, held end frame (dostop switches to it when SPAstop ends) (confidence medium)
+        db 01h,00h,01h,00h,0B8h,04h,0F0h,0FFh
+SPAstopwp:                                      ; SPA 0x49: stop with the puck (dostop when the player is the puck carrier) (confidence medium)
+        db 00h,00h,02h,00h,0D0h,00h,08h,00h,0D8h,00h,0E4h,0FFh
+SPAstopwphold:                                  ; SPA 0x4F: stop with the puck, held end frame (confidence medium)
+        db 01h,00h,01h,00h,0D8h,00h,0F0h,0FFh,00h,00h,02h,00h,0C0h,03h,08h,00h
+        db 0C8h,03h,0E4h,0FFh,01h,00h,01h,00h,0C8h,03h,0F0h,0FFh,00h,00h,01h,00h
+        db 0F8h,00h,0F8h,0FFh,00h,00h,01h,00h,0E8h,03h,0F8h,0FFh,00h,00h,02h,00h
+        db 0F0h,00h,08h,00h,0F8h,00h,0F8h,0FFh,00h,00h,02h,00h,0E0h,03h,08h,00h
+        db 0E8h,03h,0F8h,0FFh,00h,00h,01h,00h,0E8h,00h,0F8h,0FFh,00h,00h,01h,00h
+        db 0D8h,03h,0F8h,0FFh,00h,00h,02h,00h,0E0h,00h,08h,00h,0E8h,00h,0F8h,0FFh
+        db 00h,00h,02h,00h,0D0h,03h,08h,00h,0D8h,03h,0F8h,0FFh,00h,00h,04h,00h
+        db 10h,02h,08h,00h,18h,02h,08h,00h,20h,02h,08h,00h,28h,02h,0F8h,0FFh
+        db 00h,00h,04h,00h,0F0h,01h,08h,00h,0F8h,01h,08h,00h,00h,02h,08h,00h
+        db 08h,02h,0F8h,0FFh,00h,00h,04h,00h,70h,01h,0Ah,00h,58h,01h,0Ah,00h
+        db 60h,01h,0Ah,00h,68h,01h,0F6h,0FFh,00h,00h,02h,00h,58h,01h,1Ch,00h
+        db 60h,01h,0E4h,0FFh,00h,00h,02h,00h,68h,01h,1Ch,00h,70h,01h,0E4h,0FFh
+SPApassf:                                       ; SPA 0xAF: pass, forward side (dopass; 95 SPApassf) (confidence medium)
+        db 00h,00h,02h,00h,10h,01h,06h,00h,40h,01h,0ECh,0FFh
+SPApassb:                                       ; SPA 0xB5: pass, backward side (dopass; 95 SPApassb) (confidence medium)
+        db 00h,00h,03h,00h,0C8h,04h,04h,00h,0D8h,04h,08h,00h,0E0h,04h,0F8h,0FFh
+SPAshotf:                                       ; SPA 0xBD: shot, forward side (SetShotMode; 95 SPAshotf) (confidence medium)
+        db 00h,00h,07h,00h,10h,01h,04h,00h,18h,01h,04h,00h,20h,01h,04h,00h
+        db 28h,01h,04h,00h,30h,01h,04h,00h,48h,01h,04h,00h,50h,01h,0ECh,0FFh
+        db 00h,00h,07h,00h,10h,01h,04h,00h,18h,01h,04h,00h,20h,01h,04h,00h
+        db 28h,01h,04h,00h,30h,01h,04h,00h,38h,01h,04h,00h,40h,01h,0ECh,0FFh
+SPAshotb:                                       ; SPA 0xDD: shot, backward side (ShotMode; 95 SPAshotb) (confidence medium)
+        db 00h,00h,07h,00h,0C0h,04h,02h,00h,0C8h,04h,02h,00h,0C8h,04h,02h,00h
+        db 0D0h,04h,02h,00h,0D0h,04h,02h,00h,0D8h,04h,08h,00h,0E0h,04h,0F8h,0FFh
+SPAfakeshotf:                                   ; SPA 0xED: faked shot, forward side (ShotMode; 95 SPAfakeshotf) (confidence medium)
+        db 00h,00h,07h,00h,10h,01h,04h,00h,18h,01h,04h,00h,20h,01h,04h,00h
+        db 28h,01h,04h,00h,30h,01h,04h,00h,20h,01h,04h,00h,10h,01h,0FCh,0FFh
+SPAfakeshotb:                                   ; SPA 0xFD: faked shot, backward side (ShotMode; 95 SPAfakeshotb) (confidence medium)
+        db 00h,00h,07h,00h,0C0h,04h,02h,00h,0C8h,04h,02h,00h,0C8h,04h,02h,00h
+        db 0D0h,04h,02h,00h,0D0h,04h,02h,00h,0C8h,04h,04h,00h,0C0h,04h,0FCh,0FFh
+SPAonetimef:                                    ; SPA 0x10D: one-timer, forward side (assonetimer; 95 SPAonetimef) (confidence medium)
+        db 00h,00h,04h,00h,28h,01h,18h,00h,38h,01h,02h,00h,38h,01h,02h,00h
+        db 40h,01h,0ECh,0FFh
+SPAonetimeb:                                    ; SPA 0x117: one-timer, backward side (assonetimer; 95 SPAonetimeb) (confidence medium)
+        db 00h,00h,04h,00h,0D0h,04h,18h,00h,0D8h,04h,02h,00h,0D8h,04h,02h,00h
+        db 0E0h,04h,0F8h,0FFh
+SPAfakeonetimef:                                ; SPA 0x121: faked one-timer, forward side (assonetimer, ShotMode; 95 SPAfakeonetimef) (confidence medium)
+        db 00h,00h,03h,00h,28h,01h,18h,00h,18h,01h,04h,00h,10h,01h,0FCh,0FFh
+SPAfakeonetimeb:                                ; SPA 0x129: faked one-timer, backward side (assonetimer, ShotMode; 95 SPAfakeonetimeb) (confidence medium)
+        db 00h,00h,03h,00h,0D0h,04h,18h,00h,0C8h,04h,04h,00h,0C0h,04h,0FCh,0FFh
+        db 20h,00h,0Ch,00h,0F0h,05h,06h,00h,0F8h,05h,06h,00h,00h,06h,06h,00h
+        db 08h,06h,06h,00h,10h,06h,06h,00h,18h,06h,06h,00h,0C0h,05h,14h,00h
+        db 0F0h,06h,08h,00h,0F8h,06h,08h,00h,00h,07h,08h,00h,08h,07h,08h,00h
+        db 10h,07h,0F8h,0FFh,20h,00h,0Ch,00h,20h,06h,06h,00h,28h,06h,06h,00h
+        db 30h,06h,06h,00h,38h,06h,06h,00h,40h,06h,06h,00h,48h,06h,06h,00h
+        db 88h,05h,14h,00h,18h,07h,08h,00h,20h,07h,08h,00h,28h,07h,08h,00h
+        db 30h,07h,08h,00h,38h,07h,0F8h,0FFh,28h,00h,0Ch,00h,80h,06h,06h,00h
+        db 88h,06h,06h,00h,90h,06h,06h,00h,98h,06h,06h,00h,0A0h,06h,06h,00h
+        db 0A8h,06h,06h,00h,0C0h,05h,14h,00h,0F0h,06h,08h,00h,0F8h,06h,08h,00h
+        db 00h,07h,08h,00h,08h,07h,08h,00h,10h,07h,0F8h,0FFh,28h,00h,0Ch,00h
+        db 50h,06h,06h,00h,58h,06h,06h,00h,60h,06h,06h,00h,68h,06h,06h,00h
+        db 70h,06h,06h,00h,78h,06h,06h,00h,88h,05h,14h,00h,18h,07h,08h,00h
+        db 20h,07h,08h,00h,28h,07h,08h,00h,30h,07h,08h,00h,38h,07h,0F8h,0FFh
+        db 18h,00h,08h,00h,0B0h,06h,06h,00h,0B8h,06h,06h,00h,0C0h,06h,06h,00h
+        db 0C8h,06h,06h,00h,0F8h,06h,1Ch,00h,00h,07h,08h,00h,08h,07h,08h,00h
+        db 10h,07h,0F8h,0FFh,18h,00h,08h,00h,0D0h,06h,06h,00h,0D8h,06h,06h,00h
+        db 0E0h,06h,06h,00h,0E8h,06h,06h,00h,0F8h,06h,1Ch,00h,00h,07h,08h,00h
+        db 08h,07h,08h,00h,10h,07h,0F8h,0FFh,20h,00h,0Bh,00h,60h,05h,06h,00h
+        db 68h,05h,06h,00h,70h,05h,06h,00h,78h,05h,06h,00h,80h,05h,06h,00h
+        db 88h,05h,14h,00h,18h,07h,08h,00h,20h,07h,08h,00h,28h,07h,08h,00h
+        db 30h,07h,08h,00h,38h,07h,0F8h,0FFh,20h,00h,0Ch,00h,90h,05h,06h,00h
+        db 98h,05h,06h,00h,0A0h,05h,06h,00h,0A8h,05h,06h,00h,0B0h,05h,06h,00h
+        db 0B8h,05h,06h,00h,0C0h,05h,14h,00h,0F0h,06h,08h,00h,0F8h,06h,08h,00h
+        db 00h,07h,08h,00h,08h,07h,08h,00h,10h,07h,0F8h,0FFh,20h,00h,0Eh,00h
+        db 58h,07h,06h,00h,60h,07h,06h,00h,68h,07h,06h,00h,70h,07h,06h,00h
+        db 78h,07h,06h,00h,80h,07h,06h,00h,88h,07h,06h,00h,90h,07h,06h,00h
+        db 88h,05h,14h,00h,18h,07h,08h,00h,20h,07h,08h,00h,28h,07h,08h,00h
+        db 30h,07h,08h,00h,38h,07h,0F8h,0FFh,20h,00h,0Eh,00h,98h,07h,06h,00h
+        db 0A0h,07h,06h,00h,0A8h,07h,06h,00h,0B0h,07h,06h,00h,0B8h,07h,06h,00h
+        db 0C0h,07h,06h,00h,0C8h,07h,06h,00h,0D0h,07h,06h,00h,0C0h,05h,14h,00h
+        db 0F0h,06h,08h,00h,0F8h,06h,08h,00h,00h,07h,08h,00h,08h,07h,08h,00h
+        db 10h,07h,0F8h,0FFh
+SPAinjury1:                                     ; SPA 0x22B: injured player lying on the ice, held (FallDown; 95 SPAinjury1) (confidence medium)
+        db 20h,00h,36h,00h,60h,05h,06h,00h,68h,05h,06h,00h,70h,05h,06h,00h
+        db 78h,05h,06h,00h,80h,05h,06h,00h,88h,05h,06h,00h,0C8h,05h,08h,00h
         db 0D0h,05h,08h,00h,0D8h,05h,08h,00h,0D0h,05h,08h,00h,0C8h,05h,09h,00h
         db 0D0h,05h,09h,00h,0D8h,05h,0Ah,00h,0D0h,05h,0Ah,00h,0C8h,05h,0Bh,00h
-        db 0D0h,05h,0Bh,00h,0D8h,05h,0Ch,00h,0D0h,05h,032h,00h,0C8h,05h,08h,00h
+        db 0D0h,05h,0Bh,00h,0D8h,05h,0Ch,00h,0D0h,05h,32h,00h,0C8h,05h,08h,00h
         db 0D0h,05h,08h,00h,0D8h,05h,08h,00h,0D0h,05h,08h,00h,0C8h,05h,09h,00h
         db 0D0h,05h,09h,00h,0D8h,05h,0Ah,00h,0D0h,05h,0Ah,00h,0C8h,05h,0Bh,00h
-        db 0D0h,05h,0Bh,00h,0D8h,05h,0Ch,00h,0D0h,05h,046h,00h,0C8h,05h,08h,00h
+        db 0D0h,05h,0Bh,00h,0D8h,05h,0Ch,00h,0D0h,05h,46h,00h,0C8h,05h,08h,00h
         db 0D0h,05h,08h,00h,0D8h,05h,08h,00h,0D0h,05h,08h,00h,0C8h,05h,09h,00h
         db 0D0h,05h,09h,00h,0D8h,05h,0Ah,00h,0D0h,05h,0Ah,00h,0C8h,05h,0Bh,00h
-        db 0D0h,05h,0Bh,00h,0D8h,05h,0Ch,00h,0D0h,05h,03Ch,00h,0C8h,05h,08h,00h
+        db 0D0h,05h,0Bh,00h,0D8h,05h,0Ch,00h,0D0h,05h,3Ch,00h,0C8h,05h,08h,00h
         db 0D0h,05h,08h,00h,0D8h,05h,08h,00h,0D0h,05h,08h,00h,0C8h,05h,09h,00h
         db 0D0h,05h,09h,00h,0D8h,05h,0Ah,00h,0D0h,05h,0Ah,00h,0C8h,05h,0Bh,00h
-        db 0D0h,05h,0Bh,00h,0D8h,05h,0Ch,00h,0D0h,05h,060h,0F0h,00h,00h,04h,00h
-        db 060h,02h,07h,00h,068h,02h,07h,00h,070h,02h,07h,00h,078h,02h,0F9h,0FFh
-        db 00h,00h,05h,00h,050h,02h,08h,00h,058h,02h,014h,00h,00h,07h,08h,00h
-        db 08h,07h,08h,00h,010h,07h,0F8h,0FFh,00h,00h,05h,00h,040h,02h,08h,00h
-        db 048h,02h,014h,00h,00h,07h,08h,00h,08h,07h,08h,00h,010h,07h,0F8h,0FFh
-        db 00h,00h,01h,00h,030h,02h,0ECh,0FFh,00h,00h,01h,00h,038h,02h,0ECh,0FFh
-        db 018h,00h,08h,00h,010h,00h,04h,00h,018h,00h,04h,00h,020h,00h,04h,00h
-        db 028h,00h,04h,00h,030h,00h,04h,00h,038h,00h,04h,00h,040h,00h,04h,00h
-        db 048h,00h,0FCh,0FFh,00h,00h,02h,00h,0E0h,05h,06h,00h,0E8h,05h,0F6h,0FFh
-        db 00h,00h,03h,00h,00h,01h,06h,00h,08h,01h,0Ah,00h,00h,01h,0FAh,0FFh
-        db 00h,00h,03h,00h,040h,07h,04h,00h,048h,07h,014h,00h,050h,07h,0FCh,0FFh
-        db 00h,00h,06h,00h,040h,07h,08h,00h,048h,07h,08h,00h,050h,07h,08h,00h
-        db 040h,07h,08h,00h,048h,07h,08h,00h,050h,07h,0F8h,0FFh,00h,00h,01h,00h
+        db 0D0h,05h,0Bh,00h,0D8h,05h,0Ch,00h,0D0h,05h,60h,0F0h,00h,00h,04h,00h
+        db 60h,02h,07h,00h,68h,02h,07h,00h,70h,02h,07h,00h,78h,02h,0F9h,0FFh
+        db 00h,00h,05h,00h,50h,02h,08h,00h,58h,02h,14h,00h,00h,07h,08h,00h
+        db 08h,07h,08h,00h,10h,07h,0F8h,0FFh,00h,00h,05h,00h,40h,02h,08h,00h
+        db 48h,02h,14h,00h,00h,07h,08h,00h,08h,07h,08h,00h,10h,07h,0F8h,0FFh
+        db 00h,00h,01h,00h,30h,02h,0ECh,0FFh,00h,00h,01h,00h,38h,02h,0ECh,0FFh
+SPAburst:                                       ; SPA 0x2C3: burst of speed; the burst routine sets it (95 SPAburst)
+        db 18h,00h,08h,00h,10h,00h,04h,00h,18h,00h,04h,00h,20h,00h,04h,00h
+        db 28h,00h,04h,00h,30h,00h,04h,00h,38h,00h,04h,00h,40h,00h,04h,00h
+        db 48h,00h,0FCh,0FFh
+SPAcrosscheck:                                  ; SPA 0x2D5: cross check; checkcheck penalty test (95 SPAcrosscheck)
+        db 00h,00h,02h,00h,0E0h,05h,06h,00h,0E8h,05h,0F6h,0FFh,00h,00h,03h,00h
+        db 00h,01h,06h,00h,08h,01h,0Ah,00h,00h,01h,0FAh,0FFh
+SPAhook:                                        ; SPA 0x2E3: hook check; Holdplayer (95 SPAhook)
+        db 00h,00h,03h,00h,40h,07h,04h,00h,48h,07h,14h,00h,50h,07h,0FCh,0FFh
+        db 00h,00h,06h,00h,40h,07h,08h,00h,48h,07h,08h,00h,50h,07h,08h,00h
+        db 40h,07h,08h,00h,48h,07h,08h,00h,50h,07h,0F8h,0FFh,00h,00h,01h,00h
         db 0D8h,07h,0E2h,0FFh,00h,00h,01h,00h,0D8h,07h,0E2h,0FFh,00h,00h,02h,00h
         db 0E0h,01h,08h,00h,0E8h,01h,0F0h,0FFh,00h,00h,02h,00h,0D0h,01h,08h,00h
         db 0D8h,01h,0F0h,0FFh,00h,00h,02h,00h,0C0h,01h,08h,00h,0C8h,01h,0F0h,0FFh
         db 00h,00h,02h,00h,0B0h,01h,08h,00h,0B8h,01h,0F0h,0FFh,00h,00h,02h,00h
-        db 038h,04h,08h,00h,040h,04h,0F0h,0FFh,00h,00h,02h,00h,058h,04h,08h,00h
-        db 060h,04h,0F0h,0FFh,00h,00h,02h,00h,048h,04h,08h,00h,050h,04h,0F0h,0FFh
-        db 00h,00h,05h,00h,00h,05h,0Ah,00h,08h,05h,0Ah,00h,010h,05h,0Ah,00h
+        db 38h,04h,08h,00h,40h,04h,0F0h,0FFh,00h,00h,02h,00h,58h,04h,08h,00h
+        db 60h,04h,0F0h,0FFh,00h,00h,02h,00h,48h,04h,08h,00h,50h,04h,0F0h,0FFh
+        db 00h,00h,05h,00h,00h,05h,0Ah,00h,08h,05h,0Ah,00h,10h,05h,0Ah,00h
         db 08h,05h,0Ah,00h,00h,05h,0F6h,0FFh,00h,00h,05h,00h,0E8h,04h,0Ah,00h
         db 0F0h,04h,0Ah,00h,0F8h,04h,0Ah,00h,0F0h,04h,0Ah,00h,0E8h,04h,0F6h,0FFh
-        db 00h,00h,08h,00h,010h,00h,04h,00h,018h,00h,04h,00h,020h,00h,04h,00h
-        db 028h,00h,04h,00h,030h,00h,04h,00h,038h,00h,04h,00h,040h,00h,04h,00h
-        db 048h,00h,0FCh,0FFh,00h,00h,04h,00h,010h,02h,08h,00h,018h,02h,08h,00h
-        db 020h,02h,08h,00h,028h,02h,0F8h,0FFh,00h,00h,04h,00h,0F0h,01h,08h,00h
+        db 00h,00h,08h,00h,10h,00h,04h,00h,18h,00h,04h,00h,20h,00h,04h,00h
+        db 28h,00h,04h,00h,30h,00h,04h,00h,38h,00h,04h,00h,40h,00h,04h,00h
+        db 48h,00h,0FCh,0FFh,00h,00h,04h,00h,10h,02h,08h,00h,18h,02h,08h,00h
+        db 20h,02h,08h,00h,28h,02h,0F8h,0FFh,00h,00h,04h,00h,0F0h,01h,08h,00h
         db 0F8h,01h,08h,00h,00h,02h,08h,00h,08h,02h,0F8h,0FFh,00h,00h,02h,00h
         db 0C0h,01h,08h,00h,0C8h,01h,0F0h,0FFh,00h,00h,02h,00h,0B0h,01h,08h,00h
-        db 0B8h,01h,0F0h,0FFh,00h,00h,08h,00h,050h,00h,04h,00h,058h,00h,04h,00h
-        db 060h,00h,04h,00h,068h,00h,04h,00h,070h,00h,04h,00h,078h,00h,04h,00h
-        db 080h,00h,04h,00h,088h,00h,0FCh,0FFh,00h,00h,01h,00h,078h,01h,0F8h,0FFh
-        db 00h,00h,01h,00h,080h,01h,0FBh,0FFh,00h,00h,02h,00h,088h,01h,08h,00h
-        db 090h,01h,0F8h,0FFh,00h,00h,01h,00h,088h,01h,0F8h,0FFh,00h,00h,02h,00h
-        db 098h,01h,08h,00h,0A0h,01h,0F8h,0FFh,00h,00h,01h,00h,098h,01h,0F8h,0FFh
+        db 0B8h,01h,0F0h,0FFh,00h,00h,08h,00h,50h,00h,04h,00h,58h,00h,04h,00h
+        db 60h,00h,04h,00h,68h,00h,04h,00h,70h,00h,04h,00h,78h,00h,04h,00h
+        db 80h,00h,04h,00h,88h,00h,0FCh,0FFh,00h,00h,01h,00h,78h,01h,0F8h,0FFh
+        db 00h,00h,01h,00h,80h,01h,0FBh,0FFh,00h,00h,02h,00h,88h,01h,08h,00h
+        db 90h,01h,0F8h,0FFh,00h,00h,01h,00h,88h,01h,0F8h,0FFh,00h,00h,02h,00h
+        db 98h,01h,08h,00h,0A0h,01h,0F8h,0FFh,00h,00h,01h,00h,98h,01h,0F8h,0FFh
         db 00h,00h,01h,00h,0A8h,01h,0F8h,0FFh,00h,00h,02h,00h,0E0h,07h,08h,00h
-        db 0E8h,07h,0F8h,0FFh,08h,00h,08h,00h,0F0h,07h,04h,00h,0F8h,07h,04h,00h
-        db 00h,08h,04h,00h,08h,08h,04h,00h,010h,08h,04h,00h,018h,08h,04h,00h
-        db 020h,08h,04h,00h,028h,08h,0FCh,0FFh,018h,00h,08h,00h,0F0h,07h,04h,00h
-        db 0F8h,07h,04h,00h,00h,08h,04h,00h,08h,08h,04h,00h,010h,08h,04h,00h
-        db 018h,08h,04h,00h,020h,08h,04h,00h,028h,08h,0FCh,0FFh,00h,00h,01h,00h
-        db 018h,05h,0F6h,0FFh,00h,00h,01h,00h,018h,05h,0F6h,0FFh,00h,00h,04h,00h
-        db 050h,08h,08h,00h,058h,08h,08h,00h,060h,08h,01Ch,00h,050h,08h,0FBh,0FFh
-        db 00h,00h,06h,00h,050h,08h,08h,00h,058h,08h,08h,00h,060h,08h,018h,00h
-        db 058h,08h,08h,00h,060h,08h,01Ch,00h,050h,08h,0FBh,0FFh,00h,00h,03h,00h
-        db 068h,08h,08h,00h,070h,08h,01Ch,00h,068h,08h,0FBh,0FFh,00h,00h,05h,00h
-        db 068h,08h,08h,00h,070h,08h,018h,00h,068h,08h,08h,00h,070h,08h,01Ch,00h
-        db 068h,08h,0FBh,0FFh,00h,00h,06h,00h,030h,08h,08h,00h,038h,08h,010h,00h
-        db 040h,08h,08h,00h,048h,08h,014h,00h,040h,08h,08h,00h,030h,08h,0FBh,0FFh
-        db 00h,00h,08h,00h,030h,08h,08h,00h,038h,08h,010h,00h,040h,08h,08h,00h
-        db 048h,08h,014h,00h,040h,08h,08h,00h,048h,08h,014h,00h,040h,08h,08h,00h
-        db 030h,08h,0FBh,0FFh,02h,00h,0Dh,00h,0B8h,08h,06h,00h,0C0h,08h,06h,00h
+        db 0E8h,07h,0F8h,0FFh
+SPAwallleft:                                    ; SPA 0x3AD: skater against the wall left (TakePlayerFromBox, assepen family; 95 SPAwallleft) (confidence medium)
+        db 08h,00h,08h,00h,0F0h,07h,04h,00h,0F8h,07h,04h,00h,00h,08h,04h,00h
+        db 08h,08h,04h,00h,10h,08h,04h,00h,18h,08h,04h,00h,20h,08h,04h,00h
+        db 28h,08h,0FCh,0FFh
+SPAwallright:                                   ; SPA 0x3BF: skater against the wall right (asseben; 95 SPAwallright) (confidence medium)
+        db 18h,00h,08h,00h,0F0h,07h,04h,00h,0F8h,07h,04h,00h,00h,08h,04h,00h
+        db 08h,08h,04h,00h,10h,08h,04h,00h,18h,08h,04h,00h,20h,08h,04h,00h
+        db 28h,08h,0FCh,0FFh
+SPAglide:                                       ; SPA 0x3D1: glide; dostop, doplayeracc and noturn0 fall back to it (confidence medium)
+        db 00h,00h,01h,00h,18h,05h,0F6h,0FFh,00h,00h,01h,00h,18h,05h,0F6h,0FFh
+        db 00h,00h,04h,00h,50h,08h,08h,00h,58h,08h,08h,00h,60h,08h,1Ch,00h
+        db 50h,08h,0FBh,0FFh,00h,00h,06h,00h,50h,08h,08h,00h,58h,08h,08h,00h
+        db 60h,08h,18h,00h,58h,08h,08h,00h,60h,08h,1Ch,00h,50h,08h,0FBh,0FFh
+        db 00h,00h,03h,00h,68h,08h,08h,00h,70h,08h,1Ch,00h,68h,08h,0FBh,0FFh
+        db 00h,00h,05h,00h,68h,08h,08h,00h,70h,08h,18h,00h,68h,08h,08h,00h
+        db 70h,08h,1Ch,00h,68h,08h,0FBh,0FFh,00h,00h,06h,00h,30h,08h,08h,00h
+        db 38h,08h,10h,00h,40h,08h,08h,00h,48h,08h,14h,00h,40h,08h,08h,00h
+        db 30h,08h,0FBh,0FFh,00h,00h,08h,00h,30h,08h,08h,00h,38h,08h,10h,00h
+        db 40h,08h,08h,00h,48h,08h,14h,00h,40h,08h,08h,00h,48h,08h,14h,00h
+        db 40h,08h,08h,00h,30h,08h,0FBh,0FFh,02h,00h,0Dh,00h,0B8h,08h,06h,00h
+        db 0C0h,08h,06h,00h,0C8h,08h,06h,00h,0D0h,08h,06h,00h,0D8h,08h,06h,00h
+        db 0E0h,08h,06h,00h,0E8h,08h,06h,00h,0F0h,08h,06h,00h,08h,00h,08h,00h
+        db 09h,00h,08h,00h,0Ah,00h,08h,00h,0Bh,00h,08h,00h,0Ch,00h,0F8h,0FFh
+        db 00h,00h,09h,00h,08h,00h,08h,00h,0B8h,08h,06h,00h,0C0h,08h,06h,00h
         db 0C8h,08h,06h,00h,0D0h,08h,06h,00h,0D8h,08h,06h,00h,0E0h,08h,06h,00h
-        db 0E8h,08h,06h,00h,0F0h,08h,06h,00h,08h,00h,08h,00h,09h,00h,08h,00h
-        db 0Ah,00h,08h,00h,0Bh,00h,08h,00h,0Ch,00h,0F8h,0FFh,00h,00h,09h,00h
-        db 08h,00h,08h,00h,0B8h,08h,06h,00h,0C0h,08h,06h,00h,0C8h,08h,06h,00h
-        db 0D0h,08h,06h,00h,0D8h,08h,06h,00h,0E0h,08h,06h,00h,0E8h,08h,06h,00h
-        db 0F0h,08h,0FAh,0FFh,00h,00h,08h,00h,0Dh,0Bh,04h,00h,015h,0Bh,04h,00h
-        db 01Dh,0Bh,04h,00h,025h,0Bh,04h,00h,02Dh,0Bh,04h,00h,035h,0Bh,04h,00h
-        db 03Dh,0Bh,04h,00h,045h,0Bh,0FCh,0FFh,00h,00h,01h,00h,0Dh,0Bh,0FCh,0FFh
-        db 0Ch,00h,09h,00h,04Dh,0Bh,01Ah,00h,04Fh,0Bh,06h,00h,051h,0Bh,06h,00h
-        db 053h,0Bh,06h,00h,055h,0Bh,06h,00h,057h,0Bh,06h,00h,059h,0Bh,06h,00h
-        db 05Bh,0Bh,06h,00h,05Dh,0Bh,0FAh,0FFh,04h,00h,01h,00h,063h,0Bh,0FAh,0FFh
-        db 05h,00h,08h,00h,063h,0Bh,04h,00h,065h,0Bh,04h,00h,067h,0Bh,04h,00h
-        db 069h,0Bh,04h,00h,06Bh,0Bh,04h,00h,06Dh,0Bh,04h,00h,06Fh,0Bh,04h,00h
-        db 071h,0Bh,0FCh,0FFh,04h,00h,06h,00h,073h,0Bh,04h,00h,075h,0Bh,04h,00h
-        db 077h,0Bh,04h,00h,079h,0Bh,04h,00h,07Bh,0Bh,04h,00h,07Dh,0Bh,0FCh,0FFh
-        db 04h,00h,06h,00h,07Fh,0Bh,04h,00h,081h,0Bh,04h,00h,083h,0Bh,04h,00h
-        db 085h,0Bh,04h,00h,087h,0Bh,04h,00h,089h,0Bh,0FCh,0FFh,04h,00h,06h,00h
-        db 08Bh,0Bh,06h,00h,08Dh,0Bh,06h,00h,08Fh,0Bh,06h,00h,091h,0Bh,06h,00h
-        db 093h,0Bh,06h,00h,095h,0Bh,0FAh,0FFh,04h,00h,05h,00h,097h,0Bh,06h,00h
-        db 099h,0Bh,06h,00h,09Bh,0Bh,06h,00h,09Dh,0Bh,06h,00h,09Fh,0Bh,0FAh,0FFh
-        db 04h,00h,03h,00h,0A1h,0Bh,08h,00h,0A3h,0Bh,08h,00h,0A5h,0Bh,0F8h,0FFh
-        db 04h,00h,02h,00h,0A7h,0Bh,06h,00h,0A9h,0Bh,0FAh,0FFh,024h,00h,0Eh,00h
+        db 0E8h,08h,06h,00h,0F0h,08h,0FAh,0FFh,00h,00h,08h,00h,0Dh,0Bh,04h,00h
+        db 15h,0Bh,04h,00h,1Dh,0Bh,04h,00h,25h,0Bh,04h,00h,2Dh,0Bh,04h,00h
+        db 35h,0Bh,04h,00h,3Dh,0Bh,04h,00h,45h,0Bh,0FCh,0FFh,00h,00h,01h,00h
+        db 0Dh,0Bh,0FCh,0FFh,0Ch,00h,09h,00h,4Dh,0Bh,1Ah,00h,4Fh,0Bh,06h,00h
+        db 51h,0Bh,06h,00h,53h,0Bh,06h,00h,55h,0Bh,06h,00h,57h,0Bh,06h,00h
+        db 59h,0Bh,06h,00h,5Bh,0Bh,06h,00h,5Dh,0Bh,0FAh,0FFh,04h,00h,01h,00h
+        db 63h,0Bh,0FAh,0FFh,05h,00h,08h,00h,63h,0Bh,04h,00h,65h,0Bh,04h,00h
+        db 67h,0Bh,04h,00h,69h,0Bh,04h,00h,6Bh,0Bh,04h,00h,6Dh,0Bh,04h,00h
+        db 6Fh,0Bh,04h,00h,71h,0Bh,0FCh,0FFh,04h,00h,06h,00h,73h,0Bh,04h,00h
+        db 75h,0Bh,04h,00h,77h,0Bh,04h,00h,79h,0Bh,04h,00h,7Bh,0Bh,04h,00h
+        db 7Dh,0Bh,0FCh,0FFh,04h,00h,06h,00h,7Fh,0Bh,04h,00h,81h,0Bh,04h,00h
+        db 83h,0Bh,04h,00h,85h,0Bh,04h,00h,87h,0Bh,04h,00h,89h,0Bh,0FCh,0FFh
+        db 04h,00h,06h,00h,8Bh,0Bh,06h,00h,8Dh,0Bh,06h,00h,8Fh,0Bh,06h,00h
+        db 91h,0Bh,06h,00h,93h,0Bh,06h,00h,95h,0Bh,0FAh,0FFh,04h,00h,05h,00h
+        db 97h,0Bh,06h,00h,99h,0Bh,06h,00h,9Bh,0Bh,06h,00h,9Dh,0Bh,06h,00h
+        db 9Fh,0Bh,0FAh,0FFh,04h,00h,03h,00h,0A1h,0Bh,08h,00h,0A3h,0Bh,08h,00h
+        db 0A5h,0Bh,0F8h,0FFh,04h,00h,02h,00h,0A7h,0Bh,06h,00h,0A9h,0Bh,0FAh,0FFh
+        db 24h,00h,0Eh,00h,0BDh,0Bh,06h,00h,0BFh,0Bh,06h,00h,0C1h,0Bh,06h,00h
+        db 0C3h,0Bh,06h,00h,0C5h,0Bh,06h,00h,0C7h,0Bh,06h,00h,0C9h,0Bh,06h,00h
+        db 0CBh,0Bh,06h,00h,0CDh,0Bh,1Eh,00h,0CFh,0Bh,06h,00h,0D1h,0Bh,06h,00h
+        db 0D3h,0Bh,06h,00h,0D5h,0Bh,06h,00h,0D7h,0Bh,0FAh,0FFh,2Ch,00h,0Fh,00h
+        db 0ABh,0Bh,06h,00h,0ADh,0Bh,06h,00h,0AFh,0Bh,06h,00h,0B1h,0Bh,06h,00h
+        db 0B3h,0Bh,06h,00h,0B5h,0Bh,06h,00h,0B7h,0Bh,06h,00h,0B9h,0Bh,06h,00h
+        db 0BBh,0Bh,1Eh,00h,0D9h,0Bh,06h,00h,0DBh,0Bh,06h,00h,0DDh,0Bh,06h,00h
+        db 0DFh,0Bh,06h,00h,0E1h,0Bh,06h,00h,0E3h,0Bh,0FAh,0FFh,24h,00h,0Eh,00h
         db 0BDh,0Bh,06h,00h,0BFh,0Bh,06h,00h,0C1h,0Bh,06h,00h,0C3h,0Bh,06h,00h
         db 0C5h,0Bh,06h,00h,0C7h,0Bh,06h,00h,0C9h,0Bh,06h,00h,0CBh,0Bh,06h,00h
-        db 0CDh,0Bh,01Eh,00h,0CFh,0Bh,06h,00h,0D1h,0Bh,06h,00h,0D3h,0Bh,06h,00h
-        db 0D5h,0Bh,06h,00h,0D7h,0Bh,0FAh,0FFh,02Ch,00h,0Fh,00h,0ABh,0Bh,06h,00h
+        db 0CDh,0Bh,0C8h,00h,0CFh,0Bh,06h,00h,0D1h,0Bh,06h,00h,0D3h,0Bh,06h,00h
+        db 0D5h,0Bh,06h,00h,0D7h,0Bh,0FAh,0FFh,2Ch,00h,0Fh,00h,0ABh,0Bh,06h,00h
         db 0ADh,0Bh,06h,00h,0AFh,0Bh,06h,00h,0B1h,0Bh,06h,00h,0B3h,0Bh,06h,00h
-        db 0B5h,0Bh,06h,00h,0B7h,0Bh,06h,00h,0B9h,0Bh,06h,00h,0BBh,0Bh,01Eh,00h
+        db 0B5h,0Bh,06h,00h,0B7h,0Bh,06h,00h,0B9h,0Bh,06h,00h,0BBh,0Bh,0C8h,00h
         db 0D9h,0Bh,06h,00h,0DBh,0Bh,06h,00h,0DDh,0Bh,06h,00h,0DFh,0Bh,06h,00h
-        db 0E1h,0Bh,06h,00h,0E3h,0Bh,0FAh,0FFh,024h,00h,0Eh,00h,0BDh,0Bh,06h,00h
-        db 0BFh,0Bh,06h,00h,0C1h,0Bh,06h,00h,0C3h,0Bh,06h,00h,0C5h,0Bh,06h,00h
-        db 0C7h,0Bh,06h,00h,0C9h,0Bh,06h,00h,0CBh,0Bh,06h,00h,0CDh,0Bh,0C8h,00h
-        db 0CFh,0Bh,06h,00h,0D1h,0Bh,06h,00h,0D3h,0Bh,06h,00h,0D5h,0Bh,06h,00h
-        db 0D7h,0Bh,0FAh,0FFh,02Ch,00h,0Fh,00h,0ABh,0Bh,06h,00h,0ADh,0Bh,06h,00h
-        db 0AFh,0Bh,06h,00h,0B1h,0Bh,06h,00h,0B3h,0Bh,06h,00h,0B5h,0Bh,06h,00h
-        db 0B7h,0Bh,06h,00h,0B9h,0Bh,06h,00h,0BBh,0Bh,0C8h,00h,0D9h,0Bh,06h,00h
-        db 0DBh,0Bh,06h,00h,0DDh,0Bh,06h,00h,0DFh,0Bh,06h,00h,0E1h,0Bh,06h,00h
-        db 0E3h,0Bh,0FAh,0FFh,04h,00h,02h,00h,0F1h,0Bh,06h,00h,063h,0Bh,0FAh,0FFh
-        db 04h,00h,08h,00h,0E5h,0Bh,06h,00h,0F5h,0Bh,06h,00h,0F7h,0Bh,06h,00h
-        db 0F9h,0Bh,06h,00h,0FBh,0Bh,06h,00h,0FDh,0Bh,06h,00h,0FFh,0Bh,06h,00h
-        db 01h,0Ch,0FAh,0FFh,04h,00h,08h,00h,01Bh,0Ch,06h,00h,01Dh,0Ch,06h,00h
-        db 01Fh,0Ch,06h,00h,021h,0Ch,06h,00h,023h,0Ch,06h,00h,025h,0Ch,06h,00h
-        db 027h,0Ch,06h,00h,0E7h,0Bh,0FAh,0FFh,04h,00h,04h,00h,0E9h,0Bh,08h,00h
-        db 0EBh,0Bh,08h,00h,03h,0Ch,08h,00h,05h,0Ch,0F8h,0FFh,04h,00h,05h,00h
-        db 0E9h,0Bh,08h,00h,0EBh,0Bh,08h,00h,0EDh,0Bh,08h,00h,0EFh,0Bh,08h,00h
-        db 0F1h,0Bh,0F8h,0FFh,04h,00h,02h,00h,029h,0Ch,08h,00h,02Bh,0Ch,0F8h,0FFh
-        db 04h,00h,01h,00h,05h,0Ch,0F4h,0FFh,04h,00h,01h,00h,02Bh,0Ch,0F4h,0FFh
-        db 04h,00h,04h,00h,07h,0Ch,07h,00h,09h,0Ch,07h,00h,0Bh,0Ch,07h,00h
-        db 0Dh,0Ch,0F9h,0FFh,04h,00h,04h,00h,02Dh,0Ch,07h,00h,02Fh,0Ch,07h,00h
-        db 031h,0Ch,07h,00h,033h,0Ch,0F9h,0FFh,04h,00h,03h,00h,0E9h,0Bh,08h,00h
-        db 0EBh,0Bh,08h,00h,0Fh,0Ch,0F8h,0FFh,04h,00h,01h,00h,035h,0Ch,0F8h,0FFh
-        db 04h,00h,01h,00h,0Fh,0Ch,0F4h,0FFh,04h,00h,01h,00h,035h,0Ch,0F4h,0FFh
-        db 04h,00h,05h,00h,011h,0Ch,06h,00h,013h,0Ch,06h,00h,015h,0Ch,06h,00h
-        db 017h,0Ch,06h,00h,019h,0Ch,0FAh,0FFh,04h,00h,05h,00h,037h,0Ch,06h,00h
-        db 039h,0Ch,06h,00h,03Bh,0Ch,06h,00h,03Dh,0Ch,06h,00h,03Fh,0Ch,0FAh,0FFh
-        db 00h,00h,01h,00h,080h,02h,0E2h,0FFh,00h,00h,02h,00h,0A8h,02h,08h,00h
-        db 0B0h,02h,0ECh,0FFh,00h,00h,02h,00h,0B8h,02h,08h,00h,0C0h,02h,0ECh,0FFh
-        db 00h,00h,02h,00h,098h,02h,08h,00h,0A0h,02h,0ECh,0FFh,00h,00h,02h,00h
-        db 088h,02h,08h,00h,090h,02h,0ECh,0FFh,00h,00h,08h,00h,0E0h,02h,08h,00h
-        db 0E8h,02h,08h,00h,0F0h,02h,01Eh,00h,090h,04h,07h,00h,098h,04h,07h,00h
-        db 078h,04h,07h,00h,080h,04h,07h,00h,088h,04h,0F9h,0FFh,00h,00h,08h,00h
-        db 0C8h,02h,08h,00h,0D0h,02h,08h,00h,0D8h,02h,01Eh,00h,0A0h,04h,07h,00h
-        db 0A8h,04h,07h,00h,078h,04h,07h,00h,080h,04h,07h,00h,088h,04h,0F9h,0FFh
-        db 020h,00h,08h,00h,0F8h,02h,08h,00h,00h,03h,08h,00h,08h,03h,028h,00h
-        db 068h,04h,07h,00h,070h,04h,07h,00h,078h,04h,07h,00h,080h,04h,07h,00h
-        db 088h,04h,0F9h,0FFh,00h,00h,05h,00h,0F0h,03h,08h,00h,0F8h,03h,01Eh,00h
-        db 078h,04h,07h,00h,080h,04h,07h,00h,088h,04h,0F9h,0FFh,00h,00h,05h,00h
-        db 0F0h,03h,08h,00h,0F8h,03h,05Ah,00h,078h,04h,07h,00h,080h,04h,07h,00h
-        db 088h,04h,0F9h,0FFh,020h,00h,08h,00h,020h,03h,08h,00h,028h,03h,08h,00h
-        db 030h,03h,014h,00h,090h,04h,07h,00h,098h,04h,07h,00h,078h,04h,07h,00h
-        db 080h,04h,07h,00h,088h,04h,0F9h,0FFh,020h,00h,08h,00h,040h,03h,08h,00h
-        db 048h,03h,08h,00h,050h,03h,014h,00h,0A0h,04h,07h,00h,0A8h,04h,07h,00h
-        db 078h,04h,07h,00h,080h,04h,07h,00h,088h,04h,0F9h,0FFh,00h,00h,03h,00h
-        db 060h,03h,04h,00h,068h,03h,0Fh,00h,060h,03h,0FAh,0FFh,00h,00h,08h,00h
-        db 070h,03h,04h,00h,078h,03h,04h,00h,080h,03h,04h,00h,088h,03h,04h,00h
-        db 090h,03h,04h,00h,098h,03h,04h,00h,0A0h,03h,04h,00h,0A8h,03h,0FCh,0FFh
-        db 00h,00h,02h,00h,0B0h,03h,08h,00h,080h,02h,0F8h,0FFh,00h,00h,02h,00h
-        db 0B8h,03h,08h,00h,080h,02h,0F8h,0FFh,00h,00h,04h,00h,010h,03h,08h,00h
-        db 018h,03h,014h,00h,080h,04h,07h,00h,088h,04h,0F9h,0FFh,00h,00h,02h,00h
-        db 00h,04h,05h,00h,08h,04h,0F0h,0FFh,00h,00h,01h,00h,010h,04h,0ECh,0FFh
-        db 00h,00h,04h,00h,018h,04h,08h,00h,020h,04h,01Eh,00h,080h,04h,07h,00h
-        db 088h,04h,0F9h,0FFh,08h,00h,08h,00h,078h,08h,04h,00h,080h,08h,04h,00h
-        db 088h,08h,04h,00h,090h,08h,04h,00h,098h,08h,04h,00h,0A0h,08h,04h,00h
-        db 0A8h,08h,04h,00h,0B0h,08h,0FCh,0FFh,018h,00h,08h,00h,078h,08h,04h,00h
-        db 080h,08h,04h,00h,088h,08h,04h,00h,090h,08h,04h,00h,098h,08h,04h,00h
-        db 0A0h,08h,04h,00h,0A8h,08h,04h,00h,0B0h,08h,0FCh,0FFh,00h,00h,02h,00h
-        db 028h,04h,08h,00h,030h,04h,0F4h,0FFh,00h,00h,0Bh,00h,080h,02h,078h,00h
-        db 028h,04h,08h,00h,030h,04h,0Ah,00h,028h,04h,08h,00h,030h,04h,0Ah,00h
-        db 080h,02h,06Bh,00h,028h,04h,08h,00h,030h,04h,0Ah,00h,028h,04h,08h,00h
-        db 030h,04h,0Ah,00h,080h,02h,0F6h,0FFh,00h,00h,0Ah,00h,080h,02h,064h,00h
-        db 020h,05h,0Ah,00h,028h,05h,0Ah,00h,030h,05h,0Ah,00h,038h,05h,0Ah,00h
-        db 040h,05h,0Ah,00h,048h,05h,0Ah,00h,050h,05h,0Ah,00h,058h,05h,0Ah,00h
-        db 020h,05h,0Ah,00h,080h,02h,0F6h,0FFh,00h,00h,01h,00h,08h,00h,0BCh,0FFh
-        db 00h,00h,01h,00h,00h,00h,0D1h,0FFh,00h,00h,01h,00h,078h,01h,0CBh,0FFh
-        db 00h,00h,01h,00h,0F8h,08h,0F8h,0FFh,00h,00h,01h,00h,00h,09h,0F8h,0FFh
-        db 00h,00h,01h,00h,08h,09h,0F8h,0FFh,00h,00h,02h,00h,010h,09h,0Ah,00h
-        db 018h,09h,0ECh,0FFh,00h,00h,01h,00h,028h,09h,0D3h,0FFh,00h,00h,01h,00h
-        db 020h,09h,0D3h,0FFh,00h,00h,03h,00h,030h,09h,0Ah,00h,038h,09h,03Ch,00h
-        db 030h,09h,0F8h,0FFh,00h,00h,09h,00h,040h,09h,0Ah,00h,048h,09h,0Ch,00h
-        db 040h,09h,0Eh,00h,048h,09h,0Fh,00h,040h,09h,010h,00h,048h,09h,011h,00h
-        db 040h,09h,012h,00h,048h,09h,014h,00h,040h,09h,0F8h,0FFh,00h,00h,08h,00h
-        db 050h,09h,04h,00h,058h,09h,04h,00h,060h,09h,04h,00h,068h,09h,04h,00h
-        db 070h,09h,04h,00h,078h,09h,04h,00h,080h,09h,04h,00h,088h,09h,0FCh,0FFh
-        db 00h,00h,01h,00h,098h,0Ah,0FCh,0FFh,00h,00h,02h,00h,0D0h,09h,08h,00h
-        db 0D8h,09h,0E4h,0FFh,01h,00h,01h,00h,0D8h,09h,0F0h,0FFh,00h,00h,08h,00h
-        db 090h,09h,04h,00h,098h,09h,04h,00h,0A0h,09h,04h,00h,0A8h,09h,04h,00h
-        db 0B0h,09h,04h,00h,0B8h,09h,04h,00h,0C0h,09h,04h,00h,0C8h,09h,0FCh,0FFh
-        db 00h,00h,01h,00h,0B8h,0Ah,0FCh,0FFh,00h,00h,02h,00h,0E0h,09h,08h,00h
-        db 0E8h,09h,0E4h,0FFh,01h,00h,01h,00h,0E8h,09h,0EEh,0FFh,00h,00h,05h,00h
-        db 098h,0Ah,08h,00h,08h,0Ah,08h,00h,010h,0Ah,0Ch,00h,08h,0Ah,06h,00h
-        db 098h,0Ah,0FAh,0FFh,00h,00h,04h,00h,0F0h,09h,08h,00h,0F8h,09h,08h,00h
-        db 0F0h,09h,08h,00h,00h,0Ah,0F8h,0FFh,00h,00h,01h,00h,0F0h,09h,0F8h,0FFh
-        db 00h,00h,01h,00h,020h,0Ah,0F8h,0FFh,00h,00h,01h,00h,040h,0Ah,0F8h,0FFh
-        db 00h,00h,02h,00h,018h,0Ah,08h,00h,020h,0Ah,0F8h,0FFh,00h,00h,02h,00h
-        db 038h,0Ah,08h,00h,040h,0Ah,0F8h,0FFh,00h,00h,01h,00h,030h,0Ah,0F8h,0FFh
-        db 00h,00h,01h,00h,050h,0Ah,0F8h,0FFh,00h,00h,02h,00h,028h,0Ah,08h,00h
-        db 030h,0Ah,0F8h,0FFh,00h,00h,02h,00h,048h,0Ah,08h,00h,050h,0Ah,0F8h,0FFh
-        db 020h,00h,08h,00h,058h,0Ah,05h,00h,060h,0Ah,05h,00h,068h,0Ah,05h,00h
-        db 070h,0Ah,05h,00h,078h,0Ah,05h,00h,080h,0Ah,028h,00h,0C0h,0Ah,08h,00h
-        db 0C8h,0Ah,0F8h,0FFh,00h,00h,03h,00h,088h,0Ah,08h,00h,090h,0Ah,014h,00h
-        db 088h,0Ah,0F8h,0FFh,00h,00h,05h,00h,0A0h,0Ah,06h,00h,0A8h,0Ah,06h,00h
-        db 0B0h,0Ah,018h,00h,0A0h,0Ah,04h,00h,098h,0Ah,0FBh,0FFh,00h,00h,05h,00h
-        db 0A0h,0Ah,06h,00h,0A8h,0Ah,06h,00h,0B0h,0Ah,018h,00h,0A0h,0Ah,04h,00h
-        db 098h,0Ah,01Bh,0FEh,00h,00h,05h,00h,0A0h,0Ah,06h,00h,0A8h,0Ah,06h,00h
-        db 0B0h,0Ah,018h,00h,0A0h,0Ah,04h,00h,098h,0Ah,0E3h,0FEh,02h,00h,04h,00h
-        db 09Ch,0Ah,08h,00h,01h,0Bh,09h,00h,02h,0Bh,018h,00h,09Ch,0Ah,0F8h,0FFh
-        db 02h,00h,0Ah,00h,09Ch,0Ah,08h,00h,0F2h,0Ah,08h,00h,0F3h,0Ah,08h,00h
-        db 0F4h,0Ah,08h,00h,0F5h,0Ah,08h,00h,0F2h,0Ah,08h,00h,0F3h,0Ah,08h,00h
-        db 0F4h,0Ah,08h,00h,0F5h,0Ah,08h,00h,09Ch,0Ah,0F8h,0FFh,02h,00h,06h,00h
-        db 09Bh,0Ah,08h,00h,03h,0Bh,08h,00h,04h,0Bh,08h,00h,05h,0Bh,010h,00h
-        db 03h,0Bh,07h,00h,09Bh,0Ah,0F8h,0FFh,02h,00h,05h,00h,09Bh,0Ah,08h,00h
-        db 06h,0Bh,0Ah,00h,07h,0Bh,018h,00h,06h,0Bh,06h,00h,09Bh,0Ah,0F8h,0FFh
-        db 02h,00h,05h,00h,09Bh,0Ah,08h,00h,0F9h,0Ah,0Ah,00h,0FAh,0Ah,0Ah,00h
-        db 0F9h,0Ah,018h,00h,09Bh,0Ah,0F8h,0FFh,02h,00h,06h,00h,09Ch,0Ah,08h,00h
-        db 08h,0Bh,0Ah,00h,09h,0Bh,0Ah,00h,0Ah,0Bh,010h,00h,08h,0Bh,07h,00h
-        db 09Ch,0Ah,0F8h,0FFh,02h,00h,06h,00h,09Bh,0Ah,08h,00h,0FBh,0Ah,0Ah,00h
-        db 0FCh,0Ah,0Ah,00h,0FDh,0Ah,024h,00h,0FBh,0Ah,06h,00h,09Bh,0Ah,0F8h,0FFh
-        db 02h,00h,05h,00h,09Ch,0Ah,08h,00h,0F0h,0Ah,0Ah,00h,0F1h,0Ah,018h,00h
-        db 0F0h,0Ah,06h,00h,09Ch,0Ah,0F8h,0FFh,02h,00h,06h,00h,09Ch,0Ah,08h,00h
-        db 0A4h,0Ah,06h,00h,0ACh,0Ah,06h,00h,0B4h,0Ah,018h,00h,0A4h,0Ah,04h,00h
-        db 09Ch,0Ah,0FBh,0FFh,02h,00h,06h,00h,09Bh,0Ah,08h,00h,0F6h,0Ah,08h,00h
-        db 0F7h,0Ah,08h,00h,0F8h,0Ah,018h,00h,0F6h,0Ah,06h,00h,09Bh,0Ah,0F8h,0FFh
-        db 02h,00h,06h,00h,09Bh,0Ah,08h,00h,0FEh,0Ah,08h,00h,0FFh,0Ah,08h,00h
-        db 00h,0Bh,018h,00h,0FEh,0Ah,06h,00h,09Bh,0Ah,0F8h,0FFh,02h,00h,05h,00h
-        db 09Bh,0Ah,08h,00h,0Bh,0Bh,0Ah,00h,0Ch,0Bh,018h,00h,0Bh,0Bh,06h,00h
-        db 09Bh,0Ah,0F8h,0FFh,02h,00h,05h,00h,09Ch,0Ah,08h,00h,08Ch,0Ah,0Ah,00h
-        db 094h,0Ah,018h,00h,08Ch,0Ah,06h,00h,09Ch,0Ah,0F8h,0FFh,02h,00h,01h,00h
-        db 049h,0Ch,0F8h,0FFh,02h,00h,08h,00h,041h,0Ch,06h,00h,042h,0Ch,06h,00h
-        db 043h,0Ch,06h,00h,044h,0Ch,06h,00h,045h,0Ch,06h,00h,046h,0Ch,06h,00h
-        db 047h,0Ch,06h,00h,048h,0Ch,0FAh,0FFh,02h,00h,0Ch,00h,049h,0Ch,06h,00h
-        db 04Ah,0Ch,06h,00h,04Bh,0Ch,06h,00h,04Ch,0Ch,06h,00h,04Dh,0Ch,06h,00h
-        db 04Eh,0Ch,06h,00h,04Fh,0Ch,06h,00h,050h,0Ch,06h,00h,051h,0Ch,06h,00h
-        db 052h,0Ch,06h,00h,053h,0Ch,06h,00h,054h,0Ch,0FAh,0FFh,02h,00h,09h,00h
-        db 055h,0Ch,06h,00h,056h,0Ch,06h,00h,057h,0Ch,06h,00h,058h,0Ch,06h,00h
-        db 059h,0Ch,06h,00h,05Ah,0Ch,06h,00h,05Bh,0Ch,06h,00h,05Ch,0Ch,06h,00h
-        db 05Dh,0Ch,0FAh,0FFh,00h,00h,01h,00h,05Fh,0Ch,0F8h,0FFh,00h,00h,08h,00h
-        db 0F0h,0Dh,08h,00h,0F8h,0Dh,08h,00h,00h,0Eh,08h,00h,08h,0Eh,08h,00h
-        db 010h,0Eh,08h,00h,018h,0Eh,08h,00h,020h,0Eh,08h,00h,028h,0Eh,0F8h,0FFh
-        db 00h,00h,04h,00h,030h,0Eh,0Ch,00h,038h,0Eh,0Ch,00h,040h,0Eh,0Ch,00h
-        db 048h,0Eh,0F4h,0FFh,00h,00h,01h,00h,067h,0Ch,0F8h,0FFh,00h,00h,01h,00h
-        db 06Fh,0Ch,0F8h,0FFh,00h,00h,08h,00h,077h,0Ch,08h,00h,07Fh,0Ch,08h,00h
-        db 087h,0Ch,08h,00h,08Fh,0Ch,08h,00h,097h,0Ch,08h,00h,09Fh,0Ch,08h,00h
-        db 0A7h,0Ch,08h,00h,0AFh,0Ch,0F8h,0FFh,00h,00h,09h,00h,0B7h,0Ch,04h,00h
-        db 0BFh,0Ch,04h,00h,0C7h,0Ch,04h,00h,0CFh,0Ch,04h,00h,0D7h,0Ch,04h,00h
-        db 0DFh,0Ch,04h,00h,0E7h,0Ch,04h,00h,0EFh,0Ch,04h,00h,0F7h,0Ch,0FCh,0FFh
-        db 00h,00h,02h,00h,0EFh,0Ch,08h,00h,0F7h,0Ch,0F8h,0FFh,00h,00h,01h,00h
-        db 0F7h,0Ch,0F8h,0FFh,00h,00h,09h,00h,087h,0Dh,04h,00h,08Fh,0Dh,04h,00h
-        db 097h,0Dh,04h,00h,09Fh,0Dh,04h,00h,0A7h,0Dh,04h,00h,0AFh,0Dh,04h,00h
-        db 0B7h,0Dh,04h,00h,0BFh,0Dh,04h,00h,0C7h,0Dh,0FCh,0FFh,00h,00h,08h,00h
-        db 0FFh,0Ch,08h,00h,07h,0Dh,08h,00h,0Fh,0Dh,08h,00h,017h,0Dh,08h,00h
-        db 01Fh,0Dh,08h,00h,027h,0Dh,08h,00h,02Fh,0Dh,08h,00h,037h,0Dh,0F8h,0FFh
-        db 00h,00h,01h,00h,07Fh,0Dh,0F8h,0FFh,00h,00h,01h,00h,058h,0Eh,0F8h,0FFh
-        db 00h,00h,02h,00h,050h,0Eh,0Ch,00h,058h,0Eh,0F4h,0FFh,02h,00h,09h,00h
-        db 0E7h,0Dh,08h,00h,0E8h,0Dh,08h,00h,0E9h,0Dh,08h,00h,0EAh,0Dh,08h,00h
-        db 0EBh,0Dh,08h,00h,0ECh,0Dh,08h,00h,0EDh,0Dh,08h,00h,0EEh,0Dh,08h,00h
-        db 0EFh,0Dh,0E4h,0FFh,02h,00h,08h,00h,0DFh,0Dh,01Eh,00h,0E0h,0Dh,06h,00h
-        db 0E1h,0Dh,06h,00h,0E2h,0Dh,06h,00h,0E3h,0Dh,06h,00h,0E4h,0Dh,06h,00h
-        db 0E5h,0Dh,06h,00h,0E6h,0Dh,0F0h,0FFh,00h,00h,09h,00h,0C7h,0Dh,04h,00h
-        db 0BFh,0Dh,04h,00h,0B7h,0Dh,04h,00h,0AFh,0Dh,04h,00h,0A7h,0Dh,04h,00h
-        db 09Fh,0Dh,04h,00h,097h,0Dh,04h,00h,08Fh,0Dh,04h,00h,087h,0Dh,0FCh,0FFh
-        db 00h,00h,02h,00h,0D7h,0Dh,0Ch,00h,0CFh,0Dh,0F4h,0FFh,00h,00h,03h,00h
-        db 0CFh,0Dh,0Ch,00h,0D7h,0Dh,0Ch,00h,07Fh,0Dh,0F4h,0FFh,00h,00h,08h,00h
-        db 03Fh,0Dh,08h,00h,047h,0Dh,08h,00h,04Fh,0Dh,08h,00h,057h,0Dh,08h,00h
-        db 05Fh,0Dh,08h,00h,067h,0Dh,08h,00h,06Fh,0Dh,08h,00h,077h,0Dh,0F8h,0FFh
-        db 00h,00h,01h,00h,03Fh,0Dh,0F8h,0FFh,01h,00h,01h,00h,0DBh,0Eh,0FCh
+        db 0E1h,0Bh,06h,00h,0E3h,0Bh,0FAh,0FFh,04h,00h,02h,00h,0F1h,0Bh,06h,00h
+        db 63h,0Bh,0FAh,0FFh,04h,00h,08h,00h,0E5h,0Bh,06h,00h,0F5h,0Bh,06h,00h
+        db 0F7h,0Bh,06h,00h,0F9h,0Bh,06h,00h,0FBh,0Bh,06h,00h,0FDh,0Bh,06h,00h
+        db 0FFh,0Bh,06h,00h,01h,0Ch,0FAh,0FFh,04h,00h,08h,00h,1Bh,0Ch,06h,00h
+        db 1Dh,0Ch,06h,00h,1Fh,0Ch,06h,00h,21h,0Ch,06h,00h,23h,0Ch,06h,00h
+        db 25h,0Ch,06h,00h,27h,0Ch,06h,00h,0E7h,0Bh,0FAh,0FFh,04h,00h,04h,00h
+        db 0E9h,0Bh,08h,00h,0EBh,0Bh,08h,00h,03h,0Ch,08h,00h,05h,0Ch,0F8h,0FFh
+        db 04h,00h,05h,00h,0E9h,0Bh,08h,00h,0EBh,0Bh,08h,00h,0EDh,0Bh,08h,00h
+        db 0EFh,0Bh,08h,00h,0F1h,0Bh,0F8h,0FFh,04h,00h,02h,00h,29h,0Ch,08h,00h
+        db 2Bh,0Ch,0F8h,0FFh,04h,00h,01h,00h,05h,0Ch,0F4h,0FFh,04h,00h,01h,00h
+        db 2Bh,0Ch,0F4h,0FFh,04h,00h,04h,00h,07h,0Ch,07h,00h,09h,0Ch,07h,00h
+        db 0Bh,0Ch,07h,00h,0Dh,0Ch,0F9h,0FFh,04h,00h,04h,00h,2Dh,0Ch,07h,00h
+        db 2Fh,0Ch,07h,00h,31h,0Ch,07h,00h,33h,0Ch,0F9h,0FFh,04h,00h,03h,00h
+        db 0E9h,0Bh,08h,00h,0EBh,0Bh,08h,00h,0Fh,0Ch,0F8h,0FFh,04h,00h,01h,00h
+        db 35h,0Ch,0F8h,0FFh,04h,00h,01h,00h,0Fh,0Ch,0F4h,0FFh,04h,00h,01h,00h
+        db 35h,0Ch,0F4h,0FFh,04h,00h,05h,00h,11h,0Ch,06h,00h,13h,0Ch,06h,00h
+        db 15h,0Ch,06h,00h,17h,0Ch,06h,00h,19h,0Ch,0FAh,0FFh,04h,00h,05h,00h
+        db 37h,0Ch,06h,00h,39h,0Ch,06h,00h,3Bh,0Ch,06h,00h,3Dh,0Ch,06h,00h
+        db 3Fh,0Ch,0FAh,0FFh
+SPAgready2:                                     ; SPA 0x5E3: goalie ready, held frame; -30 end time as in 94G SPAgready2 (confidence medium)
+        db 00h,00h,01h,00h,80h,02h,0E2h,0FFh
+SPAgglovel:                                     ; SPA 0x5E7: goalie glove save left (SkillForAnim, by position in its table) (confidence low)
+        db 00h,00h,02h,00h,0A8h,02h,08h,00h,0B0h,02h,0ECh,0FFh
+SPAgglover:                                     ; SPA 0x5ED: goalie glove save right (SkillForAnim, by position in its table) (confidence low)
+        db 00h,00h,02h,00h,0B8h,02h,08h,00h,0C0h,02h,0ECh,0FFh
+SPAgstickr:                                     ; SPA 0x5F3: goalie stick save right (SkillForAnim, by position in its table) (confidence low)
+        db 00h,00h,02h,00h,98h,02h,08h,00h,0A0h,02h,0ECh,0FFh
+SPAgstickl:                                     ; SPA 0x5F9: goalie stick save left (SkillForAnim, by position in its table) (confidence low)
+        db 00h,00h,02h,00h,88h,02h,08h,00h,90h,02h,0ECh,0FFh,00h,00h,08h,00h
+        db 0E0h,02h,08h,00h,0E8h,02h,08h,00h,0F0h,02h,1Eh,00h,90h,04h,07h,00h
+        db 98h,04h,07h,00h,78h,04h,07h,00h,80h,04h,07h,00h,88h,04h,0F9h,0FFh
+        db 00h,00h,08h,00h,0C8h,02h,08h,00h,0D0h,02h,08h,00h,0D8h,02h,1Eh,00h
+        db 0A0h,04h,07h,00h,0A8h,04h,07h,00h,78h,04h,07h,00h,80h,04h,07h,00h
+        db 88h,04h,0F9h,0FFh,20h,00h,08h,00h,0F8h,02h,08h,00h,00h,03h,08h,00h
+        db 08h,03h,28h,00h,68h,04h,07h,00h,70h,04h,07h,00h,78h,04h,07h,00h
+        db 80h,04h,07h,00h,88h,04h,0F9h,0FFh,00h,00h,05h,00h,0F0h,03h,08h,00h
+        db 0F8h,03h,1Eh,00h,78h,04h,07h,00h,80h,04h,07h,00h,88h,04h,0F9h,0FFh
+        db 00h,00h,05h,00h,0F0h,03h,08h,00h,0F8h,03h,5Ah,00h,78h,04h,07h,00h
+        db 80h,04h,07h,00h,88h,04h,0F9h,0FFh
+SPAgofallglove:                                 ; SPA 0x64D: goalie falls on the glove side (SkillForAnim, by position) (confidence low)
+        db 20h,00h,08h,00h,20h,03h,08h,00h,28h,03h,08h,00h,30h,03h,14h,00h
+        db 90h,04h,07h,00h,98h,04h,07h,00h,78h,04h,07h,00h,80h,04h,07h,00h
+        db 88h,04h,0F9h,0FFh
+SPAgofallstick:                                 ; SPA 0x65F: goalie falls on the stick side (SkillForAnim, by position) (confidence low)
+        db 20h,00h,08h,00h,40h,03h,08h,00h,48h,03h,08h,00h,50h,03h,14h,00h
+        db 0A0h,04h,07h,00h,0A8h,04h,07h,00h,78h,04h,07h,00h,80h,04h,07h,00h
+        db 88h,04h,0F9h,0FFh,00h,00h,03h,00h,60h,03h,04h,00h,68h,03h,0Fh,00h
+        db 60h,03h,0FAh,0FFh,00h,00h,08h,00h,70h,03h,04h,00h,78h,03h,04h,00h
+        db 80h,03h,04h,00h,88h,03h,04h,00h,90h,03h,04h,00h,98h,03h,04h,00h
+        db 0A0h,03h,04h,00h,0A8h,03h,0FCh,0FFh,00h,00h,02h,00h,0B0h,03h,08h,00h
+        db 80h,02h,0F8h,0FFh,00h,00h,02h,00h,0B8h,03h,08h,00h,80h,02h,0F8h,0FFh
+        db 00h,00h,04h,00h,10h,03h,08h,00h,18h,03h,14h,00h,80h,04h,07h,00h
+        db 88h,04h,0F9h,0FFh,00h,00h,02h,00h,00h,04h,05h,00h,08h,04h,0F0h,0FFh
+        db 00h,00h,01h,00h,10h,04h,0ECh,0FFh,00h,00h,04h,00h,18h,04h,08h,00h
+        db 20h,04h,1Eh,00h,80h,04h,07h,00h,88h,04h,0F9h,0FFh
+SPAgwallleft:                                   ; SPA 0x6B5: goalie against the wall left (position 0 case of asspsclear, assbench; 95 SPAgwallleft) (confidence medium)
+        db 08h,00h,08h,00h,78h,08h,04h,00h,80h,08h,04h,00h,88h,08h,04h,00h
+        db 90h,08h,04h,00h,98h,08h,04h,00h,0A0h,08h,04h,00h,0A8h,08h,04h,00h
+        db 0B0h,08h,0FCh,0FFh
+SPAgwallright:                                  ; SPA 0x6C7: goalie against the wall right (asseben; 95 SPAgwallright) (confidence medium)
+        db 18h,00h,08h,00h,78h,08h,04h,00h,80h,08h,04h,00h,88h,08h,04h,00h
+        db 90h,08h,04h,00h,98h,08h,04h,00h,0A0h,08h,04h,00h,0A8h,08h,04h,00h
+        db 0B0h,08h,0FCh,0FFh,00h,00h,02h,00h,28h,04h,08h,00h,30h,04h,0F4h,0FFh
+SPAgready:                                      ; SPA 0x6DF: goalie ready: blinks between the held frame and the ready frames (94G SPAgready timing) (confidence medium)
+        db 00h,00h,0Bh,00h,80h,02h,78h,00h,28h,04h,08h,00h,30h,04h,0Ah,00h
+        db 28h,04h,08h,00h,30h,04h,0Ah,00h,80h,02h,6Bh,00h,28h,04h,08h,00h
+        db 30h,04h,0Ah,00h,28h,04h,08h,00h,30h,04h,0Ah,00h,80h,02h,0F6h,0FFh
+        db 00h,00h,0Ah,00h,80h,02h,64h,00h,20h,05h,0Ah,00h,28h,05h,0Ah,00h
+        db 30h,05h,0Ah,00h,38h,05h,0Ah,00h,40h,05h,0Ah,00h,48h,05h,0Ah,00h
+        db 50h,05h,0Ah,00h,58h,05h,0Ah,00h,20h,05h,0Ah,00h,80h,02h,0F6h,0FFh
+        db 00h,00h,01h,00h,08h,00h,0BCh,0FFh,00h,00h,01h,00h,00h,00h,0D1h,0FFh
+        db 00h,00h,01h,00h,78h,01h,0CBh,0FFh,00h,00h,01h,00h,0F8h,08h,0F8h,0FFh
+        db 00h,00h,01h,00h,00h,09h,0F8h,0FFh,00h,00h,01h,00h,08h,09h,0F8h,0FFh
+        db 00h,00h,02h,00h,10h,09h,0Ah,00h,18h,09h,0ECh,0FFh,00h,00h,01h,00h
+        db 28h,09h,0D3h,0FFh,00h,00h,01h,00h,20h,09h,0D3h,0FFh,00h,00h,03h,00h
+        db 30h,09h,0Ah,00h,38h,09h,3Ch,00h,30h,09h,0F8h,0FFh,00h,00h,09h,00h
+        db 40h,09h,0Ah,00h,48h,09h,0Ch,00h,40h,09h,0Eh,00h,48h,09h,0Fh,00h
+        db 40h,09h,10h,00h,48h,09h,11h,00h,40h,09h,12h,00h,48h,09h,14h,00h
+        db 40h,09h,0F8h,0FFh
+SPArefskate:                                    ; SPA 0x751: referee skating (noturn0; 95 SPArefskate) (confidence medium)
+        db 00h,00h,08h,00h,50h,09h,04h,00h,58h,09h,04h,00h,60h,09h,04h,00h
+        db 68h,09h,04h,00h,70h,09h,04h,00h,78h,09h,04h,00h,80h,09h,04h,00h
+        db 88h,09h,0FCh,0FFh
+SPArefglide:                                    ; SPA 0x763: referee glide (dostop, noturn0, every ref assignment; 95 SPArefglide)
+        db 00h,00h,01h,00h,98h,0Ah,0FCh,0FFh
+SPArefstop:                                     ; SPA 0x767: referee stop (dostop; 95 SPArefstop)
+        db 00h,00h,02h,00h,0D0h,09h,08h,00h,0D8h,09h,0E4h,0FFh
+SPArefstophold:                                 ; SPA 0x76D: referee stop, held end frame (dostop switches to it when SPArefstop ends) (confidence medium)
+        db 01h,00h,01h,00h,0D8h,09h,0F0h,0FFh
+SPAarmupskate:                                  ; SPA 0x771: referee skating, arm up (noturn0; 95 SPAarmupskate) (confidence medium)
+        db 00h,00h,08h,00h,90h,09h,04h,00h,98h,09h,04h,00h,0A0h,09h,04h,00h
+        db 0A8h,09h,04h,00h,0B0h,09h,04h,00h,0B8h,09h,04h,00h,0C0h,09h,04h,00h
+        db 0C8h,09h,0FCh,0FFh
+SPAarmupglide:                                  ; SPA 0x783: referee glide, arm up (dostop, noturn0; 95 SPAarmupglide) (confidence medium)
+        db 00h,00h,01h,00h,0B8h,0Ah,0FCh,0FFh
+SPAarmupstop:                                   ; SPA 0x787: referee stop, arm up (dostop when the ref signals; 95 SPAarmupstop) (confidence medium)
+        db 00h,00h,02h,00h,0E0h,09h,08h,00h,0E8h,09h,0E4h,0FFh
+SPAarmupstophold:                               ; SPA 0x78D: referee stop, arm up, held end frame (confidence medium)
+        db 01h,00h,01h,00h,0E8h,09h,0EEh,0FFh
+SPArefpickup:                                   ; SPA 0x791: referee picks up the puck (assrefpenshot, assrefgoalpa; 95 SPArefpickup)
+        db 00h,00h,05h,00h,98h,0Ah,08h,00h,08h,0Ah,08h,00h,10h,0Ah,0Ch,00h
+        db 08h,0Ah,06h,00h,98h,0Ah,0FAh,0FFh
+SPArefdrop:                                     ; SPA 0x79D: referee drops the puck (puckfaceoff2; 95 SPArefdrop) (confidence medium)
+        db 00h,00h,04h,00h,0F0h,09h,08h,00h,0F8h,09h,08h,00h,0F0h,09h,08h,00h
+        db 00h,0Ah,0F8h,0FFh
+SPAreffowait:                                   ; SPA 0x7A7: referee waits at the faceoff dot (assrefatdot, puckfaceoff2; 95 SPAreffowait) (confidence medium)
+        db 00h,00h,01h,00h,0F0h,09h,0F8h,0FFh,00h,00h,01h,00h,20h,0Ah,0F8h,0FFh
+        db 00h,00h,01h,00h,40h,0Ah,0F8h,0FFh,00h,00h,02h,00h,18h,0Ah,08h,00h
+        db 20h,0Ah,0F8h,0FFh,00h,00h,02h,00h,38h,0Ah,08h,00h,40h,0Ah,0F8h,0FFh
+        db 00h,00h,01h,00h,30h,0Ah,0F8h,0FFh,00h,00h,01h,00h,50h,0Ah,0F8h,0FFh
+        db 00h,00h,02h,00h,28h,0Ah,08h,00h,30h,0Ah,0F8h,0FFh,00h,00h,02h,00h
+        db 48h,0Ah,08h,00h,50h,0Ah,0F8h,0FFh
+SPAreffallback:                                 ; SPA 0x7D3: referee falls back (FallDown; 95 SPAreffallback) (confidence medium)
+        db 20h,00h,08h,00h,58h,0Ah,05h,00h,60h,0Ah,05h,00h,68h,0Ah,05h,00h
+        db 70h,0Ah,05h,00h,78h,0Ah,05h,00h,80h,0Ah,28h,00h,0C0h,0Ah,08h,00h
+        db 0C8h,0Ah,0F8h,0FFh,00h,00h,03h,00h,88h,0Ah,08h,00h,90h,0Ah,14h,00h
+        db 88h,0Ah,0F8h,0FFh
+SPArefpointgoa:                                 ; SPA 0x7ED: referee points to the goal (assrefwhistle; 95 SPArefpointgoa) (confidence medium)
+        db 00h,00h,05h,00h,0A0h,0Ah,06h,00h,0A8h,0Ah,06h,00h,0B0h,0Ah,18h,00h
+        db 0A0h,0Ah,04h,00h,98h,0Ah,0FBh,0FFh,00h,00h,05h,00h,0A0h,0Ah,06h,00h
+        db 0A8h,0Ah,06h,00h,0B0h,0Ah,18h,00h,0A0h,0Ah,04h,00h,98h,0Ah,1Bh,0FEh
+        db 00h,00h,05h,00h,0A0h,0Ah,06h,00h,0A8h,0Ah,06h,00h,0B0h,0Ah,18h,00h
+        db 0A0h,0Ah,04h,00h,98h,0Ah,0E3h,0FEh,02h,00h,04h,00h,9Ch,0Ah,08h,00h
+        db 01h,0Bh,09h,00h,02h,0Bh,18h,00h,9Ch,0Ah,0F8h,0FFh,02h,00h,0Ah,00h
+        db 9Ch,0Ah,08h,00h,0F2h,0Ah,08h,00h,0F3h,0Ah,08h,00h,0F4h,0Ah,08h,00h
+        db 0F5h,0Ah,08h,00h,0F2h,0Ah,08h,00h,0F3h,0Ah,08h,00h,0F4h,0Ah,08h,00h
+        db 0F5h,0Ah,08h,00h,9Ch,0Ah,0F8h,0FFh,02h,00h,06h,00h,9Bh,0Ah,08h,00h
+        db 03h,0Bh,08h,00h,04h,0Bh,08h,00h,05h,0Bh,10h,00h,03h,0Bh,07h,00h
+        db 9Bh,0Ah,0F8h,0FFh,02h,00h,05h,00h,9Bh,0Ah,08h,00h,06h,0Bh,0Ah,00h
+        db 07h,0Bh,18h,00h,06h,0Bh,06h,00h,9Bh,0Ah,0F8h,0FFh,02h,00h,05h,00h
+        db 9Bh,0Ah,08h,00h,0F9h,0Ah,0Ah,00h,0FAh,0Ah,0Ah,00h,0F9h,0Ah,18h,00h
+        db 9Bh,0Ah,0F8h,0FFh,02h,00h,06h,00h,9Ch,0Ah,08h,00h,08h,0Bh,0Ah,00h
+        db 09h,0Bh,0Ah,00h,0Ah,0Bh,10h,00h,08h,0Bh,07h,00h,9Ch,0Ah,0F8h,0FFh
+        db 02h,00h,06h,00h,9Bh,0Ah,08h,00h,0FBh,0Ah,0Ah,00h,0FCh,0Ah,0Ah,00h
+        db 0FDh,0Ah,24h,00h,0FBh,0Ah,06h,00h,9Bh,0Ah,0F8h,0FFh,02h,00h,05h,00h
+        db 9Ch,0Ah,08h,00h,0F0h,0Ah,0Ah,00h,0F1h,0Ah,18h,00h,0F0h,0Ah,06h,00h
+        db 9Ch,0Ah,0F8h,0FFh,02h,00h,06h,00h,9Ch,0Ah,08h,00h,0A4h,0Ah,06h,00h
+        db 0ACh,0Ah,06h,00h,0B4h,0Ah,18h,00h,0A4h,0Ah,04h,00h,9Ch,0Ah,0FBh,0FFh
+        db 02h,00h,06h,00h,9Bh,0Ah,08h,00h,0F6h,0Ah,08h,00h,0F7h,0Ah,08h,00h
+        db 0F8h,0Ah,18h,00h,0F6h,0Ah,06h,00h,9Bh,0Ah,0F8h,0FFh,02h,00h,06h,00h
+        db 9Bh,0Ah,08h,00h,0FEh,0Ah,08h,00h,0FFh,0Ah,08h,00h,00h,0Bh,18h,00h
+        db 0FEh,0Ah,06h,00h,9Bh,0Ah,0F8h,0FFh,02h,00h,05h,00h,9Bh,0Ah,08h,00h
+        db 0Bh,0Bh,0Ah,00h,0Ch,0Bh,18h,00h,0Bh,0Bh,06h,00h,9Bh,0Ah,0F8h,0FFh
+        db 02h,00h,05h,00h,9Ch,0Ah,08h,00h,8Ch,0Ah,0Ah,00h,94h,0Ah,18h,00h
+        db 8Ch,0Ah,06h,00h,9Ch,0Ah,0F8h,0FFh,02h,00h,01h,00h,49h,0Ch,0F8h,0FFh
+        db 02h,00h,08h,00h,41h,0Ch,06h,00h,42h,0Ch,06h,00h,43h,0Ch,06h,00h
+        db 44h,0Ch,06h,00h,45h,0Ch,06h,00h,46h,0Ch,06h,00h,47h,0Ch,06h,00h
+        db 48h,0Ch,0FAh,0FFh,02h,00h,0Ch,00h,49h,0Ch,06h,00h,4Ah,0Ch,06h,00h
+        db 4Bh,0Ch,06h,00h,4Ch,0Ch,06h,00h,4Dh,0Ch,06h,00h,4Eh,0Ch,06h,00h
+        db 4Fh,0Ch,06h,00h,50h,0Ch,06h,00h,51h,0Ch,06h,00h,52h,0Ch,06h,00h
+        db 53h,0Ch,06h,00h,54h,0Ch,0FAh,0FFh,02h,00h,09h,00h,55h,0Ch,06h,00h
+        db 56h,0Ch,06h,00h,57h,0Ch,06h,00h,58h,0Ch,06h,00h,59h,0Ch,06h,00h
+        db 5Ah,0Ch,06h,00h,5Bh,0Ch,06h,00h,5Ch,0Ch,06h,00h,5Dh,0Ch,0FAh,0FFh
+        db 00h,00h,01h,00h,5Fh,0Ch,0F8h,0FFh,00h,00h,08h,00h,0F0h,0Dh,08h,00h
+        db 0F8h,0Dh,08h,00h,00h,0Eh,08h,00h,08h,0Eh,08h,00h,10h,0Eh,08h,00h
+        db 18h,0Eh,08h,00h,20h,0Eh,08h,00h,28h,0Eh,0F8h,0FFh,00h,00h,04h,00h
+        db 30h,0Eh,0Ch,00h,38h,0Eh,0Ch,00h,40h,0Eh,0Ch,00h,48h,0Eh,0F4h,0FFh
+        db 00h,00h,01h,00h,67h,0Ch,0F8h,0FFh,00h,00h,01h,00h,6Fh,0Ch,0F8h,0FFh
+        db 00h,00h,08h,00h,77h,0Ch,08h,00h,7Fh,0Ch,08h,00h,87h,0Ch,08h,00h
+        db 8Fh,0Ch,08h,00h,97h,0Ch,08h,00h,9Fh,0Ch,08h,00h,0A7h,0Ch,08h,00h
+        db 0AFh,0Ch,0F8h,0FFh,00h,00h,09h,00h,0B7h,0Ch,04h,00h,0BFh,0Ch,04h,00h
+        db 0C7h,0Ch,04h,00h,0CFh,0Ch,04h,00h,0D7h,0Ch,04h,00h,0DFh,0Ch,04h,00h
+        db 0E7h,0Ch,04h,00h,0EFh,0Ch,04h,00h,0F7h,0Ch,0FCh,0FFh,00h,00h,02h,00h
+        db 0EFh,0Ch,08h,00h,0F7h,0Ch,0F8h,0FFh,00h,00h,01h,00h,0F7h,0Ch,0F8h,0FFh
+        db 00h,00h,09h,00h,87h,0Dh,04h,00h,8Fh,0Dh,04h,00h,97h,0Dh,04h,00h
+        db 9Fh,0Dh,04h,00h,0A7h,0Dh,04h,00h,0AFh,0Dh,04h,00h,0B7h,0Dh,04h,00h
+        db 0BFh,0Dh,04h,00h,0C7h,0Dh,0FCh,0FFh,00h,00h,08h,00h,0FFh,0Ch,08h,00h
+        db 07h,0Dh,08h,00h,0Fh,0Dh,08h,00h,17h,0Dh,08h,00h,1Fh,0Dh,08h,00h
+        db 27h,0Dh,08h,00h,2Fh,0Dh,08h,00h,37h,0Dh,0F8h,0FFh,00h,00h,01h,00h
+        db 7Fh,0Dh,0F8h,0FFh,00h,00h,01h,00h,58h,0Eh,0F8h,0FFh,00h,00h,02h,00h
+        db 50h,0Eh,0Ch,00h,58h,0Eh,0F4h,0FFh,02h,00h,09h,00h,0E7h,0Dh,08h,00h
+        db 0E8h,0Dh,08h,00h,0E9h,0Dh,08h,00h,0EAh,0Dh,08h,00h,0EBh,0Dh,08h,00h
+        db 0ECh,0Dh,08h,00h,0EDh,0Dh,08h,00h,0EEh,0Dh,08h,00h,0EFh,0Dh,0E4h,0FFh
+        db 02h,00h,08h,00h,0DFh,0Dh,1Eh,00h,0E0h,0Dh,06h,00h,0E1h,0Dh,06h,00h
+        db 0E2h,0Dh,06h,00h,0E3h,0Dh,06h,00h,0E4h,0Dh,06h,00h,0E5h,0Dh,06h,00h
+        db 0E6h,0Dh,0F0h,0FFh,00h,00h,09h,00h,0C7h,0Dh,04h,00h,0BFh,0Dh,04h,00h
+        db 0B7h,0Dh,04h,00h,0AFh,0Dh,04h,00h,0A7h,0Dh,04h,00h,9Fh,0Dh,04h,00h
+        db 97h,0Dh,04h,00h,8Fh,0Dh,04h,00h,87h,0Dh,0FCh,0FFh,00h,00h,02h,00h
+        db 0D7h,0Dh,0Ch,00h,0CFh,0Dh,0F4h,0FFh,00h,00h,03h,00h,0CFh,0Dh,0Ch,00h
+        db 0D7h,0Dh,0Ch,00h,7Fh,0Dh,0F4h,0FFh,00h,00h,08h,00h,3Fh,0Dh,08h,00h
+        db 47h,0Dh,08h,00h,4Fh,0Dh,08h,00h,57h,0Dh,08h,00h,5Fh,0Dh,08h,00h
+        db 67h,0Dh,08h,00h,6Fh,0Dh,08h,00h,77h,0Dh,0F8h,0FFh,00h,00h,01h,00h
+        db 3Fh,0Dh,0F8h,0FFh
+SPApflip:                                       ; SPA 0x9EF: puck flip (puckflip; 95 SPApflip)
+        db 01h,00h,01h,00h,0DBh,0Eh,0FCh
 LinePickOrderFrom1:                             ; same code as in the next game; used by releasepl
         db 0FFh

@@ -1,6 +1,7 @@
 ; Setting up a game: players at the start, SetupGame, SetupDemoGame, the game variables.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_1D6C1 progbits alloc exec nowrite align=1
 extern assinsert, BuildDefaultLines, apl, curevent, Crowdlevel, CrowdNoiseReset, curperiod, GameLoopFrames
 extern gameresult, GameFrameCount, InputRepeatState, SumCwdExciteLvl, energywarn, exitgame, fadeinpending
@@ -134,7 +135,7 @@ PlacePlayersAtStart:
         mov word [byte ebx+036h], ax
         cmp word [byte ebx+01Ah], byte 0
         jne short .5
-        mov word [regd1], 6DFh
+        mov word [regd1], SPAgready
         jmp short .6
 .5:
         mov word [regd1], 1

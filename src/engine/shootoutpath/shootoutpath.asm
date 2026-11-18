@@ -1,6 +1,7 @@
 ; Shootout path: path points, starting the path and the penalty shooter.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_36BF8 progbits alloc exec nowrite align=1
 extern donothing, doshot, Findhittype, gmode, passdir, passspeed, PathPointTab, PenShotPathPoints
 extern pspathdir, pspathside, puckc, randomd0, regd0, regd1, SetSPA, ShootoutPathData_y
@@ -252,10 +253,10 @@ asspenshooter:
         call Findhittype
         test ax, ax
         je short .11
-        mov ecx, 10Dh
+        mov ecx, SPAonetimef
         jmp short .12
 .11:
-        mov ecx, 117h
+        mov ecx, SPAonetimeb
 .12:
         movsx edx, cx
         mov eax, ebx

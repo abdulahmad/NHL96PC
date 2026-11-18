@@ -1,6 +1,7 @@
 ; Offsides: offside and two-line pass checks, touch-up and puck flip.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_34D49 progbits alloc exec nowrite align=1
 extern AddPenalty, assexit, awtmap, gameopts, gmode, gmode2, hmtmap, icingPlayer
 extern iflags, LastPlayerTouch, lasttouch, LastTouchTeam, PassDistY, penshotlive, penshotstart, PuckChasers
@@ -374,7 +375,7 @@ puckflip:
         xor dh, dh
         and dl, 3
         mov word [byte eax+036h], dx
-        mov edx, 9EFh
+        mov edx, SPApflip
         mov word [byte eax+03Ch], 0FFFFh
         call SetSPA
         mov word [PuckObject+4Ah], 1

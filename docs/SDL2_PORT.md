@@ -48,7 +48,7 @@ cd /path/to/NHL96/game/files        # the directory with the installed game data
 /path/to/NHL96PC/build/hockey-linux # or NHL96_ROOT=/path/to/game/files
 ```
 
-The host also needs `lst/HOCKEY.EXE` (committed for now) or `NHL96_EXE`. The game's data files are not in this repository.
+The host also needs your own `HOCKEY.EXE`: `lst/HOCKEY.EXE`, beside the host, or `NHL96_EXE`. The game's data files are not in this repository.
 
 ## Windows
 

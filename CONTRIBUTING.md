@@ -28,7 +28,7 @@ of its README and in every release. Add it first.
   `tools/build/format_asm.py --headers`), jump targets as local labels (`.1`; `tools/names/localize_labels.py`) unless
   another routine jumps there (`<Routine>_<offset>`). `tools/build/format_asm.py --check` must pass.
 - No macros except `LD` (docs/ASM_BUILD.md). Labels instead of addresses wherever NASM can compute them.
-- Do not commit game data, `build/`, other `*.lst` files or patches (`lst/HOCKEY.EXE` and its IDA listing are committed temporarily).
+- Do not commit game data, `build/`, other `*.lst` files or patches (`lst/HOCKEY.EXE` and its IDA listing are your own copies, never committed).
 
 ## Comments
 

@@ -37,7 +37,7 @@ Queue row 0: `src/engine/logic/logic.asm`. <- CURRENT
 
 - Source of truth: `src/`. Search `src/` for an address to find its line. Do not run `tools/build/gen_src.py` on `src/`: it regenerates
   the tree and throws away every name and comment (it refuses without `--force`).
-- Reference EXE `lst/HOCKEY.EXE` and Abdul's IDA listing `lst/HOCKEY.EXE.lst` (both committed for now, temporary). The listing is a
+- Reference EXE `lst/HOCKEY.EXE` and Abdul's IDA listing `lst/HOCKEY.EXE.lst` (your own copies, gitignored, not in the repo). The listing is a
   reference for cross-references and IDA's view of a routine; never edit it, and the build never reads it. Its addresses are the
   linear addresses in `src/` (`cseg02` is printed as offsets: add 0xF0000; 233 library functions are collapsed).
 - Name evidence:

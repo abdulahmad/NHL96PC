@@ -2,7 +2,7 @@
 
 > **🤝 Making a mod, hack, port or other derivative work from this repo? You must credit me and everyone credited in this repo, clearly, in your own repo and in every release. See [Credits and derivative works](#credits-and-derivative-works).**
 
-> **Temporary:** the retail HOCKEY.EXE is committed in `lst/` for convenience while the repo is young. It will be removed as the repo gets closer to final; after that you supply your own copy (the build finds it by SHA-1 and size, any file name, and tells you exactly what it needs when it is missing). The IDA listing `lst/HOCKEY.EXE.lst` is committed on the same temporary basis. Patch files are never committed.
+> **📀 The retail EXE is not included.** Copy `HOCKEY.EXE` from your own NHL 96 install to `lst/HOCKEY.EXE` (gitignored), or pass its path to `./build.sh`; the build checks its SHA-1 and size and tells you exactly what it needs when it is missing. The IDA listing is not in the repo either: keep your own copy at `lst/HOCKEY.EXE.lst` if you have one. Patch files are never committed.
 
 > **📀 The other game files are needed to run the game.** This repo builds `HOCKEY.EXE` only; the game's data (`*.VIV`, `*.FSH`, `*.ASF`, `*.QFS` and the rest of the install) is not here.
 
@@ -20,7 +20,7 @@
 | | |
 |---|---|
 | File | `lst/HOCKEY.EXE` (any name in the repo folder works) |
-| IDA listing | `lst/HOCKEY.EXE.lst` (reference for contributors; the build does not use it) |
+| IDA listing | `lst/HOCKEY.EXE.lst` (your own copy, not in the repo; the build does not use it) |
 | Size | 1,613,291 bytes |
 | SHA-1 | `426fb8c0c80088c6a2c56a9dac50509cb9c24540` |
 | CRC32 | `0E04F0D5` |

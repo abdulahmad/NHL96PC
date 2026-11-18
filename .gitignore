@@ -1,5 +1,5 @@
-# Game files: only the retail EXE in lst/ is committed (temporary, for convenience; it leaves the repo later). The build finds
-# it by SHA-1 and size. Never commit patches or other game files.
+# Game files: never committed. Your own retail EXE goes at lst/HOCKEY.EXE (the build checks SHA-1 and size).
+# Never commit patches or other game files.
 *.exe
 *.EXE
 *.int
@@ -26,6 +26,4 @@ __pycache__/
 *.pyc
 *.log
 .DS_Store
-!lst/HOCKEY.EXE
-!lst/HOCKEY.EXE.lst
 *.pkl

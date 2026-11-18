@@ -10,6 +10,7 @@ EXE="${1:-lst/HOCKEY.EXE}"
 [ -f "$EXE" ] || { echo "HOCKEY.EXE not found: expected lst/HOCKEY.EXE (1613291 bytes, SHA-1 426fb8c0c80088c6a2c56a9dac50509cb9c24540) or pass a path" >&2; exit 1; }
 command -v "$NASM" >/dev/null || { echo "nasm not found (apt install nasm / brew install nasm; or set NASM=)" >&2; exit 1; }
 "$PY" tools/build/rebuild_exe.py extract "$EXE" build/parts
+"$PY" tools/build/gen_teamstrings.py "$EXE" build/teamstrings.bin
 JOBS="$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 4)"
 SRCS="$(awk '!/^#/ && NF {print "src/" $6}' src/segments.txt)"
 echo "assembling $(echo "$SRCS" | wc -l) files with $JOBS jobs"

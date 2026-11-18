@@ -166,9 +166,9 @@ str_TB11:                                       ; string 'TB11'; used by UserRec
         db 054h,042h,031h,031h,00h
 str_TB10:                                       ; string 'TB10'; used by UserRecordsScreen
         db 054h,042h,031h,030h,00h
-str_MightyDucks:                                ; string 'Mighty Ducks'; used by DrawOverlayPanels
-        db 04Dh,069h,067h,068h,074h,079h,020h,044h,075h,063h,06Bh,073h,00h
+str_MightyDucks:                                ; team name string 72; used by DrawOverlayPanels
+        incbin "build/teamstrings.bin", 812, 13
 str_fmt2d:                                      ; string '%2d'; used by DrawOverlayPanels
         db 025h,032h,064h,00h
-str_OfAnaheim:                                  ; string 'of Anaheim'; used by DrawOverlayPanels
-        db 06Fh,066h,020h,041h,06Eh,061h,068h,065h,069h,06Dh,00h
+str_OfAnaheim:                                  ; team name string 73; used by DrawOverlayPanels
+        incbin "build/teamstrings.bin", 825, 11

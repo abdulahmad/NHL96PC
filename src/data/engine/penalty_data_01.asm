@@ -454,12 +454,12 @@ SPAboxsitep:                                    ; SPA 0x441: sitting in the box 
         db 00h,00h,09h,00h,08h,00h,08h,00h,0B8h,08h,06h,00h,0C0h,08h,06h,00h
         db 0C8h,08h,06h,00h,0D0h,08h,06h,00h,0D8h,08h,06h,00h,0E0h,08h,06h,00h
         db 0E8h,08h,06h,00h,0F0h,08h,0FAh,0FFh
-SPAskateback:                                   ; SPA 0x455: skating backward (doplayeracc, dostop, noturn0)
+SPAskatebox:                                   ; SPA 0x455: player skating to the penalty box after a fight (doplayeracc, dostop, noturn0)
                                                 ; (confidence medium)
         db 00h,00h,08h,00h,0Dh,0Bh,04h,00h,15h,0Bh,04h,00h,1Dh,0Bh,04h,00h
         db 25h,0Bh,04h,00h,2Dh,0Bh,04h,00h,35h,0Bh,04h,00h,3Dh,0Bh,04h,00h
         db 45h,0Bh,0FCh,0FFh
-SPAglideback:                                   ; SPA 0x467: gliding backward (doplayeracc, noturn0)
+SPAglidebox:                                   ; SPA 0x467: the same skate to the penalty box as one held frame (doplayeracc, noturn0)
                                                 ; (confidence medium)
         db 00h,00h,01h,00h,0Dh,0Bh,0FCh,0FFh
 SPAfightdrop:                                   ; SPA 0x46B: gloves drop and the fighters take their stance;

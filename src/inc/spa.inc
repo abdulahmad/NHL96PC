@@ -93,8 +93,8 @@ SPAcelebratevis      equ 0405h
 SPAcelebratevis2     equ 0413h
 SPAboxsit            equ 0425h
 SPAboxsitep          equ 0441h
-SPAskateback         equ 0455h
-SPAglideback         equ 0467h
+SPAskatebox         equ 0455h
+SPAglidebox         equ 0467h
 SPAfightdrop         equ 046Bh
 SPAfight             equ 047Fh
 SPAfightstance       equ 0483h

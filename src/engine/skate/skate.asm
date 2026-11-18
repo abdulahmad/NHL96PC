@@ -2991,7 +2991,7 @@ goalieacc:
 ; direction minus facedir (0-7), ebx = facedir.
 ;
 ; Skating against the motion -> dostop; else skate animation
-; (SPAskate/skatewp/skateback) and the inline noturn (reverse when pfrev),
+; (SPAskate/skatewp/skatebox) and the inline noturn (reverse when pfrev),
 ; then playeracc.
 ;-----------------------------------------------------------------------------
 noturn0:

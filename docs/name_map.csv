@@ -4783,7 +4783,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1179A1,pendelaytab,byte_1179A1,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/penalty_data_01.asm
 1179A5,PenShotDelay,byte_1179A5,new,low,Penalty shot delay,src/data/engine/penalty_data_01.asm
 1179C4,asstab,off_1179C4,95PC,high,"the assignment routine table: the routines already named sit at the same 14 indices as in NHL95PC asstab (assshoot 18, asspassrec 19, pucknorm 24, puckfaceoff 27 ...)",src/data/engine/penalty_data_01.asm
-117A9C,HotSpotFrames,unk_117A9C,new,low,HotSpotFrame / BenchSpriteFrame: frame offsets,src/data/engine/penalty_data_01.asm
+117A9C,SPAlist,unk_117A9C,new,high,"the SPA table: sprite animation sequences indexed by word offset (flags, count, frame/time pairs); sub_4B38C and sub_4A047 read it, nhl96genesis SPAlist",src/data/engine/penalty_data_01.asm
 117AA2,CheckHitAnims,word_117AA2,new,low,chkhit: hit animation per check type,src/data/engine/penalty_data_01.asm
 118E81,LinePickOrderFrom1,byte_118E81,new,medium,same code as in the next game,src/data/engine/penalty_data_01.asm
 118E82,priolist,byte_118E82,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm

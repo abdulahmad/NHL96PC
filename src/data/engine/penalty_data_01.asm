@@ -13,7 +13,7 @@ extern assdopen, assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, assre
 extern assrefwhistle, assrefsignal, rtss, assrefgoalline, asspenshooter, assfight, assfwatch, assleavebox
 extern puckfaceoff2, asspsclear, assgoalietopuck, assgoalie, puckshadow
 global PenCountdownOptTab, PenShotCountdownOpt, PenCountdownTab, PenShotCountdown, pendelaytab, PenShotDelay, LinePickOrderFrom1, asstab
-global penmintab, HotSpotFrames, CheckHitAnims
+global penmintab, SPAlist, CheckHitAnims
 PenCountdownOptTab:                             ; Penalty countdown per penalty type with the game option set
                                                 ; (gameopts+2 bit 3); used by checkfornewpen
         db 00h,0Ah,0Ah,03h,01h,00h,01h,01h,01h,0Ah,0Ah,04h,04h
@@ -91,8 +91,9 @@ asstab:                                         ; used by updateplayers
         dd asscupfollow
         dd asscuptake
         dd asscupleave
-HotSpotFrames:                                  ; HotSpotFrame / BenchSpriteFrame: frame offsets; used by
-                                                ; AnimateBenchSprite, BenchSpriteFrame, HotSpotFrame ...
+SPAlist:                                        ; the SPA table: every sprite animation sequence (flags, pair count, frame/time
+                                                ; pairs); a sequence number is its word offset from here; used by HotSpotFrame,
+                                                ; AnimateBenchSprite, BenchSpriteFrame ...
         db 00h,00h,00h,00h,01h,00h
 CheckHitAnims:                                  ; chkhit: hit animation per check type; used by chkhit
         db 00h,00h,0F6h,0FFh,00h,00h,01h,00h,08h,00h,0F6h,0FFh,00h,00h,08h,00h

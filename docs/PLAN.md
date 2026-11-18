@@ -52,7 +52,7 @@ share code. No C decompilation for now. All work is on the branch `fable-work`.
 | 7 | Name and re-cut the placeholder front-end segments as their purpose becomes clear | with 5 |
 | 8 | Structure fields as equates (`src/inc/structs.inc`), aligned with NHL95PC's `structs.inc` | after the engine files |
 | 9 | Data files: cut by owner once the code files are named (now cut where the owning code file changes) | later |
-| 10 | Remove `lst/HOCKEY.EXE` and the listing from the repo when the names no longer need them | last |
+| 10 | Remove `lst/HOCKEY.EXE` and the listing from the repo | done 2026-11-18 (latest commit only; you supply your own) |
 
 ## Risks and open points
 

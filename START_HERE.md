@@ -8,7 +8,7 @@ compiler. It is modelled on NHL95PC: the same build tools, the same file layout 
 ## Hard rules
 
 - Never change an EXE byte. Every commit must build to MATCH (SHA-1 `426fb8c0c80088c6a2c56a9dac50509cb9c24540`).
-- `lst/HOCKEY.EXE` and the IDA listing `lst/HOCKEY.EXE.lst` are committed for now (temporary). Never commit game data, `build/` or patches.
+- `lst/HOCKEY.EXE` (and the IDA listing `lst/HOCKEY.EXE.lst`, if you have it) are your own copies and are not in the repo. Never commit them, game data, `build/` or patches.
 - Never force-push, never rewrite pushed history, never push a commit that does not MATCH. Small commits.
 - No macros except `LD`. No address where a label works.
 - Work on `fable-work`. Do not merge to `main`.

@@ -4878,8 +4878,8 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1182C2,SPAcelebratevis2,,new,low,"celebration picked for the visiting team, second (assscore) (SPA 0x413 of the SPA table)",src/data/engine/penalty_data_01.asm
 1182E6,SPAboxsit,,new,medium,"penalized player sitting in the box (asspenalty, assdopen) (SPA 0x425 of the SPA table)",src/data/engine/penalty_data_01.asm
 11831E,SPAboxsitep,,new,medium,sitting in the box for a second penalty (assepen) (SPA 0x441 of the SPA table),src/data/engine/penalty_data_01.asm
-118346,SPAskateback,,95PC,medium,"skating backward (doplayeracc, dostop, noturn0) (SPA 0x455 of the SPA table)",src/data/engine/penalty_data_01.asm
-11836A,SPAglideback,,95PC,medium,"gliding backward (doplayeracc, noturn0) (SPA 0x467 of the SPA table)",src/data/engine/penalty_data_01.asm
+118346,SPAskatebox,,95PC,medium,"player skating to the penalty box after a fight, 8-facing cycle (doplayeracc, dostop, noturn0) (SPA 0x455 of the SPA table)",src/data/engine/penalty_data_01.asm
+11836A,SPAglidebox,,95PC,medium,"the same skate to the penalty box as one held frame (doplayeracc, noturn0) (SPA 0x467 of the SPA table)",src/data/engine/penalty_data_01.asm
 118372,SPAfightdrop,,new,low,gloves drop and the fighters take their stance; chkhit tests its last frame (checkfight) (SPA 0x46B of the SPA table),src/data/engine/penalty_data_01.asm
 11839A,SPAfight,,93G,medium,"fight stance, set when the fight starts (assfight) (SPA 0x47F of the SPA table)",src/data/engine/penalty_data_01.asm
 1183A2,SPAfightstance,,new,low,"fight stance, circling (assfight, chkhit) (SPA 0x483 of the SPA table)",src/data/engine/penalty_data_01.asm

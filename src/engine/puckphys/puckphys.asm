@@ -132,7 +132,7 @@ puckbody:
         cmp ebx, byte 8
         jg short .16
         movsx eax, word [byte edi+038h]
-        cmp eax, 3A7h
+        cmp eax, SPApuckhit
         je near BlockShotDive_127
         mov eax, dword [puckc]
         cmp byte [eax], 0
@@ -184,7 +184,7 @@ puckbody:
         call FallDown
 .18:
         movsx eax, word [byte edi+038h]
-        cmp eax, 3A7h
+        cmp eax, SPApuckhit
         je short .19
         mov eax, dword [puckc]
         cmp byte [eax], 0
@@ -423,7 +423,7 @@ puckglue:
         mov eax, 14h
         jmp short .15
 .11:
-        cmp edx, SPAgglover
+        cmp edx, SPAgglovel
         jne short .12
         mov eax, 11h
         jmp short .15
@@ -449,7 +449,7 @@ puckglue:
         call ChkShotStat
         call EndPenaltyShot
         movsx eax, word [byte ebx+038h]
-        cmp eax, 623h
+        cmp eax, SPAgdive
         jne short .17
         mov word [byte ebx+02Eh], 5
         jmp short .18
@@ -851,7 +851,7 @@ puckgoalie:
         cmp eax, 1770h
         jle short .13
         movsx eax, word [byte esi+038h]
-        cmp eax, 623h
+        cmp eax, SPAgdive
         jl short .13
         cmp eax, SPAgofallstick
         jg short .13
@@ -904,7 +904,7 @@ puckgoalie:
         cmp eax, 0BB8h
         jle near .23
         movsx eax, word [byte esi+038h]
-        cmp eax, 671h
+        cmp eax, SPAgoaliepoke
         je short .20
         cmp eax, SPAgofallstick
         je short .20
@@ -927,7 +927,7 @@ puckgoalie:
         mov eax, 14h
         jmp short .24
 .21:
-        cmp eax, SPAgglover
+        cmp eax, SPAgglovel
         jne short .22
         mov eax, 11h
         jmp short .24
@@ -1160,7 +1160,7 @@ puckstick:
         cmp eax, 1770h
         jle short .8
         movsx eax, word [byte ebx+038h]
-        cmp eax, 623h
+        cmp eax, SPAgdive
         jl short .8
         cmp eax, SPAgofallstick
         jg short .8
@@ -1172,9 +1172,9 @@ puckstick:
         cmp byte [eax], 0
         jl near .17
         movsx eax, word [byte ebx+038h]
-        cmp eax, 2A3h
+        cmp eax, SPAblockleft
         jl short .9
-        cmp eax, 2BFh
+        cmp eax, SPAblockknee
         jle near BlockShotDive_127
 .9:
         mov eax, dword [puckc]
@@ -1331,9 +1331,9 @@ puckstick:
         imul eax, eax
         mov dword [regd1], eax
         movsx eax, word [byte ebx+038h]
-        cmp eax, 2A3h
+        cmp eax, SPAblockleft
         jl short .22
-        cmp eax, 2BFh
+        cmp eax, SPAblockknee
         jle short .23
 .22:
         mov eax, 1
@@ -1403,7 +1403,7 @@ puckstick:
         xor eax, eax
         movsx ecx, word [byte ebx+038h]
         call ChkShotStat
-        cmp ecx, 671h
+        cmp ecx, SPAgoaliepoke
         je short .31
         cmp ecx, SPAgofallstick
         je short .31
@@ -1426,7 +1426,7 @@ puckstick:
         mov eax, 14h
         jmp short .35
 .32:
-        cmp ecx, SPAgglover
+        cmp ecx, SPAgglovel
         jne short .33
         mov eax, 11h
         jmp short .35
@@ -1524,7 +1524,7 @@ SetShotMode:
         mov edx, 0DDh
         jmp short .6
 .5:
-        mov edx, 0BDh
+        mov edx, SPAshotf
 .6:
         mov eax, ebx
         call SetSPA
@@ -1648,7 +1648,7 @@ ShotMode:
         test edx, edx
         je short .16
         movsx edx, word [byte eax+038h]
-        cmp edx, 0BDh
+        cmp edx, SPAshotf
         jne short .15
         movsx edx, word [byte eax+03Ah]
         cmp edx, byte 6
@@ -1892,7 +1892,7 @@ doshot:
         mov dl, byte [onetimerflag]
         mov byte [byte eax+05Fh], dl
         movsx eax, word [byte esi+038h]
-        cmp eax, 0DDh
+        cmp eax, SPAshotb
         je short .2
         cmp eax, SPAonetimeb
         jne short .3

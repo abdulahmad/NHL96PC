@@ -196,7 +196,7 @@ RunPreGameSkate:
         add edx, eax
         mov eax, ebx
         mov word [byte ebx+02Eh], dx
-        mov edx, 5
+        mov edx, SPAcoast
         and byte [byte ebx+044h], 0F7h
         call SetSPA
         mov eax, ebx

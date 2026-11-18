@@ -931,7 +931,7 @@ asspuckc:
         test edx, edx
         je short .3
         movsx edx, word [byte ebx+038h]
-        cmp edx, 2DBh
+        cmp edx, SPAsweepchk
         jne near .18
         and byte [byte ebx+044h], 0DFh
         or byte [byte ebx+045h], 2
@@ -2660,7 +2660,7 @@ donothing:
         je short .1
         cmp word [byte esi+038h], byte 0
         jne short .1
-        mov edx, 47Fh
+        mov edx, SPAfight
         mov eax, esi
         call SetSPA
 .1:
@@ -2987,7 +2987,7 @@ asseben:
         pop ebx
         ret
 .4:
-        mov edx, 9
+        mov edx, SPAskate
         and byte [byte ebx+044h], 0FBh
         mov eax, ebx
         and byte [byte ebx+045h], 0DBh
@@ -3127,7 +3127,7 @@ assleaveice:
         mov eax, SPAgready2
         jmp short .8
 .7:
-        mov eax, 3D5h
+        mov eax, SPAstandrest
 .8:
         mov word [regd1], ax
         movsx edx, ax
@@ -3242,11 +3242,11 @@ asspenalty:
         cmp dword [byte ebx+06Eh], byte 0
         je short .3
         movsx eax, word [byte ebx+038h]
-        cmp eax, 5A3h
+        cmp eax, SPAfhighl
         je short .1
-        cmp eax, 5CBh
+        cmp eax, SPAflowl
         je short .1
-        cmp eax, 5ADh
+        cmp eax, SPAfhighr
         je short .1
         cmp eax, 5D7h
         jne short .2
@@ -3256,7 +3256,7 @@ asspenalty:
         pop ebx
         ret
 .2:
-        mov edx, 47Fh
+        mov edx, SPAfight
         mov eax, ebx
         call SetSPA
         mov dword [byte ebx+06Eh], 0
@@ -3322,7 +3322,7 @@ asspenalty:
         mov eax, 467h
         jmp short .11
 .10:
-        mov eax, 3D5h
+        mov eax, SPAstandrest
 .11:
         movsx edx, ax
         mov eax, ebx
@@ -3358,7 +3358,7 @@ asspenalty:
         cmp ax, word [byte ebx+036h]
         jne near .19
         mov word [byte ebx+036h], 2
-        mov edx, 425h
+        mov edx, SPAboxsit
         mov word [byte ebx+02h], 0AAh
         mov eax, ebx
         or byte [byte ebx+044h], 20h
@@ -3426,7 +3426,7 @@ assdopen:
         test eax, eax
         je short .2
         movsx eax, word [byte ebx+038h]
-        cmp eax, 425h
+        cmp eax, SPAboxsit
         jne short .1
         movsx eax, word [byte ebx+03Ah]
         cmp eax, byte 10h
@@ -3436,7 +3436,7 @@ assdopen:
         mov word [byte ebx+0Ch], 0
 .1:
         movsx eax, word [byte ebx+038h]
-        cmp eax, 425h
+        cmp eax, SPAboxsit
         jne short .5
         movsx eax, word [byte ebx+02h]
         cmp eax, 0AAh
@@ -3494,7 +3494,7 @@ assepen:
         test edx, edx
         je short .2
         movsx eax, word [byte ebx+038h]
-        cmp eax, 441h
+        cmp eax, SPAboxsitep
         jne short .1
         movsx eax, word [byte ebx+03Ah]
         cmp eax, byte 4
@@ -3504,7 +3504,7 @@ assepen:
         mov word [byte ebx+0Ch], 0F000h
 .1:
         movsx eax, word [byte ebx+038h]
-        cmp eax, 441h
+        cmp eax, SPAboxsitep
         jne near .10
         movsx eax, word [byte ebx+02h]
         cmp eax, 0AAh
@@ -3538,7 +3538,7 @@ assepen:
 .4:
         mov word [byte ebx+02h], 0B6h
         mov word [byte ebx+036h], 6
-        mov edx, 441h
+        mov edx, SPAboxsitep
         mov word [byte ebx+06h], ax
         mov eax, ebx
         mov dword [dword ebx+09Ch], 1
@@ -3765,7 +3765,7 @@ assbench:
         mov eax, SPAgready2
         jmp short .13
 .12:
-        mov eax, 3D5h
+        mov eax, SPAstandrest
 .13:
         mov word [regd1], ax
         movsx edx, ax

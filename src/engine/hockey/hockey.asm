@@ -4615,9 +4615,9 @@ updateplayers:
         movsx edi, word [byte esi+038h]
         cmp edi, SPAinjury1
         je near .39
-        cmp edi, 131h
+        cmp edi, SPAboardback
         jl short .16
-        cmp edi, 1ABh
+        cmp edi, SPAboardfrontglass
         jle short .17
 .16:
         mov eax, 1
@@ -5136,7 +5136,7 @@ updateanim:
         mov eax, SPAgready2
         jmp short .11
 .10:
-        mov eax, 3D5h
+        mov eax, SPAstandrest
 .11:
         movsx edx, ax
         mov eax, esi
@@ -5280,9 +5280,9 @@ updateanim:
         jmp short .32
 .35:
         movsx eax, word [byte esi+038h]
-        cmp eax, 4F7h
+        cmp eax, SPAffall2
         je short .36
-        cmp eax, 535h
+        cmp eax, SPAfinjury2
         jne short .40
 .36:
         movsx eax, bx
@@ -5335,9 +5335,9 @@ updateanim:
         jmp near .61
 .45:
         movsx eax, word [byte esi+038h]
-        cmp eax, 199h
+        cmp eax, SPAboardbackglass
         jl near .59
-        cmp eax, 1ABh
+        cmp eax, SPAboardfrontglass
         jg near .59
         movsx eax, bx
         cmp eax, byte 4
@@ -5416,7 +5416,7 @@ updateanim:
         jmp near .33
 .59:
         movsx eax, word [byte esi+038h]
-        cmp eax, 46Bh
+        cmp eax, SPAfightdrop
         jne short .61
         movsx eax, bx
         cmp eax, byte 10h
@@ -5476,9 +5476,9 @@ updateanim:
 .67:
         mov word [byte esi+03Ch], ax
         movsx eax, word [byte esi+038h]
-        cmp eax, byte 9
+        cmp eax, byte SPAskate
         je short .68
-        cmp eax, byte 1Bh
+        cmp eax, byte SPAskatewp
         jne short .72
 .68:
         movsx eax, word [byte esi+0Eh]
@@ -6358,7 +6358,7 @@ resetplstuff:
         mov byte [byte ebx+045h], 0
         cmp word [byte ebx+01Ah], byte 0
         jl short .3
-        mov edx, 1
+        mov edx, SPAstand
         mov eax, ebx
         call SetSPA
         mov word [byte ebx+03Eh], 0
@@ -6892,7 +6892,7 @@ PickSkateAnim:
         cmp eax, 0FA0h
         jge short .5
         movsx eax, word [byte ebx+038h]
-        cmp eax, 99h
+        cmp eax, SPAskatefast
         jne short .6
 .5:
         mov eax, 99h

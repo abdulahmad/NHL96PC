@@ -584,7 +584,7 @@ checkcheck:
         jmp near .57
 .1:
         movsx eax, word [byte ecx+038h]
-        cmp eax, 2F9h
+        cmp eax, SPAHold
         je short .2
         cmp eax, SPAhook
         jne short .3
@@ -604,9 +604,9 @@ checkcheck:
         movsx eax, word [byte esi+038h]
         cmp eax, SPAburst
         je short .8
-        cmp eax, 343h
+        cmp eax, SPAcheckskate
         jl short .5
-        cmp eax, 36Fh
+        cmp eax, SPAcheckburstr
         jle short .6
 .5:
         mov eax, 1
@@ -617,9 +617,9 @@ checkcheck:
         test eax, eax
         je short .8
         movsx eax, word [byte esi+038h]
-        cmp eax, 319h
+        cmp eax, SPAchecktarget
         jl near .56
-        cmp eax, 325h
+        cmp eax, SPAchecktargetr
         jg near .56
 .8:
         mov al, byte [gmode]
@@ -705,20 +705,20 @@ checkcheck:
         mov edx, 1Eh
 .19:
         movsx eax, word [byte esi+038h]
-        cmp eax, 319h
+        cmp eax, SPAchecktarget
         jl short .20
-        cmp eax, 325h
+        cmp eax, SPAchecktargetr
         jle near .38
 .20:
         movsx eax, word [dword ecx+086h]
         cmp eax, byte 10h
         je near .27
         movsx eax, word [byte esi+038h]
-        cmp eax, 343h
+        cmp eax, SPAcheckskate
         jl short .27
-        cmp eax, 36Fh
+        cmp eax, SPAcheckburstr
         jg short .27
-        cmp eax, 343h
+        cmp eax, SPAcheckskate
         jne short .25
         movsx eax, bx
         lea edx, [byte eax+01h]
@@ -1037,7 +1037,7 @@ checkcheck:
         cmp byte [PenBuf], 0
         jg short .58
         movsx eax, word [byte ecx+038h]
-        cmp eax, 299h
+        cmp eax, SPAstumble
         je short .58
         cmp eax, SPAinjury1
         je short .58
@@ -1271,7 +1271,7 @@ checkint:
         movsx eax, word [byte eax+038h]
         cmp eax, SPAburst
         je short .1
-        cmp eax, 343h
+        cmp eax, SPAcheckskate
         jne short .2
 .1:
         mov esi, 1

@@ -530,7 +530,7 @@ assleavebox:
         mov eax, SPAgready2
         jmp short .10
 .9:
-        mov eax, 3D5h
+        mov eax, SPAstandrest
 .10:
         mov word [regd1], ax
         movsx edx, ax
@@ -563,7 +563,7 @@ assleavebox:
         mov word [byte ebx+0Ch], 0
         cmp eax, byte 6
         jne near .17
-        mov edx, 3D5h
+        mov edx, SPAstandrest
         mov eax, ebx
         mov word [byte ebx+026h], 64h
         call SetSPA
@@ -592,7 +592,7 @@ assleavebox:
         cmp word [byte ebx+01Ah], byte 0
         jle short .16
         movsx eax, word [byte ebx+038h]
-        cmp eax, 70Fh
+        cmp eax, SPAstandwait
         jne short .16
         movsx eax, word [byte ebx+03Ch]
         cmp eax, byte 1Eh
@@ -613,7 +613,7 @@ assleavebox:
         cwde
         cmp eax, byte 2
         jge short .16
-        mov edx, 717h
+        mov edx, SPAfaceoffwait
         mov eax, ebx
         call SetSPA
         or byte [byte ebx+044h], 20h
@@ -623,7 +623,7 @@ assleavebox:
 .16:
         cmp word [byte ebx+038h], byte 0
         jne short .17
-        mov edx, 70Fh
+        mov edx, SPAstandwait
         mov eax, ebx
         call SetSPA
 .17:
@@ -2472,7 +2472,7 @@ asspsclear:
         mov edx, SPAgready2
         jmp short .8
 .7:
-        mov edx, 3D5h
+        mov edx, SPAstandrest
 .8:
         mov word [regd1], dx
         mov eax, ebx
@@ -2768,7 +2768,7 @@ assrefpenshot:
         je short .18
         mov word [RefStep], 0FFFFh
         mov eax, 2Ah
-        mov edx, 7E5h
+        mov edx, SPApuckdrop
         call PlaySfx
         mov eax, ebx
         call SetSPA
@@ -3325,11 +3325,11 @@ goalieskateto:
         imul eax, dword 0A0h
         add eax, SortCords
         movsx edx, word [byte eax+038h]
-        cmp edx, 0BDh
+        cmp edx, SPAshotf
         je short .1
-        cmp edx, 0DDh
+        cmp edx, SPAshotb
         je short .1
-        cmp edx, 10Dh
+        cmp edx, SPAonetimef
         je short .1
         cmp edx, 117h
         jne short .6
@@ -3481,27 +3481,27 @@ goalieskateto:
         xor eax, edx
         je short .19
         movsx eax, word [byte esi+038h]
-        cmp eax, 68Bh
+        cmp eax, SPAgshufflel
         je short .18
         mov eax, 17h
         call PlaySfx
 .18:
-        mov edx, 68Bh
+        mov edx, SPAgshufflel
         jmp near .25
 .19:
         movsx eax, word [byte esi+038h]
-        cmp eax, 691h
+        cmp eax, SPAgshuffler
         je short .20
         mov eax, 17h
         call PlaySfx
 .20:
-        mov edx, 691h
+        mov edx, SPAgshuffler
         jmp short .25
 .21:
         movsx eax, word [byte esi+038h]
-        cmp eax, 68Bh
+        cmp eax, SPAgshufflel
         je short .26
-        cmp eax, 691h
+        cmp eax, SPAgshuffler
         je short .26
         mov edx, dword [puckc]
         movsx dx, byte [edx]
@@ -3521,7 +3521,7 @@ goalieskateto:
         mov eax, SPAgready
         jmp short .24
 .23:
-        mov eax, 6F7h
+        mov eax, SPAgidle
 .24:
         movsx edx, ax
 .25:
@@ -4613,9 +4613,9 @@ assgoalie:
         cmp eax, 7D0h
         ja short .35
         movsx eax, word [byte esi+038h]
-        cmp eax, 68Bh
+        cmp eax, SPAgshufflel
         je short .35
-        cmp eax, 691h
+        cmp eax, SPAgshuffler
         je short .35
         mov edx, dword [puckc]
         movsx dx, byte [edx]
@@ -4635,7 +4635,7 @@ assgoalie:
         mov eax, SPAgready
         jmp short .33
 .32:
-        mov eax, 6F7h
+        mov eax, SPAgidle
 .33:
         movsx edx, ax
 .34:
@@ -4760,7 +4760,7 @@ assgoalie:
         jge short .48
         cmp edi, byte 14h
         jge short .50
-        mov edx, 641h
+        mov edx, SPAgokneehold
         or byte [byte esi+044h], 20h
         mov eax, esi
         or byte [byte esi+045h], 2
@@ -4820,7 +4820,7 @@ assgoalie:
         mov word [regd0], ax
         mov ax, word [regd0]
         mov word [byte esi+036h], ax
-        mov edx, 671h
+        mov edx, SPAgoaliepoke
         or byte [byte esi+044h], 20h
         mov eax, esi
         or byte [byte esi+045h], 2
@@ -4933,7 +4933,7 @@ assgoalie:
         movsx eax, word [regd0]
         call vtoa
         mov word [byte esi+036h], ax
-        mov edx, 671h
+        mov edx, SPAgoaliepoke
         or byte [byte esi+044h], 20h
         mov eax, esi
         or byte [byte esi+045h], 2
@@ -4969,7 +4969,7 @@ assgoalie:
         call vtoa
         mov word [byte esi+03Eh], 8
         mov word [byte esi+036h], ax
-        mov edx, 623h
+        mov edx, SPAgdive
         or byte [byte esi+044h], 20h
         mov eax, esi
         or byte [byte esi+045h], 2
@@ -5038,7 +5038,7 @@ SetCarryAnim:
         push edx
         cmp word [byte eax+01Ah], byte 0
         jle short .1
-        mov edx, 2DBh
+        mov edx, SPAsweepchk
         or byte [byte eax+044h], 20h
         call SetSPA
 .1:

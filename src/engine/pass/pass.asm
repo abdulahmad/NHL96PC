@@ -180,10 +180,10 @@ SkillForAnim:
         je short .7
         jmp short .12
 .2:
-        cmp dx, SPAgglovel
+        cmp dx, SPAgglover
         jb short .12
         jbe short .6
-        cmp dx, SPAgglover
+        cmp dx, SPAgglovel
         jne short .12
 .3:
         cmp byte [byte eax+065h], 0

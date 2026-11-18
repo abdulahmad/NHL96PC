@@ -312,9 +312,9 @@ doplayeracc:
         cmp eax, byte 10h
         jne near .37
         movsx eax, word [byte ecx+038h]
-        cmp eax, 7B3h
+        cmp eax, SPArefturnlin
         je short .22
-        cmp eax, 7B9h
+        cmp eax, SPAarmupturnlin
         jne short .25
 .22:
         movsx eax, word [byte ecx+03Ah]
@@ -346,9 +346,9 @@ doplayeracc:
         jmp near .78
 .25:
         movsx eax, word [byte ecx+038h]
-        cmp eax, 7ABh
+        cmp eax, SPArefturnl
         jl short .26
-        cmp eax, 7B9h
+        cmp eax, SPAarmupturnlin
         jle short .27
 .26:
         mov eax, 1
@@ -420,14 +420,14 @@ doplayeracc:
         mov ebx, 7ABh
 .36:
         movsx eax, word [byte ecx+038h]
-        cmp eax, 375h
+        cmp eax, SPAcheckskatewp
         je near .78
         jmp near .77
 .37:
         movsx eax, word [byte ecx+038h]
-        cmp eax, byte 65h
+        cmp eax, byte SPAturnlwpin
         je short .38
-        cmp eax, byte 6Bh
+        cmp eax, byte SPAturnlin
         jne short .40
 .38:
         movsx eax, word [byte ecx+03Ah]
@@ -437,16 +437,16 @@ doplayeracc:
         movsx ax, byte [eax]
         cmp ax, word [dword ecx+086h]
         jne short .39
-        mov ebx, 65h
+        mov ebx, SPAturnlwpin
         jmp near .78
 .39:
-        mov ebx, 6Bh
+        mov ebx, SPAturnlin
         jmp near .78
 .40:
         movsx eax, word [byte ecx+038h]
-        cmp eax, byte 5Dh
+        cmp eax, byte SPAturnlwp
         jl short .41
-        cmp eax, byte 6Bh
+        cmp eax, byte SPAturnlin
         jle short .42
 .41:
         mov eax, 1
@@ -472,29 +472,29 @@ doplayeracc:
         movsx ax, byte [eax]
         cmp ax, word [dword ecx+086h]
         jne short .46
-        mov ebx, 65h
+        mov ebx, SPAturnlwpin
         jmp near .36
 .46:
-        mov ebx, 6Bh
+        mov ebx, SPAturnlin
         jmp near .36
 .47:
         mov eax, dword [puckc]
         movsx ax, byte [eax]
         cmp ax, word [dword ecx+086h]
         jne short .48
-        mov ebx, 5Dh
+        mov ebx, SPAturnlwp
         jmp near .36
 .48:
-        mov ebx, 61h
+        mov ebx, SPAturnl
         jmp near .36
 .49:
         movsx eax, word [dword ecx+086h]
         cmp eax, byte 10h
         jne near .64
         movsx eax, word [byte ecx+038h]
-        cmp eax, 7C7h
+        cmp eax, SPArefturnrin
         je short .50
-        cmp eax, 7CDh
+        cmp eax, SPAarmupturnrin
         jne short .53
 .50:
         movsx eax, word [byte ecx+03Ah]
@@ -526,9 +526,9 @@ doplayeracc:
         jmp near .78
 .53:
         movsx eax, word [byte ecx+038h]
-        cmp eax, 7BFh
+        cmp eax, SPArefturnr
         jl short .54
-        cmp eax, 7CDh
+        cmp eax, SPAarmupturnrin
         jle short .55
 .54:
         mov eax, 1
@@ -601,9 +601,9 @@ doplayeracc:
         jmp near .36
 .64:
         movsx eax, word [byte ecx+038h]
-        cmp eax, byte 79h
+        cmp eax, byte SPAturnrwpin
         je short .65
-        cmp eax, byte 7Fh
+        cmp eax, byte SPAturnrin
         jne short .67
 .65:
         movsx eax, word [byte ecx+03Ah]
@@ -613,16 +613,16 @@ doplayeracc:
         movsx ax, byte [eax]
         cmp ax, word [dword ecx+086h]
         jne short .66
-        mov ebx, 79h
+        mov ebx, SPAturnrwpin
         jmp near .78
 .66:
-        mov ebx, 7Fh
+        mov ebx, SPAturnrin
         jmp near .78
 .67:
         movsx eax, word [byte ecx+038h]
-        cmp eax, byte 71h
+        cmp eax, byte SPAturnrwp
         jl short .68
-        cmp eax, byte 7Fh
+        cmp eax, byte SPAturnrin
         jle short .69
 .68:
         mov eax, 1
@@ -648,23 +648,23 @@ doplayeracc:
         movsx ax, byte [eax]
         cmp ax, word [dword ecx+086h]
         jne short .73
-        mov ebx, 79h
+        mov ebx, SPAturnrwpin
         jmp short .76
 .73:
-        mov ebx, 7Fh
+        mov ebx, SPAturnrin
         jmp short .76
 .74:
         mov eax, dword [puckc]
         movsx ax, byte [eax]
         cmp ax, word [dword ecx+086h]
         jne short .75
-        mov ebx, 71h
+        mov ebx, SPAturnrwp
         jmp short .76
 .75:
-        mov ebx, 75h
+        mov ebx, SPAturnr
 .76:
         movsx eax, word [byte ecx+038h]
-        cmp eax, 375h
+        cmp eax, SPAcheckskatewp
         je short .78
 .77:
         mov word [byte ecx+038h], 0
@@ -677,7 +677,7 @@ doplayeracc:
         test eax, eax
         jne short .80
         movsx eax, word [byte ecx+038h]
-        cmp eax, 375h
+        cmp eax, SPAcheckskatewp
         je short .80
         movsx edx, bx
         mov eax, ecx
@@ -2528,13 +2528,13 @@ dostop:
         je short .11
         test ebx, ebx
         je short .10
-        mov ebx, 3Fh
+        mov ebx, SPAstop
         jmp near .16
 .10:
-        mov ebx, 53h
+        mov ebx, SPAstopfast
         jmp short .16
 .11:
-        mov ebx, 49h
+        mov ebx, SPAstopwp
         jmp short .16
 .12:
         movsx eax, word [dword esi+086h]
@@ -2565,7 +2565,7 @@ dostop:
         mov ebx, SPArefglide
         jmp short .16
 .15:
-        mov ebx, 3Fh
+        mov ebx, SPAstop
         or byte [byte esi+045h], 2
 .16:
         movsx eax, bx
@@ -2575,13 +2575,13 @@ dostop:
         jne near .24
 .17:
         movsx eax, word [byte esi+038h]
-        cmp eax, byte 4Fh
+        cmp eax, byte SPAstopwphold
         je short .19
-        cmp eax, byte 59h
+        cmp eax, byte SPAstopfasthold
         je short .19
-        cmp eax, byte 49h
+        cmp eax, byte SPAstopwp
         je short .18
-        cmp eax, byte 53h
+        cmp eax, byte SPAstopfast
         jne short .21
 .18:
         movsx eax, word [byte esi+03Ah]
@@ -2594,15 +2594,15 @@ dostop:
         movsx eax, bx
         cmp eax, byte 49h
         jne short .20
-        mov ebx, 4Fh
+        mov ebx, SPAstopwphold
         jmp short .21
 .20:
-        mov ebx, 59h
+        mov ebx, SPAstopfasthold
 .21:
         movsx eax, word [byte esi+038h]
-        cmp eax, byte 49h
+        cmp eax, byte SPAstopwp
         je near .37
-        cmp eax, byte 53h
+        cmp eax, byte SPAstopfast
         je near .37
         cmp ecx, 1388h
         jle near .37
@@ -2681,9 +2681,9 @@ dostop:
         cmp eax, byte 3Fh
         jne near .37
         movsx eax, word [byte esi+038h]
-        cmp eax, byte 45h
+        cmp eax, byte SPAstophold
         je short .32
-        cmp eax, byte 3Fh
+        cmp eax, byte SPAstop
         jne short .33
         movsx eax, word [byte esi+03Ah]
         cmp eax, byte 2
@@ -2692,10 +2692,10 @@ dostop:
         cmp eax, byte 12h
         jg short .33
 .32:
-        mov ebx, 45h
+        mov ebx, SPAstophold
 .33:
         movsx eax, word [byte esi+038h]
-        cmp eax, byte 3Fh
+        cmp eax, byte SPAstop
         je short .37
         cmp ecx, 0DACh
         jle short .37
@@ -2729,9 +2729,9 @@ dostop:
         jge near .46
 .39:
         movsx eax, word [byte esi+038h]
-        cmp eax, byte 3Fh
+        cmp eax, byte SPAstop
         je short .40
-        cmp eax, byte 45h
+        cmp eax, byte SPAstophold
         jne short .41
 .40:
         mov edx, SPAglide
@@ -2874,7 +2874,7 @@ goalieacc:
         movsx eax, word [byte ebx+038h]
         cmp eax, SPAgready2
         je near .18
-        cmp eax, 6F7h
+        cmp eax, SPAgidle
         je near .18
         mov edx, SPAgready2
         mov eax, ebx
@@ -2926,7 +2926,7 @@ goalieacc:
         test eax, eax
         je short .9
         movsx eax, word [byte ebx+038h]
-        cmp eax, 623h
+        cmp eax, SPAgdive
         jl short .9
         cmp eax, SPAgofallstick
         jle near .2
@@ -3233,7 +3233,7 @@ noturn0:
         movsx ax, byte [eax]
         cmp ax, word [dword esi+086h]
         jne short .25
-        mov eax, 1Bh
+        mov eax, SPAskatewp
         jmp short .29
 .25:
         mov al, byte [byte esi+045h]
@@ -3250,10 +3250,10 @@ noturn0:
         movzx eax, al
         test eax, eax
         jne short .26
-        mov eax, 9
+        mov eax, SPAskate
         jmp short .29
 .28:
-        mov eax, 2Dh
+        mov eax, SPAskatewp2
 .29:
         mov dl, byte [byte esi+045h]
         and dl, 2

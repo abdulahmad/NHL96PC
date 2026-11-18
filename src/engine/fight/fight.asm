@@ -93,15 +93,15 @@ chkhit:
 .11:
         cmp edi, byte 4
         jne short .12
-        mov word [byte ebx+038h], 589h
+        mov word [byte ebx+038h], SPAfgrabend
         or byte [byte ebx+045h], 2
         jmp short .13
 .12:
-        cmp esi, 55Bh
+        cmp esi, SPAfswing
         jne short .13
         cmp edi, byte 2
         jne short .13
-        mov edx, 483h
+        mov edx, SPAfightstance
         mov eax, ebx
         and byte [byte ebx+045h], 0FDh
         call SetSPA
@@ -135,7 +135,7 @@ chkhit:
         mov eax, 595h
         jmp short .20
 .19:
-        mov eax, 5BFh
+        mov eax, SPAfheld2
 .20:
         movsx edx, ax
         mov eax, ecx
@@ -208,7 +208,7 @@ chkhit:
         mov eax, 4F7h
         jmp short .31
 .30:
-        mov eax, 4D9h
+        mov eax, SPAffall
 .31:
         movsx edx, ax
         mov eax, ecx
@@ -232,7 +232,7 @@ chkhit:
         mov eax, 5
 .34:
         call sfx
-        mov edx, 555h
+        mov edx, SPAfwin
         mov eax, ebx
         or byte [byte ebx+044h], 20h
         call SetSPA
@@ -320,7 +320,7 @@ chkhit:
         mov eax, 4D9h
         jmp short .48
 .47:
-        mov eax, 4F7h
+        mov eax, SPAffall2
 .48:
         movsx edx, ax
         mov eax, ecx
@@ -346,10 +346,10 @@ chkhit:
 .51:
         cmp esi, 4B1h
         jne short .52
-        mov edx, 4BFh
+        mov edx, SPAfhith
         jmp short .53
 .52:
-        mov edx, 4D3h
+        mov edx, SPAfhitl
 .53:
         mov eax, ecx
         call SetSPA
@@ -372,7 +372,7 @@ chkhit:
         jne near SwapPosition_91
         cmp edi, byte 2
         jne near SwapPosition_91
-        mov edx, 56Dh
+        mov edx, SPAfswinghit
         mov eax, ecx
         or byte [byte ecx+045h], 2
         call SetSPA
@@ -411,11 +411,11 @@ assfight:
         cmp word [PenCntDwn], byte 0
         jge near .8
         movsx edx, word [byte esi+038h]
-        cmp edx, 46Bh
+        cmp edx, SPAfightdrop
         je near .8
         cmp dword [byte esi+06Eh], byte 0
         je short .6
-        cmp eax, 5A3h
+        cmp eax, SPAfhighl
         je short .3
         cmp eax, 5CBh
         je short .3
@@ -427,9 +427,9 @@ assfight:
         or byte [byte esi+044h], 20h
         jmp near assrefgoalpa_83F
 .4:
-        cmp eax, 555h
+        cmp eax, SPAfwin
         je short .5
-        mov edx, 47Fh
+        mov edx, SPAfight
         mov eax, esi
         call SetSPA
 .5:
@@ -486,7 +486,7 @@ assfight:
         jge short .13
         cmp word [byte esi+038h], byte 0
         jne near assrefgoalpa_83F
-        mov edx, 47Fh
+        mov edx, SPAfight
         mov eax, esi
         call SetSPA
         jmp near assrefgoalpa_83F
@@ -533,7 +533,7 @@ assfight:
         mov eax, 5A3h
         jmp short .19
 .18:
-        mov eax, 5CBh
+        mov eax, SPAflowl
 .19:
         movsx edx, ax
         mov eax, esi
@@ -549,7 +549,7 @@ assfight:
         mov eax, 5ADh
         jmp short .21
 .20:
-        mov eax, 5D7h
+        mov eax, SPAflowr
 .21:
         movsx edx, ax
         mov eax, edi
@@ -714,7 +714,7 @@ assfight:
         jne near .38
         jmp near .39
 .48:
-        mov edx, 483h
+        mov edx, SPAfightstance
 .49:
         mov eax, esi
         call SetSPA
@@ -723,9 +723,9 @@ assfight:
         mov eax, esi
         call chkhit
         movsx eax, word [byte esi+038h]
-        cmp eax, 56Dh
+        cmp eax, SPAfswinghit
         je short .51
-        cmp eax, 46Bh
+        cmp eax, SPAfightdrop
         je near .66
         cmp dword [byte esi+06Eh], byte 0
         jl near .66
@@ -755,9 +755,9 @@ assfight:
         jmp near .65
 .54:
         movsx eax, word [byte esi+038h]
-        cmp eax, 4D3h
+        cmp eax, SPAfhitl
         je short .55
-        cmp eax, 4BFh
+        cmp eax, SPAfhith
         jne short .57
 .55:
         movsx edx, word [byte esi+036h]
@@ -779,7 +779,7 @@ assfight:
         jge short .59
 .58:
         movsx eax, word [byte esi+038h]
-        cmp eax, 4CBh
+        cmp eax, SPAflow
         jne short .62
         movsx eax, word [byte esi+03Ah]
         cmp eax, byte 2
@@ -1301,7 +1301,7 @@ assfwatch:
         movsx edx, ax
         jmp short .51
 .50:
-        mov edx, 1
+        mov edx, SPAstand
 .51:
         mov eax, ebx
         call SetSPA

@@ -1,6 +1,7 @@
 ; Faceoff assignments: the faceoff and faceoff player assignments.
 bits 32
 %include "hockey.inc"
+%include "spa.inc"
 section s_34300 progbits alloc exec nowrite align=1
 extern a2touchpuck, AddPenalty2, awtmnear, checkpuckcoll, ChkOffsides, EndPenaltyShot, findpc, fodir1
 extern fodir2, fofdata2, GetHot, gmode, gmode2, hmtmnear, MarkTwoLinePlayers, penshotlive
@@ -73,7 +74,7 @@ assfaceoffpl:
         movzx eax, al
         test eax, eax
         je short .3
-        mov edx, 387h
+        mov edx, SPAfaceoff
         mov word [byte ebx+026h], 0
         mov eax, ebx
         and byte [byte ebx+044h], 0FDh
@@ -250,7 +251,7 @@ assfaceoffpl:
         mov eax, 395h
         jmp short .28
 .27:
-        mov eax, 39Fh
+        mov eax, SPAfaceoffpokerhold
 .28:
         movsx edx, ax
         mov eax, ebx

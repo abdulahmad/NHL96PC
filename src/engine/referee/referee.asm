@@ -2181,7 +2181,7 @@ assrefgoalline:
         mov eax, 7F9h
         jmp short .30
 .29:
-        mov eax, 805h
+        mov eax, SPArefpointgoalshort
 .30:
         movsx edx, ax
         mov eax, esi

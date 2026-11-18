@@ -158,7 +158,7 @@ asspenshooter:
         movsx eax, al
         test eax, eax
         je short .3
-        mov edx, 1
+        mov edx, SPAstand
         mov eax, ebx
         call SetSPA
         mov eax, ebx

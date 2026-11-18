@@ -29,7 +29,7 @@ extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
 extern shotontarget, IsCupClinched, StartGoalLight, SwapPosition, assextra6, doinput, ResetInputRepeat, CountTeamSlots
 extern SetupPenaltyBoxSeats, asspsclear, SetCarryAnim, ChkShotStat, checkcoll, SetSPA, GameEventStub, AddPenalty2
 extern PenGoalStuff, EndPenaltyShot, ResetPeriodState, SortSpritesForDraw, CloseTextOverlay, LoadCupSprites, PaEvent, StopAllSfx
-extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, HotSpotFrames
+extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, SPAlist
 extern ds2list, hmplstats, awplstats, hmglstats, awglstats, hmglattr, awglattr, hmplattr
 extern awplattr, awlinetab, hmteamrec, awteamrec, hmlinetab, AwSortCords, BenchSprites, BenchSpriteCount
 extern offsort_d, defsort_fwd, vtoa, camx, camy, VisTeam, xc1, yc1
@@ -1027,7 +1027,7 @@ HotSpotFrame:
 .5:
         movsx edx, word [byte eax+038h]
         add edx, edx
-        add edx, HotSpotFrames
+        add edx, SPAlist
         mov cx, word [edx]
         xor ch, ch
         and cl, 2
@@ -3921,7 +3921,7 @@ BenchSpriteFrame:
         sub ecx, eax
         movsx eax, word [byte ebx+018h]
         add eax, eax
-        add eax, HotSpotFrames
+        add eax, SPAlist
         mov dx, word [eax]
         xor dh, dh
         and dl, 2
@@ -3956,7 +3956,7 @@ AnimateBenchSprite:
         jle near .9
         movsx eax, word [byte eax+018h]
         add eax, eax
-        add eax, HotSpotFrames
+        add eax, SPAlist
         mov bx, word [byte edx+01Ah]
         mov si, word [eax]
         add eax, byte 4
@@ -4996,14 +4996,14 @@ updateanim:
         je near Goal_1FB
         mov ecx, dword [byte eax+07Eh]
         add ecx, ecx
-        add ecx, HotSpotFrames
+        add ecx, SPAlist
         mov bx, word [byte ecx+02h]
         dec ebx
         add ebx, ebx
         jmp short .2
 .1:
         movsx eax, word [byte eax+038h]
-        mov ecx, HotSpotFrames
+        mov ecx, SPAlist
         add eax, eax
         mov bx, word [byte esi+03Ah]
         add ecx, eax
@@ -6554,14 +6554,14 @@ PlayerSpriteFrame:
         je near Goal_1FC
         mov ecx, dword [byte ebx+07Eh]
         add ecx, ecx
-        add ecx, HotSpotFrames
+        add ecx, SPAlist
         mov di, word [byte ecx+02h]
         dec edi
         add edi, edi
         jmp short .8
 .7:
         movsx eax, word [byte eax+038h]
-        mov ecx, HotSpotFrames
+        mov ecx, SPAlist
         add eax, eax
         mov di, word [byte ebx+03Ah]
         add ecx, eax

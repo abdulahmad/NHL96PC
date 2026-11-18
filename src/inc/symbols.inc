@@ -3964,7 +3964,7 @@
 ;  1179A1  pendelaytab                              data/engine/penalty_data_01.asm              1
 ;  1179A5  PenShotDelay                             data/engine/penalty_data_01.asm              1
 ;  1179C4  asstab                                   data/engine/penalty_data_01.asm              1
-;  117A9C  HotSpotFrames                            data/engine/penalty_data_01.asm              1
+;  117A9C  SPAlist                                  data/engine/penalty_data_01.asm              1
 ;  117AA2  CheckHitAnims                            data/engine/penalty_data_01.asm              1
 ;  118E81  LinePickOrderFrom1                       data/engine/penalty_data_01.asm              1
 ;  118E82  priolist                                 data/engine/hockey_data_01.asm               1

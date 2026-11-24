@@ -191,7 +191,8 @@ File layout: 0x000000 DOS/16M loader stub, 0x00F474 DOS/4GW kernel, 0x026654 Wat
 | 115098 | 1175AD | 2515 | `src/data/front/main_data_02.asm` | owner: front/main/main.asm |
 | 1175AD | 1177F4 | 247 | `src/data/front/rink_model_data_02.asm` | owner: front/rink_model/rink_model.asm |
 | 1177F4 | 117938 | 144 | `src/data/front/front_2A692_data_02.asm` | owner: front/front_2A692.asm |
-| 117938 | 118E82 | 154A | `src/data/engine/penalty_data_01.asm` | owner: engine/penalty/penalty.asm |
+| 117938 | 117A9C | 164 | `src/data/engine/penalty_data_01.asm` | owner: engine/penalty/penalty.asm |
+| 117A9C | 118E82 | 13E6 | `src/data/engine/frames.asm` | owner: engine/hockey/hockey.asm |
 | 118E82 | 11918B | 309 | `src/data/engine/hockey_data_01.asm` | owner: engine/hockey/hockey.asm |
 | 11918B | 119D08 | B7D | `src/data/engine/engine_4DED8_data_02.asm` | owner: engine/engine_4DED8.asm |
 | 119D08 | 119E44 | 13C | `src/data/engine/engine_2D9D9_data_01.asm` | owner: engine/engine_2D9D9.asm |

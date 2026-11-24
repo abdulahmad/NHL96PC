@@ -309,7 +309,8 @@
 4 115098 1175AD 9493 main_data_02 data/front/main_data_02.asm
 4 1175AD 1177F4 583 rink_model_data_02 data/front/rink_model_data_02.asm
 4 1177F4 117938 324 front_2A692_data_02 data/engine/faceoff_data_01.asm
-4 117938 118E82 5450 penalty_data_01 data/engine/penalty_data_01.asm
+4 117938 117A9C 356 penalty_data_01 data/engine/penalty_data_01.asm
+4 117A9C 118E82 5094 data_engine_117A9C data/engine/frames.asm
 4 118E82 11918B 777 hockey_data_01 data/engine/hockey_data_01.asm
 4 11918B 119D08 2941 engine_4DED8_data_02 data/engine/savestate_data_01.asm
 4 119D08 119E44 316 engine_2D9D9_data_01 data/engine/threestars_data_01.asm

@@ -1,5 +1,5 @@
 ; NHL 96 PC: SPA numbers (sequence numbers of the SPA table, word offsets from SPAlist) by name, for the code files.
-; The labels with the same names are the sequences in src/data/engine/penalty_data_01.asm; this include is NOT used there.
+; The labels with the same names are the sequences in src/data/engine/frames.asm; this include is NOT used there.
 SPAstand             equ 01h
 SPAcoast             equ 05h
 SPAskate             equ 09h

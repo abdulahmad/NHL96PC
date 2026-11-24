@@ -129,26 +129,26 @@ asspenshooter:
         mov ebx, eax
         mov ecx, dword [puckc]
         movsx ax, byte [ecx]
-        cmp ax, word [dword ebx+086h]
+        cmp ax, word [dword ebx+SCnum]
         je short .2
 .1:
-        mov ax, word [byte ebx+01Ch]
+        mov ax, word [byte ebx+assnum]
         inc eax
         xor ah, ah
-        or byte [byte ebx+044h], 2
+        or byte [byte ebx+pflags], 2
         and al, 7
-        mov word [byte ebx+01Ch], ax
+        mov word [byte ebx+assnum], ax
         pop edx
         pop ecx
         pop ebx
         ret
 .2:
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 8
         movzx eax, al
         test eax, eax
         jne short .1
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 20h
         movzx eax, al
         test eax, eax
@@ -162,41 +162,41 @@ asspenshooter:
         mov eax, ebx
         call SetSPA
         mov eax, ebx
-        mov word [byte ebx+03Eh], 3Ch
+        mov word [byte ebx+nopuck], 3Ch
         call donothing
         pop edx
         pop ecx
         pop ebx
         ret
 .3:
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 80h
         movzx eax, al
-        movsx ecx, word [byte ebx+06h]
+        movsx ecx, word [byte ebx+Ypos+2]
         test eax, eax
         jne short .4
         neg ecx
 .4:
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 2
         movzx eax, al
         test eax, eax
         je short .5
-        mov word [byte ebx+026h], 0
+        mov word [byte ebx+temp1], 0
         mov byte [byte ebx+029h], 0
         mov byte [byte ebx+028h], 8
         mov eax, 4
-        and byte [byte ebx+044h], 0FDh
+        and byte [byte ebx+pflags], 0FDh
         mov edx, ecx
         mov dword [sopathpoint], 0
         call randomd0
-        mov word [byte ebx+02Ah], ax
+        mov word [byte ebx+temp3], ax
         mov eax, ebx
         call StartShootoutPath
 .5:
         cmp dword [sopathend], byte 0
         jge near .13
-        movsx ecx, word [byte ebx+036h]
+        movsx ecx, word [byte ebx+facedir]
         sub ecx, dword [pspathdir]
         je near .14
         inc ecx
@@ -225,13 +225,13 @@ asspenshooter:
         add ecx, byte 3
 .8:
         mov word [passdir], cx
-        movzx ax, byte [byte ebx+05Bh]
+        movzx ax, byte [byte ebx+shotspd]
         add eax, 14h
         mov word [passspeed], ax
-        mov ax, word [byte ebx+02h]
+        mov ax, word [byte ebx+Xpos+2]
         mov word [regd0], ax
         neg word [regd0]
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax
@@ -241,7 +241,7 @@ asspenshooter:
 .9:
         mov eax, 164h
 .10:
-        movsx edx, word [byte ebx+06h]
+        movsx edx, word [byte ebx+Ypos+2]
         sub eax, edx
         mov word [regd1], ax
         movsx edx, ax
@@ -264,7 +264,7 @@ asspenshooter:
         mov eax, ebx
         call updateanim
         mov eax, ebx
-        mov word [byte ebx+03Ch], 2
+        mov word [byte ebx+SPAcnt], 2
         call doshot
         pop edx
         pop ecx
@@ -274,14 +274,14 @@ asspenshooter:
         cmp ecx, dword [sopathend]
         jl short .14
         call NextPathPoint
-        movsx eax, word [byte ebx+036h]
+        movsx eax, word [byte ebx+facedir]
         mov dword [pspathdir], eax
 .14:
         mov ax, word [sopathx]
         mov word [regd0], ax
         mov ax, word [sopathy]
         mov word [regd1], ax
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax

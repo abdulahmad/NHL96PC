@@ -34,29 +34,29 @@ checkcoll:
         movzx edx, al
         test edx, edx
         jne near .2
-        mov ax, word [dword ecx+082h]
+        mov ax, word [dword ecx+radiusx]
         mov word [wcradiusx], ax
-        mov ax, word [dword ecx+084h]
+        mov ax, word [dword ecx+radiusy]
         mov word [wcradiusy], ax
         mov eax, ecx
-        movsx ebx, word [byte ecx+06h]
-        movsx edx, word [byte ecx+02h]
+        movsx ebx, word [byte ecx+Ypos+2]
+        movsx edx, word [byte ecx+Xpos+2]
         call checkwallcoll
-        movsx edx, word [byte ecx+030h]
-        movsx ebx, word [byte ecx+032h]
+        movsx edx, word [byte ecx+Wallcos]
+        movsx ebx, word [byte ecx+Wallsin]
         or edx, ebx
         jne short .1
-        movsx edx, word [dword ecx+086h]
+        movsx edx, word [dword ecx+SCnum]
         cmp edx, byte 0Bh
         jg short .1
         mov eax, ecx
         call GetHot
         mov word [wcradiusx], 1
         mov word [wcradiusy], 1
-        mov ax, word [byte ecx+06h]
+        mov ax, word [byte ecx+Ypos+2]
         add ax, word [regd1]
         movsx ebx, ax
-        mov ax, word [byte ecx+02h]
+        mov ax, word [byte ecx+Xpos+2]
         add ax, word [regd0]
         movsx edx, ax
         mov eax, ecx
@@ -69,23 +69,23 @@ checkcoll:
 .2:
         cmp byte [collflag], 0
         je short .4
-        movsx edx, word [byte ecx+038h]
+        movsx edx, word [byte ecx+SPA]
         cmp edx, SPAboardback
         jl short .3
         cmp edx, SPAboardfrontglass
         jle near .9
 .3:
-        mov ax, word [dword ecx+092h]
-        mov word [byte ecx+02h], ax
-        mov ax, word [dword ecx+096h]
-        mov word [byte ecx+06h], ax
+        mov ax, word [dword ecx+OldXpos+2]
+        mov word [byte ecx+Xpos+2], ax
+        mov ax, word [dword ecx+OldYpos+2]
+        mov word [byte ecx+Ypos+2], ax
         leave
         pop edi
         pop esi
         pop ecx
         ret
 .4:
-        mov ax, word [dword ecx+086h]
+        mov ax, word [dword ecx+SCnum]
         movsx edx, ax
         movsx esi, ax
         mov di, word [nosplit edx*2+OOlistpos]
@@ -263,10 +263,10 @@ checkgoal:
         mov esi, eax
         mov edi, edx
         mov eax, ecx
-        movsx edx, word [byte esi+0Ah]
+        movsx edx, word [byte esi+Zpos+2]
         cmp edx, byte 10h
         jg near .20
-        movsx edx, word [dword esi+086h]
+        movsx edx, word [dword esi+SCnum]
         cmp edx, byte 0Eh
         je short .1
         movsx ecx, cx
@@ -279,7 +279,7 @@ checkgoal:
         pop esi
         ret
 .1:
-        sub bx, word [byte edi+02h]
+        sub bx, word [byte edi+Xpos+2]
         test bx, bx
         jge short .2
         movsx edx, bx
@@ -292,8 +292,8 @@ checkgoal:
         add ecx, byte 0Ch
         cmp edx, ecx
         jg near .20
-        movsx edx, word [dword edi+086h]
-        sub ax, word [byte edi+06h]
+        movsx edx, word [dword edi+SCnum]
+        sub ax, word [byte edi+Ypos+2]
         cmp edx, byte 0Ch
         jne short .4
         mov edx, 8
@@ -323,22 +323,22 @@ checkgoal:
         jg near .20
         mov word [regd4], 0FFF4h
         mov word [regd5], 0FFFAh
-        movsx edx, word [dword esi+09Ah]
+        movsx edx, word [dword esi+OldZpos+2]
         cmp edx, byte 10h
         jl short .8
-        mov ax, word [dword esi+09Ah]
-        mov word [byte esi+0Ah], ax
-        cmp word [byte esi+010h], byte 0
+        mov ax, word [dword esi+OldZpos+2]
+        mov word [byte esi+Zpos+2], ax
+        cmp word [byte esi+Zvel], byte 0
         jge near .20
-        neg word [byte esi+010h]
-        sar word [byte esi+010h], 1
+        neg word [byte esi+Zvel]
+        sar word [byte esi+Zvel], 1
         leave
         pop edi
         pop esi
         ret
 .8:
         mov byte [collflag], 0FFh
-        and byte [byte esi+044h], 7Fh
+        and byte [byte esi+pflags], 7Fh
         mov edx, dword [puckc]
         cmp byte [edx], 0
         jl short .10
@@ -361,11 +361,11 @@ checkgoal:
 .9:
         cmp word [regd1], byte 0
         jge short .10
-        or byte [byte esi+044h], 80h
+        or byte [byte esi+pflags], 80h
 .10:
         mov word [regd0], 0FF00h
-        mov edx, dword [byte esi+04h]
-        sub edx, dword [dword esi+094h]
+        mov edx, dword [byte esi+Ypos]
+        sub edx, dword [dword esi+OldYpos]
         sar edx, 8
         mov dword [regd1], edx
         test edx, edx
@@ -376,7 +376,7 @@ checkgoal:
 .11:
         add word [regd5], ax
         mov eax, dword [esi]
-        sub eax, dword [dword esi+090h]
+        sub eax, dword [dword esi+OldXpos]
         sar eax, 8
         mov dword [regd3], eax
         movsx eax, word [regd5]
@@ -395,18 +395,18 @@ checkgoal:
         cmp bx, word [regd4]
         jg near .18
         mov word [regd1], 0
-        mov ax, word [byte esi+06h]
+        mov ax, word [byte esi+Ypos+2]
         xor ax, word [regd0]
         mov word [regd3], ax
         test ax, ax
         jl near .19
         neg word [regd0]
-        mov al, byte [byte esi+044h]
+        mov al, byte [byte esi+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax
         jne near .19
-        movsx eax, word [byte esi+0Ah]
+        movsx eax, word [byte esi+Zpos+2]
         cmp eax, byte 10h
         je short .12
         dec word [regd4]
@@ -447,9 +447,9 @@ checkgoal:
         mov eax, 3
         call sfx
 .15:
-        movsx eax, word [byte esi+0Eh]
+        movsx eax, word [byte esi+Yvel]
         push eax
-        movsx eax, word [byte esi+0Ch]
+        movsx eax, word [byte esi+Xvel]
         push eax
         call vecdist
         mov word [regd0], ax
@@ -465,23 +465,23 @@ checkgoal:
         call randomd0
         mov dx, word [regd0]
         sub eax, edx
-        mov word [byte esi+0Ch], ax
+        mov word [byte esi+Xvel], ax
         mov ax, word [regd0]
         add eax, eax
         cwde
         call randomd0
         mov dx, word [regd0]
         sub eax, edx
-        mov word [byte esi+010h], ax
+        mov word [byte esi+Zvel], ax
         movsx eax, word [regd0]
         call randomd0
         mov word [regd0], ax
-        cmp word [byte esi+06h], byte 0
+        cmp word [byte esi+Ypos+2], byte 0
         jl short .17
         neg word [regd0]
 .17:
         mov ax, word [regd0]
-        mov word [byte esi+0Eh], ax
+        mov word [byte esi+Yvel], ax
         mov eax, esi
         call puckflip
         call EndPenaltyShot
@@ -495,8 +495,8 @@ checkgoal:
 .18:
         mov word [regd0], 0
         mov word [regd1], 100h
-        mov ax, word [byte esi+02h]
-        sub ax, word [dword esi+092h]
+        mov ax, word [byte esi+Xpos+2]
+        sub ax, word [dword esi+OldXpos+2]
         test ax, ax
         jl short .19
         mov word [regd1], 0FF00h
@@ -521,14 +521,14 @@ wallcoll:
         push esi
         mov edx, eax
         mov ax, word [regd0]
-        mov word [byte edx+030h], ax
+        mov word [byte edx+Wallcos], ax
         mov ax, word [regd1]
-        mov word [byte edx+032h], ax
+        mov word [byte edx+Wallsin], ax
         movsx ebx, word [regd0]
-        movsx eax, word [byte edx+0Eh]
+        movsx eax, word [byte edx+Yvel]
         mov esi, ebx
         imul esi, eax
-        movsx ecx, word [byte edx+0Ch]
+        movsx ecx, word [byte edx+Xvel]
         movsx eax, word [regd1]
         imul ecx, eax
         sub esi, ecx
@@ -536,14 +536,14 @@ wallcoll:
         movsx ecx, si
         neg ecx
         mov word [regd2], cx
-        movsx ecx, word [byte edx+0Ch]
+        movsx ecx, word [byte edx+Xvel]
         imul ecx, ebx
-        movsx ebx, word [byte edx+0Eh]
+        movsx ebx, word [byte edx+Yvel]
         imul eax, ebx
         add eax, ecx
         sar eax, 8
         mov word [regd3], ax
-        movsx eax, word [dword edx+086h]
+        movsx eax, word [dword edx+SCnum]
         cmp eax, byte 0Eh
         jne near .15
         mov word [passplayer], 0FFFFh
@@ -554,7 +554,7 @@ wallcoll:
         mov dword [nethit], 0
         cmp byte [eax], 0
         jge near .29
-        cmp word [byte edx+0Ch], byte 0
+        cmp word [byte edx+Xvel], byte 0
         je short .3
         lea eax, [byte edx+0Ch]
         jle short .1
@@ -567,7 +567,7 @@ wallcoll:
         sub ebx, ecx
         mov word [eax], bx
 .3:
-        cmp word [byte edx+0Eh], byte 0
+        cmp word [byte edx+Yvel], byte 0
         je near .29
         lea eax, [byte edx+0Eh]
         jle short .4
@@ -596,9 +596,9 @@ wallcoll:
         jg near .10
         mov eax, 800h
         call randomd0
-        mov word [byte edx+010h], ax
+        mov word [byte edx+Zvel], ax
         mov eax, edx
-        neg word [byte edx+010h]
+        neg word [byte edx+Zvel]
         call puckflip
         cmp dword [nethit], byte 0
         jne short .10
@@ -606,7 +606,7 @@ wallcoll:
         sar eax, 0Ah
         add eax, byte 4
         test ax, ax
-        movsx eax, word [byte edx+0Ah]
+        movsx eax, word [byte edx+Zpos+2]
         cmp eax, dword [RinkB00FirstVert]
         jg short .8
         mov eax, dword [puckc]
@@ -642,7 +642,7 @@ wallcoll:
         imul eax, ebx
         sub ecx, eax
         sar ecx, 8
-        mov word [byte edx+0Ch], cx
+        mov word [byte edx+Xvel], cx
         movsx eax, word [regd1]
         movsx ecx, word [regd3]
         imul ecx, eax
@@ -651,7 +651,7 @@ wallcoll:
         imul eax, ebx
         add eax, ecx
         sar eax, 8
-        mov word [byte edx+0Eh], ax
+        mov word [byte edx+Yvel], ax
         mov eax, dword [puckc]
         cmp byte [eax], 0
         jl short .13
@@ -686,16 +686,16 @@ wallcoll:
 .16:
         cmp eax, 0FFFFF000h
         jg short .19
-        movsx eax, word [byte edx+018h]
+        movsx eax, word [byte edx+impact]
         cmp eax, byte 0Ah
         jge short .18
-        movsx eax, word [byte edx+038h]
+        movsx eax, word [byte edx+SPA]
         cmp eax, SPAcheckskate
         jl short .17
         cmp eax, SPAcheckburstr
         jle short .18
 .17:
-        movsx eax, word [byte edx+038h]
+        movsx eax, word [byte edx+SPA]
         cmp eax, SPAburst
         jne short .19
 .18:
@@ -719,7 +719,7 @@ wallcoll:
         sub ecx, eax
         mov eax, ecx
         sar eax, 8
-        mov word [byte edx+0Ch], ax
+        mov word [byte edx+Xvel], ax
         movsx ecx, word [regd1]
         movsx eax, word [regd3]
         imul ecx, eax
@@ -728,61 +728,61 @@ wallcoll:
         imul eax, ebx
         add eax, ecx
         sar eax, 8
-        mov word [byte edx+0Eh], ax
+        mov word [byte edx+Yvel], ax
         cmp dword [nethit], byte 0
         je near .28
-        movsx eax, word [dword edx+092h]
+        movsx eax, word [dword edx+OldXpos+2]
         cmp eax, byte 0FFFFFFE8h
         jg short .21
-        cmp word [byte edx+0Ch], byte 0
+        cmp word [byte edx+Xvel], byte 0
         jg short .22
 .21:
-        movsx eax, word [dword edx+092h]
+        movsx eax, word [dword edx+OldXpos+2]
         cmp eax, byte 18h
         jl short .23
-        cmp word [byte edx+0Ch], byte 0
+        cmp word [byte edx+Xvel], byte 0
         jge short .23
 .22:
-        mov word [byte edx+0Ch], 0
-        mov ax, word [dword edx+092h]
-        mov word [byte edx+02h], ax
+        mov word [byte edx+Xvel], 0
+        mov ax, word [dword edx+OldXpos+2]
+        mov word [byte edx+Xpos+2], ax
 .23:
-        movsx eax, word [dword edx+096h]
+        movsx eax, word [dword edx+OldYpos+2]
         cmp eax, 174h
         jle short .24
-        cmp word [byte edx+0Eh], byte 0
+        cmp word [byte edx+Yvel], byte 0
         jl short .27
 .24:
-        movsx eax, word [dword edx+096h]
+        movsx eax, word [dword edx+OldYpos+2]
         cmp eax, 0FFFFFE8Ch
         jge short .25
-        cmp word [byte edx+0Eh], byte 0
+        cmp word [byte edx+Yvel], byte 0
         jg short .27
 .25:
-        movsx eax, word [dword edx+096h]
+        movsx eax, word [dword edx+OldYpos+2]
         cmp eax, 164h
         jge short .26
-        cmp word [dword edx+096h], byte 0
+        cmp word [dword edx+OldYpos+2], byte 0
         jle short .26
-        cmp word [byte edx+0Eh], byte 0
+        cmp word [byte edx+Yvel], byte 0
         jg short .27
 .26:
-        movsx eax, word [dword edx+096h]
+        movsx eax, word [dword edx+OldYpos+2]
         cmp eax, 0FFFFFE9Ch
         jle short .28
-        cmp word [dword edx+096h], byte 0
+        cmp word [dword edx+OldYpos+2], byte 0
         jge short .28
-        cmp word [byte edx+0Eh], byte 0
+        cmp word [byte edx+Yvel], byte 0
         jge short .28
 .27:
-        mov word [byte edx+0Eh], 0
-        mov ax, word [dword edx+096h]
-        mov word [byte edx+06h], ax
+        mov word [byte edx+Yvel], 0
+        mov ax, word [dword edx+OldYpos+2]
+        mov word [byte edx+Ypos+2], ax
 .28:
         mov dword [nethit], 0
-        cmp word [byte edx+010h], byte 0
+        cmp word [byte edx+Zvel], byte 0
         jle short .29
-        mov word [byte edx+010h], 0
+        mov word [byte edx+Zvel], 0
 .29:
         pop esi
         pop edx
@@ -821,17 +821,17 @@ wallcollb:
         call wallcoll
         jmp near .15
 .2:
-        movsx edx, word [byte esi+06h]
-        movsx eax, word [byte esi+02h]
+        movsx edx, word [byte esi+Ypos+2]
+        movsx eax, word [byte esi+Xpos+2]
         call RinkEdgeKind
-        movsx edx, word [byte esi+0Ah]
+        movsx edx, word [byte esi+Zpos+2]
         mov ebx, eax
         cmp edx, eax
         jg near .8
-        movsx eax, word [byte esi+02h]
+        movsx eax, word [byte esi+Xpos+2]
         shl eax, 2
         mov dword [byte ebp-0Ch], eax
-        movsx eax, word [byte esi+06h]
+        movsx eax, word [byte esi+Ypos+2]
         shl eax, 2
         lea edx, [byte ebp-018h]
         mov dword [byte ebp-04h], eax
@@ -855,41 +855,41 @@ wallcollb:
 .4:
         cmp eax, byte 32h
         jg short .1
-        cmp word [byte esi+02h], byte 0
+        cmp word [byte esi+Xpos+2], byte 0
         jge short .7
-        cmp word [byte esi+06h], byte 0
+        cmp word [byte esi+Ypos+2], byte 0
         jge short .5
-        movsx eax, word [byte esi+06h]
+        movsx eax, word [byte esi+Ypos+2]
         neg eax
         jmp short .6
 .5:
-        movsx eax, word [byte esi+06h]
+        movsx eax, word [byte esi+Ypos+2]
 .6:
         cmp eax, byte 74h
         jl near .1
 .7:
         lea edx, [byte ebx-08h]
-        movsx eax, word [byte esi+0Ah]
+        movsx eax, word [byte esi+Zpos+2]
         cmp eax, edx
         jle near .1
-        movsx eax, word [byte esi+0Eh]
+        movsx eax, word [byte esi+Yvel]
         push eax
-        movsx eax, word [byte esi+0Ch]
+        movsx eax, word [byte esi+Xvel]
         push eax
         call vecdist
         add esp, byte 8
         cmp eax, 3A98h
         jb near .1
         mov eax, 3
-        sar word [byte esi+0Eh], 2
+        sar word [byte esi+Yvel], 2
         call sfx
-        movsx eax, word [byte esi+02h]
+        movsx eax, word [byte esi+Xpos+2]
         shl eax, 2
         mov dword [byte ebp-024h], eax
-        movsx eax, word [byte esi+0Ah]
+        movsx eax, word [byte esi+Zpos+2]
         shl eax, 2
         mov dword [byte ebp-020h], eax
-        movsx eax, word [byte esi+06h]
+        movsx eax, word [byte esi+Ypos+2]
         shl eax, 2
         mov edx, 4
         mov dword [byte ebp-01Ch], eax
@@ -959,10 +959,10 @@ wallcollb:
         call AddPenalty2
 .13:
         or byte [sflags], 40h
-        or byte [byte esi+044h], 4
-        cmp word [byte esi+06h], byte 0
+        or byte [byte esi+pflags], 4
+        cmp word [byte esi+Ypos+2], byte 0
         jge short .14
-        or byte [byte esi+055h], 80h
+        or byte [byte esi+attribute], 80h
 .14:
         mov word [dword esi+0B2h], 0FFFFh
         call EndPenaltyShot
@@ -1055,10 +1055,10 @@ SetInst:
         push esi
         mov ecx, eax
         mov esi, ebx
-        movzx eax, byte [byte eax+063h]
+        movzx eax, byte [byte eax+fighting]
         cmp eax, byte 7
         je near .3
-        movzx ebx, byte [byte edx+063h]
+        movzx ebx, byte [byte edx+fighting]
         cmp ebx, byte 7
         je short .3
         cmp eax, byte 7
@@ -1075,15 +1075,15 @@ SetInst:
         cwde
         cmp eax, byte 6
         jl short .3
-        mov eax, dword [dword edx+088h]
-        movsx esi, byte [byte edx+047h]
+        mov eax, dword [dword edx+tmptr]
+        movsx esi, byte [byte edx+pnum]
         movzx eax, byte [dword esi+eax+0E4h]
         mov esi, 10h
         add eax, eax
         sub esi, eax
         cmp esi, ebx
         jg short .3
-        or byte [byte edx+045h], 1
+        or byte [byte edx+pflags2], 1
         mov al, byte [byte ecx+045h]
         and al, 1
         movzx eax, al
@@ -1108,28 +1108,28 @@ checkfight_sf:
         mov ecx, edx
         mov ax, word [dword edx+086h]
         mov edx, 20h
-        mov word [byte ebx+014h], ax
+        mov word [byte ebx+impactp], ax
         mov eax, ebx
         call AddPenalty2
-        movsx eax, word [dword ebx+086h]
+        movsx eax, word [dword ebx+SCnum]
         mov edx, 31h
         call GiveControl
         mov eax, ebx
         call assinsert
         mov eax, dword [puckc]
         movsx ax, byte [eax]
-        cmp ax, word [dword ebx+086h]
+        cmp ax, word [dword ebx+SCnum]
         jne short .1
-        mov word [byte ebx+03Eh], 78h
+        mov word [byte ebx+nopuck], 78h
         mov eax, dword [puckc]
         mov byte [eax], 0FFh
 .1:
-        movsx eax, word [byte ebx+036h]
-        and byte [byte ebx+055h], 0F7h
+        movsx eax, word [byte ebx+facedir]
+        and byte [byte ebx+attribute], 0F7h
         cmp eax, byte 2
         jne short .4
-        mov word [byte ebx+0Ch], 0FE70h
-        movsx eax, word [byte ebx+02h]
+        mov word [byte ebx+Xvel], 0FE70h
+        movsx eax, word [byte ebx+Xpos+2]
         movsx ecx, word [byte ecx+02h]
         sub eax, ecx
         test eax, eax
@@ -1146,11 +1146,11 @@ checkfight_sf:
         mov ecx, 10h
         sub ecx, eax
         imul eax, ecx, byte 64h
-        sub word [byte ebx+0Ch], ax
+        sub word [byte ebx+Xvel], ax
         jmp short .6
 .4:
-        mov word [byte ebx+0Ch], 190h
-        movsx eax, word [byte ebx+02h]
+        mov word [byte ebx+Xvel], 190h
+        movsx eax, word [byte ebx+Xpos+2]
         movsx ecx, word [byte ecx+02h]
         sub eax, ecx
         mov ecx, eax
@@ -1164,20 +1164,20 @@ checkfight_sf:
         mov ecx, 10h
         sub ecx, eax
         imul eax, ecx, byte 64h
-        add word [byte ebx+0Ch], ax
+        add word [byte ebx+Xvel], ax
 .6:
         mov edx, SPAfightdrop
-        or byte [byte ebx+045h], 26h
+        or byte [byte ebx+pflags2], 26h
         mov eax, ebx
-        and byte [byte ebx+044h], 0DFh
+        and byte [byte ebx+pflags], 0DFh
         call SetSPA
-        movsx eax, word [byte ebx+036h]
+        movsx eax, word [byte ebx+facedir]
         cmp eax, byte 2
         jne short .7
         or byte [RefObject+48h], 1
-        mov ax, word [byte ebx+02h]
+        mov ax, word [byte ebx+Xpos+2]
         mov word [RefObject+4Eh], ax
-        mov ax, word [byte ebx+06h]
+        mov ax, word [byte ebx+Ypos+2]
         mov word [RefObject+50h], ax
         mov al, byte [dword ebx+086h]
         mov byte [RefObject+52h], al
@@ -1186,9 +1186,9 @@ checkfight_sf:
         ret
 .7:
         or byte [RefObject+48h], 2
-        movsx eax, word [byte ebx+02h]
+        movsx eax, word [byte ebx+Xpos+2]
         mov dword [RefObject+72h], eax
-        movsx eax, word [byte ebx+06h]
+        movsx eax, word [byte ebx+Ypos+2]
         mov dword [RefObject+76h], eax
         mov al, byte [dword ebx+086h]
         mov byte [RefObject+53h], al
@@ -1214,41 +1214,41 @@ checkfight:
         je near .21
         cmp dword [FightingOn], byte 0
         je near .21
-        movsx eax, word [dword ecx+086h]
+        movsx eax, word [dword ecx+SCnum]
         cmp eax, byte 0Bh
         jg near .21
-        movsx eax, word [dword edx+086h]
+        movsx eax, word [dword edx+SCnum]
         cmp eax, byte 0Bh
         jg near .21
-        movsx eax, word [byte ecx+018h]
+        movsx eax, word [byte ecx+impact]
         cmp eax, byte 0Ah
         jl near .21
-        movsx eax, word [byte edx+018h]
+        movsx eax, word [byte edx+impact]
         cmp eax, byte 0Ah
         jl near .21
-        mov al, byte [byte ecx+044h]
+        mov al, byte [byte ecx+pflags]
         and al, 20h
         movzx eax, al
         test eax, eax
         jne near .21
-        mov al, byte [byte edx+044h]
+        mov al, byte [byte edx+pflags]
         and al, 20h
         movzx eax, al
         test eax, eax
         jne near .21
-        mov al, byte [byte ecx+045h]
+        mov al, byte [byte ecx+pflags2]
         and al, 10h
         movzx eax, al
         test eax, eax
         jne near .21
-        mov al, byte [byte edx+045h]
+        mov al, byte [byte edx+pflags2]
         and al, 10h
         movzx eax, al
         test eax, eax
         jne near .21
-        cmp word [byte ecx+01Ah], byte 0
+        cmp word [byte ecx+position], byte 0
         jle near .21
-        cmp word [byte edx+01Ah], byte 0
+        cmp word [byte edx+position], byte 0
         jle near .21
         mov al, byte [gmode]
         and al, 1
@@ -1281,7 +1281,7 @@ checkfight:
         mov edx, ecx
         mov eax, esi
         call SetInst
-        mov al, byte [byte ecx+045h]
+        mov al, byte [byte ecx+pflags2]
         and al, 1
         movzx eax, al
         test eax, eax
@@ -1304,10 +1304,10 @@ checkfight:
         add word [Crowdlevel], 3E8h
         add word [CwdExciteLvl], byte 23h
         mov eax, 7
-        movsx edx, word [dword ecx+086h]
+        movsx edx, word [dword ecx+SCnum]
         call CloseTextOverlay
-        movsx edx, word [byte ecx+06h]
-        movsx eax, word [byte esi+06h]
+        movsx edx, word [byte ecx+Ypos+2]
+        movsx eax, word [byte esi+Ypos+2]
         add eax, edx
         cdq
         LD sub, eax, edx
@@ -1361,17 +1361,17 @@ checkfight:
         mov word [yc1], ax
 .13:
         or byte [sflags], 40h
-        mov ax, word [byte ecx+02h]
-        cmp ax, word [byte esi+02h]
+        mov ax, word [byte ecx+Xpos+2]
+        cmp ax, word [byte esi+Xpos+2]
         jge short .14
         mov eax, 2
         jmp short .15
 .14:
         mov eax, 6
 .15:
-        mov word [byte ecx+036h], ax
-        mov ax, word [byte ecx+02h]
-        cmp ax, word [byte esi+02h]
+        mov word [byte ecx+facedir], ax
+        mov ax, word [byte ecx+Xpos+2]
+        cmp ax, word [byte esi+Xpos+2]
         jge short .16
         mov eax, 6
         jmp short .17
@@ -1379,7 +1379,7 @@ checkfight:
         mov eax, 2
 .17:
         mov edx, esi
-        mov word [byte esi+036h], ax
+        mov word [byte esi+facedir], ax
         mov eax, ecx
         call checkfight_sf
         mov edx, ecx
@@ -1388,16 +1388,16 @@ checkfight:
         mov ecx, SortCords
         xor esi, esi
 .18:
-        mov al, byte [byte ecx+045h]
+        mov al, byte [byte ecx+pflags2]
         and al, 1
         movzx eax, al
         test eax, eax
         jne short .20
-        cmp word [byte ecx+01Ah], byte 0
+        cmp word [byte ecx+position], byte 0
         jg short .19
         jne short .20
 .19:
-        mov al, byte [byte ecx+045h]
+        mov al, byte [byte ecx+pflags2]
         and al, 4
         movzx eax, al
         test eax, eax
@@ -1439,17 +1439,17 @@ checkcx:
         imul eax, dword 0A0h
         mov ecx, SortCords
         add ecx, eax
-        mov al, byte [byte ecx+044h]
+        mov al, byte [byte ecx+pflags]
         and al, 4
         movzx eax, al
         test eax, eax
         jne near .17
-        mov al, byte [byte ecx+045h]
+        mov al, byte [byte ecx+pflags2]
         and al, 20h
         movzx eax, al
         test eax, eax
         jne near .17
-        movsx eax, word [dword ecx+086h]
+        movsx eax, word [dword ecx+SCnum]
         cmp eax, byte 0Bh
         jle short .1
         cmp eax, byte 10h
@@ -1461,14 +1461,14 @@ checkcx:
         movzx eax, al
         test eax, eax
         je short .2
-        mov al, byte [byte esi+045h]
+        mov al, byte [byte esi+pflags2]
         and al, 1
         movzx eax, al
         test eax, eax
         setne al
         movzx eax, al
         mov edx, eax
-        mov al, byte [byte ecx+045h]
+        mov al, byte [byte ecx+pflags2]
         and al, 1
         movzx eax, al
         test eax, eax
@@ -1477,7 +1477,7 @@ checkcx:
         xor eax, edx
         jne near .17
 .2:
-        mov ax, word [byte ecx+02h]
+        mov ax, word [byte ecx+Xpos+2]
         mov word [byte ebp-0Ch], ax
         sub word [byte ebp-0Ch], di
         cmp word [byte ebp-0Ch], byte 0
@@ -1498,16 +1498,16 @@ checkcx:
         mov dword [regd0], edx
         cmp edx, 100h
         jg near .17
-        mov ax, word [byte esi+0Ch]
-        sub ax, word [byte ecx+0Ch]
+        mov ax, word [byte esi+Xvel]
+        sub ax, word [byte ecx+Xvel]
         mov dword [byte ebp-04h], eax
-        mov ax, word [byte esi+0Eh]
-        sub ax, word [byte ecx+0Eh]
-        mov di, word [byte ecx+06h]
+        mov ax, word [byte esi+Yvel]
+        sub ax, word [byte ecx+Yvel]
+        mov di, word [byte ecx+Ypos+2]
         mov dword [byte ebp-08h], eax
-        mov ax, word [byte ecx+02h]
-        sub di, word [byte esi+06h]
-        sub ax, word [byte esi+02h]
+        mov ax, word [byte ecx+Xpos+2]
+        sub di, word [byte esi+Ypos+2]
+        sub ax, word [byte esi+Xpos+2]
         movsx edx, di
         mov word [byte ebp-0Ch], ax
         movsx eax, word [byte ebp-08h]
@@ -1521,14 +1521,14 @@ checkcx:
         test edx, edx
         jl near .17
         sar dword [regd1], 4
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         cmp eax, byte 10h
         je short .5
-        movsx eax, word [dword ecx+086h]
+        movsx eax, word [dword ecx+SCnum]
         cmp eax, byte 10h
         je short .5
-        movzx edx, byte [byte esi+044h]
-        movzx eax, byte [byte ecx+044h]
+        movzx edx, byte [byte esi+pflags]
+        movzx eax, byte [byte ecx+pflags]
         xor eax, edx
         test al, 40h
         je near .11
@@ -1543,33 +1543,33 @@ checkcx:
 .6:
         mov ax, word [regd4]
         mov word [lastimpact], ax
-        add word [byte esi+018h], ax
+        add word [byte esi+impact], ax
         mov ax, word [regd4]
-        add word [byte ecx+018h], ax
-        mov al, byte [byte ecx+045h]
+        add word [byte ecx+impact], ax
+        mov al, byte [byte ecx+pflags2]
         and al, 1
         movzx eax, al
         test eax, eax
         jne short .7
-        mov ax, word [dword esi+086h]
-        mov word [byte ecx+014h], ax
+        mov ax, word [dword esi+SCnum]
+        mov word [byte ecx+impactp], ax
 .7:
-        mov al, byte [byte esi+045h]
+        mov al, byte [byte esi+pflags2]
         and al, 1
         movzx eax, al
         test eax, eax
         jne short .8
-        mov ax, word [dword ecx+086h]
-        mov word [byte esi+014h], ax
+        mov ax, word [dword ecx+SCnum]
+        mov word [byte esi+impactp], ax
 .8:
         movsx eax, word [regd4]
         cmp eax, byte 14h
         jl short .10
         mov eax, dword [puckc]
         movsx ax, byte [eax]
-        cmp ax, word [dword esi+086h]
+        cmp ax, word [dword esi+SCnum]
         je short .9
-        cmp ax, word [dword ecx+086h]
+        cmp ax, word [dword ecx+SCnum]
         jne short .10
 .9:
         cmp word [ltack], byte 0
@@ -1607,17 +1607,17 @@ checkcx:
         sar eax, 4
         mov dword [regd0], edx
         mov word [regd5], ax
-        movzx ax, byte [byte esi+056h]
+        movzx ax, byte [byte esi+weight]
         add eax, 8Ch
         mov word [regd0], ax
-        cmp word [byte esi+01Ah], byte 0
+        cmp word [byte esi+position], byte 0
         jne short .12
         add word [regd0], byte 28h
 .12:
-        movzx ax, byte [byte ecx+056h]
+        movzx ax, byte [byte ecx+weight]
         add eax, 8Ch
         mov word [regd1], ax
-        cmp word [byte ecx+01Ah], byte 0
+        cmp word [byte ecx+position], byte 0
         jne short .13
         add word [regd1], byte 28h
 .13:
@@ -1642,9 +1642,9 @@ checkcx:
         sar eax, 4
         mov word [LastShooterTeam], 0
         mov dword [byte ebp-014h], eax
-        mov ax, word [byte ecx+0Ch]
+        mov ax, word [byte ecx+Xvel]
         add eax, dword [byte ebp-014h]
-        mov word [byte esi+0Ch], ax
+        mov word [byte esi+Xvel], ax
         movsx eax, word [regd5]
         imul eax, ebx
         mov edi, dword [regd0]
@@ -1653,54 +1653,54 @@ checkcx:
         mov eax, edi
         sar eax, 4
         mov dword [byte ebp-014h], eax
-        mov ax, word [byte ecx+0Eh]
+        mov ax, word [byte ecx+Yvel]
         add eax, dword [byte ebp-014h]
-        mov word [byte esi+0Eh], ax
+        mov word [byte esi+Yvel], ax
         imul ebx, dword [regd1]
         sar ebx, 4
-        add word [byte ecx+0Ch], bx
+        add word [byte ecx+Xvel], bx
         imul edx, dword [regd1]
         sar edx, 4
-        add word [byte ecx+0Eh], dx
+        add word [byte ecx+Yvel], dx
         mov al, byte [gmode]
         and al, 1
         movsx eax, al
         mov byte [collflag], 0FFh
         test eax, eax
         jne near .17
-        movzx edx, byte [byte esi+044h]
-        movzx eax, byte [byte ecx+044h]
+        movzx edx, byte [byte esi+pflags]
+        movzx eax, byte [byte ecx+pflags]
         xor eax, edx
         test al, 40h
         jne near .17
-        mov ax, word [byte ecx+06h]
-        sub ax, word [byte esi+06h]
+        mov ax, word [byte ecx+Ypos+2]
+        sub ax, word [byte esi+Ypos+2]
         movsx edx, ax
-        mov ax, word [byte ecx+02h]
-        sub ax, word [byte esi+02h]
+        mov ax, word [byte ecx+Xpos+2]
+        sub ax, word [byte esi+Xpos+2]
         cwde
         call vtoa
         mov ebx, eax
         mov word [byte ebp-0Ch], ax
-        mov al, byte [byte esi+044h]
+        mov al, byte [byte esi+pflags]
         and al, 8
         movzx eax, al
         test eax, eax
         jne short .15
-        mov ax, word [byte esi+02Ch]
-        sub ax, word [byte esi+06h]
+        mov ax, word [byte esi+temp4]
+        sub ax, word [byte esi+Ypos+2]
         movsx edx, ax
-        mov ax, word [byte esi+02Ah]
-        sub ax, word [byte esi+02h]
+        mov ax, word [byte esi+temp3]
+        sub ax, word [byte esi+Xpos+2]
         cwde
         call vtoa
         cmp ax, bx
         je short .14
-        cmp word [byte esi+0Ch], byte 0
+        cmp word [byte esi+Xvel], byte 0
         jne short .15
-        cmp word [byte esi+0Eh], byte 0
+        cmp word [byte esi+Yvel], byte 0
         jne short .15
-        cmp bx, word [byte esi+036h]
+        cmp bx, word [byte esi+facedir]
         jne short .15
 .14:
         mov al, byte [byte ebp-0Ch]
@@ -1712,7 +1712,7 @@ checkcx:
         mov eax, esi
         call doplayeracc
 .15:
-        mov al, byte [byte ecx+044h]
+        mov al, byte [byte ecx+pflags]
         and al, 8
         movzx eax, al
         test eax, eax
@@ -1722,20 +1722,20 @@ checkcx:
         xor ah, ah
         and al, 7
         mov word [byte ebp-0Ch], ax
-        mov ax, word [byte ecx+02Ch]
-        sub ax, word [byte ecx+06h]
+        mov ax, word [byte ecx+temp4]
+        sub ax, word [byte ecx+Ypos+2]
         movsx edx, ax
-        mov ax, word [byte ecx+02Ah]
-        sub ax, word [byte ecx+02h]
+        mov ax, word [byte ecx+temp3]
+        sub ax, word [byte ecx+Xpos+2]
         cwde
         call vtoa
         cmp ax, word [byte ebp-0Ch]
         je short .16
-        cmp word [byte esi+0Ch], byte 0
+        cmp word [byte esi+Xvel], byte 0
         jne short .17
-        cmp word [byte esi+0Eh], byte 0
+        cmp word [byte esi+Yvel], byte 0
         jne short .17
-        mov ax, word [byte ecx+036h]
+        mov ax, word [byte ecx+facedir]
         cmp ax, word [byte ebp-0Ch]
         jne short .17
 .16:

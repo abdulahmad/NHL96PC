@@ -4052,8 +4052,8 @@
 ;  119D62  IntroStandSpots                          data/engine/threestars_data_01.asm           1
 ;  119D76  starskatermin                            data/engine/threestars_data_01.asm           1
 ;  119D79  stargoaliemin                            data/engine/threestars_data_01.asm           1
-;  119D7C  ExtraAttackerSpots                       data/engine/threestars_data_01.asm           1
-;  119D9C  str_Q                                    data/engine/threestars_data_01.asm           1
+;  119D7C  asscentero_dedata                        data/engine/threestars_data_01.asm           1
+;  119D9C  asswingo_dedata                          data/engine/threestars_data_01.asm           1
 ;  119DBC  PuckCarrySpotX                           data/engine/threestars_data_01.asm           1
 ;  119DBE  PuckCarrySpotY                           data/engine/threestars_data_01.asm           1
 ;  119DE4  ScoreCelebrating                         data/engine/threestars_data_01.asm           1

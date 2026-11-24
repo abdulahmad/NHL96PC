@@ -7,7 +7,7 @@ bits 32
 %include "spa.inc"
 section s_119D08 progbits alloc noexec write align=1
 global starskatermin, stargoaliemin, Endfaceoff_ftab_m1, ScoreCelebrating, StarPanelOffsetsLowRes, StarPanelRowsLowRes, StarPanelOffsets, StarPanelRows
-global ExtraAttackerSpots, str_Q, CupShown, IntroStandSpots, PuckCarrySpotX, PuckCarrySpotY, ScoreCelebrateAnims, refsigdir
+global asscentero_dedata, asswingo_dedata, CupShown, IntroStandSpots, PuckCarrySpotX, PuckCarrySpotY, ScoreCelebrateAnims, refsigdir
 CupShown:                                       ; set once the cup presentation has played (StartPreGame,
                                                 ; DrawOverlayPanels); used by DrawOverlayPanels, StartPreGame
         db 00h,00h
@@ -35,11 +35,14 @@ starskatermin:                                  ; same data as the like-named la
 stargoaliemin:                                  ; same data as the like-named label used by the same routines
                                                 ; in the earlier PC version
         db 0Ah,014h,028h
-ExtraAttackerSpots:                             ; spot table assextra4 sends the extra attacker to; used by
-                                                ; assextra4
+asscentero_dedata:                              ; assextra4: the centre lane offence spots (x, x range, y, y range
+                                                ; per zone) for positions 4 and 6; 95 PC asscentero_dedata, the
+                                                ; same four zones retuned for the 96 rink
         db 00h,00h,055h,00h,0A0h,0FFh,0Ah,00h,00h,00h,055h,00h,056h,00h,0Ah,00h
         db 00h,00h,038h,00h,0ECh,00h,01Eh,00h,00h,00h,071h,00h,0ECh,00h,014h,00h
-str_Q:                                          ; string "q"; used by assextra4
+asswingo_dedata:                                ; assextra4: the wing lane offence spots (x, x range, y, y range
+                                                ; per zone) for the other callers; 95 PC asswingo_dedata, the same
+                                                ; four zones retuned for the 96 rink
         db 071h,00h,014h,00h,0A0h,0FFh,0Ah,00h,07Fh,00h,014h,00h,03Ah,00h,05h,00h
         db 03Fh,00h,032h,00h,046h,01h,014h,00h,071h,00h,01Eh,00h,050h,01h,014h,00h
 PuckCarrySpotX:                                 ; x of the spots asspuckc skates the carrier to; used by

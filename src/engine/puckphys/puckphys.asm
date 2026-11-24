@@ -313,16 +313,16 @@ puckglue:
         cmp dword [penshotlive], byte 0
         je short .1
         movsx ax, byte [byte ebx+pnum]
-        cmp ax, word [byte edx+032h]
+        cmp ax, word [byte edx+tmtouch1]
         jne short .1
         call EndPenaltyShot
         mov dword [OneTimerPasser], 0
         mov dword [onetimerflag], 0
         mov dword [shotongoal], 0
 .1:
-        mov byte [byte ecx+035h], 0FFh
-        mov byte [byte ecx+037h], 0FFh
-        or byte [byte ecx+046h], 8
+        mov byte [byte ecx+tmtouch2+1], 0FFh
+        mov byte [byte ecx+tmtouch3+1], 0FFh
+        or byte [byte ecx+tmflags], 8
         mov ax, word [sflags3]
         xor ah, ah
         and al, 10h

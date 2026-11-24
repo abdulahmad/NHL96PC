@@ -859,7 +859,7 @@ ChkShotStat:
         jne near .17
         mov eax, dword [dword esi+tmptr]
         mov edx, dword [dword esi+optmptr]
-        inc word [eax]
+        inc word [eax+tmshots]
         mov bx, word [gmode2]
         xor bh, bh
         and bl, 20h

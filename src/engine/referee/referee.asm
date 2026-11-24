@@ -1910,7 +1910,7 @@ assrefdrop:
         mov eax, ebx
         xor edx, edx
         call SetSPA
-        mov dword [byte ebx+07Eh], 0
+        mov dword [byte ebx+SPAlast], 0
         mov word [byte ebx+frame], 0FFFFh
         mov word [byte ebx+Xpos+2], 0AAh
         mov word [byte ebx+Ypos+2], 0

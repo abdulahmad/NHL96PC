@@ -48,7 +48,7 @@ SetSPA:
         test dx, dx
         je short .3
         movsx eax, dx
-        mov dword [byte ebx+07Eh], eax
+        mov dword [byte ebx+SPAlast], eax
 .3:
         sar word [byte ebx+SPAnum], 1
         pop ecx
@@ -76,7 +76,7 @@ SetSPA:
         mov word [byte ebx+SPA], dx
         test dx, dx
         je short .7
-        mov dword [byte ebx+07Eh], ecx
+        mov dword [byte ebx+SPAlast], ecx
 .7:
         shl word [byte ebx+SPAnum], 1
         pop ecx
@@ -91,7 +91,7 @@ SetSPA:
         je short .10
 .9:
         movsx eax, dx
-        mov dword [byte ebx+07Eh], eax
+        mov dword [byte ebx+SPAlast], eax
 .10:
         pop ecx
         pop ebx

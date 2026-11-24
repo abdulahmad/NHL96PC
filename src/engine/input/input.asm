@@ -41,14 +41,14 @@ lineinput:
         push esi
         push edi
         mov ecx, eax
-        mov eax, dword [dword eax+088h]
-        mov dx, word [byte eax+046h]
+        mov eax, dword [dword eax+tmptr]
+        mov dx, word [byte eax+tmflags]
         xor dh, dh
         and dl, 1
         movsx edx, dx
         test edx, edx
         je short .1
-        and byte [byte eax+046h], 0FEh
+        and byte [byte eax+tmflags], 0FEh
         mov eax, ecx
         call RequestLineChange
 .1:
@@ -2137,7 +2137,7 @@ lcfound:
         jl short .2
         and byte [byte ebx+045h], 0F7h
         or byte [byte ebx+044h], 8
-        and byte [byte edx+046h], 0FDh
+        and byte [byte edx+tmflags], 0FDh
         mov ax, word [regd0]
         cmp ax, word [byte edx+tmline]
         je short .2
@@ -3279,7 +3279,7 @@ ReassignCtlPlayer:
         movzx edx, dl
         test edx, edx
         je short .7
-        cmp dword [byte eax+07Ah], byte 0
+        cmp dword [byte eax+ctlslot], byte 0
         jge short .7
         mov cx, word [dword eax+SCnum]
         jmp near .10
@@ -3316,7 +3316,7 @@ ReassignCtlPlayer:
         cmp esi, dword [byte ebp-010h]
         jg short .9
         mov dx, word [dword eax+SCnum]
-        cmp dword [byte eax+07Ah], byte 0
+        cmp dword [byte eax+ctlslot], byte 0
         jge short .9
         mov dword [byte ebp-010h], esi
         mov ecx, edx

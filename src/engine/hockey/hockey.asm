@@ -248,7 +248,7 @@ changeplayer:
         movsx eax, word [dword ebx+HomeControlSlot]
         imul eax, dword 0A0h
         add eax, SortCords
-        mov dword [byte eax+07Ah], 0FFFFFFFFh
+        mov dword [byte eax+ctlslot], 0FFFFFFFFh
         and byte [byte eax+pflags], 0F7h
         mov word [dword ebx+HomeControlSlot], 0FFFFh
         jmp near changeplayer_316
@@ -316,11 +316,11 @@ changeplayer:
         ja short .21
         mov cx, word [dword eax+SCnum]
         mov dword [byte ebp-010h], ecx
-        cmp dword [byte eax+07Ah], byte 0
+        cmp dword [byte eax+ctlslot], byte 0
         jl short .20
         movsx ecx, dx
         mov dword [byte ebp-01Ch], ecx
-        mov ecx, dword [byte eax+07Ah]
+        mov ecx, dword [byte eax+ctlslot]
         cmp ecx, dword [byte ebp-01Ch]
         jne short .21
 .20:
@@ -347,10 +347,10 @@ changeplayer:
         call SetCarryAnim
         jmp short changeplayer_316
 .23:
-        cmp dword [byte ecx+07Ah], byte 0
+        cmp dword [byte ecx+ctlslot], byte 0
         jl short .24
         movsx eax, dx
-        cmp eax, dword [byte ebx+07Ah]
+        cmp eax, dword [byte ebx+ctlslot]
         jne short .25
 .24:
         movsx ebx, dx
@@ -402,7 +402,7 @@ restorepl:
         pop ebx
         ret
 .1:
-        mov dword [byte eax+07Ah], 0FFFFFFFFh
+        mov dword [byte eax+ctlslot], 0FFFFFFFFh
         and byte [byte eax+044h], 0F5h
         or byte [byte eax+044h], 2
 .2:
@@ -416,7 +416,7 @@ restorepl:
         add edx, eax
         movsx eax, cx
         or byte [byte edx+044h], 8
-        mov dword [byte edx+07Ah], eax
+        mov dword [byte edx+ctlslot], eax
         cmp word [byte edx+01Ah], byte 0
         jne short .3
         mov word [byte edx+048h], 0
@@ -3287,7 +3287,7 @@ defaultsprites_0:
         mov ecx, hmtmstruct
 .5:
         mov word [byte eax+temp5], 0
-        mov dword [byte eax+07Ah], 0FFFFFFFFh
+        mov dword [byte eax+ctlslot], 0FFFFFFFFh
         mov dword [dword eax+optmptr], ecx
         mov byte [esi], bl
         add eax, 0A0h
@@ -4788,12 +4788,12 @@ updateplayers:
 .39:
         mov ax, word [dword esi+SCnum]
         mov word [LastShooterTeam], ax
-        cmp dword [byte esi+07Ah], byte 0
+        cmp dword [byte esi+ctlslot], byte 0
         jl short .40
-        mov eax, dword [byte esi+07Ah]
+        mov eax, dword [byte esi+ctlslot]
         call ReadJoy1
         mov eax, esi
-        movsx edx, word [byte esi+07Ah]
+        movsx edx, word [byte esi+ctlslot]
         call doinput
 .40:
         movsx edi, word [byte esi+assnum]
@@ -4993,9 +4993,9 @@ updateanim:
         jne short .1
         and byte [byte eax+pflags], 0DFh
         and byte [byte eax+pflags2], 0FDh
-        cmp dword [byte eax+07Eh], byte 0
+        cmp dword [byte eax+SPAlast], byte 0
         je near Goal_1FB
-        mov ecx, dword [byte eax+07Eh]
+        mov ecx, dword [byte eax+SPAlast]
         add ecx, ecx
         add ecx, SPAlist
         mov bx, word [byte ecx+02h]
@@ -6551,9 +6551,9 @@ PlayerSpriteFrame:
         and ebx, 0FFF8h
         jmp near .14
 .6:
-        cmp dword [byte ebx+07Eh], byte 0
+        cmp dword [byte ebx+SPAlast], byte 0
         je near Goal_1FC
-        mov ecx, dword [byte ebx+07Eh]
+        mov ecx, dword [byte ebx+SPAlast]
         add ecx, ecx
         add ecx, SPAlist
         mov di, word [byte ecx+02h]

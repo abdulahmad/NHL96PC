@@ -380,7 +380,7 @@ assbenchside:
         xor edx, edx
         mov word [byte ebx+frame], 0FFFFh
         call SetSPA
-        mov dword [byte ebx+07Eh], 0
+        mov dword [byte ebx+SPAlast], 0
 .6:
         xor edx, edx
         xor ebx, ebx

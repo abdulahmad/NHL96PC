@@ -74,8 +74,14 @@ optmptr    equ 8Ch   ; size d; 95PC 70h: the other team's structure
 OldXpos    equ 90h   ; size d; 95PC 74h (updateplayers)
 OldYpos    equ 94h   ; size d; 95PC 78h
 OldZpos    equ 98h   ; size d; 95PC 7Ch
+ctlslot    equ 7Ah   ; size d; (96PC only) the controller slot steering this player, -1 = computer: changeplayer / restorepl store the slot
+;                     (HomeControlSlot[slot] holds the player back) with pflags bit 3; defaultsprites_0, asspenalty, RunPreGameSkate set -1;
+;                     ReassignCtlPlayer, dopass, InProgress read it; SortSpritesForDraw flags -1 in the replay buffer
+SPAlast    equ 7Eh   ; size d; (96PC only) the last non-zero SPA: SetSPA keeps it when SPA is set; updateanim and PlayerSpriteFrame
+;                     read SPAlist through it while SPA is 0, to hold that animation's frame
 
 ; ---- team structure (hmtmstruct + n; the hm / aw data names give the offsets)
+tmshots    equ 00h   ; tsize w; (95PC / 96G name) team shots: the shot code adds 1 to the shooter's team word 0 (inc word [tmptr]); pause_menu / postgame print it
 tmPwrGoals equ 02h   ; tsize w; hmtmPwrGoals
 tmPwrPlays equ 04h   ; tsize w; hmtmPwrPlays
 tmPPShots  equ 06h   ; tsize w; hmtmPPShots
@@ -98,8 +104,12 @@ tmpasscomp equ 2Ah   ; tsize w; hmpasscmp (95PC tmpasscomp)
 tmline     equ 2Ch   ; tsize w; hmtmline (95PC 2Ah)
 tmlcnt     equ 2Eh   ; tsize w; hmtmlcnt (95PC 2Ch)
 tmextra    equ 30h   ; tsize w; hmtmextra (95PC 2Eh)
+tmtouch1   equ 32h   ; tsize w; (93G name; data label hmtmtouch1; 95PC 30h) last touch, the scorer; offsides' touch shift moves 32h -> 34h -> 36h
+tmtouch2   equ 34h   ; tsize w; (93G name) second last touch, first assist; -1 in its high byte (tmtouch2+1) clears it (93G st $1A(a0))
+tmtouch3   equ 36h   ; tsize w; (93G name) third last touch, second assist; cleared the same way (tmtouch3+1)
 tmap       equ 38h   ; tsize w; hmtmap (95PC 36h); releasepl adds 1 as in 95PC
 tmgoalie   equ 3Ah   ; tsize w; hmtmgoalie (95PC 38h)
+tmflags    equ 46h   ; tsize b; (95PC / 96G name; 95PC 44h) SetLCmode sets bit 1 (line change box asked), input clears bit 0, puckphys sets bit 3 in the other team's
 tmpde      equ 48h   ; tsize w array; energy word per roster player (95PC 46h): assfight reads [tmptr+pnum*2+48h]
 tmpdst     equ 80h   ; tsize w array; hmtmpdst (95PC 7Eh): setplayer writes -1 at [team+pnum*2+80h]
 tmboxlist  equ 0B8h  ; tsize b array; hmtmpbox (95PC 0B6h)

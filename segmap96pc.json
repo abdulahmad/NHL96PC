@@ -3184,35 +3184,123 @@
   },
   {
    "start": 1133376,
-   "end": 1134034,
+   "end": 1133794,
    "module": "front_10010_data_01",
    "obj": 4,
-   "file": "data/front/front_10010_data_01.asm",
-   "note": "owner: front/front_10010.asm"
+   "file": "data/front/controls_data.asm",
+   "note": "owner: front/controls/controls.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: pc/modem_game/modem_game.asm",
+   "start": 1133794,
+   "end": 1134034,
+   "module": "data_pc_114CE2",
+   "file": "data/pc/modem_game_data.asm"
   },
   {
    "start": 1134034,
-   "end": 1134744,
+   "end": 1134340,
    "module": "front_1456D_data_02",
    "obj": 4,
-   "file": "data/front/front_1456D_data_02.asm",
-   "note": "owner: front/front_1456D.asm"
+   "file": "data/front/postgame_data.asm",
+   "note": "owner: front/postgame/postgame.asm"
   },
   {
-   "start": 1134744,
-   "end": 1144237,
-   "module": "main_data_02",
    "obj": 4,
-   "file": "data/front/main_data_02.asm",
-   "note": "owner: front/main/main.asm"
+   "note": "owner: front/play_game/play_game.asm",
+   "start": 1134340,
+   "end": 1134364,
+   "module": "data_front_114F04",
+   "file": "data/front/play_game_data.asm"
   },
   {
-   "start": 1144237,
+   "obj": 4,
+   "note": "owner: pc/link/link.asm",
+   "start": 1134364,
+   "end": 1134788,
+   "module": "data_pc_114F1C",
+   "file": "data/pc/link_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/message_box/message_box.asm",
+   "start": 1134788,
+   "end": 1134804,
+   "module": "data_front_1150C4",
+   "file": "data/front/message_box_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/main/main.asm",
+   "start": 1134804,
+   "end": 1134816,
+   "module": "data_front_1150D4",
+   "file": "data/front/main_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: pc/async/async.asm",
+   "start": 1134816,
+   "end": 1134824,
+   "module": "data_pc_1150E0",
+   "file": "data/pc/async_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: pc/cdstream/cdstream.asm",
+   "start": 1134824,
+   "end": 1134844,
+   "module": "data_pc_1150E8",
+   "file": "data/pc/cdstream_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/game_setup/game_setup.asm",
+   "start": 1134844,
+   "end": 1134869,
+   "module": "data_front_1150FC",
+   "file": "data/front/game_setup_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: pc/data_files/data_files.asm",
+   "start": 1134869,
+   "end": 1144032,
+   "module": "data_pc_115115",
+   "file": "data/pc/data_files_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/stats_tables/stats_tables.asm",
+   "start": 1144032,
+   "end": 1144181,
+   "module": "data_front_1174E0",
+   "file": "data/front/stats_tables_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/game_teams/game_teams.asm",
+   "start": 1144181,
+   "end": 1144200,
+   "module": "data_front_117575",
+   "file": "data/front/game_teams_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/pad_setup/pad_setup.asm",
+   "start": 1144200,
+   "end": 1144228,
+   "module": "data_front_117588",
+   "file": "data/front/pad_setup_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/rink_model/rink_model.asm",
+   "start": 1144228,
    "end": 1144820,
-   "module": "rink_model_data_02",
-   "obj": 4,
-   "file": "data/front/rink_model_data_02.asm",
-   "note": "owner: front/rink_model/rink_model.asm"
+   "module": "data_front_1175A4",
+   "file": "data/front/rink_model_data.asm"
   },
   {
    "start": 1144820,
@@ -3280,123 +3368,251 @@
   },
   {
    "start": 1155856,
-   "end": 1156112,
+   "end": 1156088,
    "module": "lines_data_01",
    "obj": 4,
-   "file": "data/engine/lines_data_01.asm",
+   "file": "data/engine/lines_data.asm",
    "note": "owner: engine/lines/lines.asm"
   },
   {
-   "start": 1156112,
-   "end": 1159736,
-   "module": "replay_controls_data_02",
    "obj": 4,
-   "file": "data/front/replay_controls_data_02.asm",
-   "note": "owner: front/replay_controls/replay_controls.asm"
+   "note": "owner: front/replay_controls/replay_controls.asm",
+   "start": 1156088,
+   "end": 1159736,
+   "module": "data_front_11A3F8",
+   "file": "data/front/replay_controls_data.asm"
   },
   {
    "start": 1159736,
-   "end": 1159992,
+   "end": 1159956,
    "module": "front_584A0_data_02",
    "obj": 4,
-   "file": "data/front/front_584A0_data_02.asm",
-   "note": "owner: front/front_584A0.asm"
+   "file": "data/front/game_view_data.asm",
+   "note": "owner: front/game_view/game_view.asm"
   },
   {
-   "start": 1159992,
-   "end": 1167816,
-   "module": "front_5D993_data_02",
    "obj": 4,
-   "file": "data/front/front_5D993_data_02.asm",
-   "note": "owner: front/front_5D993.asm"
+   "note": "owner: front/camera/camera.asm",
+   "start": 1159956,
+   "end": 1162040,
+   "module": "data_front_11B314",
+   "file": "data/front/camera_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/player_art/player_art.asm",
+   "start": 1162040,
+   "end": 1162464,
+   "module": "data_front_11BB38",
+   "file": "data/front/player_art_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/screen_art/screen_art.asm",
+   "start": 1162464,
+   "end": 1162664,
+   "module": "data_front_11BCE0",
+   "file": "data/front/screen_art_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/intro/intro.asm",
+   "start": 1162664,
+   "end": 1167756,
+   "module": "data_front_11BDA8",
+   "file": "data/front/intro_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/draw/draw.asm",
+   "start": 1167756,
+   "end": 1167784,
+   "module": "data_front_11D18C",
+   "file": "data/front/draw_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/menu/menu.asm",
+   "start": 1167784,
+   "end": 1167816,
+   "module": "data_front_11D1A8",
+   "file": "data/front/menu_data.asm"
   },
   {
    "start": 1167816,
-   "end": 1169231,
+   "end": 1168312,
    "module": "front_67000_data_01",
    "obj": 4,
-   "file": "data/front/front_67000_data_01.asm",
-   "note": "owner: front/front_67000.asm"
+   "file": "data/front/sound_data.asm",
+   "note": "owner: front/sound/sound.asm"
   },
   {
-   "start": 1169231,
-   "end": 1169708,
-   "module": "front_77642_data_02",
    "obj": 4,
-   "file": "data/front/front_77642_data_02.asm",
-   "note": "owner: front/front_77642.asm"
+   "note": "owner: front/movie/movie.asm",
+   "start": 1168312,
+   "end": 1168328,
+   "module": "data_front_11D3B8",
+   "file": "data/front/movie_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/settings/settings.asm",
+   "start": 1168328,
+   "end": 1169312,
+   "module": "data_front_11D3C8",
+   "file": "data/front/settings_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/pause_menu/pause_menu.asm",
+   "start": 1169312,
+   "end": 1169708,
+   "module": "data_front_11D7A0",
+   "file": "data/front/pause_menu_data.asm"
   },
   {
    "start": 1169708,
-   "end": 1171400,
+   "end": 1171328,
    "module": "front_6E233_data_02",
    "obj": 4,
-   "file": "data/front/front_6E233_data_02.asm",
-   "note": "owner: front/front_6E233.asm"
+   "file": "data/front/controller_screen_data.asm",
+   "note": "owner: front/controller_screen/controller_screen.asm"
   },
   {
-   "start": 1171400,
-   "end": 1172180,
-   "module": "front_741BD_data_02",
    "obj": 4,
-   "file": "data/front/front_741BD_data_02.asm",
-   "note": "owner: front/front_741BD.asm"
+   "note": "owner: pc/modem_setup/modem_setup.asm",
+   "start": 1171328,
+   "end": 1172096,
+   "module": "data_pc_11DF80",
+   "file": "data/pc/modem_setup_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/team_select/team_select.asm",
+   "start": 1172096,
+   "end": 1172160,
+   "module": "data_front_11E280",
+   "file": "data/front/team_select_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/lang_text/lang_text.asm",
+   "start": 1172160,
+   "end": 1172180,
+   "module": "data_front_11E2C0",
+   "file": "data/front/lang_text_data.asm"
   },
   {
    "start": 1172180,
-   "end": 1173028,
+   "end": 1172380,
    "module": "front_77642_data_03",
    "obj": 4,
-   "file": "data/front/front_77642_data_03.asm",
-   "note": "owner: front/front_77642.asm"
+   "file": "data/front/new_season_data.asm",
+   "note": "owner: front/new_season/new_season.asm"
   },
   {
-   "start": 1173028,
-   "end": 1173648,
-   "module": "front_88E09_data_02",
    "obj": 4,
-   "file": "data/front/front_88E09_data_02.asm",
-   "note": "owner: front/front_88E09.asm"
+   "note": "owner: front/season_menu/season_menu.asm",
+   "start": 1172380,
+   "end": 1172384,
+   "module": "data_front_11E39C",
+   "file": "data/front/season_menu_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/calendar/calendar.asm",
+   "start": 1172384,
+   "end": 1172664,
+   "module": "data_front_11E3A0",
+   "file": "data/front/calendar_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/sim_game/sim_game.asm",
+   "start": 1172664,
+   "end": 1172988,
+   "module": "data_front_11E4B8",
+   "file": "data/front/sim_game_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/stats_menu/stats_menu.asm",
+   "start": 1172988,
+   "end": 1173108,
+   "module": "data_front_11E5FC",
+   "file": "data/front/stats_menu_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/player_stats/player_stats.asm",
+   "start": 1173108,
+   "end": 1173348,
+   "module": "data_front_11E674",
+   "file": "data/front/player_stats_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/player_cards/player_cards.asm",
+   "start": 1173348,
+   "end": 1173648,
+   "module": "data_front_11E764",
+   "file": "data/front/player_cards_data.asm"
   },
   {
    "start": 1173648,
-   "end": 1173952,
+   "end": 1173716,
    "module": "front_93E6A_data_02",
    "obj": 4,
-   "file": "data/front/front_93E6A_data_02.asm",
-   "note": "owner: front/front_93E6A.asm"
+   "file": "data/front/player_ratings_data.asm",
+   "note": "owner: front/player_ratings/player_ratings.asm"
   },
   {
-   "start": 1173952,
-   "end": 1174832,
-   "module": "front_9CFE3_data_02",
    "obj": 4,
-   "file": "data/front/front_9CFE3_data_02.asm",
-   "note": "owner: front/front_9CFE3.asm"
+   "note": "owner: front/roster/roster.asm",
+   "start": 1173716,
+   "end": 1173788,
+   "module": "data_front_11E8D4",
+   "file": "data/front/roster_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: front/edit_lines/edit_lines.asm",
+   "start": 1173788,
+   "end": 1174832,
+   "module": "data_front_11E91C",
+   "file": "data/front/edit_lines_data.asm"
   },
   {
    "start": 1174832,
-   "end": 1175188,
+   "end": 1174840,
    "module": "front_A17D5_data_02",
    "obj": 4,
-   "file": "data/front/front_A17D5_data_02.asm",
-   "note": "owner: front/front_A17D5.asm"
+   "file": "data/front/ingame_menu_data.asm",
+   "note": "owner: front/ingame_menu/ingame_menu.asm"
   },
   {
-   "start": 1175188,
-   "end": 1176764,
-   "module": "playoff_data_02",
    "obj": 4,
-   "file": "data/front/playoff_data_02.asm",
-   "note": "owner: front/playoff/playoff.asm"
+   "note": "owner: pc/modem_teams/modem_teams.asm",
+   "start": 1174840,
+   "end": 1174904,
+   "module": "data_pc_11ED38",
+   "file": "data/pc/modem_teams_data.asm"
   },
   {
-   "start": 1176764,
+   "obj": 4,
+   "note": "owner: front/playoff/playoff.asm",
+   "start": 1174904,
+   "end": 1176936,
+   "module": "data_front_11ED78",
+   "file": "data/front/playoff_data.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/input/input_mouse.asm",
+   "start": 1176936,
    "end": 1177052,
-   "module": "lib_A8B9B_data_02",
-   "obj": 4,
-   "file": "data/lib/lib_A8B9B_data_02.asm",
-   "note": "owner: lib/lib_A8B9B.asm"
+   "module": "data_lib_11F568",
+   "file": "data/lib/input/input_mouse_data_01.asm"
   },
   {
    "start": 1177052,

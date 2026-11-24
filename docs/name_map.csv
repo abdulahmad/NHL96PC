@@ -4503,213 +4503,213 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 114AEC,HugeValHi,dword_114AEC,new,low,high half of HUGE_VAL,src/data/lib/watcom/watcom_nan_inf_const.asm
 114AF0,Scale10Count,unk_114AF0,new,low,power of ten table length,src/data/lib/watcom/watcom_nan_inf_const.asm
 114AF2,Pow10Table,qword_114AF2,new,low,powers of ten,src/data/lib/watcom/watcom_nan_inf_const.asm
-114B40,InputDevicesFound,word_114B40,new,low,Input devices found by GetInputDevices,src/data/pc/modem_game_data_01.asm
-114B42,InputDevicesReady,word_114B42,new,low,Input devices initialised,src/data/pc/modem_game_data_01.asm
-114B44,MouseReady,word_114B44,new,low,Mouse driver found and set up,src/data/pc/modem_game_data_01.asm
-114B48,InputDeviceMask,byte_114B48,new,low,"Input device bits (bit 0 keyboard, then mouse, joysticks, GrIP)",src/data/pc/modem_game_data_01.asm
-114B4C,SlotJoyMap,byte_114B4C,new,low,SlotToJoy: joystick number per slot code,src/data/pc/modem_game_data_01.asm
-114B5C,KeyPollTick,dword_114B5C,new,low,Tick of the last keyboard read,src/data/pc/modem_game_data_01.asm
-114B60,MousePollTick,dword_114B60,new,low,Tick of the last mouse read,src/data/pc/modem_game_data_01.asm
-114B64,KeyRepeatTick,dword_114B64,new,low,Keyboard pad repeat tick,src/data/pc/modem_game_data_01.asm
-114B68,JoyPollTicks,dword_114B68,new,low,Tick of the last read per joystick,src/data/pc/modem_game_data_01.asm
-114B78,KeyPadActive,dword_114B78,new,low,Keyboard pad in use this frame,src/data/pc/modem_game_data_01.asm
-114B7C,JoyPadActive,dword_114B7C,new,low,"Joystick pad in use, per joystick",src/data/pc/modem_game_data_01.asm
-114B80,MousePadActive,dword_114B80,new,low,Mouse pad in use,src/data/pc/modem_game_data_01.asm
-114B88,SimSlotButtons,dword_114B88,new,low,Slot buttons used while simulating frames,src/data/pc/modem_game_data_01.asm
+114B40,InputDevicesFound,word_114B40,new,low,Input devices found by GetInputDevices,src/data/front/controls_data.asm
+114B42,InputDevicesReady,word_114B42,new,low,Input devices initialised,src/data/front/controls_data.asm
+114B44,MouseReady,word_114B44,new,low,Mouse driver found and set up,src/data/front/controls_data.asm
+114B48,InputDeviceMask,byte_114B48,new,low,"Input device bits (bit 0 keyboard, then mouse, joysticks, GrIP)",src/data/front/controls_data.asm
+114B4C,SlotJoyMap,byte_114B4C,new,low,SlotToJoy: joystick number per slot code,src/data/front/controls_data.asm
+114B5C,KeyPollTick,dword_114B5C,new,low,Tick of the last keyboard read,src/data/front/controls_data.asm
+114B60,MousePollTick,dword_114B60,new,low,Tick of the last mouse read,src/data/front/controls_data.asm
+114B64,KeyRepeatTick,dword_114B64,new,low,Keyboard pad repeat tick,src/data/front/controls_data.asm
+114B68,JoyPollTicks,dword_114B68,new,low,Tick of the last read per joystick,src/data/front/controls_data.asm
+114B78,KeyPadActive,dword_114B78,new,low,Keyboard pad in use this frame,src/data/front/controls_data.asm
+114B7C,JoyPadActive,dword_114B7C,new,low,"Joystick pad in use, per joystick",src/data/front/controls_data.asm
+114B80,MousePadActive,dword_114B80,new,low,Mouse pad in use,src/data/front/controls_data.asm
+114B88,SimSlotButtons,dword_114B88,new,low,Slot buttons used while simulating frames,src/data/front/controls_data.asm
 114B8C,SlotButtons,dword_114B8C,new,high,the 4 slot button dwords of the current frame,
-114B9C,InputRecordIndex,dword_114B9C,new,low,Input record ring index being replayed,src/data/pc/modem_game_data_01.asm
+114B9C,InputRecordIndex,dword_114B9C,new,low,Input record ring index being replayed,src/data/front/controls_data.asm
 114BA0,InputRecordHead,dword_114BA0,new,high,ring write index,
 114BA4,InputRecordCount,dword_114BA4,new,high,records in ring (max 5),
-114BA8,KeyBindings,unk_114BA8,new,low,Default keyboard binding set,src/data/pc/modem_game_data_01.asm
-114C00,KeyBindingsAlt,unk_114C00,new,low,Alternate keyboard binding set,src/data/pc/modem_game_data_01.asm
-114C58,EscReplayKeyMap,byte_114C58,new,low,ReadEscReplayKeys / PollControllers: key to pad bit map,src/data/pc/modem_game_data_01.asm
-114CB0,Joy1NeedsCalib,dword_114CB0,new,low,Joystick 1 calibration not done yet,src/data/pc/modem_game_data_01.asm
-114CB4,Joy2NeedsCalib,dword_114CB4,new,low,Joystick 2 calibration not done yet,src/data/pc/modem_game_data_01.asm
-114CB8,str_GRIPGLL,asc_114CB8,new,high,string 'GRIP.GLL',src/data/pc/modem_game_data_01.asm
-114CC1,str_GRIP,asc_114CC1,new,high,string 'GRIP',src/data/pc/modem_game_data_01.asm
-114CC6,str_CGRIP,asc_114CC6,new,high,string 'C:\GRIP\',src/data/pc/modem_game_data_01.asm
-114CCF,GripLinked,dword_114CCF,new,low,Gravis GrIP library linked,src/data/pc/modem_game_data_01.asm
-114CD3,GripLibHandle,dword_114CD3,new,low,"GrIP library handle, -1 when not loaded",src/data/pc/modem_game_data_01.asm
-114CD7,GripSlotsScanned,dword_114CD7,new,low,GrIP slots have been scanned,src/data/pc/modem_game_data_01.asm
-114CD9,GripPadBitsPrev,dword_114CD9,new,low,GrIP pad bits of the previous read,src/data/pc/modem_game_data_01.asm
-114CDB,GripBufferSide,word_114CDB,new,low,GrIP pad bits buffer side (toggled each read),src/data/pc/modem_game_data_01.asm
-114CE0,SlotsTwoPlayer,word_114CE0,new,low,Controller screen: two-player slot mode,src/data/pc/modem_game_data_01.asm
-114CE2,LinkSyncInput,dword_114CE2,new,low,Link: input value at the sync point,src/data/pc/modem_game_data_01.asm
-114CE4,ControllerScreenMode,word_114CE4,new,low,Controller screen mode (icons and columns),src/data/pc/modem_game_data_01.asm
-114CE6,LinkConfig,unk_114CE6,new,low,Link set-up block passed to LinkOpen,src/data/pc/modem_game_data_01.asm
-114D0E,LinkCfgPort,dword_114D0E,new,low,Link set-up: serial port,src/data/pc/modem_game_data_01.asm
-114D12,LinkCfgMode,dword_114D12,new,low,Link set-up: connection mode (9 for a direct link),src/data/pc/modem_game_data_01.asm
-114D1A,LinkCfgAnswer,dword_114D1A,new,low,Link set-up: answer an incoming call,src/data/pc/modem_game_data_01.asm
-114D1E,LinkCfgDirect,dword_114D1E,new,low,Link set-up: direct (null-modem) link,src/data/pc/modem_game_data_01.asm
-114D36,LinkCfgBaud,dword_114D36,new,low,Link set-up: baud rate,src/data/pc/modem_game_data_01.asm
-114D3A,LinkCfgOption,dword_114D3A,new,low,Link set-up: link option from GLOBAL.SET,src/data/pc/modem_game_data_01.asm
-114D46,LinkCfgInit,unk_114D46,new,low,Link set-up: modem init string,src/data/pc/modem_game_data_01.asm
-114D6E,LinkCfgDial,unk_114D6E,new,low,Link set-up: modem dial string,src/data/pc/modem_game_data_01.asm
-114D96,LinkFlags,byte_114D96,new,low,Link: status bits (bit 1 connected),src/data/pc/modem_game_data_01.asm
-114D9A,LinkInputFrame,dword_114D9A,new,low,Link: input frame number,src/data/pc/modem_game_data_01.asm
-114D9E,LinkSyncTarget,dword_114D9E,new,low,Link: sync point being waited for,src/data/pc/modem_game_data_01.asm
-114DA2,LinkSyncTimeout,dword_114DA2,new,low,Link: tick when the sync wait times out,src/data/pc/modem_game_data_01.asm
-114DA6,LinkSyncCount,dword_114DA6,new,low,Link: sync points passed,src/data/pc/modem_game_data_01.asm
-114DAA,LinkInputDelay,dword_114DAA,new,low,Link: input delay in frames,src/data/pc/modem_game_data_01.asm
-114DAE,LinkRxBlockCount,dword_114DAE,new,low,Link: blocks received,src/data/pc/modem_game_data_01.asm
-114DB2,LinkRxBlockTicks,dword_114DB2,new,low,Link: ticks spent receiving the block,src/data/pc/modem_game_data_01.asm
-114DB6,LinkRxBlockOffset,dword_114DB6,new,low,offset into the received link block,src/data/pc/modem_game_data_01.asm
-114DBA,LinkBlockPtr,dword_114DBA,new,low,Link: pointer into the block being sent or received,src/data/pc/modem_game_data_01.asm
-114DBE,LinkSyncWord,word_114DBE,new,low,Link: sync word,src/data/pc/modem_game_data_01.asm
-114DC0,BaudRateTable,word_114DC0,new,low,Baud rate per GsBaudIndex,src/data/pc/modem_game_data_01.asm
-114DCA,ModemReplyBuf,dword_114DCA,new,low,Modem reply buffer,src/data/pc/modem_game_data_01.asm
-114DD2,GameStatsLabelX,word_114DD2,new,low,Game stats page: label column x,src/data/pc/link_data_02.asm
-114DD4,GameStatsTop,word_114DD4,new,low,Game stats page: first row y,src/data/pc/link_data_02.asm
-114DD6,GameStatsRight,word_114DD6,new,low,Game stats page: right edge,src/data/pc/link_data_02.asm
-114DD8,GameStatsColX,word_114DD8,new,low,Game stats page: column x positions,src/data/pc/link_data_02.asm
-114DDC,GameStatsLabelPos,word_114DDC,new,low,Game stats page: label positions (part of the column table),src/data/pc/link_data_02.asm
-114DE4,GameStatsRowStep,word_114DE4,new,low,Game stats page: row spacing,src/data/pc/link_data_02.asm
-114DE6,GameStatsScroll,word_114DE6,new,low,Game stats page: page shown,src/data/pc/link_data_02.asm
-114DE8,StarsSlideFrom,dword_114DE8,new,low,Three stars screen: slide start positions,src/data/pc/link_data_02.asm
-114DF0,StarsSlideTo,dword_114DF0,new,low,Three stars screen: slide end positions,src/data/pc/link_data_02.asm
-114DF4,StarsSlideTarget,dword_114DF4,new,low,Three stars screen: slide target positions,src/data/pc/link_data_02.asm
-114DFC,StarsSpritePath,dword_114DFC,new,low,Three stars screen: sprite path points,src/data/pc/link_data_02.asm
-114EA8,StarsCardX,word_114EA8,new,low,Three stars screen: card x,src/data/pc/link_data_02.asm
-114EAC,StarsCardY,word_114EAC,new,low,Three stars screen: card y,src/data/pc/link_data_02.asm
-114EB0,StarsNameX,dword_114EB0,new,low,Three stars screen: name x,src/data/pc/link_data_02.asm
-114EB4,StarsNameXs,dword_114EB4,new,low,Three stars screen: name x per star,src/data/pc/link_data_02.asm
-114ED0,StarsTextX,dword_114ED0,new,low,Three stars screen: text x,src/data/pc/link_data_02.asm
-114ED4,StarsTextXs,dword_114ED4,new,low,Three stars screen: text x per star,src/data/pc/link_data_02.asm
-114EE8,StarsRandomTimer,dword_114EE8,new,low,tick count for the next random three stars animation,src/data/pc/link_data_02.asm
-114EEC,StarsTimerFace,dword_114EEC,new,low,Three stars screen: face timer,src/data/pc/link_data_02.asm
-114EF0,StarsTimerName,dword_114EF0,new,low,Three stars screen: name timer,src/data/pc/link_data_02.asm
-114EF4,StarsTimerCard,dword_114EF4,new,low,Three stars screen: card timer,src/data/pc/link_data_02.asm
-114EF8,StarsShowFaces,word_114EF8,new,low,Three stars screen: faces shown,src/data/pc/link_data_02.asm
-114EFA,StarsShowNames,word_114EFA,new,low,Three stars screen: names shown,src/data/pc/link_data_02.asm
-114EFC,StarsShowCards,word_114EFC,new,low,Three stars screen: cards shown,src/data/pc/link_data_02.asm
-114EFE,StarsPhase,word_114EFE,new,low,Three stars screen: phase (2 when done),src/data/pc/link_data_02.asm
-114F00,StarsCurrent,word_114F00,new,low,Three stars screen: star being shown,src/data/pc/link_data_02.asm
+114BA8,KeyBindings,unk_114BA8,new,low,Default keyboard binding set,src/data/front/controls_data.asm
+114C00,KeyBindingsAlt,unk_114C00,new,low,Alternate keyboard binding set,src/data/front/controls_data.asm
+114C58,EscReplayKeyMap,byte_114C58,new,low,ReadEscReplayKeys / PollControllers: key to pad bit map,src/data/front/controls_data.asm
+114CB0,Joy1NeedsCalib,dword_114CB0,new,low,Joystick 1 calibration not done yet,src/data/front/controls_data.asm
+114CB4,Joy2NeedsCalib,dword_114CB4,new,low,Joystick 2 calibration not done yet,src/data/front/controls_data.asm
+114CB8,str_GRIPGLL,asc_114CB8,new,high,string 'GRIP.GLL',src/data/front/controls_data.asm
+114CC1,str_GRIP,asc_114CC1,new,high,string 'GRIP',src/data/front/controls_data.asm
+114CC6,str_CGRIP,asc_114CC6,new,high,string 'C:\GRIP\',src/data/front/controls_data.asm
+114CCF,GripLinked,dword_114CCF,new,low,Gravis GrIP library linked,src/data/front/controls_data.asm
+114CD3,GripLibHandle,dword_114CD3,new,low,"GrIP library handle, -1 when not loaded",src/data/front/controls_data.asm
+114CD7,GripSlotsScanned,dword_114CD7,new,low,GrIP slots have been scanned,src/data/front/controls_data.asm
+114CD9,GripPadBitsPrev,dword_114CD9,new,low,GrIP pad bits of the previous read,src/data/front/controls_data.asm
+114CDB,GripBufferSide,word_114CDB,new,low,GrIP pad bits buffer side (toggled each read),src/data/front/controls_data.asm
+114CE0,SlotsTwoPlayer,word_114CE0,new,low,Controller screen: two-player slot mode,src/data/front/controls_data.asm
+114CE2,LinkSyncInput,dword_114CE2,new,low,Link: input value at the sync point,src/data/pc/modem_game_data.asm
+114CE4,ControllerScreenMode,word_114CE4,new,low,Controller screen mode (icons and columns),src/data/pc/modem_game_data.asm
+114CE6,LinkConfig,unk_114CE6,new,low,Link set-up block passed to LinkOpen,src/data/pc/modem_game_data.asm
+114D0E,LinkCfgPort,dword_114D0E,new,low,Link set-up: serial port,src/data/pc/modem_game_data.asm
+114D12,LinkCfgMode,dword_114D12,new,low,Link set-up: connection mode (9 for a direct link),src/data/pc/modem_game_data.asm
+114D1A,LinkCfgAnswer,dword_114D1A,new,low,Link set-up: answer an incoming call,src/data/pc/modem_game_data.asm
+114D1E,LinkCfgDirect,dword_114D1E,new,low,Link set-up: direct (null-modem) link,src/data/pc/modem_game_data.asm
+114D36,LinkCfgBaud,dword_114D36,new,low,Link set-up: baud rate,src/data/pc/modem_game_data.asm
+114D3A,LinkCfgOption,dword_114D3A,new,low,Link set-up: link option from GLOBAL.SET,src/data/pc/modem_game_data.asm
+114D46,LinkCfgInit,unk_114D46,new,low,Link set-up: modem init string,src/data/pc/modem_game_data.asm
+114D6E,LinkCfgDial,unk_114D6E,new,low,Link set-up: modem dial string,src/data/pc/modem_game_data.asm
+114D96,LinkFlags,byte_114D96,new,low,Link: status bits (bit 1 connected),src/data/pc/modem_game_data.asm
+114D9A,LinkInputFrame,dword_114D9A,new,low,Link: input frame number,src/data/pc/modem_game_data.asm
+114D9E,LinkSyncTarget,dword_114D9E,new,low,Link: sync point being waited for,src/data/pc/modem_game_data.asm
+114DA2,LinkSyncTimeout,dword_114DA2,new,low,Link: tick when the sync wait times out,src/data/pc/modem_game_data.asm
+114DA6,LinkSyncCount,dword_114DA6,new,low,Link: sync points passed,src/data/pc/modem_game_data.asm
+114DAA,LinkInputDelay,dword_114DAA,new,low,Link: input delay in frames,src/data/pc/modem_game_data.asm
+114DAE,LinkRxBlockCount,dword_114DAE,new,low,Link: blocks received,src/data/pc/modem_game_data.asm
+114DB2,LinkRxBlockTicks,dword_114DB2,new,low,Link: ticks spent receiving the block,src/data/pc/modem_game_data.asm
+114DB6,LinkRxBlockOffset,dword_114DB6,new,low,offset into the received link block,src/data/pc/modem_game_data.asm
+114DBA,LinkBlockPtr,dword_114DBA,new,low,Link: pointer into the block being sent or received,src/data/pc/modem_game_data.asm
+114DBE,LinkSyncWord,word_114DBE,new,low,Link: sync word,src/data/pc/modem_game_data.asm
+114DC0,BaudRateTable,word_114DC0,new,low,Baud rate per GsBaudIndex,src/data/pc/modem_game_data.asm
+114DCA,ModemReplyBuf,dword_114DCA,new,low,Modem reply buffer,src/data/pc/modem_game_data.asm
+114DD2,GameStatsLabelX,word_114DD2,new,low,Game stats page: label column x,src/data/front/postgame_data.asm
+114DD4,GameStatsTop,word_114DD4,new,low,Game stats page: first row y,src/data/front/postgame_data.asm
+114DD6,GameStatsRight,word_114DD6,new,low,Game stats page: right edge,src/data/front/postgame_data.asm
+114DD8,GameStatsColX,word_114DD8,new,low,Game stats page: column x positions,src/data/front/postgame_data.asm
+114DDC,GameStatsLabelPos,word_114DDC,new,low,Game stats page: label positions (part of the column table),src/data/front/postgame_data.asm
+114DE4,GameStatsRowStep,word_114DE4,new,low,Game stats page: row spacing,src/data/front/postgame_data.asm
+114DE6,GameStatsScroll,word_114DE6,new,low,Game stats page: page shown,src/data/front/postgame_data.asm
+114DE8,StarsSlideFrom,dword_114DE8,new,low,Three stars screen: slide start positions,src/data/front/postgame_data.asm
+114DF0,StarsSlideTo,dword_114DF0,new,low,Three stars screen: slide end positions,src/data/front/postgame_data.asm
+114DF4,StarsSlideTarget,dword_114DF4,new,low,Three stars screen: slide target positions,src/data/front/postgame_data.asm
+114DFC,StarsSpritePath,dword_114DFC,new,low,Three stars screen: sprite path points,src/data/front/postgame_data.asm
+114EA8,StarsCardX,word_114EA8,new,low,Three stars screen: card x,src/data/front/postgame_data.asm
+114EAC,StarsCardY,word_114EAC,new,low,Three stars screen: card y,src/data/front/postgame_data.asm
+114EB0,StarsNameX,dword_114EB0,new,low,Three stars screen: name x,src/data/front/postgame_data.asm
+114EB4,StarsNameXs,dword_114EB4,new,low,Three stars screen: name x per star,src/data/front/postgame_data.asm
+114ED0,StarsTextX,dword_114ED0,new,low,Three stars screen: text x,src/data/front/postgame_data.asm
+114ED4,StarsTextXs,dword_114ED4,new,low,Three stars screen: text x per star,src/data/front/postgame_data.asm
+114EE8,StarsRandomTimer,dword_114EE8,new,low,tick count for the next random three stars animation,src/data/front/postgame_data.asm
+114EEC,StarsTimerFace,dword_114EEC,new,low,Three stars screen: face timer,src/data/front/postgame_data.asm
+114EF0,StarsTimerName,dword_114EF0,new,low,Three stars screen: name timer,src/data/front/postgame_data.asm
+114EF4,StarsTimerCard,dword_114EF4,new,low,Three stars screen: card timer,src/data/front/postgame_data.asm
+114EF8,StarsShowFaces,word_114EF8,new,low,Three stars screen: faces shown,src/data/front/postgame_data.asm
+114EFA,StarsShowNames,word_114EFA,new,low,Three stars screen: names shown,src/data/front/postgame_data.asm
+114EFC,StarsShowCards,word_114EFC,new,low,Three stars screen: cards shown,src/data/front/postgame_data.asm
+114EFE,StarsPhase,word_114EFE,new,low,Three stars screen: phase (2 when done),src/data/front/postgame_data.asm
+114F00,StarsCurrent,word_114F00,new,low,Three stars screen: star being shown,src/data/front/postgame_data.asm
 114F04,InputRecordTicks,dword_114F04,new,high,"ticks since last record, capped 0x3E8",
 114F08,GameLoopActive,dword_114F08,new,medium,1 while the in-game loop runs,
 114F0C,InputRecordBusy,word_114F0C,new,high,re-entry guard of the timer,
 114F0E,InputRecordPhase,dword_114F0E,new,high,3..0 down counter; record on 0,
-114F14,PauseRequested,word_114F14,new,low,Pause requested from the game loop,src/data/pc/link_data_02.asm
-114F16,GameLoopFrames,dword_114F16,new,low,Game loop frames (saved with the game state),src/data/pc/link_data_02.asm
+114F14,PauseRequested,word_114F14,new,low,Pause requested from the game loop,src/data/front/play_game_data.asm
+114F16,GameLoopFrames,dword_114F16,new,low,Game loop frames (saved with the game state),src/data/front/play_game_data.asm
 114F1A,PauseReplayPending,word_114F1A,new,medium,"bit0 pause, bit1 replay seen",
-114F1C,ModemResultTextTable,off_114F1C,new,low,modem result text string table,src/data/pc/link_data_02.asm
-114F24,ModemResultCodeTable,off_114F24,new,low,modem result code string table,src/data/pc/link_data_02.asm
-115000,ModemResultCount,dword_115000,new,low,number of modem result codes,src/data/pc/link_data_02.asm
-115004,ModemLastResult,dword_115004,new,low,last modem result code,src/data/pc/link_data_02.asm
-115008,LinkTickCount,dword_115008,new,low,Link: timer ticks,src/data/pc/link_data_02.asm
-11500C,LinkPortHandle,dword_11500C,new,low,Link: serial port handle,src/data/pc/link_data_02.asm
-115010,LinkBaudSetting,dword_115010,new,low,link baud rate setting,src/data/pc/link_data_02.asm
-115014,LinkOpenFlags,dword_115014,new,low,Link: open flags,src/data/pc/link_data_02.asm
-115018,LinkRetryOn,dword_115018,new,low,Link: retries on,src/data/pc/link_data_02.asm
-11501C,LinkCarrierCheck,dword_11501C,new,low,Link: check the carrier,src/data/pc/link_data_02.asm
-115020,LinkPollOn,dword_115020,new,low,Link: timer polling on,src/data/pc/link_data_02.asm
-115024,LinkIsOpen,dword_115024,new,low,Link: port open,src/data/pc/link_data_02.asm
-115028,LinkWindowSize,dword_115028,new,low,Link: packets in flight (4),src/data/pc/link_data_02.asm
-11502C,LinkAckOn,dword_11502C,new,low,Link: acknowledges on,src/data/pc/link_data_02.asm
-115030,LinkResendOn,dword_115030,new,low,Link: resends on,src/data/pc/link_data_02.asm
-115034,LinkOpenMode,dword_115034,new,low,Link: open mode,src/data/pc/link_data_02.asm
-115038,LinkErrorCount,dword_115038,new,low,Link: errors,src/data/pc/link_data_02.asm
-11503C,LinkSpareHook,dword_11503C,new,low,Link: spare hook,src/data/pc/link_data_02.asm
-115040,LinkMessageHandler,dword_115040,new,low,Link: message handler,src/data/pc/link_data_02.asm
-115044,LinkTickHandler,dword_115044,new,low,Link: per-tick handler,src/data/pc/link_data_02.asm
-115048,LinkResendHandler,dword_115048,new,low,Link: resend handler,src/data/pc/link_data_02.asm
-11504C,LinkTxSeq,dword_11504C,new,low,Link: next transmit sequence,src/data/pc/link_data_02.asm
-115050,LinkRxDeliverSeq,dword_115050,new,low,Link: next sequence to deliver,src/data/pc/link_data_02.asm
-115054,LinkAckedSeq,dword_115054,new,low,"Link: last acknowledged sequence, -1 for none",src/data/pc/link_data_02.asm
-115058,LinkRxSeq,dword_115058,new,low,"Link: last received sequence, -1 for none",src/data/pc/link_data_02.asm
-11505C,LinkPacketLen,dword_11505C,new,low,Link: length of the packet being parsed,src/data/pc/link_data_02.asm
-115060,LinkTxPending,dword_115060,new,low,Link: packets waiting for an acknowledge,src/data/pc/link_data_02.asm
-115064,LinkState,dword_115064,new,low,Link: connection state,src/data/pc/link_data_02.asm
-115068,LinkCheckPeriod,dword_115068,new,low,Link: ticks between checks,src/data/pc/link_data_02.asm
-11506C,LinkRetryLimit,dword_11506C,95PC,low,link retry limit,src/data/pc/link_data_02.asm
-115070,LinkCopyLow,dword_115070,new,low,link copy lower limit,src/data/pc/link_data_02.asm
-115074,LinkCopyHigh,dword_115074,new,low,link copy upper limit,src/data/pc/link_data_02.asm
-115078,LinkCopyStep,dword_115078,95PC,low,link copy step,src/data/pc/link_data_02.asm
-11507C,LinkRxHead,dword_11507C,new,low,Link: receive ring head,src/data/pc/link_data_02.asm
-115080,LinkRxCount,dword_115080,new,low,Link: bytes in the receive ring,src/data/pc/link_data_02.asm
-115084,LinkChannelTimers,byte_115084,new,low,link channel timers,src/data/pc/link_data_02.asm
-115098,LinkPollState,dword_115098,new,low,link poll state,src/data/front/main_data_02.asm
-11509C,str_0123456789abcdefghijklmn,asc_11509C,new,high,string '0123456789abcdefghijklmnopqrstuvwxyz ',src/data/front/main_data_02.asm
-1150C4,MessageShown,dword_1150C4,new,low,message box is shown,src/data/front/main_data_02.asm
-1150C8,ProgressBoxBmp,dword_1150C8,new,low,progress box bitmap,src/data/front/main_data_02.asm
-1150CC,ProgressBoxTotal,dword_1150CC,new,low,progress box total,src/data/front/main_data_02.asm
-1150D0,ProgressBoxStep,dword_1150D0,new,low,progress box step,src/data/front/main_data_02.asm
-1150D4,FrontShapesFile,dword_1150D4,new,low,front end shape file,src/data/front/main_data_02.asm
-1150D8,SaveFileHandle,dword_1150D8,new,low,save file handle (-1 when closed),src/data/front/main_data_02.asm
-1150DC,CpuTestPattern,dword_1150DC,new,low,CPU test pattern pointer,src/data/front/main_data_02.asm
-1150E0,AsyncTicks,dword_1150E0,new,low,ticks counted during an async read,src/data/front/main_data_02.asm
-1150E4,AsyncQueueTail,dword_1150E4,new,low,last request in the async queue,src/data/front/main_data_02.asm
-1150E8,StreamBlockSize,dword_1150E8,new,low,stream block size,src/data/front/main_data_02.asm
-1150EC,StreamTimeout,dword_1150EC,new,low,stream timeout,src/data/front/main_data_02.asm
-1150F0,CdStreamReadTime,dword_1150F0,new,low,time spent on CD stream reads,src/data/front/main_data_02.asm
-1150F4,CdStreamFilled,dword_1150F4,new,low,CD stream bytes read,src/data/front/main_data_02.asm
-1150F8,CdStreamTicks,dword_1150F8,new,low,ticks counted during a CD stream read,src/data/front/main_data_02.asm
-1150FC,gameresult,dword_1150FC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
-115108,gsumheader,unk_115108,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
-115109,GamePad1Dev,byte_115109,new,low,controller device for pad 1 at game start,src/data/front/main_data_02.asm
-11510A,GamePad2Dev,byte_11510A,new,low,controller device for pad 2 at game start,src/data/front/main_data_02.asm
-11510B,GameUserTeam,byte_11510B,new,low,user team at game start,src/data/front/main_data_02.asm
-11510C,GameModeFlags,byte_11510C,new,low,game mode flags at game start,src/data/front/main_data_02.asm
-11510D,GameStarted,word_11510D,new,low,game has started,src/data/front/main_data_02.asm
-115113,gsumtail,unk_115113,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
-115114,HomeGoalCount,byte_115114,new,low,goals counted for the home team,src/data/front/main_data_02.asm
-115115,HomeShotCount,byte_115115,new,low,shots counted for the home team,src/data/front/main_data_02.asm
-115116,AwayGoalCount,byte_115116,new,low,goals counted for the away team,src/data/front/main_data_02.asm
-115117,AwayShotCount,byte_115117,new,low,shots counted for the away team,src/data/front/main_data_02.asm
-115120,DataDirPath,unk_115120,new,low,data directory path,src/data/front/main_data_02.asm
-11512D,DataLibIds,word_11512D,new,low,data library table,src/data/front/main_data_02.asm
-1151A7,ArtArchivePaths,unk_1151A7,new,low,art archive paths,src/data/front/main_data_02.asm
-115333,ArtSetTable,unk_115333,new,low,art set table,src/data/front/main_data_02.asm
-117478,str_KEY3,unk_117478,new,high,string 'KEY',src/data/front/main_data_02.asm
-11747C,str_CAREER2,unk_11747C,95PC,high,string 'CAREER',src/data/front/main_data_02.asm
-117483,str_ATT,unk_117483,new,high,string 'ATT',src/data/front/main_data_02.asm
-117487,str_CARTEAMS,unk_117487,95PC,high,string 'CARTEAMS',src/data/front/main_data_02.asm
-117490,str_TEAMS3,unk_117490,95PC,high,string 'TEAMS',src/data/front/main_data_02.asm
-117496,str_SEASON4,unk_117496,95PC,high,string 'SEASON',src/data/front/main_data_02.asm
-11749D,str_SCHEDULE,unk_11749D,new,high,"string ""SCHEDULE""",src/data/front/main_data_02.asm
-1174E0,seasondb,dword_1174E0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
-1174E4,CareerDb,dword_1174E4,new,low,career stats database,src/data/front/main_data_02.asm
-1174E8,statsfromleague,dword_1174E8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
-1174EC,TeamDb,dword_1174EC,new,low,team stats database,src/data/front/main_data_02.asm
-1174F0,statsplayoffs,dword_1174F0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
-1174F4,AttributeDb,dword_1174F4,new,low,attribute database,src/data/front/main_data_02.asm
-1174F8,PlayerAttrFile,dword_1174F8,new,low,player attribute data file,src/data/front/main_data_02.asm
-1174FC,LeagueRecordsFile,dword_1174FC,new,low,league records data file,src/data/front/main_data_02.asm
-117500,SeasonDbSize,dword_117500,new,low,season database size,src/data/front/main_data_02.asm
-117504,CareerDbSize,dword_117504,new,low,career database size,src/data/front/main_data_02.asm
-117508,LeagueStatsSize,dword_117508,new,low,league stats size,src/data/front/main_data_02.asm
-11750C,TeamDbSize,dword_11750C,new,low,team database size,src/data/front/main_data_02.asm
-117510,PlayoffStatsSize,dword_117510,new,low,playoff stats size,src/data/front/main_data_02.asm
-117514,AttributeDbSize,dword_117514,new,low,attribute database size,src/data/front/main_data_02.asm
-117518,PlayerAttrFileSize,dword_117518,new,low,player attribute file size,src/data/front/main_data_02.asm
-11751C,LeagueRecordsSize,dword_11751C,new,low,league records file size,src/data/front/main_data_02.asm
-117522,str_Punct_PlayerDbRecord,unk_117522,new,high,"string "" """,src/data/front/main_data_02.asm
-117575,RosterSlotOrder,byte_117575,new,low,roster slot order,src/data/front/main_data_02.asm
-117588,JoyTestTime,dword_117588,new,low,joystick test time,src/data/front/main_data_02.asm
-11758C,JoyTestButtonMap,word_11758C,new,low,joystick test button map,src/data/front/main_data_02.asm
-1175A4,RinkFloorOn,byte_1175A4,new,low,draw the rink floor,src/data/front/main_data_02.asm
-1175A5,IceTextureOn,byte_1175A5,new,low,draw the ice texture,src/data/front/main_data_02.asm
-1175A6,IceLogosOn,byte_1175A6,new,low,draw the ice logos,src/data/front/main_data_02.asm
-1175A7,GlassOn,byte_1175A7,new,low,draw and collide with the glass,src/data/front/main_data_02.asm
-1175A8,PlayerDetailOn,byte_1175A8,new,low,draw detailed players,src/data/front/main_data_02.asm
-1175A9,StandsOn,byte_1175A9,new,low,draw the stands,src/data/front/main_data_02.asm
-1175AA,RinkBoardsOn,byte_1175AA,new,low,draw the boards,src/data/front/main_data_02.asm
-1175AB,BenchPlayersOn,byte_1175AB,new,low,draw the bench players,src/data/front/main_data_02.asm
-1175AC,ScoreClockOn,byte_1175AC,new,low,draw the score clock,src/data/front/main_data_02.asm
-1175AD,IceLogoGroupCount,dword_1175AD,new,low,ice logo model groups found,src/data/front/rink_model_data_02.asm
-1175B1,StandsArtLoaded,dword_1175B1,new,low,stands art is loaded,src/data/front/rink_model_data_02.asm
-1175B5,PenBoxDoorHome,dword_1175B5,new,low,home penalty box door state,src/data/front/rink_model_data_02.asm
-1175B9,PenBoxDoorAway,dword_1175B9,new,low,away penalty box door state,src/data/front/rink_model_data_02.asm
-1175BD,IceCircleVertices,unk_1175BD,new,low,ice circle vertices,src/data/front/rink_model_data_02.asm
-117605,IceSurfaceDef,unk_117605,new,medium,ice surface definition,src/data/front/rink_model_data_02.asm
-11764D,IceGeometryDef,unk_11764D,new,medium,ice geometry definition,src/data/front/rink_model_data_02.asm
-1176AD,FaceoffCircleOrder,unk_1176AD,new,low,faceoff circle draw order,src/data/front/rink_model_data_02.asm
-1176CD,EndZoneOrder,unk_1176CD,new,low,end zone marking draw order,src/data/front/rink_model_data_02.asm
-1176DD,CircleTableBuilt,dword_1176DD,new,low,circle table has been built,src/data/front/rink_model_data_02.asm
-1176E1,GlassHitFace,dword_1176E1,new,low,glass face that was hit (-1 for none),src/data/front/rink_model_data_02.asm
-1176E5,ZamboniLoaded,dword_1176E5,new,low,Zamboni model is loaded,src/data/front/rink_model_data_02.asm
-1176EC,ShadowFill,unk_1176EC,new,low,shadow fill pattern,src/data/front/rink_model_data_02.asm
-1177EC,OptionButtonDX,dword_1177EC,new,low,option button x offset,src/data/front/rink_model_data_02.asm
-1177F0,OptionButtonDY,dword_1177F0,new,low,option button y offset,src/data/front/rink_model_data_02.asm
+114F1C,ModemResultTextTable,off_114F1C,new,low,modem result text string table,src/data/pc/link_data.asm
+114F24,ModemResultCodeTable,off_114F24,new,low,modem result code string table,src/data/pc/link_data.asm
+115000,ModemResultCount,dword_115000,new,low,number of modem result codes,src/data/pc/link_data.asm
+115004,ModemLastResult,dword_115004,new,low,last modem result code,src/data/pc/link_data.asm
+115008,LinkTickCount,dword_115008,new,low,Link: timer ticks,src/data/pc/link_data.asm
+11500C,LinkPortHandle,dword_11500C,new,low,Link: serial port handle,src/data/pc/link_data.asm
+115010,LinkBaudSetting,dword_115010,new,low,link baud rate setting,src/data/pc/link_data.asm
+115014,LinkOpenFlags,dword_115014,new,low,Link: open flags,src/data/pc/link_data.asm
+115018,LinkRetryOn,dword_115018,new,low,Link: retries on,src/data/pc/link_data.asm
+11501C,LinkCarrierCheck,dword_11501C,new,low,Link: check the carrier,src/data/pc/link_data.asm
+115020,LinkPollOn,dword_115020,new,low,Link: timer polling on,src/data/pc/link_data.asm
+115024,LinkIsOpen,dword_115024,new,low,Link: port open,src/data/pc/link_data.asm
+115028,LinkWindowSize,dword_115028,new,low,Link: packets in flight (4),src/data/pc/link_data.asm
+11502C,LinkAckOn,dword_11502C,new,low,Link: acknowledges on,src/data/pc/link_data.asm
+115030,LinkResendOn,dword_115030,new,low,Link: resends on,src/data/pc/link_data.asm
+115034,LinkOpenMode,dword_115034,new,low,Link: open mode,src/data/pc/link_data.asm
+115038,LinkErrorCount,dword_115038,new,low,Link: errors,src/data/pc/link_data.asm
+11503C,LinkSpareHook,dword_11503C,new,low,Link: spare hook,src/data/pc/link_data.asm
+115040,LinkMessageHandler,dword_115040,new,low,Link: message handler,src/data/pc/link_data.asm
+115044,LinkTickHandler,dword_115044,new,low,Link: per-tick handler,src/data/pc/link_data.asm
+115048,LinkResendHandler,dword_115048,new,low,Link: resend handler,src/data/pc/link_data.asm
+11504C,LinkTxSeq,dword_11504C,new,low,Link: next transmit sequence,src/data/pc/link_data.asm
+115050,LinkRxDeliverSeq,dword_115050,new,low,Link: next sequence to deliver,src/data/pc/link_data.asm
+115054,LinkAckedSeq,dword_115054,new,low,"Link: last acknowledged sequence, -1 for none",src/data/pc/link_data.asm
+115058,LinkRxSeq,dword_115058,new,low,"Link: last received sequence, -1 for none",src/data/pc/link_data.asm
+11505C,LinkPacketLen,dword_11505C,new,low,Link: length of the packet being parsed,src/data/pc/link_data.asm
+115060,LinkTxPending,dword_115060,new,low,Link: packets waiting for an acknowledge,src/data/pc/link_data.asm
+115064,LinkState,dword_115064,new,low,Link: connection state,src/data/pc/link_data.asm
+115068,LinkCheckPeriod,dword_115068,new,low,Link: ticks between checks,src/data/pc/link_data.asm
+11506C,LinkRetryLimit,dword_11506C,95PC,low,link retry limit,src/data/pc/link_data.asm
+115070,LinkCopyLow,dword_115070,new,low,link copy lower limit,src/data/pc/link_data.asm
+115074,LinkCopyHigh,dword_115074,new,low,link copy upper limit,src/data/pc/link_data.asm
+115078,LinkCopyStep,dword_115078,95PC,low,link copy step,src/data/pc/link_data.asm
+11507C,LinkRxHead,dword_11507C,new,low,Link: receive ring head,src/data/pc/link_data.asm
+115080,LinkRxCount,dword_115080,new,low,Link: bytes in the receive ring,src/data/pc/link_data.asm
+115084,LinkChannelTimers,byte_115084,new,low,link channel timers,src/data/pc/link_data.asm
+115098,LinkPollState,dword_115098,new,low,link poll state,src/data/pc/link_data.asm
+11509C,str_0123456789abcdefghijklmn,asc_11509C,new,high,string '0123456789abcdefghijklmnopqrstuvwxyz ',src/data/pc/link_data.asm
+1150C4,MessageShown,dword_1150C4,new,low,message box is shown,src/data/front/message_box_data.asm
+1150C8,ProgressBoxBmp,dword_1150C8,new,low,progress box bitmap,src/data/front/message_box_data.asm
+1150CC,ProgressBoxTotal,dword_1150CC,new,low,progress box total,src/data/front/message_box_data.asm
+1150D0,ProgressBoxStep,dword_1150D0,new,low,progress box step,src/data/front/message_box_data.asm
+1150D4,FrontShapesFile,dword_1150D4,new,low,front end shape file,src/data/front/main_data.asm
+1150D8,SaveFileHandle,dword_1150D8,new,low,save file handle (-1 when closed),src/data/front/main_data.asm
+1150DC,CpuTestPattern,dword_1150DC,new,low,CPU test pattern pointer,src/data/front/main_data.asm
+1150E0,AsyncTicks,dword_1150E0,new,low,ticks counted during an async read,src/data/pc/async_data.asm
+1150E4,AsyncQueueTail,dword_1150E4,new,low,last request in the async queue,src/data/pc/async_data.asm
+1150E8,StreamBlockSize,dword_1150E8,new,low,stream block size,src/data/pc/cdstream_data.asm
+1150EC,StreamTimeout,dword_1150EC,new,low,stream timeout,src/data/pc/cdstream_data.asm
+1150F0,CdStreamReadTime,dword_1150F0,new,low,time spent on CD stream reads,src/data/pc/cdstream_data.asm
+1150F4,CdStreamFilled,dword_1150F4,new,low,CD stream bytes read,src/data/pc/cdstream_data.asm
+1150F8,CdStreamTicks,dword_1150F8,new,low,ticks counted during a CD stream read,src/data/pc/cdstream_data.asm
+1150FC,gameresult,dword_1150FC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/game_setup_data.asm
+115108,gsumheader,unk_115108,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/game_setup_data.asm
+115109,GamePad1Dev,byte_115109,new,low,controller device for pad 1 at game start,src/data/front/game_setup_data.asm
+11510A,GamePad2Dev,byte_11510A,new,low,controller device for pad 2 at game start,src/data/front/game_setup_data.asm
+11510B,GameUserTeam,byte_11510B,new,low,user team at game start,src/data/front/game_setup_data.asm
+11510C,GameModeFlags,byte_11510C,new,low,game mode flags at game start,src/data/front/game_setup_data.asm
+11510D,GameStarted,word_11510D,new,low,game has started,src/data/front/game_setup_data.asm
+115113,gsumtail,unk_115113,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/game_setup_data.asm
+115114,HomeGoalCount,byte_115114,new,low,goals counted for the home team,src/data/front/game_setup_data.asm
+115115,HomeShotCount,byte_115115,new,low,shots counted for the home team,src/data/pc/data_files_data.asm
+115116,AwayGoalCount,byte_115116,new,low,goals counted for the away team,src/data/pc/data_files_data.asm
+115117,AwayShotCount,byte_115117,new,low,shots counted for the away team,src/data/pc/data_files_data.asm
+115120,DataDirPath,unk_115120,new,low,data directory path,src/data/pc/data_files_data.asm
+11512D,DataLibIds,word_11512D,new,low,data library table,src/data/pc/data_files_data.asm
+1151A7,ArtArchivePaths,unk_1151A7,new,low,art archive paths,src/data/pc/data_files_data.asm
+115333,ArtSetTable,unk_115333,new,low,art set table,src/data/pc/data_files_data.asm
+117478,str_KEY3,unk_117478,new,high,string 'KEY',src/data/pc/link_data.asm
+11747C,str_CAREER2,unk_11747C,95PC,high,string 'CAREER',src/data/pc/link_data.asm
+117483,str_ATT,unk_117483,new,high,string 'ATT',src/data/pc/link_data.asm
+117487,str_CARTEAMS,unk_117487,95PC,high,string 'CARTEAMS',src/data/pc/link_data.asm
+117490,str_TEAMS3,unk_117490,95PC,high,string 'TEAMS',src/data/pc/link_data.asm
+117496,str_SEASON4,unk_117496,95PC,high,string 'SEASON',src/data/pc/link_data.asm
+11749D,str_SCHEDULE,unk_11749D,new,high,"string ""SCHEDULE""",src/data/pc/link_data.asm
+1174E0,seasondb,dword_1174E0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/stats_tables_data.asm
+1174E4,CareerDb,dword_1174E4,new,low,career stats database,src/data/front/stats_tables_data.asm
+1174E8,statsfromleague,dword_1174E8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/stats_tables_data.asm
+1174EC,TeamDb,dword_1174EC,new,low,team stats database,src/data/front/stats_tables_data.asm
+1174F0,statsplayoffs,dword_1174F0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/stats_tables_data.asm
+1174F4,AttributeDb,dword_1174F4,new,low,attribute database,src/data/front/stats_tables_data.asm
+1174F8,PlayerAttrFile,dword_1174F8,new,low,player attribute data file,src/data/front/stats_tables_data.asm
+1174FC,LeagueRecordsFile,dword_1174FC,new,low,league records data file,src/data/front/stats_tables_data.asm
+117500,SeasonDbSize,dword_117500,new,low,season database size,src/data/front/stats_tables_data.asm
+117504,CareerDbSize,dword_117504,new,low,career database size,src/data/front/stats_tables_data.asm
+117508,LeagueStatsSize,dword_117508,new,low,league stats size,src/data/front/stats_tables_data.asm
+11750C,TeamDbSize,dword_11750C,new,low,team database size,src/data/front/stats_tables_data.asm
+117510,PlayoffStatsSize,dword_117510,new,low,playoff stats size,src/data/front/stats_tables_data.asm
+117514,AttributeDbSize,dword_117514,new,low,attribute database size,src/data/front/stats_tables_data.asm
+117518,PlayerAttrFileSize,dword_117518,new,low,player attribute file size,src/data/front/stats_tables_data.asm
+11751C,LeagueRecordsSize,dword_11751C,new,low,league records file size,src/data/front/stats_tables_data.asm
+117522,str_Punct_PlayerDbRecord,unk_117522,new,high,"string "" """,src/data/front/stats_tables_data.asm
+117575,RosterSlotOrder,byte_117575,new,low,roster slot order,src/data/front/game_teams_data.asm
+117588,JoyTestTime,dword_117588,new,low,joystick test time,src/data/front/pad_setup_data.asm
+11758C,JoyTestButtonMap,word_11758C,new,low,joystick test button map,src/data/front/pad_setup_data.asm
+1175A4,RinkFloorOn,byte_1175A4,new,low,draw the rink floor,src/data/front/rink_model_data.asm
+1175A5,IceTextureOn,byte_1175A5,new,low,draw the ice texture,src/data/front/rink_model_data.asm
+1175A6,IceLogosOn,byte_1175A6,new,low,draw the ice logos,src/data/front/rink_model_data.asm
+1175A7,GlassOn,byte_1175A7,new,low,draw and collide with the glass,src/data/front/rink_model_data.asm
+1175A8,PlayerDetailOn,byte_1175A8,new,low,draw detailed players,src/data/front/rink_model_data.asm
+1175A9,StandsOn,byte_1175A9,new,low,draw the stands,src/data/front/rink_model_data.asm
+1175AA,RinkBoardsOn,byte_1175AA,new,low,draw the boards,src/data/front/rink_model_data.asm
+1175AB,BenchPlayersOn,byte_1175AB,new,low,draw the bench players,src/data/front/rink_model_data.asm
+1175AC,ScoreClockOn,byte_1175AC,new,low,draw the score clock,src/data/front/rink_model_data.asm
+1175AD,IceLogoGroupCount,dword_1175AD,new,low,ice logo model groups found,src/data/front/rink_model_data.asm
+1175B1,StandsArtLoaded,dword_1175B1,new,low,stands art is loaded,src/data/front/rink_model_data.asm
+1175B5,PenBoxDoorHome,dword_1175B5,new,low,home penalty box door state,src/data/front/rink_model_data.asm
+1175B9,PenBoxDoorAway,dword_1175B9,new,low,away penalty box door state,src/data/front/rink_model_data.asm
+1175BD,IceCircleVertices,unk_1175BD,new,low,ice circle vertices,src/data/front/rink_model_data.asm
+117605,IceSurfaceDef,unk_117605,new,medium,ice surface definition,src/data/front/rink_model_data.asm
+11764D,IceGeometryDef,unk_11764D,new,medium,ice geometry definition,src/data/front/rink_model_data.asm
+1176AD,FaceoffCircleOrder,unk_1176AD,new,low,faceoff circle draw order,src/data/front/rink_model_data.asm
+1176CD,EndZoneOrder,unk_1176CD,new,low,end zone marking draw order,src/data/front/rink_model_data.asm
+1176DD,CircleTableBuilt,dword_1176DD,new,low,circle table has been built,src/data/front/rink_model_data.asm
+1176E1,GlassHitFace,dword_1176E1,new,low,glass face that was hit (-1 for none),src/data/front/rink_model_data.asm
+1176E5,ZamboniLoaded,dword_1176E5,new,low,Zamboni model is loaded,src/data/front/rink_model_data.asm
+1176EC,ShadowFill,unk_1176EC,new,low,shadow fill pattern,src/data/front/rink_model_data.asm
+1177EC,OptionButtonDX,dword_1177EC,new,low,option button x offset,src/data/front/rink_model_data.asm
+1177F0,OptionButtonDY,dword_1177F0,new,low,option button y offset,src/data/front/rink_model_data.asm
 1177F4,UserRecordsTop,dword_1177F4,new,low,user records list top,src/data/engine/faceoff_data_01.asm
 1177F8,UserRecordsFirst,dword_1177F8,new,low,first user record shown,src/data/engine/faceoff_data_01.asm
 1177FC,UserRecordsRow,dword_1177FC,new,low,user records row,src/data/engine/faceoff_data_01.asm
@@ -5151,336 +5151,336 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11A26C,penbannertab,word_11A26C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
 11A2F8,PenaltyTypes,dword_11A2F8,new,low,penalty type records,src/data/engine/input_data_01.asm
 11A310,dressbystatus,,95PC,medium,NHL95PC CD418 (refset): referenced by the same 3 matched functions,
-11A319,lineslotgroups,byte_11A319,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data_01.asm
-11A3B4,lineslotgroupstart,byte_11A3B4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data_01.asm
+11A319,lineslotgroups,byte_11A319,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data.asm
+11A3B4,lineslotgroupstart,byte_11A3B4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data.asm
 11A3E8,DemoMode,dword_11A3E8,new,medium,1 during the attract demo,
-11A3EE,SortFrameCount,word_11A3EE,new,low,Sprite sort frame counter,src/data/engine/lines_data_01.asm
-11A3F0,SortLastIndex,word_11A3F0,new,low,"Last sprite sort index, -1 for none",src/data/engine/lines_data_01.asm
-11A3F2,SortSpriteCount,dword_11A3F2,new,low,Sprites in the sort list,src/data/engine/lines_data_01.asm
-11A3F8,InReplay,dword_11A3F8,new,low,Set while a replay or highlight plays (camera code checks it),src/data/engine/lines_data_01.asm
-11A3F9,ReplayMenuFlags,byte_11A3F9,new,low,Replay screen flags,src/data/engine/lines_data_01.asm
-11A3FB,ReplayCameraFlags,byte_11A3FB,new,low,Replay camera flags,src/data/engine/lines_data_01.asm
-11A3FC,ReplayRunning,dword_11A3FC,new,low,Set while the replay screen runs a replay,src/data/engine/lines_data_01.asm
-11A400,HighlightSlot,dword_11A400,new,low,"Highlight slot being saved, -1 for none",src/data/engine/lines_data_01.asm
-11A404,HighlightStart,dword_11A404,new,low,Start frame of the highlight being saved,src/data/engine/lines_data_01.asm
-11A408,HighlightEnd,dword_11A408,new,low,End frame of the highlight being saved,src/data/engine/lines_data_01.asm
-11A40C,ReplayCounterXByRes,word_11A40C,new,low,replay counter X for each screen resolution,src/data/engine/lines_data_01.asm
-11A410,ReplayCounterX,word_11A410,new,low,replay counter x positions,src/data/front/replay_controls_data_02.asm
-11A414,ReplayCounterY,word_11A414,new,low,replay counter y positions,src/data/front/replay_controls_data_02.asm
-11A418,ReplayCamSteps,dword_11A418,new,low,replay camera steps,src/data/front/replay_controls_data_02.asm
-11A41C,ReplayCamZoomIn,dword_11A41C,new,low,replay camera zoom in count,src/data/front/replay_controls_data_02.asm
-11A420,ReplayCamZoomOut,dword_11A420,new,low,replay camera zoom out count,src/data/front/replay_controls_data_02.asm
-11A424,ReplayFrameTick,dword_11A424,new,low,replay frame tick,src/data/front/replay_controls_data_02.asm
-11A428,ReplayFrameDelta,dword_11A428,new,low,replay frame delta,src/data/front/replay_controls_data_02.asm
-11A42C,ReplayTimeAccum,dword_11A42C,new,low,replay time accumulator,src/data/front/replay_controls_data_02.asm
-11A430,ReplayButtonsLong,unk_11A430,new,low,"replay buttons, full set",src/data/front/replay_controls_data_02.asm
-11A770,ReplayButtonPosLong,unk_11A770,new,low,"replay button positions, full set",src/data/front/replay_controls_data_02.asm
-11A9B0,ReplayButtonPosMid,unk_11A9B0,new,low,"replay button positions, middle set",src/data/front/replay_controls_data_02.asm
-11AB30,ReplayButtonsShort,unk_11AB30,new,low,"replay buttons, short set",src/data/front/replay_controls_data_02.asm
-11AE70,ReplayButtonPosShort,unk_11AE70,new,low,"replay button positions, short set",src/data/front/replay_controls_data_02.asm
-11B0B0,ReplayHotspots,unk_11B0B0,new,low,replay screen click areas,src/data/front/replay_controls_data_02.asm
-11B230,str_0_SaveHighlight,unk_11B230,new,high,"string ""0""",src/data/front/replay_controls_data_02.asm
-11B234,ReplayRemoteShape,dword_11B234,new,low,replay remote shape,src/data/front/replay_controls_data_02.asm
-11B238,ClockPanelState,dword_11B238,new,low,"Clock panel state, -1 when closed",src/data/front/game_view_data_02.asm
-11B23C,ScorePanelState,dword_11B23C,new,low,Score panel state (1F40h after a goal),src/data/front/game_view_data_02.asm
-11B240,TimeLeftPanelState,dword_11B240,new,low,Time left panel state,src/data/front/game_view_data_02.asm
-11B244,TimedPanelState,dword_11B244,new,low,Timed panel state,src/data/front/game_view_data_02.asm
-11B248,RinkSpriteMode,dword_11B248,new,low,Rink sprite drawing mode,src/data/front/game_view_data_02.asm
-11B24C,GameFrameShapes,dword_11B24C,new,low,Game frame shape ids,src/data/front/game_view_data_02.asm
-11B270,ViewDimmed,dword_11B270,new,low,Game view dimmed,src/data/front/game_view_data_02.asm
-11B274,SavedViewMode,word_11B274,new,low,Game view mode saved with the game state,src/data/front/game_view_data_02.asm
-11B276,ovlstep,word_11B276,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/game_view_data_02.asm
-11B278,RosterNumberShapes,off_11B278,new,low,Roster number shape names,src/data/front/game_view_data_02.asm
-11B294,SpinPuckFrame,dword_11B294,new,low,Spinning puck frame,src/data/front/game_view_data_02.asm
-11B298,GoalNetShapeIds,dword_11B298,new,low,Goal net shape ids,src/data/front/game_view_data_02.asm
-11B2A8,GoalReplayPending,dword_11B2A8,new,low,Goal replay pending,src/data/front/game_view_data_02.asm
-11B2AC,OverlayPanelQueue,unk_11B2AC,new,low,queued overlay panels,src/data/front/game_view_data_02.asm
-11B2E8,PanelOpenTime,dword_11B2E8,new,low,Overlay panel open time,src/data/front/game_view_data_02.asm
-11B2EC,PanelCloseTime,dword_11B2EC,new,low,Overlay panel close time,src/data/front/game_view_data_02.asm
-11B2F0,TimedPanelTimer,dword_11B2F0,new,low,Timed panel timer,src/data/front/game_view_data_02.asm
-11B2F4,PlayerPctPanelTimer,dword_11B2F4,new,low,Player percentage panel timer,src/data/front/game_view_data_02.asm
-11B2F8,ClockPanelTimer,dword_11B2F8,new,low,Clock panel timer,src/data/front/game_view_data_02.asm
-11B2FC,TimeLeftPanelTimer,dword_11B2FC,new,low,Time left panel timer,src/data/front/game_view_data_02.asm
-11B300,ScorePanelTimer,dword_11B300,new,low,Score panel timer,src/data/front/game_view_data_02.asm
-11B304,PlayerNamePanelTimer,dword_11B304,new,low,Player name panel timer,src/data/front/game_view_data_02.asm
-11B308,LineBoxStates,dword_11B308,new,low,Line change box states,src/data/front/game_view_data_02.asm
-11B310,LastEventPlayer,dword_11B310,new,low,"Last event player, -1 for none",src/data/front/game_view_data_02.asm
-11B314,ViewTop,dword_11B314,new,low,Game view top,src/data/front/game_view_data_02.asm
-11B318,ViewWidth,dword_11B318,new,low,Game view width,src/data/front/game_view_data_02.asm
-11B31C,ViewHeight,dword_11B31C,new,low,Game view height,src/data/front/game_view_data_02.asm
-11B320,ViewLeft,dword_11B320,new,low,Game view left,src/data/front/game_view_data_02.asm
-11B324,GameFrameTop,dword_11B324,new,low,top of the game frame,src/data/front/game_view_data_02.asm
-11B328,ViewBitmap,dword_11B328,new,low,Game view bitmap,src/data/front/game_view_data_02.asm
-11B32C,ViewPixels,dword_11B32C,new,low,Game view pixels,src/data/front/game_view_data_02.asm
-11B330,ViewSizeStep,dword_11B330,new,low,Game view size step (8 full),src/data/front/game_view_data_02.asm
-11B334,CameraShotOn,dword_11B334,new,low,Camera shot running,src/data/front/game_view_data_02.asm
-11B338,TextOverlayFadeSteps,dword_11B338,new,low,text overlay fade steps,src/data/front/camera_data_01.asm
-11B364,CamFollowObj,dword_11B364,new,low,Camera: object followed by the shot,src/data/front/camera_data_01.asm
-11B368,CamLeadDist,dword_11B368,new,low,Camera: lead distance,src/data/front/camera_data_01.asm
-11B370,CamAimDist,dword_11B370,new,low,Camera: aim distance,src/data/front/camera_data_01.asm
-11B374,CamViewBits,dword_11B374,new,low,Camera: view bits,src/data/front/camera_data_01.asm
-11B37C,CameraViewTable,dword_11B37C,new,low,"Camera views and shots, 45h bytes each (text id, kind, routine, settings)",src/data/front/camera_data_01.asm
-11B9F4,CameraViewSlots,dword_11B9F4,new,low,Camera view per slot,src/data/front/camera_data_01.asm
-11BA08,ReplayCameraView,off_11BA08,new,low,Replay camera view,src/data/front/camera_data_01.asm
-11BAD4,CamFocusObj,dword_11BAD4,new,low,Camera: focus object,src/data/front/camera_data_01.asm
-11BAD8,CamFixedObj,dword_11BAD8,new,low,"Camera: fixed view object, -1 for none",src/data/front/camera_data_01.asm
-11BADC,CamShotFromObj,dword_11BADC,new,low,Camera shot: from object,src/data/front/camera_data_01.asm
-11BAE0,CamShotToObj,dword_11BAE0,new,low,Camera shot: to object,src/data/front/camera_data_01.asm
-11BAE4,CamShotNearObj,dword_11BAE4,new,low,Camera shot: near object,src/data/front/camera_data_01.asm
-11BAE8,HotKeyStates,dword_11BAE8,new,low,Hot key states,src/data/front/camera_data_01.asm
-11BB14,ShadowToggle,dword_11BB14,new,low,Shadow hot key toggle,src/data/front/camera_data_01.asm
-11BB18,MarkerToggle,dword_11BB18,new,low,Marker hot key toggle,src/data/front/camera_data_01.asm
-11BB1C,NameToggle,dword_11BB1C,new,low,Name hot key toggle,src/data/front/camera_data_01.asm
-11BB20,CamLastSort,byte_11BB20,new,low,Camera: last sort,src/data/front/camera_data_01.asm
-11BB24,CamFirstFrame,byte_11BB24,new,low,Camera: first frame,src/data/front/camera_data_01.asm
-11BB28,HexDigits,byte_11BB28,new,low,hex digit characters,src/data/front/camera_data_01.asm
-11BB38,PlayerSpritesLoaded,dword_11BB38,new,low,Player sprites loaded,src/data/front/camera_data_01.asm
-11BB3C,SpriteFileHandles,dword_11BB3C,new,low,Sprite file handles,src/data/front/camera_data_01.asm
-11BB40,FightSpritesLoaded,dword_11BB40,new,low,Fight sprites loaded,src/data/front/camera_data_01.asm
-11BB44,SpriteMemBlock,dword_11BB44,new,low,Sprite memory block,src/data/front/camera_data_01.asm
-11BB4C,GameSpriteNames,off_11BB4C,new,low,Game sprite file names,src/data/front/camera_data_01.asm
-11BC24,LastPaletteMode,dword_11BC24,new,low,"Last palette mode, -1 for none",src/data/front/camera_data_01.asm
-11BC28,JerseyDigitWidths,byte_11BC28,new,low,Jersey digit widths,src/data/front/camera_data_01.asm
-11BCD1,SpritesLoaded,dword_11BCD1,new,low,Sprites loaded,src/data/front/camera_data_01.asm
-11BCD5,SpriteCacheOn,dword_11BCD5,new,low,Sprite cache on,src/data/front/camera_data_01.asm
-11BCD9,SpriteCacheMem,dword_11BCD9,new,low,Sprite cache memory,src/data/front/camera_data_01.asm
-11BCE0,TeamNameArt,dword_11BCE0,new,low,Team name art,src/data/front/camera_data_01.asm
-11BCE4,WaitBoxArt,dword_11BCE4,new,low,Wait box art,src/data/front/camera_data_01.asm
-11BCE8,BottomBarDef,unk_11BCE8,new,low,Bottom bar definition,src/data/front/camera_data_01.asm
-11BD28,TitleBarDef,unk_11BD28,new,low,Title bar definition,src/data/front/camera_data_01.asm
-11BD68,SideBarDef,unk_11BD68,new,low,Side bar definition,src/data/front/camera_data_01.asm
-11BDA8,SlideEventFuncs,off_11BDA8,new,low,Slide show event routines,src/data/front/camera_data_01.asm
-11BDB0,SlideEvents,unk_11BDB0,new,low,Slide show events,src/data/front/camera_data_01.asm
-11BFA4,CreditsText,unk_11BFA4,new,low,Credits text,src/data/front/camera_data_01.asm
-11D18C,textcolor,dword_11D18C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/camera_data_01.asm
-11D190,textshadow,dword_11D190,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/camera_data_01.asm
-11D194,ModeLinear,dword_11D194,new,low,set when the graphics mode has a linear frame buffer,src/data/front/camera_data_01.asm
-11D198,GraphicsFixOn,dword_11D198,new,low,Graphics fix on,src/data/front/camera_data_01.asm
-11D19C,StartupPalette,dword_11D19C,new,low,Start-up palette,src/data/front/camera_data_01.asm
-11D1A0,NearestColorCount,dword_11D1A0,new,low,Colours searched by NearestColor,src/data/front/camera_data_01.asm
-11D1A4,NearestColorLimit,dword_11D1A4,new,low,Nearest colour limit (14h),src/data/front/camera_data_01.asm
-11D1A8,MenuMouseX,dword_11D1A8,new,low,Menu mouse x,src/data/front/camera_data_01.asm
-11D1AC,MenuMouseY,dword_11D1AC,new,low,Menu mouse y,src/data/front/camera_data_01.asm
-11D1B0,MenuMouseButtons,dword_11D1B0,new,low,Menu mouse buttons,src/data/front/camera_data_01.asm
-11D1B4,MenuViewStored,word_11D1B4,new,low,Set while the menu view is saved,src/data/front/camera_data_01.asm
-11D1B6,MenuLinkActive,word_11D1B6,new,low,Set when the menu is driven over a link,src/data/front/camera_data_01.asm
-11D1B8,MenuClipActive,word_11D1B8,new,low,Set while the menu clip rectangle is used,src/data/front/camera_data_01.asm
-11D1BA,MenuInputPaused,word_11D1BA,new,low,Menu input paused,src/data/front/camera_data_01.asm
-11D1BC,MenuMoveSfx,dword_11D1BC,new,low,"Menu move sound, -1 for none",src/data/front/camera_data_01.asm
-11D1C0,MenuSelectSfx,dword_11D1C0,new,low,"Menu select sound, -1 for none",src/data/front/camera_data_01.asm
-11D1C4,MenuInputReady,word_11D1C4,new,low,Menu input ready,src/data/front/camera_data_01.asm
-11D1C8,SoundCardPort,dword_11D1C8,new,low,sound card I/O port,src/data/front/sound_data_01.asm
-11D1CC,SoundCardIrq,dword_11D1CC,new,low,sound card IRQ,src/data/front/sound_data_01.asm
-11D1D0,CdSpeedTested,word_11D1D0,new,low,set once the CD speed test has run,src/data/front/sound_data_01.asm
-11D1D2,MusicStream,dword_11D1D2,new,low,music stream handle,src/data/front/sound_data_01.asm
-11D1D6,ArenaClipStream,dword_11D1D6,new,low,arena clip stream handle,src/data/front/sound_data_01.asm
-11D1DA,sndcard,dword_11D1DA,new,medium,the sound driver StartSoundCard started (-1: none),src/data/front/sound_data_01.asm
-11D1DE,MusicFlags,byte_11D1DE,new,low,music playback flags,src/data/front/sound_data_01.asm
-11D1E2,SpeechStreamFile,dword_11D1E2,new,low,speech stream file,src/data/front/sound_data_01.asm
-11D1E6,SpeechStreamTimer,dword_11D1E6,new,low,speech stream timer handle (-1 none),src/data/front/sound_data_01.asm
-11D1EA,CrowdSfxHandle,dword_11D1EA,new,low,crowd sound effect handle,src/data/front/sound_data_01.asm
-11D1EE,AmbientSfxHandle,dword_11D1EE,new,low,ambient sound effect handle,src/data/front/sound_data_01.asm
-11D1F2,LastSfxHandle,dword_11D1F2,new,low,handle of the last sound effect started,src/data/front/sound_data_01.asm
-11D1F6,CrowdFading,dword_11D1F6,new,low,set while the crowd sound fades,src/data/front/sound_data_01.asm
-11D1FA,CrowdActive,dword_11D1FA,new,low,crowd sound is playing,src/data/front/sound_data_01.asm
-11D1FE,CrowdVolumeLevel,dword_11D1FE,new,medium,current crowd sound volume (kept apart from Crowdlevel the excitement level),src/data/front/sound_data_01.asm
-11D202,CrowdTarget,dword_11D202,new,low,crowd volume the fade is heading to,src/data/front/sound_data_01.asm
-11D206,GameSoundOn,dword_11D206,new,low,in-game sound enabled,src/data/front/sound_data_01.asm
-11D20A,MusicFileName,byte_11D20A,new,low,music file name buffer,src/data/front/sound_data_01.asm
-11D232,CurrentMusicTrack,dword_11D232,new,low,music track that is playing,src/data/front/sound_data_01.asm
-11D236,SoundCardOn,dword_11D236,new,low,a sound card was found and set up,src/data/front/sound_data_01.asm
-11D23A,SpeechStarting,word_11D23A,new,low,set while speech is being started,src/data/front/sound_data_01.asm
-11D23C,CdSpeed,word_11D23C,new,low,measured CD speed,src/data/front/sound_data_01.asm
-11D23E,SpeechBankPaths,dword_11D23E,new,low,data path of the speech banks,src/data/front/sound_data_01.asm
-11D242,ClipIndexTable,dword_11D242,new,low,index of sound clips by id,src/data/front/sound_data_01.asm
-11D356,TeamPairClips,word_11D356,new,low,sound clips for team match-ups,src/data/front/sound_data_01.asm
-11D376,SpeechBankAltPaths,dword_11D376,new,low,data path of the speech banks when the alternate set is used,src/data/front/sound_data_01.asm
-11D37A,speechq,dword_11D37A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/sound_data_01.asm
-11D37E,SpeechBankHandle,dword_11D37E,new,low,speech bank file handle,src/data/front/sound_data_01.asm
-11D382,SpeechQueueHead,word_11D382,new,low,speech queue read index,src/data/front/sound_data_01.asm
-11D384,SpeechQueueTail,word_11D384,new,low,speech queue write index,src/data/front/sound_data_01.asm
-11D386,SpeechOpen,word_11D386,new,low,speech system is open,src/data/front/sound_data_01.asm
-11D388,SpeechChannelCount,word_11D388,new,low,number of speech channels,src/data/front/sound_data_01.asm
-11D38A,SpeechBanksOpen,dword_11D38A,new,low,number of open speech banks,src/data/front/sound_data_01.asm
-11D38E,speechinit,dword_11D38E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/sound_data_01.asm
-11D392,SfxChannelBusy,byte_11D392,new,low,busy flag per sound effect channel,src/data/front/sound_data_01.asm
-11D3A2,lastsfx,word_11D3A2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/sound_data_01.asm
-11D3A4,CrowdHeld,word_11D3A4,new,low,crowd sound is held,src/data/front/sound_data_01.asm
-11D3A6,SfxMask,dword_11D3A6,new,low,mask of sound effects allowed,src/data/front/sound_data_01.asm
-11D3AA,ArenaClipState,dword_11D3AA,new,low,arena clip playback state,src/data/front/sound_data_01.asm
-11D3AE,ArenaClipTime,dword_11D3AE,new,low,time the arena clip started,src/data/front/sound_data_01.asm
-11D3B2,ArenaClipId,dword_11D3B2,new,low,id of the arena clip,src/data/front/sound_data_01.asm
-11D3B6,CdSpeedChecked,word_11D3B6,new,low,set once the CD speed was checked,src/data/front/sound_data_01.asm
-11D3B8,TgvFpsSetting,dword_11D3B8,new,low,movie frame rate,src/data/front/sound_data_01.asm
-11D3BC,TgvFlags,dword_11D3BC,new,low,movie player flags,src/data/front/sound_data_01.asm
-11D3C0,TgvStartTick,dword_11D3C0,new,low,tick count when the movie started,src/data/front/sound_data_01.asm
-11D3C4,TgvPauseTick,dword_11D3C4,new,low,tick count when the movie paused,src/data/front/sound_data_01.asm
-11D3C8,DirPathTable,dword_11D3C8,new,low,directory path table,src/data/front/sound_data_01.asm
-11D3DC,LogoNames,off_11D3DC,new,low,team logo names,src/data/front/sound_data_01.asm
-11D44C,TeamCityNames,off_11D44C,new,low,pointers to team city names,src/data/front/sound_data_01.asm
-11D4BC,TeamFullNames,off_11D4BC,new,low,pointers to full team names,src/data/front/sound_data_01.asm
-11D52C,TeamNicknames,off_11D52C,new,low,pointers to team nicknames,src/data/front/sound_data_01.asm
-11D59C,TeamDivisions,dword_11D59C,new,low,division of each team,src/data/front/sound_data_01.asm
-11D604,TeamJerseyStyle,word_11D604,new,low,jersey style of each team,src/data/front/sound_data_01.asm
-11D674,TeamConferenceIds,dword_11D674,new,low,conference of each team,src/data/front/sound_data_01.asm
-11D744,SeasonTeamOrder,dword_11D744,new,low,teams in each division for the season screens,src/data/front/sound_data_01.asm
-11D754,DivisionTeamStarts,byte_11D754,new,low,first team index of each division,src/data/front/pause_menu_data_02.asm
+11A3EE,SortFrameCount,word_11A3EE,new,low,Sprite sort frame counter,src/data/engine/lines_data.asm
+11A3F0,SortLastIndex,word_11A3F0,new,low,"Last sprite sort index, -1 for none",src/data/engine/lines_data.asm
+11A3F2,SortSpriteCount,dword_11A3F2,new,low,Sprites in the sort list,src/data/engine/lines_data.asm
+11A3F8,InReplay,dword_11A3F8,new,low,Set while a replay or highlight plays (camera code checks it),src/data/front/replay_controls_data.asm
+11A3F9,ReplayMenuFlags,byte_11A3F9,new,low,Replay screen flags,src/data/front/replay_controls_data.asm
+11A3FB,ReplayCameraFlags,byte_11A3FB,new,low,Replay camera flags,src/data/front/replay_controls_data.asm
+11A3FC,ReplayRunning,dword_11A3FC,new,low,Set while the replay screen runs a replay,src/data/front/replay_controls_data.asm
+11A400,HighlightSlot,dword_11A400,new,low,"Highlight slot being saved, -1 for none",src/data/front/replay_controls_data.asm
+11A404,HighlightStart,dword_11A404,new,low,Start frame of the highlight being saved,src/data/front/replay_controls_data.asm
+11A408,HighlightEnd,dword_11A408,new,low,End frame of the highlight being saved,src/data/front/replay_controls_data.asm
+11A40C,ReplayCounterXByRes,word_11A40C,new,low,replay counter X for each screen resolution,src/data/front/replay_controls_data.asm
+11A410,ReplayCounterX,word_11A410,new,low,replay counter x positions,src/data/front/replay_controls_data.asm
+11A414,ReplayCounterY,word_11A414,new,low,replay counter y positions,src/data/front/replay_controls_data.asm
+11A418,ReplayCamSteps,dword_11A418,new,low,replay camera steps,src/data/front/replay_controls_data.asm
+11A41C,ReplayCamZoomIn,dword_11A41C,new,low,replay camera zoom in count,src/data/front/replay_controls_data.asm
+11A420,ReplayCamZoomOut,dword_11A420,new,low,replay camera zoom out count,src/data/front/replay_controls_data.asm
+11A424,ReplayFrameTick,dword_11A424,new,low,replay frame tick,src/data/front/replay_controls_data.asm
+11A428,ReplayFrameDelta,dword_11A428,new,low,replay frame delta,src/data/front/replay_controls_data.asm
+11A42C,ReplayTimeAccum,dword_11A42C,new,low,replay time accumulator,src/data/front/replay_controls_data.asm
+11A430,ReplayButtonsLong,unk_11A430,new,low,"replay buttons, full set",src/data/front/replay_controls_data.asm
+11A770,ReplayButtonPosLong,unk_11A770,new,low,"replay button positions, full set",src/data/front/replay_controls_data.asm
+11A9B0,ReplayButtonPosMid,unk_11A9B0,new,low,"replay button positions, middle set",src/data/front/replay_controls_data.asm
+11AB30,ReplayButtonsShort,unk_11AB30,new,low,"replay buttons, short set",src/data/front/replay_controls_data.asm
+11AE70,ReplayButtonPosShort,unk_11AE70,new,low,"replay button positions, short set",src/data/front/replay_controls_data.asm
+11B0B0,ReplayHotspots,unk_11B0B0,new,low,replay screen click areas,src/data/front/replay_controls_data.asm
+11B230,str_0_SaveHighlight,unk_11B230,new,high,"string ""0""",src/data/front/replay_controls_data.asm
+11B234,ReplayRemoteShape,dword_11B234,new,low,replay remote shape,src/data/front/replay_controls_data.asm
+11B238,ClockPanelState,dword_11B238,new,low,"Clock panel state, -1 when closed",src/data/front/game_view_data.asm
+11B23C,ScorePanelState,dword_11B23C,new,low,Score panel state (1F40h after a goal),src/data/front/game_view_data.asm
+11B240,TimeLeftPanelState,dword_11B240,new,low,Time left panel state,src/data/front/game_view_data.asm
+11B244,TimedPanelState,dword_11B244,new,low,Timed panel state,src/data/front/game_view_data.asm
+11B248,RinkSpriteMode,dword_11B248,new,low,Rink sprite drawing mode,src/data/front/game_view_data.asm
+11B24C,GameFrameShapes,dword_11B24C,new,low,Game frame shape ids,src/data/front/game_view_data.asm
+11B270,ViewDimmed,dword_11B270,new,low,Game view dimmed,src/data/front/game_view_data.asm
+11B274,SavedViewMode,word_11B274,new,low,Game view mode saved with the game state,src/data/front/game_view_data.asm
+11B276,ovlstep,word_11B276,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/game_view_data.asm
+11B278,RosterNumberShapes,off_11B278,new,low,Roster number shape names,src/data/front/game_view_data.asm
+11B294,SpinPuckFrame,dword_11B294,new,low,Spinning puck frame,src/data/front/game_view_data.asm
+11B298,GoalNetShapeIds,dword_11B298,new,low,Goal net shape ids,src/data/front/game_view_data.asm
+11B2A8,GoalReplayPending,dword_11B2A8,new,low,Goal replay pending,src/data/front/game_view_data.asm
+11B2AC,OverlayPanelQueue,unk_11B2AC,new,low,queued overlay panels,src/data/front/game_view_data.asm
+11B2E8,PanelOpenTime,dword_11B2E8,new,low,Overlay panel open time,src/data/front/game_view_data.asm
+11B2EC,PanelCloseTime,dword_11B2EC,new,low,Overlay panel close time,src/data/front/game_view_data.asm
+11B2F0,TimedPanelTimer,dword_11B2F0,new,low,Timed panel timer,src/data/front/game_view_data.asm
+11B2F4,PlayerPctPanelTimer,dword_11B2F4,new,low,Player percentage panel timer,src/data/front/game_view_data.asm
+11B2F8,ClockPanelTimer,dword_11B2F8,new,low,Clock panel timer,src/data/front/game_view_data.asm
+11B2FC,TimeLeftPanelTimer,dword_11B2FC,new,low,Time left panel timer,src/data/front/game_view_data.asm
+11B300,ScorePanelTimer,dword_11B300,new,low,Score panel timer,src/data/front/game_view_data.asm
+11B304,PlayerNamePanelTimer,dword_11B304,new,low,Player name panel timer,src/data/front/game_view_data.asm
+11B308,LineBoxStates,dword_11B308,new,low,Line change box states,src/data/front/game_view_data.asm
+11B310,LastEventPlayer,dword_11B310,new,low,"Last event player, -1 for none",src/data/front/game_view_data.asm
+11B314,ViewTop,dword_11B314,new,low,Game view top,src/data/front/camera_data.asm
+11B318,ViewWidth,dword_11B318,new,low,Game view width,src/data/front/camera_data.asm
+11B31C,ViewHeight,dword_11B31C,new,low,Game view height,src/data/front/camera_data.asm
+11B320,ViewLeft,dword_11B320,new,low,Game view left,src/data/front/camera_data.asm
+11B324,GameFrameTop,dword_11B324,new,low,top of the game frame,src/data/front/camera_data.asm
+11B328,ViewBitmap,dword_11B328,new,low,Game view bitmap,src/data/front/camera_data.asm
+11B32C,ViewPixels,dword_11B32C,new,low,Game view pixels,src/data/front/camera_data.asm
+11B330,ViewSizeStep,dword_11B330,new,low,Game view size step (8 full),src/data/front/camera_data.asm
+11B334,CameraShotOn,dword_11B334,new,low,Camera shot running,src/data/front/camera_data.asm
+11B338,TextOverlayFadeSteps,dword_11B338,new,low,text overlay fade steps,src/data/front/camera_data.asm
+11B364,CamFollowObj,dword_11B364,new,low,Camera: object followed by the shot,src/data/front/camera_data.asm
+11B368,CamLeadDist,dword_11B368,new,low,Camera: lead distance,src/data/front/camera_data.asm
+11B370,CamAimDist,dword_11B370,new,low,Camera: aim distance,src/data/front/camera_data.asm
+11B374,CamViewBits,dword_11B374,new,low,Camera: view bits,src/data/front/camera_data.asm
+11B37C,CameraViewTable,dword_11B37C,new,low,"Camera views and shots, 45h bytes each (text id, kind, routine, settings)",src/data/front/camera_data.asm
+11B9F4,CameraViewSlots,dword_11B9F4,new,low,Camera view per slot,src/data/front/camera_data.asm
+11BA08,ReplayCameraView,off_11BA08,new,low,Replay camera view,src/data/front/camera_data.asm
+11BAD4,CamFocusObj,dword_11BAD4,new,low,Camera: focus object,src/data/front/camera_data.asm
+11BAD8,CamFixedObj,dword_11BAD8,new,low,"Camera: fixed view object, -1 for none",src/data/front/camera_data.asm
+11BADC,CamShotFromObj,dword_11BADC,new,low,Camera shot: from object,src/data/front/camera_data.asm
+11BAE0,CamShotToObj,dword_11BAE0,new,low,Camera shot: to object,src/data/front/camera_data.asm
+11BAE4,CamShotNearObj,dword_11BAE4,new,low,Camera shot: near object,src/data/front/camera_data.asm
+11BAE8,HotKeyStates,dword_11BAE8,new,low,Hot key states,src/data/front/camera_data.asm
+11BB14,ShadowToggle,dword_11BB14,new,low,Shadow hot key toggle,src/data/front/camera_data.asm
+11BB18,MarkerToggle,dword_11BB18,new,low,Marker hot key toggle,src/data/front/camera_data.asm
+11BB1C,NameToggle,dword_11BB1C,new,low,Name hot key toggle,src/data/front/camera_data.asm
+11BB20,CamLastSort,byte_11BB20,new,low,Camera: last sort,src/data/front/camera_data.asm
+11BB24,CamFirstFrame,byte_11BB24,new,low,Camera: first frame,src/data/front/camera_data.asm
+11BB28,HexDigits,byte_11BB28,new,low,hex digit characters,src/data/front/camera_data.asm
+11BB38,PlayerSpritesLoaded,dword_11BB38,new,low,Player sprites loaded,src/data/front/player_art_data.asm
+11BB3C,SpriteFileHandles,dword_11BB3C,new,low,Sprite file handles,src/data/front/player_art_data.asm
+11BB40,FightSpritesLoaded,dword_11BB40,new,low,Fight sprites loaded,src/data/front/player_art_data.asm
+11BB44,SpriteMemBlock,dword_11BB44,new,low,Sprite memory block,src/data/front/player_art_data.asm
+11BB4C,GameSpriteNames,off_11BB4C,new,low,Game sprite file names,src/data/front/player_art_data.asm
+11BC24,LastPaletteMode,dword_11BC24,new,low,"Last palette mode, -1 for none",src/data/front/player_art_data.asm
+11BC28,JerseyDigitWidths,byte_11BC28,new,low,Jersey digit widths,src/data/front/player_art_data.asm
+11BCD1,SpritesLoaded,dword_11BCD1,new,low,Sprites loaded,src/data/front/player_art_data.asm
+11BCD5,SpriteCacheOn,dword_11BCD5,new,low,Sprite cache on,src/data/front/player_art_data.asm
+11BCD9,SpriteCacheMem,dword_11BCD9,new,low,Sprite cache memory,src/data/front/player_art_data.asm
+11BCE0,TeamNameArt,dword_11BCE0,new,low,Team name art,src/data/front/screen_art_data.asm
+11BCE4,WaitBoxArt,dword_11BCE4,new,low,Wait box art,src/data/front/screen_art_data.asm
+11BCE8,BottomBarDef,unk_11BCE8,new,low,Bottom bar definition,src/data/front/screen_art_data.asm
+11BD28,TitleBarDef,unk_11BD28,new,low,Title bar definition,src/data/front/screen_art_data.asm
+11BD68,SideBarDef,unk_11BD68,new,low,Side bar definition,src/data/front/screen_art_data.asm
+11BDA8,SlideEventFuncs,off_11BDA8,new,low,Slide show event routines,src/data/front/intro_data.asm
+11BDB0,SlideEvents,unk_11BDB0,new,low,Slide show events,src/data/front/intro_data.asm
+11BFA4,CreditsText,unk_11BFA4,new,low,Credits text,src/data/front/intro_data.asm
+11D18C,textcolor,dword_11D18C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/draw_data.asm
+11D190,textshadow,dword_11D190,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/draw_data.asm
+11D194,ModeLinear,dword_11D194,new,low,set when the graphics mode has a linear frame buffer,src/data/front/draw_data.asm
+11D198,GraphicsFixOn,dword_11D198,new,low,Graphics fix on,src/data/front/draw_data.asm
+11D19C,StartupPalette,dword_11D19C,new,low,Start-up palette,src/data/front/draw_data.asm
+11D1A0,NearestColorCount,dword_11D1A0,new,low,Colours searched by NearestColor,src/data/front/draw_data.asm
+11D1A4,NearestColorLimit,dword_11D1A4,new,low,Nearest colour limit (14h),src/data/front/draw_data.asm
+11D1A8,MenuMouseX,dword_11D1A8,new,low,Menu mouse x,src/data/front/menu_data.asm
+11D1AC,MenuMouseY,dword_11D1AC,new,low,Menu mouse y,src/data/front/menu_data.asm
+11D1B0,MenuMouseButtons,dword_11D1B0,new,low,Menu mouse buttons,src/data/front/menu_data.asm
+11D1B4,MenuViewStored,word_11D1B4,new,low,Set while the menu view is saved,src/data/front/menu_data.asm
+11D1B6,MenuLinkActive,word_11D1B6,new,low,Set when the menu is driven over a link,src/data/front/menu_data.asm
+11D1B8,MenuClipActive,word_11D1B8,new,low,Set while the menu clip rectangle is used,src/data/front/menu_data.asm
+11D1BA,MenuInputPaused,word_11D1BA,new,low,Menu input paused,src/data/front/menu_data.asm
+11D1BC,MenuMoveSfx,dword_11D1BC,new,low,"Menu move sound, -1 for none",src/data/front/menu_data.asm
+11D1C0,MenuSelectSfx,dword_11D1C0,new,low,"Menu select sound, -1 for none",src/data/front/menu_data.asm
+11D1C4,MenuInputReady,word_11D1C4,new,low,Menu input ready,src/data/front/menu_data.asm
+11D1C8,SoundCardPort,dword_11D1C8,new,low,sound card I/O port,src/data/front/sound_data.asm
+11D1CC,SoundCardIrq,dword_11D1CC,new,low,sound card IRQ,src/data/front/sound_data.asm
+11D1D0,CdSpeedTested,word_11D1D0,new,low,set once the CD speed test has run,src/data/front/sound_data.asm
+11D1D2,MusicStream,dword_11D1D2,new,low,music stream handle,src/data/front/sound_data.asm
+11D1D6,ArenaClipStream,dword_11D1D6,new,low,arena clip stream handle,src/data/front/sound_data.asm
+11D1DA,sndcard,dword_11D1DA,new,medium,the sound driver StartSoundCard started (-1: none),src/data/front/sound_data.asm
+11D1DE,MusicFlags,byte_11D1DE,new,low,music playback flags,src/data/front/sound_data.asm
+11D1E2,SpeechStreamFile,dword_11D1E2,new,low,speech stream file,src/data/front/sound_data.asm
+11D1E6,SpeechStreamTimer,dword_11D1E6,new,low,speech stream timer handle (-1 none),src/data/front/sound_data.asm
+11D1EA,CrowdSfxHandle,dword_11D1EA,new,low,crowd sound effect handle,src/data/front/sound_data.asm
+11D1EE,AmbientSfxHandle,dword_11D1EE,new,low,ambient sound effect handle,src/data/front/sound_data.asm
+11D1F2,LastSfxHandle,dword_11D1F2,new,low,handle of the last sound effect started,src/data/front/sound_data.asm
+11D1F6,CrowdFading,dword_11D1F6,new,low,set while the crowd sound fades,src/data/front/sound_data.asm
+11D1FA,CrowdActive,dword_11D1FA,new,low,crowd sound is playing,src/data/front/sound_data.asm
+11D1FE,CrowdVolumeLevel,dword_11D1FE,new,medium,current crowd sound volume (kept apart from Crowdlevel the excitement level),src/data/front/sound_data.asm
+11D202,CrowdTarget,dword_11D202,new,low,crowd volume the fade is heading to,src/data/front/sound_data.asm
+11D206,GameSoundOn,dword_11D206,new,low,in-game sound enabled,src/data/front/sound_data.asm
+11D20A,MusicFileName,byte_11D20A,new,low,music file name buffer,src/data/front/sound_data.asm
+11D232,CurrentMusicTrack,dword_11D232,new,low,music track that is playing,src/data/front/sound_data.asm
+11D236,SoundCardOn,dword_11D236,new,low,a sound card was found and set up,src/data/front/sound_data.asm
+11D23A,SpeechStarting,word_11D23A,new,low,set while speech is being started,src/data/front/sound_data.asm
+11D23C,CdSpeed,word_11D23C,new,low,measured CD speed,src/data/front/sound_data.asm
+11D23E,SpeechBankPaths,dword_11D23E,new,low,data path of the speech banks,src/data/front/sound_data.asm
+11D242,ClipIndexTable,dword_11D242,new,low,index of sound clips by id,src/data/front/sound_data.asm
+11D356,TeamPairClips,word_11D356,new,low,sound clips for team match-ups,src/data/front/sound_data.asm
+11D376,SpeechBankAltPaths,dword_11D376,new,low,data path of the speech banks when the alternate set is used,src/data/front/sound_data.asm
+11D37A,speechq,dword_11D37A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/sound_data.asm
+11D37E,SpeechBankHandle,dword_11D37E,new,low,speech bank file handle,src/data/front/sound_data.asm
+11D382,SpeechQueueHead,word_11D382,new,low,speech queue read index,src/data/front/sound_data.asm
+11D384,SpeechQueueTail,word_11D384,new,low,speech queue write index,src/data/front/sound_data.asm
+11D386,SpeechOpen,word_11D386,new,low,speech system is open,src/data/front/sound_data.asm
+11D388,SpeechChannelCount,word_11D388,new,low,number of speech channels,src/data/front/sound_data.asm
+11D38A,SpeechBanksOpen,dword_11D38A,new,low,number of open speech banks,src/data/front/sound_data.asm
+11D38E,speechinit,dword_11D38E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/sound_data.asm
+11D392,SfxChannelBusy,byte_11D392,new,low,busy flag per sound effect channel,src/data/front/sound_data.asm
+11D3A2,lastsfx,word_11D3A2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/sound_data.asm
+11D3A4,CrowdHeld,word_11D3A4,new,low,crowd sound is held,src/data/front/sound_data.asm
+11D3A6,SfxMask,dword_11D3A6,new,low,mask of sound effects allowed,src/data/front/sound_data.asm
+11D3AA,ArenaClipState,dword_11D3AA,new,low,arena clip playback state,src/data/front/sound_data.asm
+11D3AE,ArenaClipTime,dword_11D3AE,new,low,time the arena clip started,src/data/front/sound_data.asm
+11D3B2,ArenaClipId,dword_11D3B2,new,low,id of the arena clip,src/data/front/sound_data.asm
+11D3B6,CdSpeedChecked,word_11D3B6,new,low,set once the CD speed was checked,src/data/front/sound_data.asm
+11D3B8,TgvFpsSetting,dword_11D3B8,new,low,movie frame rate,src/data/front/movie_data.asm
+11D3BC,TgvFlags,dword_11D3BC,new,low,movie player flags,src/data/front/movie_data.asm
+11D3C0,TgvStartTick,dword_11D3C0,new,low,tick count when the movie started,src/data/front/movie_data.asm
+11D3C4,TgvPauseTick,dword_11D3C4,new,low,tick count when the movie paused,src/data/front/movie_data.asm
+11D3C8,DirPathTable,dword_11D3C8,new,low,directory path table,src/data/front/settings_data.asm
+11D3DC,LogoNames,off_11D3DC,new,low,team logo names,src/data/front/settings_data.asm
+11D44C,TeamCityNames,off_11D44C,new,low,pointers to team city names,src/data/front/settings_data.asm
+11D4BC,TeamFullNames,off_11D4BC,new,low,pointers to full team names,src/data/front/settings_data.asm
+11D52C,TeamNicknames,off_11D52C,new,low,pointers to team nicknames,src/data/front/settings_data.asm
+11D59C,TeamDivisions,dword_11D59C,new,low,division of each team,src/data/front/settings_data.asm
+11D604,TeamJerseyStyle,word_11D604,new,low,jersey style of each team,src/data/front/settings_data.asm
+11D674,TeamConferenceIds,dword_11D674,new,low,conference of each team,src/data/front/settings_data.asm
+11D744,SeasonTeamOrder,dword_11D744,new,low,teams in each division for the season screens,src/data/front/settings_data.asm
+11D754,DivisionTeamStarts,byte_11D754,new,low,first team index of each division,src/data/front/settings_data.asm
 11D7A0,InGameMenuRequest,dword_11D7A0,new,medium,"1 pause menu, 2 replay menu, 3 other",
-11D7A4,InGameMenuItems,unk_11D7A4,new,low,in-game menu item list,src/data/front/pause_menu_data_02.asm
-11D7BC,PauseMenuItemsShort,unk_11D7BC,new,low,short pause menu item list,src/data/front/pause_menu_data_02.asm
-11D7D4,InGameMenuLayout,unk_11D7D4,new,low,in-game menu box layout,src/data/front/pause_menu_data_02.asm
-11D7EC,PauseMenuItemsLong,unk_11D7EC,new,low,long pause menu item list,src/data/front/pause_menu_data_02.asm
-11D804,InGameBoxXList,unk_11D804,new,low,in-game menu box X positions,src/data/front/pause_menu_data_02.asm
-11D80A,InGameBoxYList,unk_11D80A,new,low,in-game menu box Y positions,src/data/front/pause_menu_data_02.asm
-11D810,PauseMenuBoxX,unk_11D810,new,low,pause menu box x positions,src/data/front/pause_menu_data_02.asm
-11D816,PauseMenuBoxY,unk_11D816,new,low,pause menu box y positions,src/data/front/pause_menu_data_02.asm
-11D81C,PauseMenuTextIds,unk_11D81C,new,low,pause menu text ids,src/data/front/pause_menu_data_02.asm
-11D89C,PauseMenuTextIdsAlt,unk_11D89C,new,low,pause menu text ids when the option bit is set,src/data/front/pause_menu_data_02.asm
-11D910,ControllerSlotX,dword_11D910,new,low,controller screen slot x position,src/data/front/pause_menu_data_02.asm
-11D914,ControllerSlotY,dword_11D914,new,low,controller screen slot y position,src/data/front/pause_menu_data_02.asm
-11D91C,MenuFrameColours,byte_11D91C,new,low,in-game menu frame colours,src/data/front/pause_menu_data_02.asm
-11D91F,InMenuOverlay,dword_11D91F,new,low,set while a menu overlays the game,src/data/front/pause_menu_data_02.asm
-11D923,PauseRedraw,dword_11D923,new,low,pause screen needs redrawing,src/data/front/pause_menu_data_02.asm
-11D927,PauseMenuOpen,word_11D927,new,low,pause menu is open,src/data/front/pause_menu_data_02.asm
-11D929,PauseFrameDrawn,word_11D929,new,low,pause frame has been drawn,src/data/front/pause_menu_data_02.asm
-11D92C,ControllerPreGame,word_11D92C,new,low,controller screen opened before a game,src/data/front/controller_screen_data_01.asm
-11D92E,ControllerColumnsDrawn,word_11D92E,new,low,controller columns have been drawn,src/data/front/controller_screen_data_01.asm
-11D930,ControllerSlotStates,dword_11D930,new,low,state of each controller slot,src/data/front/controller_screen_data_01.asm
-11D940,ControllerSlotItems,dword_11D940,new,low,item shown in each controller slot,src/data/front/controller_screen_data_01.asm
-11D950,ControllerColumnInfo,dword_11D950,95PC,low,controller screen column info,src/data/front/controller_screen_data_01.asm
-11D954,ControllerLayout,dword_11D954,new,low,controller screen layout table,src/data/front/controller_screen_data_01.asm
-11D968,str_feO,word_11D968,95PC,high,string 'O',src/data/front/controller_screen_data_01.asm
-11DE50,ControllerButtonOutline,unk_11DE50,new,low,controller screen button outline,src/data/front/controller_screen_data_01.asm
-11DE90,ControllerTextIds,unk_11DE90,new,low,controller screen text ids,src/data/front/controller_screen_data_01.asm
-11DED0,ControllerSlotPositions,dword_11DED0,new,low,controller slot positions,src/data/front/controller_screen_data_01.asm
-11DED4,ControllerOptionRows,dword_11DED4,new,low,controller option rows,src/data/front/controller_screen_data_01.asm
-11DF70,ControllerTitlePos,dword_11DF70,new,low,controller screen title position,src/data/front/controller_screen_data_01.asm
-11DF80,ControlPickRows,dword_11DF80,new,low,control pick rows,src/data/front/controller_screen_data_01.asm
-11DF84,ControlPickColumns,dword_11DF84,new,low,control pick slot positions,src/data/front/controller_screen_data_01.asm
-11DFC8,str_GenericHayesCompatible,asc_11DFC8,new,high,"string ""Generic Hayes-Compatible""",src/data/front/team_select_data_01.asm
-11E270,BaudChoices,word_11E270,new,low,baud rate choices,src/data/front/team_select_data_01.asm
-11E278,DialAborted,dword_11E278,new,low,dialling was aborted,src/data/front/team_select_data_01.asm
-11E27C,LinkSetupSlots,dword_11E27C,new,low,link setup slot records,src/data/front/team_select_data_01.asm
-11E280,TeamSelectY,word_11E280,new,low,team select panel y position,src/data/front/team_select_data_01.asm
-11E284,AwayPanelX,dword_11E284,new,low,away team panel x position,src/data/front/team_select_data_01.asm
-11E288,HomePanelX,dword_11E288,new,low,home team panel x position,src/data/front/team_select_data_01.asm
-11E2A0,HomePanelBmp,dword_11E2A0,new,low,home team panel bitmap,src/data/front/team_select_data_01.asm
-11E2A4,AwayPanelBmp,dword_11E2A4,new,low,away team panel bitmap,src/data/front/team_select_data_01.asm
-11E2A8,HomePanelLogo,dword_11E2A8,new,low,home team panel logo,src/data/front/team_select_data_01.asm
-11E2AC,AwayPanelLogo,dword_11E2AC,new,low,away team panel logo,src/data/front/team_select_data_01.asm
-11E2B0,TeamSelectDrawn,dword_11E2B0,new,low,set once the team select screen is drawn,src/data/front/team_select_data_01.asm
-11E2B4,AwayPanelName,dword_11E2B4,new,low,away team panel name,src/data/front/team_select_data_01.asm
-11E2B8,PanelTeamNameShift,dword_11E2B8,new,low,team name shift on the team panels,src/data/front/team_select_data_01.asm
-11E2BC,AwayPanelText,dword_11E2BC,new,low,away team panel text,src/data/front/team_select_data_01.asm
-11E2C0,LangTextHandle,dword_11E2C0,new,low,language text data handle,src/data/front/team_select_data_01.asm
-11E2C4,LangTextLoaded,dword_11E2C4,new,low,set once language text is loaded,src/data/front/team_select_data_01.asm
-11E2C8,str_LFERROR,asc_11E2C8,new,high,string 'LFERROR!!!',src/data/front/team_select_data_01.asm
-11E2D4,SixTeamColX,dword_11E2D4,new,low,team column x positions for a six team division,src/data/front/new_season_data_02.asm
-11E2EC,SixTeamRowY,dword_11E2EC,new,low,team row y positions for a six team division,src/data/front/new_season_data_02.asm
-11E304,SevenTeamColX,dword_11E304,new,low,team column x positions for a seven team division,src/data/front/new_season_data_02.asm
-11E320,SevenTeamRowY,dword_11E320,new,low,team row y positions for a seven team division,src/data/front/new_season_data_02.asm
-11E33C,SixTeamGrid,unk_11E33C,new,low,team grid for a six team division,src/data/front/new_season_data_02.asm
-11E354,SevenTeamGrid,unk_11E354,new,low,team grid for a seven team division,src/data/front/new_season_data_02.asm
-11E370,SeasonDbExts,off_11E370,new,low,season database file extensions,src/data/front/new_season_data_02.asm
-11E39C,SeasonMenuLast,dword_11E39C,new,low,last season menu choice,src/data/front/new_season_data_02.asm
-11E3A0,CalMonthNumbers,byte_11E3A0,new,low,month numbers shown on the calendar,src/data/front/new_season_data_02.asm
-11E3A8,CalMonthDays,byte_11E3A8,new,low,days in each calendar month,src/data/front/new_season_data_02.asm
-11E3B6,CalButtonDefs,unk_11E3B6,new,low,calendar button definitions,src/data/front/new_season_data_02.asm
-11E4B8,SimStatWeights,dword_11E4B8,new,low,stat weights for simulated games,src/data/front/new_season_data_02.asm
-11E4C4,SimTeamFactors,dword_11E4C4,new,low,team factors for simulated games,src/data/front/new_season_data_02.asm
-11E514,SimPlayerOrder,dword_11E514,new,low,player order for simulated games,src/data/front/new_season_data_02.asm
-11E5FC,TeamMovieTextIds,word_11E5FC,new,low,text ids for team movies,src/data/front/new_season_data_02.asm
-11E624,TeamStatTextIds,dword_11E624,new,low,team stats column text ids,src/data/front/player_stats_data_02.asm
-11E664,TeamStatsPlayoffs,dword_11E664,new,low,team stats show the playoffs,src/data/front/player_stats_data_02.asm
-11E668,StatsMenuItems,dword_11E668,new,low,stats menu items,src/data/front/player_stats_data_02.asm
-11E66C,StatsMenuChoice,dword_11E66C,new,low,stats menu choice,src/data/front/player_stats_data_02.asm
-11E670,RosterDbPtrs,dword_11E670,new,low,roster database pointers,src/data/front/player_stats_data_02.asm
-11E674,PlayerStatsGoalies,dword_11E674,new,low,player stats show goalies,src/data/front/player_stats_data_02.asm
-11E678,RosterPlayerIds,dword_11E678,new,low,id of each roster player,src/data/front/player_stats_data_02.asm
-11E67C,SkaterColTextIds,dword_11E67C,new,low,skater stats column text ids,src/data/front/player_stats_data_02.asm
-11E684,SkaterCardTextIds,dword_11E684,new,low,skater card stat text ids,src/data/front/player_stats_data_02.asm
-11E6AC,GoalieColTextIds,dword_11E6AC,new,low,goalie stats column text ids,src/data/front/player_stats_data_02.asm
-11E6B4,GoalieCardTextIds,dword_11E6B4,new,low,goalie card stat text ids,src/data/front/player_stats_data_02.asm
-11E6E0,CardFlameFrames,off_11E6E0,new,low,flame animation frame names for the card title,src/data/front/player_stats_data_02.asm
-11E700,TeamHasCompare,byte_11E700,new,low,teams that have a compare button,src/data/front/player_stats_data_02.asm
-11E71A,CompareButtonDef,unk_11E71A,new,low,compare button definition,src/data/front/player_stats_data_02.asm
-11E75A,PlayerStatsSort,dword_11E75A,new,low,player stats sort column,src/data/front/player_stats_data_02.asm
-11E75E,PlayerStatsSeason,dword_11E75E,new,low,player stats show the season,src/data/front/player_stats_data_02.asm
-11E764,CardPhotoNames,off_11E764,new,low,special player card photo names,src/data/front/player_stats_data_02.asm
-11E7E0,SkaterRatingTextIds,dword_11E7E0,new,low,skater rating text ids,src/data/front/player_stats_data_02.asm
-11E844,SkaterRatingOrder,byte_11E844,new,low,order of skater ratings on the card,src/data/front/player_stats_data_02.asm
-11E852,GoalieRatingOrder,byte_11E852,new,low,order of goalie ratings on the card,src/data/front/player_stats_data_02.asm
-11E85B,GoalieRatingTextIds,dword_11E85B,new,low,goalie rating text ids,src/data/front/player_stats_data_02.asm
-11E87F,CardView,dword_11E87F,new,low,player card view,src/data/front/player_stats_data_02.asm
-11E883,CardSliding,dword_11E883,new,low,player card is sliding,src/data/front/player_stats_data_02.asm
-11E887,CardArtLoaded,dword_11E887,new,low,player card art is loaded,src/data/front/player_stats_data_02.asm
-11E88B,CardRemapOn,dword_11E88B,new,low,player card colour remap is on,src/data/front/player_stats_data_02.asm
-11E890,SkaterCardFlash,dword_11E890,new,low,skater card highlight is on,src/data/front/player_ratings_data_02.asm
-11E894,GoalieCardFlash,dword_11E894,new,low,goalie card highlight is on,src/data/front/player_ratings_data_02.asm
-11E898,SkaterFlashTime,dword_11E898,new,low,tick count of the skater card highlight,src/data/front/player_ratings_data_02.asm
-11E89C,GoalieFlashTime,dword_11E89C,new,low,tick count of the goalie card highlight,src/data/front/player_ratings_data_02.asm
-11E8A0,SkaterCardPhoto,dword_11E8A0,new,low,skater card photo,src/data/front/player_ratings_data_02.asm
-11E8A4,GoalieCardPhoto,dword_11E8A4,new,low,goalie card photo,src/data/front/player_ratings_data_02.asm
-11E8A8,SkaterPhotoLoaded,dword_11E8A8,new,low,skater card photo is loaded,src/data/front/player_ratings_data_02.asm
-11E8AC,GoaliePhotoLoaded,dword_11E8AC,new,low,goalie card photo is loaded,src/data/front/player_ratings_data_02.asm
-11E8B0,RatingsTabNames,off_11E8B0,new,low,ratings screen tab tags,src/data/front/player_ratings_data_02.asm
-11E8D4,TradeTextIds,dword_11E8D4,new,low,trade screen text ids,src/data/front/player_ratings_data_02.asm
-11E8F8,RosterFirstRun,dword_11E8F8,new,low,roster screens not opened yet,src/data/front/player_ratings_data_02.asm
-11E8FC,RatingsGoalieShown,dword_11E8FC,new,low,goalie shown on the ratings page,src/data/front/player_ratings_data_02.asm
-11E900,RatingsSkaterShown,dword_11E900,new,low,skater shown on the ratings page,src/data/front/player_ratings_data_02.asm
-11E904,LoadingArtFrame,dword_11E904,new,low,loading art animation frame,src/data/front/player_ratings_data_02.asm
-11E908,PositionTags,off_11E908,new,low,position tags for the create player screen,src/data/front/player_ratings_data_02.asm
-11E91C,ForwardLineSlots,dword_11E91C,new,low,forward slots used by automatic lines,src/data/front/player_ratings_data_02.asm
-11E948,DefenceLineSlots,dword_11E948,new,low,defence slots used by automatic lines,src/data/front/player_ratings_data_02.asm
-11E970,LinesPanelEvenX,dword_11E970,new,low,"line slot x positions, even strength panel",src/data/front/player_ratings_data_02.asm
-11E9C0,LinesPanelEvenY,dword_11E9C0,new,low,"line slot y positions, even strength panel",src/data/front/edit_lines_data_02.asm
-11EA10,LinesPanelEvenNav,dword_11EA10,new,low,"line slot cursor moves, even strength panel",src/data/front/edit_lines_data_02.asm
-11EA60,LinesPanelPowerX,dword_11EA60,new,low,"line slot x positions, power play panel",src/data/front/edit_lines_data_02.asm
-11EAB0,LinesPanelPowerY,dword_11EAB0,new,low,"line slot y positions, power play panel",src/data/front/edit_lines_data_02.asm
-11EAFC,LinesPanelPowerNav,dword_11EAFC,new,low,"line slot cursor moves, power play panel",src/data/front/edit_lines_data_02.asm
-11EB50,LinesPanelKillX,dword_11EB50,new,low,"line slot x positions, penalty kill panel",src/data/front/edit_lines_data_02.asm
-11EB88,LinesPanelKillY,dword_11EB88,new,low,"line slot y positions, penalty kill panel",src/data/front/edit_lines_data_02.asm
-11EBC0,LinesPanelKillNav,dword_11EBC0,new,low,"line slot cursor moves, penalty kill panel",src/data/front/edit_lines_data_02.asm
-11EBF8,LinesSlotMap,dword_11EBF8,new,low,line slot to roster slot map,src/data/front/edit_lines_data_02.asm
-11ECE8,LinesHeaderTextId,dword_11ECE8,new,low,line editor header text id,src/data/front/edit_lines_data_02.asm
-11ECEC,LinesTextIds,dword_11ECEC,new,low,line editor text ids,src/data/front/edit_lines_data_02.asm
-11ED2C,LinesIntroOn,dword_11ED2C,new,low,line editor opened from the line change intro,src/data/front/edit_lines_data_02.asm
-11ED30,InGameMenuStartTick,dword_11ED30,new,low,tick count when the in-game menu opened,src/data/pc/modem_teams_data_02.asm
-11ED34,InGameMenuDrawn,word_11ED34,new,low,in-game menu frame has been drawn,src/data/pc/modem_teams_data_02.asm
-11ED38,ModemPanelY,word_11ED38,new,low,modem team select panel y position,src/data/pc/modem_teams_data_02.asm
-11ED3C,ModemAwayPanelX,dword_11ED3C,new,low,modem away team panel x position,src/data/pc/modem_teams_data_02.asm
-11ED40,ModemPanelXs,dword_11ED40,new,low,modem team select panel x positions,src/data/pc/modem_teams_data_02.asm
-11ED58,ModemHomeBmp,dword_11ED58,new,low,modem home team panel bitmap,src/data/pc/modem_teams_data_02.asm
-11ED5C,ModemAwayBmp,dword_11ED5C,new,low,modem away team panel bitmap,src/data/pc/modem_teams_data_02.asm
-11ED60,ModemHomeLogo,dword_11ED60,new,low,modem home team logo,src/data/pc/modem_teams_data_02.asm
-11ED64,ModemAwayLogo,dword_11ED64,new,low,modem away team logo,src/data/pc/modem_teams_data_02.asm
-11ED68,ModemHomeName,dword_11ED68,new,low,modem home team name,src/data/pc/modem_teams_data_02.asm
-11ED6C,ModemAwayName,dword_11ED6C,new,low,modem away team name,src/data/pc/modem_teams_data_02.asm
-11ED70,ModemHomeText,dword_11ED70,new,low,modem home team text,src/data/pc/modem_teams_data_02.asm
-11ED74,ModemAwayText,dword_11ED74,new,low,modem away team text,src/data/pc/modem_teams_data_02.asm
-11ED78,PlayoffMode,dword_11ED78,new,low,playoff menus mode,src/data/pc/modem_teams_data_02.asm
-11ED7C,PlayoffSlotX,dword_11ED7C,new,low,playoff setup slot x positions,src/data/pc/modem_teams_data_02.asm
-11ED9C,PlayoffSlotY,dword_11ED9C,new,low,playoff setup slot y positions,src/data/pc/modem_teams_data_02.asm
-11EDBC,PlayoffSetupTextIds,dword_11EDBC,new,low,playoff setup text ids,src/data/pc/modem_teams_data_02.asm
-11EDCC,PlayoffRoundTextIds,dword_11EDCC,new,low,playoff round text ids,src/data/pc/modem_teams_data_02.asm
-11EDDC,PlayoffSeriesWins,dword_11EDDC,new,low,wins needed in each playoff series,src/data/pc/modem_teams_data_02.asm
-11EE18,PlayoffTreeY,dword_11EE18,new,low,playoff tree y positions,src/data/pc/modem_teams_data_02.asm
-11EE94,PlayoffTreeColumnsX,dword_11EE94,new,low,playoff tree column positions,src/data/front/playoff_data_02.asm
-11EF10,PlayoffSeriesLayout,dword_11EF10,new,low,playoff series layout,src/data/front/playoff_data_02.asm
-11EF80,FinalGameNum,dword_11EF80,new,low,final game number,src/data/front/playoff_data_02.asm
-11EF8C,PlayoffSparkleSoundOn,dword_11EF8C,new,low,set once the playoff sparkle sound plays,src/data/front/playoff_data_02.asm
-11EF90,PlayoffTreeNavLinks,unk_11EF90,new,low,playoff tree button neighbours,src/data/front/playoff_data_02.asm
-11EFDC,PlayoffTreeTemplate,unk_11EFDC,new,low,playoff tree line template,src/data/front/playoff_data_02.asm
-11F39C,TreeShapeLeft,unk_11F39C,new,low,"tree shape table, left side",src/data/front/playoff_data_02.asm
-11F3DC,TreeShapeRight,unk_11F3DC,new,low,"tree shape table, right side",src/data/front/playoff_data_02.asm
-11F41C,TreeShapeCentre,unk_11F41C,new,low,"tree shape table, centre",src/data/front/playoff_data_02.asm
-11F45C,TreeShapeFinal,unk_11F45C,new,low,"tree shape table, final",src/data/front/playoff_data_02.asm
-11F49C,PlayoffBracketOrder,byte_11F49C,new,low,playoff bracket order,src/data/front/playoff_data_02.asm
-11F4BC,LeaderCardTextIds,dword_11F4BC,new,low,playoff leader card text ids,src/data/lib/input/input_mouse_data_01.asm
-11F4F0,LeaderColTextIds,dword_11F4F0,new,low,playoff leader column text ids,src/data/lib/input/input_mouse_data_01.asm
-11F524,LeaderCardFlags,byte_11F524,new,low,playoff leader card flags,src/data/lib/input/input_mouse_data_01.asm
-11F52D,LeadersBuilt,byte_11F52D,new,low,playoff leaders have been built,src/data/lib/input/input_mouse_data_01.asm
-11F531,LeaderListPtrs,off_11F531,new,low,pointers to the playoff leader lists,src/data/lib/input/input_mouse_data_01.asm
+11D7A4,InGameMenuItems,unk_11D7A4,new,low,in-game menu item list,src/data/front/pause_menu_data.asm
+11D7BC,PauseMenuItemsShort,unk_11D7BC,new,low,short pause menu item list,src/data/front/pause_menu_data.asm
+11D7D4,InGameMenuLayout,unk_11D7D4,new,low,in-game menu box layout,src/data/front/pause_menu_data.asm
+11D7EC,PauseMenuItemsLong,unk_11D7EC,new,low,long pause menu item list,src/data/front/pause_menu_data.asm
+11D804,InGameBoxXList,unk_11D804,new,low,in-game menu box X positions,src/data/front/pause_menu_data.asm
+11D80A,InGameBoxYList,unk_11D80A,new,low,in-game menu box Y positions,src/data/front/pause_menu_data.asm
+11D810,PauseMenuBoxX,unk_11D810,new,low,pause menu box x positions,src/data/front/pause_menu_data.asm
+11D816,PauseMenuBoxY,unk_11D816,new,low,pause menu box y positions,src/data/front/pause_menu_data.asm
+11D81C,PauseMenuTextIds,unk_11D81C,new,low,pause menu text ids,src/data/front/pause_menu_data.asm
+11D89C,PauseMenuTextIdsAlt,unk_11D89C,new,low,pause menu text ids when the option bit is set,src/data/front/pause_menu_data.asm
+11D910,ControllerSlotX,dword_11D910,new,low,controller screen slot x position,src/data/front/pause_menu_data.asm
+11D914,ControllerSlotY,dword_11D914,new,low,controller screen slot y position,src/data/front/pause_menu_data.asm
+11D91C,MenuFrameColours,byte_11D91C,new,low,in-game menu frame colours,src/data/front/pause_menu_data.asm
+11D91F,InMenuOverlay,dword_11D91F,new,low,set while a menu overlays the game,src/data/front/pause_menu_data.asm
+11D923,PauseRedraw,dword_11D923,new,low,pause screen needs redrawing,src/data/front/pause_menu_data.asm
+11D927,PauseMenuOpen,word_11D927,new,low,pause menu is open,src/data/front/pause_menu_data.asm
+11D929,PauseFrameDrawn,word_11D929,new,low,pause frame has been drawn,src/data/front/pause_menu_data.asm
+11D92C,ControllerPreGame,word_11D92C,new,low,controller screen opened before a game,src/data/front/controller_screen_data.asm
+11D92E,ControllerColumnsDrawn,word_11D92E,new,low,controller columns have been drawn,src/data/front/controller_screen_data.asm
+11D930,ControllerSlotStates,dword_11D930,new,low,state of each controller slot,src/data/front/controller_screen_data.asm
+11D940,ControllerSlotItems,dword_11D940,new,low,item shown in each controller slot,src/data/front/controller_screen_data.asm
+11D950,ControllerColumnInfo,dword_11D950,95PC,low,controller screen column info,src/data/front/controller_screen_data.asm
+11D954,ControllerLayout,dword_11D954,new,low,controller screen layout table,src/data/front/controller_screen_data.asm
+11D968,str_feO,word_11D968,95PC,high,string 'O',src/data/front/controller_screen_data.asm
+11DE50,ControllerButtonOutline,unk_11DE50,new,low,controller screen button outline,src/data/front/controller_screen_data.asm
+11DE90,ControllerTextIds,unk_11DE90,new,low,controller screen text ids,src/data/front/controller_screen_data.asm
+11DED0,ControllerSlotPositions,dword_11DED0,new,low,controller slot positions,src/data/front/controller_screen_data.asm
+11DED4,ControllerOptionRows,dword_11DED4,new,low,controller option rows,src/data/front/controller_screen_data.asm
+11DF70,ControllerTitlePos,dword_11DF70,new,low,controller screen title position,src/data/front/controller_screen_data.asm
+11DF80,ControlPickRows,dword_11DF80,new,low,control pick rows,src/data/pc/modem_setup_data.asm
+11DF84,ControlPickColumns,dword_11DF84,new,low,control pick slot positions,src/data/pc/modem_setup_data.asm
+11DFC8,str_GenericHayesCompatible,asc_11DFC8,new,high,"string ""Generic Hayes-Compatible""",src/data/pc/modem_setup_data.asm
+11E270,BaudChoices,word_11E270,new,low,baud rate choices,src/data/pc/modem_setup_data.asm
+11E278,DialAborted,dword_11E278,new,low,dialling was aborted,src/data/pc/modem_setup_data.asm
+11E27C,LinkSetupSlots,dword_11E27C,new,low,link setup slot records,src/data/pc/modem_setup_data.asm
+11E280,TeamSelectY,word_11E280,new,low,team select panel y position,src/data/front/team_select_data.asm
+11E284,AwayPanelX,dword_11E284,new,low,away team panel x position,src/data/front/team_select_data.asm
+11E288,HomePanelX,dword_11E288,new,low,home team panel x position,src/data/front/team_select_data.asm
+11E2A0,HomePanelBmp,dword_11E2A0,new,low,home team panel bitmap,src/data/front/team_select_data.asm
+11E2A4,AwayPanelBmp,dword_11E2A4,new,low,away team panel bitmap,src/data/front/team_select_data.asm
+11E2A8,HomePanelLogo,dword_11E2A8,new,low,home team panel logo,src/data/front/team_select_data.asm
+11E2AC,AwayPanelLogo,dword_11E2AC,new,low,away team panel logo,src/data/front/team_select_data.asm
+11E2B0,TeamSelectDrawn,dword_11E2B0,new,low,set once the team select screen is drawn,src/data/front/team_select_data.asm
+11E2B4,AwayPanelName,dword_11E2B4,new,low,away team panel name,src/data/front/team_select_data.asm
+11E2B8,PanelTeamNameShift,dword_11E2B8,new,low,team name shift on the team panels,src/data/front/team_select_data.asm
+11E2BC,AwayPanelText,dword_11E2BC,new,low,away team panel text,src/data/front/team_select_data.asm
+11E2C0,LangTextHandle,dword_11E2C0,new,low,language text data handle,src/data/front/lang_text_data.asm
+11E2C4,LangTextLoaded,dword_11E2C4,new,low,set once language text is loaded,src/data/front/lang_text_data.asm
+11E2C8,str_LFERROR,asc_11E2C8,new,high,string 'LFERROR!!!',src/data/front/lang_text_data.asm
+11E2D4,SixTeamColX,dword_11E2D4,new,low,team column x positions for a six team division,src/data/front/new_season_data.asm
+11E2EC,SixTeamRowY,dword_11E2EC,new,low,team row y positions for a six team division,src/data/front/new_season_data.asm
+11E304,SevenTeamColX,dword_11E304,new,low,team column x positions for a seven team division,src/data/front/new_season_data.asm
+11E320,SevenTeamRowY,dword_11E320,new,low,team row y positions for a seven team division,src/data/front/new_season_data.asm
+11E33C,SixTeamGrid,unk_11E33C,new,low,team grid for a six team division,src/data/front/new_season_data.asm
+11E354,SevenTeamGrid,unk_11E354,new,low,team grid for a seven team division,src/data/front/new_season_data.asm
+11E370,SeasonDbExts,off_11E370,new,low,season database file extensions,src/data/front/new_season_data.asm
+11E39C,SeasonMenuLast,dword_11E39C,new,low,last season menu choice,src/data/front/season_menu_data.asm
+11E3A0,CalMonthNumbers,byte_11E3A0,new,low,month numbers shown on the calendar,src/data/front/calendar_data.asm
+11E3A8,CalMonthDays,byte_11E3A8,new,low,days in each calendar month,src/data/front/calendar_data.asm
+11E3B6,CalButtonDefs,unk_11E3B6,new,low,calendar button definitions,src/data/front/calendar_data.asm
+11E4B8,SimStatWeights,dword_11E4B8,new,low,stat weights for simulated games,src/data/front/sim_game_data.asm
+11E4C4,SimTeamFactors,dword_11E4C4,new,low,team factors for simulated games,src/data/front/sim_game_data.asm
+11E514,SimPlayerOrder,dword_11E514,new,low,player order for simulated games,src/data/front/sim_game_data.asm
+11E5FC,TeamMovieTextIds,word_11E5FC,new,low,text ids for team movies,src/data/front/stats_menu_data.asm
+11E624,TeamStatTextIds,dword_11E624,new,low,team stats column text ids,src/data/front/stats_menu_data.asm
+11E664,TeamStatsPlayoffs,dword_11E664,new,low,team stats show the playoffs,src/data/front/stats_menu_data.asm
+11E668,StatsMenuItems,dword_11E668,new,low,stats menu items,src/data/front/stats_menu_data.asm
+11E66C,StatsMenuChoice,dword_11E66C,new,low,stats menu choice,src/data/front/stats_menu_data.asm
+11E670,RosterDbPtrs,dword_11E670,new,low,roster database pointers,src/data/front/stats_menu_data.asm
+11E674,PlayerStatsGoalies,dword_11E674,new,low,player stats show goalies,src/data/front/player_stats_data.asm
+11E678,RosterPlayerIds,dword_11E678,new,low,id of each roster player,src/data/front/player_stats_data.asm
+11E67C,SkaterColTextIds,dword_11E67C,new,low,skater stats column text ids,src/data/front/player_stats_data.asm
+11E684,SkaterCardTextIds,dword_11E684,new,low,skater card stat text ids,src/data/front/player_stats_data.asm
+11E6AC,GoalieColTextIds,dword_11E6AC,new,low,goalie stats column text ids,src/data/front/player_stats_data.asm
+11E6B4,GoalieCardTextIds,dword_11E6B4,new,low,goalie card stat text ids,src/data/front/player_stats_data.asm
+11E6E0,CardFlameFrames,off_11E6E0,new,low,flame animation frame names for the card title,src/data/front/player_stats_data.asm
+11E700,TeamHasCompare,byte_11E700,new,low,teams that have a compare button,src/data/front/player_stats_data.asm
+11E71A,CompareButtonDef,unk_11E71A,new,low,compare button definition,src/data/front/player_stats_data.asm
+11E75A,PlayerStatsSort,dword_11E75A,new,low,player stats sort column,src/data/front/player_stats_data.asm
+11E75E,PlayerStatsSeason,dword_11E75E,new,low,player stats show the season,src/data/front/player_stats_data.asm
+11E764,CardPhotoNames,off_11E764,new,low,special player card photo names,src/data/front/player_cards_data.asm
+11E7E0,SkaterRatingTextIds,dword_11E7E0,new,low,skater rating text ids,src/data/front/player_cards_data.asm
+11E844,SkaterRatingOrder,byte_11E844,new,low,order of skater ratings on the card,src/data/front/player_cards_data.asm
+11E852,GoalieRatingOrder,byte_11E852,new,low,order of goalie ratings on the card,src/data/front/player_cards_data.asm
+11E85B,GoalieRatingTextIds,dword_11E85B,new,low,goalie rating text ids,src/data/front/player_cards_data.asm
+11E87F,CardView,dword_11E87F,new,low,player card view,src/data/front/player_cards_data.asm
+11E883,CardSliding,dword_11E883,new,low,player card is sliding,src/data/front/player_cards_data.asm
+11E887,CardArtLoaded,dword_11E887,new,low,player card art is loaded,src/data/front/player_cards_data.asm
+11E88B,CardRemapOn,dword_11E88B,new,low,player card colour remap is on,src/data/front/player_cards_data.asm
+11E890,SkaterCardFlash,dword_11E890,new,low,skater card highlight is on,src/data/front/player_ratings_data.asm
+11E894,GoalieCardFlash,dword_11E894,new,low,goalie card highlight is on,src/data/front/player_ratings_data.asm
+11E898,SkaterFlashTime,dword_11E898,new,low,tick count of the skater card highlight,src/data/front/player_ratings_data.asm
+11E89C,GoalieFlashTime,dword_11E89C,new,low,tick count of the goalie card highlight,src/data/front/player_ratings_data.asm
+11E8A0,SkaterCardPhoto,dword_11E8A0,new,low,skater card photo,src/data/front/player_ratings_data.asm
+11E8A4,GoalieCardPhoto,dword_11E8A4,new,low,goalie card photo,src/data/front/player_ratings_data.asm
+11E8A8,SkaterPhotoLoaded,dword_11E8A8,new,low,skater card photo is loaded,src/data/front/player_ratings_data.asm
+11E8AC,GoaliePhotoLoaded,dword_11E8AC,new,low,goalie card photo is loaded,src/data/front/player_ratings_data.asm
+11E8B0,RatingsTabNames,off_11E8B0,new,low,ratings screen tab tags,src/data/front/player_ratings_data.asm
+11E8D4,TradeTextIds,dword_11E8D4,new,low,trade screen text ids,src/data/front/roster_data.asm
+11E8F8,RosterFirstRun,dword_11E8F8,new,low,roster screens not opened yet,src/data/front/roster_data.asm
+11E8FC,RatingsGoalieShown,dword_11E8FC,new,low,goalie shown on the ratings page,src/data/front/roster_data.asm
+11E900,RatingsSkaterShown,dword_11E900,new,low,skater shown on the ratings page,src/data/front/roster_data.asm
+11E904,LoadingArtFrame,dword_11E904,new,low,loading art animation frame,src/data/front/roster_data.asm
+11E908,PositionTags,off_11E908,new,low,position tags for the create player screen,src/data/front/roster_data.asm
+11E91C,ForwardLineSlots,dword_11E91C,new,low,forward slots used by automatic lines,src/data/front/edit_lines_data.asm
+11E948,DefenceLineSlots,dword_11E948,new,low,defence slots used by automatic lines,src/data/front/edit_lines_data.asm
+11E970,LinesPanelEvenX,dword_11E970,new,low,"line slot x positions, even strength panel",src/data/front/edit_lines_data.asm
+11E9C0,LinesPanelEvenY,dword_11E9C0,new,low,"line slot y positions, even strength panel",src/data/front/edit_lines_data.asm
+11EA10,LinesPanelEvenNav,dword_11EA10,new,low,"line slot cursor moves, even strength panel",src/data/front/edit_lines_data.asm
+11EA60,LinesPanelPowerX,dword_11EA60,new,low,"line slot x positions, power play panel",src/data/front/edit_lines_data.asm
+11EAB0,LinesPanelPowerY,dword_11EAB0,new,low,"line slot y positions, power play panel",src/data/front/edit_lines_data.asm
+11EAFC,LinesPanelPowerNav,dword_11EAFC,new,low,"line slot cursor moves, power play panel",src/data/front/edit_lines_data.asm
+11EB50,LinesPanelKillX,dword_11EB50,new,low,"line slot x positions, penalty kill panel",src/data/front/edit_lines_data.asm
+11EB88,LinesPanelKillY,dword_11EB88,new,low,"line slot y positions, penalty kill panel",src/data/front/edit_lines_data.asm
+11EBC0,LinesPanelKillNav,dword_11EBC0,new,low,"line slot cursor moves, penalty kill panel",src/data/front/edit_lines_data.asm
+11EBF8,LinesSlotMap,dword_11EBF8,new,low,line slot to roster slot map,src/data/front/edit_lines_data.asm
+11ECE8,LinesHeaderTextId,dword_11ECE8,new,low,line editor header text id,src/data/front/edit_lines_data.asm
+11ECEC,LinesTextIds,dword_11ECEC,new,low,line editor text ids,src/data/front/edit_lines_data.asm
+11ED2C,LinesIntroOn,dword_11ED2C,new,low,line editor opened from the line change intro,src/data/front/edit_lines_data.asm
+11ED30,InGameMenuStartTick,dword_11ED30,new,low,tick count when the in-game menu opened,src/data/front/ingame_menu_data.asm
+11ED34,InGameMenuDrawn,word_11ED34,new,low,in-game menu frame has been drawn,src/data/front/ingame_menu_data.asm
+11ED38,ModemPanelY,word_11ED38,new,low,modem team select panel y position,src/data/pc/modem_teams_data.asm
+11ED3C,ModemAwayPanelX,dword_11ED3C,new,low,modem away team panel x position,src/data/pc/modem_teams_data.asm
+11ED40,ModemPanelXs,dword_11ED40,new,low,modem team select panel x positions,src/data/pc/modem_teams_data.asm
+11ED58,ModemHomeBmp,dword_11ED58,new,low,modem home team panel bitmap,src/data/pc/modem_teams_data.asm
+11ED5C,ModemAwayBmp,dword_11ED5C,new,low,modem away team panel bitmap,src/data/pc/modem_teams_data.asm
+11ED60,ModemHomeLogo,dword_11ED60,new,low,modem home team logo,src/data/pc/modem_teams_data.asm
+11ED64,ModemAwayLogo,dword_11ED64,new,low,modem away team logo,src/data/pc/modem_teams_data.asm
+11ED68,ModemHomeName,dword_11ED68,new,low,modem home team name,src/data/pc/modem_teams_data.asm
+11ED6C,ModemAwayName,dword_11ED6C,new,low,modem away team name,src/data/pc/modem_teams_data.asm
+11ED70,ModemHomeText,dword_11ED70,new,low,modem home team text,src/data/pc/modem_teams_data.asm
+11ED74,ModemAwayText,dword_11ED74,new,low,modem away team text,src/data/pc/modem_teams_data.asm
+11ED78,PlayoffMode,dword_11ED78,new,low,playoff menus mode,src/data/front/playoff_data.asm
+11ED7C,PlayoffSlotX,dword_11ED7C,new,low,playoff setup slot x positions,src/data/front/playoff_data.asm
+11ED9C,PlayoffSlotY,dword_11ED9C,new,low,playoff setup slot y positions,src/data/front/playoff_data.asm
+11EDBC,PlayoffSetupTextIds,dword_11EDBC,new,low,playoff setup text ids,src/data/front/playoff_data.asm
+11EDCC,PlayoffRoundTextIds,dword_11EDCC,new,low,playoff round text ids,src/data/front/playoff_data.asm
+11EDDC,PlayoffSeriesWins,dword_11EDDC,new,low,wins needed in each playoff series,src/data/front/playoff_data.asm
+11EE18,PlayoffTreeY,dword_11EE18,new,low,playoff tree y positions,src/data/front/playoff_data.asm
+11EE94,PlayoffTreeColumnsX,dword_11EE94,new,low,playoff tree column positions,src/data/front/playoff_data.asm
+11EF10,PlayoffSeriesLayout,dword_11EF10,new,low,playoff series layout,src/data/front/playoff_data.asm
+11EF80,FinalGameNum,dword_11EF80,new,low,final game number,src/data/front/playoff_data.asm
+11EF8C,PlayoffSparkleSoundOn,dword_11EF8C,new,low,set once the playoff sparkle sound plays,src/data/front/playoff_data.asm
+11EF90,PlayoffTreeNavLinks,unk_11EF90,new,low,playoff tree button neighbours,src/data/front/playoff_data.asm
+11EFDC,PlayoffTreeTemplate,unk_11EFDC,new,low,playoff tree line template,src/data/front/playoff_data.asm
+11F39C,TreeShapeLeft,unk_11F39C,new,low,"tree shape table, left side",src/data/front/playoff_data.asm
+11F3DC,TreeShapeRight,unk_11F3DC,new,low,"tree shape table, right side",src/data/front/playoff_data.asm
+11F41C,TreeShapeCentre,unk_11F41C,new,low,"tree shape table, centre",src/data/front/playoff_data.asm
+11F45C,TreeShapeFinal,unk_11F45C,new,low,"tree shape table, final",src/data/front/playoff_data.asm
+11F49C,PlayoffBracketOrder,byte_11F49C,new,low,playoff bracket order,src/data/front/playoff_data.asm
+11F4BC,LeaderCardTextIds,dword_11F4BC,new,low,playoff leader card text ids,src/data/front/playoff_data.asm
+11F4F0,LeaderColTextIds,dword_11F4F0,new,low,playoff leader column text ids,src/data/front/playoff_data.asm
+11F524,LeaderCardFlags,byte_11F524,new,low,playoff leader card flags,src/data/front/playoff_data.asm
+11F52D,LeadersBuilt,byte_11F52D,new,low,playoff leaders have been built,src/data/front/playoff_data.asm
+11F531,LeaderListPtrs,off_11F531,new,low,pointers to the playoff leader lists,src/data/front/playoff_data.asm
 11F568,mouseminx,dword_11F568,95PC,high,"mouse library: pointer range, left; MouseReadMotion clamps to it (the same code as NHL95PC)",src/data/lib/input/input_mouse_data_01.asm
 11F56C,mouseminy,dword_11F56C,95PC,high,"mouse library: pointer range, top",src/data/lib/input/input_mouse_data_01.asm
 11F570,mousemaxx,dword_11F570,95PC,high,"mouse library: pointer range, right (exclusive)",src/data/lib/input/input_mouse_data_01.asm

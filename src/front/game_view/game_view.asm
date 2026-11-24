@@ -1843,15 +1843,15 @@ PlaceGoalNets_E0:
         mov edi, SortCords
         xor esi, esi
 .2:
-        movsx edx, word [byte edi+012h]
+        movsx edx, word [byte edi+frame]
         mov eax, edi
         cmp edx, byte 0FFFFFFFFh
         je near .9
         mov edx, dword [puckc]
         movsx dx, byte [edx]
-        cmp dx, word [dword edi+086h]
+        cmp dx, word [dword edi+SCnum]
         je short .3
-        mov dl, byte [byte edi+045h]
+        mov dl, byte [byte edi+pflags2]
         and dl, 1
         movzx edx, dl
         test edx, edx
@@ -1906,7 +1906,7 @@ PlaceGoalNets_E0:
         mov dword [byte ebp-018h], eax
         movsx ebx, word [byte ebp-01Ch]
         mov eax, dword [byte ebp-018h]
-        movsx ecx, byte [byte edi+047h]
+        movsx ecx, byte [byte edi+pnum]
         jmp short .4
 .7:
         mov eax, dword [dword esi+SpriteScreenY]
@@ -1918,7 +1918,7 @@ PlaceGoalNets_E0:
         mov dword [byte ebp-018h], eax
         movsx ebx, word [byte ebp-01Ch]
         mov eax, dword [byte ebp-018h]
-        movsx ecx, byte [byte edi+047h]
+        movsx ecx, byte [byte edi+pnum]
         cwde
 .8:
         call DrawRosterNumber
@@ -1973,26 +1973,26 @@ PlaceGoalNets_20B:
         jle near .27
         imul esi, dword [byte ebp-01Ch], dword 0A0h
         add esi, SortCords
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         cmp eax, byte 0Ch
         je short .14
         cmp eax, byte 0Dh
         jne short .15
 .14:
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         sub eax, byte 0Ch
         call DrawGoalNet
         jmp near .27
 .15:
-        movsx edx, word [byte esi+012h]
+        movsx edx, word [byte esi+frame]
         cmp edx, byte 0FFFFFFFFh
         je near .27
         cmp eax, byte 0Ch
         jge short .16
-        cmp word [byte esi+01Ah], byte 0
+        cmp word [byte esi+position], byte 0
         jl near .27
 .16:
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         cmp eax, byte 0Eh
         je short .17
         cmp eax, byte 0Fh
@@ -2010,7 +2010,7 @@ PlaceGoalNets_20B:
         mov eax, dword [puckz]
         cmp word [eax], byte 0
         jl near .27
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         cmp eax, byte 0Fh
         sete al
         movzx eax, al
@@ -2044,7 +2044,7 @@ PlaceGoalNets_20B:
         jl near .25
         cmp dword [byte ebp-020h], 0C1Bh
         jge near .25
-        movsx eax, word [byte esi+014h]
+        movsx eax, word [byte esi+impactp]
         imul edx, eax, dword 0A0h
         mov ecx, dword [nosplit eax*8+SpriteScreenX]
         mov ebx, dword [byte ebp-01Ch]
@@ -2083,7 +2083,7 @@ PlaceGoalNets_20B:
         call DrawRinkSprite
         jmp short .24
 .21:
-        movsx eax, word [byte esi+036h]
+        movsx eax, word [byte esi+facedir]
         cmp eax, byte 2
         jne short .22
         mov edx, 0Ah
@@ -2099,7 +2099,7 @@ PlaceGoalNets_20B:
         mov dword [byte ebp-0Ch], eax
 .24:
         push byte 1
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         push eax
         mov ax, word [byte esi+054h]
         xor al, al
@@ -2115,7 +2115,7 @@ PlaceGoalNets_20B:
         jmp short .26
 .25:
         push byte 1
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         push eax
         mov ax, word [byte esi+054h]
         xor al, al
@@ -2182,16 +2182,16 @@ DrawPlayerShadows:
         jle near .12
         imul esi, dword [byte ebp-08h], dword 0A0h
         add esi, SortCords
-        movsx eax, word [byte esi+012h]
+        movsx eax, word [byte esi+frame]
         cmp eax, byte 0FFFFFFFFh
         je near .12
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         cmp eax, byte 0Ch
         jge short .2
-        cmp word [byte esi+01Ah], byte 0
+        cmp word [byte esi+position], byte 0
         jl near .12
 .2:
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         cmp eax, byte 0Ch
         jl short .3
         cmp eax, byte 0Fh
@@ -2222,7 +2222,7 @@ DrawPlayerShadows:
         jl near .10
         cmp dword [byte ebp-014h], 0C1Bh
         jge near .10
-        movsx eax, word [byte esi+014h]
+        movsx eax, word [byte esi+impactp]
         imul ebx, eax, dword 0A0h
         mov ecx, dword [nosplit eax*8+SpriteScreenX]
         mov edx, dword [byte ebp-08h]
@@ -2258,7 +2258,7 @@ DrawPlayerShadows:
         call DrawSpriteShadow
         jmp short .9
 .6:
-        movsx eax, word [byte esi+036h]
+        movsx eax, word [byte esi+facedir]
         cmp eax, byte 2
         jne short .7
         mov edx, 0Ah
@@ -2351,16 +2351,16 @@ DrawPlayers:
         add esi, SortCords
         cmp dword [dword esi+09Ch], byte 0
         jne near .12
-        movsx eax, word [byte esi+012h]
+        movsx eax, word [byte esi+frame]
         cmp eax, byte 0FFFFFFFFh
         je near .12
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         cmp eax, byte 0Ch
         jge short .2
-        cmp word [byte esi+01Ah], byte 0
+        cmp word [byte esi+position], byte 0
         jl near .12
 .2:
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         cmp eax, byte 0Ch
         jl short .3
         cmp eax, byte 0Fh
@@ -2392,7 +2392,7 @@ DrawPlayers:
         jl near .10
         cmp dword [byte ebp-010h], 0C1Bh
         jge near .10
-        movsx eax, word [byte esi+014h]
+        movsx eax, word [byte esi+impactp]
         imul edx, eax, dword 0A0h
         mov ecx, dword [nosplit eax*8+SpriteScreenX]
         mov ebx, dword [byte ebp-018h]
@@ -2431,7 +2431,7 @@ DrawPlayers:
         call DrawPlayerSprite
         jmp short .9
 .6:
-        movsx eax, word [byte esi+036h]
+        movsx eax, word [byte esi+facedir]
         cmp eax, byte 2
         jne short .7
         mov eax, 0Ah
@@ -2447,7 +2447,7 @@ DrawPlayers:
         mov dword [byte ebp-020h], eax
 .9:
         push dword [byte ebp-0Ch]
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         push eax
         mov ax, word [byte esi+054h]
         xor al, al
@@ -2463,7 +2463,7 @@ DrawPlayers:
         jmp short .11
 .10:
         push dword [byte ebp-0Ch]
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         push eax
         mov ax, word [byte esi+054h]
         xor al, al

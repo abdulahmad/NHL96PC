@@ -67,8 +67,8 @@ PlacePlayersAtStart:
         mov ebx, SortCords
         mov word [regd2], 0Ch
 .1:
-        mov word [byte ebx+02Eh], 0FF9Ch
-        mov ax, word [byte ebx+01Ah]
+        mov word [byte ebx+temp5], 0FF9Ch
+        mov ax, word [byte ebx+position]
         mov word [regd1], ax
         cwde
         cmp eax, byte 4
@@ -80,7 +80,7 @@ PlacePlayersAtStart:
         call assinsert
         cmp word [regd1], byte 0
         jl near .7
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 40h
         movzx eax, al
         test eax, eax
@@ -107,7 +107,7 @@ PlacePlayersAtStart:
         mov ax, word [nosplit eax*2+puckfaceoff2_ptab]
         mov word [regd0], dx
         mov word [regd1], ax
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax
@@ -116,12 +116,12 @@ PlacePlayersAtStart:
         neg word [regd1]
 .4:
         mov ax, word [regd0]
-        mov word [byte ebx+02h], ax
+        mov word [byte ebx+Xpos+2], ax
         mov ax, word [regd1]
-        mov word [byte ebx+0Eh], 0
-        mov word [byte ebx+06h], ax
-        mov ax, word [byte ebx+0Eh]
-        mov word [byte ebx+0Ch], ax
+        mov word [byte ebx+Yvel], 0
+        mov word [byte ebx+Ypos+2], ax
+        mov ax, word [byte ebx+Yvel]
+        mov word [byte ebx+Xvel], ax
         mov eax, dword [pucky]
         mov ax, word [eax]
         sub ax, word [regd1]
@@ -132,16 +132,16 @@ PlacePlayersAtStart:
         cwde
         call vtoa
         mov dword [dword ebx+09Ch], 0
-        mov word [byte ebx+036h], ax
-        cmp word [byte ebx+01Ah], byte 0
+        mov word [byte ebx+facedir], ax
+        cmp word [byte ebx+position], byte 0
         jne short .5
         mov word [regd1], SPAgready
         jmp short .6
 .5:
         mov word [regd1], 1
 .6:
-        and byte [byte ebx+045h], 0FBh
-        and byte [byte ebx+044h], 0DFh
+        and byte [byte ebx+pflags2], 0FBh
+        and byte [byte ebx+pflags], 0DFh
         mov eax, ebx
         movsx edx, word [regd1]
         call SetSPA

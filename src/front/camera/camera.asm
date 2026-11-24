@@ -849,10 +849,10 @@ CameraNearNet:
 .1:
         imul eax, dword [CamFocusObj], dword 0A0h
         add eax, SortCords
-        movsx edx, word [dword eax+086h]
+        movsx edx, word [dword eax+SCnum]
         cmp edx, byte 10h
         je near .6
-        cmp word [byte eax+01Ah], byte 0
+        cmp word [byte eax+position], byte 0
         je short .6
         mov edx, dword [PuckObject]
         sar edx, 0Eh
@@ -868,7 +868,7 @@ CameraNearNet:
         sar edx, 0Eh
         cmp ebx, 100h
         jg short .6
-        mov al, byte [byte eax+044h]
+        mov al, byte [byte eax+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax
@@ -3054,13 +3054,13 @@ CamShotReferee:
         ret
 .1:
         mov eax, dword [PtrRefObject]
-        movsx edx, word [byte eax+026h]
+        movsx edx, word [byte eax+temp1]
         cmp edx, 12Ch
         jne short .2
-        movsx eax, word [byte eax+02Eh]
+        movsx eax, word [byte eax+temp5]
         jmp short .3
 .2:
-        movsx eax, word [dword eax+086h]
+        movsx eax, word [dword eax+SCnum]
 .3:
         mov dword [CamTargetObj], eax
         call CameraTrackPuck

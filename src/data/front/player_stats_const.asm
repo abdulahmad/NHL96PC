@@ -1,0 +1,195 @@
+; Strings and constants of front/player_stats (src/front/player_stats), in link order.
+bits 32
+%include "hockey.inc"
+section s_1126C4 progbits alloc noexec write align=1
+global str_BKGD16, str_StatDBPTRs, str_DBPTRs, str_Player, str_PlusMinus, str_FName, str_LName, str_DonRuss
+global str_Profiles, str_Stats, str_HeightNWeight, str_LocalSort, str_GlobalSort, str_Shot, str_Pal21, str_BT004
+global str_BT017, str_BT106, str_BT116, str_BT21, str_BT204, str_BT31, str_BT40, str_BT50
+global str_BT30, str_BT41, str_BT51, str_SD3, str_SEA02, str_HD01, str_BT04, str_HD03
+global str_HD02, str_PLR0, str_ALL0, str_AR003, str_AR013, str_AR103, str_AR113, str_AR202
+global str_AR212, str_AR302, str_AR312, str_SLDV, str_VBAL2, str_SLDH, str_HBAL2, str_Space
+global str_D9, str_S3, str_CD, str_DD3, str_DD4, str_DD5, str_D10, str_D02d
+global str_03d2, str_10003, F64_0p454545, F64_2p54, str_Wt3, str_Punct_ExportPlayerStats, str_FiveSpaces, str_FourSpaces
+global F64_2p54_ExportPlayerStats, F64_0p454545_ExportPlayerStats, str_0410, str_0707, str_0177, str_1230, str_2314, str_2309
+global str_0427, str_2293, str_1931, str_0109, str_1688, str_1404, str_2316, str_1033
+global str_0509, str_0844, str_1227, str_2409, str_1720, str_0009, str_0834
+str_BKGD16:                                     ; string 'BKGD'; used by DrawPlayerStatsTable,
+                                                ; PlayerStatsScreen, ShowPlayerStatsTitle
+        db 042h,04Bh,047h,044h,00h
+str_StatDBPTRs:                                 ; string 'StatDBPTRs'; used by PlayerStatsScreen
+        db 053h,074h,061h,074h,044h,042h,050h,054h,052h,073h,00h
+str_DBPTRs:                                     ; string 'DBPTRs'; used by PlayerStatsScreen
+        db 044h,042h,050h,054h,052h,073h,00h
+str_Player:                                     ; string 'Player #'; used by PlayerStatsScreen
+        db 050h,06Ch,061h,079h,065h,072h,020h,023h,00h
+str_PlusMinus:                                  ; string '+/-'; used by PlayerStatsScreen
+        db 02Bh,02Fh,02Dh,00h
+str_FName:                                      ; string 'FName'; used by PlayerStatsScreen
+        db 046h,04Eh,061h,06Dh,065h,00h
+str_LName:                                      ; string 'LName'; used by PlayerStatsScreen
+        db 04Ch,04Eh,061h,06Dh,065h,00h
+str_DonRuss:                                    ; string 'DonRuss'; used by PlayerStatsScreen
+        db 044h,06Fh,06Eh,052h,075h,073h,073h,00h
+str_Profiles:                                   ; string 'Profiles'; used by PlayerStatsScreen
+        db 050h,072h,06Fh,066h,069h,06Ch,065h,073h,00h
+str_Stats:                                      ; string 'Stats'; used by PlayerStatsScreen
+        db 053h,074h,061h,074h,073h,00h
+str_HeightNWeight:                              ; string 'Height 'n' Weight'; used by PlayerStatsScreen
+        db 048h,065h,069h,067h,068h,074h,020h,027h,06Eh,027h,020h,057h,065h,069h,067h,068h
+        db 074h,00h
+str_LocalSort:                                  ; string 'Local Sort'; used by PlayerStatsScreen
+        db 04Ch,06Fh,063h,061h,06Ch,020h,053h,06Fh,072h,074h,00h
+str_GlobalSort:                                 ; string 'Global Sort'; used by PlayerStatsScreen
+        db 047h,06Ch,06Fh,062h,061h,06Ch,020h,053h,06Fh,072h,074h,00h
+str_Shot:                                       ; string 'Shot %'; used by PlayerStatsScreen
+        db 053h,068h,06Fh,074h,020h,025h,00h
+str_Pal21:                                      ; string '!pal'; used by PlayerStatsScreen
+        db 021h,070h,061h,06Ch,00h
+str_BT004:                                      ; string 'BT00'; used by PlayerStatsScreen
+        db 042h,054h,030h,030h,00h
+str_BT017:                                      ; string 'BT01'; used by PlayerStatsScreen
+        db 042h,054h,030h,031h,00h
+str_BT106:                                      ; string 'BT10'; used by PlayerStatsScreen
+        db 042h,054h,031h,030h,00h
+str_BT116:                                      ; string 'BT11'; used by PlayerStatsScreen
+        db 042h,054h,031h,031h,00h
+str_BT21:                                       ; string 'BT21'; used by PlayerStatsScreen
+        db 042h,054h,032h,031h,00h
+str_BT204:                                      ; string 'BT20'; used by PlayerStatsScreen
+        db 042h,054h,032h,030h,00h
+str_BT31:                                       ; string 'BT31'; used by PlayerStatsScreen
+        db 042h,054h,033h,031h,00h
+str_BT40:                                       ; string 'BT40'; used by PlayerStatsScreen
+        db 042h,054h,034h,030h,00h
+str_BT50:                                       ; string 'BT50'; used by PlayerStatsScreen
+        db 042h,054h,035h,030h,00h
+str_BT30:                                       ; string 'BT30'; used by PlayerStatsScreen
+        db 042h,054h,033h,030h,00h
+str_BT41:                                       ; string 'BT41'; used by PlayerStatsScreen
+        db 042h,054h,034h,031h,00h
+str_BT51:                                       ; string 'BT51'; used by PlayerStatsScreen
+        db 042h,054h,035h,031h,00h
+str_SD3:                                        ; string '%s%d'; used by PlayerStatsScreen
+        db 025h,073h,025h,064h,00h
+str_SEA02:                                      ; string 'SEA0'; used by PlayerStatsScreen
+        db 053h,045h,041h,030h,00h
+str_HD01:                                       ; string 'HD01'; used by PlayerStatsScreen
+        db 048h,044h,030h,031h,00h
+str_BT04:                                       ; string 'BT04'; used by PlayerStatsScreen
+        db 042h,054h,030h,034h,00h
+str_HD03:                                       ; string 'HD03'; used by PlayerStatsScreen
+        db 048h,044h,030h,033h,00h
+str_HD02:                                       ; string 'HD02'; used by PlayerStatsScreen
+        db 048h,044h,030h,032h,00h
+str_PLR0:                                       ; string 'PLR0'; used by PlayerStatsScreen
+        db 050h,04Ch,052h,030h,00h
+str_ALL0:                                       ; string 'ALL0'; used by PlayerStatsScreen
+        db 041h,04Ch,04Ch,030h,00h
+str_AR003:                                      ; string 'AR00'; used by PlayerStatsScreen
+        db 041h,052h,030h,030h,00h
+str_AR013:                                      ; string 'AR01'; used by PlayerStatsScreen
+        db 041h,052h,030h,031h,00h
+str_AR103:                                      ; string 'AR10'; used by PlayerStatsScreen
+        db 041h,052h,031h,030h,00h
+str_AR113:                                      ; string 'AR11'; used by PlayerStatsScreen
+        db 041h,052h,031h,031h,00h
+str_AR202:                                      ; string 'AR20'; used by PlayerStatsScreen
+        db 041h,052h,032h,030h,00h
+str_AR212:                                      ; string 'AR21'; used by PlayerStatsScreen
+        db 041h,052h,032h,031h,00h
+str_AR302:                                      ; string 'AR30'; used by PlayerStatsScreen
+        db 041h,052h,033h,030h,00h
+str_AR312:                                      ; string 'AR31'; used by PlayerStatsScreen
+        db 041h,052h,033h,031h,00h
+str_SLDV:                                       ; string 'SLDV'; used by PlayerStatsScreen
+        db 053h,04Ch,044h,056h,00h
+str_VBAL2:                                      ; string 'VBAL'; used by PlayerStatsScreen
+        db 056h,042h,041h,04Ch,00h
+str_SLDH:                                       ; string 'SLDH'; used by PlayerStatsScreen
+        db 053h,04Ch,044h,048h,00h
+str_HBAL2:                                      ; string 'HBAL'; used by PlayerStatsScreen
+        db 048h,042h,041h,04Ch,00h
+str_Space:                                      ; string ' '; used by DrawPlayerStatsTable, ExportPlayerStats
+        db 020h,00h
+str_D9:                                         ; string '%d.'; used by DrawPlayerStatsTable
+        db 025h,064h,02Eh,00h
+str_S3:                                         ; string '%s'; used by DrawPlayerStatsTable, ExportPlayerStats
+        db 025h,073h,00h
+str_CD:                                         ; string '%c %d'; used by DrawPlayerStatsTable,
+                                                ; ExportPlayerStats
+        db 025h,063h,020h,020h,020h,025h,064h,00h
+str_DD3:                                        ; string '%d.%d%%'; used by DrawPlayerStatsTable,
+                                                ; ExportPlayerStats
+        db 025h,064h,02Eh,025h,064h,025h,025h,00h
+str_DD4:                                        ; string '%d-%d'; used by DrawPlayerStatsTable,
+                                                ; ExportPlayerStats
+        db 025h,064h,02Dh,025h,064h,00h
+str_DD5:                                        ; string '%d.%d'; used by DrawPlayerStatsTable,
+                                                ; ExportPlayerStats
+        db 025h,064h,02Eh,025h,064h,00h
+str_D10:                                        ; string '%d'; used by DrawPlayerStatsTable, ExportPlayerStats
+        db 025h,064h,00h
+str_D02d:                                       ; string "%d.%02d"; used by DrawPlayerStatsTable
+        db 025h,064h,02Eh,025h,030h,032h,064h,00h
+str_03d2:                                       ; string '.%03d'; used by DrawPlayerStatsTable
+        db 02Eh,025h,030h,033h,064h,00h
+str_10003:                                      ; string '1.000'; used by DrawPlayerStatsTable
+        db 031h,02Eh,030h,030h,030h,00h
+F64_0p454545:                                   ; double constant 0.454545; used by DrawPlayerStatsTable
+        db 018h,05Dh,074h,0D1h,045h,017h,0DDh,03Fh
+F64_2p54:                                       ; double constant 2.54; used by DrawPlayerStatsTable
+        db 052h,0B8h,01Eh,085h,0EBh,051h,04h,040h
+str_Wt3:                                        ; string 'wt'; used by ExportPlayerStats
+        db 077h,074h,00h
+str_Punct_ExportPlayerStats:                    ; string "\n"; used by ExportPlayerStats
+        db 0Ah,00h
+str_FiveSpaces:                                 ; five spaces; used by ExportPlayerStats
+        db 020h,020h,020h,020h,020h,00h
+str_FourSpaces:                                 ; four spaces; used by ExportPlayerStats
+        db 020h,020h,020h,020h,00h
+F64_2p54_ExportPlayerStats:                     ; double constant 2.54; used by ExportPlayerStats
+        db 052h,0B8h,01Eh,085h,0EBh,051h,04h,040h
+F64_0p454545_ExportPlayerStats:                 ; double constant 0.454545; used by ExportPlayerStats
+        db 018h,05Dh,074h,0D1h,045h,017h,0DDh,03Fh
+str_0410:                                       ; string '0410'
+        db 030h,034h,031h,030h,00h
+str_0707:                                       ; string '0707'
+        db 030h,037h,030h,037h,00h
+str_0177:                                       ; string '0177'
+        db 030h,031h,037h,037h,00h
+str_1230:                                       ; string '1230'
+        db 031h,032h,033h,030h,00h
+str_2314:                                       ; string '2314'
+        db 032h,033h,031h,034h,00h
+str_2309:                                       ; string '2309'
+        db 032h,033h,030h,039h,00h
+str_0427:                                       ; string '0427'
+        db 030h,034h,032h,037h,00h
+str_2293:                                       ; string '2293'
+        db 032h,032h,039h,033h,00h
+str_1931:                                       ; string '1931'
+        db 031h,039h,033h,031h,00h
+str_0109:                                       ; string '0109'
+        db 030h,031h,030h,039h,00h
+str_1688:                                       ; string '1688'
+        db 031h,036h,038h,038h,00h
+str_1404:                                       ; string '1404'
+        db 031h,034h,030h,034h,00h
+str_2316:                                       ; string '2316'
+        db 032h,033h,031h,036h,00h
+str_1033:                                       ; string '1033'
+        db 031h,030h,033h,033h,00h
+str_0509:                                       ; string '0509'
+        db 030h,035h,030h,039h,00h
+str_0844:                                       ; string '0844'
+        db 030h,038h,034h,034h,00h
+str_1227:                                       ; string '1227'
+        db 031h,032h,032h,037h,00h
+str_2409:                                       ; string '2409'
+        db 032h,034h,030h,039h,00h
+str_1720:                                       ; string '1720'
+        db 031h,037h,032h,030h,00h
+str_0009:                                       ; string '0009'
+        db 030h,030h,030h,039h,00h
+str_0834:                                       ; string '0834'
+        db 030h,038h,033h,034h,00h

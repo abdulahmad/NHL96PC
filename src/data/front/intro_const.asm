@@ -1,0 +1,283 @@
+; Strings and constants of front/intro (src/front/intro), in link order.
+bits 32
+%include "hockey.inc"
+section s_111288 progbits alloc noexec write align=1
+global str_Scr1, str_Scr2, str_Pal2, str_Pl0, str_Pl1, str_Bkgd3, str_Nhll, str_Nhlp
+global str_Pal8, str_EAW1EAW2EAW3EAW4EAW5EAW6, str_SH01, str_SH02, str_SH03, str_SH04, str_SH05, str_SH06
+global str_SH07, str_SH08, str_SH09, str_SH10, str_SH11, str_SH12, str_SH13, str_SH14
+global str_SH15, str_SH16, str_SH17, str_SH18, str_SH19, str_SH20, str_SH21, str_SH22
+global str_CRDT, str_BKGD4, str_VictoriaWong, str_LanceWall, str_KurtKennett, str_DFunkySwadling, str_JayMacDonald, str_SpencerCathey
+global str_EricPauker, str_PhillipChow, str_AndyGlavina, str_DejanStanisavljevic, str_GregAllen, str_ToddWilson, str_KristeneNielsen, str_CaseyOBrien
+global str_NorieMiura, str_TomGraham, str_PeterNash, str_JayPage, str_AndrewBrownsword, str_DaveLucas, str_RickFriesen, str_ErikKiss
+global str_JeffDyck, str_SteveRoyea, str_GlennZielinski, str_JamesBowers, str_MichaelJSokyrka, str_SerenaMcCabe, str_MichaelDonovan, str_SakiKaskamanidis
+global str_DeaneBennett, str_SamNelson, str_HannoLemke, str_KenSayler, str_FosterHall, str_DaveWarfield, str_RichardMul, str_RolfDBusch
+global str_BiancaNormann, str_MartinSiebel, str_FrankBarchard, str_GerryShaw, str_KurtMelnychuk, str_MikeMann, str_OceanYeung, str_JeffYu
+global str_JoshHolmes, str_DemianGordon, str_ByronWelch, str_OggyTalic, str_DavidLee, str_PeterHong, str_ZachSilverman, str_ScottFerrero
+global str_ShaneBerezowski, str_DarrenHagman, str_GordonThornton, str_MartinPeterken, str_GaryLam, str_PaulTambellini, str_JonBruce, str_RodHigo
+global str_KurtHsu, str_ScottGummer, str_LoriLeahy, str_BillTheHammerScheppler, str_DavidMauro, str_CoreyHiggins, str_SportsActionJimTurner, str_NHLProductions
+global str_NHLPABeAPlayer, str_StatsInc, str_SteveBabineau, str_BruceBennett, str_BradGour, str_DanielTeh, str_WilMozell, str_BrettBradstock
+global str_TaylorMoore, str_DaveMercier, str_TerryLee, str_JimmyHayward, str_AmoryWong, str_ChipLange, str_JohnSmith, str_AdvancedGravisComputerTe
+global str_RonSmith, str_JimHughson, str_GeoffCourtnall, str_Pal9
+str_Scr1:                                       ; string 'scr1'; used by RunIntro
+        db 073h,063h,072h,031h,00h
+str_Scr2:                                       ; string 'scr2'; used by RunIntro
+        db 073h,063h,072h,032h,00h
+str_Pal2:                                       ; string 'pal'; used by RunIntro
+        db 070h,061h,06Ch,00h
+str_Pl0:                                        ; string '!pl0'; used by RunIntro
+        db 021h,070h,06Ch,030h,00h
+str_Pl1:                                        ; string "!pl1"; used by RunIntro
+        db 021h,070h,06Ch,031h,00h
+str_Bkgd3:                                      ; string 'bkgd'; used by RunIntro
+        db 062h,06Bh,067h,064h,00h
+str_Nhll:                                       ; string 'nhll'; used by RunIntro
+        db 06Eh,068h,06Ch,06Ch,00h
+str_Nhlp:                                       ; string 'nhlp'; used by RunIntro
+        db 06Eh,068h,06Ch,070h,00h
+str_Pal8:                                       ; string '!pal'; used by RunIntro
+        db 021h,070h,061h,06Ch,00h
+str_EAW1EAW2EAW3EAW4EAW5EAW6:                   ; string 'EAW1EAW2EAW3EAW4EAW5EAW6EAW7EAW8'
+        db 045h,041h,057h,031h,045h,041h,057h,032h,045h,041h,057h,033h,045h,041h,057h,034h
+        db 045h,041h,057h,035h,045h,041h,057h,036h,045h,041h,057h,037h,045h,041h,057h,038h
+        db 00h
+str_SH01:                                       ; string 'SH01'
+        db 053h,048h,030h,031h,00h
+str_SH02:                                       ; string 'SH02'
+        db 053h,048h,030h,032h,00h
+str_SH03:                                       ; string 'SH03'
+        db 053h,048h,030h,033h,00h
+str_SH04:                                       ; string 'SH04'
+        db 053h,048h,030h,034h,00h
+str_SH05:                                       ; string 'SH05'
+        db 053h,048h,030h,035h,00h
+str_SH06:                                       ; string 'SH06'
+        db 053h,048h,030h,036h,00h
+str_SH07:                                       ; string 'SH07'
+        db 053h,048h,030h,037h,00h
+str_SH08:                                       ; string 'SH08'
+        db 053h,048h,030h,038h,00h
+str_SH09:                                       ; string 'SH09'
+        db 053h,048h,030h,039h,00h
+str_SH10:                                       ; string 'SH10'
+        db 053h,048h,031h,030h,00h
+str_SH11:                                       ; string 'SH11'
+        db 053h,048h,031h,031h,00h
+str_SH12:                                       ; string 'SH12'
+        db 053h,048h,031h,032h,00h
+str_SH13:                                       ; string 'SH13'
+        db 053h,048h,031h,033h,00h
+str_SH14:                                       ; string 'SH14'
+        db 053h,048h,031h,034h,00h
+str_SH15:                                       ; string 'SH15'
+        db 053h,048h,031h,035h,00h
+str_SH16:                                       ; string 'SH16'
+        db 053h,048h,031h,036h,00h
+str_SH17:                                       ; string 'SH17'
+        db 053h,048h,031h,037h,00h
+str_SH18:                                       ; string 'SH18'
+        db 053h,048h,031h,038h,00h
+str_SH19:                                       ; string 'SH19'
+        db 053h,048h,031h,039h,00h
+str_SH20:                                       ; string 'SH20'
+        db 053h,048h,032h,030h,00h
+str_SH21:                                       ; string 'SH21'
+        db 053h,048h,032h,031h,00h
+str_SH22:                                       ; string 'SH22'
+        db 053h,048h,032h,032h,00h
+str_CRDT:                                       ; string 'CRDT'
+        db 043h,052h,044h,054h,00h
+str_BKGD4:                                      ; string 'BKGD'
+        db 042h,04Bh,047h,044h,00h
+str_VictoriaWong:                               ; string 'Victoria Wong'
+        db 056h,069h,063h,074h,06Fh,072h,069h,061h,020h,057h,06Fh,06Eh,067h,00h
+str_LanceWall:                                  ; string 'Lance Wall'
+        db 04Ch,061h,06Eh,063h,065h,020h,057h,061h,06Ch,06Ch,00h
+str_KurtKennett:                                ; string 'Kurt Kennett'
+        db 04Bh,075h,072h,074h,020h,04Bh,065h,06Eh,06Eh,065h,074h,074h,00h
+str_DFunkySwadling:                             ; string 'D. Funky Swadling'
+        db 044h,02Eh,020h,046h,075h,06Eh,06Bh,079h,020h,053h,077h,061h,064h,06Ch,069h,06Eh
+        db 067h,00h
+str_JayMacDonald:                               ; string 'Jay MacDonald'
+        db 04Ah,061h,079h,020h,04Dh,061h,063h,044h,06Fh,06Eh,061h,06Ch,064h,00h
+str_SpencerCathey:                              ; string 'Spencer Cathey'
+        db 053h,070h,065h,06Eh,063h,065h,072h,020h,043h,061h,074h,068h,065h,079h,00h
+str_EricPauker:                                 ; string 'Eric Pauker'
+        db 045h,072h,069h,063h,020h,050h,061h,075h,06Bh,065h,072h,00h
+str_PhillipChow:                                ; string 'Phillip Chow'
+        db 050h,068h,069h,06Ch,06Ch,069h,070h,020h,043h,068h,06Fh,077h,00h
+str_AndyGlavina:                                ; string 'Andy Glavina'
+        db 041h,06Eh,064h,079h,020h,047h,06Ch,061h,076h,069h,06Eh,061h,00h
+str_DejanStanisavljevic:                        ; string 'Dejan Stanisavljevic'
+        db 044h,065h,06Ah,061h,06Eh,020h,053h,074h,061h,06Eh,069h,073h,061h,076h,06Ch,06Ah
+        db 065h,076h,069h,063h,00h
+str_GregAllen:                                  ; string 'Greg Allen'
+        db 047h,072h,065h,067h,020h,041h,06Ch,06Ch,065h,06Eh,00h
+str_ToddWilson:                                 ; string 'Todd Wilson'
+        db 054h,06Fh,064h,064h,020h,057h,069h,06Ch,073h,06Fh,06Eh,00h
+str_KristeneNielsen:                            ; string 'Kristene Nielsen'
+        db 04Bh,072h,069h,073h,074h,065h,06Eh,065h,020h,04Eh,069h,065h,06Ch,073h,065h,06Eh
+        db 00h
+str_CaseyOBrien:                                ; string 'Casey O'Brien'
+        db 043h,061h,073h,065h,079h,020h,04Fh,027h,042h,072h,069h,065h,06Eh,00h
+str_NorieMiura:                                 ; string 'Norie Miura'
+        db 04Eh,06Fh,072h,069h,065h,020h,04Dh,069h,075h,072h,061h,00h
+str_TomGraham:                                  ; string 'Tom Graham'
+        db 054h,06Fh,06Dh,020h,047h,072h,061h,068h,061h,06Dh,00h
+str_PeterNash:                                  ; string 'Peter Nash'
+        db 050h,065h,074h,065h,072h,020h,04Eh,061h,073h,068h,00h
+str_JayPage:                                    ; string 'Jay Page'
+        db 04Ah,061h,079h,020h,050h,061h,067h,065h,00h
+str_AndrewBrownsword:                           ; string 'Andrew Brownsword'
+        db 041h,06Eh,064h,072h,065h,077h,020h,042h,072h,06Fh,077h,06Eh,073h,077h,06Fh,072h
+        db 064h,00h
+str_DaveLucas:                                  ; string 'Dave Lucas'
+        db 044h,061h,076h,065h,020h,04Ch,075h,063h,061h,073h,00h
+str_RickFriesen:                                ; string 'Rick Friesen'
+        db 052h,069h,063h,06Bh,020h,046h,072h,069h,065h,073h,065h,06Eh,00h
+str_ErikKiss:                                   ; string 'Erik Kiss'
+        db 045h,072h,069h,06Bh,020h,04Bh,069h,073h,073h,00h
+str_JeffDyck:                                   ; string 'Jeff Dyck'
+        db 04Ah,065h,066h,066h,020h,044h,079h,063h,06Bh,00h
+str_SteveRoyea:                                 ; string 'Steve Royea'
+        db 053h,074h,065h,076h,065h,020h,052h,06Fh,079h,065h,061h,00h
+str_GlennZielinski:                             ; string 'Glenn Zielinski'
+        db 047h,06Ch,065h,06Eh,06Eh,020h,05Ah,069h,065h,06Ch,069h,06Eh,073h,06Bh,069h,00h
+str_JamesBowers:                                ; string 'James Bowers'
+        db 04Ah,061h,06Dh,065h,073h,020h,042h,06Fh,077h,065h,072h,073h,00h
+str_MichaelJSokyrka:                            ; string 'Michael J. Sokyrka'
+        db 04Dh,069h,063h,068h,061h,065h,06Ch,020h,04Ah,02Eh,020h,053h,06Fh,06Bh,079h,072h
+        db 06Bh,061h,00h
+str_SerenaMcCabe:                               ; string 'Serena McCabe'
+        db 053h,065h,072h,065h,06Eh,061h,020h,04Dh,063h,043h,061h,062h,065h,00h
+str_MichaelDonovan:                             ; string 'Michael Donovan'
+        db 04Dh,069h,063h,068h,061h,065h,06Ch,020h,044h,06Fh,06Eh,06Fh,076h,061h,06Eh,00h
+str_SakiKaskamanidis:                           ; string 'Saki Kaskamanidis'
+        db 053h,061h,06Bh,069h,020h,04Bh,061h,073h,06Bh,061h,06Dh,061h,06Eh,069h,064h,069h
+        db 073h,00h
+str_DeaneBennett:                               ; string 'Deane Bennett'
+        db 044h,065h,061h,06Eh,065h,020h,042h,065h,06Eh,06Eh,065h,074h,074h,00h
+str_SamNelson:                                  ; string 'Sam Nelson'
+        db 053h,061h,06Dh,020h,04Eh,065h,06Ch,073h,06Fh,06Eh,00h
+str_HannoLemke:                                 ; string 'Hanno Lemke'
+        db 048h,061h,06Eh,06Eh,06Fh,020h,04Ch,065h,06Dh,06Bh,065h,00h
+str_KenSayler:                                  ; string 'Ken Sayler'
+        db 04Bh,065h,06Eh,020h,053h,061h,079h,06Ch,065h,072h,00h
+str_FosterHall:                                 ; string 'Foster Hall'
+        db 046h,06Fh,073h,074h,065h,072h,020h,048h,061h,06Ch,06Ch,00h
+str_DaveWarfield:                               ; string 'Dave Warfield'
+        db 044h,061h,076h,065h,020h,057h,061h,072h,066h,069h,065h,06Ch,064h,00h
+str_RichardMul:                                 ; string 'Richard Mul'
+        db 052h,069h,063h,068h,061h,072h,064h,020h,04Dh,075h,06Ch,00h
+str_RolfDBusch:                                 ; string 'Rolf D. Busch'
+        db 052h,06Fh,06Ch,066h,020h,044h,02Eh,020h,042h,075h,073h,063h,068h,00h
+str_BiancaNormann:                              ; string 'Bianca Normann'
+        db 042h,069h,061h,06Eh,063h,061h,020h,04Eh,06Fh,072h,06Dh,061h,06Eh,06Eh,00h
+str_MartinSiebel:                               ; string 'Martin Siebel'
+        db 04Dh,061h,072h,074h,069h,06Eh,020h,053h,069h,065h,062h,065h,06Ch,00h
+str_FrankBarchard:                              ; string 'Frank Barchard'
+        db 046h,072h,061h,06Eh,06Bh,020h,042h,061h,072h,063h,068h,061h,072h,064h,00h
+str_GerryShaw:                                  ; string 'Gerry Shaw'
+        db 047h,065h,072h,072h,079h,020h,053h,068h,061h,077h,00h
+str_KurtMelnychuk:                              ; string 'Kurt Melnychuk'
+        db 04Bh,075h,072h,074h,020h,04Dh,065h,06Ch,06Eh,079h,063h,068h,075h,06Bh,00h
+str_MikeMann:                                   ; string 'Mike Mann'
+        db 04Dh,069h,06Bh,065h,020h,04Dh,061h,06Eh,06Eh,00h
+str_OceanYeung:                                 ; string 'Ocean Yeung'
+        db 04Fh,063h,065h,061h,06Eh,020h,059h,065h,075h,06Eh,067h,00h
+str_JeffYu:                                     ; string 'Jeff Yu'
+        db 04Ah,065h,066h,066h,020h,059h,075h,00h
+str_JoshHolmes:                                 ; string 'Josh Holmes'
+        db 04Ah,06Fh,073h,068h,020h,048h,06Fh,06Ch,06Dh,065h,073h,00h
+str_DemianGordon:                               ; string 'Demian Gordon'
+        db 044h,065h,06Dh,069h,061h,06Eh,020h,047h,06Fh,072h,064h,06Fh,06Eh,00h
+str_ByronWelch:                                 ; string 'Byron Welch'
+        db 042h,079h,072h,06Fh,06Eh,020h,057h,065h,06Ch,063h,068h,00h
+str_OggyTalic:                                  ; string 'Oggy Talic'
+        db 04Fh,067h,067h,079h,020h,054h,061h,06Ch,069h,063h,00h
+str_DavidLee:                                   ; string 'David Lee'
+        db 044h,061h,076h,069h,064h,020h,04Ch,065h,065h,00h
+str_PeterHong:                                  ; string 'Peter Hong'
+        db 050h,065h,074h,065h,072h,020h,048h,06Fh,06Eh,067h,00h
+str_ZachSilverman:                              ; string 'Zach Silverman'
+        db 05Ah,061h,063h,068h,020h,053h,069h,06Ch,076h,065h,072h,06Dh,061h,06Eh,00h
+str_ScottFerrero:                               ; string 'Scott Ferrero '
+        db 053h,063h,06Fh,074h,074h,020h,046h,065h,072h,072h,065h,072h,06Fh,020h,020h,020h
+        db 00h
+str_ShaneBerezowski:                            ; string 'Shane Berezowski'
+        db 053h,068h,061h,06Eh,065h,020h,042h,065h,072h,065h,07Ah,06Fh,077h,073h,06Bh,069h
+        db 00h
+str_DarrenHagman:                               ; string 'Darren Hagman'
+        db 044h,061h,072h,072h,065h,06Eh,020h,048h,061h,067h,06Dh,061h,06Eh,00h
+str_GordonThornton:                             ; string 'Gordon Thornton'
+        db 047h,06Fh,072h,064h,06Fh,06Eh,020h,054h,068h,06Fh,072h,06Eh,074h,06Fh,06Eh,00h
+str_MartinPeterken:                             ; string 'Martin Peterken'
+        db 04Dh,061h,072h,074h,069h,06Eh,020h,050h,065h,074h,065h,072h,06Bh,065h,06Eh,00h
+str_GaryLam:                                    ; string 'Gary Lam'
+        db 047h,061h,072h,079h,020h,04Ch,061h,06Dh,00h
+str_PaulTambellini:                             ; string 'Paul Tambellini'
+        db 050h,061h,075h,06Ch,020h,054h,061h,06Dh,062h,065h,06Ch,06Ch,069h,06Eh,069h,00h
+str_JonBruce:                                   ; string 'Jon Bruce'
+        db 04Ah,06Fh,06Eh,020h,042h,072h,075h,063h,065h,00h
+str_RodHigo:                                    ; string 'Rod Higo'
+        db 052h,06Fh,064h,020h,048h,069h,067h,06Fh,00h
+str_KurtHsu:                                    ; string 'Kurt Hsu'
+        db 04Bh,075h,072h,074h,020h,048h,073h,075h,00h
+str_ScottGummer:                                ; string 'Scott Gummer'
+        db 053h,063h,06Fh,074h,074h,020h,047h,075h,06Dh,06Dh,065h,072h,00h
+str_LoriLeahy:                                  ; string 'Lori Leahy'
+        db 04Ch,06Fh,072h,069h,020h,04Ch,065h,061h,068h,079h,00h
+str_BillTheHammerScheppler:                     ; string 'Bill "The Hammer" Scheppler'
+        db 042h,069h,06Ch,06Ch,020h,022h,054h,068h,065h,020h,048h,061h,06Dh,06Dh,065h,072h
+        db 022h,020h,053h,063h,068h,065h,070h,070h,06Ch,065h,072h,00h
+str_DavidMauro:                                 ; string 'David Mauro'
+        db 044h,061h,076h,069h,064h,020h,04Dh,061h,075h,072h,06Fh,00h
+str_CoreyHiggins:                               ; string 'Corey Higgins'
+        db 043h,06Fh,072h,065h,079h,020h,048h,069h,067h,067h,069h,06Eh,073h,00h
+str_SportsActionJimTurner:                      ; string 'Sports Action/Jim Turner'
+        db 053h,070h,06Fh,072h,074h,073h,020h,041h,063h,074h,069h,06Fh,06Eh,02Fh,04Ah,069h
+        db 06Dh,020h,054h,075h,072h,06Eh,065h,072h,00h
+str_NHLProductions:                             ; string 'NHL Productions'
+        db 04Eh,048h,04Ch,020h,050h,072h,06Fh,064h,075h,063h,074h,069h,06Fh,06Eh,073h,00h
+str_NHLPABeAPlayer:                             ; string 'NHLPA "Be A Player"'
+        db 04Eh,048h,04Ch,050h,041h,020h,020h,022h,042h,065h,020h,041h,020h,050h,06Ch,061h
+        db 079h,065h,072h,022h,00h
+str_StatsInc:                                   ; string 'Stats Inc.'
+        db 053h,074h,061h,074h,073h,020h,049h,06Eh,063h,02Eh,00h
+str_SteveBabineau:                              ; string 'Steve Babineau'
+        db 053h,074h,065h,076h,065h,020h,042h,061h,062h,069h,06Eh,065h,061h,075h,00h
+str_BruceBennett:                               ; string 'Bruce Bennett'
+        db 042h,072h,075h,063h,065h,020h,042h,065h,06Eh,06Eh,065h,074h,074h,00h
+str_BradGour:                                   ; string 'Brad Gour'
+        db 042h,072h,061h,064h,020h,047h,06Fh,075h,072h,00h
+str_DanielTeh:                                  ; string 'Daniel Teh'
+        db 044h,061h,06Eh,069h,065h,06Ch,020h,054h,065h,068h,00h
+str_WilMozell:                                  ; string 'Wil Mozell'
+        db 057h,069h,06Ch,020h,04Dh,06Fh,07Ah,065h,06Ch,06Ch,00h
+str_BrettBradstock:                             ; string 'Brett Bradstock'
+        db 042h,072h,065h,074h,074h,020h,042h,072h,061h,064h,073h,074h,06Fh,063h,06Bh,00h
+str_TaylorMoore:                                ; string 'Taylor Moore'
+        db 054h,061h,079h,06Ch,06Fh,072h,020h,04Dh,06Fh,06Fh,072h,065h,00h
+str_DaveMercier:                                ; string 'Dave Mercier'
+        db 044h,061h,076h,065h,020h,04Dh,065h,072h,063h,069h,065h,072h,00h
+str_TerryLee:                                   ; string 'Terry Lee'
+        db 054h,065h,072h,072h,079h,020h,04Ch,065h,065h,00h
+str_JimmyHayward:                               ; string 'Jimmy Hayward'
+        db 04Ah,069h,06Dh,06Dh,079h,020h,048h,061h,079h,077h,061h,072h,064h,00h
+str_AmoryWong:                                  ; string 'Amory Wong'
+        db 041h,06Dh,06Fh,072h,079h,020h,057h,06Fh,06Eh,067h,00h
+str_ChipLange:                                  ; string 'Chip Lange'
+        db 043h,068h,069h,070h,020h,04Ch,061h,06Eh,067h,065h,00h
+str_JohnSmith:                                  ; string 'John Smith'
+        db 04Ah,06Fh,068h,06Eh,020h,053h,06Dh,069h,074h,068h,00h
+str_AdvancedGravisComputerTe:                   ; string 'Advanced Gravis Computer Technology Ltd.'
+        db 041h,064h,076h,061h,06Eh,063h,065h,064h,020h,047h,072h,061h,076h,069h,073h,020h
+        db 043h,06Fh,06Dh,070h,075h,074h,065h,072h,020h,054h,065h,063h,068h,06Eh,06Fh,06Ch
+        db 06Fh,067h,079h,020h,04Ch,074h,064h,02Eh,00h
+str_RonSmith:                                   ; string 'Ron Smith'
+        db 052h,06Fh,06Eh,020h,053h,06Dh,069h,074h,068h,00h
+str_JimHughson:                                 ; string 'Jim Hughson'
+        db 04Ah,069h,06Dh,020h,048h,075h,067h,068h,073h,06Fh,06Eh,00h
+str_GeoffCourtnall:                             ; string 'Geoff Courtnall'
+        db 047h,065h,06Fh,066h,066h,020h,043h,06Fh,075h,072h,074h,06Eh,061h,06Ch,06Ch,00h
+str_Pal9:                                       ; string '!pal'; used by RunSlideShow
+        db 021h,070h,061h,06Ch,00h,00h,00h,00h

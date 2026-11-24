@@ -1,0 +1,81 @@
+; Strings and constants of front/pause_menu (src/front/pause_menu), in link order.
+bits 32
+%include "hockey.inc"
+section s_111D84 progbits alloc noexec write align=1
+global str_Qui02, str_Ret02, str_Rep0, str_Ctr02, str_Sts02, str_Edt02, str_Sav02, str_Cht02
+global str_D16, str_Paus, str_Sid12, str_Sid22, str_Bot12, str_Bot22, str_Bot32, str_PAUSREG
+global str_Qui12, str_Qui22, str_Ret12, str_Ret22, str_Cht12, str_Edt12, str_Rep1, str_Ctr12
+global str_Sts12, str_Sav12, str_EXHIBITNDX3, str_08d3, str_05d4, str_CsgDb3, str_FhiL5, str_FhiR5
+global str_GloL3, str_GloR3, str_GhiL3, str_GhiR3
+str_Qui02:                                      ; string 'qui0'; used by DrawPauseButtons, PauseMenu
+        db 071h,075h,069h,030h,00h
+str_Ret02:                                      ; string 'ret0'; used by DrawPauseButtons, PauseMenu
+        db 072h,065h,074h,030h,00h
+str_Rep0:                                       ; string 'rep0'; used by DrawPauseButtons, PauseMenu
+        db 072h,065h,070h,030h,00h
+str_Ctr02:                                      ; string 'ctr0'; used by DrawPauseButtons, PauseMenu
+        db 063h,074h,072h,030h,00h
+str_Sts02:                                      ; string 'sts0'; used by DrawPauseButtons, PauseMenu
+        db 073h,074h,073h,030h,00h
+str_Edt02:                                      ; string 'edt0'; used by DrawPauseButtons, PauseMenu
+        db 065h,064h,074h,030h,00h
+str_Sav02:                                      ; string 'sav0'; used by DrawPauseButtons, PauseMenu
+        db 073h,061h,076h,030h,00h
+str_Cht02:                                      ; string 'cht0'; used by DrawPauseButtons, PauseMenu
+        db 063h,068h,074h,030h,00h
+str_D16:                                        ; string '%d'; used by DrawPauseFrame
+        db 025h,064h,00h
+str_Paus:                                       ; string 'paus'; used by DrawPauseFrame, PauseGame
+        db 070h,061h,075h,073h,00h
+str_Sid12:                                      ; string 'sid1'; used by DrawPauseFrame, PauseGame
+        db 073h,069h,064h,031h,00h
+str_Sid22:                                      ; string 'sid2'; used by DrawPauseFrame, PauseGame
+        db 073h,069h,064h,032h,00h
+str_Bot12:                                      ; string 'bot1'; used by DrawPauseFrame, PauseGame
+        db 062h,06Fh,074h,031h,00h
+str_Bot22:                                      ; string 'bot2'; used by DrawPauseFrame, PauseGame
+        db 062h,06Fh,074h,032h,00h
+str_Bot32:                                      ; string 'bot3'; used by DrawPauseFrame, PauseGame
+        db 062h,06Fh,074h,033h,00h
+str_PAUSREG:                                    ; string 'PAUSREG'; used by PauseMenu
+        db 050h,041h,055h,053h,052h,045h,047h,00h
+str_Qui12:                                      ; string 'qui1'; used by PauseMenu
+        db 071h,075h,069h,031h,00h
+str_Qui22:                                      ; string 'qui2'; used by PauseMenu
+        db 071h,075h,069h,032h,00h
+str_Ret12:                                      ; string 'ret1'; used by PauseMenu
+        db 072h,065h,074h,031h,00h
+str_Ret22:                                      ; string 'ret2'; used by PauseMenu
+        db 072h,065h,074h,032h,00h
+str_Cht12:                                      ; string 'cht1'; used by PauseMenu
+        db 063h,068h,074h,031h,00h
+str_Edt12:                                      ; string 'edt1'; used by PauseMenu
+        db 065h,064h,074h,031h,00h
+str_Rep1:                                       ; string 'rep1'; used by PauseMenu
+        db 072h,065h,070h,031h,00h
+str_Ctr12:                                      ; string 'ctr1'; used by PauseMenu
+        db 063h,074h,072h,031h,00h
+str_Sts12:                                      ; string 'sts1'; used by PauseMenu
+        db 073h,074h,073h,031h,00h
+str_Sav12:                                      ; string 'sav1'; used by PauseMenu
+        db 073h,061h,076h,031h,00h
+str_EXHIBITNDX3:                                ; string 'EXHIBIT.NDX'; used by PauseMenu
+        db 045h,058h,048h,049h,042h,049h,054h,02Eh,04Eh,044h,058h,00h
+str_08d3:                                       ; string '%08d'; used by PauseMenu
+        db 025h,030h,038h,064h,00h
+str_05d4:                                       ; string '%05d'; used by PauseMenu
+        db 025h,030h,035h,064h,00h
+str_CsgDb3:                                     ; string '%csg.db'; used by PauseMenu
+        db 025h,063h,073h,067h,02Eh,064h,062h,00h
+str_FhiL5:                                      ; string 'FhiL'; used by PauseToFrontEnd
+        db 046h,068h,069h,04Ch,00h
+str_FhiR5:                                      ; string 'FhiR'; used by PauseToFrontEnd
+        db 046h,068h,069h,052h,00h
+str_GloL3:                                      ; string 'GloL'; used by PauseBackToGame
+        db 047h,06Ch,06Fh,04Ch,00h
+str_GloR3:                                      ; string 'GloR'; used by PauseBackToGame
+        db 047h,06Ch,06Fh,052h,00h
+str_GhiL3:                                      ; string 'GhiL'; used by PauseBackToGame
+        db 047h,068h,069h,04Ch,00h
+str_GhiR3:                                      ; string 'GhiR'; used by PauseBackToGame
+        db 047h,068h,069h,052h,00h,00h

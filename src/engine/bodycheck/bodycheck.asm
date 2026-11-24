@@ -1236,7 +1236,7 @@ Bcheck:
         jge short .4
         movsx eax, word [dword ebx+SCnum]
         mov dword [penshotplayer], eax
-        mov eax, dword [byte ebx+07Ah]
+        mov eax, dword [byte ebx+ctlslot]
         mov edx, 1Ah
         mov dword [penshotctl], eax
         jmp short .3
@@ -1353,7 +1353,7 @@ holdcheck:
         jge short .7
         movsx eax, word [dword ebx+SCnum]
         mov dword [penshotplayer], eax
-        mov eax, dword [byte ebx+07Ah]
+        mov eax, dword [byte ebx+ctlslot]
         mov edx, 1Ah
         mov dword [penshotctl], eax
         mov eax, ecx

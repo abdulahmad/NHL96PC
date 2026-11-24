@@ -3097,7 +3097,7 @@ assleaveice:
         test eax, eax
         je short .4
         mov eax, ebx
-        movsx edx, word [byte ebx+07Ah]
+        movsx edx, word [byte ebx+ctlslot]
         call changeplayer
 .4:
         dec word [byte ebx+temp1]
@@ -3287,7 +3287,7 @@ asspenalty:
         test eax, eax
         je short .7
         mov eax, ebx
-        movsx edx, word [byte ebx+07Ah]
+        movsx edx, word [byte ebx+ctlslot]
         call changeplayer
 .7:
         mov ax, word [byte ebx+Ypos+2]
@@ -3557,7 +3557,7 @@ assepen:
 .5:
         mov byte [byte ebx+newpnum], 0FFh
         mov byte [byte ebx+newpos], 0FFh
-        mov dword [byte ebx+07Ah], 0FFFFFFFFh
+        mov dword [byte ebx+ctlslot], 0FFFFFFFFh
         mov dx, word [byte ebx+assnum]
         mov word [byte ebx+Xvel], 0F000h
         inc edx

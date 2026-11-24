@@ -116,7 +116,7 @@ RunPreGameSkate:
         mov eax, 158h
 .8:
         mov word [byte ebx+temp5], 0FF9Ch
-        mov dword [byte ebx+07Ah], 0FFFFFFFFh
+        mov dword [byte ebx+ctlslot], 0FFFFFFFFh
         mov word [byte ebx+Yvel], 0
         mov word [byte ebx+Ypos+2], ax
         mov word [byte ebx+temp4], ax
@@ -192,7 +192,7 @@ RunPreGameSkate:
         mov edx, dword [byte ebp-04h]
         call randomd0
         sub eax, byte 14h
-        mov dword [byte ebx+07Ah], 0FFFFFFFFh
+        mov dword [byte ebx+ctlslot], 0FFFFFFFFh
         add edx, eax
         mov eax, ebx
         mov word [byte ebx+temp5], dx

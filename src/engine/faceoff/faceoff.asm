@@ -1688,7 +1688,7 @@ puckfaceoff2:
 .33:
         mov word [byte ebx+Xpos+2], 0FF10h
         mov word [byte ebx+Ypos+2], 0
-        mov dword [byte ebx+07Ah], 0FFFFFFFFh
+        mov dword [byte ebx+ctlslot], 0FFFFFFFFh
         mov ax, word [byte ebx+position]
         and byte [byte ebx+pflags], 0F7h
         mov word [regd1], ax
@@ -1705,10 +1705,10 @@ puckfaceoff2:
         jne short .35
         mov esi, dword [dword ebx+tmptr]
         movsx ax, byte [byte ebx+pnum]
-        mov byte [byte esi+035h], 0FFh
-        mov byte [byte esi+037h], 0FFh
-        mov word [byte esi+032h], ax
-        and byte [byte esi+046h], 0F7h
+        mov byte [byte esi+tmtouch2+1], 0FFh
+        mov byte [byte esi+tmtouch3+1], 0FFh
+        mov word [byte esi+tmtouch1], ax
+        and byte [byte esi+tmflags], 0F7h
         mov word [regd0], 17h
         jmp short .36
 .35:
@@ -4826,9 +4826,9 @@ assgoalie:
         or byte [byte esi+pflags2], 2
         call SetSPA
         mov word [byte esi+04Ah], 0F0h
-        cmp dword [byte esi+07Ah], byte 0
+        cmp dword [byte esi+ctlslot], byte 0
         jl near goalieposition_648
-        mov eax, dword [byte esi+07Ah]
+        mov eax, dword [byte esi+ctlslot]
         mov dword [nosplit eax*4+PassTargetLocked], 1
         jmp near goalieposition_648
 .55:

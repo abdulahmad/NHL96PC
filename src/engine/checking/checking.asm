@@ -919,7 +919,7 @@ checkcheck:
         jge near .55
         movsx eax, word [dword ecx+SCnum]
         mov dword [penshotplayer], eax
-        mov eax, dword [byte ecx+07Ah]
+        mov eax, dword [byte ecx+ctlslot]
         mov edx, 1Ah
         mov dword [penshotctl], eax
         jmp near .48

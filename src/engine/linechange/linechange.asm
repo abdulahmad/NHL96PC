@@ -70,14 +70,14 @@ SetLCmode:
         mov edx, dword [gameopts]
         test byte [byte edx+01h], 30h
         je short .1
-        mov edx, dword [dword eax+088h]
-        mov bx, word [byte edx+046h]
+        mov edx, dword [dword eax+tmptr]
+        mov bx, word [byte edx+tmflags]
         xor bh, bh
         and bl, 2
         movsx ebx, bx
         test ebx, ebx
         jne short .1
-        or byte [byte edx+046h], 2
+        or byte [byte edx+tmflags], 2
         and byte [sflags], 0F3h
         or byte [byte eax+045h], 8
         call RequestLineChange
@@ -103,13 +103,13 @@ StartFaceoffLineChange:
         test byte [byte eax+01h], 30h
         je short .1
         mov eax, dword [dword edx+tmptr]
-        mov cx, word [byte eax+046h]
+        mov cx, word [byte eax+tmflags]
         xor ch, ch
         and cl, 2
         movsx ecx, cx
         test ecx, ecx
         jne short .1
-        or byte [byte eax+046h], 2
+        or byte [byte eax+tmflags], 2
         and byte [sflags], 0F3h
         mov eax, edx
         or byte [byte edx+pflags2], 8

@@ -43,8 +43,8 @@ a2offsides:
         movsx edx, word [regd0]
         cmp edx, byte 74h
         jl short .1
-        mov edx, dword [dword eax+088h]
-        mov dx, word [byte edx+046h]
+        mov edx, dword [dword eax+tmptr]
+        mov dx, word [byte edx+tmflags]
         xor dh, dh
         and dl, 10h
         movsx edx, dx
@@ -191,36 +191,36 @@ a2touchpuck:
 .1:
         mov eax, dword [dword ebx+tmptr]
         movsx dx, byte [byte ebx+pnum]
-        cmp dx, word [byte eax+032h]
+        cmp dx, word [byte eax+tmtouch1]
         je short .4
-        mov dx, word [byte eax+046h]
+        mov dx, word [byte eax+tmflags]
         xor dh, dh
         and dl, 8
         movsx edx, dx
         test edx, edx
         je short .2
-        and byte [byte eax+046h], 0F7h
+        and byte [byte eax+tmflags], 0F7h
         jmp short .3
 .2:
-        mov dx, word [byte eax+034h]
-        mov word [byte eax+036h], dx
-        mov dx, word [byte eax+032h]
-        mov word [byte eax+034h], dx
+        mov dx, word [byte eax+tmtouch2]
+        mov word [byte eax+tmtouch3], dx
+        mov dx, word [byte eax+tmtouch1]
+        mov word [byte eax+tmtouch2], dx
 .3:
         movsx dx, byte [byte ebx+pnum]
-        mov word [byte eax+032h], dx
-        cmp dx, word [byte eax+036h]
+        mov word [byte eax+tmtouch1], dx
+        cmp dx, word [byte eax+tmtouch3]
         jne short .5
-        mov byte [byte eax+037h], 0FFh
+        mov byte [byte eax+tmtouch3+1], 0FFh
         jmp short .5
 .4:
-        mov dx, word [byte eax+046h]
+        mov dx, word [byte eax+tmflags]
         xor dh, dh
         and dl, 8
         movsx edx, dx
         test edx, edx
         je short .5
-        and byte [byte eax+046h], 0F7h
+        and byte [byte eax+tmflags], 0F7h
 .5:
         cmp word [byte ebx+position], byte 0
         je short .6

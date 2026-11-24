@@ -551,18 +551,18 @@ InProgress:
         mov edx, 1Dh
         mov eax, esi
         call assreplace
-        cmp dword [byte esi+07Ah], byte 0
+        cmp dword [byte esi+ctlslot], byte 0
         jl short .17
         mov al, byte [byte esi+pflags]
         and al, 40h
         movzx eax, al
         test eax, eax
         je short .16
-        mov eax, dword [byte esi+07Ah]
+        mov eax, dword [byte esi+ctlslot]
         mov dword [AwayEbenPlayer], eax
         jmp short .17
 .16:
-        mov eax, dword [byte esi+07Ah]
+        mov eax, dword [byte esi+ctlslot]
         mov dword [HomeEbenPlayer], eax
 .17:
         movsx eax, byte [byte esi+pnum]
@@ -696,18 +696,18 @@ InProgress:
         or byte [byte ebp-03h], 40h
 .25:
         or byte [byte ebp-03h], 10h
-        cmp dword [byte esi+07Ah], byte 0
+        cmp dword [byte esi+ctlslot], byte 0
         jl short .27
         mov al, byte [byte esi+pflags]
         and al, 40h
         movzx eax, al
         test eax, eax
         je short .26
-        mov eax, dword [byte esi+07Ah]
+        mov eax, dword [byte esi+ctlslot]
         mov dword [AwayEbenPlayer], eax
         jmp short .27
 .26:
-        mov eax, dword [byte esi+07Ah]
+        mov eax, dword [byte esi+ctlslot]
         mov dword [HomeEbenPlayer], eax
 .27:
         movsx eax, word [byte ebp-08h]
@@ -1903,10 +1903,10 @@ SetupPenaltyShot:
         mov eax, ebx
         call assinsert
         mov ebx, dword [dword ebx+tmptr]
-        mov word [byte ebx+036h], 0FFFFh
-        mov ax, word [byte ebx+036h]
-        mov word [byte ebx+034h], ax
-        mov word [byte ebx+032h], ax
+        mov word [byte ebx+tmtouch3], 0FFFFh
+        mov ax, word [byte ebx+tmtouch3]
+        mov word [byte ebx+tmtouch2], ax
+        mov word [byte ebx+tmtouch1], ax
         mov eax, 2
         add word [Crowdlevel], byte 64h
         call sfx

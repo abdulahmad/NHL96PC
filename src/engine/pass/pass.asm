@@ -1685,12 +1685,12 @@ dopass:
         test eax, eax
         jne short .21
         movsx edx, word [dword esi+086h]
-        mov eax, dword [byte ebx+07Ah]
+        mov eax, dword [byte ebx+ctlslot]
         call SetControlledPlayer
         jmp near chk4pass_4F6
 .21:
         mov eax, ebx
-        movsx edx, word [byte ebx+07Ah]
+        movsx edx, word [byte ebx+ctlslot]
         call changeplayer
         jmp near chk4pass_4F6
 ;-----------------------------------------------------------------------------

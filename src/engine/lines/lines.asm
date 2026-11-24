@@ -2204,7 +2204,7 @@ SortSpritesForDraw:
         mov edx, dword [ReplayBufferTop]
         or byte [byte edx+02h], 40h
 .5:
-        cmp dword [byte eax+07Ah], byte 0FFFFFFFFh
+        cmp dword [byte eax+ctlslot], byte 0FFFFFFFFh
         jne short .6
         mov edx, dword [ReplayBufferTop]
         or byte [byte edx+02h], 80h

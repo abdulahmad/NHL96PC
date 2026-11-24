@@ -2808,11 +2808,19 @@
   },
   {
    "start": 1145144,
-   "end": 1150594,
+   "end": 1145500,
    "module": "penalty_data_01",
    "obj": 4,
    "file": "data/engine/penalty_data_01.asm",
    "note": "owner: engine/penalty/penalty.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: engine/hockey/hockey.asm",
+   "start": 1145500,
+   "end": 1150594,
+   "module": "data_engine_117A9C",
+   "file": "data/engine/frames.asm"
   },
   {
    "start": 1150594,

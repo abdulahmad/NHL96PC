@@ -163,7 +163,7 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 ## Fake shot and shot block
 
 - **96 PC: same as 95 PC.** Fake shot and fake one-timer (`SPAfakeshotf/b`, `SPAfakeonetimef/b`,
-  src/data/engine/penalty_data_01.asm); four shot-block animations through `CanBlockShot` (input.asm) and
+  src/data/engine/frames.asm); four shot-block animations through `CanBlockShot` (input.asm) and
   `BlockShotDive` (src/engine/checking/checking.asm).
 - **vs 96 Genesis: different.** 96G has one fake (`SPAfake`, src/frames96.asm) and one block, `CanBlock`
   (src/engine/replay/block.asm), for a human player only.
@@ -175,7 +175,7 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 
 - **96 PC: missing.** `doinput` (src/engine/input/input.asm) reads only buttons A, B and C (40h, 10h, 20h) and never
   the Start bit (80h); C on a skater is `burst` (`SPAburst`, src/engine/skate/skate.asm). None of the 224 named
-  animations (src/data/engine/penalty_data_01.asm) is a spin. The "spin" names in the code are the puck model and the
+  animations (src/data/engine/frames.asm) is a spin. The "spin" names in the code are the puck model and the
   logos (`SpinPuckModel`, src/front/game_view/game_view.asm).
 - **vs 96 Genesis: missing on PC.** 96G has it: in `doinput` (src/engine/input/input96.asm) Start with a d-pad
   direction on a skater calls `dospinorama`, which plays `SPAspinorama` (src/frames96.asm, one 6-frame turn), sets

@@ -1,0 +1,77 @@
+; Strings and constants of front/postgame (src/front/postgame), in link order.
+bits 32
+%include "hockey.inc"
+section s_110030 progbits alloc noexec write align=1
+global str_D20, str_DD11, str_004, str_DD, str_D02d2, str_DDD, str_BKGD28, str_BANNER
+global str_04d, str_Pal25, str_SBACK, str_AR005, str_AR015, str_AR105, str_AR115, str_BALL7
+global str_PALS2, str_FSH7, str_ProfileFsh5, str_Ard5, str_Card5, str_Plyr5, str_fmtSS, str_ST10
+global str_STDD, str_STRD, str_METD, str_STRK, str_BT006, str_BT0110, str_BT028, str_BT108
+global str_BT118, str_BT124
+str_D20:                                        ; string '%d'; used by DrawGameStats
+        db 025h,064h,00h
+str_DD11:                                       ; string '%d.%d'; used by DrawGameStats
+        db 025h,064h,02Eh,025h,064h,00h
+str_004:                                        ; string '0.0'; used by DrawGameStats
+        db 030h,02Eh,030h,00h
+str_DD:                                         ; string "%d/%d"; used by DrawGameStats
+        db 025h,064h,02Fh,025h,064h,00h
+str_D02d2:                                      ; string "%d:%02d"; used by DrawGameStats
+        db 025h,064h,03Ah,025h,030h,032h,064h,00h
+str_DDD:                                        ; string "%d/%d (%d%%)"; used by DrawGameStats
+        db 025h,064h,02Fh,025h,064h,020h,028h,025h,064h,025h,025h,029h,00h
+str_BKGD28:                                     ; string 'BKGD'; used by GameStatsScreen, ThreeStarsScreen
+        db 042h,04Bh,047h,044h,00h
+str_BANNER:                                     ; string 'BANNER'; used by GameStatsScreen
+        db 042h,041h,04Eh,04Eh,045h,052h,00h
+str_04d:                                        ; string '%04d'; used by GameStatsScreen
+        db 025h,030h,034h,064h,00h
+str_Pal25:                                      ; string '!pal'; used by GameStatsScreen, ThreeStarsScreen
+        db 021h,070h,061h,06Ch,00h
+str_SBACK:                                      ; string 'SBACK'; used by GameStatsScreen
+        db 053h,042h,041h,043h,04Bh,00h
+str_AR005:                                      ; string 'AR00'; used by GameStatsScreen
+        db 041h,052h,030h,030h,00h
+str_AR015:                                      ; string 'AR01'; used by GameStatsScreen
+        db 041h,052h,030h,031h,00h
+str_AR105:                                      ; string 'AR10'; used by GameStatsScreen
+        db 041h,052h,031h,030h,00h
+str_AR115:                                      ; string 'AR11'; used by GameStatsScreen
+        db 041h,052h,031h,031h,00h
+str_BALL7:                                      ; string 'BALL'; used by GameStatsScreen
+        db 042h,041h,04Ch,04Ch,00h
+str_PALS2:                                      ; string 'PALS'; used by ThreeStarsScreen
+        db 050h,041h,04Ch,053h,00h
+str_FSH7:                                       ; string '****.FSH'; used by ThreeStarsScreen
+        db 02Ah,02Ah,02Ah,02Ah,02Eh,046h,053h,048h,00h
+str_ProfileFsh5:                                ; string 'profile.fsh'; used by ThreeStarsScreen
+        db 070h,072h,06Fh,066h,069h,06Ch,065h,02Eh,066h,073h,068h,00h
+str_Ard5:                                       ; string '!ard'; used by ThreeStarsScreen
+        db 021h,061h,072h,064h,00h
+str_Card5:                                      ; string 'card'; used by ThreeStarsScreen
+        db 063h,061h,072h,064h,00h
+str_Plyr5:                                      ; string 'plyr'; used by ThreeStarsScreen
+        db 070h,06Ch,079h,072h,00h
+str_fmtSS:                                      ; string '%s %s'; used by ThreeStarsScreen
+        db 025h,073h,020h,025h,073h,00h
+str_ST10:                                       ; string 'ST10'; used by ThreeStarsScreen
+        db 053h,054h,031h,030h,00h
+str_STDD:                                       ; string 'ST%d%d'; used by ThreeStarsScreen
+        db 053h,054h,025h,064h,025h,064h,00h
+str_STRD:                                       ; string 'STR%d'; used by ThreeStarsScreen
+        db 053h,054h,052h,025h,064h,00h
+str_METD:                                       ; string 'MET%d'; used by ThreeStarsScreen
+        db 04Dh,045h,054h,025h,064h,00h
+str_STRK:                                       ; string 'STRK'; used by ThreeStarsScreen
+        db 053h,054h,052h,04Bh,00h
+str_BT006:                                      ; string 'BT00'; used by ThreeStarsScreen
+        db 042h,054h,030h,030h,00h
+str_BT0110:                                     ; string 'BT01'; used by ThreeStarsScreen
+        db 042h,054h,030h,031h,00h
+str_BT028:                                      ; string 'BT02'; used by ThreeStarsScreen
+        db 042h,054h,030h,032h,00h
+str_BT108:                                      ; string 'BT10'; used by ThreeStarsScreen
+        db 042h,054h,031h,030h,00h
+str_BT118:                                      ; string 'BT11'; used by ThreeStarsScreen
+        db 042h,054h,031h,031h,00h
+str_BT124:                                      ; string 'BT12'; used by ThreeStarsScreen
+        db 042h,054h,031h,032h,00h

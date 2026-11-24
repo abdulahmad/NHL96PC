@@ -60,6 +60,12 @@ aggress    equ 62h   ; size b
 fighting   equ 63h   ; size b; 96G name (fight rating): SetInst tests it on both players, assfight scales the fight strength by (fighting & 7) + 8, a check adds 1 more to GameHitCount when it is 0 (96G: 2 more to ChkCnt)
 checking   equ 64h   ; size b
 handed     equ 65h   ; size b
+; goalie save ratings on the skater bytes (92G / 94G names, 95G collide's save list GGSleft, GGSright, GSSleft,
+; GSSright = aggress, passacc, spodds, endurance; setplayer reads a goalie's four save bytes into them in that order)
+GGSleft    equ aggress
+GGSright   equ passacc
+GSSleft    equ spodds
+GSSright   equ endurance
 radiusx    equ 82h   ; size w; 95PC 66h
 radiusy    equ 84h   ; size w; 95PC 68h
 SCnum      equ 86h   ; size w; 95PC 6Ah

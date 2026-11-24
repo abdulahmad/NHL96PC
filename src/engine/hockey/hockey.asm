@@ -2789,24 +2789,24 @@ setplayer:
 .41:
         mov dl, byte [eax]
         inc eax
-        mov byte [byte ebx+aggress], dl
+        mov byte [byte ebx+GGSleft], dl
         mov dl, byte [eax]
         inc eax
-        mov byte [byte ebx+passacc], dl
+        mov byte [byte ebx+GGSright], dl
         mov dl, byte [eax]
         inc eax
-        mov byte [byte ebx+spodds], dl
+        mov byte [byte ebx+GSSleft], dl
         mov dl, byte [eax]
         inc eax
-        mov byte [byte ebx+endurance], dl
+        mov byte [byte ebx+GSSright], dl
         mov dl, byte [eax]
         mov byte [byte ebx+shotspd], dl
-        movzx ecx, byte [byte ebx+aggress]
-        movzx edx, byte [byte ebx+passacc]
+        movzx ecx, byte [byte ebx+GGSleft]
+        movzx edx, byte [byte ebx+GGSright]
         add ecx, edx
-        movzx edx, byte [byte ebx+spodds]
+        movzx edx, byte [byte ebx+GSSleft]
         add ecx, edx
-        movzx edx, byte [byte ebx+endurance]
+        movzx edx, byte [byte ebx+GSSright]
         add edx, ecx
         mov byte [byte ebx+stickhand], 0Fh
         sar edx, 2

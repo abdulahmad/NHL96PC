@@ -235,7 +235,10 @@ def main():
     oldpath = {int(r[1], 16): r[5] for r in R if r[0] == DO}
     lst = []
     for n in out:
-        s = dict(oldseg.get(n['start'], {}))
+        t = oldseg.get(n['start'])
+        if t and t['end'] == n['end'] and oldpath.get(n['start']) == n['path']:
+            lst.append(t); continue                  # an untouched row keeps its entry as it is
+        s = dict(t or {})
         if not s:
             prev = max((x for x in sm[key] if x['start'] < n['start']), key=lambda x: x['start'])
             s = {k: prev[k] for k in prev if k in ('obj', 'group', 'lineage', 'note')}
@@ -243,10 +246,10 @@ def main():
             if 'conf' in base: s['conf'] = 'data split by subject'
         s.update(start=n['start'], end=n['end'], module=n['module'])
         if off is not None:
-            s.update(file_start=n['start'] + off, file_end=min(n['start'] + n['bytes'], n['end']) + off if n['bytes'] else n['start'] + off,
+            fs = n['start'] + off if n['bytes'] else None          # a BSS row has no bytes in the file
+            s.update(file_start=fs, file_end=min(n['start'] + n['bytes'], n['end']) + off if n['bytes'] else None,
                      file_bytes=n['bytes'], size=n['end'] - n['start'])
-        if 'file' in base and (not oldseg.get(n['start']) or oldpath.get(n['start']) != n['path']):
-            s['file'] = n['path']                    # a stale 'file' of an untouched row stays as it is
+        if 'file' in base: s['file'] = n['path']
         lst.append(s)
     sm[key] = lst
     json.dump(sm, open(smp, 'w'), indent=1)

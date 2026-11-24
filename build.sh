@@ -1,6 +1,7 @@
 #!/bin/sh
 # One-command build: HOCKEY.EXE from src/ + sha1 check.  Usage: ./build.sh [path/to/HOCKEY.EXE]
-# Steps: extract the third-party stubs and LE metadata from your EXE, nasm every src/ file, link, sha1 check.
+# Steps: extract the third-party stubs and LE metadata from your EXE, nasm every src/ file, check spa.inc against
+# the SPA tables (tools/build/check_spa.py), link, sha1 check.
 # The last line is MATCH or MISMATCH. See docs/ASM_BUILD.md.
 set -e
 cd "$(dirname "$0")"
@@ -17,4 +18,5 @@ echo "assembling $(echo "$SRCS" | wc -l) files with $JOBS jobs"
 echo "$SRCS" | xargs -P "$JOBS" -I{} sh -c '
   o="build/obj/${1#src/}"; o="${o%.asm}.o"; mkdir -p "$(dirname "$o")"
   if [ ! -f "$o" ] || [ "$1" -nt "$o" ] || [ -n "$(find src/inc -newer "$o" -print -quit)" ]; then '"$NASM"' -O0 -f elf32 -I src/inc/ -o "$o" "$1"; fi' _ {}
+NASM="$NASM" "$PY" tools/build/check_spa.py
 "$PY" tools/build/link_src.py --obj build/obj --parts build/parts --out build/HOCKEY.EXE

@@ -4237,198 +4237,198 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1130E7,str_SDD2,asc_1130E7,new,high,string '%s %d.%d',src/data/front/playoff_const.asm
 1130F0,str_0000,asc_1130F0,95PC,high,string '0000',src/data/front/playoff_const.asm
 1130F8,str_AddtimerLISTFULL,,95PC,high,NHL95PC C3F5C (string): 'addtimer - LIST FULL\n',
-113110,str_InitmemmanadrINSUFFICIENTMEM,asc_113110,new,high,"string ""initmemmanadr - INSUFFICIENT MEMORY TO INITIALIZE MEMORY MANAGER\n""",src/data/lib/ea/ea_timer_data_01.asm
+113110,str_InitmemmanadrINSUFFICIENTMEM,asc_113110,new,high,"string ""initmemmanadr - INSUFFICIENT MEMORY TO INITIALIZE MEMORY MANAGER\n""",src/data/lib/ea/ea_draw_shape_at_own_pos_const.asm
 113154,str_LOWMEM,,95PC,high,NHL95PC C3B98 (string): 'LOW MEM',
 11315C,str_HIGHMEM,,95PC,high,NHL95PC C3BA0 (string): 'HIGH MEM',
-113168,str_GAP,asc_113168,95PC,high,string 'GAP',src/data/lib/ea/ea_timer_data_01.asm
-11316C,str_UnlinkmemclassareaReleaseMem,asc_11316C,new,high,"string ""unlinkmemclassarea - Release Memory Not Found\n""",src/data/lib/ea/ea_timer_data_01.asm
-11319C,str_ReservememMEMORYMANAGERN,asc_11319C,new,high,string 'reservemem - MEMORY MANAGER NOT INITIALIZED requested: %ld ',src/data/lib/ea/ea_memman_data_01.asm
+113168,str_GAP,asc_113168,95PC,high,string 'GAP',src/data/lib/ea/ea_draw_shape_at_own_pos_const.asm
+11316C,str_UnlinkmemclassareaReleaseMem,asc_11316C,new,high,"string ""unlinkmemclassarea - Release Memory Not Found\n""",src/data/lib/ea/ea_draw_shape_at_own_pos_const.asm
+11319C,str_ReservememMEMORYMANAGERN,asc_11319C,new,high,string 'reservemem - MEMORY MANAGER NOT INITIALIZED requested: %ld ',src/data/lib/ea/ea_memman_const.asm
 1131D8,str_ReservememINVALIDSIZE,,95PC,high,NHL95PC C3BCC (string): 'reservemem - INVALID SIZE REQUESTED\nrequested: %ld availab,
-11321C,str_ReservememMEMORYMANAGERB,asc_11321C,new,high,string 'reservemem - MEMORY MANAGER BLOCKS CORRUPTED requested: %ld. type %x. should be %x ',src/data/lib/ea/ea_memman_data_01.asm
-113270,str_ReservememOUTOFMEMORYRequest,asc_113270,new,high,"string ""reservemem - OUT OF MEMORY\nrequested: %ld available: %ld\n""",src/data/lib/ea/ea_memman_data_01.asm
-1132AC,str_ReservememOUTOFMEMORYRequest_AllocMemBlockEx,asc_1132AC,new,high,"string ""reservemem - OUT OF MEMORY\nrequested: %ld available: %ld\n""",src/data/lib/ea/ea_memman_data_01.asm
+11321C,str_ReservememMEMORYMANAGERB,asc_11321C,new,high,string 'reservemem - MEMORY MANAGER BLOCKS CORRUPTED requested: %ld. type %x. should be %x ',src/data/lib/ea/ea_memman_const.asm
+113270,str_ReservememOUTOFMEMORYRequest,asc_113270,new,high,"string ""reservemem - OUT OF MEMORY\nrequested: %ld available: %ld\n""",src/data/lib/ea/ea_memman_const.asm
+1132AC,str_ReservememOUTOFMEMORYRequest_AllocMemBlockEx,asc_1132AC,new,high,"string ""reservemem - OUT OF MEMORY\nrequested: %ld available: %ld\n""",src/data/lib/ea/ea_memman_const.asm
 1132E8,str_ReservememINVALIDTYPEFLAGS,,95PC,high,NHL95PC C3C88 (string): 'reservemem - INVALID TYPE FLAGS (%04x)\n',
 113310,str_ResizememINVALIDSIZE,,95PC,high,NHL95PC C3CB0 (string): 'resizemem - INVALID SIZE REQUESTED\nrequested: %ld availabl,
 113354,str_ResizememblockNOROOMTO,,95PC,high,NHL95PC C3CF4 (string): 'resizememblock - NO ROOM TO RESIZE\nrequested: %ld availabl,
 113398,str_FindmemblockBLOCKNOTFOUND,,95PC,high,NHL95PC C3D38 (string): 'findmemblock - BLOCK NOT FOUND (%p)\n',
-1133C0,str_PurgememblockNULLPointer,asc_1133C0,new,high,"string ""purgememblock - NULL pointer\n""",src/data/lib/ea/ea_memman_data_01.asm
+1133C0,str_PurgememblockNULLPointer,asc_1133C0,new,high,"string ""purgememblock - NULL pointer\n""",src/data/lib/ea/ea_memman_const.asm
 1133E0,str_GetmemblockNOMEMORYBLOCKS,,95PC,high,NHL95PC C3D60 (string): 'getmemblock - NO MEMORY BLOCKS LEFT\n',
-113408,str_Jan,unk_113408,95PC,high,string 'Jan',src/data/lib/ea/ea_memman_data_01.asm
-11340C,str_Feb2,unk_11340C,95PC,high,string 'Feb',src/data/lib/ea/ea_memman_data_01.asm
-113410,str_Mar,unk_113410,95PC,high,string 'Mar',src/data/lib/ea/ea_memman_data_01.asm
-113414,str_Apr,unk_113414,95PC,high,string 'Apr',src/data/lib/ea/ea_memman_data_01.asm
-113418,str_May,unk_113418,95PC,high,string 'May',src/data/lib/ea/ea_memman_data_01.asm
-11341C,str_Jun,unk_11341C,95PC,high,string 'Jun',src/data/lib/ea/ea_memman_data_01.asm
-113420,str_Jul,unk_113420,95PC,high,string 'Jul',src/data/lib/ea/ea_memman_data_01.asm
-113424,str_Aug,unk_113424,95PC,high,string 'Aug',src/data/lib/ea/ea_memman_data_01.asm
-113428,str_Sep,unk_113428,95PC,high,string 'Sep',src/data/lib/ea/ea_memman_data_01.asm
-11342C,str_Oct,unk_11342C,95PC,high,string 'Oct',src/data/lib/ea/ea_memman_data_01.asm
-113430,str_Nov,unk_113430,95PC,high,string 'Nov',src/data/lib/ea/ea_memman_data_01.asm
-113434,str_Dec,unk_113434,95PC,high,string 'Dec',src/data/lib/ea/ea_memman_data_01.asm
+113408,str_Jan,unk_113408,95PC,high,string 'Jan',src/data/lib/ea/ea_memman_const.asm
+11340C,str_Feb2,unk_11340C,95PC,high,string 'Feb',src/data/lib/ea/ea_memman_const.asm
+113410,str_Mar,unk_113410,95PC,high,string 'Mar',src/data/lib/ea/ea_memman_const.asm
+113414,str_Apr,unk_113414,95PC,high,string 'Apr',src/data/lib/ea/ea_memman_const.asm
+113418,str_May,unk_113418,95PC,high,string 'May',src/data/lib/ea/ea_memman_const.asm
+11341C,str_Jun,unk_11341C,95PC,high,string 'Jun',src/data/lib/ea/ea_memman_const.asm
+113420,str_Jul,unk_113420,95PC,high,string 'Jul',src/data/lib/ea/ea_memman_const.asm
+113424,str_Aug,unk_113424,95PC,high,string 'Aug',src/data/lib/ea/ea_memman_const.asm
+113428,str_Sep,unk_113428,95PC,high,string 'Sep',src/data/lib/ea/ea_memman_const.asm
+11342C,str_Oct,unk_11342C,95PC,high,string 'Oct',src/data/lib/ea/ea_memman_const.asm
+113430,str_Nov,unk_113430,95PC,high,string 'Nov',src/data/lib/ea/ea_memman_const.asm
+113434,str_Dec,unk_113434,95PC,high,string 'Dec',src/data/lib/ea/ea_memman_const.asm
 113438,str_DBUGTXT,,95PC,high,NHL95PC C4034 (string): 'DBUG??.TXT',
-113444,str_Wt,unk_113444,new,high,"string ""wt""",src/data/lib/ea/ea_debug_printf_data_01.asm
+113444,str_Wt,unk_113444,new,high,"string ""wt""",src/data/lib/ea/ea_debug_printf_const.asm
 113448,str_FILES,,95PC,high,NHL95PC C4044 (string): 'FILE: %s\n',
 113454,str_DATES,,95PC,high,NHL95PC C4050 (string): 'DATE: %s\n',
 113460,str_TIMES,,95PC,high,NHL95PC C405C (string): 'TIME: %s\n\n',
 11346C,str_CLOSED,,95PC,high,NHL95PC C4068 (string): '\nCLOSED\n',
 113478,str_TIMES2,,95PC,high,NHL95PC C4074 (string): 'TIME: %s\n',
-113484,str_02d3s02d,asc_113484,new,high,"string ""%02d-%3s-%02d""",src/data/lib/ea/ea_debug_printf_data_01.asm
-113494,str_2d02d02d2,asc_113494,95PC,high,string '%2d:%02d:%02d',src/data/lib/ea/ea_debug_printf_data_01.asm
-1134A4,str_CreatewindowblockINVALIDWIND,asc_1134A4,new,high,"string ""createwindowblock - INVALID WINDOW DIMENSIONS\nrequested: %dx%d maximum: %dx%d\n""",src/data/lib/ea/ea_debug_printf_data_01.asm
-1134F4,str_WINDOW,asc_1134F4,new,high,"string ""WINDOW""",src/data/lib/ea/ea_debug_printf_data_01.asm
-1134FC,str_CreatewindowblockOUTOFMEMORY,asc_1134FC,new,high,"string ""createwindowblock - OUT OF MEMORY\nrequested: %dx%d available: %ld\n""",src/data/lib/ea/ea_debug_printf_data_01.asm
-113540,str_CreatewindowblockBADBLOC,asc_113540,new,high,string 'createwindowblock - BAD BLOCK requested: %dx%d ',src/data/lib/ea/ea_debug_printf_data_01.asm
-113570,str_CreatewindowblockOUTOFRO,asc_113570,new,high,string 'createwindowblock - OUT OF ROW SPACE requested: %dx%d ',src/data/lib/ea/ea_debug_printf_data_01.asm
-1135A8,str_Lzh,asc_1135A8,new,high,"string ""lzh""",src/data/lib/ea/ea_unpack_data_01.asm
+113484,str_02d3s02d,asc_113484,new,high,"string ""%02d-%3s-%02d""",src/data/lib/ea/ea_debug_log_const.asm
+113494,str_2d02d02d2,asc_113494,95PC,high,string '%2d:%02d:%02d',src/data/lib/ea/ea_debug_log_const.asm
+1134A4,str_CreatewindowblockINVALIDWIND,asc_1134A4,new,high,"string ""createwindowblock - INVALID WINDOW DIMENSIONS\nrequested: %dx%d maximum: %dx%d\n""",src/data/lib/ea/ea_debug_log_const.asm
+1134F4,str_WINDOW,asc_1134F4,new,high,"string ""WINDOW""",src/data/lib/ea/ea_debug_log_const.asm
+1134FC,str_CreatewindowblockOUTOFMEMORY,asc_1134FC,new,high,"string ""createwindowblock - OUT OF MEMORY\nrequested: %dx%d available: %ld\n""",src/data/lib/ea/ea_debug_log_const.asm
+113540,str_CreatewindowblockBADBLOC,asc_113540,new,high,string 'createwindowblock - BAD BLOCK requested: %dx%d ',src/data/lib/ea/ea_debug_log_const.asm
+113570,str_CreatewindowblockOUTOFRO,asc_113570,new,high,string 'createwindowblock - OUT OF ROW SPACE requested: %dx%d ',src/data/lib/ea/ea_debug_log_const.asm
+1135A8,str_Lzh,asc_1135A8,new,high,"string ""lzh""",src/data/lib/ea/ea_unpack_const.asm
 1135AC,str_Copyright,,95PC,high,NHL95PC C47B8 (string): 'Copyright',
 1135B8,str_UnpackINVALIDPACKCODE,,95PC,high,NHL95PC C47C4 (string): 'unpack - INVALID PACK CODE (%x)\n',
-1135DC,str_TextTable,asc_1135DC,new,high,string 'Text Table',src/data/lib/ea/ea_unpack_data_01.asm
-1135E8,str_Inversetbl,asc_1135E8,new,low,"string ""inversetbl""",src/data/lib/ea/ea_unpack_data_01.asm
-1135F4,str_Inversetmp,asc_1135F4,new,high,string 'inversetmp',src/data/lib/ea/ea_unpack_data_01.asm
+1135DC,str_TextTable,asc_1135DC,new,high,string 'Text Table',src/data/lib/ea/ea_unpack_const.asm
+1135E8,str_Inversetbl,asc_1135E8,new,low,"string ""inversetbl""",src/data/lib/ea/ea_dos_file_info_const.asm
+1135F4,str_Inversetmp,asc_1135F4,new,high,string 'inversetmp',src/data/lib/ea/ea_dos_file_info_const.asm
 113600,str_SavefileblockaOPENFAILEDFOR,,95PC,high,NHL95PC C3FD8 (string): 'savefileblocka - OPEN FAILED FOR FILE <%s>\n',
 11362C,str_InitmemmanINSUFFICIENTROW,,95PC,high,NHL95PC C3D88 (string): 'initmemman - INSUFFICIENT ROW TABLE SPACE\n',
-113658,str_InitmemmanTOOMUCHDOSALLOCATE,asc_113658,new,high,"string ""initmemman - TOO MUCH DOS ALLOCATED\n""",src/data/lib/ea/ea_unpack_data_01.asm
-113680,str_InitmemmanDOSMEMORYNOTALLOCA,asc_113680,new,high,"string ""initmemman - DOS MEMORY NOT ALLOCATED %x REQUESTED %x AVAILABLE\n""",src/data/lib/ea/ea_unpack_data_01.asm
-1136C4,str_InitmemmanDOSSUBMEMORYNOTALL,asc_1136C4,new,high,"string ""initmemman - DOS SUB MEMORY NOT ALLOCATED %x REQUESTED %x AVAILABLE\n""",src/data/lib/cd/cd_find_file_data_01.asm
-11370C,str_InitmemmanDOSSUBMEMORYNO,asc_11370C,new,high,string 'initmemman - DOS SUB MEMORY NOT RELEASED ',src/data/lib/cd/cd_find_file_data_01.asm
-113738,str_AAPLUT,asc_113738,new,high,string 'AAPLUT',src/data/lib/cd/cd_find_file_data_01.asm
-113740,str_OpenblockhandleSNOHANDLESLEF,asc_113740,new,high,"string ""openblockhandle - %s NO HANDLES LEFT\n""",src/data/lib/cd/cd_find_file_data_01.asm
-113768,str_OpenblockhandleSPATHNAME,asc_113768,new,high,string 'openblockhandle - %s PATH NAME NOT FOUND ',src/data/lib/cd/cd_find_file_data_01.asm
-113794,str_CDROMDATA,asc_113794,new,medium,"string ""CDROM DATA""",src/data/lib/cd/cd_find_file_data_01.asm
-1137A0,str_CDROMBUFFER,asc_1137A0,new,medium,"string ""CDROM BUFFER""",src/data/lib/cd/cd_find_file_data_01.asm
-1137B0,str_CdromcheckCDROMSTATUSNOTRETU,asc_1137B0,new,high,"string ""cdromcheck - CDROM STATUS NOT RETURNED \n""",src/data/lib/cd/cd_find_file_data_01.asm
-1137DC,str_CdromreadREADGREATERTHANMAXR,asc_1137DC,new,high,"string ""cdromread - READ GREATER THAN MAXREADSECTORS %d\n""",src/data/lib/cd/cd_find_file_data_01.asm
-113810,str_CdromreadREADSTATUSERRORX,asc_113810,new,high,"string ""cdromread - READ STATUS ERROR=%x\n""",src/data/lib/cd/cd_find_file_data_01.asm
-113834,str_CdromseekSEEKSTATUSX,asc_113834,new,high,"string ""cdromseek - SEEK STATUS =%x\n""",src/data/lib/cd/cd_find_file_data_01.asm
-113854,str_CdromdirectoryentryERROR,asc_113854,new,high,string 'cdromdirectoryentry - ERROR %x READING DIRECTORY %s ',src/data/lib/cd/cd_find_file_data_01.asm
-11388C,str_UpsideDown,asc_11388C,new,high,string 'upside down ',src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-11389C,str_OrisetmaterialrgbInvalidMate,asc_11389C,new,high,"string ""orisetmaterialrgb: invalid material id %d""",src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-1138C8,str_OrisetmaterialcolorInval,asc_1138C8,new,high,string 'orisetmaterialcolor: invalid material id %d',src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-1138F4,str_OrisetmaterialtextureInvalid,asc_1138F4,new,high,"string ""orisetmaterialtexture: invalid material id %d""",src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-113924,str_OrisetmaterialdrawfnInva,asc_113924,new,high,string 'orisetmaterialdrawfn: invalid material id %d',src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-113954,str_ORIINST,asc_113954,new,high,string 'ORI_INST',src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-113960,str_INVMATRX,asc_113960,new,high,"string ""INVMATRX""",src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-11396C,str_Ori,asc_11396C,new,high,"string "".ori""",src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-113974,str_OriloadCouldNotLoadORIGA,asc_113974,new,high,string 'oriload: Could not load ORIGAMI header file '%s'',src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-1139A8,str_OrigetpartitionDIsAnInva,asc_1139A8,new,high,string 'origetpartition: %d is an invalid partition ID',src/data/lib/ori3d/ori_set_rink_view_data_01.asm
-1139D8,str_VESAMEM,asc_1139D8,new,high,"string ""VESA MEM""",src/data/lib/video/video_vesa_get_info_data_01.asm
-1139E4,str_GetvesainfoINVALIDDOSSEGMENT,asc_1139E4,new,high,"string ""getvesainfo - INVALID DOS SEGMENT %lx\n""",src/data/lib/video/video_vesa_get_info_data_01.asm
+113658,str_InitmemmanTOOMUCHDOSALLOCATE,asc_113658,new,high,"string ""initmemman - TOO MUCH DOS ALLOCATED\n""",src/data/lib/ea/ea_grab_largest_block_const.asm
+113680,str_InitmemmanDOSMEMORYNOTALLOCA,asc_113680,new,high,"string ""initmemman - DOS MEMORY NOT ALLOCATED %x REQUESTED %x AVAILABLE\n""",src/data/lib/ea/ea_grab_largest_block_const.asm
+1136C4,str_InitmemmanDOSSUBMEMORYNOTALL,asc_1136C4,new,high,"string ""initmemman - DOS SUB MEMORY NOT ALLOCATED %x REQUESTED %x AVAILABLE\n""",src/data/lib/ea/ea_grab_largest_block_const.asm
+11370C,str_InitmemmanDOSSUBMEMORYNO,asc_11370C,new,high,string 'initmemman - DOS SUB MEMORY NOT RELEASED ',src/data/lib/ea/ea_grab_largest_block_const.asm
+113738,str_AAPLUT,asc_113738,new,high,string 'AAPLUT',src/data/lib/ea/ea_build_aa_pal_lut_const.asm
+113740,str_OpenblockhandleSNOHANDLESLEF,asc_113740,new,high,"string ""openblockhandle - %s NO HANDLES LEFT\n""",src/data/lib/cd/cd_open_file_const.asm
+113768,str_OpenblockhandleSPATHNAME,asc_113768,new,high,string 'openblockhandle - %s PATH NAME NOT FOUND ',src/data/lib/cd/cd_open_file_const.asm
+113794,str_CDROMDATA,asc_113794,new,medium,"string ""CDROM DATA""",src/data/lib/cd/cd_find_file_const.asm
+1137A0,str_CDROMBUFFER,asc_1137A0,new,medium,"string ""CDROM BUFFER""",src/data/lib/cd/cd_find_file_const.asm
+1137B0,str_CdromcheckCDROMSTATUSNOTRETU,asc_1137B0,new,high,"string ""cdromcheck - CDROM STATUS NOT RETURNED \n""",src/data/lib/cd/cd_find_file_const.asm
+1137DC,str_CdromreadREADGREATERTHANMAXR,asc_1137DC,new,high,"string ""cdromread - READ GREATER THAN MAXREADSECTORS %d\n""",src/data/lib/cd/cd_find_file_const.asm
+113810,str_CdromreadREADSTATUSERRORX,asc_113810,new,high,"string ""cdromread - READ STATUS ERROR=%x\n""",src/data/lib/cd/cd_find_file_const.asm
+113834,str_CdromseekSEEKSTATUSX,asc_113834,new,high,"string ""cdromseek - SEEK STATUS =%x\n""",src/data/lib/cd/cd_find_file_const.asm
+113854,str_CdromdirectoryentryERROR,asc_113854,new,high,string 'cdromdirectoryentry - ERROR %x READING DIRECTORY %s ',src/data/lib/cd/cd_find_file_const.asm
+11388C,str_UpsideDown,asc_11388C,new,high,string 'upside down ',src/data/lib/ori3d/ori_set_rink_view_const.asm
+11389C,str_OrisetmaterialrgbInvalidMate,asc_11389C,new,high,"string ""orisetmaterialrgb: invalid material id %d""",src/data/lib/ori3d/ori_set_rink_view_const.asm
+1138C8,str_OrisetmaterialcolorInval,asc_1138C8,new,high,string 'orisetmaterialcolor: invalid material id %d',src/data/lib/ori3d/ori_set_rink_view_const.asm
+1138F4,str_OrisetmaterialtextureInvalid,asc_1138F4,new,high,"string ""orisetmaterialtexture: invalid material id %d""",src/data/lib/ori3d/ori_set_rink_view_const.asm
+113924,str_OrisetmaterialdrawfnInva,asc_113924,new,high,string 'orisetmaterialdrawfn: invalid material id %d',src/data/lib/ori3d/ori_set_rink_view_const.asm
+113954,str_ORIINST,asc_113954,new,high,string 'ORI_INST',src/data/lib/ori3d/ori_transform_vector_const.asm
+113960,str_INVMATRX,asc_113960,new,high,"string ""INVMATRX""",src/data/lib/ori3d/ori_transform_vector_const.asm
+11396C,str_Ori,asc_11396C,new,high,"string "".ori""",src/data/lib/ori3d/ori_transform_vector_const.asm
+113974,str_OriloadCouldNotLoadORIGA,asc_113974,new,high,string 'oriload: Could not load ORIGAMI header file '%s'',src/data/lib/ori3d/ori_transform_vector_const.asm
+1139A8,str_OrigetpartitionDIsAnInva,asc_1139A8,new,high,string 'origetpartition: %d is an invalid partition ID',src/data/lib/ori3d/ori_find_group_const.asm
+1139D8,str_VESAMEM,asc_1139D8,new,high,"string ""VESA MEM""",src/data/lib/video/video_vesa_get_info_const.asm
+1139E4,str_GetvesainfoINVALIDDOSSEGMENT,asc_1139E4,new,high,"string ""getvesainfo - INVALID DOS SEGMENT %lx\n""",src/data/lib/video/video_vesa_get_info_const.asm
 113A0C,str_VESA,,95PC,high,NHL95PC C3E94 (string): 'VESA',
-113A14,str_GetvesainfoINVALIDVESAINFOVE,asc_113A14,new,high,"string ""getvesainfo - INVALID VESA INFO\nVESA driver is installed?\n""",src/data/lib/video/video_vesa_get_info_data_01.asm
+113A14,str_GetvesainfoINVALIDVESAINFOVE,asc_113A14,new,high,"string ""getvesainfo - INVALID VESA INFO\nVESA driver is installed?\n""",src/data/lib/video/video_vesa_get_info_const.asm
 113A50,str_InitgraphicsINITMEMMAN,,95PC,high,NHL95PC C3E9C (string): 'initgraphics - INITMEMMAN REQUIRED BEFORE INITGRAPHICS\n',
 113A88,str_InitgraphicsINVALIDSCREEN,,95PC,high,"NHL95PC C3ED4 (string): 'initgraphics - INVALID SCREEN SIZE (%d,%d)\n'",
 113AB4,str_VESAVideoBiosDriver,,95PC,high,NHL95PC C3F00 (string): 'VESA video bios driver required.\nPlease install a driver f,
-113B10,str_UnknownError,asc_113B10,new,high,string 'Unknown error',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113B1E,str_EnvironmentVariableNotSe,asc_113B1E,new,high,string 'Environment variable not set',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113B3B,str_ErrorInEnvironmentVariab,asc_113B3B,new,high,string 'Error in environment variable',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113B59,str_InvalidDriver,asc_113B59,new,high,string 'Invalid driver',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113B68,str_CardNotDetected,asc_113B68,new,high,string 'Card not detected',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113B7A,str_ErrorAllocatingMemory,asc_113B7A,new,high,string 'Error allocating memory',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113B92,str_ErrorInitializingCard,asc_113B92,new,high,string 'Error initializing card',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113BAA,str_ErrorInitializingSoftwar,asc_113BAA,new,high,string 'Error initializing software mixer',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113BCC,str_ErrorInDMAChannel,asc_113BCC,new,high,string 'Error in DMA channel',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113BE1,str_ErrorNotAnEACSFormatFile,asc_113BE1,new,high,string 'Error: not an EACS format file',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113C00,str_ErrorInvalidChannel,asc_113C00,new,high,string 'Error: invalid channel',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113C17,str_ErrorInvalidVolume,asc_113C17,new,high,string 'Error: invalid volume',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113C2D,str_ErrorInvalidHandle,asc_113C2D,new,high,string 'Error: invalid handle',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113C43,str_ErrorInvalidPan,asc_113C43,new,high,string 'Error: invalid pan',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113C56,str_ErrorUnsupportedAudioTyp,asc_113C56,new,high,string 'Error: unsupported audio type this function',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113C82,str_ErrorInvalidBend,asc_113C82,new,high,string 'Error: invalid bend',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113C96,str_ErrorCouldNotResolveSfxB,asc_113C96,new,high,string 'Error: could not resolve sfx bank',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113CB8,str_ErrorInvalidBankNumber,asc_113CB8,new,high,string 'Error: invalid bank number',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113CD3,str_ErrorInvalidSfxNumber,asc_113CD3,new,high,string 'Error: invalid sfx number',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113CED,str_NoFreeChannelToPlayOn,asc_113CED,new,high,string 'No free channel to play on',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113D08,str_spEACSNDFLIB32BitSoundLibr,unk_113D08,new,high,"string ' EACSNDF.LIB 32 Bit Sound Library - Build: Aug 28 1995 18:29:01  (c)1994-95, EAC Inc. by DM, AS, PC, IM, KH, BP, et al. '",src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113D81,str_NoCardInstalled,unk_113D81,new,high,string 'No card installed',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113D93,str_SoundBlaster10,unk_113D93,new,high,string 'SoundBlaster 1.0',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113DA4,str_SoundBlaster15,unk_113DA4,new,high,string 'SoundBlaster 1.5',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113DB5,str_SoundBlaster20,unk_113DB5,new,high,string 'SoundBlaster 2.0',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113DC6,str_SoundBlasterPro10,unk_113DC6,new,high,string 'SoundBlaster Pro 1.0',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113DDB,str_SoundBlasterPro20,unk_113DDB,new,high,string 'SoundBlaster Pro 2.0',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113DF0,str_SoundBlaster16,unk_113DF0,new,high,string 'SoundBlaster 16',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113E00,str_GravisUltraSound,unk_113E00,new,high,string 'Gravis UltraSound',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113E12,str_WindowsSoundSystem,unk_113E12,new,high,string 'Windows Sound System',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113E28,str_TGV,asc_113E28,new,high,"string ""TGV""",src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113E2C,str_TgvdecodeInvalidChunkTyp,asc_113E2C,new,high,string 'tgvdecode: Invalid chunk type',src/data/lib/sound/snd_speech_queue_service_data_01.asm
-113E4C,str_RateDDAvgDD,asc_113E4C,new,high,string 'rate=%d.%d  avg=%d.%d ',src/data/lib/sound/snd_speech_queue_service_data_01.asm
+113B10,str_UnknownError,asc_113B10,new,high,string 'Unknown error',src/data/lib/sound/snd_speech_queue_service_const.asm
+113B1E,str_EnvironmentVariableNotSe,asc_113B1E,new,high,string 'Environment variable not set',src/data/lib/sound/snd_speech_queue_service_const.asm
+113B3B,str_ErrorInEnvironmentVariab,asc_113B3B,new,high,string 'Error in environment variable',src/data/lib/sound/snd_speech_queue_service_const.asm
+113B59,str_InvalidDriver,asc_113B59,new,high,string 'Invalid driver',src/data/lib/sound/snd_speech_queue_service_const.asm
+113B68,str_CardNotDetected,asc_113B68,new,high,string 'Card not detected',src/data/lib/sound/snd_speech_queue_service_const.asm
+113B7A,str_ErrorAllocatingMemory,asc_113B7A,new,high,string 'Error allocating memory',src/data/lib/sound/snd_speech_queue_service_const.asm
+113B92,str_ErrorInitializingCard,asc_113B92,new,high,string 'Error initializing card',src/data/lib/sound/snd_speech_queue_service_const.asm
+113BAA,str_ErrorInitializingSoftwar,asc_113BAA,new,high,string 'Error initializing software mixer',src/data/lib/sound/snd_speech_queue_service_const.asm
+113BCC,str_ErrorInDMAChannel,asc_113BCC,new,high,string 'Error in DMA channel',src/data/lib/sound/snd_speech_queue_service_const.asm
+113BE1,str_ErrorNotAnEACSFormatFile,asc_113BE1,new,high,string 'Error: not an EACS format file',src/data/lib/sound/snd_speech_queue_service_const.asm
+113C00,str_ErrorInvalidChannel,asc_113C00,new,high,string 'Error: invalid channel',src/data/lib/sound/snd_speech_queue_service_const.asm
+113C17,str_ErrorInvalidVolume,asc_113C17,new,high,string 'Error: invalid volume',src/data/lib/sound/snd_speech_queue_service_const.asm
+113C2D,str_ErrorInvalidHandle,asc_113C2D,new,high,string 'Error: invalid handle',src/data/lib/sound/snd_speech_queue_service_const.asm
+113C43,str_ErrorInvalidPan,asc_113C43,new,high,string 'Error: invalid pan',src/data/lib/sound/snd_speech_queue_service_const.asm
+113C56,str_ErrorUnsupportedAudioTyp,asc_113C56,new,high,string 'Error: unsupported audio type this function',src/data/lib/sound/snd_speech_queue_service_const.asm
+113C82,str_ErrorInvalidBend,asc_113C82,new,high,string 'Error: invalid bend',src/data/lib/sound/snd_speech_queue_service_const.asm
+113C96,str_ErrorCouldNotResolveSfxB,asc_113C96,new,high,string 'Error: could not resolve sfx bank',src/data/lib/sound/snd_speech_queue_service_const.asm
+113CB8,str_ErrorInvalidBankNumber,asc_113CB8,new,high,string 'Error: invalid bank number',src/data/lib/sound/snd_speech_queue_service_const.asm
+113CD3,str_ErrorInvalidSfxNumber,asc_113CD3,new,high,string 'Error: invalid sfx number',src/data/lib/sound/snd_speech_queue_service_const.asm
+113CED,str_NoFreeChannelToPlayOn,asc_113CED,new,high,string 'No free channel to play on',src/data/lib/sound/snd_speech_queue_service_const.asm
+113D08,str_spEACSNDFLIB32BitSoundLibr,unk_113D08,new,high,"string ' EACSNDF.LIB 32 Bit Sound Library - Build: Aug 28 1995 18:29:01  (c)1994-95, EAC Inc. by DM, AS, PC, IM, KH, BP, et al. '",src/data/lib/sound/snd_speech_queue_service_const.asm
+113D81,str_NoCardInstalled,unk_113D81,new,high,string 'No card installed',src/data/lib/sound/snd_speech_queue_service_const.asm
+113D93,str_SoundBlaster10,unk_113D93,new,high,string 'SoundBlaster 1.0',src/data/lib/sound/snd_speech_queue_service_const.asm
+113DA4,str_SoundBlaster15,unk_113DA4,new,high,string 'SoundBlaster 1.5',src/data/lib/sound/snd_speech_queue_service_const.asm
+113DB5,str_SoundBlaster20,unk_113DB5,new,high,string 'SoundBlaster 2.0',src/data/lib/sound/snd_speech_queue_service_const.asm
+113DC6,str_SoundBlasterPro10,unk_113DC6,new,high,string 'SoundBlaster Pro 1.0',src/data/lib/sound/snd_speech_queue_service_const.asm
+113DDB,str_SoundBlasterPro20,unk_113DDB,new,high,string 'SoundBlaster Pro 2.0',src/data/lib/sound/snd_speech_queue_service_const.asm
+113DF0,str_SoundBlaster16,unk_113DF0,new,high,string 'SoundBlaster 16',src/data/lib/sound/snd_speech_queue_service_const.asm
+113E00,str_GravisUltraSound,unk_113E00,new,high,string 'Gravis UltraSound',src/data/lib/sound/snd_speech_queue_service_const.asm
+113E12,str_WindowsSoundSystem,unk_113E12,new,high,string 'Windows Sound System',src/data/lib/sound/snd_speech_queue_service_const.asm
+113E28,str_TGV,asc_113E28,new,high,"string ""TGV""",src/data/lib/ea/ea_tgv_build_huff_table_const.asm
+113E2C,str_TgvdecodeInvalidChunkTyp,asc_113E2C,new,high,string 'tgvdecode: Invalid chunk type',src/data/lib/ea/ea_tgv_build_huff_table_const.asm
+113E4C,str_RateDDAvgDD,asc_113E4C,new,high,string 'rate=%d.%d  avg=%d.%d ',src/data/lib/ea/ea_tgv_build_huff_table_const.asm
 113E64,str_EXITTODOSY,,95PC,high,NHL95PC C47E8 (string): 'EXIT TO DOS (Y/N)',
 113E78,str_PAUSEPRESSANYKEY,,95PC,high,NHL95PC C47FC (string): 'PAUSE - PRESS ANY KEY TO RESUME',
 113E98,str_RemovewindowROWSPACE,,95PC,high,NHL95PC C481C (string): 'removewindow - ROW SPACE CORRUPTED\n',
 113EBC,str_FshVshQfsQvs,,95PC,high,NHL95PC C4840 (string): '.fsh.vsh.qfs.qvs',
 113ED0,str_Vsh,,95PC,high,NHL95PC C4854 (string): '.vsh',
 113ED8,str_Qvs,,95PC,high,NHL95PC C485C (string): '.qvs',
-113EE0,str_CalibrateYourJoystickByU,asc_113EE0,new,high,string 'Calibrate your joystick by using it',src/data/lib/ea/ea_shutdown_system_data_01.asm
-113F04,str_ToMoveTheJoystickPositio,asc_113F04,new,high,string 'to move the joystick position indicator',src/data/lib/ea/ea_shutdown_system_data_01.asm
-113F2C,str_BelowToAllSquares,asc_113F2C,new,high,"string ""below, to all squares""",src/data/lib/ea/ea_shutdown_system_data_01.asm
-113F44,str_PressJoystickButtonWhenC,asc_113F44,new,high,string 'Press joystick button when complete',src/data/lib/ea/ea_shutdown_system_data_01.asm
-113F68,str_KEYBOARDON,asc_113F68,new,high,string 'KEYBOARD ON',src/data/lib/ea/ea_shutdown_system_data_01.asm
-113F74,str_PATH_InitSystem,asc_113F74,new,high,"string ""PATH""",src/data/lib/ea/ea_shutdown_system_data_01.asm
-113F7C,str_DOS4GWEXE,asc_113F7C,new,high,"string ""DOS4GW.EXE""",src/data/lib/ea/ea_shutdown_system_data_01.asm
-113F88,str_CS_InitSystem,asc_113F88,new,high,"string ""c:\%s""",src/data/lib/ea/ea_shutdown_system_data_01.asm
-113F90,str_CheckextenderINCORRECTEX,asc_113F90,new,high,string 'checkextender - INCORRECT EXTENDER VERSION INSTALLED Check '%s'. Currently %ld bytes in size. Should be %ld bytes. ',src/data/lib/ea/ea_shutdown_system_data_01.asm
-114004,str_LocatebigNOBIGFILESETNUL,asc_114004,new,high,string 'locatebig - NO BIG FILE SET (NULL POINTER) ',src/data/lib/ea/ea_shutdown_system_data_01.asm
-114030,str_LocatebigFILEISNOTAUNITFILE,asc_114030,new,high,"string ""locatebig - FILE IS NOT A UNIT FILE\n""",src/data/lib/ea/ea_shutdown_system_data_01.asm
-114058,str_LocatebigsFILENOTFOUNDS,asc_114058,new,high,string 'locatebigs - FILE NOT FOUND <%s> ',src/data/lib/ea/ea_shutdown_system_data_01.asm
-11407C,str_OriinitmorphObjectCannotMorp,asc_11407C,new,high,"string ""oriinitmorph: object cannot morph""",src/data/lib/ea/ea_shutdown_system_data_01.asm
-1140A0,str_OriapplymorphObjectCannotMor,asc_1140A0,new,high,"string ""oriapplymorph: object cannot morph""",src/data/lib/ea/ea_shutdown_system_data_01.asm
-1140C4,str_OriapplymorphObjectCanno,asc_1140C4,new,high,string 'oriapplymorph: object cannot morph',src/data/lib/ea/ea_shutdown_system_data_01.asm
+113EE0,str_CalibrateYourJoystickByU,asc_113EE0,new,high,string 'Calibrate your joystick by using it',src/data/lib/input/input_joystick_calibrate_screen_const.asm
+113F04,str_ToMoveTheJoystickPositio,asc_113F04,new,high,string 'to move the joystick position indicator',src/data/lib/input/input_joystick_calibrate_screen_const.asm
+113F2C,str_BelowToAllSquares,asc_113F2C,new,high,"string ""below, to all squares""",src/data/lib/input/input_joystick_calibrate_screen_const.asm
+113F44,str_PressJoystickButtonWhenC,asc_113F44,new,high,string 'Press joystick button when complete',src/data/lib/input/input_joystick_calibrate_screen_const.asm
+113F68,str_KEYBOARDON,asc_113F68,new,high,string 'KEYBOARD ON',src/data/lib/ea/ea_show_keyboard_on_const.asm
+113F74,str_PATH_InitSystem,asc_113F74,new,high,"string ""PATH""",src/data/lib/ea/ea_shutdown_system_const.asm
+113F7C,str_DOS4GWEXE,asc_113F7C,new,high,"string ""DOS4GW.EXE""",src/data/lib/ea/ea_shutdown_system_const.asm
+113F88,str_CS_InitSystem,asc_113F88,new,high,"string ""c:\%s""",src/data/lib/ea/ea_shutdown_system_const.asm
+113F90,str_CheckextenderINCORRECTEX,asc_113F90,new,high,string 'checkextender - INCORRECT EXTENDER VERSION INSTALLED Check '%s'. Currently %ld bytes in size. Should be %ld bytes. ',src/data/lib/ea/ea_shutdown_system_const.asm
+114004,str_LocatebigNOBIGFILESETNUL,asc_114004,new,high,string 'locatebig - NO BIG FILE SET (NULL POINTER) ',src/data/lib/ea/ea_big_file_type_const.asm
+114030,str_LocatebigFILEISNOTAUNITFILE,asc_114030,new,high,"string ""locatebig - FILE IS NOT A UNIT FILE\n""",src/data/lib/ea/ea_big_file_type_const.asm
+114058,str_LocatebigsFILENOTFOUNDS,asc_114058,new,high,string 'locatebigs - FILE NOT FOUND <%s> ',src/data/lib/ea/ea_big_file_type_const.asm
+11407C,str_OriinitmorphObjectCannotMorp,asc_11407C,new,high,"string ""oriinitmorph: object cannot morph""",src/data/lib/ori3d/ori_fill_span_list_const.asm
+1140A0,str_OriapplymorphObjectCannotMor,asc_1140A0,new,high,"string ""oriapplymorph: object cannot morph""",src/data/lib/ori3d/ori_fill_span_list_const.asm
+1140C4,str_OriapplymorphObjectCanno,asc_1140C4,new,high,string 'oriapplymorph: object cannot morph',src/data/lib/ori3d/ori_fill_span_list_const.asm
 1140E8,str_BLASTER,,95PC,high,NHL95PC C4A94 (string): 'BLASTER',
-1140F0,str_DMABUFFER,asc_1140F0,new,high,string 'DMA BUFFER',src/data/lib/sound/snd_soundblaster_data_01.asm
-1140FB,str_WSSDMA,asc_1140FB,new,high,string 'WSSDMA',src/data/lib/sound/snd_soundblaster_data_01.asm
-114104,str_DMABUFFER2,asc_114104,new,high,string 'DMA BUFFER',src/data/lib/sound/snd_soundblaster_data_01.asm
-114110,str_DMABUFFER3,asc_114110,new,high,string 'DMA BUFFER',src/data/lib/sound/snd_soundblaster_data_01.asm
-11411C,str_DMABUF,asc_11411C,new,high,string 'DMABUF',src/data/lib/sound/snd_soundblaster_data_01.asm
-114124,str_DMABUF2,asc_114124,new,high,string 'DMABUF',src/data/lib/sound/snd_soundblaster_data_01.asm
+1140F0,str_DMABUFFER,asc_1140F0,new,high,string 'DMA BUFFER',src/data/lib/sound/snd_soundblaster_const.asm
+1140FB,str_WSSDMA,asc_1140FB,new,high,string 'WSSDMA',src/data/lib/sound/snd_soundblaster_const.asm
+114104,str_DMABUFFER2,asc_114104,new,high,string 'DMA BUFFER',src/data/lib/sound/snd_soundblaster_const.asm
+114110,str_DMABUFFER3,asc_114110,new,high,string 'DMA BUFFER',src/data/lib/sound/snd_soundblaster_const.asm
+11411C,str_DMABUF,asc_11411C,new,high,string 'DMABUF',src/data/lib/sound/snd_soundblaster_const.asm
+114124,str_DMABUF2,asc_114124,new,high,string 'DMABUF',src/data/lib/sound/snd_soundblaster_const.asm
 11412C,str_NotEnoughMemoryTo,,95PC,high,NHL95PC C4B00 (string): 'Not enough memory to allocate file structures\r\n',
 11415C,str_FloatingPointSupportNot,,95PC,high,NHL95PC C4ADC (string): 'Floating-point support not loaded\r\n',
-114180,str_SaveText,asc_114180,new,high,string 'Save Text',src/data/lib/sound/snd_soundblaster_data_01.asm
-11418C,str_Mouse,unk_11418C,new,high,"string ""mouse""",src/data/lib/sound/snd_soundblaster_data_01.asm
-114194,str_CUtilMouse,asc_114194,new,high,"string ""c:\util\mouse""",src/data/lib/sound/snd_soundblaster_data_01.asm
-1141A4,str_Ptr0ptr1ptr2,asc_1141A4,new,high,string 'ptr0ptr1ptr2',src/data/lib/sound/snd_soundblaster_data_01.asm
-1141B4,str_BuildtableminLinearmapfExcee,asc_1141B4,new,high,"string ""buildtablemin (linearmapf) - exceeded 768 max height (%d)\n""",src/data/lib/sound/snd_soundblaster_data_01.asm
-1141F0,str_BuildfixedtableminLinear,asc_1141F0,new,high,string 'buildfixedtablemin (linearmapf) - exceeded 768 max height (%d) ',src/data/lib/sound/snd_soundblaster_data_01.asm
-114230,str_BuildtableminLinearmapfE,asc_114230,new,high,string 'buildtablemin (linearmapf) - exceeded 768 max height (%d) ',src/data/lib/sound/snd_soundblaster_data_01.asm
-11426C,str_BuildtableminLinearmapfE2,asc_11426C,new,high,string 'buildtablemin (linearmapf) - exceeded 768 max height (%d) ',src/data/lib/sound/snd_soundblaster_data_01.asm
+114180,str_SaveText,asc_114180,new,high,string 'Save Text',src/data/lib/video/video_is_text_mode_width_const.asm
+11418C,str_Mouse,unk_11418C,new,high,"string ""mouse""",src/data/lib/video/video_is_text_mode_width_const.asm
+114194,str_CUtilMouse,asc_114194,new,high,"string ""c:\util\mouse""",src/data/lib/input/input_pointer_on_target_const.asm
+1141A4,str_Ptr0ptr1ptr2,asc_1141A4,new,high,string 'ptr0ptr1ptr2',src/data/lib/input/input_pointer_on_target_const.asm
+1141B4,str_BuildtableminLinearmapfExcee,asc_1141B4,new,high,"string ""buildtablemin (linearmapf) - exceeded 768 max height (%d)\n""",src/data/lib/ori3d/ori_build_edge_table_min_const.asm
+1141F0,str_BuildfixedtableminLinear,asc_1141F0,new,high,string 'buildfixedtablemin (linearmapf) - exceeded 768 max height (%d) ',src/data/lib/ori3d/ori_build_edge_table_min_const.asm
+114230,str_BuildtableminLinearmapfE,asc_114230,new,high,string 'buildtablemin (linearmapf) - exceeded 768 max height (%d) ',src/data/lib/ori3d/ori_build_edge_table_min_const.asm
+11426C,str_BuildtableminLinearmapfE2,asc_11426C,new,high,string 'buildtablemin (linearmapf) - exceeded 768 max height (%d) ',src/data/lib/ori3d/ori_build_edge_table_min_const.asm
 1142A8,str_RATIONALDOS4G,,95PC,high,NHL95PC C4B30 (string): 'RATIONAL DOS/4G',
-1142B8,str_RMHandler,asc_1142B8,new,high,string 'RMHandler',src/data/lib/sound/snd_soundblaster_data_01.asm
-1142C4,str_ULTRASND,unk_1142C4,95PC,high,string 'ULTRASND',src/data/lib/sound/snd_soundblaster_data_01.asm
-1142D0,str_StarRule,unk_1142D0,new,low,line of stars,src/data/lib/sound/snd_soundblaster_data_01.asm
-1142FC,str_Fs,unk_1142FC,95PC,high,string '%Fs',src/data/lib/sound/snd_soundblaster_data_01.asm
-114300,str_Jan2,unk_114300,95PC,high,string 'Jan',src/data/lib/sound/snd_soundblaster_data_01.asm
-114304,str_Feb3,unk_114304,95PC,high,string 'Feb',src/data/lib/sound/snd_soundblaster_data_01.asm
-114308,str_Mar2,unk_114308,95PC,high,string 'Mar',src/data/lib/sound/snd_soundblaster_data_01.asm
-11430C,str_Apr2,unk_11430C,95PC,high,string 'Apr',src/data/lib/sound/snd_soundblaster_data_01.asm
-114310,str_May2,unk_114310,95PC,high,string 'May',src/data/lib/sound/snd_soundblaster_data_01.asm
-114314,str_Jun2,unk_114314,95PC,high,string 'Jun',src/data/lib/sound/snd_soundblaster_data_01.asm
-114318,str_Jul2,unk_114318,95PC,high,string 'Jul',src/data/lib/sound/snd_soundblaster_data_01.asm
-11431C,str_Aug2,unk_11431C,95PC,high,string 'Aug',src/data/lib/sound/snd_soundblaster_data_01.asm
-114320,str_Sep2,unk_114320,95PC,high,string 'Sep',src/data/lib/sound/snd_soundblaster_data_01.asm
-114324,str_Oct2,unk_114324,95PC,high,string 'Oct',src/data/lib/sound/snd_soundblaster_data_01.asm
-114328,str_Nov2,unk_114328,95PC,high,string 'Nov',src/data/lib/sound/snd_soundblaster_data_01.asm
-11432C,str_Dec2,unk_11432C,95PC,high,string 'Dec',src/data/lib/sound/snd_soundblaster_data_01.asm
-114330,str_HW77xPool77xMax77xDOSHW77xDO,asc_114330,new,high,"string ""  HW=%7.7x Pool=%7.7x Max=%7.7x DOSHW=%7.7x DOSPool=%7.7x""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-11436C,str_HW7uPool7uMax7uDOSHW7uDOSPoo,asc_11436C,new,high,"string ""  HW=%-7u Pool=%-7u Max=%-7u DOSHW=%-7u DOSPool=%-7u""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-1143A4,str_Used77xFree77xLargst77x,asc_1143A4,new,high,string 'Used=%7.7x Free=%7.7x Largst=%7.7x ',src/data/lib/ea/ea_debug_get_key_data_01.asm
+1142B8,str_RMHandler,asc_1142B8,new,high,string 'RMHandler',src/data/lib/sound/snd_hw_sb_const.asm
+1142C4,str_ULTRASND,unk_1142C4,95PC,high,string 'ULTRASND',src/data/lib/sound/snd_hw_sb_const.asm
+1142D0,str_StarRule,unk_1142D0,new,low,line of stars,src/data/lib/sound/snd_hw_sb_const.asm
+1142FC,str_Fs,unk_1142FC,95PC,high,string '%Fs',src/data/lib/sound/snd_hw_sb_const.asm
+114300,str_Jan2,unk_114300,95PC,high,string 'Jan',src/data/lib/sound/snd_hw_sb_const.asm
+114304,str_Feb3,unk_114304,95PC,high,string 'Feb',src/data/lib/sound/snd_hw_sb_const.asm
+114308,str_Mar2,unk_114308,95PC,high,string 'Mar',src/data/lib/sound/snd_hw_sb_const.asm
+11430C,str_Apr2,unk_11430C,95PC,high,string 'Apr',src/data/lib/sound/snd_hw_sb_const.asm
+114310,str_May2,unk_114310,95PC,high,string 'May',src/data/lib/sound/snd_hw_sb_const.asm
+114314,str_Jun2,unk_114314,95PC,high,string 'Jun',src/data/lib/sound/snd_hw_sb_const.asm
+114318,str_Jul2,unk_114318,95PC,high,string 'Jul',src/data/lib/sound/snd_hw_sb_const.asm
+11431C,str_Aug2,unk_11431C,95PC,high,string 'Aug',src/data/lib/sound/snd_hw_sb_const.asm
+114320,str_Sep2,unk_114320,95PC,high,string 'Sep',src/data/lib/sound/snd_hw_sb_const.asm
+114324,str_Oct2,unk_114324,95PC,high,string 'Oct',src/data/lib/sound/snd_hw_sb_const.asm
+114328,str_Nov2,unk_114328,95PC,high,string 'Nov',src/data/lib/sound/snd_hw_sb_const.asm
+11432C,str_Dec2,unk_11432C,95PC,high,string 'Dec',src/data/lib/sound/snd_hw_sb_const.asm
+114330,str_HW77xPool77xMax77xDOSHW77xDO,asc_114330,new,high,"string ""  HW=%7.7x Pool=%7.7x Max=%7.7x DOSHW=%7.7x DOSPool=%7.7x""",src/data/lib/ea/ea_debug_get_key_const.asm
+11436C,str_HW7uPool7uMax7uDOSHW7uDOSPoo,asc_11436C,new,high,"string ""  HW=%-7u Pool=%-7u Max=%-7u DOSHW=%-7u DOSPool=%-7u""",src/data/lib/ea/ea_debug_get_key_const.asm
+1143A4,str_Used77xFree77xLargst77x,asc_1143A4,new,high,string 'Used=%7.7x Free=%7.7x Largst=%7.7x ',src/data/lib/ea/ea_debug_get_key_const.asm
 1143C8,str_Used7uFree7u,,95PC,high,NHL95PC C417C (string): 'Used=%-7u Free=%-7u Largst=%-7u',
-1143E8,str_NAMESIZEADRFLAG,asc_1143E8,new,high,"string ""    NAME      SIZE       ADR      FLAG  """,src/data/lib/ea/ea_debug_get_key_data_01.asm
-114414,str_IDXNAMESIZEADRFLAG,asc_114414,new,high,string 'IDX     NAME           SIZE    ADR    FLAG',src/data/lib/ea/ea_debug_get_key_data_01.asm
-114440,str_C,unk_114440,new,high,"string ""%c""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-114444,str_80s,asc_114444,new,high,"string ""%-80s""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-11444C,MemViewStrings,unk_11444C,new,low,memory viewer strings,src/data/lib/ea/ea_debug_get_key_data_01.asm
-114450,str_S9,asc_114450,95PC,high,string '%s ',src/data/lib/ea/ea_debug_get_key_data_01.asm
-114454,str_S_MemViewerDrawList,asc_114454,new,high,"string ""%s\n\n""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-11445C,str_SPACE10x8s8s,asc_11445C,new,high,"string ""     SPACE   %10x %8s %8s""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-114478,str_SPACE10d8s8s,asc_114478,new,high,"string ""     SPACE   %10d %8s %8s""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-114494,str_SPACE1010x88s88s,asc_114494,new,high,"string ""       SPACE     %10.10x %8.8s %8.8s""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-1144BC,str_SPACE10d88s88s,asc_1144BC,new,high,"string ""       SPACE     %10d %8.8s %8.8s""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-1144E0,str_1212s10x8s8s,asc_1144E0,new,high,string '%-12.12s %10x %8s %8s',src/data/lib/ea/ea_debug_get_key_data_01.asm
-1144F8,str_1212s10d8s8s,asc_1144F8,new,high,"string ""%-12.12s %10d %8s %8s""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-114510,str_33d1212s1010x88s88s44x,asc_114510,new,high,"string ""%3.3d %-12.12s %10.10x %8.8s %8.8s %4.4x""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-11453C,str_33d1212s10d88s88s44x,asc_11453C,new,high,"string ""%3.3d %-12.12s %10d %8.8s %8.8s %4.4x""",src/data/lib/ea/ea_debug_get_key_data_01.asm
+1143E8,str_NAMESIZEADRFLAG,asc_1143E8,new,high,"string ""    NAME      SIZE       ADR      FLAG  """,src/data/lib/ea/ea_debug_get_key_const.asm
+114414,str_IDXNAMESIZEADRFLAG,asc_114414,new,high,string 'IDX     NAME           SIZE    ADR    FLAG',src/data/lib/ea/ea_debug_get_key_const.asm
+114440,str_C,unk_114440,new,high,"string ""%c""",src/data/lib/ea/ea_debug_get_key_const.asm
+114444,str_80s,asc_114444,new,high,"string ""%-80s""",src/data/lib/ea/ea_debug_get_key_const.asm
+11444C,MemViewStrings,unk_11444C,new,low,memory viewer strings,src/data/lib/ea/ea_debug_get_key_const.asm
+114450,str_S9,asc_114450,95PC,high,string '%s ',src/data/lib/ea/ea_debug_get_key_const.asm
+114454,str_S_MemViewerDrawList,asc_114454,new,high,"string ""%s\n\n""",src/data/lib/ea/ea_debug_get_key_const.asm
+11445C,str_SPACE10x8s8s,asc_11445C,new,high,"string ""     SPACE   %10x %8s %8s""",src/data/lib/ea/ea_debug_get_key_const.asm
+114478,str_SPACE10d8s8s,asc_114478,new,high,"string ""     SPACE   %10d %8s %8s""",src/data/lib/ea/ea_debug_get_key_const.asm
+114494,str_SPACE1010x88s88s,asc_114494,new,high,"string ""       SPACE     %10.10x %8.8s %8.8s""",src/data/lib/ea/ea_debug_get_key_const.asm
+1144BC,str_SPACE10d88s88s,asc_1144BC,new,high,"string ""       SPACE     %10d %8.8s %8.8s""",src/data/lib/ea/ea_debug_get_key_const.asm
+1144E0,str_1212s10x8s8s,asc_1144E0,new,high,string '%-12.12s %10x %8s %8s',src/data/lib/ea/ea_debug_get_key_const.asm
+1144F8,str_1212s10d8s8s,asc_1144F8,new,high,"string ""%-12.12s %10d %8s %8s""",src/data/lib/ea/ea_debug_get_key_const.asm
+114510,str_33d1212s1010x88s88s44x,asc_114510,new,high,"string ""%3.3d %-12.12s %10.10x %8.8s %8.8s %4.4x""",src/data/lib/ea/ea_debug_get_key_const.asm
+11453C,str_33d1212s10d88s88s44x,asc_11453C,new,high,"string ""%3.3d %-12.12s %10d %8.8s %8.8s %4.4x""",src/data/lib/ea/ea_debug_get_key_const.asm
 114564,str_MEMMANAGER,,95PC,high,NHL95PC C430C (string): 'MEM MANAGER',
-114570,str_X_DebugSprintf,unk_114570,new,high,"string ""%x""",src/data/lib/ea/ea_debug_get_key_data_01.asm
+114570,str_X_DebugSprintf,unk_114570,new,high,"string ""%x""",src/data/lib/ea/ea_debug_get_key_const.asm
 114574,str_044X00000000,,95PC,high,NHL95PC C431C (string): '%04.4X (0000 0000 0000 0000)',
-114594,str_1_MemViewerBlockInfo,unk_114594,new,high,"string ""1""",src/data/lib/ea/ea_debug_get_key_data_01.asm
+114594,str_1_MemViewerBlockInfo,unk_114594,new,high,"string ""1""",src/data/lib/ea/ea_debug_get_key_const.asm
 114598,str_SYSTEM,,95PC,high,NHL95PC C4340 (string): ' SYSTEM ',
 1145A4,str_SPACE3,,95PC,high,NHL95PC C434C (string): ' SPACE ',
 1145AC,str_HIGHMemoryBlock,,95PC,high,NHL95PC C4354 (string): 'HIGH memory block',
@@ -4442,17 +4442,17 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 114648,str_BlockIsPURGABLE,,95PC,high,NHL95PC C43F0 (string): 'Block is PURGABLE',
 11465C,str_04x2,,95PC,high,NHL95PC C4404 (string): '%04x   ',
 114664,str_02x,,95PC,high,NHL95PC C440C (string): '%02x',
-11466C,str_Punct_HexDumpRow,unk_11466C,new,high,"string ""*""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-114670,str_SpaceHex,unk_114670,new,low,space before a hex byte,src/data/lib/ea/ea_debug_get_key_data_01.asm
-114674,str_FourSpacesHex,asc_114674,new,low,four spaces in a hex dump,src/data/lib/ea/ea_debug_get_key_data_01.asm
+11466C,str_Punct_HexDumpRow,unk_11466C,new,high,"string ""*""",src/data/lib/ea/ea_debug_get_key_const.asm
+114670,str_SpaceHex,unk_114670,new,low,space before a hex byte,src/data/lib/ea/ea_debug_get_key_const.asm
+114674,str_FourSpacesHex,asc_114674,new,low,four spaces in a hex dump,src/data/lib/ea/ea_debug_get_key_const.asm
 11467C,str_FILES2,,95PC,high,NHL95PC C4424 (string): '* FILE: %s\n',
 114688,str_DATES2,,95PC,high,NHL95PC C4430 (string): '* DATE: %s\n',
 114694,str_TIMES3,,95PC,high,NHL95PC C443C (string): '* TIME: %s\n',
-1146A0,str_N_WriteMemMap,unk_1146A0,new,high,"string ""N""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-1146A4,str_FF,unk_1146A4,new,high,"string ""FF""",src/data/lib/ea/ea_debug_get_key_data_01.asm
+1146A0,str_N_WriteMemMap,unk_1146A0,new,high,"string ""N""",src/data/lib/ea/ea_debug_get_key_const.asm
+1146A4,str_FF,unk_1146A4,new,high,"string ""FF""",src/data/lib/ea/ea_debug_get_key_const.asm
 1146A8,str_HexmemdspOS,,95PC,high,NHL95PC C4450 (string): 'hexmemdsp = O%s\n\n',
 1146BC,str_XxMMAPTXT,,95PC,high,NHL95PC C4464 (string): 'xxMMAP??.TXT',
-1146CC,str_W_DumpMemoryMap,unk_1146CC,new,high,"string ""w""",src/data/lib/ea/ea_debug_get_key_data_01.asm
+1146CC,str_W_DumpMemoryMap,unk_1146CC,new,high,"string ""w""",src/data/lib/ea/ea_debug_get_key_const.asm
 1146D0,str_ErrorDumpingMemoryMap,,95PC,high,NHL95PC C4478 (string): 'Error Dumping Memory Map',
 1146EC,str_ShapeFileIsInvalid,,95PC,high,NHL95PC C4494 (string): 'Shape file is invalid.  Work with it?',
 114714,str_NumDPackedD,,95PC,high,"NHL95PC C44BC (string): 'Num = %d, # packed = %d, # not packed = %d, # no shows = %d",
@@ -4465,9 +4465,9 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1147EC,str_Un,,95PC,medium,NHL95PC C4594 (refset): referenced by the same 2 matched functions,
 1147F0,str_Spacked,,95PC,high,NHL95PC C4598 (string): ' %spacked\n',
 1147FC,str_Packed,,95PC,high,NHL95PC C45A4 (string): 'packed  ',
-114808,str_Unpacked_ShapeInfo,asc_114808,new,high,"string ""unpacked""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-114814,str_3d3d3d3dS,asc_114814,new,high,"string ""%3d/%3d, %3d/%3d, %s""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-11482C,str_Type02xNext05x,asc_11482C,new,high,"string ""type %02x, next %05x""",src/data/lib/ea/ea_debug_get_key_data_01.asm
+114808,str_Unpacked_ShapeInfo,asc_114808,new,high,"string ""unpacked""",src/data/lib/ea/ea_debug_get_key_const.asm
+114814,str_3d3d3d3dS,asc_114814,new,high,"string ""%3d/%3d, %3d/%3d, %s""",src/data/lib/ea/ea_debug_get_key_const.asm
+11482C,str_Type02xNext05x,asc_11482C,new,high,"string ""type %02x, next %05x""",src/data/lib/ea/ea_debug_get_key_const.asm
 114844,str_ShapeIsInvalidDraw,,95PC,high,NHL95PC C45D4 (string): 'Shape is invalid.  Draw it anyways?',
 114868,str_MEMSHPTXT,,95PC,high,NHL95PC C45F8 (string): 'MEMSHP??.TXT',
 114878,str_ErrorDumpingShapesList,,95PC,high,NHL95PC C4608 (string): 'Error Dumping Shapes List',
@@ -4477,32 +4477,32 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1148E0,str_44s66ld,,95PC,high,"NHL95PC C4670 (string): ""'%-4.4s' @ %6.6ld, """,
 1148F4,str_Bytes3dRows3d2,,95PC,high,"NHL95PC C4684 (string): 'bytes = %3d, rows = %3d, '",
 114910,str_XY3d3d,,95PC,high,"NHL95PC C46A0 (string): 'x/y = %3d/%3d, cx/cy = %3d/%3d'",
-114930,str_Punct_DumpShapesList,unk_114930,new,high,"string ""\n""",src/data/lib/ea/ea_debug_get_key_data_01.asm
+114930,str_Punct_DumpShapesList,unk_114930,new,high,"string ""\n""",src/data/lib/ea/ea_debug_get_key_const.asm
 114934,str_033d022X,,95PC,high,NHL95PC C46C4 (string): '%03.3d (%02.2X)',
 114944,str_R022d,,95PC,high,NHL95PC C46D4 (string): 'R=%02.2d',
 114950,str_G022d,,95PC,high,NHL95PC C46E0 (string): 'G=%02.2d',
 11495C,str_B022d,,95PC,high,NHL95PC C46EC (string): 'B=%02.2d',
-114968,str_02d_PaletteViewerLabel,asc_114968,new,high,"string ""%02d""",src/data/lib/ea/ea_debug_get_key_data_01.asm
+114968,str_02d_PaletteViewerLabel,asc_114968,new,high,"string ""%02d""",src/data/lib/ea/ea_debug_get_key_const.asm
 114970,str_SCREEN2,,95PC,high,NHL95PC C4700 (string): 'SCREEN??.*',
-11497C,str_Tga,asc_11497C,new,high,"string "".tga""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-114984,str_02d3s02d_FormatDateTime,asc_114984,new,high,"string ""%02d-%3s-%02d""",src/data/lib/ea/ea_debug_get_key_data_01.asm
-114994,str_2d02d02d,asc_114994,95PC,high,string '%2d:%02d:%02d',src/data/lib/ea/ea_debug_get_key_data_01.asm
+11497C,str_Tga,asc_11497C,new,high,"string "".tga""",src/data/lib/ea/ea_debug_get_key_const.asm
+114984,str_02d3s02d_FormatDateTime,asc_114984,new,high,"string ""%02d-%3s-%02d""",src/data/lib/ea/ea_debug_get_key_const.asm
+114994,str_2d02d02d,asc_114994,95PC,high,string '%2d:%02d:%02d',src/data/lib/ea/ea_debug_get_key_const.asm
 1149A4,str_Unpackf,,95PC,high,NHL95PC C48FC (string): 'unpackf',
-1149AC,str_Targa,asc_1149AC,new,high,string 'Targa',src/data/lib/ea/ea_debug_get_key_data_01.asm
+1149AC,str_Targa,asc_1149AC,new,high,string 'Targa',src/data/lib/ea/ea_unpackf_blit_const.asm
 1149B4,str_Inf,,95PC,high,NHL95PC C4B5C (position): same fixup of __Nan_Inf_,
 1149B8,str_Nan,,95PC,high,NHL95PC C4B60 (position): same fixup of __Nan_Inf_,
-1149BC,F64_neg1_floor_,qword_1149BC,new,high,double constant -1,src/data/lib/watcom/watcom_nan_inf_data_01.asm
+1149BC,F64_neg1_floor_,qword_1149BC,new,high,double constant -1,src/data/lib/watcom/watcom_nan_inf_const.asm
 1149C4,_IsTable,,WATCOM,high,IDA FLIRT library signature,
-114AC8,F64_Scale10Max,qword_114AC8,new,low,largest power of ten scale for _Scale10V_,src/data/lib/watcom/watcom_nan_inf_data_01.asm
-114AD0,F64_Scale10Min,qword_114AD0,new,low,smallest power of ten scale for _Scale10V_,src/data/lib/watcom/watcom_nan_inf_data_01.asm
-114AD8,DblMaxLow,dword_114AD8,new,low,DBL_MAX low dword,src/data/lib/watcom/watcom_nan_inf_data_01.asm
-114ADC,DblMaxHigh,dword_114ADC,new,low,DBL_MAX high dword,src/data/lib/watcom/watcom_nan_inf_data_01.asm
-114AE0,DblMinusMaxLow,dword_114AE0,new,low,-DBL_MAX low dword,src/data/lib/watcom/watcom_nan_inf_data_01.asm
-114AE4,DblMinusMaxHigh,dword_114AE4,new,low,-DBL_MAX high dword,src/data/lib/watcom/watcom_nan_inf_data_01.asm
-114AE8,HugeValLo,dword_114AE8,new,low,low half of HUGE_VAL,src/data/lib/watcom/watcom_nan_inf_data_01.asm
-114AEC,HugeValHi,dword_114AEC,new,low,high half of HUGE_VAL,src/data/lib/watcom/watcom_nan_inf_data_01.asm
-114AF0,Scale10Count,unk_114AF0,new,low,power of ten table length,src/data/lib/watcom/watcom_nan_inf_data_01.asm
-114AF2,Pow10Table,qword_114AF2,new,low,powers of ten,src/data/lib/watcom/watcom_nan_inf_data_01.asm
+114AC8,F64_Scale10Max,qword_114AC8,new,low,largest power of ten scale for _Scale10V_,src/data/lib/watcom/watcom_nan_inf_const.asm
+114AD0,F64_Scale10Min,qword_114AD0,new,low,smallest power of ten scale for _Scale10V_,src/data/lib/watcom/watcom_nan_inf_const.asm
+114AD8,DblMaxLow,dword_114AD8,new,low,DBL_MAX low dword,src/data/lib/watcom/watcom_nan_inf_const.asm
+114ADC,DblMaxHigh,dword_114ADC,new,low,DBL_MAX high dword,src/data/lib/watcom/watcom_nan_inf_const.asm
+114AE0,DblMinusMaxLow,dword_114AE0,new,low,-DBL_MAX low dword,src/data/lib/watcom/watcom_nan_inf_const.asm
+114AE4,DblMinusMaxHigh,dword_114AE4,new,low,-DBL_MAX high dword,src/data/lib/watcom/watcom_nan_inf_const.asm
+114AE8,HugeValLo,dword_114AE8,new,low,low half of HUGE_VAL,src/data/lib/watcom/watcom_nan_inf_const.asm
+114AEC,HugeValHi,dword_114AEC,new,low,high half of HUGE_VAL,src/data/lib/watcom/watcom_nan_inf_const.asm
+114AF0,Scale10Count,unk_114AF0,new,low,power of ten table length,src/data/lib/watcom/watcom_nan_inf_const.asm
+114AF2,Pow10Table,qword_114AF2,new,low,powers of ten,src/data/lib/watcom/watcom_nan_inf_const.asm
 114B40,InputDevicesFound,word_114B40,new,low,Input devices found by GetInputDevices,src/data/pc/modem_game_data_01.asm
 114B42,InputDevicesReady,word_114B42,new,low,Input devices initialised,src/data/pc/modem_game_data_01.asm
 114B44,MouseReady,word_114B44,new,low,Mouse driver found and set up,src/data/pc/modem_game_data_01.asm

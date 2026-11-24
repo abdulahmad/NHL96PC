@@ -37,7 +37,8 @@ How complete 96 PC is against 94 PC, 95 PC and the 96 Genesis and SNES versions,
 ## Layout
 
 - `src/engine/`, `src/front/`, `src/lib/`: the code, one file per module, in NHL95PC's folders where the module matches.
-  `src/data/`: data and BSS. `src/cseg02/`, `src/dseg03/`: the two small objects. `src/segments.txt`: the link order.
+  `src/data/`: data and BSS, one file per owning code module. The two small objects are `src/lib/sound/snd_sb_real_mode_isr.asm`
+  (object 2) and `src/data/lib/sound/snd_sb_dma_ports.asm` (object 3). `src/segments.txt`: the link order.
 - `src/inc/`: `hockey.inc` (included by every file), `x86enc.inc` (the `LD` macro), `symbols.inc` (generated index).
 - `segmap96pc.json` and `EXE_SEGMAP96PC.md`: every segment's range, file and note. `docs/name_map.csv`: every name and its evidence.
 - `tools/build/`, `tools/names/`: the build, rename and matching tools (docs/ASM_BUILD.md).
@@ -55,8 +56,8 @@ Needs NASM 2.15 (2.15.05; NASM 2.16 encodes `xchg reg,reg` the other way round a
 
 ## Running the game on a modern PC (SDL2 port)
 
-The branch `sdl2-port` runs the game's own 32-bit code natively, with DOS, BIOS, sound, video and input hardware emulated by the host
-in `port/`. Build and details: [docs/SDL2_PORT.md](docs/SDL2_PORT.md). `src/` is untouched, so `./build.sh` still ends with `MATCH`.
+The port (`port/`, on `main`) runs the game's own 32-bit code natively, with DOS, BIOS, sound, video and input hardware emulated by the host.
+Build and details: [docs/SDL2_PORT.md](docs/SDL2_PORT.md). `src/` is untouched, so `./build.sh` still ends with `MATCH`.
 
 ```
 make sdl2                 # build/hockey-linux (needs gcc-multilib and libsdl2-dev:i386)

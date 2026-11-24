@@ -17,7 +17,7 @@ over Overbar's online room (design: online play phase 6).
 
 ## How the room takes it over
 
-1. **The line.** Overbar's `overbar/serial.h` emulates the UART and the modem. `port/modem.c` sends the game's
+1. **The line.** Overbar's `include/overbar/serial.h` (in the `port/overbar` submodule) emulates the UART and the modem. `port/modem.c` sends the game's
    `in` / `out` on COM1..COM4 to it once the room attaches it (`modem_attach`). Its interrupt line raises IRQ 4
    (COM1/COM3) or IRQ 3 (COM2/COM4) through `irq_raise`, and the game's own handler services it. Dialing reaches
    the other machine of the room whatever number is typed. Auto-answer and `ATA` answer. `CONNECT 9600` comes at

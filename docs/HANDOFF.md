@@ -2,18 +2,19 @@
 
 ## Now
 
-- Port: SDL2 native port (`port/`, `make sdl2` -> `build/hockey-linux`), on the overbar branch.
-- Disassembly: named on `fable-work`, merged into `main` and this branch (2026-11-15). The port loads `lst/HOCKEY.EXE` and uses original addresses; the names in its comments follow `src/inc/symbols.inc`.
-- Last check: `./build.sh` MATCH.
-- Next: the engine naming queue (SEGMENT_AGENT.md); run the port with real game data.
+- Stage / unit: none open. The data re-cut by owner is merged (#40–#43); no auto names are left in `src/`.
+- Branch: none. New work is a short branch off the current `main` and one PR into `main`.
+- Port: SDL2 native port (`port/`, `make sdl2` -> `build/hockey-linux`) is on `main`, with Overbar in `port/overbar`. The port loads
+  `lst/HOCKEY.EXE` and uses original addresses; the names in its comments follow `src/inc/symbols.inc`.
+- Last check: `./build.sh` MATCH with NASM 2.15.05.
+- Next: see `TODO.md` (front-end module boundaries); run the port with real game data.
 
-## State (2026-11-14)
+## State (2026-11-24)
 
-- The whole EXE is NASM source: 112 code files, 134 data files, `cseg02` and `dseg03`; the LE fixup tables are regenerated
+- The whole EXE is NASM source: 263 code files and 232 data files (objects 2 and 3 included); the LE fixup tables are regenerated
   from the labels. Only the extender parts and LE header fields come from the EXE. Details: docs/PLAN.md, docs/ASM_BUILD.md.
-- 7,845 cross-file symbols, 297 named: FLIRT library names (source WATCOM), the discovery thread's names (new), and the
-  trustworthy NHL95PC matches (95PC; `medium` rows are behaviour matches to confirm).
-- 78 code files follow an NHL95PC module by matching, 8 are named by theme, 25 are placeholders named by address.
+- 6,583 cross-file symbols, all named (FLIRT library names, NHL95PC matches, and the naming pass); no auto names are left.
+- Every code file has a module name; the front-end boundaries are still provisional.
 
 ## Known facts
 
@@ -24,6 +25,6 @@
 
 ## Unsure / open
 
-- Object 2 (52 bytes of 16-bit code: `push ax / push dx / mov al, 20h`, an interrupt stub) and object 3 (24 bytes starting
-  87 83 81 82): named after their objects for now.
+- Object 2 (52 bytes of 16-bit code: `push ax / push dx / mov al, 20h`, the Sound Blaster real-mode interrupt stub,
+  `src/lib/sound/snd_sb_real_mode_isr.asm`) and object 3 (24 bytes starting 87 83 81 82, `src/data/lib/sound/snd_sb_dma_ports.asm`).
 - Front-end module boundaries are provisional (docs/PLAN.md, decision 4).

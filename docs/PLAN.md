@@ -2,15 +2,15 @@
 
 Goal: `HOCKEY.EXE` (1,613,291 bytes, SHA-1 `426fb8c0c80088c6a2c56a9dac50509cb9c24540`) rebuilt byte for byte from
 labelled NASM source, modelled on NHL95PC, with the NHL95PC symbols and file layout kept wherever the two games
-share code. No C decompilation for now. All work is on the branch `fable-work`.
+share code. No C decompilation for now. Work goes to `main` through small pull requests.
 
-## Where it stands (2026-11-14)
+## Where it stands (2026-11-24)
 
-- `./build.sh` prints MATCH. The four LE objects are source: 112 code files, 134 data files, the 16-bit stub and
-  dseg03 (`EXE_SEGMAP96PC.md`). Every absolute address is a label; the linker regenerates the LE fixup tables.
+- `./build.sh` prints MATCH (NASM 2.15.05). The four LE objects are source: 263 code files and 232 data files, one data file
+  per owning code module, including the 16-bit stub and the small object 3 (`EXE_SEGMAP96PC.md`, `src/segments.txt`). Every absolute address is a label; the linker regenerates the LE fixup tables.
   Only the DOS/4GW extender parts and the LE header fields are taken from the EXE (as in NHL95PC).
-- 7,845 cross-file symbols, 297 named. The rest are auto names (`sub_`, `loc_`, `dword_` ...). Naming them, file by
-  file, is the remaining work (SEGMENT_AGENT.md).
+- 6,583 cross-file symbols (`src/inc/symbols.inc`); no auto names (`sub_`, `loc_`, `dword_` ...) are left in `src/`. The
+  segment queue is finished; structure fields are equates (`src/inc/structs.inc`).
 
 ## Decisions and why
 
@@ -47,11 +47,11 @@ share code. No C decompilation for now. All work is on the branch `fable-work`.
 | 2 | Full source tree, byte-identical build | done |
 | 3 | Match against NHL95PC; module layout; first names | done |
 | 4 | Segment agent docs, naming rules, CONTRIBUTING on `fable-work` | done |
-| 5 | Segment queue: name every routine, local and data item, one file per session, engine files first (SEGMENT_AGENT.md) | next |
+| 5 | Segment queue: name every routine, local and data item, one file per session, engine files first (SEGMENT_AGENT.md) | done |
 | 6 | Re-run `match95.py` after each engine file (names found feed the matcher as anchors) | with 5 |
-| 7 | Name and re-cut the placeholder front-end segments as their purpose becomes clear | with 5 |
-| 8 | Structure fields as equates (`src/inc/structs.inc`), aligned with NHL95PC's `structs.inc` | after the engine files |
-| 9 | Data files: cut by owner once the code files are named (now cut where the owning code file changes) | later |
+| 7 | Name and re-cut the placeholder front-end segments as their purpose becomes clear | done (boundaries still provisional) |
+| 8 | Structure fields as equates (`src/inc/structs.inc`), aligned with NHL95PC's `structs.inc` | done |
+| 9 | Data files: cut by owner once the code files are named | done (#40–#43) |
 | 10 | Remove `lst/HOCKEY.EXE` and the listing from the repo | done 2026-11-18 (latest commit only; you supply your own) |
 
 ## Risks and open points

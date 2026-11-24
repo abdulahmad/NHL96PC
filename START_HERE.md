@@ -1,6 +1,6 @@
 # START HERE (instructions for the agent and new contributors)
 
-Read this file, then `SEGMENT_AGENT.md` (rules and queue), `CONTRIBUTING.md`, `docs/PLAN.md` and `docs/HANDOFF.md`.
+Read this file, then `AGENTS.md`, `SEGMENT_AGENT.md` (naming rules), `CONTRIBUTING.md`, `docs/PLAN.md` and `docs/HANDOFF.md`.
 
 This repo is a disassembly only: labelled 32-bit x86 assembly (NASM) that reassembles to the byte-identical `HOCKEY.EXE`. No C, no
 compiler. It is modelled on NHL95PC: the same build tools, the same file layout and the same names wherever the two games share code.
@@ -11,11 +11,11 @@ compiler. It is modelled on NHL95PC: the same build tools, the same file layout 
 - `lst/HOCKEY.EXE` (and the IDA listing `lst/HOCKEY.EXE.lst`, if you have it) are your own copies and are not in the repo. Never commit them, game data, `build/` or patches.
 - Never force-push, never rewrite pushed history, never push a commit that does not MATCH. Small commits.
 - No macros except `LD`. No address where a label works.
-- Work on `fable-work`. Do not merge to `main`.
+- Work on a short branch off the current `main` and open one pull request into `main`.
 
 ## 1. Setup
 
-NASM 2.15+ and Python 3. Nothing else is needed to build. (`tools/build/gen_src.py` and the matcher also need `pip install iced-x86`;
+NASM 2.15.05 (NASM 2.16 encodes `xchg reg,reg` the other way round and the EXE does not match) and Python 3. Nothing else is needed to build. (`tools/build/gen_src.py` and the matcher also need `pip install iced-x86`;
 they are maintainer tools.)
 
 ## 2. Build and confirm MATCH
@@ -24,7 +24,8 @@ they are maintainer tools.)
 
 ## 3. Work loop
 
-Run `PROMPT.md` once per file, in queue order (SEGMENT_AGENT.md). After each: MATCH, commit, push, update `docs/HANDOFF.md`.
+The segment naming queue is finished (no auto names are left in `src/`). Remaining work is in `TODO.md` and the Now block of
+`docs/HANDOFF.md`. After each change: MATCH, commit, open the PR, update `docs/HANDOFF.md`.
 
 ## 4. When stuck
 

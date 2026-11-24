@@ -2880,99 +2880,307 @@
   },
   {
    "obj": 4,
-   "note": "owner: lib/lib_A8B9B.asm",
+   "note": "owner: lib/ea/ea_timer.asm",
    "start": 1126648,
-   "end": 1126812,
+   "end": 1126672,
    "module": "data_lib_1130F8",
-   "file": "data/lib/ea/ea_timer_data_01.asm"
+   "file": "data/lib/ea/ea_timer_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_draw_shape_at_own_pos.asm",
+   "start": 1126672,
+   "end": 1126812,
+   "module": "data_lib_113110",
+   "file": "data/lib/ea/ea_draw_shape_at_own_pos_const.asm"
   },
   {
    "start": 1126812,
    "end": 1127480,
    "module": "ea_memman_data_01",
    "obj": 4,
-   "file": "data/lib/ea/ea_memman_data_01.asm",
+   "file": "data/lib/ea/ea_memman_const.asm",
    "note": "owner: lib/ea/ea_memman.asm"
   },
   {
    "start": 1127480,
-   "end": 1127848,
+   "end": 1127556,
    "module": "ea_fileblock_01_data_01",
    "obj": 4,
-   "file": "data/lib/ea/ea_fileblock_01_data_01.asm",
-   "note": "owner: lib/ea/ea_fileblock_01.asm"
+   "file": "data/lib/ea/ea_debug_printf_const.asm",
+   "note": "owner: lib/ea/ea_debug_printf.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_debug_log.asm",
+   "start": 1127556,
+   "end": 1127848,
+   "module": "data_lib_113484",
+   "file": "data/lib/ea/ea_debug_log_const.asm"
   },
   {
    "start": 1127848,
-   "end": 1128132,
+   "end": 1127912,
    "module": "ea_unpack_data_01",
    "obj": 4,
-   "file": "data/lib/ea/ea_unpack_data_01.asm",
+   "file": "data/lib/ea/ea_unpack_const.asm",
    "note": "owner: lib/ea/ea_unpack.asm"
   },
   {
-   "start": 1128132,
-   "end": 1128588,
-   "module": "watcom_clib_05_data_01",
    "obj": 4,
-   "file": "data/lib/watcom/watcom_clib_05_data_01.asm",
-   "note": "owner: lib/watcom/watcom_clib_05.asm"
+   "note": "owner: lib/ea/ea_dos_file_info.asm",
+   "start": 1127912,
+   "end": 1127936,
+   "module": "data_lib_1135E8",
+   "file": "data/lib/ea/ea_dos_file_info_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_save_data_file.asm",
+   "start": 1127936,
+   "end": 1127980,
+   "module": "data_lib_113600",
+   "file": "data/lib/ea/ea_save_data_file_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_grab_largest_block.asm",
+   "start": 1127980,
+   "end": 1128248,
+   "module": "data_lib_11362C",
+   "file": "data/lib/ea/ea_grab_largest_block_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_build_aa_pal_lut.asm",
+   "start": 1128248,
+   "end": 1128256,
+   "module": "data_lib_113738",
+   "file": "data/lib/ea/ea_build_aa_pal_lut_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/cd/cd_open_file.asm",
+   "start": 1128256,
+   "end": 1128340,
+   "module": "data_lib_113740",
+   "file": "data/lib/cd/cd_open_file_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/cd/cd_find_file.asm",
+   "start": 1128340,
+   "end": 1128588,
+   "module": "data_lib_113794",
+   "file": "data/lib/cd/cd_find_file_const.asm"
   },
   {
    "start": 1128588,
-   "end": 1128920,
+   "end": 1128788,
    "module": "ea_shpi_01_data_01",
    "obj": 4,
-   "file": "data/lib/ea/ea_shpi_01_data_01.asm",
-   "note": "owner: lib/ea/ea_shpi_01.asm"
+   "file": "data/lib/ori3d/ori_set_rink_view_const.asm",
+   "note": "owner: lib/ori3d/ori_set_rink_view.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ori3d/ori_transform_vector.asm",
+   "start": 1128788,
+   "end": 1128872,
+   "module": "data_lib_113954",
+   "file": "data/lib/ori3d/ori_transform_vector_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ori3d/ori_find_group.asm",
+   "start": 1128872,
+   "end": 1128920,
+   "module": "data_lib_1139A8",
+   "file": "data/lib/ori3d/ori_find_group_const.asm"
   },
   {
    "start": 1128920,
-   "end": 1129232,
+   "end": 1129040,
    "module": "watcom_clib_07_data_01",
    "obj": 4,
-   "file": "data/lib/watcom/watcom_clib_07_data_01.asm",
-   "note": "owner: lib/watcom/watcom_clib_07.asm"
+   "file": "data/lib/video/video_vesa_get_info_const.asm",
+   "note": "owner: lib/video/video_vesa_get_info.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_vesa_init.asm",
+   "start": 1129040,
+   "end": 1129232,
+   "module": "data_lib_113A50",
+   "file": "data/lib/ea/ea_vesa_init_const.asm"
   },
   {
    "start": 1129232,
-   "end": 1130208,
+   "end": 1130024,
    "module": "watcom_clib_08_data_01",
    "obj": 4,
-   "file": "data/lib/watcom/watcom_clib_08_data_01.asm",
-   "note": "owner: lib/watcom/watcom_clib_08.asm"
+   "file": "data/lib/sound/snd_speech_queue_service_const.asm",
+   "note": "owner: lib/sound/snd_speech_queue_service.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_tgv_build_huff_table.asm",
+   "start": 1130024,
+   "end": 1130084,
+   "module": "data_lib_113E28",
+   "file": "data/lib/ea/ea_tgv_build_huff_table_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_kbd_exit.asm",
+   "start": 1130084,
+   "end": 1130136,
+   "module": "data_lib_113E64",
+   "file": "data/lib/ea/ea_kbd_exit_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_fill_row_table.asm",
+   "start": 1130136,
+   "end": 1130172,
+   "module": "data_lib_113E98",
+   "file": "data/lib/ea/ea_fill_row_table_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_load_file_cached.asm",
+   "start": 1130172,
+   "end": 1130208,
+   "module": "data_lib_113EBC",
+   "file": "data/lib/ea/ea_load_file_cached_const.asm"
   },
   {
    "start": 1130208,
-   "end": 1130728,
+   "end": 1130344,
    "module": "watcom_clib_13_data_01",
    "obj": 4,
-   "file": "data/lib/watcom/watcom_clib_13_data_01.asm",
-   "note": "owner: lib/watcom/watcom_clib_13.asm"
+   "file": "data/lib/input/input_joystick_calibrate_screen_const.asm",
+   "note": "owner: lib/input/input_joystick_calibrate_screen.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_show_keyboard_on.asm",
+   "start": 1130344,
+   "end": 1130356,
+   "module": "data_lib_113F68",
+   "file": "data/lib/ea/ea_show_keyboard_on_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_shutdown_system.asm",
+   "start": 1130356,
+   "end": 1130500,
+   "module": "data_lib_113F74",
+   "file": "data/lib/ea/ea_shutdown_system_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_big_file_type.asm",
+   "start": 1130500,
+   "end": 1130620,
+   "module": "data_lib_114004",
+   "file": "data/lib/ea/ea_big_file_type_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ori3d/ori_fill_span_list.asm",
+   "start": 1130620,
+   "end": 1130728,
+   "module": "data_lib_11407C",
+   "file": "data/lib/ori3d/ori_fill_span_list_const.asm"
   },
   {
    "start": 1130728,
-   "end": 1131312,
+   "end": 1130796,
    "module": "snd_soundblaster_data_01",
    "obj": 4,
-   "file": "data/lib/sound/snd_soundblaster_data_01.asm",
+   "file": "data/lib/sound/snd_soundblaster_const.asm",
    "note": "owner: lib/sound/snd_soundblaster.asm"
   },
   {
+   "obj": 4,
+   "note": "owner: lib/watcom/watcom_memset.asm",
+   "start": 1130796,
+   "end": 1130844,
+   "module": "data_lib_11412C",
+   "file": "data/lib/watcom/watcom_memset_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/watcom/watcom_flushall_getche.asm",
+   "start": 1130844,
+   "end": 1130880,
+   "module": "data_lib_11415C",
+   "file": "data/lib/watcom/watcom_flushall_getche_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/video/video_is_text_mode_width.asm",
+   "start": 1130880,
+   "end": 1130900,
+   "module": "data_lib_114180",
+   "file": "data/lib/video/video_is_text_mode_width_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/input/input_pointer_on_target.asm",
+   "start": 1130900,
+   "end": 1130932,
+   "module": "data_lib_114194",
+   "file": "data/lib/input/input_pointer_on_target_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ori3d/ori_build_edge_table_min.asm",
+   "start": 1130932,
+   "end": 1131176,
+   "module": "data_lib_1141B4",
+   "file": "data/lib/ori3d/ori_build_edge_table_min_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/watcom/watcom_emu387.asm",
+   "start": 1131176,
+   "end": 1131192,
+   "module": "data_lib_1142A8",
+   "file": "data/lib/watcom/watcom_emu387_const.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/sound/snd_hw_sb.asm",
+   "start": 1131192,
+   "end": 1131312,
+   "module": "data_lib_1142B8",
+   "file": "data/lib/sound/snd_hw_sb_const.asm"
+  },
+  {
    "start": 1131312,
-   "end": 1132980,
+   "end": 1132964,
    "module": "ea_debug_02_data_01",
    "obj": 4,
-   "file": "data/lib/ea/ea_debug_02_data_01.asm",
-   "note": "owner: lib/ea/ea_debug_02.asm"
+   "file": "data/lib/ea/ea_debug_get_key_const.asm",
+   "note": "owner: lib/ea/ea_debug_get_key.asm"
+  },
+  {
+   "obj": 4,
+   "note": "owner: lib/ea/ea_unpackf_blit.asm",
+   "start": 1132964,
+   "end": 1132980,
+   "module": "data_lib_1149A4",
+   "file": "data/lib/ea/ea_unpackf_blit_const.asm"
   },
   {
    "start": 1132980,
    "end": 1133376,
    "module": "watcom_clib_21_data_01",
    "obj": 4,
-   "file": "data/lib/watcom/watcom_clib_21_data_01.asm",
-   "note": "owner: lib/watcom/watcom_clib_21.asm"
+   "file": "data/lib/watcom/watcom_nan_inf_const.asm",
+   "note": "owner: lib/watcom/watcom_nan_inf.asm"
   },
   {
    "start": 1133376,

@@ -15,8 +15,8 @@ Working notes for the feature-by-feature discovery (2026-11-09). Addresses are l
   Nothing here distinguishes slots 2/3 from 0/1 except the team stored in the setup struct, so 4-player play is a setup
   matter (slot team and device), not a different input path.
 - Consequence for 95 PC: the record is 3 bytes per 5 ticks there (two pads plus a hot key). 96 PC widened it to 4 dwords.
-- Manual (Control Setup, p.18-20): four control slots. The stars on the ice are Red, Blue, Teal and Purple (p.20). The
-  devices are the mouse, the keyboard and two joysticks. The box and the reference card add the Gravis GrIP 4-player
+- Manual (Control Setup, p.18-20): four control slots. The stars on the ice are Red, Blue, Teal and Purple (p.20; star
+  colours not confirmed in code). The devices are the mouse, the keyboard and two joysticks. The box and the reference card add the Gravis GrIP 4-player
   adaptor, which the code supports (`InitGrip`, `GripScanSlots`, `GripReadSlots`).
 - Manual (Hot Key Commands, p.36): F1-F4 and F5-F8 change lines for each team, and F9 / F10 pull each team's goalie.
   That matches the slot bits above (line change bits 10-17, goalie pull bits 18/19).
@@ -38,7 +38,7 @@ Working notes for the feature-by-feature discovery (2026-11-09). Addresses are l
   team's goalie (position 0, `restorepl`, `HomeControlSlot`); `AutoSwitchPlayer` (src/engine/faceoff/faceoff.asm) and
   `puckfaceoff2` test the same bit. 95 PC's `changeplayer` only picks players with position above 0.
 - The manual's Rules screen calls it Goalie Controls ON / OFF (p.15): hold PASS until the star is on the goalie,
-  SHOOT saves, PASS + SHOOT poke checks (p.2, p.23).
+  SHOOT saves, PASS + SHOOT poke checks (p.2, p.23). The button mapping: not confirmed in code.
 
 ## Difficulty (found)
 
@@ -61,7 +61,8 @@ data files and match index numbers to the `sub_77355` call sites. A run on the l
 
 The Rules screen (p.15) lists, top to bottom: Penalties, Offsides, Two Line Passes, Icing, Line Changes (Manual /
 Automatic / None), Injuries, Goalie Controls, Fighting, Period Length (5, 10 or 20 minutes), Speed Game. Use this order
-to match the option bits and the string indices to names.
+to match the option bits and the string indices to names; the row-to-bit mapping beyond the bits below is not
+confirmed in code.
 
 ## Game options bits (from the 95 PC layout, same offsets seen at the options screen)
 
@@ -103,10 +104,9 @@ The constants were retuned for the 96 rink:
 
 - `assextra3` (src/engine/assign/assign.asm): compares the team's skaters (team +38h, less the goalie) with the other
   team's. When the team is short with 3 or 4 skaters it uses special targets; otherwise it places players by role.
-  Called from asscenterd, asswingd and assnearest. This is the box's "Penalty Killing Defense".
+  Called from asscenterd, asswingd and assnearest.
 - `SwapDefWithFwd` (src/engine/logic/logic.asm): a defenceman deep in the attacking zone swaps positions with a forward
-  (`SwapPosition`); the forward gets `asscoverdefo` / `asscoverdefd`. It works at every strength. This is the box's
-  "Players cover for teammates out of position on D".
+  (`SwapPosition`); the forward gets `asscoverdefo` / `asscoverdefd`. It works at every strength.
 - No power-play-only branch was found. `assextra4` places the forwards on offence from two spot tables (the centre's and the
   wingers', labelled `ExtraAttackerSpots` and `str_Q` for now), without a strength test.
 

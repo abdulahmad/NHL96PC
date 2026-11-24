@@ -38,7 +38,7 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 ## Skill levels
 
 - **96 PC:** three levels, Rookie, Pro and All-Star: `optflags` bits 7-8 (0, 80h, 100h). The menu cycles through all
-  three (`MainMenuScreen_774`, src/front/menu/menu.asm). (The manual names only Rookie and All-Star.)
+  three (`MainMenuScreen_774`, src/front/menu/menu.asm).
 - The level is read all over the game: skating (`playeracc`, src/engine/skate/skate.asm; `BurstDrainEnergy`),
   shooting and puck handling (`doshot`, `puckstick`, `PickPuckRebound`, src/engine/puckphys/puckphys.asm;
   `GetHotOrStick`, src/engine/hockey/hockey.asm), checking (`checkcheck`, src/engine/checking/checking.asm;
@@ -120,7 +120,8 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 - **vs 96 Genesis: different.** 96G changed how a save is picked instead (`goaliesave`, src/engine/logic/puck.asm:
   `SPAgblock`, `SPAgcatchlow`, reach saves).
 - **vs 96 SNES:** not confirmed in code.
-- **vs 95 PC: changed** (the positioning routines are new). Whether goalies stop more shots has not been measured.
+- **vs 95 PC and 94 PC: changed.** Neither has the positioning routines or the new animations (none found). Whether
+  goalies stop more shots: not confirmed in code.
 
 ## Drop pass
 
@@ -162,7 +163,8 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 - **vs 96 Genesis: different.** 96G has one fake (`SPAfake`, src/frames96.asm) and one block, `CanBlock`
   (src/engine/replay/block.asm), for a human player only.
 - **vs 96 SNES:** not confirmed in code.
-- **vs 94 PC: new.** 94 PC has no block code.
+- **vs 94 PC: new.** 94 PC has neither the fake-shot animations (`SPAfakeshotf` not found; its `SPAfake`, 92Bh, is
+  95 PC's `SPAfake`, not a shot) nor block code.
 
 ## Spin-o-rama
 
@@ -239,11 +241,13 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 - **vs 96 SNES:** not confirmed in code.
 - **vs 95 PC and 94 PC: changed.** Both have cup animations (`SPAgetcup`, `SPAbrcup`) but no cup assignments.
 
-## The box claims
+## Box features
 
-- **"Penalty Killing Defense: players cover for teammates out of position on D"** (96 PC box; the 96 Genesis box has
-  the same line): built on both, with different code. See Penalty-kill AI and Covering for a defenceman.
-- **"Power Play Offense: teammates skate to the slot"**: no power-play-only code on either. 96G's offence spots moved
-  closer to the net at every strength; 96 PC's spots have not been compared with 95 PC's yet.
-- **Better goalies** (96 PC "stingy keepers", 96 Genesis "Tougher Goalies", 96 SNES "better goaltending"): reworked
-  on 96 PC and 96 Genesis, differently. Whether they save more is not confirmed. 96 SNES: not confirmed in code.
+What the code has for each feature on the 96 box (96 PC; the 96 Genesis box has the same lines):
+
+- **Penalty-kill defence, covering a teammate out of position on D:** in the code on both, with different code. See
+  Penalty-kill AI and Covering for a defenceman.
+- **Power-play offence, teammates skate to the slot:** no power-play-only code on either. 96G's offence spots moved
+  closer to the net at every strength; whether 96 PC's spots differ from 95 PC's: not confirmed in code.
+- **Better goalies:** reworked on 96 PC and 96 Genesis, differently (see Goalie AI). Whether they save more: not
+  confirmed in code. 96 SNES: not confirmed in code.

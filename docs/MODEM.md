@@ -45,13 +45,13 @@ From the manual's Two-Computer Modem Games section (p.34-35) and the reference c
 
 - Modem is a Mode on the Game Setup screen. After the call connects, the New Game screen appears and the game is set
   up "just like in an Exhibition game". The manual calls these "modem-linked Exhibition games".
-- Trades are not available, and all teams play with the default NHL rosters.
+- Trades are not available, and all teams play with the default NHL rosters (not confirmed in code).
 - A direct link uses a serial cable with a null modem adapter. A modem link needs at least 14400 baud on both machines;
   the reference card asks for a 16550 UART, which matches the UART driver above. The code still accepts the
   `CONNECT 1200` and higher strings, so 14400 is the manual's requirement, not a check the connect code makes.
 - One player picks MAKE CALL and the other WAIT FOR CALL. The Modem Configuration screen has Com Port (1-4, with its
   standard IRQ), IRQ, Modem Type (default GENERIC HAYES COMPATIBLE), Dial String (the game adds T or P itself), Init
-  String and Phone Type (tone or pulse).
+  String and Phone Type (tone or pulse). The screen's fields: not confirmed in code.
 
 So the "season data" in the laptop check below should only be the exhibition set-up; the manual has no modem season.
 

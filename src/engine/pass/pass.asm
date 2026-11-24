@@ -1175,11 +1175,12 @@ chk4lcauto:
         ret
 ;-----------------------------------------------------------------------------
 ; PassLaneChk                                  403CE  95 PC, medium confidence
-; Pass target check for passer eax / receiver edx: 0 when the passer is the
-; goalie, when ShotLaneOpen says no.
-;
-; Or when the receiver is on the wrong side of the blue line (4Eh by pfgoal);
-; then a vtoa lane test; used by chk4pass and dopass
+; The drop pass check (95 PC PassLaneChk) for passer eax / receiver edx: 1 when
+; the passer is not the goalie, ShotLaneOpen says the shot lane is blocked, the
+; passer is past the attacking blue line (74h, the 96 rink; 95 PC 4Eh) and no
+; deeper than 9Ch, and the receiver trails him within 3Ch / 28h heading the
+; same way; then dopass drops the puck with ScatterPass. Used by chk4pass (the
+; passlane byte +53h) and dopass
 ;-----------------------------------------------------------------------------
 PassLaneChk:
         push ebx

@@ -5105,8 +5105,8 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 119D62,IntroStandSpots,word_119D62,new,low,"intro stand positions, 4 bytes a player (assintrostand)",src/data/engine/threestars_data_01.asm
 119D76,starskatermin,byte_119D76,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/threestars_data_01.asm
 119D79,stargoaliemin,byte_119D79,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/threestars_data_01.asm
-119D7C,ExtraAttackerSpots,unk_119D7C,new,low,spot table assextra4 sends the extra attacker to,src/data/engine/threestars_data_01.asm
-119D9C,str_Q,unk_119D9C,new,high,"string ""q""",src/data/engine/threestars_data_01.asm
+119D7C,asscentero_dedata,unk_119D7C,95PC,high,"assextra4 centre lane offence spots (x, x range, y, y range per zone) for positions 4 and 6; 95 PC asscentero_dedata, same four zones retuned for the 96 rink (was ExtraAttackerSpots)",src/data/engine/threestars_data_01.asm
+119D9C,asswingo_dedata,unk_119D9C,95PC,high,"assextra4 wing lane offence spots (x, x range, y, y range per zone); 95 PC asswingo_dedata, same four zones retuned for the 96 rink; not a string (was str_Q)",src/data/engine/threestars_data_01.asm
 119DBC,PuckCarrySpotX,word_119DBC,new,low,x of the spots asspuckc skates the carrier to,src/data/engine/threestars_data_01.asm
 119DBE,PuckCarrySpotY,word_119DBE,new,low,y of the spots asspuckc skates the carrier to,src/data/engine/threestars_data_01.asm
 119DE4,ScoreCelebrating,dword_119DE4,new,low,set while a scorer celebrates (assscore),src/data/engine/threestars_data_01.asm

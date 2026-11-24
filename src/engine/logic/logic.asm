@@ -7,7 +7,7 @@ bits 32
 section s_313D2 progbits alloc exec nowrite align=1
 extern assextra3, assgoalie, assrefgoalpa_83E, assrefgoalpa_83F, assreplace, AwayEbenPlayer, awslotcount, changeplayer
 extern check4bench, check4check, checkob, chk4lc, chk4lcauto, chk4pass, chk4shot, ChkPullGoalieLate
-extern CompPass, defdtarget, defotarget, doplayeracc, EvadePC, ExtraAttackerOn, ExtraAttackerPending, ExtraAttackerSpots
+extern CompPass, defdtarget, defotarget, doplayeracc, EvadePC, ExtraAttackerOn, ExtraAttackerPending, asscentero_dedata
 extern ExtraAttackerTeam, ExtraGoalieOut, gameopts, GetHot, GetPartner, gmode, gmode2, gsp
 extern hmslotcount, HomeControlSlot, HomeEbenPlayer, iflags, injurystop, onetimerflag, OneTimerPasser, passplayer
 extern PBflags, PBnum, penshotplayer, PlaySfx, Setplass_alist, PtrPuckFlags, PtrRefObject, puckc
@@ -15,7 +15,7 @@ extern PuckCarrySpotX, PuckCarrySpotY, PuckChaserPlayer, PuckChasers, PuckObject
 extern pucky, randomd0, RefObject, regd0, regd1, regd2, regd3, regd4
 extern RemoveFromLines, ScoreCelebrateAnims, ScoreCelebrating, SetPenaltyBoxDoor, Setplass, setplayer, SetShotMode, SetSPA
 extern sflags, ShotMode, shotongoal, skateto, skatetopuck, SkateToSpot, SortCords, SprSort
-extern str_Q, threat, vecdist, VisTeam, vtoa
+extern asswingo_dedata, threat, vecdist, VisTeam, vtoa
 global assextra4, asswingo, asscenterd, asscentero, SwapPosition, SwapPosition_91, SwapDefWithFwd, asspuckc
 global asspuckc_394, asspuckc_chkdir, SwapPairSides, assextra5, assnearest, assshoot, donothing, assscore
 global asseben, assleaveice, asspenalty, assdopen, assepen, assbench
@@ -51,11 +51,11 @@ assextra4:
         jne short .2
 .1:
         mov cx, word [regd0]
-        mov dword [byte ebp-08h], ExtraAttackerSpots
+        mov dword [byte ebp-08h], asscentero_dedata
         mov word [regd3], cx
         jmp short .3
 .2:
-        mov dword [byte ebp-08h], str_Q
+        mov dword [byte ebp-08h], asswingo_dedata
         mov word [regd3], dx
 .3:
         mov cl, byte [byte ebx+044h]

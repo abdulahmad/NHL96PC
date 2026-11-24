@@ -18,7 +18,7 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 | Fighting | Same idea | New | New |
 | Penalty-kill AI | Different | New | New |
 | Covering a pinching D | Different | New | New |
-| Power-play AI | Same (none) | Same | Same |
+| Power-play AI | Same (none) | Same (spots rescaled) | Same |
 | Goalie AI | Different | Changed | Changed |
 | Drop pass | Different | Same | New |
 | One-timer pass | Not confirmed | Not confirmed | Not confirmed |
@@ -105,12 +105,18 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 ## Power-play AI
 
 - **96 PC:** no power-play-only code. `assextra4` (src/engine/logic/logic.asm) places the forwards on offence from
-  two spot tables by zone, with no strength test. It does test the offsides option (`gameopts` byte 1, bit 2, the
-  bit `ChkDelayedOffside` uses).
+  two spot tables by zone, with no strength test: `asscentero_dedata` (the centre lane, positions 4 and 6) and
+  `asswingo_dedata` (the wings), in src/data/engine/threestars_data_01.asm. It does test the offsides option
+  (`gameopts` byte 1, bit 2, the bit `ChkDelayedOffside` uses).
 - **vs 96 Genesis: same: none.** 96G's offence spots moved closer to the net than 95G's (the `.table` in
   `asscentero` and `asswingo`, logic96.asm), but at every strength.
 - **vs 96 SNES:** not confirmed in code.
-- **vs 95 PC and 94 PC: same: none.**
+- **vs 95 PC: same, rescaled.** The two tables are 95 PC's `asscentero_dedata` and `asswingo_dedata`
+  (src/data/engine/game_saveload.asm): the same four zones of x, x range, y, y range. Most y values grow about 1.5
+  times, as the blue line does (4Eh to 74h): the centre's third zone y goes from A0h to ECh, the wing's first zone
+  from (64h, -40h) to (71h, -60h). One wing spot grows less (y 32h to 3Ah). So most spots keep their place relative to
+  the rink; they do not move toward the net.
+- **vs 94 PC: same: none.**
 
 ## Goalie AI
 
@@ -139,8 +145,8 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 | No-touch time | 28h | 3Ch |
 
   74h is also the blue line in `ChkOffsides` (src/engine/shoot/shoot.asm).
-- **vs 96 Genesis: different.** 96G keeps 95G's button drop pass: `dopass` (src/engine/input/shot.asm) gives a
-  flagged pass `nopuck` 18h instead of 10h.
+- **vs 96 Genesis: different.** 96G keeps 95G's button drop pass: `dopass` (src/engine/input/shot.asm) plays
+  `SPAdroppass` (src/frames96.asm) and gives a flagged pass `nopuck` 18h instead of 10h.
 - **vs 96 SNES:** not confirmed in code.
 - **vs 94 PC: new.** 94 PC's `dopass` (src/engine/physics.asm) has no drop branch.
 
@@ -168,10 +174,14 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 
 ## Spin-o-rama
 
-- **96 PC: missing.** None of the 224 named 96 PC animations is a spin, and no input routine for one was found.
-  The "spin" names in the code are the puck model and the logos (`SpinPuckModel`, src/front/game_view/game_view.asm).
-- **vs 96 Genesis:** not confirmed in code. Its spin was not located; 96G has eight new animations with only number
-  names (`SPA0344` .. `SPA36F8`, src/frames96.asm).
+- **96 PC: missing.** `doinput` (src/engine/input/input.asm) reads only buttons A, B and C (40h, 10h, 20h) and never
+  the Start bit (80h); C on a skater is `burst` (`SPAburst`, src/engine/skate/skate.asm). None of the 224 named
+  animations (src/data/engine/penalty_data_01.asm) is a spin. The "spin" names in the code are the puck model and the
+  logos (`SpinPuckModel`, src/front/game_view/game_view.asm).
+- **vs 96 Genesis: missing on PC.** 96G has it: in `doinput` (src/engine/input/input96.asm) Start with a d-pad
+  direction on a skater calls `dospinorama`, which plays `SPAspinorama` (src/frames96.asm, one 6-frame turn), sets
+  pf2aip and adds 64h to Xvel. That is the manual's "hold the D-Pad the way you skate, then tap START". The eight
+  96G animations with number names (`SPA0344` .. `SPA36F8`) are not it: nothing in the ROM uses them.
 - **vs 96 SNES:** not confirmed in code.
 - **vs 95 PC and 94 PC: same: none.**
 
@@ -248,6 +258,6 @@ What the code has for each feature on the 96 box (96 PC; the 96 Genesis box has 
 - **Penalty-kill defence, covering a teammate out of position on D:** in the code on both, with different code. See
   Penalty-kill AI and Covering for a defenceman.
 - **Power-play offence, teammates skate to the slot:** no power-play-only code on either. 96G's offence spots moved
-  closer to the net at every strength; whether 96 PC's spots differ from 95 PC's: not confirmed in code.
+  closer to the net at every strength. 96 PC's spots are 95 PC's, rescaled to the bigger rink (see Power-play AI).
 - **Better goalies:** reworked on 96 PC and 96 Genesis, differently (see Goalie AI). Whether they save more: not
   confirmed in code. 96 SNES: not confirmed in code.

@@ -107,8 +107,9 @@ The constants were retuned for the 96 rink:
   Called from asscenterd, asswingd and assnearest.
 - `SwapDefWithFwd` (src/engine/logic/logic.asm): a defenceman deep in the attacking zone swaps positions with a forward
   (`SwapPosition`); the forward gets `asscoverdefo` / `asscoverdefd`. It works at every strength.
-- No power-play-only branch was found. `assextra4` places the forwards on offence from two spot tables (the centre's and the
-  wingers', labelled `ExtraAttackerSpots` and `str_Q` for now), without a strength test.
+- No power-play-only branch was found. `assextra4` places the forwards on offence from two spot tables,
+  `asscentero_dedata` (the centre's) and `asswingo_dedata` (the wingers'), without a strength test. They are 95 PC's
+  tables of the same names, rescaled to the bigger rink.
 
 See docs/CONSOLE_LINEAGE.md for the comparison with 95 PC and the 96 consoles.
 

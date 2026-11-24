@@ -1,0 +1,732 @@
+; BSS of front/rink_model (src/front/rink_model).
+bits 32
+%include "hockey.inc"
+section s_158D78 nobits alloc noexec write align=1
+global GoalLightLamp, RinkModelBoards, GoalLightTimerFar, RinkModelGlass, GoalLightFrame, FarSideModel, GoalLightOn, RinkModelIce
+global IcePolyBuffer, RinkMarkingPoints, StandsSidePoints, GlassPanelShake, BoardPoints, PenBoxBenchGroups, BenchGroups, RinkSideTables
+global PenBoxNearGroups, RinkModelTexInfo, PenBoxFarGroups, RinkModelBounds, GlassPanelList, RinkSideStructs, ShadowRemapEnd
+GoalLightLamp:                                  ; Goal light: lamp state drawn by DrawGoalLight; used by
+                                                ; DrawGoalLight, UpdateGoalLight
+        resb 4
+RinkModelBoards:                                ; Rink model: board pieces; used by LoadRinkModel
+        resb 8
+GoalLightTimerFar:                              ; goal light timer, far net; used by UpdateGoalLight
+        resb 4
+RinkModelGlass:                                 ; Rink model: glass pieces; used by LoadRinkModel
+        resb 8
+GoalLightFrame:                                 ; goal light frame; used by UpdateGoalLight
+        resb 4
+FarSideModel:                                   ; far side model; used by LoadRinkModel
+        resb 8
+GoalLightOn:                                    ; goal light on; used by UpdateGoalLight
+        resb 4
+RinkModelIce:                                   ; Rink model: ice pieces; used by LoadRinkModel
+        resb 8
+IcePolyBuffer:                                  ; Ice surface polygon buffer (DrawIceSurface,
+                                                ; DrawFaceoffCircle); used by DrawFaceoffCircle,
+                                                ; DrawIceSurface
+        resb 380
+
+
+global GlassShards
+
+
+
+
+RinkMarkingPoints:                              ; rink marking point buffers; used by BuildCircleTable,
+                                                ; DrawCentreMarkings, DrawEndZoneMarkings ...
+        resb 4
+        resb 32
+        resb 8
+        resb 24
+        resb 8
+        resb 24
+        resb 8
+        resb 100
+        resb 12
+        resb 8
+        resb 12
+        resb 4
+        resb 12
+        resb 8
+        resb 12
+        resb 4
+        resb 204
+        resb 64
+        resb 72
+        resb 60
+        resb 4
+        resb 4
+        resb 4
+        resb 88
+        resb 4
+        resb 4
+        resb 252
+        resb 4
+        resb 8
+        resb 12
+        resb 28
+        resb 8
+        resb 12
+        resb 28
+        resb 96
+        resb 96
+        resb 96
+        resb 4
+        resb 68
+        resb 8
+        resb 8
+        resb 8
+        resb 8
+        resb 8
+        resb 8
+        resb 4
+        resb 132
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 376
+GlassShards:                                    ; broken glass shard records; used by AddGlassShard,
+                                                ; DrawIceCrud, LoadIceTexture ...
+        resb 4
+        resb 4
+        resb 1287
+
+        resb 1
+        resb 1
+        resb 1
+        resb 517
+        resb 1
+        resb 1
+        resb 247
+
+global RinkFloorPoints, SideGlassPoints, IceLogoGroups, StandsArtTable, StandsArt
+global RinkC03Group, RinkC02Group, RinkC01Group, RinkModelNormals, ZamboniState
+
+global GoalLightTime, GoalLightLit, GlassShakeX, GlassShakeY, GlassShakeDir, GlassShakeOn
+global GlassShakeSide, GlassShakeStep, GlassShakeTimer, GlassBreakX, GlassBreakY, GlassBreakStep, GlassBreakPanel, GlassBreakShards
+global GlassBroken, CircleTableCount, CircleTableUsed, CircleTablePtr, RinkLength, RinkWidth, RinkCorner, RinkModelBytes
+global RinkModelFile, IceCrudCount, KickplateClipX, RinkModelSize, RinkModelFlags, RinkModelHeader, BenchDoorArt, IceCrudBase
+global RinkModelVerts, RinkModelPolys, RinkDoor12Group, IceTextureBmp, IceCrudOffset, GlassShardCount, IceTextureOffset, IceTextureFile
+global IceTextureSize, RinkRight2Faces, RinkLeft2Faces, BenchGroupCount, RinkLeft2Count, RinkRight1Faces, RinkLeft1Faces, RinkLeft1Count
+global RinkTopCount, RinkTopFaces, RinkBackFaces, RinkBackCount, RinkRight2Count, PenBoxGroupCount, RinkRight1Count, RinkPenBoxZ1Faces
+global RinkPenBoxZ0Faces, RinkPenBackCount, RinkBenchDividerFaces, RinkPenBoxT1Faces, RinkPenBoxT0Faces, RinkPenBottomFaces, RinkPenBoxZ1LastVert, RinkPenBoxZ0LastVert
+global RinkBenchBackFaces, RinkBenchBottomFaces, RinkPenBottomCount, RinkPenBoxT1LastVert, RinkPenBoxT0LastVert, RinkPenBackFaces, RinkPenBoxZ0Count, RinkPenBoxZ1Count
+global RinkBenchZ1Faces, RinkPenBoxT0Count, RinkPenBoxT1Count, RinkPenBoxT0Id, RinkIceLogo2Count, RinkIceLineFaces, RinkIceLogo2Faces, RinkIceLineCount
+global RinkBenchBackCount, RinkLitesFaces, RinkWallFaces, RinkBenchXGroup, RinkBenchZ1Group, RinkBenchZ0Group, RinkMaxZGroup, RinkMaxXGroup
+global RinkStand2ndFaces, RinkMinXGroup, RinkMinZGroup, RinkLitesCount, RinkBenchDividerCount, RinkBenchZ0Count, RinkBenchZ1Count, RinkBenchZ0Faces
+global RinkIce2Faces, RinkBenchBottomCount, RinkStandFaces, ZamboniModel, GlassLineAATable, FatLineAATable, ZamboniShapes, GoalPipeAATable
+global BlueLineAATable, RinkZamboniPathFaces, RinkWallCount, RinkCreaseMaterial, RinkStand2ndCount, RinkZamboniPathCount, BotBoardsAATable, RinkIce2Count
+global RinkStandCount, IceCrudColour, TopBoardsAATable, PuckShapes, ZamboniInstance, RinkGt007LastVert, StandsSideArt, BenchSideModel
+global RinkBoardBackMaterial, RinkRedLite1Group, RinkRedLite0Group, RinkFlatBoardsMaterial, RinkGt004FirstVert, RinkMarkingModel, RinkB00FirstVert, CreaseModel
+global IceTextureQuad, RinkGreenLite1Group, RinkGreenLite0Group, RinkGt004LastVert, RinkGeometryModel, BoxModelData, RinkEdgeFlags, StandsSideShapes
+global RinkGeometryParts, RinkGt302FirstVert, RinkGeometryData, CameraFlashOn, MarkingAATable, BenchSideIndex, NeutralSpotModel, CenterSpotModel
+global CreasePolyModel, BoardsTopModel, CenterCircleModel, BenchLineModel, ScoreInstance, ScoreShapes, ScoreModel, NetShapes
+global PuckShadowModel, PuckShadowInstance, RinkModel, PuckInstance, RinkInstance, RinkSidesModel, RinkShapes, PuckModel
+global NetModel, HomeNetInstance, AwayNetInstance, Stands2Instance, OptionButtonArt, OptionButtonBmp, GlassShardVerts, GlassShardScreen
+global GlassShardDraw, BenchAreaPoints
+global RinkFrontRemap, IceLinesRemap, IceLogosRemap, IceSurfacePoly, IceLinePolys, CentreIcePoly, IceCenterPoly
+global FlashPolys, ShadowRemap
+GlassShardVerts:                                ; broken glass shard vertices; used by AddGlassShard,
+                                                ; ReplayBrokenGlass
+        resb 3888
+GlassShardScreen:                               ; broken glass shard screen points; used by DrawGlassShards,
+                                                ; ReplayBrokenGlass
+        resb 3888
+StandsSidePoints:                               ; stands side points; used by BuildRinkSides, DrawStandsSides
+        resb 200
+GlassPanelShake:                                ; glass panel shake offsets; used by ApplyGlassShake,
+                                                ; BuildRinkSides, FindNearestGlassVertex ...
+        resb 160
+GlassShardDraw:                                 ; broken glass shards to draw; used by DrawGlassShards
+        resb 3888
+BoardPoints:                                    ; board points; used by BuildRinkSides, DrawBoardSegments,
+                                                ; DrawBoardTopLines
+        resb 600
+PenBoxBenchGroups:                              ; penalty box bench model groups; used by DrawBenchPlayers,
+                                                ; LoadRinkModel
+        resb 28
+BenchGroups:                                    ; player bench model groups; used by LoadRinkModel
+        resb 24
+RinkSideTables:                                 ; rink side tables; used by BuildRinkSides, ClearGlassHoles,
+                                                ; DrawKickplates ...
+        resb 4
+        resb 200
+        resb 36
+        resb 4
+        resb 104
+        resb 28
+        resb 68
+PenBoxNearGroups:                               ; penalty box near model groups; used by
+                                                ; DrawPenaltyBoxPlayers, LoadRinkModel
+        resb 12
+RinkModelTexInfo:                               ; rink model texture info; used by DrawPenaltyBoxPlayers,
+                                                ; LoadRinkModel
+        resb 4
+PenBoxFarGroups:                                ; penalty box far model groups; used by LoadRinkModel
+        resb 12
+RinkModelBounds:                                ; rink model bounds; used by LoadRinkModel
+        resb 4
+GlassPanelList:                                 ; glass panel list; used by ApplyGlassShake, BuildRinkSides,
+                                                ; DrawBoardSegments ...
+        resb 4
+RinkSideStructs:                                ; rink side structures; used by BuildRinkSides,
+                                                ; DrawRinkFrontParts, TransformRink
+        resb 4
+        resb 92
+        resb 28
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 120
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 92
+        resb 28
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 120
+        resb 4
+        resb 1636
+BenchAreaPoints:                                ; bench area points; used by DrawBenchArea
+        resb 272
+RinkFloorPoints:                                ; rink floor points; used by BuildRinkSides, DrawBenchArea,
+                                                ; DrawIceMarkings ...
+        resb 200
+SideGlassPoints:                                ; side glass points; used by BuildRinkSides, DrawBenchArea,
+                                                ; DrawSideGlass ...
+        resb 400
+IceLogoGroups:                                  ; ice logo model groups; used by DrawIceBackPoly,
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 60
+StandsArtTable:                                 ; stands art table; used by DrawBenchArea, DrawBenchSide,
+                                                ; DrawGlassShards ...
+        resb 4
+StandsArt:                                      ; stands art; used by DrawStandsSide
+        resb 64
+        resb 256
+        resb 256
+RinkC03Group:                                   ; rink model item from LoadRinkModel; used by DrawIceMarkings,
+                                                ; LoadRinkModel
+        resb 4
+RinkC02Group:                                   ; rink model item from LoadRinkModel; used by LoadRinkModel
+        resb 4
+RinkC01Group:                                   ; rink model item from LoadRinkModel; used by LoadRinkModel
+        resb 4
+RinkModelNormals:                               ; rink model normals; used by LoadRinkModel
+        resb 4
+RinkFrontRemap:                                 ; colour remap for the rink front parts; used by
+                                                ; DrawBenchArea, DrawRinkFrontParts, LoadRinkModel
+        resb 256
+IceLinesRemap:                                  ; colour remap for the ice lines; used by DrawIceMarkings,
+                                                ; LoadRinkModel
+        resb 256
+IceLogosRemap:                                  ; colour remap for the ice logos; used by DrawIceMarkings,
+                                                ; LoadRinkModel
+        resb 256
+ZamboniState:                                   ; Zamboni state; used by DrawGoalLight, DrawRinkBack,
+                                                ; DrawRinkFront ...
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 36
+        resb 2
+        resb 2
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+GoalLightTime:                                  ; goal light time; used by StartGoalLight, UpdateGoalLight
+        resb 4
+GoalLightLit:                                   ; goal light is lit; used by DrawRinkBack, DrawRinkFront,
+                                                ; DrawZamboniScene ...
+        resb 4
+GlassShakeX:                                    ; glass shake x; used by ApplyGlassShake, ShakeGlass,
+                                                ; SortSpritesForDraw
+        resb 4
+GlassShakeY:                                    ; glass shake y; used by ApplyGlassShake, ShakeGlass,
+                                                ; SortSpritesForDraw
+        resb 4
+GlassShakeDir:                                  ; glass shake direction; used by ApplyGlassShake, ShakeGlass,
+                                                ; SortSpritesForDraw
+        resb 4
+GlassShakeOn:                                   ; glass shake is on; used by ApplyGlassShake, LoadRinkModel,
+                                                ; ShakeGlass ...
+        resb 4
+GlassShakeSide:                                 ; glass shake side; used by ApplyGlassShake, ShakeGlass,
+                                                ; SortSpritesForDraw
+        resb 4
+GlassShakeStep:                                 ; glass shake step; used by ApplyGlassShake, ShakeGlass,
+                                                ; SortSpritesForDraw
+        resb 4
+GlassShakeTimer:                                ; glass shake timer; used by ApplyGlassShake, ShakeGlass,
+                                                ; SortSpritesForDraw
+        resb 4
+GlassBreakX:                                    ; glass break x; used by BreakGlass, EndReplay,
+                                                ; ReplayBrokenGlass ...
+        resb 4
+GlassBreakY:                                    ; glass break y; used by BreakGlass, EndReplay,
+                                                ; ReplayBrokenGlass ...
+        resb 4
+GlassBreakStep:                                 ; glass break step; used by BreakGlass, DrawGlassShards,
+                                                ; EndReplay ...
+        resb 4
+GlassBreakPanel:                                ; broken glass panel; used by BreakGlass, BuildCircleTable,
+                                                ; DrawGameFrame ...
+        resb 4
+GlassBreakShards:                               ; broken glass shard count; used by BuildCircleTable,
+                                                ; DrawGameFrame, ShakeGlass ...
+        resb 4
+GlassBroken:                                    ; glass is broken; used by BreakGlass, BuildCircleTable,
+                                                ; EndReplay ...
+        resb 4
+IceSurfacePoly:                                 ; ice surface polygon; used by DrawIceSurface
+        resb 108
+IceLinePolys:                                   ; ice line polygons; used by DrawEndZoneMarkings,
+                                                ; DrawIceSurface
+        resb 108
+CentreIcePoly:                                  ; centre ice polygon; used by DrawCentreMarkings,
+                                                ; DrawIceSurface
+        resb 108
+CircleTableCount:                               ; circle table count; used by BuildCircleTable,
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+CircleTableUsed:                                ; circle table entries used; used by BuildCircleTable,
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+CircleTablePtr:                                 ; circle table pointer; used by BuildCircleTable,
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+IceCenterPoly:                                  ; ice center polygon; used by DrawIceSurface
+        resb 108
+RinkLength:                                     ; rink length; used by DrawIceMarkings, LoadRinkModel
+        resb 4
+RinkWidth:                                      ; rink width; used by LoadRinkModel
+        resb 4
+RinkCorner:                                     ; rink corner radius; used by LoadRinkModel
+        resb 4
+RinkModelBytes:                                 ; rink model size; used by LoadRinkModel
+        resb 4
+RinkModelFile:                                  ; rink model file; used by LoadRinkModel
+        resb 4
+IceCrudCount:                                   ; ice crud count; used by AddIceCrud
+        resb 4
+KickplateClipX:                                 ; kickplate clip x; used by BuildRinkSides, DrawKickplates
+        resb 4
+RinkModelSize:                                  ; rink model size; used by ClosePenaltyBoxDoor, LoadRinkModel,
+                                                ; OpenPenaltyBoxDoor
+        resb 4
+RinkModelFlags:                                 ; rink model flags; used by LoadRinkModel
+        resb 4
+RinkModelHeader:                                ; rink model header; used by LoadRinkModel
+        resb 4
+BenchDoorArt:                                   ; bench door art; used by BuildRinkSides
+        resb 4
+IceCrudBase:                                    ; ice crud base; used by DrawIceCrud, LoadIceTexture
+        resb 4
+RinkModelVerts:                                 ; rink model vertices; used by ClosePenaltyBoxDoor,
+                                                ; LoadRinkModel, OpenPenaltyBoxDoor
+        resb 4
+RinkModelPolys:                                 ; rink model polygons; used by LoadRinkModel
+        resb 4
+RinkDoor12Group:                                ; rink model item from LoadRinkModel; used by LoadRinkModel
+        resb 4
+IceTextureBmp:                                  ; ice texture bitmap; used by DrawIceCrud, FreeRinkModel,
+                                                ; LoadIceTexture
+        resb 4
+IceCrudOffset:                                  ; ice crud offset; used by DrawIceCrud, LoadIceTexture
+        resb 4
+GlassShardCount:                                ; glass shard count; used by AddGlassShard, DrawGlassShards,
+                                                ; ResetBrokenGlass ...
+        resb 4
+IceTextureOffset:                               ; ice texture offset; used by DrawIceCrud, LoadIceTexture
+        resb 4
+IceTextureFile:                                 ; ice texture file; used by FreeRinkModel, LoadIceTexture
+        resb 4
+IceTextureSize:                                 ; ice texture size; used by DrawIceCrud, LoadIceTexture
+        resb 4
+RinkRight2Faces:                                ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkLeft2Faces:                                 ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+BenchGroupCount:                                ; bench model groups found; used by LoadRinkModel
+        resb 4
+RinkLeft2Count:                                 ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkRight1Faces:                                ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkLeft1Faces:                                 ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkLeft1Count:                                 ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkTopCount:                                   ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkTopFaces:                                   ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkBackFaces:                                  ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkBackCount:                                  ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkRight2Count:                                ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+PenBoxGroupCount:                               ; penalty box model groups found; used by LoadRinkModel
+        resb 4
+RinkRight1Count:                                ; rink model partition from LoadRinkModel; used by
+                                                ; DrawGoalNet, LoadRinkModel
+        resb 4
+RinkPenBoxZ1Faces:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxZ0Faces:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBackCount:                               ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkBenchDividerFaces:                          ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxT1Faces:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxT0Faces:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBottomFaces:                             ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 12
+RinkPenBoxZ1LastVert:                           ; rink model item from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, LoadRinkModel
+        resb 4
+RinkPenBoxZ0LastVert:                           ; rink model item from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, LoadRinkModel
+        resb 4
+RinkBenchBackFaces:                             ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 12
+RinkBenchBottomFaces:                           ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBottomCount:                             ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxT1LastVert:                           ; rink model item from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxT0LastVert:                           ; rink model item from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBackFaces:                               ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxZ0Count:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxZ1Count:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkBenchZ1Faces:                               ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxT0Count:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxT1Count:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkPenBoxT0Id:                                 ; rink model item from LoadRinkModel; used by
+                                                ; DrawPenaltyBoxSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkIceLogo2Count:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+RinkIceLineFaces:                               ; rink model partition from LoadRinkModel; used by
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 8
+RinkIceLogo2Faces:                              ; rink model partition from LoadRinkModel; used by
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+RinkIceLineCount:                               ; rink model partition from LoadRinkModel; used by
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+RinkBenchBackCount:                             ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkLitesFaces:                                 ; rink model partition from LoadRinkModel; used by
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+RinkWallFaces:                                  ; rink model partition from LoadRinkModel; used by
+                                                ; BuildRinkSides, LoadRinkModel
+        resb 4
+RinkBenchXGroup:                                ; rink model item from LoadRinkModel; used by DrawBenchSide,
+                                                ; DrawWholeRink, DrawZamboniScene ...
+        resb 8
+RinkBenchZ1Group:                               ; rink model item from LoadRinkModel; used by DrawBenchSide,
+                                                ; DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkBenchZ0Group:                               ; rink model item from LoadRinkModel; used by DrawBenchSide,
+                                                ; DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkMaxZGroup:                                  ; rink model item from LoadRinkModel; used by ApplyGlassShake,
+                                                ; DrawRinkBack, DrawRinkFront ...
+        resb 4
+RinkMaxXGroup:                                  ; rink model item from LoadRinkModel; used by ApplyGlassShake,
+                                                ; ClosePenaltyBoxDoor, DrawPenaltyBoxSide ...
+        resb 4
+RinkStand2ndFaces:                              ; rink model partition from LoadRinkModel; used by
+                                                ; BuildRinkSides, LoadRinkModel
+        resb 4
+RinkMinXGroup:                                  ; rink model item from LoadRinkModel; used by ApplyGlassShake,
+                                                ; DrawRinkBack, DrawRinkFront ...
+        resb 4
+RinkMinZGroup:                                  ; rink model item from LoadRinkModel; used by ApplyGlassShake,
+                                                ; DrawRinkBack, DrawRinkFront ...
+        resb 4
+RinkLitesCount:                                 ; rink model partition from LoadRinkModel; used by
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+RinkBenchDividerCount:                          ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkBenchZ0Count:                               ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkBenchZ1Count:                               ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkBenchZ0Faces:                               ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkIce2Faces:                                  ; rink model partition from LoadRinkModel; used by
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+RinkBenchBottomCount:                           ; rink model partition from LoadRinkModel; used by
+                                                ; DrawBenchSide, DrawWholeRink, DrawZamboniScene ...
+        resb 4
+RinkStandFaces:                                 ; rink model partition from LoadRinkModel; used by
+                                                ; BuildRinkSides, LoadRinkModel
+        resb 4
+ZamboniModel:                                   ; Zamboni model; used by FreeZamboni, LoadZamboni
+        resb 4
+GlassLineAATable:                               ; glass line anti-alias table; used by DrawBoardTopLines,
+                                                ; FreeRinkModel, GlassLineFace ...
+        resb 4
+FatLineAATable:                                 ; fat line anti-alias table; used by DrawCentreMarkings,
+                                                ; DrawEndZoneMarkings, DrawFaceoffCircle ...
+        resb 4
+ZamboniShapes:                                  ; Zamboni shapes; used by FreeZamboni, LoadZamboni
+        resb 4
+GoalPipeAATable:                                ; goal pipe anti-alias table; used by FreeRinkModel,
+                                                ; GoalPipeFace, LoadRinkModel
+        resb 4
+BlueLineAATable:                                ; blue line anti-alias table; used by DrawIceMarkings,
+                                                ; DrawKickplates, FatBlueLineFace ...
+        resb 4
+RinkZamboniPathFaces:                           ; rink model partition from LoadRinkModel; used by
+                                                ; LoadRinkModel, LoadZamboni, MoveZamboni
+        resb 4
+RinkWallCount:                                  ; rink model partition from LoadRinkModel; used by
+                                                ; BuildRinkSides, LoadRinkModel
+        resb 4
+RinkCreaseMaterial:                             ; rink model item from LoadRinkModel; used by
+                                                ; DrawEndZoneMarkings, LoadRinkModel
+        resb 4
+RinkStand2ndCount:                              ; rink model partition from LoadRinkModel; used by
+                                                ; BuildRinkSides, LoadRinkModel
+        resb 4
+RinkZamboniPathCount:                           ; rink model partition from LoadRinkModel; used by
+                                                ; LoadRinkModel, MoveZamboni
+        resb 4
+BotBoardsAATable:                               ; bottom boards anti-alias table; used by BotBoardsFace,
+                                                ; DrawBenchArea, DrawBoardTopLines ...
+        resb 4
+RinkIce2Count:                                  ; rink model partition from LoadRinkModel; used by
+                                                ; DrawIceMarkings, LoadRinkModel
+        resb 4
+RinkStandCount:                                 ; rink model partition from LoadRinkModel; used by
+                                                ; BuildRinkSides, LoadRinkModel
+        resb 4
+IceCrudColour:                                  ; ice crud colour; used by DrawIceCrud, DrawIceMarkings,
+                                                ; LoadIceTexture
+        resb 4
+TopBoardsAATable:                               ; top boards anti-alias table; used by DrawBenchArea,
+                                                ; DrawGlassFrameLines, FreeRinkModel ...
+        resb 4
+PuckShapes:                                     ; rink model item from LoadRinkModel; used by FreeRinkModel,
+                                                ; LoadRinkModel
+        resb 4
+ZamboniInstance:                                ; Zamboni instance; used by DrawZamboni, DrawZamboniScene,
+                                                ; FreeZamboni ...
+        resb 4
+RinkGt007LastVert:                              ; rink model item from LoadRinkModel; used by LoadRinkModel,
+                                                ; RinkEdgeKind
+        resb 4
+StandsSideArt:                                  ; stands side art; used by DrawStandsSideQuad, LoadStandsArt
+        resb 4
+BenchSideModel:                                 ; bench side model; used by DrawRinkBack, DrawRinkFront,
+                                                ; DrawWholeRink ...
+        resb 4
+RinkBoardBackMaterial:                          ; rink model item from LoadRinkModel; used by LoadRinkModel
+        resb 4
+RinkRedLite1Group:                              ; rink model item from LoadRinkModel; used by DrawRinkBack,
+                                                ; DrawRinkFront, DrawWholeRink ...
+        resb 4
+RinkRedLite0Group:                              ; rink model item from LoadRinkModel; used by DrawRinkBack,
+                                                ; DrawRinkFront, DrawWholeRink ...
+        resb 4
+RinkFlatBoardsMaterial:                         ; rink model item from LoadRinkModel; used by DrawBenchArea,
+                                                ; DrawRinkFloor, LoadRinkModel
+        resb 4
+RinkGt004FirstVert:                             ; rink model item from LoadRinkModel; used by LoadRinkModel,
+                                                ; RinkEdgeKind
+        resb 4
+RinkMarkingModel:                               ; rink marking model; used by DrawFaceoffCircle, LoadRinkModel
+        resb 4
+RinkB00FirstVert:                               ; rink model item from LoadRinkModel; used by LoadRinkModel,
+                                                ; NearestGlassPoint, RinkEdgeKind ...
+        resb 4
+CreaseModel:                                    ; crease model; used by GoalPipeFace, LoadRinkModel
+        resb 4
+IceTextureQuad:                                 ; ice texture quad; used by DrawIceTextureQuad, LoadIceTexture
+        resb 8
+RinkGreenLite1Group:                            ; rink model item from LoadRinkModel; used by DrawRinkBack,
+                                                ; DrawRinkFront, DrawWholeRink ...
+        resb 4
+RinkGreenLite0Group:                            ; rink model item from LoadRinkModel; used by DrawRinkBack,
+                                                ; DrawRinkFront, DrawWholeRink ...
+        resb 4
+RinkGt004LastVert:                              ; rink model item from LoadRinkModel; used by LoadRinkModel,
+                                                ; RinkEdgeKind
+        resb 4
+RinkGeometryModel:                              ; rink geometry model; used by BuildCircleTable, LoadRinkModel
+        resb 4
+BoxModelData:                                   ; penalty box model data; used by DrawRinkBack, DrawRinkFront,
+                                                ; DrawWholeRink ...
+        resb 4
+RinkEdgeFlags:                                  ; rink edge flags; used by LoadRinkModel
+        resb 4
+StandsSideShapes:                               ; stands side shapes; used by DrawStandsSideQuad,
+                                                ; DrawStandsSides, LoadStandsArt
+        resb 4
+RinkGeometryParts:                              ; rink geometry parts; used by BuildCircleTable, LoadRinkModel
+        resb 4
+RinkGt302FirstVert:                             ; rink model item from LoadRinkModel; used by LoadRinkModel,
+                                                ; RinkEdgeKind
+        resb 4
+RinkGeometryData:                               ; rink geometry data; used by BuildCircleTable, LoadRinkModel
+        resb 4
+CameraFlashOn:                                  ; camera flashes on; used by DrawBenchSide, DrawGlassShards,
+                                                ; DrawGoalLight ...
+        resb 4
+MarkingAATable:                                 ; marking anti-alias table; used by DrawCentreMarkings,
+                                                ; DrawEndZoneMarkings, DrawFaceoffCircle ...
+        resb 4
+BenchSideIndex:                                 ; bench side index; used by DrawBenchSide, DrawGoalNet,
+                                                ; DrawPenaltyBoxSide ...
+        resb 4
+NeutralSpotModel:                               ; neutral zone spot model; used by DrawCentreMarkings,
+                                                ; DrawEndZoneMarkings, DrawFaceoffCircle ...
+        resb 4
+FlashPolys:                                     ; camera flash polygons; used by DrawGlassShards,
+                                                ; DrawGoalLight, DrawIceSurface ...
+        resb 36
+CenterSpotModel:                                ; center spot model; used by FatBlueLineFace, FatRedLineFace,
+                                                ; LoadRinkModel
+        resb 4
+CreasePolyModel:                                ; crease polygon model; used by BuildCircleTable,
+                                                ; LoadRinkModel
+        resb 4
+BoardsTopModel:                                 ; boards top model; used by BotBoardsFace, DrawBenchArea,
+                                                ; DrawBoardTopLines ...
+        resb 4
+CenterCircleModel:                              ; center circle model; used by DrawBoardTopLines,
+                                                ; GlassLineFace, LoadRinkModel
+        resb 4
+BenchLineModel:                                 ; bench line model; used by DrawBenchArea,
+                                                ; DrawGlassFrameLines, LoadRinkModel ...
+        resb 4
+ScoreInstance:                                  ; rink model item from LoadRinkModel; used by DrawRinkFront,
+                                                ; DrawRinkModels, DrawWholeRink ...
+        resb 4
+ScoreShapes:                                    ; rink model item from LoadRinkModel; used by FreeRinkModel,
+                                                ; LoadRinkModel
+        resb 4
+ScoreModel:                                     ; rink model item from LoadRinkModel; used by FreeRinkModel,
+                                                ; LoadRinkModel
+        resb 4
+NetShapes:                                      ; rink model item from LoadRinkModel; used by FreeRinkModel,
+                                                ; LoadRinkModel
+        resb 4
+PuckShadowModel:                                ; rink model item from LoadRinkModel; used by FreeRinkModel,
+                                                ; LoadRinkModel
+        resb 4
+PuckShadowInstance:                             ; rink model item from LoadRinkModel; used by
+                                                ; DrawPuckShadowModel, EndReplay, FreeRinkModel ...
+        resb 4
+RinkModel:                                      ; rink model item from LoadRinkModel; used by BuildRinkSides,
+                                                ; FreeRinkModel, LoadRinkModel ...
+        resb 4
+PuckInstance:                                   ; rink model item from LoadRinkModel; used by DrawGoalNet,
+                                                ; DrawPuckModel, EndReplay ...
+        resb 4
+RinkInstance:                                   ; rink model item from LoadRinkModel; used by BuildRinkSides,
+                                                ; ClosePenaltyBoxDoor, DrawBenchArea ...
+        resb 4
+RinkSidesModel:                                 ; rink sides model; used by BuildRinkSides, FreeRinkModel,
+                                                ; LoadRinkModel
+        resb 4
+RinkShapes:                                     ; rink model item from LoadRinkModel; used by FreeRinkModel,
+                                                ; LoadRinkModel
+        resb 4
+PuckModel:                                      ; rink model item from LoadRinkModel; used by FreeRinkModel,
+                                                ; LoadRinkModel
+        resb 4
+NetModel:                                       ; rink model item from LoadRinkModel; used by FreeRinkModel,
+                                                ; LoadRinkModel
+        resb 4
+HomeNetInstance:                                ; rink model item from LoadRinkModel; used by DrawGoalNet,
+                                                ; FreeRinkModel, LoadRinkModel ...
+        resb 4
+AwayNetInstance:                                ; rink model item from LoadRinkModel; used by DrawGoalNet,
+                                                ; FreeRinkModel, LoadRinkModel ...
+        resb 4
+Stands2Instance:                                ; rink model item from LoadRinkModel; used by BuildRinkSides,
+                                                ; DrawRinkBack, DrawRinkModels ...
+        resb 4
+ShadowRemap:                                    ; shadow colour remap; used by BeginShadowDraw,
+                                                ; LoadShadowRemap
+        resb 255
+ShadowRemapEnd:                                 ; last byte of the shadow colour remap; used by
+                                                ; LoadShadowRemap
+        resb 1
+OptionButtonArt:                                ; option button art; used by DrawOptionButton,
+                                                ; GameOptionsScreen
+        resb 4
+OptionButtonBmp:                                ; option button bitmap; used by DrawOptionButton,
+                                                ; GameOptionsScreen
+        resb 4

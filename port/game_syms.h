@@ -84,11 +84,11 @@
 #define SYM_Sb16DmaAlloc            0x14F05Cu   /* data/lib/sound/snd_soundblaster_data_02.asm */
 #define SYM__environ                0x14F09Cu   /* data/lib/sound/snd_soundblaster_data_02.asm */
 #define SYM____env_mask             0x14F0A0u   /* data/lib/sound/snd_soundblaster_data_02.asm */
-#define SYM_SlotTable               0x1515B4u   /* data/front/controls_bss_02.asm */
-#define SYM_InputRecordRing         0x1515D4u   /* data/front/controls_bss_02.asm */
-#define SYM_tgvpalpending           0x17C96Cu   /* data/front/movie_bss_01.asm */
-#define SYM_gameopts                0x17C9A0u   /* data/front/movie_bss_01.asm */
-#define SYM_optflags                0x17C9A8u   /* data/front/movie_bss_01.asm */
+#define SYM_SlotTable               0x1515B4u   /* data/front/controls_bss.asm */
+#define SYM_InputRecordRing         0x1515D4u   /* data/front/controls_bss.asm */
+#define SYM_tgvpalpending           0x17C96Cu   /* data/front/movie_bss.asm */
+#define SYM_gameopts                0x17C9A0u   /* data/front/settings_bss.asm */
+#define SYM_optflags                0x17C9A8u   /* data/front/settings_bss.asm */
 #define SYM_globalset               0x17CA1Cu   /* data/pc/modem_setup_bss_01.asm */
 #define SYM_optblock                0x17CA20u   /* data/pc/modem_setup_bss_01.asm */
 #define SYM_optblock_end            0x17CA75u   /* data/pc/modem_setup_bss_01.asm */

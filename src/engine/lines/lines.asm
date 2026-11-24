@@ -2142,7 +2142,7 @@ SortSpritesForDraw:
         test eax, eax
         jne near .23
         mov eax, dword [PtrPuckFlags]
-        mov al, byte [byte eax+045h]
+        mov al, byte [byte eax+pflags2]
         and al, 1
         movzx eax, al
         test eax, eax
@@ -2179,11 +2179,11 @@ SortSpritesForDraw:
         mov eax, SortCords
         jmp near .7
 .4:
-        mov dx, word [byte eax+06h]
+        mov dx, word [byte eax+Ypos+2]
         and dh, 3
         movsx edx, dx
         mov ecx, edx
-        mov dx, word [byte eax+02h]
+        mov dx, word [byte eax+Xpos+2]
         and dh, 3
         shl ecx, 0Ah
         movsx edx, dx
@@ -2211,7 +2211,7 @@ SortSpritesForDraw:
 .6:
         add dword [ReplayBufferTop], byte 3
         mov edx, dword [ReplayBufferTop]
-        mov cx, word [byte eax+012h]
+        mov cx, word [byte eax+frame]
         inc ebx
         mov word [edx], cx
         add eax, 0A0h
@@ -2255,7 +2255,7 @@ SortSpritesForDraw:
         jmp short .13
 .12:
         mov ebx, dword [ReplayBufferTop]
-        mov cx, word [byte eax+038h]
+        mov cx, word [byte eax+SPA]
         inc edx
         mov word [ebx], cx
         add eax, 0A0h
@@ -2269,7 +2269,7 @@ SortSpritesForDraw:
         jmp short .15
 .14:
         mov ebx, dword [ReplayBufferTop]
-        mov cx, word [byte eax+03Ah]
+        mov cx, word [byte eax+SPAnum]
         inc edx
         mov word [ebx], cx
         add eax, 0A0h
@@ -2282,21 +2282,21 @@ SortSpritesForDraw:
         xor ebx, ebx
         jmp short .21
 .16:
-        cmp word [byte eax+01Ah], byte 0
+        cmp word [byte eax+position], byte 0
         jge short .17
         mov word [regd0], 0Fh
         jmp short .18
 .17:
-        mov dx, word [byte eax+01Ah]
+        mov dx, word [byte eax+position]
         mov word [regd0], dx
 .18:
         add eax, 0A0h
-        cmp word [byte eax+01Ah], byte 0
+        cmp word [byte eax+position], byte 0
         jge short .19
         or byte [regd0], 0F0h
         jmp short .20
 .19:
-        mov dx, word [byte eax+01Ah]
+        mov dx, word [byte eax+position]
         shl edx, 4
         or word [regd0], dx
 .20:

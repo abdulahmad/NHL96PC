@@ -1410,12 +1410,12 @@ LoadGameState:
         and byte [sflags], 0EFh
 .24:
         mov ecx, dword [byte ebp+07Eh]
-        mov word [dword eax+086h], cx
+        mov word [dword eax+SCnum], cx
         mov cx, word [dword edx+ObjInitFrame]
-        mov word [dword eax+082h], cx
+        mov word [dword eax+radiusx], cx
         mov cx, word [dword edx+ObjInitAttr]
-        mov word [dword eax+084h], cx
-        mov cl, byte [byte eax+044h]
+        mov word [dword eax+radiusy], cx
+        mov cl, byte [byte eax+pflags]
         and cl, 40h
         movzx ecx, cl
         test ecx, ecx
@@ -1425,8 +1425,8 @@ LoadGameState:
 .25:
         mov ecx, hmtmstruct
 .26:
-        mov dword [dword eax+088h], ecx
-        mov cl, byte [byte eax+044h]
+        mov dword [dword eax+tmptr], ecx
+        mov cl, byte [byte eax+pflags]
         and cl, 40h
         movzx ecx, cl
         test ecx, ecx
@@ -1436,50 +1436,50 @@ LoadGameState:
 .27:
         mov ecx, hmtmstruct
 .28:
-        mov dword [dword eax+08Ch], ecx
+        mov dword [dword eax+optmptr], ecx
         mov ecx, dword [eax]
-        mov dword [dword eax+090h], ecx
-        mov ecx, dword [byte eax+04h]
-        mov dword [dword eax+094h], ecx
-        mov ecx, dword [byte eax+08h]
-        mov dword [dword eax+098h], ecx
-        movsx ecx, word [byte eax+038h]
+        mov dword [dword eax+OldXpos], ecx
+        mov ecx, dword [byte eax+Ypos]
+        mov dword [dword eax+OldYpos], ecx
+        mov ecx, dword [byte eax+Zpos]
+        mov dword [dword eax+OldZpos], ecx
+        movsx ecx, word [byte eax+SPA]
         mov dword [dword eax+09Ch], 0
         cmp ecx, SPAboxsit
         je short .29
         cmp ecx, SPAboxsitep
         jne short .30
 .29:
-        movsx ecx, word [byte eax+02h]
+        movsx ecx, word [byte eax+Xpos+2]
         cmp ecx, 0AAh
         jge short .35
 .30:
-        movsx ecx, word [byte eax+038h]
+        movsx ecx, word [byte eax+SPA]
         cmp ecx, SPAwallright
         je short .31
         cmp ecx, SPAgwallright
         jne short .32
 .31:
-        movsx ecx, word [byte eax+03Ah]
+        movsx ecx, word [byte eax+SPAnum]
         cmp ecx, byte 8
         jl short .35
 .32:
-        movsx ecx, word [byte eax+038h]
+        movsx ecx, word [byte eax+SPA]
         cmp ecx, SPAwallleft
         je short .33
         cmp ecx, SPAgwallleft
         jne short .34
 .33:
-        movsx ecx, word [byte eax+03Ah]
+        movsx ecx, word [byte eax+SPAnum]
         cmp ecx, byte 8
         jge short .35
 .34:
-        movsx ecx, word [byte eax+038h]
+        movsx ecx, word [byte eax+SPA]
         cmp ecx, SPAboardbackglass
         jl short .36
         cmp ecx, SPAboardfrontglass
         jg short .36
-        movsx ecx, word [byte eax+03Ah]
+        movsx ecx, word [byte eax+SPAnum]
         cmp ecx, byte 4
         jl short .36
 .35:

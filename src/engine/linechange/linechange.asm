@@ -98,11 +98,11 @@ StartFaceoffLineChange:
         push ebx
         push ecx
         mov ebx, eax
-        and byte [byte edx+045h], 0F7h
+        and byte [byte edx+pflags2], 0F7h
         mov eax, dword [gameopts]
         test byte [byte eax+01h], 30h
         je short .1
-        mov eax, dword [dword edx+088h]
+        mov eax, dword [dword edx+tmptr]
         mov cx, word [byte eax+046h]
         xor ch, ch
         and cl, 2
@@ -112,29 +112,29 @@ StartFaceoffLineChange:
         or byte [byte eax+046h], 2
         and byte [sflags], 0F3h
         mov eax, edx
-        or byte [byte edx+045h], 8
+        or byte [byte edx+pflags2], 8
         call RequestLineChange
 .1:
-        mov al, byte [byte edx+045h]
+        mov al, byte [byte edx+pflags2]
         and al, 8
         movzx eax, al
         test eax, eax
         je short .3
-        mov al, byte [byte edx+044h]
+        mov al, byte [byte edx+pflags]
         and al, 40h
         movzx eax, al
         test eax, eax
         je short .2
-        mov word [byte ebx+028h], 168h
-        mov ax, word [dword edx+086h]
-        mov word [byte ebx+02Ch], ax
+        mov word [byte ebx+temp2], 168h
+        mov ax, word [dword edx+SCnum]
+        mov word [byte ebx+temp4], ax
         pop ecx
         pop ebx
         ret
 .2:
-        mov word [byte ebx+026h], 258h
-        mov ax, word [dword edx+086h]
-        mov word [byte ebx+02Ah], ax
+        mov word [byte ebx+temp1], 258h
+        mov ax, word [dword edx+SCnum]
+        mov word [byte ebx+temp3], ax
 .3:
         pop ecx
         pop ebx
@@ -188,7 +188,7 @@ Endfaceoff:
         call PlaySfx
         and byte [gmode2], 0FAh
         and byte [gmode], 0FEh
-        and byte [byte edx+045h], 0FEh
+        and byte [byte edx+pflags2], 0FEh
         movsx eax, word [fofdata2]
         mov ebx, 10h
         movsx ax, byte [dword eax+Endfaceoff_ftab_m1]
@@ -312,30 +312,30 @@ Endfaceoff:
         mov bx, word [nosplit ebx*2+dirtab]
         mov word [regd0], ax
         shl ebx, 5
-        mov word [byte edx+0Ch], bx
+        mov word [byte edx+Xvel], bx
         movsx eax, word [regd0]
         mov bx, word [nosplit eax*2+dirtab_y]
         mov ax, word [regd4]
         shl ebx, 5
         add ebx, eax
         mov eax, 800h
-        mov word [byte edx+0Eh], bx
+        mov word [byte edx+Yvel], bx
         call randomd0
-        mov word [byte edx+010h], ax
+        mov word [byte edx+Zvel], ax
         mov eax, dword [puckz]
         mov word [eax], 0
         mov ebx, 18h
-        movsx eax, word [byte edx+01Ch]
-        and byte [byte edx+044h], 0FBh
+        movsx eax, word [byte edx+assnum]
+        and byte [byte edx+pflags], 0FBh
         mov byte [byte edx+eax+01Eh], bl
-        or byte [byte edx+044h], 2
+        or byte [byte edx+pflags], 2
         mov edx, dword [PtrPuckObject]
-        movsx eax, word [byte edx+01Ch]
+        movsx eax, word [byte edx+assnum]
         mov ebx, 1Fh
         mov byte [byte edx+eax+01Eh], bl
-        or byte [byte edx+044h], 2
+        or byte [byte edx+pflags], 2
         mov edx, dword [PtrPuckObject]
-        cmp word [byte edx+02h], byte 0
+        cmp word [byte edx+Xpos+2], byte 0
         jle short .14
         mov eax, 500h
         jmp short .15

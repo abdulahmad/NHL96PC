@@ -11,14 +11,14 @@ global pucknorm, pucknothing
 ;-----------------------------------------------------------------------------
 pucknorm:
         push edx
-        mov dl, byte [byte eax+044h]
+        mov dl, byte [byte eax+pflags]
         and dl, 2
         movzx edx, dl
         test edx, edx
         je short .1
-        mov word [byte eax+026h], 0
-        mov word [byte eax+028h], 78h
-        and byte [byte eax+044h], 0FDh
+        mov word [byte eax+temp1], 0
+        mov word [byte eax+temp2], 78h
+        and byte [byte eax+pflags], 0FDh
         mov dword [psendcount], 0
 .1:
         call pucknorm_body

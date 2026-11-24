@@ -71,26 +71,26 @@ assextra6:
         jge near .14
         imul eax, ebx, dword 0A0h
         add eax, SortCords
-        cmp word [byte eax+01Ah], byte 0
+        cmp word [byte eax+position], byte 0
         je near .14
-        cmp word [byte eax+06h], byte 0
+        cmp word [byte eax+Ypos+2], byte 0
         jge short .8
-        movsx ecx, word [byte eax+06h]
+        movsx ecx, word [byte eax+Ypos+2]
         mov dword [byte ebp-010h], ecx
         neg dword [byte ebp-010h]
         jmp short .9
 .8:
-        movsx ecx, word [byte eax+06h]
+        movsx ecx, word [byte eax+Ypos+2]
         mov dword [byte ebp-010h], ecx
 .9:
         cmp dword [byte ebp-010h], 164h
         jg near .14
-        mov cl, byte [byte eax+045h]
+        mov cl, byte [byte eax+pflags2]
         and cl, 4
         movzx ecx, cl
         test ecx, ecx
         jne short .14
-        movsx eax, word [byte eax+038h]
+        movsx eax, word [byte eax+SPA]
         cmp eax, SPAboardback
         jl short .10
         cmp eax, SPAinjury1

@@ -273,53 +273,53 @@ SortPlayersByDistance:
         push esi
         push edi
         enter 38h, 0
-        mov ebx, dword [dword eax+088h]
+        mov ebx, dword [dword eax+tmptr]
         xor esi, esi
         xor edx, edx
         mov dword [byte ebp-04h], esi
-        mov eax, dword [dword ebx+012Eh]
+        mov eax, dword [dword ebx+tmsort]
 .1:
-        cmp word [byte eax+01Ah], byte 0
+        cmp word [byte eax+position], byte 0
         jle near .2
-        movsx ecx, byte [byte eax+047h]
+        movsx ecx, byte [byte eax+pnum]
         movsx ecx, word [dword ebx+ecx*2+080h]
         cmp ecx, byte 0FFFFFFFFh
         jne short .2
-        mov cl, byte [byte eax+045h]
+        mov cl, byte [byte eax+pflags2]
         and cl, 10h
         movzx ecx, cl
         test ecx, ecx
         jne short .2
-        movzx ecx, byte [byte eax+056h]
+        movzx ecx, byte [byte eax+weight]
         mov dword [byte ebp-08h], ecx
         mov edi, dword [byte ebp-08h]
-        movzx ecx, byte [byte eax+057h]
+        movzx ecx, byte [byte eax+legstr]
         add edi, ecx
-        movzx ecx, byte [byte eax+058h]
+        movzx ecx, byte [byte eax+legspd]
         add edi, ecx
-        movzx ecx, byte [byte eax+05Dh]
+        movzx ecx, byte [byte eax+passacc]
         add edi, ecx
         mov dword [byte ebp-08h], edi
-        movzx ecx, byte [byte eax+05Ah]
+        movzx ecx, byte [byte eax+aidef]
         mov edi, 0Fh
         sub edi, ecx
         lea ecx, [edi+edi]
         mov edi, dword [byte ebp-08h]
         add edi, ecx
-        movzx ecx, byte [byte eax+061h]
+        movzx ecx, byte [byte eax+endurance]
         add ecx, edi
-        movzx edi, byte [byte eax+060h]
+        movzx edi, byte [byte eax+stickhand]
         add edi, ecx
-        movzx ecx, byte [byte eax+064h]
+        movzx ecx, byte [byte eax+checking]
         add ecx, edi
-        movzx edi, byte [byte eax+062h]
+        movzx edi, byte [byte eax+aggress]
         add ecx, edi
-        movzx edi, byte [byte eax+05Bh]
+        movzx edi, byte [byte eax+shotspd]
         add edx, byte 4
         add ecx, edi
         mov dword [byte edx+ebp-024h], ecx
         inc esi
-        movsx ecx, word [dword eax+086h]
+        movsx ecx, word [dword eax+SCnum]
         mov dword [byte edx+ebp-03Ch], ecx
 .2:
         inc dword [byte ebp-04h]
@@ -490,12 +490,12 @@ InProgress:
         imul esi, dword 0A0h
         add esi, SortCords
         push eax
-        mov al, byte [byte esi+044h]
+        mov al, byte [byte esi+pflags]
         movsx edi, word [byte ebp-010h]
         and al, 40h
         lea ebx, [byte edi-09h]
         movzx eax, al
-        movsx edx, byte [byte esi+047h]
+        movsx edx, byte [byte esi+pnum]
         test eax, eax
         setne al
         xor ecx, ecx
@@ -539,13 +539,13 @@ InProgress:
         imul eax, dword 0A0h
         mov esi, SortCords
         add esi, eax
-        movsx edx, byte [byte esi+047h]
+        movsx edx, byte [byte esi+pnum]
         imul edx, byte 2Bh
-        mov edi, dword [dword esi+088h]
-        mov eax, dword [dword edi+0126h]
+        mov edi, dword [dword esi+tmptr]
+        mov eax, dword [dword edi+tmroster]
         mov byte [edx+eax], 8
-        movsx eax, byte [byte esi+047h]
-        movsx eax, word [dword edi+eax*2+080h]
+        movsx eax, byte [byte esi+pnum]
+        movsx eax, word [dword edi+eax*2+tmpdst]
         cmp eax, byte 0FFFFFFFDh
         jle short .17
         mov edx, 1Dh
@@ -553,7 +553,7 @@ InProgress:
         call assreplace
         cmp dword [byte esi+07Ah], byte 0
         jl short .17
-        mov al, byte [byte esi+044h]
+        mov al, byte [byte esi+pflags]
         and al, 40h
         movzx eax, al
         test eax, eax
@@ -565,7 +565,7 @@ InProgress:
         mov eax, dword [byte esi+07Ah]
         mov dword [HomeEbenPlayer], eax
 .17:
-        movsx eax, byte [byte esi+047h]
+        movsx eax, byte [byte esi+pnum]
         mov word [dword edi+eax*2+080h], 0FFFBh
         mov ax, word [PerTimeTotal]
         movsx edx, word [gameclock]
@@ -589,12 +589,12 @@ InProgress:
         idiv ebx
         movsx ecx, word [byte ebp-04h]
         push eax
-        mov al, byte [byte esi+044h]
+        mov al, byte [byte esi+pflags]
         movsx edi, word [byte ebp-010h]
         and al, 40h
         lea ebx, [byte edi-09h]
         movzx eax, al
-        movsx edx, byte [byte esi+047h]
+        movsx edx, byte [byte esi+pnum]
         test eax, eax
         setne al
         movzx eax, al
@@ -631,16 +631,16 @@ InProgress:
         imul eax, dword 0A0h
         mov esi, SortCords
         add esi, eax
-        mov edi, dword [dword esi+088h]
-        inc word [byte edi+0Ah]
-        add word [byte edi+0Ch], bx
-        movsx ax, byte [byte esi+047h]
+        mov edi, dword [dword esi+tmptr]
+        inc word [byte edi+tmPenalties]
+        add word [byte edi+tmPenmin], bx
+        movsx ax, byte [byte esi+pnum]
         mov word [byte ebp-08h], ax
-        movsx eax, byte [byte esi+047h]
+        movsx eax, byte [byte esi+pnum]
         cmp eax, byte 19h
         jge short .22
         movsx eax, word [byte ebp-08h]
-        mov edx, dword [dword edi+011Eh]
+        mov edx, dword [dword edi+tmplstats]
         shl eax, 4
         add eax, edx
         add word [byte eax+04h], bx
@@ -669,11 +669,11 @@ InProgress:
         movsx eax, word [byte ebp-010h]
         mov dword [byte ebp-018h], eax
         lea ebx, [byte eax-09h]
-        mov al, byte [byte esi+044h]
+        mov al, byte [byte esi+pflags]
         and al, 40h
         movsx ecx, word [byte ebp-04h]
         movzx eax, al
-        movsx edx, byte [byte esi+047h]
+        movsx edx, byte [byte esi+pnum]
         test eax, eax
         setne al
         movzx eax, al
@@ -698,7 +698,7 @@ InProgress:
         or byte [byte ebp-03h], 10h
         cmp dword [byte esi+07Ah], byte 0
         jl short .27
-        mov al, byte [byte esi+044h]
+        mov al, byte [byte esi+pflags]
         and al, 40h
         movzx eax, al
         test eax, eax
@@ -716,7 +716,7 @@ InProgress:
         je short .28
         cmp eax, byte 0FFFFFFFCh
         je short .28
-        cmp word [byte esi+01Ah], byte 0
+        cmp word [byte esi+position], byte 0
         jne short .29
 .28:
         mov eax, esi
@@ -763,12 +763,12 @@ InProgress:
         movsx eax, word [byte ebp-010h]
         and byte [byte ebp-03h], 0F7h
         movsx eax, byte [dword eax+penmintab]
-        mov edx, dword [dword esi+08Ch]
+        mov edx, dword [dword esi+optmptr]
         cmp eax, byte 2
         jne short .31
         cmp byte [dword edi+0B8h], 0
         jge short .31
-        cmp byte [dword edx+0B8h], 0
+        cmp byte [dword edx+tmboxlist], 0
         jl short .31
         cmp byte [dword edx+0B9h], 0
         jge short .31
@@ -834,7 +834,7 @@ InProgress:
         mov eax, esi
         mov byte [dword edi+0B9h], 0FFh
         call assreplace
-        mov ax, word [dword esi+086h]
+        mov ax, word [dword esi+SCnum]
         mov word [Penaltytimer], ax
         movsx eax, word [byte ebp-010h]
         cmp eax, byte 5
@@ -1457,11 +1457,11 @@ ReleaseFromBox_111:
         test eax, eax
         jne short .11
         mov eax, hmtmstruct
-        inc word [byte eax+08h]
+        inc word [byte eax+tmpptime]
         ret
 .11:
         mov eax, awtmstruct
-        inc word [byte eax+08h]
+        inc word [byte eax+tmpptime]
 ;-----------------------------------------------------------------------------
 ; PenaltyHookStub                                 51360  96 PC, low confidence
 ; Penalty hook that does nothing
@@ -1852,34 +1852,34 @@ SetupPenaltyShot:
         imul ebx, dword [penshotplayer], dword 0A0h
         add ebx, SortCords
         mov ax, word [PenShotStartX]
-        mov word [byte ebx+02h], ax
+        mov word [byte ebx+Xpos+2], ax
         mov ax, word [PenShotStartY]
-        mov word [byte ebx+06h], ax
-        mov al, byte [byte ebx+044h]
+        mov word [byte ebx+Ypos+2], ax
+        mov al, byte [byte ebx+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax
         jne short .1
-        neg word [byte ebx+06h]
+        neg word [byte ebx+Ypos+2]
 .1:
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax
         je short .2
-        mov word [byte ebx+036h], 0
+        mov word [byte ebx+facedir], 0
         jmp short .3
 .2:
-        mov word [byte ebx+036h], 4
+        mov word [byte ebx+facedir], 4
 .3:
-        mov word [byte ebx+0Eh], 0
-        mov word [byte ebx+03Eh], 0
-        and byte [byte ebx+045h], 0DBh
-        mov ax, word [byte ebx+0Eh]
+        mov word [byte ebx+Yvel], 0
+        mov word [byte ebx+nopuck], 0
+        and byte [byte ebx+pflags2], 0DBh
+        mov ax, word [byte ebx+Yvel]
         mov edx, 2Eh
-        mov word [byte ebx+0Ch], ax
+        mov word [byte ebx+Xvel], ax
         mov eax, ebx
-        and byte [byte ebx+044h], 0FBh
+        and byte [byte ebx+pflags], 0FBh
         call assinsert
         mov edx, 2Eh
         mov eax, ebx
@@ -1902,7 +1902,7 @@ SetupPenaltyShot:
         mov edx, 2Eh
         mov eax, ebx
         call assinsert
-        mov ebx, dword [dword ebx+088h]
+        mov ebx, dword [dword ebx+tmptr]
         mov word [byte ebx+036h], 0FFFFh
         mov ax, word [byte ebx+036h]
         mov word [byte ebx+034h], ax
@@ -1962,10 +1962,10 @@ ShotLaneOpen:
         imul eax, dword 0A0h
         mov esi, SortCords
         add esi, eax
-        mov bl, byte [byte esi+044h]
-        movsx edi, word [byte esi+06h]
+        mov bl, byte [byte esi+pflags]
+        movsx edi, word [byte esi+Ypos+2]
         and bl, 80h
-        movsx edx, word [byte esi+02h]
+        movsx edx, word [byte esi+Xpos+2]
         movzx ebx, bl
         mov eax, edi
         test ebx, ebx
@@ -1984,7 +1984,7 @@ ShotLaneOpen:
         add esp, byte 8
         mov ebx, eax
         xor edx, edx
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         mov dword [byte ebp-08h], edx
         cmp eax, byte 6
         jge short .5
@@ -2000,13 +2000,13 @@ ShotLaneOpen:
         add esi, eax
         jmp short .9
 .7:
-        cmp word [byte esi+01Ah], byte 0
+        cmp word [byte esi+position], byte 0
         jle short .8
-        movsx eax, word [byte esi+06h]
-        movsx edx, word [byte esi+02h]
+        movsx eax, word [byte esi+Ypos+2]
+        movsx edx, word [byte esi+Xpos+2]
         cmp eax, edi
         jg near .1
-        cmp word [byte esi+0Eh], byte 0
+        cmp word [byte esi+Yvel], byte 0
         jl short .8
         push edx
         sub eax, 164h
@@ -2033,7 +2033,7 @@ ShotLaneOpen:
         add esp, byte 8
         mov ebx, eax
         xor edx, edx
-        movsx eax, word [dword esi+086h]
+        movsx eax, word [dword esi+SCnum]
         mov dword [byte ebp-04h], edx
         cmp eax, byte 6
         jge short .11
@@ -2049,13 +2049,13 @@ ShotLaneOpen:
         add esi, eax
         jmp short .15
 .13:
-        cmp word [byte esi+01Ah], byte 0
+        cmp word [byte esi+position], byte 0
         jle short .14
-        movsx eax, word [byte esi+06h]
-        movsx edx, word [byte esi+02h]
+        movsx eax, word [byte esi+Ypos+2]
+        movsx edx, word [byte esi+Xpos+2]
         cmp eax, edi
         jl near .1
-        cmp word [byte esi+0Eh], byte 0
+        cmp word [byte esi+Yvel], byte 0
         jg short .14
         push edx
         add eax, 164h
@@ -2094,7 +2094,7 @@ QuickShotChk:
         je short .1
         mov eax, dword [puckc]
         movsx ax, byte [eax]
-        cmp ax, word [dword edx+086h]
+        cmp ax, word [dword edx+SCnum]
         jne short .1
         cmp dword [shotongoal], byte 0
         jne short .2
@@ -2103,23 +2103,23 @@ QuickShotChk:
         pop edx
         ret
 .2:
-        mov al, byte [byte edx+044h]
+        mov al, byte [byte edx+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax
         je short .3
-        cmp word [byte edx+0Eh], byte 0
+        cmp word [byte edx+Yvel], byte 0
         jl short .1
-        movsx eax, word [byte edx+036h]
+        movsx eax, word [byte edx+facedir]
         cmp eax, byte 2
         jl short .4
         cmp eax, byte 6
         jg short .4
         jmp short .1
 .3:
-        cmp word [byte edx+0Eh], byte 0
+        cmp word [byte edx+Yvel], byte 0
         jg short .7
-        movsx eax, word [byte edx+036h]
+        movsx eax, word [byte edx+facedir]
         cmp eax, byte 2
         jle short .1
         cmp eax, byte 6
@@ -2130,18 +2130,18 @@ QuickShotChk:
         mov dword [shotongoal], eax
         test eax, eax
         je short .7
-        cmp word [byte edx+06h], byte 0
+        cmp word [byte edx+Ypos+2], byte 0
         jge short .5
-        movsx eax, word [byte edx+06h]
+        movsx eax, word [byte edx+Ypos+2]
         neg eax
         jmp short .6
 .5:
-        movsx eax, word [byte edx+06h]
+        movsx eax, word [byte edx+Ypos+2]
 .6:
         cmp eax, 160h
         jg short .1
-        mov eax, dword [dword edx+08Ch]
-        cmp word [byte eax+03Ah], byte 0
+        mov eax, dword [dword edx+optmptr]
+        cmp word [byte eax+tmgoalie], byte 0
         jl short .1
         mov eax, 1
 .7:

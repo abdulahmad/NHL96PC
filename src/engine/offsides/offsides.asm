@@ -85,12 +85,12 @@ ChkTwoLinePass:
         mov edx, dword [gameopts]
         test byte [byte edx+01h], 4
         je short .1
-        mov dl, byte [byte eax+045h]
+        mov dl, byte [byte eax+pflags2]
         and dl, 80h
         movzx edx, dl
         test edx, edx
         jne short .3
-        mov dl, byte [byte eax+044h]
+        mov dl, byte [byte eax+pflags]
         and dl, 80h
         movzx edx, dl
         test edx, edx
@@ -103,7 +103,7 @@ ChkTwoLinePass:
         xor edx, ebx
         jne short .1
 .3:
-        mov dx, word [dword eax+086h]
+        mov dx, word [dword eax+SCnum]
         cmp dx, word [lasttouch]
         je short .1
         movsx edx, dx
@@ -117,7 +117,7 @@ ChkTwoLinePass:
         movzx edx, dl
         xor edx, ebx
         jne short .1
-        mov dl, byte [byte eax+044h]
+        mov dl, byte [byte eax+pflags]
         and dl, 80h
         movzx edx, dl
         test edx, edx
@@ -125,14 +125,14 @@ ChkTwoLinePass:
         movsx edx, word [PassDistY]
         cmp edx, byte 74h
         jl near .1
-        cmp word [byte eax+06h], byte 0
+        cmp word [byte eax+Ypos+2], byte 0
         jle short .5
         jmp near .1
 .4:
         movsx edx, word [PassDistY]
         cmp edx, byte 0FFFFFF8Ch
         jg near .1
-        cmp word [byte eax+06h], byte 0
+        cmp word [byte eax+Ypos+2], byte 0
         jl near .1
 .5:
         mov eax, 1
@@ -182,15 +182,15 @@ a2touchpuck:
         mov eax, dword [pucky]
         mov ax, word [eax]
         mov word [PassDistY], ax
-        mov ax, word [byte ebx+02h]
+        mov ax, word [byte ebx+Xpos+2]
         mov word [LastPlayerTouch], ax
-        mov ax, word [byte ebx+06h]
+        mov ax, word [byte ebx+Ypos+2]
         mov word [StoppageFlag], ax
-        mov ax, word [dword ebx+086h]
+        mov ax, word [dword ebx+SCnum]
         mov word [lasttouch], ax
 .1:
-        mov eax, dword [dword ebx+088h]
-        movsx dx, byte [byte ebx+047h]
+        mov eax, dword [dword ebx+tmptr]
+        movsx dx, byte [byte ebx+pnum]
         cmp dx, word [byte eax+032h]
         je short .4
         mov dx, word [byte eax+046h]
@@ -207,7 +207,7 @@ a2touchpuck:
         mov dx, word [byte eax+032h]
         mov word [byte eax+034h], dx
 .3:
-        movsx dx, byte [byte ebx+047h]
+        movsx dx, byte [byte ebx+pnum]
         mov word [byte eax+032h], dx
         cmp dx, word [byte eax+036h]
         jne short .5
@@ -222,7 +222,7 @@ a2touchpuck:
         je short .5
         and byte [byte eax+046h], 0F7h
 .5:
-        cmp word [byte ebx+01Ah], byte 0
+        cmp word [byte ebx+position], byte 0
         je short .6
         and byte [gmode2], 0EFh
 .6:
@@ -246,9 +246,9 @@ a2touchpuck:
         movsx eax, al
         test eax, eax
         je short .8
-        cmp word [byte ebx+01Ah], byte 0
+        cmp word [byte ebx+position], byte 0
         je short .8
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax
@@ -279,7 +279,7 @@ a2touchpuck:
         mov eax, dword [pucky]
         mov ax, word [eax]
         mov word [regd0], ax
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 80h
         movzx eax, al
         test eax, eax
@@ -292,7 +292,7 @@ a2touchpuck:
         mov ax, word [hmtmap]
         sub ax, word [awtmap]
         mov word [regd0], ax
-        mov al, byte [byte ebx+044h]
+        mov al, byte [byte ebx+pflags]
         and al, 40h
         movzx eax, al
         test eax, eax
@@ -347,12 +347,12 @@ ResetFaceoffSkater:
 puckflip:
         push ebx
         push edx
-        movsx ebx, word [byte eax+0Ch]
-        movsx edx, word [byte eax+0Eh]
+        movsx ebx, word [byte eax+Xvel]
+        movsx edx, word [byte eax+Yvel]
         add edx, ebx
         cmp edx, byte 14h
         jge short .2
-        movsx ebx, word [byte eax+03Ah]
+        movsx ebx, word [byte eax+SPAnum]
         mov edx, eax
         cmp ebx, byte 4
         jl short .1
@@ -371,12 +371,12 @@ puckflip:
         mov dx, word [regd0]
         xor dh, dh
         and dl, 1
-        xor dx, word [byte eax+036h]
+        xor dx, word [byte eax+facedir]
         xor dh, dh
         and dl, 3
-        mov word [byte eax+036h], dx
+        mov word [byte eax+facedir], dx
         mov edx, SPApflip
-        mov word [byte eax+03Ch], 0FFFFh
+        mov word [byte eax+SPAcnt], 0FFFFh
         call SetSPA
         mov word [PuckObject+4Ah], 1
         pop edx

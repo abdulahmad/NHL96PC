@@ -14,7 +14,7 @@ SetSPA:
         push ecx
         mov ebx, eax
         movsx eax, word [byte eax+038h]
-        cmp dx, word [byte ebx+038h]
+        cmp dx, word [byte ebx+SPA]
         je near .10
         movsx ecx, dx
         cmp ecx, byte SPAskate
@@ -44,13 +44,13 @@ SetSPA:
         cmp eax, 375h
         jne near .8
 .2:
-        mov word [byte ebx+038h], dx
+        mov word [byte ebx+SPA], dx
         test dx, dx
         je short .3
         movsx eax, dx
         mov dword [byte ebx+07Eh], eax
 .3:
-        sar word [byte ebx+03Ah], 1
+        sar word [byte ebx+SPAnum], 1
         pop ecx
         pop ebx
         ret
@@ -66,27 +66,27 @@ SetSPA:
         cmp eax, 375h
         jne short .6
 .5:
-        mov word [byte ebx+038h], dx
+        mov word [byte ebx+SPA], dx
         test dx, dx
         je short .10
         jmp short .9
 .6:
         cmp eax, SPAskatefast
         jne short .8
-        mov word [byte ebx+038h], dx
+        mov word [byte ebx+SPA], dx
         test dx, dx
         je short .7
         mov dword [byte ebx+07Eh], ecx
 .7:
-        shl word [byte ebx+03Ah], 1
+        shl word [byte ebx+SPAnum], 1
         pop ecx
         pop ebx
         ret
 .8:
-        mov word [byte ebx+03Ah], 0
+        mov word [byte ebx+SPAnum], 0
         mov byte [byte ebx+046h], 0
-        mov word [byte ebx+03Ch], 0FFFFh
-        mov word [byte ebx+038h], dx
+        mov word [byte ebx+SPAcnt], 0FFFFh
+        mov word [byte ebx+SPA], dx
         test dx, dx
         je short .10
 .9:

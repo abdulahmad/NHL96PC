@@ -30,6 +30,10 @@
 
 NHL '96 PC is based on [NHL95PC](https://github.com/abdulahmad/NHL95PC) and [NHL96Genesis](https://github.com/abdulahmad/NHL96Genesis). Names come from those repos, matched by purpose, not by identical code, and the earlier game's name wins: 95PC (whose names already carry 93G/94G) first, then 96G for what is new in 96; a 96G name inherited from an earlier Genesis game beats a 95PC name made up from behaviour. See SEGMENT_AGENT.md.
 
+The manual backs the 95 PC base: its credits (p.37) name Pioneer Productions / EA Canada, with Victoria Wong, Lance Wall and Kurt Kennett among the programmers, the core of the 95 PC team. The organ music is credited to Michael J. Sokyrka and Jeff Dyck.
+
+How complete 96 PC is against 94 PC, 95 PC and the 96 Genesis and SNES versions, and whether the box's power play, penalty kill and goalie claims are in the code: [docs/CONSOLE_LINEAGE.md](docs/CONSOLE_LINEAGE.md). What is known feature by feature: [docs/FEATURES.md](docs/FEATURES.md).
+
 ## Layout
 
 - `src/engine/`, `src/front/`, `src/lib/`: the code, one file per module, in NHL95PC's folders where the module matches.

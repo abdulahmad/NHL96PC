@@ -10,6 +10,8 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 
 ## At a glance
 
+"New" means 96 PC has it and that PC game doesn't. 96 SNES is left out of the table: no code.
+
 | Feature | 96 Genesis | 95 PC | 94 PC |
 |---|---|---|---|
 | Skill levels | Different | New | New |
@@ -32,8 +34,6 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 | Line-change modes | Not confirmed | Changed | Changed |
 | Penalty shots | Same idea | Same | Same |
 | Stanley Cup on ice | Different | Changed | Changed |
-
-"New" means 96 PC has it and that PC game doesn't. 96 SNES is left out of the table: no code.
 
 ## Skill levels
 
@@ -135,7 +135,7 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
   blocked, is dropped dead (`PassLaneChk` 403CE, `ScatterPass` 40524, `dopass`, src/engine/pass/pass.asm). It works for
   humans (`dopass` from `passmode`, src/engine/input/input.asm) and for the computer (`chk4pass` sets the flag at
   +53h; the new `CompPass` drops too). There is no drop animation.
-- The numbers were retuned for the 96 rink:
+- The numbers were retuned for the 96 rink. 74h is also the blue line in `ChkOffsides` (src/engine/shoot/shoot.asm).
 
 | Constant | 95 PC | 96 PC |
 |---|---|---|
@@ -144,7 +144,6 @@ search of that repo found nothing; the code is not fully named yet. Written 2026
 | Gap limits | 3Ch, 28h | 3Ch, 28h |
 | No-touch time | 28h | 3Ch |
 
-  74h is also the blue line in `ChkOffsides` (src/engine/shoot/shoot.asm).
 - **vs 96 Genesis: different.** 96G keeps 95G's button drop pass: `dopass` (src/engine/input/shot.asm) plays
   `SPAdroppass` (src/frames96.asm) and gives a flagged pass `nopuck` 18h instead of 10h.
 - **vs 96 SNES:** not confirmed in code.

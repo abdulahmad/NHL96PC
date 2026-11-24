@@ -48,11 +48,12 @@ $WINDRES -O coff port/icon/icon.rc -o "$OUT/icon.o"
 OVERBAR_SRCS=$(tr -d '\r' < port/overbar/sources.txt | sed 's|^|port/overbar/|')
 $CC -O1 -g -mstackrealign -Wall -Wno-format-truncation -DSDL_MAIN_HANDLED -DOB_SDL_BASE -Iport/overbar/include $SDL_CFLAGS \
     -o "$OUT/hockey-win32.exe" port/host.c port/shell.c port/bindings.c port/bindings_win.c -DHAVE_GL port/stats.c port/emu.c port/ports.c port/dos.c port/video.c port/input.c port/irq.c port/audio.c port/dma.c port/speaker.c port/opl.c port/sb.c port/mpu.c port/gus.c port/sound_ports.c port/modem.c \
-    port/overbar_client.c port/season.c $OVERBAR_SRCS \
+    port/overbar_client.c port/season.c port/box_pc96.c $OVERBAR_SRCS \
     port/soundtest.c port/third_party/nuked-opl3/opl3.c -DHAVE_MUNT -Ibuild/munt-win/inc -Iport/third_party/munt/mt32emu/src port/cstart.c \
     port/overrides.c port/osk_hook.c port/netplay.c port/soundhooks.c port/le_load.c port/plat_win.c "$OUT/icon.o" \
     build/munt-win/libmt32emu.a $SDL_LIBS -lopengl32 -lpdh -lcomctl32 -lgdi32 -lws2_32 -static-libgcc -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lm -Wl,--subsystem,console \
     -Wl,--disable-dynamicbase -Wl,--image-base=0x10000 -Wl,-T,"$OUT/lowmem.ld"
 cp "$SDL_DLL" "$OUT/"
 rm -rf "$OUT/mister" && cp -r port/overbar/mister "$OUT/mister"       # the MiSTer filter files the "MiSTer filters" menus list
+rm -rf "$OUT/box/pc96" && mkdir -p "$OUT/box" && cp -r port/box/pc96 "$OUT/box/pc96"   # the box's 3D models (overbar/box_cd.h)
 echo "built $OUT/hockey-win32.exe (run it in the game's folder, or set NHL96_ROOT)"

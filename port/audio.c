@@ -2,6 +2,7 @@
  * that was mixed to a WAV file (16-bit stereo), which is how the sound code is tested without speakers. */
 #include "host.h"
 #include "audio.h"
+#include <overbar/screen.h>
 #include <stdarg.h>
 #include <math.h>
 
@@ -124,7 +125,7 @@ static void mix(int16_t *out, int frames)
         for (i = 0; i < n * 2; i++) {
             int32_t v = acc[i];
             if (alog_on) { int a = v < 0 ? -v : v; alog_sq += (double)v * v; if (a > alog_peak) alog_peak = a; }
-            out[i] = audio_muted || overbar_client_open() ? 0 : v > 32767 ? 32767 : v < -32768 ? -32768 : (int16_t)v;
+            out[i] = audio_muted || overbar_client_open() || ob_screen_up() ? 0 : v > 32767 ? 32767 : v < -32768 ? -32768 : (int16_t)v;
         }
         if (alog_on) alog_n += n * 2;
         SDL_LockMutex(mutex);

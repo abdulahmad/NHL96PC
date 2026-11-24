@@ -1,6 +1,6 @@
 # Assembly build
 
-`./build.sh` (NASM 2.15+ and Python 3):
+`./build.sh` (NASM 2.15, e.g. 2.15.05: 2.16 encodes `xchg reg,reg` the other way round, so the EXE does not match; and Python 3):
 
 1. `tools/build/rebuild_exe.py extract lst/HOCKEY.EXE build/parts`: checks the SHA-1 and takes the third-party
    parts from your EXE: the DOS/16M loader, the DOS/4GW kernel, the Watcom wstub, the LE header fields and the order

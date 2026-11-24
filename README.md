@@ -51,7 +51,7 @@ How complete 96 PC is against 94 PC, 95 PC and the 96 Genesis and SNES versions,
 
 ## Build
 
-Needs NASM 2.15+ and Python 3. `./build.sh` ends with `MATCH: build/HOCKEY.EXE is byte-identical to the retail HOCKEY.EXE`. See [docs/ASM_BUILD.md](docs/ASM_BUILD.md).
+Needs NASM 2.15 (2.15.05; NASM 2.16 encodes `xchg reg,reg` the other way round and the EXE does not match) and Python 3. `./build.sh` ends with `MATCH: build/HOCKEY.EXE is byte-identical to the retail HOCKEY.EXE`. See [docs/ASM_BUILD.md](docs/ASM_BUILD.md).
 
 ## Running the game on a modern PC (SDL2 port)
 

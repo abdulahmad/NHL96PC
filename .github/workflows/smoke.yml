@@ -69,11 +69,19 @@ jobs:
           sparse-checkout: |
             NHL96-PC/HOCKEY.EXE
           sparse-checkout-cone-mode: false
+      - name: NASM 2.15.05 (2.16 encodes xchg reg,reg the other way round, so the EXE no longer matches)
+        if: env.VAULT_TOKEN != ''
+        run: |
+          curl -sSLf -o "$RUNNER_TEMP/nasm.tar.xz" https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.xz
+          echo "3caf6729c1073bf96629b57cee31eeb54f4f8129b01902c73428836550b30a3f  $RUNNER_TEMP/nasm.tar.xz" | sha256sum -c -
+          tar xJf "$RUNNER_TEMP/nasm.tar.xz" -C "$RUNNER_TEMP"
+          (cd "$RUNNER_TEMP/nasm-2.15.05" && ./configure -q && make -s -j"$(nproc)" nasm)
+          "$RUNNER_TEMP/nasm-2.15.05/nasm" -v
       - name: build the DOS EXE and compare
         if: env.VAULT_TOKEN != ''
         run: |
-          sudo apt-get update -q && sudo apt-get install -y -q nasm python3
-          ./build.sh vault/NHL96-PC/HOCKEY.EXE 2>&1 | tee build.log
+          sudo apt-get update -q && sudo apt-get install -y -q python3
+          NASM="$RUNNER_TEMP/nasm-2.15.05/nasm" ./build.sh vault/NHL96-PC/HOCKEY.EXE 2>&1 | tee build.log
           tail -1 build.log | grep -q '^MATCH'
   netsec:
     runs-on: ubuntu-latest

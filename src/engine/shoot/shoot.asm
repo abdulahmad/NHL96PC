@@ -113,7 +113,7 @@ ShootPuck:
         movsx edx, byte [byte ebx+pnum]
         imul edx, byte 11h
         mov eax, dword [dword ebx+tmptr]
-        mov eax, dword [dword eax+011Ah]
+        mov eax, dword [dword eax+tmglattr]
         movzx si, byte [byte edx+eax+010h]
         jmp short .2
 .1:
@@ -946,7 +946,7 @@ setInjuryType:
         movsx eax, byte [byte esi+pnum]
         imul ebx, eax, byte 15h
         mov edx, dword [dword esi+tmptr]
-        mov eax, dword [dword edx+0116h]
+        mov eax, dword [dword edx+tmplattr]
         movzx ax, byte [byte ebx+eax+0Fh]
         add eax, 8
         cwde

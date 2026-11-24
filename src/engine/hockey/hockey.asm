@@ -2460,7 +2460,7 @@ setplayer:
         xor edx, dword [byte ebp-01Ch]
         test edx, edx
         je short .8
-        mov edx, dword [dword ecx+0116h]
+        mov edx, dword [dword ecx+tmplattr]
         movzx esi, byte [byte edx+esi+011h]
         cmp esi, byte 6
         jle short .6
@@ -2479,7 +2479,7 @@ setplayer:
         mov byte [byte ebp-0Ch], dl
         jmp short .11
 .8:
-        mov edx, dword [dword ecx+0116h]
+        mov edx, dword [dword ecx+tmplattr]
         movzx esi, byte [byte edx+esi+010h]
         cmp esi, byte 6
         jle short .9
@@ -2530,7 +2530,7 @@ setplayer:
         jne short .19
         movsx eax, word [byte ebp-014h]
         imul edx, eax, byte 15h
-        mov eax, dword [dword ecx+0116h]
+        mov eax, dword [dword ecx+tmplattr]
         movzx eax, byte [byte edx+eax+012h]
         cmp eax, byte 6
         jle short .17
@@ -2587,7 +2587,7 @@ setplayer:
         mov edx, dword [dword ecx+0126h]
         mov dl, byte [byte edx+esi+05h]
         mov byte [byte ebx+rostnum], dl
-        mov edx, dword [dword ecx+0116h]
+        mov edx, dword [dword ecx+tmplattr]
         add eax, edx
         mov ecx, eax
         inc eax
@@ -2777,7 +2777,7 @@ setplayer:
         mov edx, dword [dword ecx+0126h]
         mov dl, byte [byte edx+esi+05h]
         mov byte [byte ebx+rostnum], dl
-        mov edx, dword [dword ecx+011Ah]
+        mov edx, dword [dword ecx+tmglattr]
         add eax, edx
         mov dl, byte [eax]
         mov byte [byte ebx+handed], dl

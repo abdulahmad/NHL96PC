@@ -854,7 +854,7 @@ FallDown:
         movsx eax, byte [byte ecx+pnum]
         imul eax, byte 15h
         mov edx, dword [byte ebp-08h]
-        mov edx, dword [dword edx+0116h]
+        mov edx, dword [dword edx+tmplattr]
         movzx edx, byte [byte edx+eax+0Fh]
         mov al, byte [byte ecx+pflags]
         and al, 8
@@ -1049,7 +1049,7 @@ FallDown:
         movsx eax, byte [byte ecx+pnum]
         imul eax, byte 15h
         mov ebx, dword [byte ebp-08h]
-        mov ebx, dword [dword ebx+0116h]
+        mov ebx, dword [dword ebx+tmplattr]
         sar edx, 4
         movzx eax, byte [byte ebx+eax+0Fh]
         add edx, eax

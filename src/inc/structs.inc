@@ -60,6 +60,12 @@ aggress    equ 62h   ; size b
 fighting   equ 63h   ; size b; 96G name (fight rating): SetInst tests it on both players, assfight scales the fight strength by (fighting & 7) + 8, a check adds 1 more to GameHitCount when it is 0 (96G: 2 more to ChkCnt)
 checking   equ 64h   ; size b
 handed     equ 65h   ; size b
+; goalie save ratings on the skater bytes (92G / 94G names, 95G collide's save list GGSleft, GGSright, GSSleft,
+; GSSright = aggress, passacc, spodds, endurance; setplayer reads a goalie's four save bytes into them in that order)
+GGSleft    equ aggress
+GGSright   equ passacc
+GSSleft    equ spodds
+GSSright   equ endurance
 radiusx    equ 82h   ; size w; 95PC 66h
 radiusy    equ 84h   ; size w; 95PC 68h
 SCnum      equ 86h   ; size w; 95PC 6Ah
@@ -100,5 +106,7 @@ tmboxlist  equ 0B8h  ; tsize b array; hmtmpbox (95PC 0B6h)
 tmlines    equ 112h  ; tsize d; hmtmlines (95PC 0DAh)
 tmplstats  equ 11Eh  ; tsize d; hmtmplstats (95PC 0E6h)
 tmglstats  equ 122h  ; tsize d; hmtmglstats (95PC 0EAh)
+tmplattr   equ 116h  ; tsize d; hmtmplattr (95PC tmplattr 0DEh): skater attribute records, 15h bytes each; setplayer reads a skater's ratings from it
+tmglattr   equ 11Ah  ; tsize d; hmtmglattr (95PC tmglattr 0E2h): goalie attribute records, 11h bytes each from roster 19h; setplayer reads a goalie's from it
 tmroster   equ 126h  ; tsize d; hmtmroster (95PC 0EEh): setplayer marks the player on the ice (4)
 tmsort     equ 12Eh  ; tsize d; hmtmsort (95PC 0F6h)

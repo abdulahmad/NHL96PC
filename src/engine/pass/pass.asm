@@ -1482,7 +1482,7 @@ dopass:
         movsx edx, byte [byte ebx+pnum]
         imul edx, byte 11h
         mov eax, dword [dword ebx+tmptr]
-        mov eax, dword [dword eax+011Ah]
+        mov eax, dword [dword eax+tmglattr]
         movzx ax, byte [byte edx+eax+010h]
         jmp short .4
 .3:

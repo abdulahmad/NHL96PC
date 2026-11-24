@@ -8341,15 +8341,15 @@ DrawRinkPlayers:
 .4:
         cmp dword [dword esi+09Ch], byte 0
         je near .6
-        movsx eax, word [byte esi+012h]
+        movsx eax, word [byte esi+frame]
         cmp eax, byte 0FFFFFFFFh
         je near .6
-        movsx eax, word [byte esi+02h]
+        movsx eax, word [byte esi+Xpos+2]
         cmp eax, dword [byte ebp-036h]
         jl short .6
         cmp eax, dword [byte ebp-03Ah]
         jg short .6
-        movsx eax, word [byte esi+06h]
+        movsx eax, word [byte esi+Ypos+2]
         cmp eax, dword [byte ebp-03Eh]
         jl short .6
         cmp eax, dword [byte ebp-042h]
@@ -8363,7 +8363,7 @@ DrawRinkPlayers:
         call SpriteScale
         add esp, byte 4
         push byte 1
-        movsx edx, word [dword esi+086h]
+        movsx edx, word [dword esi+SCnum]
         push edx
         mov dx, word [byte esi+054h]
         xor dl, dl

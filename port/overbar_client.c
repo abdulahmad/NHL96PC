@@ -7,6 +7,8 @@
  */
 #include "overbar_client.h"
 #include "season.h"
+#include <overbar/box_cd.h>
+extern const bx_cd_game BOX_PC96;
 
 #include <string.h>
 
@@ -18,6 +20,7 @@ void overbar_client_init(ob_profile profile, void (*apply)(ob_host *h))
     ob_host_init(&host, OB_PORT_PC96, profile);
     netplay_online_setup(&host);        /* the Online page (netplay.c); before the menu bar, which greys it out otherwise */
     port_season_setup(&host);
+    ob_box_init(&host, bx_cd_scene(&BOX_PC96));   /* the box on the first launch, and View Manual & Materials (experimental; box_pc96.c) */
     apply_host = apply;
 }
 

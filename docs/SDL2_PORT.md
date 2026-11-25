@@ -1,4 +1,4 @@
-# SDL2 port (branch `sdl2-port`)
+# SDL2 port
 
 The game runs through SDL2 on Linux and on Windows without changing the byte-exact sources in `src/`. `make sdl2` links the host in
 `port/` into `build/hockey-linux`, a 32-bit Linux program. `make sdl2-win` (or `port/setup-win.sh`) does the same with mingw-w64 into

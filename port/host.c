@@ -101,12 +101,25 @@ int main(int argc, char **argv)
     for (;;) {
         int64_t now = plat_now_ns();
         input_poll();
-        if (video_vrr()) {
-            if (video_changed() || now >= next_frame) { video_present(); next_frame = now + 100000000LL; }
-        } else if (now >= next_frame) {
-            video_present();
-            next_frame += video_present_ns();
-            if (now - next_frame > 100000000) next_frame = now;
+        if (ob_screen_up()) {                   /* the box: once per refresh of the display. A swap that waited for the display (vsync)
+                                                   paces it; when the driver does not wait, the clock does */
+            video_box_vsync(1);
+            if (now >= next_frame) {
+                int64_t p = video_box_ns();
+                video_present();
+                int64_t after = plat_now_ns();
+                if (after - now > p / 2) next_frame = after;
+                else { next_frame += p; if (next_frame < now) next_frame = now + p; }
+            }
+        } else {
+            video_box_vsync(0);
+            if (video_vrr()) {
+                if (video_changed() || now >= next_frame) { video_present(); next_frame = now + 100000000LL; }
+            } else if (now >= next_frame) {
+                video_present();
+                next_frame += video_present_ns();
+                if (now - next_frame > 100000000) next_frame = now;
+            }
         }
         if (overbar_client_quit()) host_exit(0);
 #ifdef _WIN32
